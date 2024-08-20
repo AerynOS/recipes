@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : xfsprogs
-version     : '6.5.0'
-release     : 5
+version     : '6.14.0'
+release     : 6
 homepage    : https://xfs.wiki.kernel.org/
 upstreams   :
-    - https://mirrors.edge.kernel.org/pub/linux/utils/fs/xfs/xfsprogs/xfsprogs-6.5.0.tar.xz : 8db81712b32756b97d89dd9a681ac5e325bbb75e585382cd4863fab7f9d021c6
+    - https://mirrors.edge.kernel.org/pub/linux/utils/fs/xfs/xfsprogs/xfsprogs-6.14.0.tar.xz : fa5ab77f8b5169ce48dd8de09446ad7e29834a05b8f52012bae411cf53ec1f58
 summary     : Filesystem utilities for xfs filesystems
 description : |
     Filesystem utilities for xfs filesystems
@@ -19,26 +19,22 @@ builddeps   :
     - binary(file)
     - binary(msgfmt)
     - pkgconfig(devmapper)
+    - pkgconfig(icu-i18n)
     - pkgconfig(inih)
-    - pkgconfig(libattr)
     - pkgconfig(libedit)
     - pkgconfig(libsystemd)
     - pkgconfig(liburcu)
     - pkgconfig(uuid)
 setup       : |
-    %patch %(pkgdir)/0001-Use-merged-usr-tree-layout.patch
+    %configure \
+               --disable-static \
+               --enable-editline=yes
 
-    # Fix installing certain binaries to /sbin
-    sed -i "s|root_sbindir='/sbin'|root_sbindir='/usr/sbin'|g" configure
-
-    %configure --disable-static \
-               --enable-editline=yes \
-               --with-crond=no
+    # Prevent rpath from ending up in the binaries
+    sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
+    sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
 build       : |
     %make
 install     : |
-    %make_install install install-dev -j1
-packages    :
-    - "%(name)-devel":
-        paths:
-            - /usr/share/man/man3/*
+    %make_install -j1 install install-dev \
+        PKG_ROOT_SBIN_DIR=%(sbindir) PKG_LIB_DIR=%(libdir)
