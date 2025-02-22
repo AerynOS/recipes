@@ -13,6 +13,7 @@
 				"pkgconfig(gnutls)",
 				"pkgconfig(gobject-2.0)",
 				"pkgconfig(gobject-introspection-1.0)",
+				"pkgconfig(gtk+-3.0)",
 				"pkgconfig(gtk4)",
 				"pkgconfig(icu-uc)",
 				"pkgconfig(liblz4)",
@@ -24,17 +25,20 @@
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"soname(ld-linux-x86-64.so.2(x86_64))",
+				"soname(libatk-1.0.so.0(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libcairo-gobject.so.2(x86_64))",
 				"soname(libcairo.so.2(x86_64))",
 				"soname(libfribidi.so.0(x86_64))",
 				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libgdk-3.so.0(x86_64))",
 				"soname(libgdk_pixbuf-2.0.so.0(x86_64))",
 				"soname(libgio-2.0.so.0(x86_64))",
 				"soname(libglib-2.0.so.0(x86_64))",
 				"soname(libgnutls.so.30(x86_64))",
 				"soname(libgobject-2.0.so.0(x86_64))",
 				"soname(libgraphene-1.0.so.0(x86_64))",
+				"soname(libgtk-3.so.0(x86_64))",
 				"soname(libgtk-4.so.1(x86_64))",
 				"soname(libicuuc.so.75(x86_64))",
 				"soname(liblz4.so.1(x86_64))",
@@ -46,18 +50,25 @@
 				"soname(libsystemd.so.0(x86_64))"
 			],
 			"files": [
+				"/usr/bin/vte-2.91",
 				"/usr/bin/vte-2.91-gtk4",
+				"/usr/lib/girepository-1.0/Vte-2.91.typelib",
 				"/usr/lib/girepository-1.0/Vte-3.91.typelib",
 				"/usr/lib/libvte-2.91-gtk4.so.0",
+				"/usr/lib/libvte-2.91.so.0",
+				"/usr/lib/libvte-2.91.so.0.7800.2",
 				"/usr/lib/systemd/user/vte-spawn-.scope.d/defaults.conf",
 				"/usr/lib/vte/vte-urlencode-cwd",
 				"/usr/share/defaults/etc/profile.d/10-vte.sh",
+				"/usr/share/gir-1.0/Vte-2.91.gir",
 				"/usr/share/gir-1.0/Vte-3.91.gir"
 			],
 			"name": "vte",
 			"provides": [
+				"binary(vte-2.91)",
 				"binary(vte-2.91-gtk4)",
-				"soname(libvte-2.91-gtk4.so.0(x86_64))"
+				"soname(libvte-2.91-gtk4.so.0(x86_64))",
+				"soname(libvte-2.91.so.0(x86_64))"
 			]
 		},
 		"vte-devel": {
@@ -71,6 +82,7 @@
 				"pkgconfig(gnutls)",
 				"pkgconfig(gobject-2.0)",
 				"pkgconfig(gobject-introspection-1.0)",
+				"pkgconfig(gtk+-3.0)",
 				"pkgconfig(gtk4)",
 				"pkgconfig(icu-uc)",
 				"pkgconfig(liblz4)",
@@ -84,6 +96,7 @@
 				"pkgconfig(gio-2.0)",
 				"pkgconfig(glib-2.0)",
 				"pkgconfig(gobject-2.0)",
+				"pkgconfig(gtk+-3.0)",
 				"pkgconfig(gtk4)",
 				"pkgconfig(pango)",
 				"vte"
@@ -101,18 +114,38 @@
 				"/usr/include/vte-2.91-gtk4/vte/vtetypebuiltins.h",
 				"/usr/include/vte-2.91-gtk4/vte/vteuuid.h",
 				"/usr/include/vte-2.91-gtk4/vte/vteversion.h",
+				"/usr/include/vte-2.91/vte/vte.h",
+				"/usr/include/vte-2.91/vte/vtedeprecated.h",
+				"/usr/include/vte-2.91/vte/vteenums.h",
+				"/usr/include/vte-2.91/vte/vteglobals.h",
+				"/usr/include/vte-2.91/vte/vtemacros.h",
+				"/usr/include/vte-2.91/vte/vtepty.h",
+				"/usr/include/vte-2.91/vte/vteregex.h",
+				"/usr/include/vte-2.91/vte/vteterminal.h",
+				"/usr/include/vte-2.91/vte/vtetypebuiltins-gtk3.h",
+				"/usr/include/vte-2.91/vte/vtetypebuiltins.h",
+				"/usr/include/vte-2.91/vte/vteuuid.h",
+				"/usr/include/vte-2.91/vte/vteversion.h",
 				"/usr/lib/libvte-2.91-gtk4.so",
+				"/usr/lib/libvte-2.91.so",
 				"/usr/lib/pkgconfig/vte-2.91-gtk4.pc",
+				"/usr/lib/pkgconfig/vte-2.91.pc",
+				"/usr/share/glade/catalogs/vte-2.91.xml",
+				"/usr/share/glade/pixmaps/hicolor/16x16/actions/widget-vte-terminal.png",
+				"/usr/share/glade/pixmaps/hicolor/22x22/actions/widget-vte-terminal.png",
 				"/usr/share/vala/vapi/vte-2.91-gtk4.deps",
-				"/usr/share/vala/vapi/vte-2.91-gtk4.vapi"
+				"/usr/share/vala/vapi/vte-2.91-gtk4.vapi",
+				"/usr/share/vala/vapi/vte-2.91.deps",
+				"/usr/share/vala/vapi/vte-2.91.vapi"
 			],
 			"name": "vte-devel",
 			"provides": [
+				"pkgconfig(vte-2.91)",
 				"pkgconfig(vte-2.91-gtk4)"
 			]
 		}
 	},
 	"source-name": "vte",
-	"source-release": "10",
+	"source-release": "11",
 	"source-version": "0.78.2"
 }
