@@ -4,18 +4,20 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : e2fsprogs
-version     : '1.47.0'
-release     : 3
+version     : '1.47.1'
+release     : 4
 homepage    : https://e2fsprogs.sourceforge.net 
 upstreams   :
-    - https://mirrors.edge.kernel.org/pub/linux/kernel/people/tytso/e2fsprogs/v1.47.0/e2fsprogs-1.47.0.tar.xz : 144af53f2bbd921cef6f8bea88bb9faddca865da3fbc657cc9b4d2001097d5db
+    - https://mirrors.edge.kernel.org/pub/linux/kernel/people/tytso/e2fsprogs/v1.47.1/e2fsprogs-1.47.1.tar.xz : 5a33dc047fd47284bca4bb10c13cfe7896377ae3d01cb81a05d406025d99e0d1
 summary     : Filesystem utilities for ext2/3/4 filesystems
 description : |
     Filesystem utilities for ext2/3/4 filesystems
 license     :
     - BSD-3-Clause
 builddeps   :
+    - pkgconfig(fuse3)
     - pkgconfig(libacl)
+    - pkgconfig(libarchive)
     - pkgconfig(libattr)
     - pkgconfig(libsystemd)
     - pkgconfig(libudev)
@@ -26,9 +28,11 @@ builddeps   :
 setup       : |
     %configure \
         --enable-elf-shlibs \
+        --enable-symlink-install \
         --disable-libuuid \
         --disable-libblkid \
-        --disable-fsck
+        --disable-fsck \
+        --disable-static
 build       : |
     %make
 install     : |

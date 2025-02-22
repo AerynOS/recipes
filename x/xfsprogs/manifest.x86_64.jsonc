@@ -7,8 +7,8 @@
 				"binary(file)",
 				"binary(msgfmt)",
 				"pkgconfig(devmapper)",
+				"pkgconfig(icu-i18n)",
 				"pkgconfig(inih)",
-				"pkgconfig(libattr)",
 				"pkgconfig(libedit)",
 				"pkgconfig(libsystemd)",
 				"pkgconfig(liburcu)",
@@ -21,20 +21,21 @@
 				"soname(libc.so.6(x86_64))",
 				"soname(libdevmapper.so.1.02(x86_64))",
 				"soname(libedit.so.0(x86_64))",
+				"soname(libicui18n.so.75(x86_64))",
+				"soname(libicuuc.so.75(x86_64))",
 				"soname(libinih.so.0(x86_64))",
 				"soname(liburcu.so.8(x86_64))",
 				"soname(libuuid.so.1(x86_64))"
 			],
 			"files": [
-				"/usr/lib/libhandle.so.1",
-				"/usr/lib/libhandle.so.1.0.3",
 				"/usr/lib/systemd/system/xfs_scrub@.service",
 				"/usr/lib/systemd/system/xfs_scrub_all.service",
 				"/usr/lib/systemd/system/xfs_scrub_all.timer",
 				"/usr/lib/systemd/system/xfs_scrub_fail@.service",
 				"/usr/lib/udev/rules.d/64-xfs.rules",
-				"/usr/lib/xfsprogs/xfs_scrub_all.cron",
-				"/usr/lib/xfsprogs/xfs_scrub_fail",
+				"/usr/lib/xfsprogs/xfsprogs/xfs_scrub_fail",
+				"/usr/lib64/libhandle.so.1",
+				"/usr/lib64/libhandle.so.1.0.3",
 				"/usr/sbin/fsck.xfs",
 				"/usr/sbin/mkfs.xfs",
 				"/usr/sbin/xfs_admin",
@@ -95,12 +96,13 @@
 				"/usr/share/xfsprogs/mkfs/lts_5.15.conf",
 				"/usr/share/xfsprogs/mkfs/lts_5.4.conf",
 				"/usr/share/xfsprogs/mkfs/lts_6.1.conf",
-				"/usr/share/xfsprogs/mkfs/lts_6.6.conf"
+				"/usr/share/xfsprogs/mkfs/lts_6.6.conf",
+				"/usr/share/xfsprogs/xfs_scrub_all.cron"
 			],
 			"name": "xfsprogs",
 			"provides": [
-				"sysbinary(fsck.xfs)",
 				"soname(libhandle.so.1(x86_64))",
+				"sysbinary(fsck.xfs)",
 				"sysbinary(mkfs.xfs)",
 				"sysbinary(xfs_admin)",
 				"sysbinary(xfs_bmap)",
@@ -130,12 +132,15 @@
 				"binary(file)",
 				"binary(msgfmt)",
 				"pkgconfig(devmapper)",
+				"pkgconfig(icu-i18n)",
 				"pkgconfig(inih)",
-				"pkgconfig(libattr)",
 				"pkgconfig(libedit)",
 				"pkgconfig(libsystemd)",
 				"pkgconfig(liburcu)",
 				"pkgconfig(uuid)"
+			],
+			"depends": [
+				"xfsprogs"
 			],
 			"files": [
 				"/usr/include/xfs/handle.h",
@@ -150,7 +155,7 @@
 				"/usr/include/xfs/xfs_log_format.h",
 				"/usr/include/xfs/xfs_types.h",
 				"/usr/include/xfs/xqm.h",
-				"/usr/lib/libhandle.so",
+				"/usr/lib64/libhandle.so",
 				"/usr/share/man/man2/ioctl_xfs_ag_geometry.2",
 				"/usr/share/man/man2/ioctl_xfs_bulkstat.2",
 				"/usr/share/man/man2/ioctl_xfs_fsbulkstat.2",
@@ -186,6 +191,6 @@
 		}
 	},
 	"source-name": "xfsprogs",
-	"source-release": "5",
-	"source-version": "6.5.0"
+	"source-release": "6",
+	"source-version": "6.9.0"
 }

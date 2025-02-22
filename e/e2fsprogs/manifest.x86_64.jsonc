@@ -6,7 +6,9 @@
 			"build-depends": [
 				"binary(gzip)",
 				"binary(info)",
+				"pkgconfig(fuse3)",
 				"pkgconfig(libacl)",
+				"pkgconfig(libarchive)",
 				"pkgconfig(libattr)",
 				"pkgconfig(libsystemd)",
 				"pkgconfig(libudev)",
@@ -17,14 +19,16 @@
 				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libblkid.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
+				"soname(libfuse3.so.3(x86_64))",
 				"soname(libuuid.so.1(x86_64))"
 			],
 			"files": [
 				"/usr/bin/chattr",
 				"/usr/bin/compile_et",
+				"/usr/bin/fuse2fs",
 				"/usr/bin/lsattr",
 				"/usr/bin/mk_cmds",
-				"/usr/lib/e2fsprogs/e2scrub_fail",
+				"/usr/lib/e2fsprogs/e2fsprogs/e2scrub_fail",
 				"/usr/lib/e2initrd_helper",
 				"/usr/lib/libcom_err.so.2",
 				"/usr/lib/libcom_err.so.2.1",
@@ -39,6 +43,7 @@
 				"/usr/lib/systemd/system/e2scrub_all.timer",
 				"/usr/lib/systemd/system/e2scrub_fail@.service",
 				"/usr/lib/systemd/system/e2scrub_reap.service",
+				"/usr/lib/udev/rules.d/64-ext4.rules",
 				"/usr/lib/udev/rules.d/96-e2scrub.rules",
 				"/usr/sbin/badblocks",
 				"/usr/sbin/debugfs",
@@ -84,6 +89,7 @@
 				"/usr/share/locale/nl/LC_MESSAGES/e2fsprogs.mo",
 				"/usr/share/locale/pl/LC_MESSAGES/e2fsprogs.mo",
 				"/usr/share/locale/pt/LC_MESSAGES/e2fsprogs.mo",
+				"/usr/share/locale/ro/LC_MESSAGES/e2fsprogs.mo",
 				"/usr/share/locale/sr/LC_MESSAGES/e2fsprogs.mo",
 				"/usr/share/locale/sv/LC_MESSAGES/e2fsprogs.mo",
 				"/usr/share/locale/tr/LC_MESSAGES/e2fsprogs.mo",
@@ -92,6 +98,7 @@
 				"/usr/share/locale/zh_CN/LC_MESSAGES/e2fsprogs.mo",
 				"/usr/share/man/man1/chattr.1",
 				"/usr/share/man/man1/compile_et.1",
+				"/usr/share/man/man1/fuse2fs.1",
 				"/usr/share/man/man1/lsattr.1",
 				"/usr/share/man/man1/mk_cmds.1",
 				"/usr/share/man/man5/e2fsck.conf.5",
@@ -129,9 +136,16 @@
 			],
 			"name": "e2fsprogs",
 			"provides": [
-				"sysbinary(badblocks)",
 				"binary(chattr)",
 				"binary(compile_et)",
+				"binary(fuse2fs)",
+				"binary(lsattr)",
+				"binary(mk_cmds)",
+				"soname(libcom_err.so.2(x86_64))",
+				"soname(libe2p.so.2(x86_64))",
+				"soname(libext2fs.so.2(x86_64))",
+				"soname(libss.so.2(x86_64))",
+				"sysbinary(badblocks)",
 				"sysbinary(debugfs)",
 				"sysbinary(dumpe2fs)",
 				"sysbinary(e2freefrag)",
@@ -148,13 +162,7 @@
 				"sysbinary(fsck.ext2)",
 				"sysbinary(fsck.ext3)",
 				"sysbinary(fsck.ext4)",
-				"soname(libcom_err.so.2(x86_64))",
-				"soname(libe2p.so.2(x86_64))",
-				"soname(libext2fs.so.2(x86_64))",
-				"soname(libss.so.2(x86_64))",
 				"sysbinary(logsave)",
-				"binary(lsattr)",
-				"binary(mk_cmds)",
 				"sysbinary(mke2fs)",
 				"sysbinary(mkfs.ext2)",
 				"sysbinary(mkfs.ext3)",
@@ -168,11 +176,16 @@
 			"build-depends": [
 				"binary(gzip)",
 				"binary(info)",
+				"pkgconfig(fuse3)",
 				"pkgconfig(libacl)",
+				"pkgconfig(libarchive)",
 				"pkgconfig(libattr)",
 				"pkgconfig(libsystemd)",
 				"pkgconfig(libudev)",
 				"pkgconfig(uuid)"
+			],
+			"depends": [
+				"e2fsprogs"
 			],
 			"files": [
 				"/usr/include/com_err.h",
@@ -211,6 +224,6 @@
 		}
 	},
 	"source-name": "e2fsprogs",
-	"source-release": "3",
-	"source-version": "1.47.0"
+	"source-release": "4",
+	"source-version": "1.47.1"
 }

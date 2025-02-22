@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : xfsprogs
-version     : '6.5.0'
-release     : 5
+version     : '6.9.0'
+release     : 6
 homepage    : https://xfs.wiki.kernel.org/
 upstreams   :
-    - https://mirrors.edge.kernel.org/pub/linux/utils/fs/xfs/xfsprogs/xfsprogs-6.5.0.tar.xz : 8db81712b32756b97d89dd9a681ac5e325bbb75e585382cd4863fab7f9d021c6
+    - https://mirrors.edge.kernel.org/pub/linux/utils/fs/xfs/xfsprogs/xfsprogs-6.9.0.tar.xz : 975284783fb3fbc4e1ae640bd804d788e4237a86b07582acee86b6e48f6521b7
 summary     : Filesystem utilities for xfs filesystems
 description : |
     Filesystem utilities for xfs filesystems
@@ -19,8 +19,8 @@ builddeps   :
     - binary(file)
     - binary(msgfmt)
     - pkgconfig(devmapper)
+    - pkgconfig(icu-i18n)
     - pkgconfig(inih)
-    - pkgconfig(libattr)
     - pkgconfig(libedit)
     - pkgconfig(libsystemd)
     - pkgconfig(liburcu)
@@ -32,13 +32,14 @@ setup       : |
     sed -i "s|root_sbindir='/sbin'|root_sbindir='/usr/sbin'|g" configure
 
     %configure --disable-static \
-               --enable-editline=yes \
-               --with-crond=no
+               --enable-editline=yes
 build       : |
     %make
 install     : |
     %make_install install install-dev -j1
+    rm -v %(installroot)/usr/lib*/*.la
 packages    :
     - "%(name)-devel":
         paths:
+            - /usr/lib64/*.so
             - /usr/share/man/man3/*

@@ -18,6 +18,8 @@
 				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libblkid.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
+				"soname(libcom_err.so.2(x86_64))",
+				"soname(libext2fs.so.2(x86_64))",
 				"soname(libgcrypt.so.20(x86_64))",
 				"soname(liblzo2.so.2(x86_64))",
 				"soname(libudev.so.1(x86_64))",
@@ -36,10 +38,6 @@
 				"/usr/bin/btrfstune",
 				"/usr/bin/fsck.btrfs",
 				"/usr/bin/mkfs.btrfs",
-				"/usr/lib/libbtrfs.so.0",
-				"/usr/lib/libbtrfs.so.0.1",
-				"/usr/lib/libbtrfsutil.so.1",
-				"/usr/lib/libbtrfsutil.so.1.2.0",
 				"/usr/lib/systemd/system/btrfs-scrub@.service",
 				"/usr/lib/systemd/system/btrfs-scrub@.timer",
 				"/usr/lib/udev/rules.d/64-btrfs-dm.rules",
@@ -57,8 +55,6 @@
 				"binary(btrfsck)",
 				"binary(btrfstune)",
 				"binary(fsck.btrfs)",
-				"soname(libbtrfs.so.0(x86_64))",
-				"soname(libbtrfsutil.so.1(x86_64))",
 				"binary(mkfs.btrfs)"
 			]
 		},
@@ -73,12 +69,13 @@
 				"pkgconfig(uuid)",
 				"pkgconfig(zlib)"
 			],
+			"depends": [
+				"btrfs-progs"
+			],
 			"files": [
 				"/usr/include/btrfs/ctree.h",
 				"/usr/include/btrfs/ioctl.h",
 				"/usr/include/btrfs/kerncompat.h",
-				"/usr/include/btrfs/list.h",
-				"/usr/include/btrfs/rbtree.h",
 				"/usr/include/btrfs/rbtree_types.h",
 				"/usr/include/btrfs/send-stream.h",
 				"/usr/include/btrfs/send-utils.h",
@@ -93,9 +90,37 @@
 			"provides": [
 				"pkgconfig(libbtrfsutil)"
 			]
+		},
+		"btrfs-progs-libs": {
+			"build-depends": [
+				"pkgconfig(blkid)",
+				"pkgconfig(ext2fs)",
+				"pkgconfig(libgcrypt)",
+				"pkgconfig(libudev)",
+				"pkgconfig(libzstd)",
+				"pkgconfig(lzo2)",
+				"pkgconfig(uuid)",
+				"pkgconfig(zlib)"
+			],
+			"depends": [
+				"soname(libc.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/lib/libbtrfs.so.0",
+				"/usr/lib/libbtrfs.so.0.1",
+				"/usr/lib/libbtrfs.so.0.1.4",
+				"/usr/lib/libbtrfsutil.so.1",
+				"/usr/lib/libbtrfsutil.so.1.3",
+				"/usr/lib/libbtrfsutil.so.1.3.2"
+			],
+			"name": "btrfs-progs-libs",
+			"provides": [
+				"soname(libbtrfs.so.0(x86_64))",
+				"soname(libbtrfsutil.so.1(x86_64))"
+			]
 		}
 	},
 	"source-name": "btrfs-progs",
-	"source-release": "7",
-	"source-version": "6.6.3"
+	"source-release": "8",
+	"source-version": "6.10.1"
 }
