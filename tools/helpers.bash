@@ -77,6 +77,10 @@ function cpesearch() {
 # git repository from anywhere on the filesystem.
 # This function will only work if this script is sourced
 # by your bash shell.
+function gotoaerynosrepo() {
+    cd "$(dirname "$(readlink "${BASH_SOURCE[0]}")")/../" || return 1
+}
+# deprecated - use gotoaerynosrepo
 function gotoserpentrepo() {
     cd "$(dirname "$(readlink "${BASH_SOURCE[0]}")")/../" || return 1
 }
