@@ -1,0 +1,32 @@
+From decbc54ac1fee9dbafeaf0d53d7e45260af00b78 Mon Sep 17 00:00:00 2001
+From: William Douglas <william.douglas@intel.com>
+Date: Thu, 21 Jun 2018 19:02:45 +0000
+Subject: [PATCH] Support stateless fallback of mc configuration
+
+Configuration in /usr/share/mc will be used in case /etc/mc does not
+exist.
+---
+ src/main.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/src/main.c b/src/main.c
+index 85bf486..354306f 100644
+--- a/src/main.c
++++ b/src/main.c
+@@ -132,8 +132,12 @@ OS_Setup (void)
+     datadir_env = g_getenv ("MC_DATADIR");
+     if (datadir_env != NULL)
+         mc_global.sysconfig_dir = g_strdup (datadir_env);
+-    else
+-        mc_global.sysconfig_dir = g_strdup (SYSCONFDIR);
++    else {
++        if (exist_file (SYSCONFDIR))
++            mc_global.sysconfig_dir = g_strdup (SYSCONFDIR);
++        else
++            mc_global.sysconfig_dir = g_strdup ("/usr/share/mc");
++    }
+ 
+     mc_global.share_data_dir = g_strdup (DATADIR);
+ }
+-- 
+2.17.1

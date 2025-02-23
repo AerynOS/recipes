@@ -1,0 +1,56 @@
+#
+# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : midnight-commander
+version     : 4.8.33
+release     : 1
+homepage    : http://www.midnight-commander.org/
+upstreams   :
+    - https://github.com/MidnightCommander/mc/archive/refs/tags/4.8.33.tar.gz : 092e440930fda43574739e45a8b41af384b974e6720184b6707d127b84082c51
+summary     : GNU Midnight Commander is a user shell with text-mode full-screen interface.
+description : |
+    GNU Midnight Commander (also referred to as MC) is a user shell with
+    text-mode full-screen interface.  It can be run on the OS console,
+    in xterm and other terminal emulators.
+
+    GNU Midnight Commander allows you to manage files while making the most of
+    your screen and giving you a clear representation of the filesystem, yet
+    it's simple enough to be run over a telnet or ssh session.
+license     :
+    - GPL-3.0-only
+networking  : false
+rundeps     :
+    - e2fsprogs
+    - gpm
+    - slang2
+builddeps   :
+    - binary(make)
+    - binary(autoconf)
+    - binary(automake)
+    - binary(gettext)
+    - binary(autopoint)
+    - binary(libtool)
+    - glib2-devel
+    - gpm-devel
+    - libssh2-devel
+    - slang2-devel
+setup       : |
+    %patch %(pkgdir)/patches/0001-Support-stateless-fallback-of-mc-configuration.patch
+    ./autogen.sh
+    %configure
+build       : |
+    %make
+install     : |
+    %make_install
+    %install_file %(installroot)/etc/mc/sfs.ini %(installroot)/usr/share/mc
+    %install_file %(installroot)/etc/mc/filehighlight.ini %(installroot)/usr/share/mc
+    %install_file %(installroot)/etc/mc/mc.default.keymap %(installroot)/usr/share/mc
+    %install_file %(installroot)/etc/mc/mc.emacs.keymap %(installroot)/usr/share/mc
+    %install_file %(installroot)/etc/mc/mc.vim.keymap %(installroot)/usr/share/mc
+    %install_file %(installroot)/etc/mc/mc.menu %(installroot)/usr/share/mc
+    %install_file %(installroot)/etc/mc/mcedit.menu %(installroot)/usr/share/mc
+    %install_file %(installroot)/etc/mc/mc.ext.ini %(installroot)/usr/share/mc
+    %install_file %(installroot)/etc/mc/edit.indent.rc %(installroot)/usr/share/mc
+    %install_file %(installroot)/etc/mc/mc.keymap %(installroot)/usr/share/mc
