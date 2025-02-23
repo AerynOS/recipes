@@ -1,0 +1,29 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"ethtool": {
+			"build-depends": [
+				"pkgconfig(libmnl)"
+			],
+			"depends": [
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libm.so.6(x86_64))",
+				"soname(libmnl.so.0(x86_64))"
+			],
+			"files": [
+				"/usr/sbin/ethtool",
+				"/usr/share/bash-completion/completions/ethtool",
+				"/usr/share/man/man8/ethtool.8"
+			],
+			"name": "ethtool",
+			"provides": [
+				"sysbinary(ethtool)"
+			]
+		}
+	},
+	"source-name": "ethtool",
+	"source-release": "1",
+	"source-version": "6.11"
+}

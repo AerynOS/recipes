@@ -1,0 +1,66 @@
+diff -Npur device-quirks-main.orig/usr/bin/controller-wake device-quirks-main/usr/bin/controller-wake
+--- device-quirks-main.orig/usr/bin/controller-wake	2024-10-17 23:04:59.000000000 +0700
++++ device-quirks-main/usr/bin/controller-wake	2024-12-31 09:10:55.953364037 +0700
+@@ -18,7 +18,7 @@ done
+ # Get full sysfs path for USB Root Hub
+ POWER_PATH="/sys$hubpath/power/wakeup"
+ 
+-source /etc/device-quirks/device-quirks.conf
++source /usr/share/defaults/etc/device-quirks/device-quirks.conf
+ 
+ FROM_STATUS="enabled"
+ TO_STATUS="disabled"
+diff -Npur device-quirks-main.orig/usr/share/device-quirks/scripts/ayaneo/air_plus/air_plus.sh device-quirks-main/usr/share/device-quirks/scripts/ayaneo/air_plus/air_plus.sh
+--- device-quirks-main.orig/usr/share/device-quirks/scripts/ayaneo/air_plus/air_plus.sh	2024-10-17 23:04:59.000000000 +0700
++++ device-quirks-main/usr/share/device-quirks/scripts/ayaneo/air_plus/air_plus.sh	2024-12-31 09:14:49.303366234 +0700
+@@ -5,9 +5,9 @@ if [ $(whoami) != 'root' ]; then
+ fi
+ 
+ if [ -d /tmp/frzr_root ]; then
+-  source ${MOUNT_PATH}/etc/device-quirks/device-quirks.conf
++  source ${MOUNT_PATH}/usr/share/defaults/etc/device-quirks/device-quirks.conf
+ else
+-  source /etc/device-quirks/device-quirks.conf
++  source /usr/share/defaults/etc/device-quirks/device-quirks.conf
+ fi
+ 
+ # Force 16 bit audio, format S16LE, sample rate 96000.
+diff -Npur device-quirks-main.orig/usr/share/device-quirks/scripts/gpd/win4/win4.sh device-quirks-main/usr/share/device-quirks/scripts/gpd/win4/win4.sh
+--- device-quirks-main.orig/usr/share/device-quirks/scripts/gpd/win4/win4.sh	2024-10-17 23:04:59.000000000 +0700
++++ device-quirks-main/usr/share/device-quirks/scripts/gpd/win4/win4.sh	2024-12-31 09:14:02.120032456 +0700
+@@ -5,9 +5,9 @@ if [ $(whoami) != 'root' ]; then
+ fi
+  
+ if [ -d /tmp/frzr_root ]; then
+-  source ${MOUNT_PATH}/etc/device-quirks/device-quirks.conf
++  source ${MOUNT_PATH}/usr/share/defaults/etc/device-quirks/device-quirks.conf
+ else
+-  source /etc/device-quirks/device-quirks.conf
++  source /usr/share/defaults/etc/device-quirks/device-quirks.conf
+ fi
+ 
+ # Force 16 bit audio, format S16LE, sample rate 96000.
+diff -Npur device-quirks-main.orig/usr/share/device-quirks/scripts/netdev_config.sh device-quirks-main/usr/share/device-quirks/scripts/netdev_config.sh
+--- device-quirks-main.orig/usr/share/device-quirks/scripts/netdev_config.sh	2024-10-17 23:04:59.000000000 +0700
++++ device-quirks-main/usr/share/device-quirks/scripts/netdev_config.sh	2024-12-31 09:12:32.143364943 +0700
+@@ -12,7 +12,7 @@ fi
+ 
+ # Remove MT7921E quirk for MT7922 devices.
+ if [[ ! -z $(lspci | grep "MT7922") ]]; then
+-  EDIT_FILE=${MOUNT_PATH}/etc/device-quirks/systemd-suspend-mods.conf
++  EDIT_FILE=${MOUNT_PATH}/usr/share/defaults/etc/device-quirks/systemd-suspend-mods.conf
+   if [[ ! -f ${EDIT_FILE} ]]; then
+     echo "Unable to source ${EDIT_FILE}. Creating empty file."
+     DIR_NAME=$(dirname ${EDIT_FILE})
+diff -Npur device-quirks-main.orig/usr/share/device-quirks/scripts/override_dsdt device-quirks-main/usr/share/device-quirks/scripts/override_dsdt
+--- device-quirks-main.orig/usr/share/device-quirks/scripts/override_dsdt	2024-10-17 23:04:59.000000000 +0700
++++ device-quirks-main/usr/share/device-quirks/scripts/override_dsdt	2024-12-31 09:12:51.583365126 +0700
+@@ -18,7 +18,7 @@ BIOS_RELEASE=$(cat /sys/class/dmi/id/bio
+ BIOS_VENDOR=$(cat /sys/class/dmi/id/bios_vendor)
+ BIOS_VERSION=$(cat /sys/class/dmi/id/bios_version)
+ BOOTLOADER_CONFIG="${MOUNT_PATH}/boot/loader/entries/frzr.conf"
+-OVERRIDE_LOG="${MOUNT_PATH}/etc/device-quirks/dsdt_override.log"
++OVERRIDE_LOG="${MOUNT_PATH}/usr/share/defaults/etc/device-quirks/dsdt_override.log"
+ 
+ # Grab previous stored values.
+ source $OVERRIDE_LOG

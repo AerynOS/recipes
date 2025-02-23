@@ -1,0 +1,59 @@
+#
+# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : device-quirks
+version     : r265.d5f90e4
+release     : 1
+homepage    : https://github.com/ChimeraOS/device-quirks
+upstreams   :
+    - git|https://github.com/ChimeraOS/device-quirks.git : d5f90e494b91c1ccbb3f42e5fd961fa1c9f9685d
+summary     : Device specific configurations and workarounds for SerpentOS
+description : |
+    A collection of device-specific configurations and workarounds for gaming in general, used extensively by ChimeraOS. They are meant to work in the general case with ArchLinux based distributions.
+license     :
+    - MIT
+rundeps     :
+    - acpica
+    - binary(cpio)
+    - systemd
+    # - swh-plugins - needs ladspa and other things
+    - ethtool
+setup       : |
+   %patch %(pkgdir)/etc.patch
+install     : |
+   # Install binaries
+   install -v -m755 -D -t "%(installroot)/usr/bin/" usr/bin/*
+
+   # Install module tweaks
+   install -v -m644 -D -t "%(installroot)/usr/lib/modprobe.d/" usr/lib/modprobe.d/*
+   install -v -m644 -D -t "%(installroot)/usr/lib/modules-load.d/" usr/lib/modules-load.d/*
+
+   # Install udev tweaks
+   install -v -m644 -D -t "%(installroot)/usr/lib/udev/rules.d/" usr/lib/udev/rules.d/*
+   install -v -m644 -D -t "%(installroot)/usr/lib/udev/hwdb.d/" usr/lib/udev/hwdb.d/*
+
+   # Install systemd units
+   install -v -m644 -D -t "%(installroot)/usr/lib/systemd/user/" usr/lib/systemd/user/*
+   install -v -m644 -D -t "%(installroot)/usr/lib/systemd/system/" usr/lib/systemd/system/*
+   install -v -m755 -D -t "%(installroot)/usr/lib/systemd/system-sleep/" usr/lib/systemd/system-sleep/*
+
+   # Install firmware
+   mkdir -p "%(installroot)/usr/lib/firmware/"
+   cp -rv usr/lib/firmware/* "%(installroot)/usr/lib/firmware/"
+
+   # Install sysctl configurations
+   install -v -m644 -D -t "%(installroot)/usr/lib/sysctl.d/" usr/lib/sysctl.d/*
+
+   # Install scripts
+   mkdir -p "%(installroot)/usr/share/device-quirks"
+   cp -rv usr/share/device-quirks/* "%(installroot)/usr/share/device-quirks/."
+
+   # Install pipewire hardware configs
+   mkdir -p "%(installroot)/usr/share/pipewire/hardware-profiles"
+   cp -rv usr/share/pipewire/hardware-profiles/* "%(installroot)/usr/share/pipewire/hardware-profiles/."
+
+   # Install device-quirks config
+   mkdir -p "%(installroot)/usr/share/defaults/etc/device-quirks/"
+   cp -rv etc/device-quirks/* "%(installroot)/usr/share/defaults/etc/device-quirks/."

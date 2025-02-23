@@ -1,0 +1,24 @@
+#
+# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : ethtool
+version     : 6.11
+release     : 1
+homepage    : https://www.kernel.org/pub/software/network/ethtool
+upstreams   :
+    - https://www.kernel.org/pub/software/network/ethtool/ethtool-6.11.tar.xz : 8d91f5c72ae3f25b7e88d4781279dcb320f71e30058914370b1c574c96b31202
+summary     : Utility for controlling network drivers and hardware
+description : |
+    ethtool is the standard Linux utility for controlling network drivers and hardware, particularly for wired Ethernet devices.
+license     : GPL-2.0-only
+builddeps   :
+    - pkgconfig(libmnl)
+setup       : |
+    %configure
+build       : |
+    %make
+install     : |
+    %make_install
+
