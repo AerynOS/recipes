@@ -1,0 +1,42 @@
+#
+# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : opengamepadui-installer
+version     : 20240730
+release     : 1
+homepage    : https://github.com/philmmanjaro/manjaro-installer-gd
+upstreams   :
+    - https://github.com/philmmanjaro/manjaro-installer-gd/archive/9c5547455f45a49cf78f7a2f6735c4e592b41a4d.tar.gz : aa719609a304f8acf3d5439f50968e3cf4fae5bbf5b2d39bca00d5edab0190d2
+summary     : Open source gamepad-native OS installer
+description : |
+    Open Gamepad UI OS Installer with native gamepad support
+license     : GPL-3.0-or-later
+networking  : yes
+builddeps   :
+    - binary(cargo)
+    - binary(godot)
+    - binary(unzip)
+    - binary(wget)
+    - sysbinary(setcap)
+    - soname(libfontconfig.so.1(x86_64))
+rundeps     : 
+    - binary(dd)
+    - binary(glxinfo)
+    - binary(pv)
+    - binary(vulkaninfo)
+environment : |
+    export PATH="/usr/bin:/usr/sbin"
+setup       : |
+    %install_file %(pkgdir)/white_notext_4x.svg assets/images/logo.svg
+    %install_file %(pkgdir)/white_notext_4x.svg icon.svg
+build: |
+    %make build
+install     : |
+    mkdir -p %(installroot)/usr/share/opengamepadui-installer
+    install -Dm755 manjaro-installer.x86_64 %(installroot)/usr/share/opengamepadui-installer/opengamepadui-installer.x86_64
+    %install_file libpty.linux.template_debug.x86_64.so %(installroot)/usr/share/opengamepadui-installer/libpty.linux.template_debug.x86_64.so
+    %install_file liblinuxthread.linux.template_debug.x86_64.so %(installroot)/usr/share/opengamepadui-installer/liblinuxthread.linux.template_debug.x86_64.so
+    %install_file -t %(installroot)/%(datadir)/applications %(pkgdir)/*.desktop
+    %install_bin %(pkgdir)/opengamepadui-installer

@@ -1,0 +1,47 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"opengamepadui-installer": {
+			"build-depends": [
+				"binary(cargo)",
+				"binary(godot)",
+				"binary(unzip)",
+				"binary(wget)",
+				"soname(libfontconfig.so.1(x86_64))",
+				"sysbinary(setcap)"
+			],
+			"depends": [
+				"binary(dd)",
+				"binary(glxinfo)",
+				"binary(pv)",
+				"binary(vulkaninfo)",
+				"interpreter(/lib64/ld-linux-x86-64.so.2(x86_64))",
+				"soname(ld-linux-x86-64.so.2(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libdl.so.2(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libm.so.6(x86_64))",
+				"soname(libpthread.so.0(x86_64))",
+				"soname(librt.so.1(x86_64))",
+				"soname(libstdc++.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/bin/opengamepadui-installer",
+				"/usr/share/applications/opengamepadui-installer.desktop",
+				"/usr/share/opengamepadui-installer/liblinuxthread.linux.template_debug.x86_64.so",
+				"/usr/share/opengamepadui-installer/libpty.linux.template_debug.x86_64.so",
+				"/usr/share/opengamepadui-installer/opengamepadui-installer.x86_64"
+			],
+			"name": "opengamepadui-installer",
+			"provides": [
+				"binary(opengamepadui-installer)",
+				"soname(opengamepadui-installer/liblinuxthread.linux.template_debug.x86_64.so(x86_64))",
+				"soname(opengamepadui-installer/libpty.linux.template_debug.x86_64.so(x86_64))"
+			]
+		}
+	},
+	"source-name": "opengamepadui-installer",
+	"source-release": "1",
+	"source-version": "20240730"
+}
