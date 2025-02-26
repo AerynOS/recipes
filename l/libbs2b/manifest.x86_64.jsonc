@@ -1,0 +1,54 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"libbs2b": {
+			"build-depends": [
+				"pkgconfig(sndfile)"
+			],
+			"depends": [
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(libc++.so.1(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libm.so.6(x86_64))",
+				"soname(libsndfile.so.1(x86_64))",
+				"soname(libunwind.so.1(x86_64))"
+			],
+			"files": [
+				"/usr/bin/bs2bconvert",
+				"/usr/bin/bs2bstream",
+				"/usr/lib/libbs2b.so.0",
+				"/usr/lib/libbs2b.so.0.0.0"
+			],
+			"name": "libbs2b",
+			"provides": [
+				"binary(bs2bconvert)",
+				"binary(bs2bstream)",
+				"soname(libbs2b.so.0(x86_64))"
+			]
+		},
+		"libbs2b-devel": {
+			"build-depends": [
+				"pkgconfig(sndfile)"
+			],
+			"depends": [
+				"libbs2b"
+			],
+			"files": [
+				"/usr/include/bs2b/bs2b.h",
+				"/usr/include/bs2b/bs2bclass.h",
+				"/usr/include/bs2b/bs2btypes.h",
+				"/usr/include/bs2b/bs2bversion.h",
+				"/usr/lib/libbs2b.so",
+				"/usr/lib/pkgconfig/libbs2b.pc"
+			],
+			"name": "libbs2b-devel",
+			"provides": [
+				"pkgconfig(libbs2b)"
+			]
+		}
+	},
+	"source-name": "libbs2b",
+	"source-release": "1",
+	"source-version": "3.1.0"
+}
