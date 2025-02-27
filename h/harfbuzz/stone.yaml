@@ -4,18 +4,17 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : harfbuzz
-version     : 9.0.0
-release     : 9
+version     : 10.0.1
+release     : 10
 homepage    : https://harfbuzz.github.io/
 upstreams   :
-    - https://github.com/harfbuzz/harfbuzz/releases/download/9.0.0/harfbuzz-9.0.0.tar.xz : a41b272ceeb920c57263ec851604542d9ec85ee3030506d94662067c7b6ab89e
+    - https://github.com/harfbuzz/harfbuzz/releases/download/10.0.1/harfbuzz-10.0.1.tar.xz : b2cb13bd351904cb9038f907dc0dee0ae07127061242fe3556b2795c4e9748fc
 summary     : HarfBuzz text shaping engine
 description : |
     HarfBuzz is a text shaping library. Using the HarfBuzz library allows programs to convert a sequence of Unicode input into properly formatted and positioned glyph output—for any writing system and language.
 license     :
     - MIT
     - HPND
-toolchain   : gnu
 builddeps   :
     - pkgconfig(cairo)
     - pkgconfig(freetype2)
