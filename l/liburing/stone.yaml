@@ -1,0 +1,28 @@
+#
+# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : liburing
+version     : 2.8
+release     : 1
+homepage    : https://github.com/axboe/liburing
+upstreams   :
+    - https://github.com/axboe/liburing/archive/refs/tags/liburing-2.8.tar.gz : 3ed7891d1b2bbe743ef3fb6d0a4970e630aa02d7c7bd3b0212791fb7be815984
+summary     : Library providing helpers for the Linux kernel io_uring support
+description : |
+    This is the io_uring library, liburing. liburing provides helpers to setup and
+    teardown io_uring instances, and also a simplified interface for
+    applications that don't need (or want) to deal with the full kernel
+    side implementation.
+license     :
+    - GPL-2.0-or-later
+    - LGPL-2.1-or-later
+    - MIT
+setup       : |
+    # non-compliant configure
+    ./configure
+build       : |
+    %make
+install     : |
+    %make_install
