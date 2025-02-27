@@ -1,22 +1,22 @@
-From 37fd56892475a50f3ce0c65b06b78272cd6b2b25 Mon Sep 17 00:00:00 2001
+From 5d91bf6a14f14d77c9efdd2c9aa179b6dca7deb6 Mon Sep 17 00:00:00 2001
 From: "Luke D. Jones" <luke@ljones.dev>
 Date: Mon, 26 Aug 2024 12:49:35 +1200
-Subject: [PATCH 07/28] hid-asus-ally: Add joystick LED ring support
+Subject: [PATCH 06/28] hid-asus-ally: Add joystick LED ring support
 
 Adds basic support for the joystick RGB LED rings as a multicolour LED
-device with 4 LEDs.
-
-Move the MCU check in to new driver as it must be done after init, and
-hid-asus-ally takes over from hid-asus.
+device with 4 LEDs. As this uses the software-mode for setting the LED
+colours it also sets the MCU-mode for LED's to static + the first RGB
+colour on suspend/reboot/shutdown. This is done to prevent user confusion
+if the LED's were to not match what was set, and to maintain consistency.
 
 Signed-off-by: Luke D. Jones <luke@ljones.dev>
 ---
  drivers/hid/Kconfig         |   9 +
  drivers/hid/Makefile        |   1 +
- drivers/hid/hid-asus-ally.c | 628 ++++++++++++++++++++++++++++++++++++
- drivers/hid/hid-asus-ally.h |  38 +++
- drivers/hid/hid-asus.c      | 108 +------
- 5 files changed, 690 insertions(+), 94 deletions(-)
+ drivers/hid/hid-asus-ally.c | 517 ++++++++++++++++++++++++++++++++++++
+ drivers/hid/hid-asus-ally.h |  42 +++
+ drivers/hid/hid-asus.c      |  12 +
+ 5 files changed, 581 insertions(+)
  create mode 100644 drivers/hid/hid-asus-ally.c
  create mode 100644 drivers/hid/hid-asus-ally.h
 
@@ -54,10 +54,10 @@ index 24de45f3677d..f338c9eb4600 100644
  obj-$(CONFIG_HID_BETOP_FF)	+= hid-betopff.o
 diff --git a/drivers/hid/hid-asus-ally.c b/drivers/hid/hid-asus-ally.c
 new file mode 100644
-index 000000000000..27b2b47521e9
+index 000000000000..d4172a829ced
 --- /dev/null
 +++ b/drivers/hid/hid-asus-ally.c
-@@ -0,0 +1,628 @@
+@@ -0,0 +1,517 @@
 +// SPDX-License-Identifier: GPL-2.0-or-later
 +/*
 + *  HID driver for Asus ROG laptops and Ally
@@ -91,10 +91,6 @@ index 000000000000..27b2b47521e9
 +#define ROG_ALLY_REPORT_SIZE 64
 +#define ROG_ALLY_X_MIN_MCU 313
 +#define ROG_ALLY_MIN_MCU 319
-+
-+#define ROG_ALLY_CFG_INTF_IN 0x83
-+#define ROG_ALLY_CFG_INTF_OUT 0x04
-+#define ROG_ALLY_X_INTF_IN 0x87
 +
 +#define FEATURE_KBD_LED_REPORT_ID1 0x5d
 +#define FEATURE_KBD_LED_REPORT_ID2 0x5e
@@ -163,12 +159,6 @@ index 000000000000..27b2b47521e9
 +	kfree(dmabuf);
 +
 +	return ret;
-+}
-+
-+static int asus_dev_get_report(struct hid_device *hdev, u8 *out_buf, size_t out_buf_size)
-+{
-+	return hid_hw_raw_request(hdev, FEATURE_REPORT_ID, out_buf, out_buf_size,
-+		HID_FEATURE_REPORT, HID_REQ_GET_REPORT);
 +}
 +
 +static u8 get_endpoint_address(struct hid_device *hdev)
@@ -438,85 +428,6 @@ index 000000000000..27b2b47521e9
 +/* ROG Ally driver init                                                                           */
 +/**************************************************************************************************/
 +
-+/*
-+ * We don't care about any other part of the string except the version section.
-+ * Example strings: FGA80100.RC72LA.312_T01, FGA80100.RC71LS.318_T01
-+ */
-+static int mcu_parse_version_string(const u8 *response, size_t response_size)
-+{
-+	int dot_count = 0;
-+	size_t i;
-+
-+	// Look for the second '.' to identify the start of the version
-+	for (i = 0; i < response_size; i++) {
-+		if (response[i] == '.') {
-+			dot_count++;
-+			if (dot_count == 2) {
-+				int version =
-+					simple_strtol((const char *)&response[i + 1], NULL, 10);
-+				return (version >= 0) ? version : -EINVAL;
-+			}
-+		}
-+	}
-+
-+	return -EINVAL;
-+}
-+
-+static int mcu_request_version(struct hid_device *hdev)
-+{
-+	const u8 request[] = { 0x5a, 0x05, 0x03, 0x31, 0x00, 0x20 };
-+	u8 *response;
-+	int ret;
-+
-+	response = kzalloc(FEATURE_ROG_ALLY_REPORT_SIZE, GFP_KERNEL);
-+	if (!response)
-+		return -ENOMEM;
-+
-+	ret = asus_dev_set_report(hdev, request, sizeof(request));
-+	if (ret < 0)
-+		goto out;
-+
-+	ret = asus_dev_get_report(hdev, response, FEATURE_ROG_ALLY_REPORT_SIZE);
-+	if (ret < 0)
-+		goto out;
-+
-+	ret = mcu_parse_version_string(response, FEATURE_ROG_ALLY_REPORT_SIZE);
-+out:
-+	if (ret < 0)
-+		hid_err(hdev, "Failed to get MCU version: %d\n", ret);
-+	kfree(response);
-+	return ret;
-+}
-+
-+static void validate_mcu_fw_version(struct hid_device *hdev, int idProduct)
-+{
-+	int min_version, version;
-+
-+	min_version = ROG_ALLY_X_MIN_MCU;
-+	version = mcu_request_version(hdev);
-+	if (version) {
-+		switch (idProduct) {
-+		case USB_DEVICE_ID_ASUSTEK_ROG_NKEY_ALLY:
-+			min_version = ROG_ALLY_MIN_MCU;
-+			break;
-+		case USB_DEVICE_ID_ASUSTEK_ROG_NKEY_ALLY_X:
-+			min_version = ROG_ALLY_X_MIN_MCU;
-+			break;
-+		}
-+	}
-+
-+	hid_info(hdev, "Ally device MCU version: %d\n", version);
-+	if (version < min_version) {
-+		hid_warn(hdev,
-+			 "The MCU version must be %d or greater\n"
-+			 "Please update your MCU with official ASUS firmware release\n",
-+			 min_version);
-+	}  else {
-+		set_ally_mcu_hack(false);
-+		set_ally_mcu_powersave(true);
-+	}
-+}
-+
 +static int ally_hid_init(struct hid_device *hdev)
 +{
 +	int ret;
@@ -536,9 +447,6 @@ index 000000000000..27b2b47521e9
 +
 +static int ally_hid_probe(struct hid_device *hdev, const struct hid_device_id *_id)
 +{
-+	struct usb_interface *intf = to_usb_interface(hdev->dev.parent);
-+	struct usb_device *udev = interface_to_usbdev(intf);
-+	u16 idProduct = le16_to_cpu(udev->descriptor.idProduct);
 +	int ret, ep;
 +
 +	ep = get_endpoint_address(hdev);
@@ -576,8 +484,6 @@ index 000000000000..27b2b47521e9
 +
 +	/* This should almost always exist */
 +	if (ep == ROG_ALLY_CFG_INTF_IN) {
-+		validate_mcu_fw_version(hdev, idProduct);
-+
 +		drvdata.led_rgb_dev = ally_rgb_create(hdev);
 +		if (IS_ERR(drvdata.led_rgb_dev))
 +			hid_err(hdev, "Failed to create Ally gamepad LEDs.\n");
@@ -606,21 +512,6 @@ index 000000000000..27b2b47521e9
 +	hid_hw_stop(hdev);
 +}
 +
-+static int ally_hid_resume(struct hid_device *hdev)
-+{
-+	struct ally_gamepad_cfg *ally_cfg = drvdata.gamepad_cfg;
-+	int err;
-+
-+	if (!ally_cfg)
-+		return 0;
-+
-+	err = _gamepad_apply_all(hdev,ally_cfg);
-+	if (err)
-+		return err;
-+
-+	return 0;
-+}
-+
 +static int ally_hid_reset_resume(struct hid_device *hdev)
 +{
 +	int ep = get_endpoint_address(hdev);
@@ -630,7 +521,7 @@ index 000000000000..27b2b47521e9
 +	ally_hid_init(hdev);
 +	ally_rgb_resume();
 +
-+	return ally_hid_resume(hdev);
++	return 0;
 +}
 +
 +static int ally_pm_thaw(struct device *dev)
@@ -657,18 +548,16 @@ index 000000000000..27b2b47521e9
 +
 +MODULE_DEVICE_TABLE(hid, rog_ally_devices);
 +
-+static struct hid_driver
-+	rog_ally_cfg = { .name = "asus_rog_ally",
-+			 .id_table = rog_ally_devices,
-+			 .probe = ally_hid_probe,
-+			 .remove = ally_hid_remove,
-+			 /* HID is the better place for resume functions, not pm_ops */
-+			 .resume = ally_hid_resume,
-+			/* ALLy 1 requires this to reset device state correctly */
-+			 .reset_resume = ally_hid_reset_resume,
-+			 .driver = {
-+				 .pm = &ally_pm_ops,
-+			 } };
++static struct hid_driver rog_ally_cfg = { .name = "asus_rog_ally",
++		.id_table = rog_ally_devices,
++		.probe = ally_hid_probe,
++		.remove = ally_hid_remove,
++		/* ALLy 1 requires this to reset device state correctly */
++		.reset_resume = ally_hid_reset_resume,
++		.driver = {
++			.pm = &ally_pm_ops,
++		}
++};
 +
 +static int __init rog_ally_init(void)
 +{
@@ -688,10 +577,10 @@ index 000000000000..27b2b47521e9
 +MODULE_LICENSE("GPL");
 diff --git a/drivers/hid/hid-asus-ally.h b/drivers/hid/hid-asus-ally.h
 new file mode 100644
-index 000000000000..eb8617c80c2a
+index 000000000000..2f621e16a9d8
 --- /dev/null
 +++ b/drivers/hid/hid-asus-ally.h
-@@ -0,0 +1,38 @@
+@@ -0,0 +1,42 @@
 +/* SPDX-License-Identifier: GPL-2.0-or-later
 + *
 + *  HID driver for Asus ROG laptops and Ally
@@ -701,6 +590,10 @@ index 000000000000..eb8617c80c2a
 +
 +#include <linux/hid.h>
 +#include <linux/types.h>
++
++#define ROG_ALLY_CFG_INTF_IN 0x83
++#define ROG_ALLY_CFG_INTF_OUT 0x04
++#define ROG_ALLY_X_INTF_IN 0x87
 +
 +/* the xpad_cmd determines which feature is set or queried */
 +enum xpad_cmd {
@@ -731,131 +624,18 @@ index 000000000000..eb8617c80c2a
 +	xpad_cmd_len_adz = 0x02,
 +};
 diff --git a/drivers/hid/hid-asus.c b/drivers/hid/hid-asus.c
-index a486ebe6bee0..fb29486478f7 100644
+index 66bae5cea4f9..9ebee77638a0 100644
 --- a/drivers/hid/hid-asus.c
 +++ b/drivers/hid/hid-asus.c
-@@ -52,9 +52,9 @@ MODULE_DESCRIPTION("Asus HID Keyboard and TouchPad");
- #define FEATURE_KBD_LED_REPORT_ID1 0x5d
- #define FEATURE_KBD_LED_REPORT_ID2 0x5e
+@@ -33,6 +33,7 @@
+ #include <linux/leds.h>
  
--#define ROG_ALLY_REPORT_SIZE 64
--#define ROG_ALLY_X_MIN_MCU 313
--#define ROG_ALLY_MIN_MCU 319
-+#define ROG_ALLY_CFG_INTF_IN 0x83
-+#define ROG_ALLY_CFG_INTF_OUT 0x04
-+#define ROG_ALLY_X_INTF_IN 0x87
+ #include "hid-ids.h"
++#include "hid-asus-ally.h"
  
- #define SUPPORT_KBD_BACKLIGHT BIT(0)
- 
-@@ -539,92 +539,9 @@ static bool asus_kbd_wmi_led_control_present(struct hid_device *hdev)
- 	return !!(value & ASUS_WMI_DSTS_PRESENCE_BIT);
- }
- 
--/*
-- * We don't care about any other part of the string except the version section.
-- * Example strings: FGA80100.RC72LA.312_T01, FGA80100.RC71LS.318_T01
-- */
--static int mcu_parse_version_string(const u8 *response, size_t response_size)
--{
--	int dot_count = 0;
--	size_t i;
--
--	// Look for the second '.' to identify the start of the version
--	for (i = 0; i < response_size; i++) {
--		if (response[i] == '.') {
--			dot_count++;
--			if (dot_count == 2) {
--				int version =
--					simple_strtol((const char *)&response[i + 1], NULL, 10);
--				return (version >= 0) ? version : -EINVAL;
--			}
--		}
--	}
--
--	return -EINVAL;
--}
--
--static int mcu_request_version(struct hid_device *hdev)
--{
--	const u8 request[] = { 0x5a, 0x05, 0x03, 0x31, 0x00, 0x20 };
--	u8 *response;
--	int ret;
--
--	response = kzalloc(ROG_ALLY_REPORT_SIZE, GFP_KERNEL);
--	if (!response)
--		return -ENOMEM;
--
--	ret = asus_kbd_set_report(hdev, request, sizeof(request));
--	if (ret < 0)
--		goto out;
--
--	ret = hid_hw_raw_request(hdev, FEATURE_REPORT_ID, response,
--				ROG_ALLY_REPORT_SIZE, HID_FEATURE_REPORT,
--				HID_REQ_GET_REPORT);
--	if (ret < 0)
--		goto out;
--
--	ret = mcu_parse_version_string(response, ROG_ALLY_REPORT_SIZE);
--out:
--	if (ret < 0)
--		hid_err(hdev, "Failed to get MCU version: %d\n", ret);
--	kfree(response);
--	return ret;
--}
--
--static void mcu_maybe_warn_version(struct hid_device *hdev, int idProduct)
--{
--	int min_version, version;
--
--	min_version = ROG_ALLY_X_MIN_MCU;
--	version = mcu_request_version(hdev);
--	if (version) {
--		switch (idProduct) {
--		case USB_DEVICE_ID_ASUSTEK_ROG_NKEY_ALLY:
--			min_version = ROG_ALLY_MIN_MCU;
--			break;
--		case USB_DEVICE_ID_ASUSTEK_ROG_NKEY_ALLY_X:
--			min_version = ROG_ALLY_X_MIN_MCU;
--			break;
--		}
--	}
--
--	hid_info(hdev, "Ally device MCU version: %d\n", version);
--	if (version < min_version) {
--		hid_warn(hdev,
--			 "The MCU version must be %d or greater\n"
--			 "Please update your MCU with official ASUS firmware release\n",
--			 min_version);
--	} else {
--		set_ally_mcu_hack(false);
--		set_ally_mcu_powersave(true);
--	}
--}
--
- static int asus_kbd_register_leds(struct hid_device *hdev)
- {
- 	struct asus_drvdata *drvdata = hid_get_drvdata(hdev);
--	struct usb_interface *intf;
--	struct usb_device *udev;
- 	unsigned char kbd_func;
- 	int ret;
- 
-@@ -648,14 +565,6 @@ static int asus_kbd_register_leds(struct hid_device *hdev)
- 			if (ret < 0)
- 				return ret;
- 		}
--
--		if (drvdata->quirks & QUIRK_ROG_ALLY_XPAD) {
--			intf = to_usb_interface(hdev->dev.parent);
--			udev = interface_to_usbdev(intf);
--			mcu_maybe_warn_version(hdev,
--				le16_to_cpu(udev->descriptor.idProduct));
--		}
--
- 	} else {
- 		/* Initialize keyboard */
- 		ret = asus_kbd_init(hdev, FEATURE_KBD_REPORT_ID);
-@@ -1125,6 +1034,17 @@ static int asus_probe(struct hid_device *hdev, const struct hid_device_id *id)
+ MODULE_AUTHOR("Yusuke Fujimaki <usk.fujimaki@gmail.com>");
+ MODULE_AUTHOR("Brendan McGrath <redmcg@redmandi.dyndns.org>");
+@@ -1135,6 +1136,17 @@ static int asus_probe(struct hid_device *hdev, const struct hid_device_id *id)
  
  	drvdata->quirks = id->driver_data;
  
@@ -874,5 +654,5 @@ index a486ebe6bee0..fb29486478f7 100644
  	 * T90CHI's keyboard dock returns same ID values as T100CHI's dock.
  	 * Thus, identify T90CHI dock with product name string.
 -- 
-2.47.1
+2.48.1
 

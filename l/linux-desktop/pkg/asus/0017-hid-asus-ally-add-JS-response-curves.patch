@@ -1,4 +1,4 @@
-From b5f330b0e9848b00defcb7423e26a248984b17df Mon Sep 17 00:00:00 2001
+From cfe69dd6d6e3e510afbc3cd96579c73d5d4589d6 Mon Sep 17 00:00:00 2001
 From: "Luke D. Jones" <luke@ljones.dev>
 Date: Sun, 6 Oct 2024 21:22:40 +1300
 Subject: [PATCH 17/28] hid-asus-ally: add JS response curves
@@ -10,7 +10,7 @@ Signed-off-by: Luke D. Jones <luke@ljones.dev>
  2 files changed, 141 insertions(+)
 
 diff --git a/drivers/hid/hid-asus-ally.c b/drivers/hid/hid-asus-ally.c
-index 732b9a175f49..ad1181e12410 100644
+index 0d27799e1947..d41e78c196a0 100644
 --- a/drivers/hid/hid-asus-ally.c
 +++ b/drivers/hid/hid-asus-ally.c
 @@ -5,10 +5,12 @@
@@ -26,7 +26,7 @@ index 732b9a175f49..ad1181e12410 100644
  #include "linux/slab.h"
  #include <linux/hid.h>
  #include <linux/types.h>
-@@ -265,6 +267,17 @@ struct deadzone {
+@@ -261,6 +263,17 @@ struct deadzone {
  	u8 outer;
  };
  
@@ -44,7 +44,7 @@ index 732b9a175f49..ad1181e12410 100644
  /* ROG Ally has many settings related to the gamepad, all using the same n-key endpoint */
  struct ally_gamepad_cfg {
  	struct hid_device *hdev;
-@@ -289,6 +302,9 @@ struct ally_gamepad_cfg {
+@@ -285,6 +298,9 @@ struct ally_gamepad_cfg {
  	/* anti-deadzones */
  	u8 ls_adz; // left stick
  	u8 rs_adz; // right stick
@@ -54,7 +54,7 @@ index 732b9a175f49..ad1181e12410 100644
  };
  
  /* The hatswitch outputs integers, we use them to index this X|Y pair */
-@@ -712,10 +728,85 @@ static ssize_t axis_xy_right_anti_deadzone_store(struct device *dev,
+@@ -719,10 +735,85 @@ static ssize_t axis_xy_right_anti_deadzone_store(struct device *dev,
  }
  ALLY_DEVICE_ATTR_RW(axis_xy_right_anti_deadzone, anti_deadzone);
  
@@ -140,7 +140,7 @@ index 732b9a175f49..ad1181e12410 100644
  	NULL
  };
  static const struct attribute_group axis_xy_left_attr_group = {
-@@ -727,6 +818,14 @@ static struct attribute *axis_xy_right_attrs[] = {
+@@ -734,6 +825,14 @@ static struct attribute *axis_xy_right_attrs[] = {
  	&dev_attr_axis_xy_right_anti_deadzone.attr,
  	&dev_attr_axis_xy_right_deadzone.attr,
  	&dev_attr_axis_xyz_deadzone_index.attr,
@@ -155,7 +155,7 @@ index 732b9a175f49..ad1181e12410 100644
  	NULL
  };
  static const struct attribute_group axis_xy_right_attr_group = {
-@@ -922,6 +1021,9 @@ static ssize_t _gamepad_apply_all(struct hid_device *hdev, struct ally_gamepad_c
+@@ -929,6 +1028,9 @@ static ssize_t _gamepad_apply_all(struct hid_device *hdev, struct ally_gamepad_c
  	if (ret < 0)
  		return ret;
  	ret = _gamepad_apply_js_ADZ(hdev, ally_cfg);
@@ -165,7 +165,7 @@ index 732b9a175f49..ad1181e12410 100644
  	if (ret < 0)
  		return ret;
  
-@@ -1169,6 +1271,7 @@ static struct ally_gamepad_cfg *ally_gamepad_cfg_create(struct hid_device *hdev)
+@@ -1176,6 +1278,7 @@ static struct ally_gamepad_cfg *ally_gamepad_cfg_create(struct hid_device *hdev)
  	ally_cfg->vibration_intensity[1] = 0x64;
  	_gamepad_set_deadzones_default(ally_cfg);
  	_gamepad_set_anti_deadzones_default(ally_cfg);
@@ -174,10 +174,10 @@ index 732b9a175f49..ad1181e12410 100644
  	drvdata.gamepad_cfg = ally_cfg; // Must asign before attr group setup
  	if (sysfs_create_groups(&hdev->dev.kobj, gamepad_device_attr_groups)) {
 diff --git a/drivers/hid/hid-asus-ally.h b/drivers/hid/hid-asus-ally.h
-index 69f59592dd50..c83817589082 100644
+index 70ef69ac476b..512e51d2761f 100644
 --- a/drivers/hid/hid-asus-ally.h
 +++ b/drivers/hid/hid-asus-ally.h
-@@ -28,6 +28,7 @@ enum xpad_cmd {
+@@ -32,6 +32,7 @@ enum xpad_cmd {
  	xpad_cmd_set_leds = 0x08,
  	xpad_cmd_check_ready = 0x0A,
  	xpad_cmd_set_turbo = 0x0F,
@@ -185,7 +185,7 @@ index 69f59592dd50..c83817589082 100644
  	xpad_cmd_set_adz = 0x18,
  };
  
-@@ -39,6 +40,7 @@ enum xpad_cmd_len {
+@@ -43,6 +44,7 @@ enum xpad_cmd_len {
  	xpad_cmd_len_vibe_intensity = 0x02,
  	xpad_cmd_len_leds = 0x0C,
  	xpad_cmd_len_turbo = 0x20,
@@ -193,7 +193,7 @@ index 69f59592dd50..c83817589082 100644
  	xpad_cmd_len_adz = 0x02,
  };
  
-@@ -309,6 +311,42 @@ enum btn_pair_index {
+@@ -313,6 +315,42 @@ enum btn_pair_index {
  	ALLY_DEADZONE_STORE(_fname##_deadzone, _mname);                   \
  	ALLY_DEVICE_ATTR_RW(_fname##_deadzone, deadzone)
  
@@ -237,5 +237,5 @@ index 69f59592dd50..c83817589082 100644
  	static struct attribute *_fname##_attrs[] = {                     \
  		&dev_attr_##_fname.attr,                                  \
 -- 
-2.47.1
+2.48.1
 

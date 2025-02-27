@@ -1,4 +1,4 @@
-From 12007aeb5b356c12c258295f838ba77e135348de Mon Sep 17 00:00:00 2001
+From bcfa7ccf34848aa2107f7157e850c2e24be9bfce Mon Sep 17 00:00:00 2001
 From: "Luke D. Jones" <luke@ljones.dev>
 Date: Sun, 22 Sep 2024 21:40:46 +1200
 Subject: [PATCH 21/28] platform/x86: asus-wmi: export symbols used for
@@ -17,7 +17,7 @@ Reviewed-by: Mario Limonciello <mario.limonciello@amd.com>
  2 files changed, 51 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/platform/x86/asus-wmi.c b/drivers/platform/x86/asus-wmi.c
-index 8b941b19da7d..60ba34ea437f 100644
+index 671c726f85b8..27085df2b47a 100644
 --- a/drivers/platform/x86/asus-wmi.c
 +++ b/drivers/platform/x86/asus-wmi.c
 @@ -389,7 +389,7 @@ int asus_wmi_evaluate_method(u32 method_id, u32 arg0, u32 arg1, u32 *retval)
@@ -84,7 +84,7 @@ index 8b941b19da7d..60ba34ea437f 100644
  /* Helper for special devices with magic return codes */
  static int asus_wmi_get_devstate_bits(struct asus_wmi *asus,
 diff --git a/include/linux/platform_data/x86/asus-wmi.h b/include/linux/platform_data/x86/asus-wmi.h
-index 5d93beeace0d..e7a1bbaa285f 100644
+index a32cb8865b2f..96ff25b2b51b 100644
 --- a/include/linux/platform_data/x86/asus-wmi.h
 +++ b/include/linux/platform_data/x86/asus-wmi.h
 @@ -160,6 +160,7 @@
@@ -95,7 +95,7 @@ index 5d93beeace0d..e7a1bbaa285f 100644
  int asus_wmi_set_devstate(u32 dev_id, u32 ctrl_param, u32 *retval);
  int asus_wmi_evaluate_method(u32 method_id, u32 arg0, u32 arg1, u32 *retval);
  #else
-@@ -173,6 +174,14 @@ static inline int asus_wmi_set_devstate(u32 dev_id, u32 ctrl_param, u32 *retval)
+@@ -175,6 +176,14 @@ static inline int asus_wmi_set_devstate(u32 dev_id, u32 ctrl_param, u32 *retval)
  {
  	return -ENODEV;
  }
@@ -111,5 +111,5 @@ index 5d93beeace0d..e7a1bbaa285f 100644
  					   u32 *retval)
  {
 -- 
-2.47.1
+2.48.1
 

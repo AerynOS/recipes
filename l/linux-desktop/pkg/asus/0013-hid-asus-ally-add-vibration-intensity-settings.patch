@@ -1,4 +1,4 @@
-From ea8518d0254feae17d2101f80be8680f9d1f5f4d Mon Sep 17 00:00:00 2001
+From 142517d33a681f900bdfdb729e6c15f5fdcf5089 Mon Sep 17 00:00:00 2001
 From: "Luke D. Jones" <luke@ljones.dev>
 Date: Sat, 5 Oct 2024 20:46:00 +1300
 Subject: [PATCH 13/28] hid-asus-ally: add vibration intensity settings
@@ -10,10 +10,10 @@ Signed-off-by: Luke D. Jones <luke@ljones.dev>
  2 files changed, 99 insertions(+)
 
 diff --git a/drivers/hid/hid-asus-ally.c b/drivers/hid/hid-asus-ally.c
-index 528fdac01836..54c629ef22e4 100644
+index afaeba3dfde7..2eae8a226f18 100644
 --- a/drivers/hid/hid-asus-ally.c
 +++ b/drivers/hid/hid-asus-ally.c
-@@ -270,6 +270,11 @@ struct ally_gamepad_cfg {
+@@ -266,6 +266,11 @@ struct ally_gamepad_cfg {
  	 * index: [mode]
  	 */
  	struct btn_mapping key_mapping[xpad_mode_mouse];
@@ -25,7 +25,7 @@ index 528fdac01836..54c629ef22e4 100644
  };
  
  /* The hatswitch outputs integers, we use them to index this X|Y pair */
-@@ -441,6 +446,89 @@ static int ally_gamepad_check_ready(struct hid_device *hdev)
+@@ -448,6 +453,89 @@ static int ally_gamepad_check_ready(struct hid_device *hdev)
  	return ret;
  }
  
@@ -115,7 +115,7 @@ index 528fdac01836..54c629ef22e4 100644
  /* A HID packet conatins mappings for two buttons: btn1, btn1_macro, btn2, btn2_macro */
  static void _btn_pair_to_hid_pkt(struct ally_gamepad_cfg *ally_cfg,
  				enum btn_pair_index pair,
-@@ -768,6 +856,8 @@ static struct attribute *gamepad_device_attrs[] = {
+@@ -775,6 +863,8 @@ static struct attribute *gamepad_device_attrs[] = {
  	&dev_attr_btn_mapping_reset.attr,
  	&dev_attr_gamepad_mode.attr,
  	&dev_attr_gamepad_apply_all.attr,
@@ -124,7 +124,7 @@ index 528fdac01836..54c629ef22e4 100644
  	NULL
  };
  
-@@ -840,6 +930,9 @@ static struct ally_gamepad_cfg *ally_gamepad_cfg_create(struct hid_device *hdev)
+@@ -847,6 +937,9 @@ static struct ally_gamepad_cfg *ally_gamepad_cfg_create(struct hid_device *hdev)
  	ally_cfg->key_mapping[ally_cfg->mode - 1].btn_m2.button = BTN_KB_M2;
  	_gamepad_apply_btn_pair(hdev, ally_cfg, btn_pair_m1_m2);
  
@@ -135,10 +135,10 @@ index 528fdac01836..54c629ef22e4 100644
  	if (sysfs_create_groups(&hdev->dev.kobj, gamepad_device_attr_groups)) {
  		err = -ENODEV;
 diff --git a/drivers/hid/hid-asus-ally.h b/drivers/hid/hid-asus-ally.h
-index 63a3b5caa71c..6ac79ad3c5f2 100644
+index 4e1eccbd99ad..160d00690d41 100644
 --- a/drivers/hid/hid-asus-ally.h
 +++ b/drivers/hid/hid-asus-ally.h
-@@ -22,6 +22,7 @@ enum xpad_mode {
+@@ -26,6 +26,7 @@ enum xpad_mode {
  enum xpad_cmd {
  	xpad_cmd_set_mode = 0x01,
  	xpad_cmd_set_mapping = 0x02,
@@ -146,7 +146,7 @@ index 63a3b5caa71c..6ac79ad3c5f2 100644
  	xpad_cmd_set_leds = 0x08,
  	xpad_cmd_check_ready = 0x0A,
  	xpad_cmd_set_turbo = 0x0F,
-@@ -31,6 +32,7 @@ enum xpad_cmd {
+@@ -35,6 +36,7 @@ enum xpad_cmd {
  enum xpad_cmd_len {
  	xpad_cmd_len_mode = 0x01,
  	xpad_cmd_len_mapping = 0x2c,
@@ -154,7 +154,7 @@ index 63a3b5caa71c..6ac79ad3c5f2 100644
  	xpad_cmd_len_leds = 0x0C,
  	xpad_cmd_len_turbo = 0x20,
  };
-@@ -196,6 +198,10 @@ enum btn_pair_index {
+@@ -200,6 +202,10 @@ enum btn_pair_index {
  	struct device_attribute dev_attr_##_name = \
  		__ATTR(_sysfs_name, 0644, _name##_show, _name##_store)
  
@@ -166,5 +166,5 @@ index 63a3b5caa71c..6ac79ad3c5f2 100644
  #define ALLY_BTN_SHOW(_fname, _btn_name, _secondary)                           \
  	static ssize_t _fname##_show(struct device *dev,                       \
 -- 
-2.47.1
+2.48.1
 

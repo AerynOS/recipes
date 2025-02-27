@@ -1,4 +1,4 @@
-From caebd8ceb82e70fd275b800eda96cd520aad8cd7 Mon Sep 17 00:00:00 2001
+From 963513e079dab875145be5ecec2971856f15b6ef Mon Sep 17 00:00:00 2001
 From: "Luke D. Jones" <luke@ljones.dev>
 Date: Fri, 25 Oct 2024 08:56:54 +0200
 Subject: [PATCH 11/28] hid-asus-ally: add gamepad mode selection
@@ -9,10 +9,10 @@ Subject: [PATCH 11/28] hid-asus-ally: add gamepad mode selection
  2 files changed, 75 insertions(+)
 
 diff --git a/drivers/hid/hid-asus-ally.c b/drivers/hid/hid-asus-ally.c
-index c13cedda3536..5edb67359a4e 100644
+index 4755f5f6ad9e..d4d7877b3065 100644
 --- a/drivers/hid/hid-asus-ally.c
 +++ b/drivers/hid/hid-asus-ally.c
-@@ -647,9 +647,82 @@ static ssize_t btn_mapping_reset_store(struct device *dev, struct device_attribu
+@@ -654,9 +654,82 @@ static ssize_t btn_mapping_reset_store(struct device *dev, struct device_attribu
  }
  ALLY_DEVICE_ATTR_WO(btn_mapping_reset, reset_btn_mapping);
  
@@ -96,10 +96,10 @@ index c13cedda3536..5edb67359a4e 100644
  	NULL
  };
 diff --git a/drivers/hid/hid-asus-ally.h b/drivers/hid/hid-asus-ally.h
-index f985cbd698c3..f7e21be50d8e 100644
+index c5c6ff8d6f1c..a0b0acd65bfd 100644
 --- a/drivers/hid/hid-asus-ally.h
 +++ b/drivers/hid/hid-asus-ally.h
-@@ -20,6 +20,7 @@ enum xpad_mode {
+@@ -24,6 +24,7 @@ enum xpad_mode {
  
  /* the xpad_cmd determines which feature is set or queried */
  enum xpad_cmd {
@@ -107,7 +107,7 @@ index f985cbd698c3..f7e21be50d8e 100644
  	xpad_cmd_set_mapping = 0x02,
  	xpad_cmd_set_leds = 0x08,
  	xpad_cmd_check_ready = 0x0A,
-@@ -27,6 +28,7 @@ enum xpad_cmd {
+@@ -31,6 +32,7 @@ enum xpad_cmd {
  
  /* the xpad_cmd determines which feature is set or queried */
  enum xpad_cmd_len {
@@ -116,5 +116,5 @@ index f985cbd698c3..f7e21be50d8e 100644
  	xpad_cmd_len_leds = 0x0C,
  };
 -- 
-2.47.1
+2.48.1
 

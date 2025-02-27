@@ -1,4 +1,4 @@
-From f8ab25d143c32b54bf9c6b24a70933863f079531 Mon Sep 17 00:00:00 2001
+From 7f980201336e7f9acee3611246d4f43c81c49108 Mon Sep 17 00:00:00 2001
 From: "Luke D. Jones" <luke@ljones.dev>
 Date: Sun, 22 Sep 2024 21:39:43 +1200
 Subject: [PATCH 22/28] platform/x86: asus-armoury: move existing tunings to
@@ -792,10 +792,10 @@ index 000000000000..440f41c5df3b
 +
 +#endif /* _ASUS_ARMOURY_H_ */
 diff --git a/drivers/platform/x86/asus-wmi.c b/drivers/platform/x86/asus-wmi.c
-index 60ba34ea437f..fd7f80f65ede 100644
+index 27085df2b47a..1377682461d7 100644
 --- a/drivers/platform/x86/asus-wmi.c
 +++ b/drivers/platform/x86/asus-wmi.c
-@@ -56,8 +56,6 @@ module_param(fnlock_default, bool, 0444);
+@@ -55,8 +55,6 @@ module_param(fnlock_default, bool, 0444);
  #define to_asus_wmi_driver(pdrv)					\
  	(container_of((pdrv), struct asus_wmi_driver, platform_driver))
  
@@ -804,7 +804,7 @@ index 60ba34ea437f..fd7f80f65ede 100644
  #define NOTIFY_BRNUP_MIN		0x11
  #define NOTIFY_BRNUP_MAX		0x1f
  #define NOTIFY_BRNDOWN_MIN		0x20
-@@ -106,8 +104,6 @@ module_param(fnlock_default, bool, 0444);
+@@ -105,8 +103,6 @@ module_param(fnlock_default, bool, 0444);
  #define USB_INTEL_XUSB2PR		0xD0
  #define PCI_DEVICE_ID_INTEL_LYNXPOINT_LP_XHCI	0x9c31
  
@@ -814,7 +814,7 @@ index 60ba34ea437f..fd7f80f65ede 100644
  
  #define FAN_CURVE_POINTS		8
 diff --git a/include/linux/platform_data/x86/asus-wmi.h b/include/linux/platform_data/x86/asus-wmi.h
-index e7a1bbaa285f..9b6c62a86c72 100644
+index 96ff25b2b51b..4574e30c53fc 100644
 --- a/include/linux/platform_data/x86/asus-wmi.h
 +++ b/include/linux/platform_data/x86/asus-wmi.h
 @@ -6,6 +6,9 @@
@@ -828,5 +828,5 @@ index e7a1bbaa285f..9b6c62a86c72 100644
  #define ASUS_WMI_METHODID_SPEC	        0x43455053 /* BIOS SPECification */
  #define ASUS_WMI_METHODID_SFBD		0x44424653 /* Set First Boot Device */
 -- 
-2.47.1
+2.48.1
 

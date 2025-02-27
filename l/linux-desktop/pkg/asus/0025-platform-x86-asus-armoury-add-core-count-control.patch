@@ -1,4 +1,4 @@
-From 61c5520124a12793ea8be9c7e0b73c726dd54562 Mon Sep 17 00:00:00 2001
+From 59df8cfa5093e54c8d830266ee20e969c72dae81 Mon Sep 17 00:00:00 2001
 From: "Luke D. Jones" <luke@ljones.dev>
 Date: Wed, 18 Sep 2024 21:19:12 +1200
 Subject: [PATCH 25/28] platform/x86: asus-armoury: add core count control
@@ -347,7 +347,7 @@ index 440f41c5df3b..5d6bef6d2b12 100644
 +
  #endif /* _ASUS_ARMOURY_H_ */
 diff --git a/include/linux/platform_data/x86/asus-wmi.h b/include/linux/platform_data/x86/asus-wmi.h
-index dae9e267883e..6e81335d57a0 100644
+index f3494a9efea7..e735f35b423c 100644
 --- a/include/linux/platform_data/x86/asus-wmi.h
 +++ b/include/linux/platform_data/x86/asus-wmi.h
 @@ -137,6 +137,11 @@
@@ -363,5 +363,5 @@ index dae9e267883e..6e81335d57a0 100644
  
  /* gpu mux switch, 0 = dGPU, 1 = Optimus */
 -- 
-2.47.1
+2.48.1
 

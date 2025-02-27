@@ -1,4 +1,4 @@
-From 173e766324236493c08a7602ccd7fd36bf1ac6ed Mon Sep 17 00:00:00 2001
+From 7a53b940f60634f73ae714f13fb349dadef66da7 Mon Sep 17 00:00:00 2001
 From: "Luke D. Jones" <luke@ljones.dev>
 Date: Thu, 19 Sep 2024 17:23:35 +1200
 Subject: [PATCH 23/28] platform/x86: asus-armoury: add panel_hd_mode attribute
@@ -45,7 +45,7 @@ index d2e8c21d62dc..716bf96b6b58 100644
  
  static int asus_fw_attr_add(void)
 diff --git a/include/linux/platform_data/x86/asus-wmi.h b/include/linux/platform_data/x86/asus-wmi.h
-index 9b6c62a86c72..77e227ffd87b 100644
+index 4574e30c53fc..62a9adb1af2f 100644
 --- a/include/linux/platform_data/x86/asus-wmi.h
 +++ b/include/linux/platform_data/x86/asus-wmi.h
 @@ -76,6 +76,7 @@
@@ -57,5 +57,5 @@ index 9b6c62a86c72..77e227ffd87b 100644
  #define ASUS_WMI_DEVID_CAMERA		0x00060013
  #define ASUS_WMI_DEVID_LID_FLIP		0x00060062
 -- 
-2.47.1
+2.48.1
 

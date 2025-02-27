@@ -1,4 +1,4 @@
-From f0da13dd1d2173d64058bbe2c214844a959a527a Mon Sep 17 00:00:00 2001
+From 49d143b03f97604c5e8f196c31233eaf7e296f5b Mon Sep 17 00:00:00 2001
 From: Luke Jones <luke@ljones.dev>
 Date: Mon, 10 Feb 2025 17:15:01 +1300
 Subject: [PATCH 18/28] hid-asus-ally: mcu_version attribute
@@ -8,14 +8,14 @@ the MCU FW version.
 
 Signed-off-by: Luke Jones <luke@ljones.dev>
 ---
- drivers/hid/hid-asus-ally.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ drivers/hid/hid-asus-ally.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
 diff --git a/drivers/hid/hid-asus-ally.c b/drivers/hid/hid-asus-ally.c
-index ad1181e12410..b77b837de729 100644
+index d41e78c196a0..3e6250a7bd48 100644
 --- a/drivers/hid/hid-asus-ally.c
 +++ b/drivers/hid/hid-asus-ally.c
-@@ -380,6 +380,7 @@ static struct ally_drvdata {
+@@ -376,6 +376,7 @@ static struct ally_drvdata {
  	struct ally_gamepad_cfg *gamepad_cfg;
  	struct ally_rgb_dev *led_rgb_dev;
  	struct ally_rgb_data led_rgb_data;
@@ -23,7 +23,7 @@ index ad1181e12410..b77b837de729 100644
  } drvdata;
  
  /**
-@@ -1184,6 +1185,13 @@ static ssize_t gamepad_mode_store(struct device *dev, struct device_attribute *a
+@@ -1191,6 +1192,13 @@ static ssize_t gamepad_mode_store(struct device *dev, struct device_attribute *a
  
  DEVICE_ATTR_RW(gamepad_mode);
  
@@ -37,7 +37,7 @@ index ad1181e12410..b77b837de729 100644
  /* ROOT LEVEL ATTRS *******************************************************************************/
  static struct attribute *gamepad_device_attrs[] = {
  	&dev_attr_btn_mapping_reset.attr,
-@@ -1191,6 +1199,7 @@ static struct attribute *gamepad_device_attrs[] = {
+@@ -1198,6 +1206,7 @@ static struct attribute *gamepad_device_attrs[] = {
  	&dev_attr_gamepad_apply_all.attr,
  	&dev_attr_gamepad_vibration_intensity.attr,
  	&dev_attr_gamepad_vibration_intensity_index.attr,
@@ -45,22 +45,14 @@ index ad1181e12410..b77b837de729 100644
  	NULL
  };
  
-@@ -1935,6 +1944,7 @@ static void validate_mcu_fw_version(struct hid_device *hdev, int idProduct)
+@@ -1967,6 +1976,7 @@ static void validate_mcu_fw_version(struct hid_device *hdev, int idProduct)
+ 		min_version = 0;
+ 	}
  
- 	min_version = ROG_ALLY_X_MIN_MCU;
- 	version = mcu_request_version(hdev);
 +	drvdata.mcu_version = version;
- 	if (version) {
- 		switch (idProduct) {
- 		case USB_DEVICE_ID_ASUSTEK_ROG_NKEY_ALLY:
-@@ -2155,6 +2165,7 @@ static void __exit rog_ally_exit(void)
- module_init(rog_ally_init);
- module_exit(rog_ally_exit);
- 
-+MODULE_IMPORT_NS("ASUS_WMI");
- MODULE_AUTHOR("Luke D. Jones");
- MODULE_DESCRIPTION("HID Driver for ASUS ROG Ally gamepad configuration.");
- MODULE_LICENSE("GPL");
+ 	if (version < min_version) {
+ 		hid_warn(hdev,
+ 			"The MCU firmware version must be %d or greater to avoid issues with suspend.\n",
 -- 
-2.47.1
+2.48.1
 

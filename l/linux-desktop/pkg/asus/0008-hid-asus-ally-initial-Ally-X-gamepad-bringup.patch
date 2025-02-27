@@ -1,7 +1,13 @@
-From a0712c32874fb5b36da4c63b2faae5066526a092 Mon Sep 17 00:00:00 2001
+From a68446a413a996133ce24071da5fe1bfc66724dd Mon Sep 17 00:00:00 2001
 From: "Luke D. Jones" <luke@ljones.dev>
 Date: Wed, 2 Oct 2024 23:32:46 +1300
-Subject: [PATCH 08/28] hid-asus-ally: initial Ally-X gamepad
+Subject: [PATCH 08/28] hid-asus-ally: initial Ally-X gamepad bringup
+
+Enable use of the new gamepad device created by the MCU.
+- Triggers
+- Buttons
+- Sticks
+- Vibration
 
 Signed-off-by: Luke D. Jones <luke@ljones.dev>
 ---
@@ -10,10 +16,10 @@ Signed-off-by: Luke D. Jones <luke@ljones.dev>
  2 files changed, 389 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/hid/hid-asus-ally.c b/drivers/hid/hid-asus-ally.c
-index 27b2b47521e9..7a5b031bd4e5 100644
+index cf0bbaa88a69..2de79d5fe361 100644
 --- a/drivers/hid/hid-asus-ally.c
 +++ b/drivers/hid/hid-asus-ally.c
-@@ -50,6 +50,51 @@ static const struct hid_device_id rog_ally_devices[] = {
+@@ -46,6 +46,51 @@ static const struct hid_device_id rog_ally_devices[] = {
  	{}
  };
  
@@ -65,7 +71,7 @@ index 27b2b47521e9..7a5b031bd4e5 100644
  struct ally_rgb_dev {
  	struct hid_device *hdev;
  	struct led_classdev_mc led_rgb_dev;
-@@ -74,6 +119,7 @@ struct ally_rgb_data {
+@@ -70,6 +115,7 @@ struct ally_rgb_data {
  
  static struct ally_drvdata {
  	struct hid_device *hdev;
@@ -73,7 +79,7 @@ index 27b2b47521e9..7a5b031bd4e5 100644
  	struct ally_rgb_dev *led_rgb_dev;
  	struct ally_rgb_data led_rgb_data;
  } drvdata;
-@@ -128,6 +174,309 @@ static u8 get_endpoint_address(struct hid_device *hdev)
+@@ -118,6 +164,309 @@ static u8 get_endpoint_address(struct hid_device *hdev)
  	return -ENODEV;
  }
  
@@ -383,7 +389,7 @@ index 27b2b47521e9..7a5b031bd4e5 100644
  /**************************************************************************************************/
  /* ROG Ally LED control                                                                           */
  /**************************************************************************************************/
-@@ -378,6 +727,24 @@ static void ally_rgb_remove(struct hid_device *hdev)
+@@ -368,6 +717,24 @@ static void ally_rgb_remove(struct hid_device *hdev)
  /* ROG Ally driver init                                                                           */
  /**************************************************************************************************/
  
@@ -408,7 +414,7 @@ index 27b2b47521e9..7a5b031bd4e5 100644
  /*
   * We don't care about any other part of the string except the version section.
   * Example strings: FGA80100.RC72LA.312_T01, FGA80100.RC71LS.318_T01
-@@ -485,7 +852,8 @@ static int ally_hid_probe(struct hid_device *hdev, const struct hid_device_id *_
+@@ -487,7 +854,8 @@ static int ally_hid_probe(struct hid_device *hdev, const struct hid_device_id *_
  	if (ep < 0)
  		return ep;
  
@@ -418,7 +424,7 @@ index 27b2b47521e9..7a5b031bd4e5 100644
  		return -ENODEV;
  
  	ret = hid_parse(hdev);
-@@ -528,6 +896,17 @@ static int ally_hid_probe(struct hid_device *hdev, const struct hid_device_id *_
+@@ -530,6 +898,17 @@ static int ally_hid_probe(struct hid_device *hdev, const struct hid_device_id *_
  			goto err_close;
  	}
  
@@ -436,7 +442,7 @@ index 27b2b47521e9..7a5b031bd4e5 100644
  	return 0;
  
  err_close:
-@@ -542,6 +921,9 @@ static void ally_hid_remove(struct hid_device *hdev)
+@@ -544,6 +923,9 @@ static void ally_hid_remove(struct hid_device *hdev)
  	if (drvdata.led_rgb_dev)
  		ally_rgb_remove(hdev);
  
@@ -446,19 +452,19 @@ index 27b2b47521e9..7a5b031bd4e5 100644
  	hid_hw_close(hdev);
  	hid_hw_stop(hdev);
  }
-@@ -602,6 +984,7 @@ static struct hid_driver
- 			 .id_table = rog_ally_devices,
- 			 .probe = ally_hid_probe,
- 			 .remove = ally_hid_remove,
-+			 .raw_event = ally_raw_event,
- 			 /* HID is the better place for resume functions, not pm_ops */
- 			 .resume = ally_hid_resume,
- 			/* ALLy 1 requires this to reset device state correctly */
+@@ -588,6 +970,7 @@ static struct hid_driver rog_ally_cfg = { .name = "asus_rog_ally",
+ 		.id_table = rog_ally_devices,
+ 		.probe = ally_hid_probe,
+ 		.remove = ally_hid_remove,
++		.raw_event = ally_raw_event,
+ 		/* ALLy 1 requires this to reset device state correctly */
+ 		.reset_resume = ally_hid_reset_resume,
+ 		.driver = {
 diff --git a/drivers/hid/hid-asus-ally.h b/drivers/hid/hid-asus-ally.h
-index eb8617c80c2a..458d02996bca 100644
+index 2f621e16a9d8..7d172d64b814 100644
 --- a/drivers/hid/hid-asus-ally.h
 +++ b/drivers/hid/hid-asus-ally.h
-@@ -36,3 +36,8 @@ enum xpad_cmd_len {
+@@ -40,3 +40,8 @@ enum xpad_cmd_len {
  	xpad_cmd_len_response_curve = 0x09,
  	xpad_cmd_len_adz = 0x02,
  };
@@ -468,5 +474,5 @@ index eb8617c80c2a..458d02996bca 100644
 +	struct device_attribute dev_attr_##_name = \
 +		__ATTR(_sysfs_name, 0644, _name##_show, _name##_store)
 -- 
-2.47.1
+2.48.1
 

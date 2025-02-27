@@ -1,19 +1,22 @@
-From 05fca9c0b86b5cde4b62ad57a56fc641cea3eb2f Mon Sep 17 00:00:00 2001
+From e89dd828e8e4767796b09e275b897394b7150046 Mon Sep 17 00:00:00 2001
 From: "Luke D. Jones" <luke@ljones.dev>
 Date: Sat, 5 Oct 2024 14:58:33 +1300
 Subject: [PATCH 10/28] hid-asus-ally: add button remap attributes
 
+Add the full set of button remapping abilities for plain remap and macro
+remap (hold one button, press another for macro mapped action).
+
 Signed-off-by: Luke D. Jones <luke@ljones.dev>
 ---
- drivers/hid/hid-asus-ally.c | 393 ++++++++++++++++++++++++++++++++++--
+ drivers/hid/hid-asus-ally.c | 395 ++++++++++++++++++++++++++++++++++--
  drivers/hid/hid-asus-ally.h | 211 +++++++++++++++++++
- 2 files changed, 586 insertions(+), 18 deletions(-)
+ 2 files changed, 587 insertions(+), 19 deletions(-)
 
 diff --git a/drivers/hid/hid-asus-ally.c b/drivers/hid/hid-asus-ally.c
-index f1f8a8841d2b..c13cedda3536 100644
+index 9b76d41f160e..4755f5f6ad9e 100644
 --- a/drivers/hid/hid-asus-ally.c
 +++ b/drivers/hid/hid-asus-ally.c
-@@ -57,6 +57,152 @@ struct btn_code_map {
+@@ -53,6 +53,152 @@ struct btn_code_map {
  	const char *name;
  };
  
@@ -166,7 +169,7 @@ index f1f8a8841d2b..c13cedda3536 100644
  /* byte_array must be >= 8 in length */
  static void btn_code_to_byte_array(u64 keycode, u8 *byte_array)
  {
-@@ -66,6 +212,27 @@ static void btn_code_to_byte_array(u64 keycode, u8 *byte_array)
+@@ -62,6 +208,27 @@ static void btn_code_to_byte_array(u64 keycode, u8 *byte_array)
  	}
  }
  
@@ -194,7 +197,7 @@ index f1f8a8841d2b..c13cedda3536 100644
  struct btn_data {
  	u64 button;
  	u64 macro;
-@@ -101,7 +268,7 @@ struct ally_gamepad_cfg {
+@@ -97,7 +264,7 @@ struct ally_gamepad_cfg {
  	/*
  	 * index: [mode]
  	 */
@@ -203,7 +206,7 @@ index f1f8a8841d2b..c13cedda3536 100644
  };
  
  /* The hatswitch outputs integers, we use them to index this X|Y pair */
-@@ -315,9 +482,41 @@ static int _gamepad_apply_btn_pair(struct hid_device *hdev, struct ally_gamepad_
+@@ -322,9 +489,41 @@ static int _gamepad_apply_btn_pair(struct hid_device *hdev, struct ally_gamepad_
  		return -ENOMEM;
  
  	switch (btn_pair) {
@@ -247,7 +250,7 @@ index f1f8a8841d2b..c13cedda3536 100644
  		break;
  	default:
  		break;
-@@ -331,6 +530,157 @@ static int _gamepad_apply_btn_pair(struct hid_device *hdev, struct ally_gamepad_
+@@ -338,6 +537,157 @@ static int _gamepad_apply_btn_pair(struct hid_device *hdev, struct ally_gamepad_
  	return ret;
  }
  
@@ -405,7 +408,7 @@ index f1f8a8841d2b..c13cedda3536 100644
  static struct ally_gamepad_cfg *ally_gamepad_cfg_create(struct hid_device *hdev)
  {
  	struct ally_gamepad_cfg *ally_cfg;
-@@ -343,13 +693,6 @@ static struct ally_gamepad_cfg *ally_gamepad_cfg_create(struct hid_device *hdev)
+@@ -350,13 +700,6 @@ static struct ally_gamepad_cfg *ally_gamepad_cfg_create(struct hid_device *hdev)
  	ally_cfg->hdev = hdev;
  	// Allocate memory for each mode's `btn_mapping`
  	ally_cfg->mode = xpad_mode_game;
@@ -419,7 +422,7 @@ index f1f8a8841d2b..c13cedda3536 100644
  
  	input_dev = devm_input_allocate_device(&hdev->dev);
  	if (!input_dev) {
-@@ -375,26 +718,37 @@ static struct ally_gamepad_cfg *ally_gamepad_cfg_create(struct hid_device *hdev)
+@@ -382,26 +725,37 @@ static struct ally_gamepad_cfg *ally_gamepad_cfg_create(struct hid_device *hdev)
  	ally_cfg->input = input_dev;
  
  	/* ignore all errors for this as they are related to USB HID I/O */
@@ -465,7 +468,7 @@ index f1f8a8841d2b..c13cedda3536 100644
  /**************************************************************************************************/
  /* ROG Ally gamepad i/o and force-feedback                                                        */
  /**************************************************************************************************/
-@@ -1166,6 +1520,9 @@ static void ally_hid_remove(struct hid_device *hdev)
+@@ -1185,6 +1539,9 @@ static void ally_hid_remove(struct hid_device *hdev)
  	if (drvdata.ally_x)
  		ally_x_remove(hdev);
  
@@ -475,11 +478,20 @@ index f1f8a8841d2b..c13cedda3536 100644
  	hid_hw_close(hdev);
  	hid_hw_stop(hdev);
  }
+@@ -1197,7 +1554,7 @@ static int ally_hid_resume(struct hid_device *hdev)
+ 	if (!ally_cfg)
+ 		return 0;
+ 
+-	err = _gamepad_apply_btn_pair(hdev, ally_cfg, btn_pair_m1_m2);
++	err = _gamepad_apply_all(hdev, ally_cfg);
+ 	if (err)
+ 		return err;
+ 
 diff --git a/drivers/hid/hid-asus-ally.h b/drivers/hid/hid-asus-ally.h
-index 2b298ad4da0e..f985cbd698c3 100644
+index 66376e6cbd71..c5c6ff8d6f1c 100644
 --- a/drivers/hid/hid-asus-ally.h
 +++ b/drivers/hid/hid-asus-ally.h
-@@ -33,11 +33,155 @@ enum xpad_cmd_len {
+@@ -37,11 +37,155 @@ enum xpad_cmd_len {
  
  /* Values correspond to the actual HID byte value required */
  enum btn_pair_index {
@@ -635,7 +647,7 @@ index 2b298ad4da0e..f985cbd698c3 100644
  
  #define ALLY_DEVICE_ATTR_WO(_name, _sysfs_name)    \
  	struct device_attribute dev_attr_##_name = \
-@@ -47,3 +191,70 @@ enum btn_pair_index {
+@@ -51,3 +195,70 @@ enum btn_pair_index {
  #define ALLY_DEVICE_ATTR_RW(_name, _sysfs_name)    \
  	struct device_attribute dev_attr_##_name = \
  		__ATTR(_sysfs_name, 0644, _name##_show, _name##_store)
@@ -707,5 +719,5 @@ index 2b298ad4da0e..f985cbd698c3 100644
 +		.attrs = _fname##_attrs,                                          \
 +	}
 -- 
-2.47.1
+2.48.1
 

@@ -1,4 +1,4 @@
-From 946f7bec2fd94c2fe08dde42a17f3cb7016d5a99 Mon Sep 17 00:00:00 2001
+From 5ceee63aa6c8248629971be6be2d6d1f21f1077e Mon Sep 17 00:00:00 2001
 From: Luke Jones <luke@ljones.dev>
 Date: Wed, 5 Feb 2025 12:37:47 +1300
 Subject: [PATCH 28/28] backport: fix fw_attr use
@@ -9,7 +9,7 @@ Signed-off-by: Luke Jones <luke@ljones.dev>
  1 file changed, 11 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/platform/x86/asus-armoury.c b/drivers/platform/x86/asus-armoury.c
-index 5768997ea2d3..a9c18a0caffb 100644
+index 6248c5e16e52..b49513947c52 100644
 --- a/drivers/platform/x86/asus-armoury.c
 +++ b/drivers/platform/x86/asus-armoury.c
 @@ -94,6 +94,8 @@ struct asus_armoury_priv {
@@ -45,7 +45,7 @@ index 5768997ea2d3..a9c18a0caffb 100644
  	return err;
  }
  
-@@ -1060,7 +1067,8 @@ static void __exit asus_fw_exit(void)
+@@ -1069,7 +1076,8 @@ static void __exit asus_fw_exit(void)
  
  	sysfs_remove_file(&asus_armoury.fw_attr_kset->kobj, &pending_reboot.attr);
  	kset_unregister(asus_armoury.fw_attr_kset);
@@ -56,5 +56,5 @@ index 5768997ea2d3..a9c18a0caffb 100644
  	mutex_unlock(&asus_armoury.mutex);
  }
 -- 
-2.47.1
+2.48.1
 

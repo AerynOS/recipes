@@ -1,4 +1,4 @@
-From 3d68b0c294d9bd5fff7c63c2b0cc058fd15b5890 Mon Sep 17 00:00:00 2001
+From 48458f88c11a28bf8ef36bb36ab504c0be963fe4 Mon Sep 17 00:00:00 2001
 From: "Luke D. Jones" <luke@ljones.dev>
 Date: Thu, 19 Sep 2024 17:19:37 +1200
 Subject: [PATCH 27/28] platform/x86: asus-armoury: add the ppt_* and nv_*
@@ -9,13 +9,13 @@ and adds proper min/max levels plus defaults.
 
 Signed-off-by: Luke D. Jones <luke@ljones.dev>
 ---
- drivers/platform/x86/asus-armoury.c        |  182 +++-
+ drivers/platform/x86/asus-armoury.c        |  191 +++-
  drivers/platform/x86/asus-armoury.h        | 1069 +++++++++++++++++++-
  include/linux/platform_data/x86/asus-wmi.h |    3 +
- 3 files changed, 1241 insertions(+), 13 deletions(-)
+ 3 files changed, 1250 insertions(+), 13 deletions(-)
 
 diff --git a/drivers/platform/x86/asus-armoury.c b/drivers/platform/x86/asus-armoury.c
-index 49e1788d8bba..5768997ea2d3 100644
+index 49e1788d8bba..6248c5e16e52 100644
 --- a/drivers/platform/x86/asus-armoury.c
 +++ b/drivers/platform/x86/asus-armoury.c
 @@ -21,6 +21,7 @@
@@ -169,7 +169,7 @@ index 49e1788d8bba..5768997ea2d3 100644
  
  	return 0;
  
-@@ -849,6 +935,78 @@ static int asus_fw_attr_add(void)
+@@ -849,6 +935,87 @@ static int asus_fw_attr_add(void)
  
  /* Init / exit ****************************************************************/
  
@@ -207,9 +207,18 @@ index 49e1788d8bba..5768997ea2d3 100644
 +		}
 +	} else {
 +		limits = power_data->dc_data;
-+		if (!limits && !power_data->ac_data) {
-+			pr_err("No power limits available\n");
-+			return false;
++		if (!limits) {
++			rog->ppt_pl1_spl = 0;
++			rog->ppt_pl2_sppt = 0;
++			rog->ppt_pl3_fppt = 0;
++			rog->ppt_apu_sppt = 0;
++			rog->ppt_platform_sppt = 0;
++			rog->nv_dynamic_boost = 0;
++			rog->nv_temp_target = 0;
++			rog->nv_tgp = 0;
++
++			pr_warn("No DC power limits available, initializing to 0\n");
++			return true;
 +		}
 +	}
 +
@@ -248,7 +257,7 @@ index 49e1788d8bba..5768997ea2d3 100644
  static int __init asus_fw_init(void)
  {
  	char *wmi_uid;
-@@ -879,6 +1037,16 @@ static int __init asus_fw_init(void)
+@@ -879,6 +1046,16 @@ static int __init asus_fw_init(void)
  		}
  	}
  
@@ -1378,7 +1387,7 @@ index 5d6bef6d2b12..427f0eb0a4de 100644
 +
  #endif /* _ASUS_ARMOURY_H_ */
 diff --git a/include/linux/platform_data/x86/asus-wmi.h b/include/linux/platform_data/x86/asus-wmi.h
-index 6e81335d57a0..71a3de42eac8 100644
+index e735f35b423c..e99cd9a06e2f 100644
 --- a/include/linux/platform_data/x86/asus-wmi.h
 +++ b/include/linux/platform_data/x86/asus-wmi.h
 @@ -144,6 +144,9 @@
@@ -1392,5 +1401,5 @@ index 6e81335d57a0..71a3de42eac8 100644
  #define ASUS_WMI_DEVID_GPU_MUX		0x00090016
  #define ASUS_WMI_DEVID_GPU_MUX_VIVO	0x00090026
 -- 
-2.47.1
+2.48.1
 

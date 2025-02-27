@@ -1,4 +1,4 @@
-From 59f6853553b80a2af27b005720469d938db8eb70 Mon Sep 17 00:00:00 2001
+From a37464eff420f2bc4cdb9479f295d59f5ba5c56e Mon Sep 17 00:00:00 2001
 From: "Luke D. Jones" <luke@ljones.dev>
 Date: Sat, 5 Oct 2024 21:37:27 +1300
 Subject: [PATCH 15/28] hid-asus-ally: add trigger deadzones
@@ -10,10 +10,10 @@ Signed-off-by: Luke D. Jones <luke@ljones.dev>
  2 files changed, 44 insertions(+)
 
 diff --git a/drivers/hid/hid-asus-ally.c b/drivers/hid/hid-asus-ally.c
-index fc912a053cd1..4ba945940940 100644
+index 57f3ded74a66..4a0bab7fb609 100644
 --- a/drivers/hid/hid-asus-ally.c
 +++ b/drivers/hid/hid-asus-ally.c
-@@ -284,6 +284,8 @@ struct ally_gamepad_cfg {
+@@ -280,6 +280,8 @@ struct ally_gamepad_cfg {
  	/* deadzones */
  	struct deadzone ls_dz; // left stick
  	struct deadzone rs_dz; // right stick
@@ -22,7 +22,7 @@ index fc912a053cd1..4ba945940940 100644
  };
  
  /* The hatswitch outputs integers, we use them to index this X|Y pair */
-@@ -563,7 +565,20 @@ static ssize_t _gamepad_apply_deadzones(struct hid_device *hdev,
+@@ -570,7 +572,20 @@ static ssize_t _gamepad_apply_deadzones(struct hid_device *hdev,
  	hidbuf[7] = ally_cfg->rs_dz.outer;
  
  	ret = asus_dev_set_report(hdev, hidbuf, FEATURE_ROG_ALLY_REPORT_SIZE);
@@ -43,7 +43,7 @@ index fc912a053cd1..4ba945940940 100644
  	kfree(hidbuf);
  	return ret;
  }
-@@ -574,6 +589,10 @@ static void _gamepad_set_deadzones_default(struct ally_gamepad_cfg *ally_cfg)
+@@ -581,6 +596,10 @@ static void _gamepad_set_deadzones_default(struct ally_gamepad_cfg *ally_cfg)
  	ally_cfg->ls_dz.outer = 0x64;
  	ally_cfg->rs_dz.inner = 0x00;
  	ally_cfg->rs_dz.outer = 0x64;
@@ -54,7 +54,7 @@ index fc912a053cd1..4ba945940940 100644
  }
  
  static ssize_t axis_xyz_deadzone_index_show(struct device *dev, struct device_attribute *attr,
-@@ -586,6 +605,8 @@ ALLY_DEVICE_ATTR_RO(axis_xyz_deadzone_index, deadzone_index);
+@@ -593,6 +612,8 @@ ALLY_DEVICE_ATTR_RO(axis_xyz_deadzone_index, deadzone_index);
  
  ALLY_DEADZONES(axis_xy_left, ls_dz);
  ALLY_DEADZONES(axis_xy_right, rs_dz);
@@ -63,7 +63,7 @@ index fc912a053cd1..4ba945940940 100644
  
  static struct attribute *axis_xy_left_attrs[] = {
  	&dev_attr_axis_xy_left_deadzone.attr,
-@@ -607,6 +628,26 @@ static const struct attribute_group axis_xy_right_attr_group = {
+@@ -614,6 +635,26 @@ static const struct attribute_group axis_xy_right_attr_group = {
  	.attrs = axis_xy_right_attrs,
  };
  
@@ -90,7 +90,7 @@ index fc912a053cd1..4ba945940940 100644
  /* A HID packet conatins mappings for two buttons: btn1, btn1_macro, btn2, btn2_macro */
  static void _btn_pair_to_hid_pkt(struct ally_gamepad_cfg *ally_cfg,
  				enum btn_pair_index pair,
-@@ -950,6 +991,8 @@ static const struct attribute_group *gamepad_device_attr_groups[] = {
+@@ -957,6 +998,8 @@ static const struct attribute_group *gamepad_device_attr_groups[] = {
  	&ally_controller_attr_group,
  	&axis_xy_left_attr_group,
  	&axis_xy_right_attr_group,
@@ -100,10 +100,10 @@ index fc912a053cd1..4ba945940940 100644
  	&btn_mapping_m2_attr_group,
  	&btn_mapping_a_attr_group,
 diff --git a/drivers/hid/hid-asus-ally.h b/drivers/hid/hid-asus-ally.h
-index 3dc14a5226f3..32ed5caa3759 100644
+index b773130c2cf9..e0be54b4debb 100644
 --- a/drivers/hid/hid-asus-ally.h
 +++ b/drivers/hid/hid-asus-ally.h
-@@ -23,6 +23,7 @@ enum xpad_cmd {
+@@ -27,6 +27,7 @@ enum xpad_cmd {
  	xpad_cmd_set_mode = 0x01,
  	xpad_cmd_set_mapping = 0x02,
  	xpad_cmd_set_js_dz = 0x04, /* deadzones */
@@ -112,5 +112,5 @@ index 3dc14a5226f3..32ed5caa3759 100644
  	xpad_cmd_set_leds = 0x08,
  	xpad_cmd_check_ready = 0x0A,
 -- 
-2.47.1
+2.48.1
 
