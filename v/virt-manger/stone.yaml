@@ -1,0 +1,33 @@
+#
+# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : virt-manager
+version     : 5.0.0
+release     : 1
+homepage    : https://virt-manager.org/
+upstreams   :
+    - https://releases.pagure.org/virt-manager/virt-manager-5.0.0.tar.xz : bc89ae46e0c997bd754ed62a419ca39c6aadec27e3d8b850cea5282f0083f84a
+summary     : Manage virtual machines with virt-manager
+description : |
+    The virt-manager application is a desktop user interface for managing virtual machines through libvirt. It primarily targets KVM VMs, but also manages Xen and LXC (linux containers). It presents a summary view of running domains, their live performance & resource utilization statistics. Wizards enable the creation of new domains, and configuration & adjustment of a domain’s resource allocation & virtual hardware. An embedded VNC and SPICE client viewer presents a full graphical console to the guest domain.
+license     : GPL-2.0-or-later
+builddeps   :
+    - binary(gtk-update-icon-cache)
+    - binary(msgfmt)
+    - binary(rst2man)
+rundeps     :
+    - python(requests)
+    - gtk-vnc
+    - libosinfo
+    - libvirt-glib
+    - libvirt-python
+    - qemu
+setup       : |
+    %meson
+build       : |
+    %meson_build
+install     : |
+    %meson_install
+    %python_compile %(installroot)/usr/share/virt-manager

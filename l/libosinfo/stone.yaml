@@ -1,0 +1,43 @@
+#
+# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : libosinfo
+version     : 1.12.0
+release     : 1
+homepage    : https://libosinfo.org/
+upstreams   :
+    - https://gitlab.com/libosinfo/libosinfo/-/archive/v1.12.0/libosinfo-v1.12.0.tar.gz : 3c52fb542d65d1ec5a10f87126d7513c2bd115eaa2f87fb91b15ba588708fc7b
+summary     : The Operating System information database
+description : |
+    libosinfo is a GObject based library API for managing information about
+    operating systems, hypervisors and the (virtual) hardware devices they can
+    support. It includes a database containing device metadata and provides APIs
+    to match/identify optimal devices for deploying an operating system on a
+    hypervisor. Via the magic of GObject Introspection, the API is available in all
+    common programming languages with demos for javascript (GJS/Seed) and python
+    (PyGObject). Vala bindings are also provided.
+license     :
+    - LGPL-2.1-or-later
+    - GPL-2.0-or-later
+builddeps   :
+    - binary(g-ir-scanner)
+    - binary(gtkdoc-scan)
+    - binary(valac)
+    - pkgconfig(gio-2.0)
+    - pkgconfig(glib-2.0)
+    - pkgconfig(gobject-2.0)
+    - pkgconfig(libsoup-3.0)
+    - pkgconfig(libxml-2.0)
+    - pkgconfig(libxslt)
+rundeps     :
+    - hwdata
+setup       : |
+    %meson \
+      -Dwith-pci-ids-path=/usr/share/hwdata/pci.ids \
+      -Dwith-usb-ids-path=/usr/share/hwdata/usb.ids
+build       : |
+    %meson_build
+install     : |
+    %meson_install

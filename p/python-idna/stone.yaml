@@ -1,0 +1,21 @@
+#
+# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : python-idna
+version     : 3.10
+release     : 1
+homepage    : https://github.com/kjd/idna
+upstreams   :
+    - https://pypi.io/packages/source/i/idna/idna-3.10.tar.gz : 12f65c9b470abda6dc35cf8e63cc574b1c52b11df2c86030af0ac09b01b13ea9
+summary     : Internationalized Domain Names for Python (IDNA 2008 and UTS #46)
+description : |
+    Support for the Internationalized Domain Names in Applications (IDNA) protocol as specified in RFC 5891. This is the latest version of the protocol and is sometimes referred to as “IDNA 2008”.
+license     : BSD-3-Clause
+builddeps   :
+    - python(flit_core)
+build       : |
+    %pyproject_build
+install     : |
+    %pyproject_install

@@ -1,0 +1,19 @@
+#
+# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : python-requests
+version     : 2.31.0
+release     : 1
+homepage    : https://requests.readthedocs.io/en/latest/
+upstreams   :
+    - https://files.pythonhosted.org/packages/source/r/requests/requests-2.31.0.tar.gz : 942c5a758f98d790eaed1a29cb6eefc7ffb0d1cf7af05c3d2791656dbd6ad1e1
+summary     : Requests is an elegant and simple HTTP library for Python, built for human beings.
+description : |
+  Requests allows you to send HTTP/1.1 requests extremely easily. There’s no need to manually add query strings to your URLs, or to form-encode your POST data. Keep-alive and HTTP connection pooling are 100% automatic, thanks to urllib3.
+license     : Apache-2.0
+build       : |
+    %pyproject_build
+install     : |
+    %pyproject_install

@@ -1,0 +1,32 @@
+#
+# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : libvirt-glib
+version     : 5.0.0
+release     : 1
+homepage    : https://gitlab.com/libvirt/libvirt-glib
+upstreams   :
+    - https://libvirt.org/sources/glib/libvirt-glib-5.0.0.tar.xz : 9bfec346382416a3575d87299bc641b2a464aa519fd9b1287e318aa43a2f3b8b
+summary     : GObject binding for libvirt native C API and XML schemas
+description : |
+    libvirt-glib wraps libvirt to provide a high-level object-oriented API better suited for glib-based applications
+license     : LGPL-2.1-or-later
+builddeps   :
+    - binary(g-ir-scanner)
+    # binary(gtkdoc-scan)
+    - binary(msgfmt)
+    - binary(make)
+    - binary(python3)
+    - pkgconfig(gio-2.0)
+    - pkgconfig(glib-2.0)
+    - pkgconfig(gobject-2.0)
+    - pkgconfig(libvirt)
+    - pkgconfig(libxml-2.0)
+setup       : |
+    %meson
+build       : |
+    %meson_build
+install     : |
+    %meson_install
