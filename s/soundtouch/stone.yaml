@@ -1,0 +1,21 @@
+#
+# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : soundtouch
+version     : 2.3.3
+release     : 1
+homepage    : https://www.surina.net/soundtouch/
+upstreams   :
+    - https://codeberg.org/soundtouch/soundtouch/archive/2.3.3.tar.gz : 43b23dfac2f64a3aff55d64be096ffc7b73842c3f5665caff44975633a975a99
+summary     : SoundTouch Audio Processing Library 
+description : |
+    SoundTouch Audio Processing Library 
+license     : LGPL-2.1-or-later
+setup       : |
+    %cmake -DBUILD_SHARED_LIBS=1
+build       : |
+    %cmake_build
+install     : |
+    %cmake_install
