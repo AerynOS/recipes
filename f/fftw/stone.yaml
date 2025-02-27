@@ -1,0 +1,32 @@
+#
+# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : fftw
+version     : 3.3.10
+release     : 1
+homepage    : http://www.fftw.org
+upstreams   :
+    - http://www.fftw.org/fftw-3.3.10.tar.gz : 56c932549852cddcfafdab3820b0200c7742675be92179e59e6215b340e26467
+summary     : C subroutine library for computing the discrete Fourier transform (DFT)
+description : |
+    C subroutine library for computing the discrete Fourier transform (DFT)
+license     : GPL-2.0-or-later
+setup       : |
+    mkdir %(workdir)/.fftw && cp -r * .fftw
+    mkdir %(workdir)/.fftwf && cp -r *  %(workdir)/.fftwf
+    cd %(workdir)/.fftw
+    %configure --disable-static --enable-shared --enable-threads
+    cd %(workdir)/.fftwf
+    %configure --disable-static --enable-shared --enable-threads --enable-float
+build       : |
+    cd %(workdir)/.fftw
+    %make
+    cd %(workdir)/.fftwf
+    %make
+install     : |
+    cd %(workdir)/.fftw 
+    %make_install
+    cd %(workdir)/.fftwf
+    %make_install
