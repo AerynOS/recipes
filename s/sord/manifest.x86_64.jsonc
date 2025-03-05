@@ -1,0 +1,59 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"sord": {
+			"build-depends": [
+				"pkgconfig(libpcre2-8)",
+				"pkgconfig(serd-0)",
+				"pkgconfig(zix-0)"
+			],
+			"depends": [
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libpcre2-8.so.0(x86_64))",
+				"soname(libserd-0.so.0(x86_64))",
+				"soname(libzix-0.so.0(x86_64))"
+			],
+			"files": [
+				"/usr/bin/sord_validate",
+				"/usr/bin/sordi",
+				"/usr/lib/libsord-0.so.0",
+				"/usr/lib/libsord-0.so.0.16.18",
+				"/usr/share/man/man1/sord_validate.1",
+				"/usr/share/man/man1/sordi.1"
+			],
+			"name": "sord",
+			"provides": [
+				"binary(sord_validate)",
+				"binary(sordi)",
+				"soname(libsord-0.so.0(x86_64))"
+			]
+		},
+		"sord-devel": {
+			"build-depends": [
+				"pkgconfig(libpcre2-8)",
+				"pkgconfig(serd-0)",
+				"pkgconfig(zix-0)"
+			],
+			"depends": [
+				"pkgconfig(serd-0)",
+				"pkgconfig(zix-0)",
+				"sord"
+			],
+			"files": [
+				"/usr/include/sord-0/sord/sord.h",
+				"/usr/include/sord-0/sord/sordmm.hpp",
+				"/usr/lib/libsord-0.so",
+				"/usr/lib/pkgconfig/sord-0.pc"
+			],
+			"name": "sord-devel",
+			"provides": [
+				"pkgconfig(sord-0)"
+			]
+		}
+	},
+	"source-name": "sord",
+	"source-release": "1",
+	"source-version": "0.16.18"
+}
