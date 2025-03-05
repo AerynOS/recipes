@@ -1,0 +1,74 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"libsamplerate": {
+			"build-depends": [
+				"pkgconfig(alsa)",
+				"pkgconfig(sndfile)"
+			],
+			"depends": [
+				"soname(libc.so.6(x86_64))",
+				"soname(libm.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/lib/libsamplerate.so.0",
+				"/usr/lib/libsamplerate.so.0.2.2"
+			],
+			"name": "libsamplerate",
+			"provides": [
+				"soname(libsamplerate.so.0(x86_64))"
+			]
+		},
+		"libsamplerate-devel": {
+			"build-depends": [
+				"pkgconfig(alsa)",
+				"pkgconfig(sndfile)"
+			],
+			"depends": [
+				"libsamplerate"
+			],
+			"files": [
+				"/usr/include/samplerate.h",
+				"/usr/lib/cmake/SampleRate/SampleRateConfig.cmake",
+				"/usr/lib/cmake/SampleRate/SampleRateConfigVersion.cmake",
+				"/usr/lib/cmake/SampleRate/SampleRateTargets-release.cmake",
+				"/usr/lib/cmake/SampleRate/SampleRateTargets.cmake",
+				"/usr/lib/libsamplerate.so",
+				"/usr/lib/pkgconfig/samplerate.pc"
+			],
+			"name": "libsamplerate-devel",
+			"provides": [
+				"cmake(SampleRate)",
+				"pkgconfig(samplerate)"
+			]
+		},
+		"libsamplerate-docs": {
+			"build-depends": [
+				"pkgconfig(alsa)",
+				"pkgconfig(sndfile)"
+			],
+			"files": [
+				"/usr/share/doc/libsamplerate/SRC.png",
+				"/usr/share/doc/libsamplerate/api.md",
+				"/usr/share/doc/libsamplerate/api_callback.md",
+				"/usr/share/doc/libsamplerate/api_full.md",
+				"/usr/share/doc/libsamplerate/api_misc.md",
+				"/usr/share/doc/libsamplerate/api_simple.md",
+				"/usr/share/doc/libsamplerate/bugs.md",
+				"/usr/share/doc/libsamplerate/download.md",
+				"/usr/share/doc/libsamplerate/faq.md",
+				"/usr/share/doc/libsamplerate/history.md",
+				"/usr/share/doc/libsamplerate/index.md",
+				"/usr/share/doc/libsamplerate/license.md",
+				"/usr/share/doc/libsamplerate/lists.md",
+				"/usr/share/doc/libsamplerate/quality.md",
+				"/usr/share/doc/libsamplerate/win32.md"
+			],
+			"name": "libsamplerate-docs"
+		}
+	},
+	"source-name": "libsamplerate",
+	"source-release": "1",
+	"source-version": "0.2.2"
+}
