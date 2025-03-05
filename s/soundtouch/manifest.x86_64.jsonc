@@ -1,0 +1,52 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"soundtouch": {
+			"depends": [
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(libc++.so.1(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libm.so.6(x86_64))",
+				"soname(libunwind.so.1(x86_64))"
+			],
+			"files": [
+				"/usr/bin/soundstretch",
+				"/usr/lib/libSoundTouch.so.2",
+				"/usr/lib/libSoundTouch.so.2.3.3"
+			],
+			"name": "soundtouch",
+			"provides": [
+				"binary(soundstretch)",
+				"soname(libSoundTouch.so.2(x86_64))"
+			]
+		},
+		"soundtouch-devel": {
+			"depends": [
+				"soundtouch"
+			],
+			"files": [
+				"/usr/include/soundtouch/BPMDetect.h",
+				"/usr/include/soundtouch/FIFOSampleBuffer.h",
+				"/usr/include/soundtouch/FIFOSamplePipe.h",
+				"/usr/include/soundtouch/STTypes.h",
+				"/usr/include/soundtouch/SoundTouch.h",
+				"/usr/include/soundtouch/soundtouch_config.h",
+				"/usr/lib/cmake/SoundTouch/SoundTouchConfig.cmake",
+				"/usr/lib/cmake/SoundTouch/SoundTouchConfigVersion.cmake",
+				"/usr/lib/cmake/SoundTouch/SoundTouchTargets-release.cmake",
+				"/usr/lib/cmake/SoundTouch/SoundTouchTargets.cmake",
+				"/usr/lib/libSoundTouch.so",
+				"/usr/lib/pkgconfig/soundtouch.pc"
+			],
+			"name": "soundtouch-devel",
+			"provides": [
+				"cmake(SoundTouch)",
+				"pkgconfig(soundtouch)"
+			]
+		}
+	},
+	"source-name": "soundtouch",
+	"source-release": "1",
+	"source-version": "2.3.3"
+}
