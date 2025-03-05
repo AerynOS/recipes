@@ -1,0 +1,41 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"serd": {
+			"depends": [
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libm.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/bin/serdi",
+				"/usr/lib/libserd-0.so.0",
+				"/usr/lib/libserd-0.so.0.32.4",
+				"/usr/share/man/man1/serdi.1"
+			],
+			"name": "serd",
+			"provides": [
+				"binary(serdi)",
+				"soname(libserd-0.so.0(x86_64))"
+			]
+		},
+		"serd-devel": {
+			"depends": [
+				"serd"
+			],
+			"files": [
+				"/usr/include/serd-0/serd/serd.h",
+				"/usr/lib/libserd-0.so",
+				"/usr/lib/pkgconfig/serd-0.pc"
+			],
+			"name": "serd-devel",
+			"provides": [
+				"pkgconfig(serd-0)"
+			]
+		}
+	},
+	"source-name": "serd",
+	"source-release": "1",
+	"source-version": "0.32.4"
+}
