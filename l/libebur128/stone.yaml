@@ -1,0 +1,22 @@
+#
+# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : libebur128
+version     : 1.2.6
+release     : 1
+homepage    : https://github.com/jiixyj/libebur128
+upstreams   :
+    - https://github.com/jiixyj/libebur128/archive/refs/tags/v1.2.6.tar.gz : baa7fc293a3d4651e244d8022ad03ab797ca3c2ad8442c43199afe8059faa613
+summary     : A library implementing the EBU R128 loudness standard.
+description : |
+    A library implementing the EBU R128 loudness standard.
+license     : MIT
+setup       : |
+    %cmake
+build       : |
+    %cmake_build
+install     : |
+    %cmake_install
+
