@@ -1,0 +1,29 @@
+#
+# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : sane-backends
+version     : 1.3.1
+release     : 1
+homepage    : https://gitlab.com/sane-project/backends
+upstreams   :
+    - https://gitlab.com/sane-project/backends/uploads/83bdbb6c9a115184c2d48f1fdc6847db/sane-backends-1.3.1.tar.gz : aa82f76f409b88f8ea9793d4771fce01254d9b6549ec84d6295b8f59a3879a0c
+summary     : Scanner Access Now Easy ― Backends
+description : |
+    SANE stands for Scanner Access Now Easy. This package contains the SANE libraries (this means backends and network scanning parts) and the command line frontend scanimage.
+license     : GPL-2.0-or-later
+builddeps   :
+    - pkgconfig(avahi-client)
+    - pkgconfig(libcurl)
+    - pkgconfig(libgphoto2)
+    - pkgconfig(libjpeg)
+    - pkgconfig(libtiff-4)
+    - pkgconfig(libxml-2.0)
+    - pkgconfig(poppler-glib)
+setup       : |
+    %configure
+build       : |
+    %make
+install     : |
+    %make_install
