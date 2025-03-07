@@ -5,8 +5,10 @@
 		"erofs-utils": {
 			"build-depends": [
 				"binary(gettext)",
+				"pkgconfig(fuse3)",
 				"pkgconfig(liblz4)",
 				"pkgconfig(liblzma)",
+				"pkgconfig(libxxhash)",
 				"pkgconfig(libzstd)",
 				"pkgconfig(uuid)",
 				"pkgconfig(zlib)"
@@ -14,29 +16,34 @@
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))",
+				"soname(libfuse3.so.4(x86_64))",
 				"soname(liblz4.so.1(x86_64))",
 				"soname(liblzma.so.5(x86_64))",
 				"soname(libuuid.so.1(x86_64))",
+				"soname(libxxhash.so.0(x86_64))",
 				"soname(libz.so.1(x86_64))",
 				"soname(libzstd.so.1(x86_64))"
 			],
 			"files": [
 				"/usr/bin/dump.erofs",
+				"/usr/bin/erofsfuse",
 				"/usr/bin/fsck.erofs",
 				"/usr/bin/mkfs.erofs",
 				"/usr/share/man/man1/dump.erofs.1",
+				"/usr/share/man/man1/erofsfuse.1",
 				"/usr/share/man/man1/fsck.erofs.1",
 				"/usr/share/man/man1/mkfs.erofs.1"
 			],
 			"name": "erofs-utils",
 			"provides": [
 				"binary(dump.erofs)",
+				"binary(erofsfuse)",
 				"binary(fsck.erofs)",
 				"binary(mkfs.erofs)"
 			]
 		}
 	},
 	"source-name": "erofs-utils",
-	"source-release": "3",
-	"source-version": "1.8.4"
+	"source-release": "4",
+	"source-version": "1.8.6"
 }
