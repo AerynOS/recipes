@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : ncurses
-version     : 6.5
-release     : 10
+version     : 6.5-20250301
+release     : 11
 homepage    : https://invisible-island.net/ncurses/ncurses.html
 upstreams   :
-    - https://ftp.gnu.org/gnu/ncurses/ncurses-6.5.tar.gz : 136d91bc269a9a5785e5f9e980bc76ab57428f604ce3e5a5a90cebc767971cc6
+    - https://invisible-island.net/archives/ncurses/current/ncurses-6.5-20250301.tgz : b19934a5ca9e4425c4ad82d7335cec3ab03526d99c9d2cb5ea1c4f9269b31b1c
 summary     : Console display library
 description : |
     The ncurses (new curses) library is a free software emulation of curses in System V Release 4.0 (SVr4), and more. It uses terminfo format, supports pads and color and multiple highlights and forms characters and function-key mapping, and has all the other SVr4-curses enhancements over BSD curses. SVr4 curses became the basis of X/Open Curses.
@@ -19,28 +19,49 @@ setup       : |
     %patch %(pkgdir)/pkgconfig.patch
     unset CPP # Breaks stdin on this build.
 
-    %configure --disable-rpath \
+    %configure \
+        --disable-rpath \
+        --disable-root-access \
+        --disable-root-environ \
+        --disable-setuid-environ \
         --disable-stripping \
+        --enable-colorfgbg \
         --enable-db-install \
         --enable-largefile \
+        --enable-pc-files \
         --enable-widec \
         --with-cxx-binding \
         --with-cxx-shared \
         --with-pkg-config-libdir=%(libdir)/pkgconfig \
         --with-shared \
+        --with-terminfo-dirs='/etc/terminfo:/usr/share/terminfo' \
         --without-ada \
         --without-debug \
         --without-normal \
-        --enable-pc-files \
-        --disable-root-access \
-        --disable-setuid-environ \
         PKG_CONFIG_LIBDIR=%(libdir)/pkgconfig
 build       : |
     %make
 install     : |
     %make_install
+
     # Additional symlink support
     for component in form menu ncurses ncurses++ panel; do
         ln -s "${component}w.pc" %(installroot)%(libdir)/pkgconfig/${component}.pc
         echo "INPUT(-l${component}w)" > "%(installroot)%(libdir)/lib${component}.so"
     done
+
+    # Needs to match ABI version
+    abi=6
+    # tic and tinfo are built in by default
+    for lib in tic tinfo; do
+        ln -sv libncursesw.so.${abi} %(installroot)/%(libdir)/lib${lib}.so.${abi}
+        ln -sv lib${lib}.so.${abi} %(installroot)/%(libdir)/lib${lib}.so
+        ln -sv ncursesw.pc %(installroot)/%(libdir)/pkgconfig/${lib}.pc
+    done
+tuning      :
+    - lto: full
+packages    :
+    - "%(name)-devel":
+        paths:
+            - /usr/bin/ncursesw6-config
+            - /usr/share/man/man1/ncursesw6-config*

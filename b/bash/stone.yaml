@@ -5,7 +5,7 @@
 #
 name        : bash
 version     : 5.2.37
-release     : 20
+release     : 21
 homepage    : http://www.gnu.org/software/bash/bash.html
 upstreams   :
     - https://ftp.gnu.org/gnu/bash/bash-5.2.37.tar.gz : 9599b22ecd1d5787ad7d3b7bf0c59f312b3396d1e281175dd1f8a4014da621ff
@@ -20,11 +20,13 @@ description : |
 license     :
     - GPL-3.0-or-later
 builddeps   :
+    - binary(bison)
     - pkgconfig(ncursesw)
     - pkgconfig(readline)
-    - bison
 setup       : |
     %patch %(pkgdir)/stateless.patch
+
+    export CFLAGS="$CFLAGS -DRECYCLES_PIDS -DSYSLOG_HISTORY -DSYSLOG_SHOPT=0"
 
     # often hangs
     rm tests/run-jobs
@@ -32,7 +34,8 @@ setup       : |
     %configure \
         --without-bash-malloc \
         --with-installed-readline \
-        --with-ncurses \
+        --with-curses \
+        --enable-history \
         --enable-readline \
         --enable-nls
 build       : |
@@ -44,7 +47,12 @@ install     : |
     %install_file %(pkgdir)/serpent-stateless-shell-conf.sh %(installroot)%(vendordir)%(sysconfdir)/serpent-stateless-shell-conf.sh
     %install_file %(pkgdir)/40-prompt.sh %(installroot)%(vendordir)%(sysconfdir)/profile.d/40-prompt.sh
     %install_file %(pkgdir)/41-alias.sh %(installroot)%(vendordir)%(sysconfdir)/profile.d/41-alias.sh
-    ln -svf bash "%(installroot)/usr/bin/sh"
+
+    ln -svf bash "%(installroot)%(bindir)/sh"
+    ln -sv bash.1 "%(installroot)%(mandir)/man1/sh.1"
+
+    # These are useless
+    rm -rfv %(installroot)%(libdir)/bash/Makefile.*
 check       : |
     %make check
 workload    : |

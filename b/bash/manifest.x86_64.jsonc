@@ -4,7 +4,7 @@
 	"packages": {
 		"bash": {
 			"build-depends": [
-				"bison",
+				"binary(bison)",
 				"pkgconfig(ncursesw)",
 				"pkgconfig(readline)"
 			],
@@ -17,8 +17,6 @@
 				"/usr/bin/bash",
 				"/usr/bin/bashbug",
 				"/usr/bin/sh",
-				"/usr/lib/bash/Makefile.inc",
-				"/usr/lib/bash/Makefile.sample",
 				"/usr/lib/bash/accept",
 				"/usr/lib/bash/basename",
 				"/usr/lib/bash/csv",
@@ -112,7 +110,8 @@
 				"/usr/share/locale/zh_CN/LC_MESSAGES/bash.mo",
 				"/usr/share/locale/zh_TW/LC_MESSAGES/bash.mo",
 				"/usr/share/man/man1/bash.1",
-				"/usr/share/man/man1/bashbug.1"
+				"/usr/share/man/man1/bashbug.1",
+				"/usr/share/man/man1/sh.1"
 			],
 			"name": "bash",
 			"provides": [
@@ -123,7 +122,7 @@
 		},
 		"bash-devel": {
 			"build-depends": [
-				"bison",
+				"binary(bison)",
 				"pkgconfig(ncursesw)",
 				"pkgconfig(readline)"
 			],
@@ -199,6 +198,6 @@
 		}
 	},
 	"source-name": "bash",
-	"source-release": "20",
+	"source-release": "21",
 	"source-version": "5.2.37"
 }

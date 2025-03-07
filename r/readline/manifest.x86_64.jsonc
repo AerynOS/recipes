@@ -4,7 +4,6 @@
 	"packages": {
 		"readline": {
 			"build-depends": [
-				"pkgconfig(ncursesw)",
 				"pkgconfig32(ncursesw)"
 			],
 			"depends": [
@@ -12,7 +11,6 @@
 				"soname(libncursesw.so.6(x86_64))"
 			],
 			"files": [
-				"/usr/bin",
 				"/usr/lib/libhistory.so.8",
 				"/usr/lib/libhistory.so.8.2",
 				"/usr/lib/libreadline.so.8",
@@ -26,14 +24,12 @@
 			],
 			"name": "readline",
 			"provides": [
-				"binary(bin)",
 				"soname(libhistory.so.8(x86_64))",
 				"soname(libreadline.so.8(x86_64))"
 			]
 		},
 		"readline-32bit": {
 			"build-depends": [
-				"pkgconfig(ncursesw)",
 				"pkgconfig32(ncursesw)"
 			],
 			"depends": [
@@ -57,7 +53,6 @@
 		},
 		"readline-32bit-devel": {
 			"build-depends": [
-				"pkgconfig(ncursesw)",
 				"pkgconfig32(ncursesw)"
 			],
 			"depends": [
@@ -79,7 +74,6 @@
 		},
 		"readline-devel": {
 			"build-depends": [
-				"pkgconfig(ncursesw)",
 				"pkgconfig32(ncursesw)"
 			],
 			"depends": [
@@ -110,6 +104,6 @@
 		}
 	},
 	"source-name": "readline",
-	"source-release": "4",
-	"source-version": "8.2.13"
+	"source-release": "5",
+	"source-version": "8.2.013"
 }
