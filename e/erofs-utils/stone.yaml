@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : erofs-utils
-version     : 1.8.4
-release     : 3
+version     : 1.8.6
+release     : 4
 homepage    : https://git.kernel.org/pub/scm/linux/kernel/git/xiang/erofs-utils.git
 upstreams   :
-    - https://git.kernel.org/pub/scm/linux/kernel/git/xiang/erofs-utils.git/snapshot/erofs-utils-1.8.4.tar.gz : 791587aa074bb9f9fa218c762cc1f60b015e2f51bcb2ce91f682f043856ab494
+    - https://git.kernel.org/pub/scm/linux/kernel/git/xiang/erofs-utils.git/snapshot/erofs-utils-1.8.6.tar.gz : 5b221dc3fd6d151425b30534ede46fb7a90dc233a8659cba0372796b0a066547
 summary     : EROFS filesystem utilities
 description : |
     EROFS filesystem utilities
@@ -17,13 +17,16 @@ license     :
     - Apache-2.0
 builddeps   :
     - binary(gettext)
+    - pkgconfig(fuse3)
     - pkgconfig(liblz4)
     - pkgconfig(liblzma)
+    - pkgconfig(libxxhash)
     - pkgconfig(libzstd)
     - pkgconfig(uuid)
     - pkgconfig(zlib)
 setup       : |
-    %autogen
+    %reconfigure --enable-fuse \
+                 --enable-multithreading
 build       : |
     %make
 install     : |
