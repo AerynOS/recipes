@@ -1,0 +1,42 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"exfatprogs": {
+			"build-depends": [
+				"binary(bison)",
+				"binary(flex)"
+			],
+			"depends": [
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(libc.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/sbin/dump.exfat",
+				"/usr/sbin/exfat2img",
+				"/usr/sbin/exfatlabel",
+				"/usr/sbin/fsck.exfat",
+				"/usr/sbin/mkfs.exfat",
+				"/usr/sbin/tune.exfat",
+				"/usr/share/man/man8/dump.exfat.8",
+				"/usr/share/man/man8/exfat2img.8",
+				"/usr/share/man/man8/exfatlabel.8",
+				"/usr/share/man/man8/fsck.exfat.8",
+				"/usr/share/man/man8/mkfs.exfat.8",
+				"/usr/share/man/man8/tune.exfat.8"
+			],
+			"name": "exfatprogs",
+			"provides": [
+				"sysbinary(dump.exfat)",
+				"sysbinary(exfat2img)",
+				"sysbinary(exfatlabel)",
+				"sysbinary(fsck.exfat)",
+				"sysbinary(mkfs.exfat)",
+				"sysbinary(tune.exfat)"
+			]
+		}
+	},
+	"source-name": "exfatprogs",
+	"source-release": "1",
+	"source-version": "1.2.9"
+}
