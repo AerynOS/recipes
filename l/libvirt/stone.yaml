@@ -1,0 +1,81 @@
+#
+# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : libvirt
+version     : 10.10.0
+release     : 1
+homepage    : https://gitlab.com/libvirt/libvirt
+upstreams   :
+    - https://libvirt.org/sources/libvirt-10.10.0.tar.xz : e1bd7bd31b7c0d0ae073dec050bb5b0232b3e4adebdc58ea82fe8b366c765796
+summary     : Libvirt native C API and daemons
+description : |
+    Libvirt provides a portable, long term stable C API for managing the virtualization technologies provided by many operating systems. It includes support for QEMU, KVM, Xen, LXC, bhyve, Virtuozzo, VMware vCenter and ESX, VMware Desktop, Hyper-V, VirtualBox and the POWER Hypervisor.
+license     :
+    - LGPL-2.1-or-later
+    - GPL-2.0-or-later
+builddeps   :
+    - binary(msgfmt)
+    - binary(rst2html5)
+    - binary(xsltproc)
+    - pkgconfig(bash-completion)
+    - pkgconfig(blkid)
+    - pkgconfig(devmapper)
+    - pkgconfig(fuse)
+    - pkgconfig(fuse3)
+    - pkgconfig(gio-2.0)
+    - pkgconfig(gio-unix-2.0)
+    - pkgconfig(glib-2.0)
+    - pkgconfig(gnutls)
+    - pkgconfig(gobject-2.0)
+    - pkgconfig(json-c)
+    - pkgconfig(libacl)
+    - pkgconfig(libcap-ng)
+    - pkgconfig(libcurl)
+    # pkgconfig(libnbd)
+    - pkgconfig(libnl-3.0)
+    - pkgconfig(libnl-route-3.0)
+    - pkgconfig(libparted)
+    # pkgconfig(libsanlock_client)
+    - pkgconfig(libsasl2)
+    - pkgconfig(libssh)
+    - pkgconfig(libssh2)
+    - pkgconfig(libtirpc)
+    - pkgconfig(libudev)
+    - pkgconfig(libxml-2.0)
+    # pkgconfig(numa)
+    # pkgconfig(openwsman)
+    # pkgconfig(parallels-sdk)
+    # pkgconfig(pcap)
+    - pkgconfig(pciaccess)
+    - pkgconfig(polkit-agent-1)
+    - pkgconfig(readline)
+    # pkgconfig(wireshark)
+rundeps     :
+    - osinfo-db
+setup       : |
+    %meson \
+      -Ddriver_interface=enabled \
+      -Ddriver_libvirtd=enabled \
+      -Ddriver_network=enabled \
+      -Ddriver_qemu=enabled \
+      -Drunstatedir='/run' \
+      -Dinit_script='systemd'
+build       : |
+    %meson_build
+install     : |
+    %meson_install
+
+    # Roll our own
+    rm -v %(installroot)%(libdir)/sysusers.d/libvirt-qemu.conf
+
+    %sysusers "g libvirt - -"
+    %sysusers "g kvm"
+    %sysusers "u qemu libvirt:qemu "qemu user" - -"
+    %sysusers "m qemu kvm"
+
+    %install_file %(pkgdir)/libvirt.preset %(installroot)%(libdir)/systemd/user-preset/50-libvirt.preset
+    %install_file %(pkgdir)/libvirt.tmpfiles %(installroot)%(libdir)/tmpfiles.d/libvirt.conf
+paths       :
+    - /usr/lib/libvirt/connection-driver/*.so

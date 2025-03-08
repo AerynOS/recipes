@@ -1,0 +1,51 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"libvirt-python": {
+			"build-depends": [
+				"pkgconfig(libvirt)",
+				"pkgconfig(python3)"
+			],
+			"depends": [
+				"soname(libc.so.6(x86_64))",
+				"soname(libvirt-lxc.so.0(x86_64))",
+				"soname(libvirt-qemu.so.0(x86_64))",
+				"soname(libvirt.so.0(x86_64))"
+			],
+			"files": [
+				"/usr/lib/python3.11/site-packages/__pycache__/libvirt.cpython-311.opt-1.pyc",
+				"/usr/lib/python3.11/site-packages/__pycache__/libvirt.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/__pycache__/libvirt_lxc.cpython-311.opt-1.pyc",
+				"/usr/lib/python3.11/site-packages/__pycache__/libvirt_lxc.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/__pycache__/libvirt_qemu.cpython-311.opt-1.pyc",
+				"/usr/lib/python3.11/site-packages/__pycache__/libvirt_qemu.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/__pycache__/libvirtaio.cpython-311.opt-1.pyc",
+				"/usr/lib/python3.11/site-packages/__pycache__/libvirtaio.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/libvirt.py",
+				"/usr/lib/python3.11/site-packages/libvirt_lxc.py",
+				"/usr/lib/python3.11/site-packages/libvirt_python-10.10.0.dist-info/COPYING",
+				"/usr/lib/python3.11/site-packages/libvirt_python-10.10.0.dist-info/METADATA",
+				"/usr/lib/python3.11/site-packages/libvirt_python-10.10.0.dist-info/RECORD",
+				"/usr/lib/python3.11/site-packages/libvirt_python-10.10.0.dist-info/WHEEL",
+				"/usr/lib/python3.11/site-packages/libvirt_python-10.10.0.dist-info/top_level.txt",
+				"/usr/lib/python3.11/site-packages/libvirt_qemu.py",
+				"/usr/lib/python3.11/site-packages/libvirtaio.py",
+				"/usr/lib/python3.11/site-packages/libvirtmod.cpython-311-x86_64-linux-gnu.so",
+				"/usr/lib/python3.11/site-packages/libvirtmod_lxc.cpython-311-x86_64-linux-gnu.so",
+				"/usr/lib/python3.11/site-packages/libvirtmod_qemu.cpython-311-x86_64-linux-gnu.so"
+			],
+			"name": "libvirt-python",
+			"provides": [
+				"python(libvirt-python(3.11))",
+				"python(libvirt-python)",
+				"soname(python3.11/site-packages/libvirtmod.cpython-311-x86_64-linux-gnu.so(x86_64))",
+				"soname(python3.11/site-packages/libvirtmod_lxc.cpython-311-x86_64-linux-gnu.so(x86_64))",
+				"soname(python3.11/site-packages/libvirtmod_qemu.cpython-311-x86_64-linux-gnu.so(x86_64))"
+			]
+		}
+	},
+	"source-name": "libvirt-python",
+	"source-release": "1",
+	"source-version": "10.10.0"
+}

@@ -1,0 +1,49 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"osinfo-db-tools": {
+			"build-depends": [
+				"pkgconfig(gio-2.0)",
+				"pkgconfig(glib-2.0)",
+				"pkgconfig(gobject-2.0)",
+				"pkgconfig(json-glib-1.0)",
+				"pkgconfig(libarchive)",
+				"pkgconfig(libsoup-3.0)",
+				"pkgconfig(libxml-2.0)"
+			],
+			"depends": [
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(libarchive.so.13(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libgio-2.0.so.0(x86_64))",
+				"soname(libglib-2.0.so.0(x86_64))",
+				"soname(libgobject-2.0.so.0(x86_64))",
+				"soname(libjson-glib-1.0.so.0(x86_64))",
+				"soname(libsoup-3.0.so.0(x86_64))",
+				"soname(libunwind.so.1(x86_64))",
+				"soname(libxml2.so.2(x86_64))"
+			],
+			"files": [
+				"/usr/bin/osinfo-db-export",
+				"/usr/bin/osinfo-db-import",
+				"/usr/bin/osinfo-db-path",
+				"/usr/bin/osinfo-db-validate",
+				"/usr/share/man/man1/osinfo-db-export.1",
+				"/usr/share/man/man1/osinfo-db-import.1",
+				"/usr/share/man/man1/osinfo-db-path.1",
+				"/usr/share/man/man1/osinfo-db-validate.1"
+			],
+			"name": "osinfo-db-tools",
+			"provides": [
+				"binary(osinfo-db-export)",
+				"binary(osinfo-db-import)",
+				"binary(osinfo-db-path)",
+				"binary(osinfo-db-validate)"
+			]
+		}
+	},
+	"source-name": "osinfo-db-tools",
+	"source-release": "1",
+	"source-version": "1.11.0"
+}
