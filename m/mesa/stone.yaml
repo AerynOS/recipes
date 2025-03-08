@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : mesa
-version     : 24.3.4
-release     : 30
+version     : 25.0.1
+release     : 31
 homepage    : https://mesa3d.org/
 upstreams   :
-    - https://archive.mesa3d.org/mesa-24.3.4.tar.xz : e641ae27191d387599219694560d221b7feaa91c900bcec46bf444218ed66025
+    - https://archive.mesa3d.org/mesa-25.0.1.tar.xz : 49eb55ba5acccae91deb566573a6a73144a0f39014be1982d78c21c5b6b0bb3f
 summary     : Mesa 3D graphics library
 description : |
     The Mesa project began as an open-source implementation of the OpenGL specification - a system for rendering interactive 3D graphics. Over the years the project has grown to implement more graphics APIs, including OpenGL ES, OpenCL, OpenMAX, VDPAU, VA-API, Vulkan and EGL. A variety of device drivers allows the Mesa libraries to be used in many different environments ranging from software emulation to complete hardware acceleration for modern GPUs. Mesa ties into several other open-source projects: the Direct Rendering Infrastructure, X.org, and Wayland to provide OpenGL support on Linux, FreeBSD, and other operating systems.
@@ -34,8 +34,8 @@ builddeps   :
     - binary(bison)
     - binary(cbindgen)
     - binary(flex)
-    - binary(intel_clc)
     - binary(llvm-config32)
+    - binary(mesa_clc)
     - binary(python3)
     - binary(rustc)
     - clang-32bit
@@ -91,6 +91,12 @@ setup       : |
     # https://bugs.launchpad.net/ubuntu/+source/chromium-browser/+bug/2020604
     echo "%(version)-serpentos.%(release)" >VERSION
 
+    # Fix build with Sphinx 8.2
+    %patch %(pkgdir)/0001-docs-Fix-build-with-Sphinx-8.2.patch
+
+    # Fix compilation error on x86
+    %patch %(pkgdir)/0002-gfxstream-Fix-log-format-error-on-x86.patch
+
     %meson \
         -Degl=enabled \
         -Dgallium-drivers=crocus,i915,iris,llvmpipe,nouveau,r300,r600,radeonsi,softpipe,svga,virgl,zink \
@@ -103,15 +109,15 @@ setup       : |
         -Dgles1=disabled \
         -Dglvnd=enabled \
         -Dllvm=enabled \
+        -Dmesa-clc=system \
         -Dosmesa=true \
         -Dzstd=enabled \
         -Dplatforms=x11,wayland \
         -Dshared-llvm=enabled \
         -Dvideo-codecs=all \
         -Dmicrosoft-clc=disabled \
-        -Dintel-clc=system \
-        -Dvulkan-drivers=amd,intel,intel_hasvk,swrast,virtio$EXTRA_VK_DRIVERS \
-        -Dvulkan-layers=device-select,overlay,screenshot
+        -Dvulkan-drivers=amd,gfxstream,intel,intel_hasvk,swrast,virtio$EXTRA_VK_DRIVERS \
+        -Dvulkan-layers=device-select,intel-nullhw,overlay,screenshot,vram-report-limit
 build       : |
     %meson_build
 install     : |
