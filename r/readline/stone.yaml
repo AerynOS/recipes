@@ -4,8 +4,8 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : readline
-version     : "8.2.13"
-release     : 4
+version     : 8.2.013
+release     : 5
 homepage    : https://ftp.gnu.org/gnu/readline
 upstreams   :
     - https://ftp.gnu.org/gnu/readline/readline-8.2.tar.gz : 3feb7171f16a84ee82ca18a36d7b9be109a52c04f492a053331d7d1095007c35
@@ -17,7 +17,6 @@ description : |
 license     :
     - GPL-3.0-or-later
 builddeps   :
-    - pkgconfig(ncursesw)
     - pkgconfig32(ncursesw)
 emul32      : yes
 setup       : |
@@ -30,3 +29,8 @@ build       : |
     %make SHLIB_LIBS=-lncurses
 install     : |
     %make_install
+
+    # Empty
+    rmdir -v %(installroot)%(bindir)
+tuning      :
+    - lto: full

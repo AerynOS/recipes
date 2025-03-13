@@ -14,7 +14,6 @@
 				"/usr/bin/clear",
 				"/usr/bin/infocmp",
 				"/usr/bin/infotocap",
-				"/usr/bin/ncursesw6-config",
 				"/usr/bin/reset",
 				"/usr/bin/tabs",
 				"/usr/bin/tic",
@@ -31,12 +30,13 @@
 				"/usr/lib/libncursesw.so.6.5",
 				"/usr/lib/libpanelw.so.6",
 				"/usr/lib/libpanelw.so.6.5",
+				"/usr/lib/libtic.so.6",
+				"/usr/lib/libtinfo.so.6",
 				"/usr/lib/terminfo",
 				"/usr/share/man/man1/captoinfo.1m",
 				"/usr/share/man/man1/clear.1",
 				"/usr/share/man/man1/infocmp.1m",
 				"/usr/share/man/man1/infotocap.1m",
-				"/usr/share/man/man1/ncursesw6-config.1",
 				"/usr/share/man/man1/reset.1",
 				"/usr/share/man/man1/tabs.1",
 				"/usr/share/man/man1/tic.1m",
@@ -992,6 +992,7 @@
 				"/usr/share/terminfo/g/gator-52",
 				"/usr/share/terminfo/g/gator-52t",
 				"/usr/share/terminfo/g/gator-t",
+				"/usr/share/terminfo/g/ghostty",
 				"/usr/share/terminfo/g/gigi",
 				"/usr/share/terminfo/g/glasstty",
 				"/usr/share/terminfo/g/gnome",
@@ -1323,6 +1324,7 @@
 				"/usr/share/terminfo/l/linux",
 				"/usr/share/terminfo/l/linux+decid",
 				"/usr/share/terminfo/l/linux+kbs",
+				"/usr/share/terminfo/l/linux+lockeys",
 				"/usr/share/terminfo/l/linux+sfkeys",
 				"/usr/share/terminfo/l/linux-16color",
 				"/usr/share/terminfo/l/linux-basic",
@@ -1432,7 +1434,9 @@
 				"/usr/share/terminfo/m/mouse-sun",
 				"/usr/share/terminfo/m/mrxvt",
 				"/usr/share/terminfo/m/mrxvt-256color",
+				"/usr/share/terminfo/m/ms+terminal",
 				"/usr/share/terminfo/m/ms-terminal",
+				"/usr/share/terminfo/m/ms-terminal-direct",
 				"/usr/share/terminfo/m/ms-vt-utf8",
 				"/usr/share/terminfo/m/ms-vt100",
 				"/usr/share/terminfo/m/ms-vt100+",
@@ -2000,6 +2004,7 @@
 				"/usr/share/terminfo/s/st-0.6",
 				"/usr/share/terminfo/s/st-0.7",
 				"/usr/share/terminfo/s/st-0.8",
+				"/usr/share/terminfo/s/st-0.8.5",
 				"/usr/share/terminfo/s/st-16color",
 				"/usr/share/terminfo/s/st-256color",
 				"/usr/share/terminfo/s/st-direct",
@@ -2424,6 +2429,8 @@
 				"/usr/share/terminfo/v/vt220+cvis8",
 				"/usr/share/terminfo/v/vt220+keypad",
 				"/usr/share/terminfo/v/vt220+pcedit",
+				"/usr/share/terminfo/v/vt220+sfkeys",
+				"/usr/share/terminfo/v/vt220+ufkeys",
 				"/usr/share/terminfo/v/vt220+vtedit",
 				"/usr/share/terminfo/v/vt220-8",
 				"/usr/share/terminfo/v/vt220-8bit",
@@ -2463,8 +2470,10 @@
 				"/usr/share/terminfo/v/vt52+keypad",
 				"/usr/share/terminfo/v/vt52-basic",
 				"/usr/share/terminfo/v/vt520",
+				"/usr/share/terminfo/v/vt520-w",
 				"/usr/share/terminfo/v/vt520ansi",
 				"/usr/share/terminfo/v/vt525",
+				"/usr/share/terminfo/v/vt525-w",
 				"/usr/share/terminfo/v/vt61",
 				"/usr/share/terminfo/v/vt61.5",
 				"/usr/share/terminfo/v/vte",
@@ -2826,6 +2835,8 @@
 				"/usr/share/terminfo/x/xterm+pcf0",
 				"/usr/share/terminfo/x/xterm+pcf2",
 				"/usr/share/terminfo/x/xterm+pcfkeys",
+				"/usr/share/terminfo/x/xterm+r5+fkeys",
+				"/usr/share/terminfo/x/xterm+r5+lockeys",
 				"/usr/share/terminfo/x/xterm+r6f2",
 				"/usr/share/terminfo/x/xterm+sl",
 				"/usr/share/terminfo/x/xterm+sl-alt",
@@ -2930,7 +2941,6 @@
 				"binary(clear)",
 				"binary(infocmp)",
 				"binary(infotocap)",
-				"binary(ncursesw6-config)",
 				"binary(reset)",
 				"binary(tabs)",
 				"binary(tic)",
@@ -2947,9 +2957,9 @@
 		"ncurses-32bit": {
 			"depends": [
 				"ncurses",
-				"soname(libc++.so.1(x86))",
-				"soname(libc.so.6(x86))",
-				"soname(libunwind.so.1(x86))"
+				"soname(libc++.so.1(386))",
+				"soname(libc.so.6(386))",
+				"soname(libunwind.so.1(386))"
 			],
 			"files": [
 				"/usr/lib32/libformw.so.6",
@@ -2961,7 +2971,9 @@
 				"/usr/lib32/libncursesw.so.6",
 				"/usr/lib32/libncursesw.so.6.5",
 				"/usr/lib32/libpanelw.so.6",
-				"/usr/lib32/libpanelw.so.6.5"
+				"/usr/lib32/libpanelw.so.6.5",
+				"/usr/lib32/libtic.so.6",
+				"/usr/lib32/libtinfo.so.6"
 			],
 			"name": "ncurses-32bit",
 			"provides": [
@@ -2993,6 +3005,8 @@
 				"/usr/lib32/libncursesw.so",
 				"/usr/lib32/libpanel.so",
 				"/usr/lib32/libpanelw.so",
+				"/usr/lib32/libtic.so",
+				"/usr/lib32/libtinfo.so",
 				"/usr/lib32/pkgconfig/form.pc",
 				"/usr/lib32/pkgconfig/formw.pc",
 				"/usr/lib32/pkgconfig/menu.pc",
@@ -3002,7 +3016,9 @@
 				"/usr/lib32/pkgconfig/ncurses.pc",
 				"/usr/lib32/pkgconfig/ncursesw.pc",
 				"/usr/lib32/pkgconfig/panel.pc",
-				"/usr/lib32/pkgconfig/panelw.pc"
+				"/usr/lib32/pkgconfig/panelw.pc",
+				"/usr/lib32/pkgconfig/tic.pc",
+				"/usr/lib32/pkgconfig/tinfo.pc"
 			],
 			"name": "ncurses-32bit-devel",
 			"provides": [
@@ -3015,7 +3031,9 @@
 				"pkgconfig32(ncurses++w)",
 				"pkgconfig32(ncursesw)",
 				"pkgconfig32(panel)",
-				"pkgconfig32(panelw)"
+				"pkgconfig32(panelw)",
+				"pkgconfig32(tic)",
+				"pkgconfig32(tinfo)"
 			]
 		},
 		"ncurses-devel": {
@@ -3023,6 +3041,7 @@
 				"ncurses"
 			],
 			"files": [
+				"/usr/bin/ncursesw6-config",
 				"/usr/include/curses.h",
 				"/usr/include/cursesapp.h",
 				"/usr/include/cursesf.h",
@@ -3051,6 +3070,8 @@
 				"/usr/lib/libncursesw.so",
 				"/usr/lib/libpanel.so",
 				"/usr/lib/libpanelw.so",
+				"/usr/lib/libtic.so",
+				"/usr/lib/libtinfo.so",
 				"/usr/lib/pkgconfig/form.pc",
 				"/usr/lib/pkgconfig/formw.pc",
 				"/usr/lib/pkgconfig/menu.pc",
@@ -3061,7 +3082,12 @@
 				"/usr/lib/pkgconfig/ncursesw.pc",
 				"/usr/lib/pkgconfig/panel.pc",
 				"/usr/lib/pkgconfig/panelw.pc",
+				"/usr/lib/pkgconfig/tic.pc",
+				"/usr/lib/pkgconfig/tinfo.pc",
+				"/usr/share/man/man1/ncursesw6-config.1",
+				"/usr/share/man/man3/A_COLOR.3x",
 				"/usr/share/man/man3/BC.3x",
+				"/usr/share/man/man3/CCHARW_MAX.3x",
 				"/usr/share/man/man3/COLORS.3x",
 				"/usr/share/man/man3/COLOR_BLACK.3x",
 				"/usr/share/man/man3/COLOR_BLUE.3x",
@@ -3078,6 +3104,7 @@
 				"/usr/share/man/man3/ESCDELAY.3x",
 				"/usr/share/man/man3/FALSE.3x",
 				"/usr/share/man/man3/LINES.3x",
+				"/usr/share/man/man3/MEVENT.3x",
 				"/usr/share/man/man3/NCURSES_SCREEN_CB.3x",
 				"/usr/share/man/man3/NCURSES_WINDOW_CB.3x",
 				"/usr/share/man/man3/OK.3x",
@@ -3516,6 +3543,7 @@
 				"/usr/share/man/man3/mitem_userptr.3x",
 				"/usr/share/man/man3/mitem_value.3x",
 				"/usr/share/man/man3/mitem_visible.3x",
+				"/usr/share/man/man3/mmask_t.3x",
 				"/usr/share/man/man3/mouse_trafo.3x",
 				"/usr/share/man/man3/mouseinterval.3x",
 				"/usr/share/man/man3/mouseinterval_sp.3x",
@@ -3977,6 +4005,7 @@
 			],
 			"name": "ncurses-devel",
 			"provides": [
+				"binary(ncursesw6-config)",
 				"pkgconfig(form)",
 				"pkgconfig(formw)",
 				"pkgconfig(menu)",
@@ -3986,11 +4015,13 @@
 				"pkgconfig(ncurses++w)",
 				"pkgconfig(ncursesw)",
 				"pkgconfig(panel)",
-				"pkgconfig(panelw)"
+				"pkgconfig(panelw)",
+				"pkgconfig(tic)",
+				"pkgconfig(tinfo)"
 			]
 		}
 	},
 	"source-name": "ncurses",
-	"source-release": "10",
-	"source-version": "6.5"
+	"source-release": "11",
+	"source-version": "6.5-20250301"
 }
