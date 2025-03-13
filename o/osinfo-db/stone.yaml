@@ -1,0 +1,19 @@
+#
+# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : osinfo-db
+version     : 20231215
+release     : 1
+homepage    : https://libosinfo.org
+upstreams   :
+    - https://releases.pagure.org/libosinfo/osinfo-db-20231215.tar.xz : dfb7c5975ce4efffd92aadd00094a0f7c593b41988fda539915f6459f7164554
+summary     : OS database for libosinfo
+description : |
+    Operating system database for libosinfo
+license     : GPL-2.0-or-later
+builddeps   :
+    - binary(osinfo-db-import)
+install     : |
+    osinfo-db-import --root %(installroot) --system %(sourcedir)/osinfo-db-20231215.tar.xz

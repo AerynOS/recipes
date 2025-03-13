@@ -5,7 +5,7 @@
 #
 name        : vte
 version     : 0.78.2
-release     : 10
+release     : 11
 homepage    : https://wiki.gnome.org/Apps/Terminal/VTE
 upstreams   :
     - https://download.gnome.org/sources/vte/0.78/vte-0.78.2.tar.xz : 35d7bcde07356846b4a12881c8e016705b70a9004a9082285eee5834ccc49890
@@ -30,6 +30,7 @@ builddeps   :
     - pkgconfig(gnutls)
     - pkgconfig(gobject-2.0)
     - pkgconfig(gobject-introspection-1.0)
+    - pkgconfig(gtk+-3.0)
     - pkgconfig(gtk4)
     - pkgconfig(icu-uc)
     - pkgconfig(libpcre2-8)
@@ -43,7 +44,7 @@ environment : |
     export CXXFLAGS="${CXXFLAGS} -Wno-invalid-constexpr"
 setup       : |
     sed -i meson.build -e '/-Werror=missing-include-dirs/d'
-    %meson -Dgtk3=false -Dgtk4=true
+    %meson -Dgtk4=true
 build       : |
     %meson_build
 install     : |
