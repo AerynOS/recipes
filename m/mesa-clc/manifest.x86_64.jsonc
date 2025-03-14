@@ -2,11 +2,13 @@
 {
 	"manifest-version": "0.2",
 	"packages": {
-		"intel-clc": {
+		"mesa-clc": {
 			"build-depends": [
-				"clang-devel",
+				"binary(llvm-config)",
+				"cmake(Clang)",
 				"pkgconfig(LLVMSPIRVLib)",
 				"pkgconfig(SPIRV-Tools)",
+				"pkgconfig(expat)",
 				"pkgconfig(libclc)",
 				"pkgconfig(libdrm)",
 				"python-mako",
@@ -16,24 +18,26 @@
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"soname(libLLVM.so.19.1(x86_64))",
 				"soname(libLLVMSPIRVLib.so.19.1(x86_64))",
+				"soname(libSPIRV-Tools-link.so(x86_64))",
 				"soname(libSPIRV-Tools.so(x86_64))",
 				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libclang-cpp.so.19.1(x86_64))",
 				"soname(libm.so.6(x86_64))",
-				"soname(libunwind.so.1(x86_64))",
-				"soname(libz.so.1(x86_64))"
+				"soname(libunwind.so.1(x86_64))"
 			],
 			"files": [
-				"/usr/bin/intel_clc"
+				"/usr/bin/mesa_clc",
+				"/usr/bin/vtn_bindgen"
 			],
-			"name": "intel-clc",
+			"name": "mesa-clc",
 			"provides": [
-				"binary(intel_clc)"
+				"binary(mesa_clc)",
+				"binary(vtn_bindgen)"
 			]
 		}
 	},
-	"source-name": "intel-clc",
+	"source-name": "mesa-clc",
 	"source-release": "1",
-	"source-version": "24.3.3"
+	"source-version": "25.0.1"
 }

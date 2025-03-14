@@ -8,3 +8,7 @@
 - sdl2
 - sdl2-devel
 - sdl2-dbginfo
+
+### Replaced by mesa-clc
+- intel-clc
+- intel-clc-dbginfo
