@@ -1,0 +1,34 @@
+#
+# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : lv2
+version     : 1.18.10
+release     : 1
+homepage    : https://lv2plug.in/
+upstreams   :
+    - https://gitlab.com/lv2/lv2/-/archive/v1.18.10/lv2-v1.18.10.tar.gz : edc39ae4170d21574d7fe4da2d83d9f1cdf97316b87b4dfeda390a1864c4a8d6
+summary     : The LV2 audio plugin specification
+description : |
+    The LV2 audio plugin specification
+license     : 
+    - 0BSD
+    - BSD-3-Clause
+    - ISC
+builddeps   :
+    - binary(doxygen)
+setup       : |
+    %meson
+build       : |
+    %meson_build
+install     : |
+    %meson_install
+packages    :
+    - "%(name)-devel":
+        paths:
+            - /usr/bin/lv2_validate
+    - "%(name)-docs":
+        paths:
+            - /usr/share/doc
+

@@ -1,0 +1,62 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"openblas": {
+			"build-depends": [
+				"binary(as)",
+				"binary(gfortran)"
+			],
+			"depends": [
+				"soname(ld-linux-x86-64.so.2(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libgfortran.so.5(x86_64))",
+				"soname(libm.so.6(x86_64))",
+				"soname(libomp.so(x86_64))"
+			],
+			"files": [
+				"/usr/lib/libopenblas.so.0",
+				"/usr/lib/libopenblas.so.0.3"
+			],
+			"name": "openblas",
+			"provides": [
+				"soname(libopenblas.so.0(x86_64))"
+			]
+		},
+		"openblas-devel": {
+			"build-depends": [
+				"binary(as)",
+				"binary(gfortran)"
+			],
+			"depends": [
+				"openblas"
+			],
+			"files": [
+				"/usr/include/openblas/cblas.h",
+				"/usr/include/openblas/f77blas.h",
+				"/usr/include/openblas/lapack.h",
+				"/usr/include/openblas/lapacke.h",
+				"/usr/include/openblas/lapacke_config.h",
+				"/usr/include/openblas/lapacke_example_aux.h",
+				"/usr/include/openblas/lapacke_mangling.h",
+				"/usr/include/openblas/lapacke_utils.h",
+				"/usr/include/openblas/openblas_config.h",
+				"/usr/lib/cmake/OpenBLAS/OpenBLASConfig.cmake",
+				"/usr/lib/cmake/OpenBLAS/OpenBLASConfigVersion.cmake",
+				"/usr/lib/cmake/OpenBLAS/OpenBLASTargets-release.cmake",
+				"/usr/lib/cmake/OpenBLAS/OpenBLASTargets.cmake",
+				"/usr/lib/libopenblas.so",
+				"/usr/lib/pkgconfig/openblas.pc"
+			],
+			"name": "openblas-devel",
+			"provides": [
+				"cmake(OpenBLAS)",
+				"pkgconfig(openblas)"
+			]
+		}
+	},
+	"source-name": "openblas",
+	"source-release": "1",
+	"source-version": "0.3.29"
+}

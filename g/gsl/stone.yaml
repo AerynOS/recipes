@@ -1,0 +1,44 @@
+#
+# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : gsl
+version     : "2.8"
+release     : 1
+homepage    : https://www.gnu.org/software/gsl/
+upstreams   :
+    - https://mirrors.ocf.berkeley.edu/gnu/gsl/gsl-2.8.tar.gz : 6a99eeed15632c6354895b1dd542ed5a855c0f15d9ad1326c6fe2b2c9e423190
+summary     : GNU Scientific Library (GSL) is a numerical library for C and C++ programmers
+description : |
+    GNU Scientific Library (GSL) is a numerical library for C and C++ programmers
+license     : GPL-3.0
+builddeps   : 
+    - pkgconfig(openblas)
+tuning      :
+    # Breaks tests
+    - lto: false
+setup       : |
+    # Taken from Gentoo
+    %patch %(pkgdir)/0001-External-cblas-support.patch
+
+    export CBLAS_LIBS="$(pkg-config --libs openblas)"
+    export CBLAS_CFLAGS="$(pkg-config --cflags openblas)"
+
+    %reconfigure \
+                 --disable-static \
+                 --with-cblas-external
+build       : |
+    %make
+install     : |
+    %make_install
+# Currently fails due to unknown (potentially hardware-related) issue https://bugs.gentoo.org/946160
+# check       : |
+#     %make check || (cat sys/test-suite.log && exit 1)
+packages    :
+    - "%(name)-devel":
+        paths:
+            - /usr/bin/gsl-config
+            - /usr/share/man/man1/gsl-config.1
+        rundeps:
+            - pkgconfig(openblas)

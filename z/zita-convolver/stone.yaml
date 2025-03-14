@@ -1,0 +1,25 @@
+#
+# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : zita-convolver
+version     : 4.0.3
+release     : 1
+homepage    : https://kokkinizita.linuxaudio.org/linuxaudio/downloads
+upstreams   :
+    - https://kokkinizita.linuxaudio.org/linuxaudio/downloads/zita-convolver-4.0.3.tar.bz2 : 9aa11484fb30b4e6ef00c8a3281eebcfad9221e3937b1beb5fe21b748d89325f
+summary     : A fast, partitioned convolution engine library
+description : |
+    A fast, partitioned convolution engine library
+license     : GPL-3.0-or-later
+builddeps    :
+    - pkgconfig(fftw3f)
+environment : |
+    _make_args="-C source PREFIX=%(prefix) LIBDIR=%(libdir)"
+setup       : |
+    %patch %(pkgdir)/0001-downstream-Build-system-tweaks.patch
+build       : |
+    %make $_make_args
+install     : |
+    %make_install $_make_args

@@ -1,0 +1,49 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"sratom": {
+			"build-depends": [
+				"pkgconfig(lv2)",
+				"pkgconfig(sord-0)"
+			],
+			"depends": [
+				"soname(libc.so.6(x86_64))",
+				"soname(libserd-0.so.0(x86_64))",
+				"soname(libsord-0.so.0(x86_64))"
+			],
+			"files": [
+				"/usr/lib/libsratom-0.so.0",
+				"/usr/lib/libsratom-0.so.0.6.18"
+			],
+			"name": "sratom",
+			"provides": [
+				"soname(libsratom-0.so.0(x86_64))"
+			]
+		},
+		"sratom-devel": {
+			"build-depends": [
+				"pkgconfig(lv2)",
+				"pkgconfig(sord-0)"
+			],
+			"depends": [
+				"pkgconfig(lv2)",
+				"pkgconfig(serd-0)",
+				"pkgconfig(sord-0)",
+				"sratom"
+			],
+			"files": [
+				"/usr/include/sratom-0/sratom/sratom.h",
+				"/usr/lib/libsratom-0.so",
+				"/usr/lib/pkgconfig/sratom-0.pc"
+			],
+			"name": "sratom-devel",
+			"provides": [
+				"pkgconfig(sratom-0)"
+			]
+		}
+	},
+	"source-name": "sratom",
+	"source-release": "1",
+	"source-version": "0.6.18"
+}

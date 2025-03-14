@@ -1,0 +1,25 @@
+#
+# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : zix
+version     : 0.6.2
+release     : 1
+homepage    : https://gitlab.com/drobilla/zix
+upstreams   :
+    - https://gitlab.com/drobilla/zix/-/archive/v0.6.2/zix-v0.6.2.tar.gz : caa1435c870767e12f71454e8b17e878fa9b4bb35730b8f570934fb7cb74031c
+summary     : A lightweight C99 portability and data structure library
+description : |
+    A lightweight C99 portability and data structure library
+license     : 
+    - 0BSD
+    - BSD-3-Clause
+    - ISC
+setup       : |
+    %meson
+build       : |
+    %meson_build
+install     : |
+    %meson_install
+

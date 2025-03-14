@@ -1,0 +1,51 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"zix": {
+			"depends": [
+				"soname(libc.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/lib/libzix-0.so.0",
+				"/usr/lib/libzix-0.so.0.6.2"
+			],
+			"name": "zix",
+			"provides": [
+				"soname(libzix-0.so.0(x86_64))"
+			]
+		},
+		"zix-devel": {
+			"depends": [
+				"zix"
+			],
+			"files": [
+				"/usr/include/zix-0/zix/allocator.h",
+				"/usr/include/zix-0/zix/attributes.h",
+				"/usr/include/zix-0/zix/btree.h",
+				"/usr/include/zix-0/zix/bump_allocator.h",
+				"/usr/include/zix-0/zix/digest.h",
+				"/usr/include/zix-0/zix/environment.h",
+				"/usr/include/zix-0/zix/filesystem.h",
+				"/usr/include/zix-0/zix/hash.h",
+				"/usr/include/zix-0/zix/path.h",
+				"/usr/include/zix-0/zix/ring.h",
+				"/usr/include/zix-0/zix/sem.h",
+				"/usr/include/zix-0/zix/status.h",
+				"/usr/include/zix-0/zix/string_view.h",
+				"/usr/include/zix-0/zix/thread.h",
+				"/usr/include/zix-0/zix/tree.h",
+				"/usr/include/zix-0/zix/zix.h",
+				"/usr/lib/libzix-0.so",
+				"/usr/lib/pkgconfig/zix-0.pc"
+			],
+			"name": "zix-devel",
+			"provides": [
+				"pkgconfig(zix-0)"
+			]
+		}
+	},
+	"source-name": "zix",
+	"source-release": "1",
+	"source-version": "0.6.2"
+}

@@ -1,0 +1,26 @@
+#
+# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : rnnoise
+version     : 0.2
+release     : 1
+homepage    : https://gitlab.xiph.org/xiph/rnnoise
+upstreams   :
+    - https://gitlab.xiph.org/xiph/rnnoise/-/archive/v0.2/rnnoise-v0.2.tar.gz : fafc947fdd24109a6e72b5f25e4224b54bc74660a2620af5548def85be8c733a
+    # `cat model_version`
+    - https://media.xiph.org/rnnoise/models/rnnoise_data-0b50c45.tar.gz :
+        hash: 4ac81c5c0884ec4bd5907026aaae16209b7b76cd9d7f71af582094a2f98f4b43
+summary     : Recurrent neural network for audio noise reduction
+description : |
+    Recurrent neural network for audio noise reduction
+license     : BSD-3-Clause
+setup       : |
+    cp %(sourcedir)/rnnoise_data* .
+    ./autogen.sh
+    %configure --enable-static=no --enable-x86-rtcd
+build       : |
+    %make
+install     : |
+    %make_install

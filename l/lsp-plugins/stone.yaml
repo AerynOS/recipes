@@ -1,0 +1,43 @@
+#
+# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : lsp-plugins
+version     : 1.2.21
+release     : 1
+homepage    : https://lsp-plug.in
+upstreams   :
+    - https://github.com/sadko4u/lsp-plugins/releases/download/1.2.21/lsp-plugins-src-1.2.21.tar.gz : ae2da1d0557ed645371d54a779061240a0295e399c2aa441c96fa236d76e12d9
+summary     : Linux Studio Plugins Project
+description : |
+    Linux Studio Plugins Project
+license     : LGPL-3.0-only
+builddeps   :
+    - pkgconfig(cairo)
+    - pkgconfig(sndfile)
+    - pkgconfig(gl)
+    - pkgconfig(gstreamer-1.0)
+    - pkgconfig(xrandr)
+setup       : |
+    # Currently we build just the lv2 and gstreamer plugins. xdg depends on jack which we don't yet have
+    make config \
+                PREFIX=%(prefix) \
+                LIBDIR=%(libdir) \
+                FEATURES="gst lv2"
+build       : |
+    %make
+install     : |
+    %make_install
+packages    :
+    - "%(name)-gstreamer":
+        summary: Linux Studio Plugins - gstreamer format
+        description: Linux Studio Plugins - gstreamer format
+        paths:
+            - /usr/lib/gstreamer-1.0
+            - /usr/lib/lsp-plugins/liblsp-plugins-gstreamer*.so
+    - "%(name)-lv2":
+        summary: Linux Studio Plugins - LV2 format
+        description: Linux Studio Plugins - LV2 format
+        paths:
+            - /usr/lib/lv2

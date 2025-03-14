@@ -1,0 +1,115 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"lilv": {
+			"build-depends": [
+				"pkgconfig(lv2)",
+				"pkgconfig(serd-0)",
+				"pkgconfig(sndfile)",
+				"pkgconfig(sord-0)",
+				"pkgconfig(sratom-0)",
+				"pkgconfig(zix-0)"
+			],
+			"depends": [
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(liblilv-0.so.0(x86_64))",
+				"soname(libsndfile.so.1(x86_64))"
+			],
+			"files": [
+				"/usr/bin/lv2apply",
+				"/usr/bin/lv2bench",
+				"/usr/bin/lv2info",
+				"/usr/bin/lv2ls",
+				"/usr/share/bash-completion/completions/lilv",
+				"/usr/share/man/man1/lv2apply.1",
+				"/usr/share/man/man1/lv2bench.1",
+				"/usr/share/man/man1/lv2info.1",
+				"/usr/share/man/man1/lv2ls.1"
+			],
+			"name": "lilv",
+			"provides": [
+				"binary(lv2apply)",
+				"binary(lv2bench)",
+				"binary(lv2info)",
+				"binary(lv2ls)"
+			]
+		},
+		"lilv-devel": {
+			"build-depends": [
+				"pkgconfig(lv2)",
+				"pkgconfig(serd-0)",
+				"pkgconfig(sndfile)",
+				"pkgconfig(sord-0)",
+				"pkgconfig(sratom-0)",
+				"pkgconfig(zix-0)"
+			],
+			"depends": [
+				"lilv",
+				"pkgconfig(lv2)",
+				"pkgconfig(serd-0)",
+				"pkgconfig(sord-0)",
+				"pkgconfig(sratom-0)",
+				"pkgconfig(zix-0)"
+			],
+			"files": [
+				"/usr/include/lilv-0/lilv/lilv.h",
+				"/usr/include/lilv-0/lilv/lilvmm.hpp",
+				"/usr/lib/liblilv-0.so",
+				"/usr/lib/pkgconfig/lilv-0.pc"
+			],
+			"name": "lilv-devel",
+			"provides": [
+				"pkgconfig(lilv-0)"
+			]
+		},
+		"lilv-libs": {
+			"build-depends": [
+				"pkgconfig(lv2)",
+				"pkgconfig(serd-0)",
+				"pkgconfig(sndfile)",
+				"pkgconfig(sord-0)",
+				"pkgconfig(sratom-0)",
+				"pkgconfig(zix-0)"
+			],
+			"depends": [
+				"soname(libc.so.6(x86_64))",
+				"soname(libserd-0.so.0(x86_64))",
+				"soname(libsord-0.so.0(x86_64))",
+				"soname(libsratom-0.so.0(x86_64))",
+				"soname(libzix-0.so.0(x86_64))"
+			],
+			"files": [
+				"/usr/lib/liblilv-0.so.0",
+				"/usr/lib/liblilv-0.so.0.24.26"
+			],
+			"name": "lilv-libs",
+			"provides": [
+				"soname(liblilv-0.so.0(x86_64))"
+			]
+		},
+		"python-lilv": {
+			"build-depends": [
+				"pkgconfig(lv2)",
+				"pkgconfig(serd-0)",
+				"pkgconfig(sndfile)",
+				"pkgconfig(sord-0)",
+				"pkgconfig(sratom-0)",
+				"pkgconfig(zix-0)"
+			],
+			"depends": [
+				"binary(python3)",
+				"lilv-libs"
+			],
+			"files": [
+				"/usr/lib/python3.11/site-packages/__pycache__/lilv.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/lilv.py"
+			],
+			"name": "python-lilv"
+		}
+	},
+	"source-name": "lilv",
+	"source-release": "1",
+	"source-version": "0.24.26"
+}

@@ -1,0 +1,28 @@
+#
+# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : libsamplerate
+version     : 0.2.2
+release     : 1
+homepage    : https://github.com/libsndfile/libsamplerate
+upstreams   :
+    - https://github.com/libsndfile/libsamplerate/archive/refs/tags/0.2.2.tar.gz : 16e881487f184250deb4fcb60432d7556ab12cb58caea71ef23960aec6c0405a
+summary     : An audio Sample Rate Conversion library 
+description : |
+    An audio Sample Rate Conversion library 
+license     : BSD-2-Clause
+builddeps   :
+    - pkgconfig(alsa)
+    - pkgconfig(sndfile)
+setup       : |
+    %cmake -DBUILD_SHARED_LIBS=1
+build       : |
+    %cmake_build
+install     : |
+    %cmake_install
+packages    :
+    - "%(name)-docs":
+        paths:
+            - /usr/share/doc

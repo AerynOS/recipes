@@ -1,0 +1,29 @@
+#
+# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : sord
+version     : 0.16.18
+release     : 1
+homepage    : https://gitlab.com/drobilla/sord
+upstreams   :
+    - https://gitlab.com/drobilla/sord/-/archive/v0.16.18/sord-v0.16.18.tar.gz : cc006e6474875a26ff2caf8c4bb90c083a7abffb542408b28bd7b6e91791af5b
+summary     : Lightweight C library for storing RDF statements in memory
+description : |
+    Lightweight C library for storing RDF statements in memory
+license     :
+    - 0BSD
+    - BSD-3-Clause
+    - ISC
+builddeps   :
+    - pkgconfig(libpcre2-8)
+    - pkgconfig(serd-0)
+    - pkgconfig(zix-0)
+setup       : |
+    %meson
+build       : |
+    %meson_build
+install     : |
+    %meson_install
+

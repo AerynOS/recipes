@@ -1,0 +1,33 @@
+#
+# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : openblas
+version     : 0.3.29
+release     : 1
+homepage    : https://github.com/OpenMathLib/OpenBLAS
+upstreams   :
+    - https://github.com/OpenMathLib/OpenBLAS/archive/refs/tags/v0.3.29.tar.gz : 38240eee1b29e2bde47ebb5d61160207dc68668a54cac62c076bb5032013b1eb
+summary     : OpenBLAS is an optimized BLAS library based on GotoBLAS2 1.13 BSD version
+description : |
+    OpenBLAS is an optimized BLAS library based on GotoBLAS2 1.13 BSD version
+license     : BSD-3-Clause
+builddeps   :
+    - binary(as) # needed by gfortran
+    # TODO switch this to flang
+    - binary(gfortran)
+tuning      :
+    - icf: false # incompatible with gfortran
+setup       : |
+    %cmake \
+           -DCMAKE_Fortran_COMPILER=gfortran \
+           -DBUILD_SHARED_LIBS=ON \
+           -DDYNAMIC_ARCH=ON \
+           -DTARGET=GENERIC \
+           -DUSE_OPENMP=1 \
+build       : |
+    %cmake_build
+install     : |
+    %cmake_install
+# TODO: If you are touching this library in the future check if we've updated to LLVM 20 or newer. If so then we've probably added flang

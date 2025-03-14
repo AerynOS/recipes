@@ -1,0 +1,43 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Reilly Brogan <reilly@reillybrogan.com>
+Date: Fri, 7 Mar 2025 13:25:05 -0600
+Subject: [PATCH] downstream: Build system tweaks
+
+Changes:
+- Don't build with `-march=native`
+- Don't run `ldconfig`
+- Use `install -p` to preserve timestamps
+- Create a soname link as well
+---
+ source/Makefile | 11 +++++------
+ 1 file changed, 5 insertions(+), 6 deletions(-)
+
+diff --git a/source/Makefile b/source/Makefile
+index 776c067..e1cf64e 100644
+--- a/source/Makefile
++++ b/source/Makefile
+@@ -34,7 +34,6 @@ VERSION = $(MAJVERS).$(MINVERS)
+ CPPFLAGS += -I. -D_REENTRANT -D_POSIX_PTHREAD_SEMANTICS
+ CPPFLAGS += -DENABLE_VECTOR_MODE 
+ CXXFLAGS += -fPIC -Wall -ffast-math -funroll-loops -O2
+-CXXFLAGS += -march=native
+ LDLFAGS += 
+ LDLIBS +=
+ 
+@@ -52,11 +51,11 @@ $(ZITA-CONVOLVER_MIN):	$(ZITA-CONVOLVER_O)
+ 
+ 
+ install:	$(ZITA-CONVOLVER_MIN)
+-	install -d $(DESTDIR)$(INCDIR)
+-	install -d $(DESTDIR)$(LIBDIR)
+-	install -m 644 $(ZITA-CONVOLVER_H) $(DESTDIR)$(INCDIR)
+-	install -m 755 $(ZITA-CONVOLVER_MIN) $(DESTDIR)$(LIBDIR)
+-	ldconfig
++	install -p -d $(DESTDIR)$(INCDIR)
++	install -p -d $(DESTDIR)$(LIBDIR)
++	install -p -m 644 $(ZITA-CONVOLVER_H) $(DESTDIR)$(INCDIR)
++	install -p -m 755 $(ZITA-CONVOLVER_MIN) $(DESTDIR)$(LIBDIR)
++	ln -sv $(ZITA-CONVOLVER_MIN) $(DESTDIR)$(LIBDIR)/$(ZITA-CONVOLVER_MAJ)
+ 	ln -sf $(ZITA-CONVOLVER_MIN) $(DESTDIR)$(LIBDIR)/$(ZITA-CONVOLVER_SO)
+ 
+ uninstall:

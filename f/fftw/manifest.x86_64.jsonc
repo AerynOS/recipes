@@ -1,0 +1,97 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"fftw": {
+			"build-depends": [
+				"binary(makeinfo)"
+			],
+			"depends": [
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libfftw3.so.3(x86_64))",
+				"soname(libfftw3_threads.so.3(x86_64))",
+				"soname(libfftw3f.so.3(x86_64))",
+				"soname(libfftw3f_threads.so.3(x86_64))"
+			],
+			"files": [
+				"/usr/bin/fftw-wisdom",
+				"/usr/bin/fftw-wisdom-to-conf",
+				"/usr/bin/fftwf-wisdom",
+				"/usr/share/info/fftw3.info",
+				"/usr/share/info/fftw3.info-1",
+				"/usr/share/info/fftw3.info-2",
+				"/usr/share/man/man1/fftw-wisdom-to-conf.1",
+				"/usr/share/man/man1/fftw-wisdom.1",
+				"/usr/share/man/man1/fftwf-wisdom.1"
+			],
+			"name": "fftw",
+			"provides": [
+				"binary(fftw-wisdom)",
+				"binary(fftw-wisdom-to-conf)",
+				"binary(fftwf-wisdom)"
+			]
+		},
+		"fftw-devel": {
+			"build-depends": [
+				"binary(makeinfo)"
+			],
+			"depends": [
+				"fftw"
+			],
+			"files": [
+				"/usr/include/fftw3.f",
+				"/usr/include/fftw3.f03",
+				"/usr/include/fftw3.h",
+				"/usr/include/fftw3l.f03",
+				"/usr/include/fftw3q.f03",
+				"/usr/lib/cmake/fftw3/FFTW3Config.cmake",
+				"/usr/lib/cmake/fftw3/FFTW3ConfigVersion.cmake",
+				"/usr/lib/cmake/fftw3/FFTW3fConfig.cmake",
+				"/usr/lib/cmake/fftw3/FFTW3fConfigVersion.cmake",
+				"/usr/lib/libfftw3.so",
+				"/usr/lib/libfftw3_threads.so",
+				"/usr/lib/libfftw3f.so",
+				"/usr/lib/libfftw3f_threads.so",
+				"/usr/lib/pkgconfig/fftw3.pc",
+				"/usr/lib/pkgconfig/fftw3f.pc"
+			],
+			"name": "fftw-devel",
+			"provides": [
+				"cmake(FFTW3)",
+				"cmake(FFTW3f)",
+				"pkgconfig(fftw3)",
+				"pkgconfig(fftw3f)"
+			]
+		},
+		"fftw-libs": {
+			"build-depends": [
+				"binary(makeinfo)"
+			],
+			"depends": [
+				"soname(libc.so.6(x86_64))",
+				"soname(libm.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/lib/libfftw3.so.3",
+				"/usr/lib/libfftw3.so.3.6.10",
+				"/usr/lib/libfftw3_threads.so.3",
+				"/usr/lib/libfftw3_threads.so.3.6.10",
+				"/usr/lib/libfftw3f.so.3",
+				"/usr/lib/libfftw3f.so.3.6.10",
+				"/usr/lib/libfftw3f_threads.so.3",
+				"/usr/lib/libfftw3f_threads.so.3.6.10"
+			],
+			"name": "fftw-libs",
+			"provides": [
+				"soname(libfftw3.so.3(x86_64))",
+				"soname(libfftw3_threads.so.3(x86_64))",
+				"soname(libfftw3f.so.3(x86_64))",
+				"soname(libfftw3f_threads.so.3(x86_64))"
+			]
+		}
+	},
+	"source-name": "fftw",
+	"source-release": "1",
+	"source-version": "3.3.10"
+}

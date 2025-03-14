@@ -1,0 +1,40 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"rnnoise": {
+			"depends": [
+				"soname(libc.so.6(x86_64))",
+				"soname(libm.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/lib/librnnoise.so.0",
+				"/usr/lib/librnnoise.so.0.4.1",
+				"/usr/share/doc/rnnoise/AUTHORS",
+				"/usr/share/doc/rnnoise/COPYING",
+				"/usr/share/doc/rnnoise/README"
+			],
+			"name": "rnnoise",
+			"provides": [
+				"soname(librnnoise.so.0(x86_64))"
+			]
+		},
+		"rnnoise-devel": {
+			"depends": [
+				"rnnoise"
+			],
+			"files": [
+				"/usr/include/rnnoise.h",
+				"/usr/lib/librnnoise.so",
+				"/usr/lib/pkgconfig/rnnoise.pc"
+			],
+			"name": "rnnoise-devel",
+			"provides": [
+				"pkgconfig(rnnoise)"
+			]
+		}
+	},
+	"source-name": "rnnoise",
+	"source-release": "1",
+	"source-version": "0.2"
+}

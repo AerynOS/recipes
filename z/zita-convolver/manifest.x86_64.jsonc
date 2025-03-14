@@ -1,0 +1,41 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"zita-convolver": {
+			"build-depends": [
+				"pkgconfig(fftw3f)"
+			],
+			"depends": [
+				"soname(libc++.so.1(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libfftw3f.so.3(x86_64))",
+				"soname(libunwind.so.1(x86_64))"
+			],
+			"files": [
+				"/usr/lib/libzita-convolver.so.4",
+				"/usr/lib/libzita-convolver.so.4.0.3"
+			],
+			"name": "zita-convolver",
+			"provides": [
+				"soname(libzita-convolver.so.4(x86_64))"
+			]
+		},
+		"zita-convolver-devel": {
+			"build-depends": [
+				"pkgconfig(fftw3f)"
+			],
+			"depends": [
+				"zita-convolver"
+			],
+			"files": [
+				"/usr/include/zita-convolver.h",
+				"/usr/lib/libzita-convolver.so"
+			],
+			"name": "zita-convolver-devel"
+		}
+	},
+	"source-name": "zita-convolver",
+	"source-release": "1",
+	"source-version": "4.0.3"
+}

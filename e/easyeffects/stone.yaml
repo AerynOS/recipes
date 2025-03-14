@@ -1,0 +1,51 @@
+#
+# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : easyeffects
+version     : 7.2.3
+release     : 1
+homepage    : https://github.com/wwmm/easyeffects
+upstreams   :
+    - https://github.com/wwmm/easyeffects/archive/refs/tags/v7.2.3.tar.gz : 5d3afa96901c86c4fa065aa40db11800a7cdfd9d393f1de9b44bb126eee4b01e
+summary     : Audio effects for PipeWire applications (WIP Packaging)
+description : |
+    Limiter, compressor, convolver, equalizer and auto volume and many other plugins for PipeWire applications 
+license     : GPL-3.0
+builddeps   : 
+    - binary(itstool)
+    - binary(msgfmt)
+    - pkgconfig(fftw3)
+    - pkgconfig(fftw3f)
+    - pkgconfig(fmt)
+    - pkgconfig(gio-2.0)
+    - pkgconfig(gsl)
+    - pkgconfig(gtk4)
+    - pkgconfig(libadwaita-1)
+    - pkgconfig(libbs2b)
+    - pkgconfig(libebur128)
+    - pkgconfig(libpipewire-0.3)
+    - pkgconfig(lilv-0)
+    - pkgconfig(nlohmann_json)
+    - pkgconfig(rnnoise)
+    - pkgconfig(samplerate)
+    - pkgconfig(sigc++-3.0)
+    - pkgconfig(sndfile)
+    - pkgconfig(soundtouch)
+    - pkgconfig(speexdsp)
+    - pkgconfig(tbb)
+    - desktop-file-utils
+    - ladspa-devel
+    - zita-convolver-devel
+rundeps     :
+    - lsp-plugins-lv2
+setup       : |
+    %patch %(pkgdir)/0001-pipewire-1.4.0-client-rt.conf.patch
+
+    %meson -Denable-libcpp-workarounds=true
+build       : |
+    %meson_build
+install     : |
+    %meson_install
+

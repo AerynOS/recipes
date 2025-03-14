@@ -1,0 +1,28 @@
+#
+# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : sratom
+version     : 0.6.18
+release     : 1
+homepage    : https://gitlab.com/lv2/sratom
+upstreams   :
+    - https://gitlab.com/lv2/sratom/-/archive/v0.6.18/sratom-v0.6.18.tar.gz : 2b08ee0d28b06a63693ea2741cf9fbf2098d488e6370709ec5ccd4ff9f25bd59
+summary     : Library for serialising LV2 atoms
+description : |
+    Library for serialising LV2 atoms
+license     : 
+    - 0BSD
+    - BSD-3-Clause
+    - ISC
+builddeps   :
+    - pkgconfig(lv2)
+    - pkgconfig(sord-0)
+setup       : |
+    %meson
+build       : |
+    %meson_build
+install     : |
+    %meson_install
+

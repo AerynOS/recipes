@@ -1,0 +1,28 @@
+From 83c5c9ecfbcb6dadfd2ae145d9cb785f6a4aea04 Mon Sep 17 00:00:00 2001
+From: wwmm <wellingtonwallace@gmail.com>
+Date: Sat, 8 Mar 2025 12:20:00 -0300
+Subject: [PATCH] From PipeWire 1.4.0 onwards the file client-rt.conf does not
+ exist anymore
+
+---
+ src/pipe_manager.cpp | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/src/pipe_manager.cpp b/src/pipe_manager.cpp
+index 623a1fc6d..4eca4a789 100644
+--- a/src/pipe_manager.cpp
++++ b/src/pipe_manager.cpp
+@@ -1581,7 +1581,12 @@ PipeManager::PipeManager() : header_version(pw_get_headers_version()), library_v
+ 
+   pw_properties* props_context = pw_properties_new(nullptr, nullptr);
+ 
+-  pw_properties_set(props_context, PW_KEY_CONFIG_NAME, "client-rt.conf");
++  const auto comparison_result = util::compare_versions(library_version, "1.4.0");
++
++  if (comparison_result == -1) {
++    pw_properties_set(props_context, PW_KEY_CONFIG_NAME, "client-rt.conf");
++  }
++
+   pw_properties_set(props_context, PW_KEY_MEDIA_TYPE, "Audio");
+   pw_properties_set(props_context, PW_KEY_MEDIA_CATEGORY, "Manager");
+   pw_properties_set(props_context, PW_KEY_MEDIA_ROLE, "Music");
