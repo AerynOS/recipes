@@ -1,0 +1,37 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"libebur128": {
+			"depends": [
+				"soname(libc.so.6(x86_64))",
+				"soname(libm.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/lib/libebur128.so.1",
+				"/usr/lib/libebur128.so.1.2.6"
+			],
+			"name": "libebur128",
+			"provides": [
+				"soname(libebur128.so.1(x86_64))"
+			]
+		},
+		"libebur128-devel": {
+			"depends": [
+				"libebur128"
+			],
+			"files": [
+				"/usr/include/ebur128.h",
+				"/usr/lib/libebur128.so",
+				"/usr/lib/pkgconfig/libebur128.pc"
+			],
+			"name": "libebur128-devel",
+			"provides": [
+				"pkgconfig(libebur128)"
+			]
+		}
+	},
+	"source-name": "libebur128",
+	"source-release": "1",
+	"source-version": "1.2.6"
+}
