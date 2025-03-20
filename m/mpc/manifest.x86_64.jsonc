@@ -28,6 +28,9 @@
 				"pkgconfig(gmp)",
 				"pkgconfig(mpfr)"
 			],
+			"depends": [
+				"mpc"
+			],
 			"files": [
 				"/usr/include/mpc.h",
 				"/usr/lib/libmpc.so"
@@ -36,6 +39,6 @@
 		}
 	},
 	"source-name": "mpc",
-	"source-release": "1",
+	"source-release": "2",
 	"source-version": "1.3.1"
 }
