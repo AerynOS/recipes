@@ -1,0 +1,39 @@
+#
+# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : isl
+# Note if you update this package and it has a soname change then you need to be build the previous soname at the same time,
+# otherwise GCC won't work and you won't be able to rebuild GCC with a non-working GCC.
+version     : '0.27'
+release     : 1
+upstreams   :
+    - https://libisl.sourceforge.io/isl-0.27.tar.xz : 6d8babb59e7b672e8cb7870e874f3f7b813b6e00e6af3f8b04f7579965643d5c
+license     : MIT
+homepage    : https://libisl.sourceforge.io/
+summary     : Integer Set Library
+description : |
+    The ISL library for GCC graphite loop optimisations
+builddeps   :
+    - pkgconfig(gmp)
+setup       : |
+    export CC_FOR_BUILD=$CC
+    %configure 
+build       : |
+    %make
+install     : |
+    %make_install
+
+    rm -v %(installroot)/%(libdir)/*.a
+
+    # Fix GDB script location
+    %install_dir %(installroot)/usr/share/gdb/auto-load/%(libdir)
+    mv %(installroot)/%(libdir)/libisl.so*-gdb.py %(installroot)/usr/share/gdb/auto-load/%(libdir)
+check       : |
+    export LD_LIBRARY_PATH=%(installroot)/%(libdir)
+    %make check
+tuning      :
+    - lto: full
+    - nosemantic
+    - optimize: speed
