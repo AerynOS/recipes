@@ -4,7 +4,6 @@
 	"packages": {
 		"mpfr": {
 			"build-depends": [
-				"binary(file)",
 				"pkgconfig(gmp)"
 			],
 			"depends": [
@@ -14,7 +13,26 @@
 			],
 			"files": [
 				"/usr/lib/libmpfr.so.6",
-				"/usr/lib/libmpfr.so.6.2.0",
+				"/usr/lib/libmpfr.so.6.2.2",
+				"/usr/share/info/mpfr.info"
+			],
+			"name": "mpfr",
+			"provides": [
+				"soname(libmpfr.so.6(x86_64))"
+			]
+		},
+		"mpfr-devel": {
+			"build-depends": [
+				"pkgconfig(gmp)"
+			],
+			"depends": [
+				"mpfr"
+			],
+			"files": [
+				"/usr/include/mpf2mpfr.h",
+				"/usr/include/mpfr.h",
+				"/usr/lib/libmpfr.so",
+				"/usr/lib/pkgconfig/mpfr.pc",
 				"/usr/share/doc/mpfr/AUTHORS",
 				"/usr/share/doc/mpfr/BUGS",
 				"/usr/share/doc/mpfr/COPYING",
@@ -28,24 +46,7 @@
 				"/usr/share/doc/mpfr/examples/rndo-add.c",
 				"/usr/share/doc/mpfr/examples/sample.c",
 				"/usr/share/doc/mpfr/examples/threads.c",
-				"/usr/share/doc/mpfr/examples/version.c",
-				"/usr/share/info/mpfr.info"
-			],
-			"name": "mpfr",
-			"provides": [
-				"soname(libmpfr.so.6(x86_64))"
-			]
-		},
-		"mpfr-devel": {
-			"build-depends": [
-				"binary(file)",
-				"pkgconfig(gmp)"
-			],
-			"files": [
-				"/usr/include/mpf2mpfr.h",
-				"/usr/include/mpfr.h",
-				"/usr/lib/libmpfr.so",
-				"/usr/lib/pkgconfig/mpfr.pc"
+				"/usr/share/doc/mpfr/examples/version.c"
 			],
 			"name": "mpfr-devel",
 			"provides": [
@@ -54,6 +55,6 @@
 		}
 	},
 	"source-name": "mpfr",
-	"source-release": "3",
-	"source-version": "4.2.0"
+	"source-release": "4",
+	"source-version": "4.2.2"
 }
