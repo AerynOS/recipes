@@ -1,8 +1,12 @@
 /** Human readable report. This is not consumed by boulder */
 {
-	"manifest-version": "0.1",
+	"manifest-version": "0.2",
 	"packages": {
 		"gmp": {
+			"build-depends": [
+				"binary(file)",
+				"binary(m4)"
+			],
 			"depends": [
 				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
@@ -11,9 +15,9 @@
 			],
 			"files": [
 				"/usr/lib/libgmp.so.10",
-				"/usr/lib/libgmp.so.10.4.1",
+				"/usr/lib/libgmp.so.10.5.0",
 				"/usr/lib/libgmpxx.so.4",
-				"/usr/lib/libgmpxx.so.4.6.1",
+				"/usr/lib/libgmpxx.so.4.7.0",
 				"/usr/share/info/gmp.info",
 				"/usr/share/info/gmp.info-1",
 				"/usr/share/info/gmp.info-2"
@@ -25,6 +29,13 @@
 			]
 		},
 		"gmp-devel": {
+			"build-depends": [
+				"binary(file)",
+				"binary(m4)"
+			],
+			"depends": [
+				"gmp"
+			],
 			"files": [
 				"/usr/include/gmp.h",
 				"/usr/include/gmpxx.h",
@@ -43,6 +54,6 @@
 		}
 	},
 	"source-name": "gmp",
-	"source-release": "2",
-	"source-version": "6.2.1"
+	"source-release": "3",
+	"source-version": "6.3.0"
 }
