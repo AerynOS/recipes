@@ -1,0 +1,47 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"plocate": {
+			"build-depends": [
+				"pkgconfig(liburing)",
+				"pkgconfig(libzstd)",
+				"pkgconfig(systemd)"
+			],
+			"depends": [
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(ld-linux-x86-64.so.2(x86_64))",
+				"soname(libc++.so.1(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libunwind.so.1(x86_64))",
+				"soname(liburing.so.2(x86_64))",
+				"soname(libzstd.so.1(x86_64))"
+			],
+			"files": [
+				"/usr/bin/plocate",
+				"/usr/lib/systemd/system-preset/plocate-updatedb.preset",
+				"/usr/lib/systemd/system/plocate-updatedb.service",
+				"/usr/lib/systemd/system/plocate-updatedb.timer",
+				"/usr/lib/tmpfiles.d/plocate.conf",
+				"/usr/lib/userdb/988.group",
+				"/usr/lib/userdb/plocate.group",
+				"/usr/lib/userdb/plocate.user",
+				"/usr/sbin/plocate-build",
+				"/usr/sbin/updatedb",
+				"/usr/share/man/man1/plocate.1",
+				"/usr/share/man/man5/updatedb.conf.5",
+				"/usr/share/man/man8/plocate-build.8",
+				"/usr/share/man/man8/updatedb.8"
+			],
+			"name": "plocate",
+			"provides": [
+				"binary(plocate)",
+				"sysbinary(plocate-build)",
+				"sysbinary(updatedb)"
+			]
+		}
+	},
+	"source-name": "plocate",
+	"source-release": "1",
+	"source-version": "1.1.23"
+}
