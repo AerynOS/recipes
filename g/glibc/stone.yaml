@@ -4,8 +4,8 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : glibc
-version     : 2.40+git.7648e3c8
-release     : 16
+version     : 2.41+git.bcd4cf9d
+release     : 17
 summary     : The GNU libc libraries
 license     :
     - GPL-2.0-or-later
@@ -15,7 +15,7 @@ homepage    : https://www.gnu.org/software/libc
 description : |
     The GNU libc libraries
 upstreams   :
-    - git|https://sourceware.org/git/glibc.git: 7648e3c8e80b3f1b3b43506b2fbe370e4824ab97
+    - git|https://sourceware.org/git/glibc.git: bcd4cf9d5ff22ed561ad72d0de072c95c0766470
 builddeps   :
     - binary(bison)
     - binary(gperf)
@@ -33,14 +33,14 @@ packages    :
             - /usr/bin/pcprofiledump
             - /usr/bin/xtrace
             - /usr/lib/*.o
-            - /usr/lib/libc_malloc_debug.so.0
+            - /usr/lib/libc_malloc_debug.so*
     - "%(name)-32bit":
         paths:
             - /usr/lib/ld-linux.so.2
     - "%(name)-32bit-devel":
         paths:
             - /usr/lib32/*.o
-            - /usr/lib32/libc_malloc_debug.so.0
+            - /usr/lib32/libc_malloc_debug.so*
 toolchain   : gnu
 emul32      : true
 tuning      :
@@ -50,6 +50,7 @@ tuning      :
     - bindnow: false
     - fortify: false
     - harden: false
+    - lto: false
     - optimize: speed
     - symbolic: nonweak
 environment : |
@@ -65,9 +66,9 @@ environment : |
     "
 setup       : |
     %patch %(pkgdir)/perf/0001-Remove-RELR-dependency-check.patch
-    %patch %(pkgdir)/serpent/0001-sysdeps-Add-support-for-default-directories.patch
-    %patch %(pkgdir)/serpent/0001-Force-correct-RTLDLIST-for-ldd.patch
-    %patch %(pkgdir)/serpent/0001-Compress-charmaps-with-zstd.patch
+    %patch %(pkgdir)/aeryn/0001-sysdeps-Add-support-for-default-directories.patch
+    %patch %(pkgdir)/aeryn/0001-Force-correct-RTLDLIST-for-ldd.patch
+    %patch %(pkgdir)/aeryn/0001-Compress-charmaps-with-zstd.patch
     %patch %(pkgdir)/stateless/make-hosts-file-stateless.patch
     %patch %(pkgdir)/stateless/Support-fallback-stateless-shells-path.patch
     %patch %(pkgdir)/stateless/Use-a-stateless-ld.so.conf.patch
@@ -119,9 +120,9 @@ profiles    :
     - emul32:
         setup: |
             %patch %(pkgdir)/perf/0001-Remove-RELR-dependency-check.patch
-            %patch %(pkgdir)/serpent/0001-sysdeps-Add-support-for-default-directories.patch
-            %patch %(pkgdir)/serpent/0001-Force-correct-RTLDLIST-for-ldd.patch
-            %patch %(pkgdir)/serpent/0001-Compress-charmaps-with-zstd.patch
+            %patch %(pkgdir)/aeryn/0001-sysdeps-Add-support-for-default-directories.patch
+            %patch %(pkgdir)/aeryn/0001-Force-correct-RTLDLIST-for-ldd.patch
+            %patch %(pkgdir)/aeryn/0001-Compress-charmaps-with-zstd.patch
             %patch %(pkgdir)/stateless/make-hosts-file-stateless.patch
             %patch %(pkgdir)/stateless/Support-fallback-stateless-shells-path.patch
             %patch %(pkgdir)/stateless/Use-a-stateless-ld.so.conf.patch
