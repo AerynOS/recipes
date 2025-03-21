@@ -4,22 +4,18 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : mpfr
-version     : 4.2.0
-release     : 3
+version     : 4.2.2
+release     : 4
 summary     : Multiple-precision floating-point library
 license     : LGPL-3.0-or-later
 homepage    : https://www.mpfr.org/
 description : |
     Multiple-precision floating-point library.
 upstreams   :
-    - https://ftp.gnu.org/gnu/mpfr/mpfr-4.2.0.tar.xz: 06a378df13501248c1b2db5aa977a2c8126ae849a9d9b7be2546fb4a9c26d993
+    - https://ftp.gnu.org/gnu/mpfr/mpfr-4.2.2.tar.xz: b67ba0383ef7e8a8563734e2e889ef5ec3c3b898a01d00fa0a6869ad81c6ce01
 builddeps   :
-    - binary(file)
     - pkgconfig(gmp)
 setup       : |
-    # Fixes a test with glibc 2.37
-    %patch %(pkgdir)/tsprintf.patch
-    
     %configure \
         --enable-thread-safe \
         --disable-static
@@ -30,6 +26,10 @@ install     : |
 check       : |
     %make check
 tuning      :
-    - lto
+    - lto: full
     - nosemantic
     - optimize: speed
+packages    :
+    - "%(name)-devel":
+        paths:
+            - /usr/share/doc
