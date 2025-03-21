@@ -1,0 +1,22 @@
+#
+# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : python-urllib3
+version     : 2.3.0
+release     : 1
+homepage    : https://github.com/urllib3/urllib3
+upstreams   :
+    - https://github.com/urllib3/urllib3/releases/download/2.3.0/urllib3-2.3.0.tar.gz : f8c5449b3cf0861679ce7e0503c7b44b5ec981bec0d1d3795a07f1ba96f0204d
+summary     : urllib3 is a user-friendly HTTP client library for Python
+description : |
+    urllib3 is a powerful, user-friendly HTTP client for Python. Much of the Python ecosystem already uses urllib3 and you should too. urllib3 brings many critical features that are missing from the Python standard libraries
+license     : MIT
+builddeps   :
+    - python(hatchling)
+    - python(hatch-vcs)
+build       : |
+    %pyproject_build
+install     : |
+    %pyproject_install

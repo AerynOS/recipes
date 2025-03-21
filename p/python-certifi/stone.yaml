@@ -1,0 +1,19 @@
+#
+# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : python-certifi
+version     : 2024.12.14
+release     : 1
+homepage    : https://github.com/certifi/python-certifi
+upstreams   :
+    - https://github.com/certifi/python-certifi/archive/refs/tags/2024.12.14.tar.gz : d9045cb5da5ee9678db7020990535a41dfb0779999adbedb375ae7dfdeb4b894
+summary     : Certifi provides Mozilla’s carefully curated collection of Root Certificates for validating the trustworthiness of SSL certificates while verifying the identity of TLS hosts.
+description : |
+    Certifi provides Mozilla’s carefully curated collection of Root Certificates for validating the trustworthiness of SSL certificates while verifying the identity of TLS hosts.
+license     : MPL-2.0
+build       : |
+    %python_setup
+install     : |
+    %python_install
