@@ -1,4 +1,4 @@
-From def69ab1adf3d2e42861dfb71af4f891f52b4786 Mon Sep 17 00:00:00 2001
+From 430e210ca75c1f44d043b1bf5acd2bb6f7d7cbb1 Mon Sep 17 00:00:00 2001
 From: "Luke D. Jones" <luke@ljones.dev>
 Date: Mon, 26 Aug 2024 12:49:35 +1200
 Subject: [PATCH 06/28] hid-asus-ally: Add joystick LED ring support
@@ -13,15 +13,17 @@ Signed-off-by: Luke D. Jones <luke@ljones.dev>
 ---
  drivers/hid/Kconfig         |   9 +
  drivers/hid/Makefile        |   1 +
- drivers/hid/hid-asus-ally.c | 517 ++++++++++++++++++++++++++++++++++++
- drivers/hid/hid-asus-ally.h |  42 +++
- drivers/hid/hid-asus.c      |  12 +
- 5 files changed, 581 insertions(+)
+ drivers/hid/hid-asus-ally.c | 518 ++++++++++++++++++++++++++++++++++++
+ drivers/hid/hid-asus-ally.h |  38 +++
+ drivers/hid/hid-asus.c      |  17 +-
+ drivers/hid/hid-asus.h      |  11 +
+ 6 files changed, 593 insertions(+), 1 deletion(-)
  create mode 100644 drivers/hid/hid-asus-ally.c
  create mode 100644 drivers/hid/hid-asus-ally.h
+ create mode 100644 drivers/hid/hid-asus.h
 
 diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
-index 4d2a89d65b65..89357822c27b 100644
+index dfc245867a46..3c47cd899872 100644
 --- a/drivers/hid/Kconfig
 +++ b/drivers/hid/Kconfig
 @@ -164,6 +164,15 @@ config HID_ASUS
@@ -41,7 +43,7 @@ index 4d2a89d65b65..89357822c27b 100644
  	tristate "Aureal"
  	help
 diff --git a/drivers/hid/Makefile b/drivers/hid/Makefile
-index 24de45f3677d..f338c9eb4600 100644
+index 482b096eea28..7aba738d9355 100644
 --- a/drivers/hid/Makefile
 +++ b/drivers/hid/Makefile
 @@ -31,6 +31,7 @@ obj-$(CONFIG_HID_APPLE)		+= hid-apple.o
@@ -54,10 +56,10 @@ index 24de45f3677d..f338c9eb4600 100644
  obj-$(CONFIG_HID_BETOP_FF)	+= hid-betopff.o
 diff --git a/drivers/hid/hid-asus-ally.c b/drivers/hid/hid-asus-ally.c
 new file mode 100644
-index 000000000000..d4172a829ced
+index 000000000000..db5d25609350
 --- /dev/null
 +++ b/drivers/hid/hid-asus-ally.c
-@@ -0,0 +1,517 @@
+@@ -0,0 +1,518 @@
 +// SPDX-License-Identifier: GPL-2.0-or-later
 +/*
 + *  HID driver for Asus ROG laptops and Ally
@@ -78,6 +80,7 @@ index 000000000000..d4172a829ced
 +#include <linux/led-class-multicolor.h>
 +
 +#include "hid-ids.h"
++#include "hid-asus.h"
 +#include "hid-asus-ally.h"
 +
 +#define READY_MAX_TRIES 3
@@ -577,10 +580,10 @@ index 000000000000..d4172a829ced
 +MODULE_LICENSE("GPL");
 diff --git a/drivers/hid/hid-asus-ally.h b/drivers/hid/hid-asus-ally.h
 new file mode 100644
-index 000000000000..2f621e16a9d8
+index 000000000000..eb8617c80c2a
 --- /dev/null
 +++ b/drivers/hid/hid-asus-ally.h
-@@ -0,0 +1,42 @@
+@@ -0,0 +1,38 @@
 +/* SPDX-License-Identifier: GPL-2.0-or-later
 + *
 + *  HID driver for Asus ROG laptops and Ally
@@ -590,10 +593,6 @@ index 000000000000..2f621e16a9d8
 +
 +#include <linux/hid.h>
 +#include <linux/types.h>
-+
-+#define ROG_ALLY_CFG_INTF_IN 0x83
-+#define ROG_ALLY_CFG_INTF_OUT 0x04
-+#define ROG_ALLY_X_INTF_IN 0x87
 +
 +/* the xpad_cmd determines which feature is set or queried */
 +enum xpad_cmd {
@@ -624,35 +623,65 @@ index 000000000000..2f621e16a9d8
 +	xpad_cmd_len_adz = 0x02,
 +};
 diff --git a/drivers/hid/hid-asus.c b/drivers/hid/hid-asus.c
-index 66bae5cea4f9..9ebee77638a0 100644
+index 4b45e31f0bab..93bafe05d192 100644
 --- a/drivers/hid/hid-asus.c
 +++ b/drivers/hid/hid-asus.c
 @@ -33,6 +33,7 @@
  #include <linux/leds.h>
  
  #include "hid-ids.h"
-+#include "hid-asus-ally.h"
++#include "hid-asus.h"
  
  MODULE_AUTHOR("Yusuke Fujimaki <usk.fujimaki@gmail.com>");
  MODULE_AUTHOR("Brendan McGrath <redmcg@redmandi.dyndns.org>");
-@@ -1135,6 +1136,17 @@ static int asus_probe(struct hid_device *hdev, const struct hid_device_id *id)
+@@ -1122,8 +1123,10 @@ static int __maybe_unused asus_reset_resume(struct hid_device *hdev)
+ 
+ static int asus_probe(struct hid_device *hdev, const struct hid_device_id *id)
+ {
+-	int ret;
+ 	struct asus_drvdata *drvdata;
++	struct usb_host_endpoint *ep;
++	struct usb_interface *intf;
++	int ret;
+ 
+ 	drvdata = devm_kzalloc(&hdev->dev, sizeof(*drvdata), GFP_KERNEL);
+ 	if (drvdata == NULL) {
+@@ -1135,6 +1138,18 @@ static int asus_probe(struct hid_device *hdev, const struct hid_device_id *id)
  
  	drvdata->quirks = id->driver_data;
  
 +	/* Ignore these endpoints as they are used by hid-asus-ally */
++	#if IS_REACHABLE(CONFIG_HID_ASUS_ALLY)
 +	if (drvdata->quirks & QUIRK_ROG_ALLY_XPAD) {
-+		struct usb_interface *intf = to_usb_interface(hdev->dev.parent);
-+		struct usb_host_endpoint *ep = intf->cur_altsetting->endpoint;
-+
++		intf = to_usb_interface(hdev->dev.parent);
++		ep = intf->cur_altsetting->endpoint;
 +		if (ep->desc.bEndpointAddress == ROG_ALLY_X_INTF_IN ||
 +			ep->desc.bEndpointAddress == ROG_ALLY_CFG_INTF_IN ||
 +			ep->desc.bEndpointAddress == ROG_ALLY_CFG_INTF_OUT)
 +			return -ENODEV;
 +	}
++	#endif /* IS_REACHABLE(CONFIG_HID_ASUS_ALLY) */
 +
  	/*
  	 * T90CHI's keyboard dock returns same ID values as T100CHI's dock.
  	 * Thus, identify T90CHI dock with product name string.
+diff --git a/drivers/hid/hid-asus.h b/drivers/hid/hid-asus.h
+new file mode 100644
+index 000000000000..789a4ff3662c
+--- /dev/null
++++ b/drivers/hid/hid-asus.h
+@@ -0,0 +1,11 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++#ifndef __HID_ASUS_H
++#define __HID_ASUS_H
++
++#include <linux/hid.h>
++
++#define ROG_ALLY_CFG_INTF_IN 0x83
++#define ROG_ALLY_CFG_INTF_OUT 0x04
++#define ROG_ALLY_X_INTF_IN 0x87
++
++#endif	/* __HID_ASUS_H */
 -- 
-2.48.1
+2.49.0
 
