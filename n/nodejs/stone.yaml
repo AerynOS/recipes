@@ -4,8 +4,8 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : nodejs
-version     : 22.14.0
-release     : 5
+version     : '22'
+release     : 6
 homepage    : https://nodejs.org/
 upstreams   :
     - https://nodejs.org/dist/v22.14.0/node-v22.14.0.tar.gz : 6c4e31ed5702dc45cfd8c435af56a36a474427e1bd7afe74c346136060beba8a
@@ -13,27 +13,23 @@ summary     : A JavaScript runtime environment.
 description : |
     Node.js is an open-source, cross-platform JavaScript runtime environment.
 license     : MIT
-builddeps   :
-    - binary(python)
-    - pkgconfig(bzip2)
-    - pkgconfig(icu-i18n)
-    - pkgconfig(libbrotlicommon)
-    - pkgconfig(libnghttp2)
-    - pkgconfig(libuv)
-    - pkgconfig(openssl)
-    - pkgconfig(zlib)
-    - gcc-devel # needed for libatomic
-    # TODO: c-ares
-setup       : |
-    ./configure \
-        --prefix=%(prefix) \
-        --shared-brotli \
-        --shared-libuv \
-        --shared-nghttp2 \
-        --shared-openssl \
-        --shared-zlib \
-        --with-intl=system-icu
-build       : |
-    %make
+rundeps     :
+    - binary(node-22)
+environment : |
+    NODEJS_MAJOR=22
+    NODEJS_PRIVATE_SITELIB=node_modules_$NODEJS_MAJOR
 install     : |
-    %make_install
+    # Setup symlinks to the default nodejs package
+    %install_dir %(installroot)/usr/{bin,lib,share/man/man1}
+    for i in node npm npx corepack; do
+        ln -sv $i-$NODEJS_MAJOR %(installroot)/%(bindir)/$i
+    done
+    ln -sv $NODEJS_PRIVATE_SITELIB %(installroot)/%(libdir)/node_modules
+    ln -sv node-$NODEJS_MAJOR.1 %(installroot)/usr/share/man/man1/node.1
+
+    %install_dir %(installroot)%(docdir)/typos/%(name)-devel
+    echo "Removed" > %(installroot)%(docdir)/typos/%(name)-devel/TRANSITION
+packages    :
+    - "%(name)-devel":
+        paths:
+            - /usr/share/doc/typos

@@ -12,3 +12,6 @@
 ### Replaced by mesa-clc
 - intel-clc
 - intel-clc-dbginfo
+
+### Nodejs is now a meta-package that doesn't need headers
+- nodejs-devel
