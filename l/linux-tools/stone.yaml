@@ -1,0 +1,160 @@
+#
+# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : linux-tools
+version     : '6.14'
+release     : 14
+summary     : Tools included with the Linux source code
+license     : GPL-2.0-only
+homepage    : https://perf.wiki.kernel.org/
+description : |
+    Tools included with the Linux source code
+upstreams   :
+    - https://www.kernel.org/pub/linux/kernel/v6.x/linux-6.14.tar.xz: a294b683e7b161bb0517bb32ec7ed1d2ea7603dfbabad135170ed12d00c47670
+builddeps   :
+    - binary(bison)
+    - binary(flex)
+    - binary(llvm-config)
+    - binary(msgmerge)
+    - binary(which)
+    - pkgconfig(libbpf)
+    - pkgconfig(libcap)
+    - pkgconfig(libcrypto)
+    - pkgconfig(libelf)
+    - pkgconfig(libpci)
+    - pkgconfig(libtraceevent)
+    - pkgconfig(python3)
+    - pkgconfig(slang)
+    # - binutils-devel
+    - linux-headers
+environment : |
+    # Maximize ccache efficiency
+    export KBUILD_BUILD_USER=root
+    export KBUILD_BUILD_TIMESTAMP=$(date --utc --date=@$SOURCE_DATE_EPOCH +%%F)
+
+    _common_args="prefix=/usr \
+                  mandir=%(mandir) \
+                  CC=clang \
+                  LLVM=1"
+
+    _perf_args="-f Makefile.perf \
+                -C tools/perf \
+                ${_common_args} \
+                lib=lib/perf \
+                perfexecdir=lib/perf
+                LIBBPF_DYNAMIC=1 WERROR=0"
+
+    _cpupower_args="-C tools/power/cpupower \
+                    ${_common_args} \
+                    docdir=%(docdir)/cpupower"
+
+    _x86_energy_args="-C tools/power/x86/x86_energy_perf_policy \
+                      ${_common_args}"
+
+    _turbostat_args="-C tools/power/x86/turbostat \
+                     ${_common_args}"
+
+    _hyperv_args="-C tools/hv \
+                  ${_common_args} \
+                  libexecdir=%(libdir)/hyperv"
+    export CFLAGS+=" -DKVP_SCRIPTS_PATH=\\\"%(libdir)/hyperv\\\""
+build       : |
+    %make ${_perf_args}
+    %make ${_cpupower_args}
+    %make ${_x86_energy_args}
+    %make ${_turbostat_args}
+    %make ${_hyperv_args}
+install     : |
+    %make_install ${_perf_args}
+    %install_file %(installroot)/etc/bash_completion.d/perf %(installroot)/%(completionsdir)/perf
+    rm %(installroot)/etc/bash_completion.d/perf
+    rmdir %(installroot)/etc/bash_completion.d %(installroot)/etc
+
+    %make_install ${_cpupower_args}
+    %make_install ${_x86_energy_args}
+    %make_install ${_turbostat_args}
+
+    %make_install ${_hyperv_args}
+    %tmpfiles "d /var/lib/hyperv 0700 root root -"
+    mv %(installroot)/%(tmpfilesdir)/%(name).conf %(installroot)/%(tmpfilesdir)/hyperv-daemons.conf 
+    %install_file %(pkgdir)/hyperv-*.rules -t %(installroot)/%(udevrulesdir)
+    %install_file %(pkgdir)/hyperv-*.service -t %(installroot)/%(libdir)/systemd/system
+
+    %install_dir %(installroot)/%(docdir)/replace/%(name)
+    echo "Temporary meta package" > %(installroot)/%(docdir)/replace/%(name)/TRANSITION
+packages    :
+    # For some reason Boulder emits an empty linux-tools package if we pattern everything out
+    # to separate subpackages. Since I'm not sure what the consequence of having an empty package
+    # in the index is let's just put a temporary file in it and make it a meta-package for all of the
+    # subpackages that we build
+    - "%(name)":
+        rundeps:
+            - cpupower
+            - hyperv-daemons
+            - perf
+            - turbostat
+            - x86_energy_perf_policy
+
+    - "cpupower":
+        summary: Kernel tool to examine and tune power saving features
+        description: Linux kernel tool to examine and tune power saving related features of your processor
+        paths:
+            - /usr/bin/cpufreq*
+            - /usr/bin/cpupower
+            - /usr/sbin/cpufreq*
+            - /usr/lib/libcpupower.so.*
+            - /usr/share/bash-completion/completions/cpupower
+            - /usr/share/doc/cpupower
+            - /usr/share/locale/**/**/cpupower.mo
+            - /usr/share/man/man1/cpupower*
+
+    - "cpupower-devel":
+        summary: Development files for cpupower
+        description: Development files for cpupower
+        paths:
+            - /usr/include/cpufreq.h
+            - /usr/include/cpuidle.h
+            - /usr/include/powercap.h
+            - /usr/lib/libcpupower.so
+        rundeps:
+            - cpupower
+
+    - "hyperv-daemons":
+        summary: Hyper-V daemons suite
+        description: Hyper-V daemons suite
+        paths:
+            - /usr/lib/hyperv
+            - /usr/lib/systemd/system/hyperv-*.service
+            - /usr/lib/tmpfiles.d/hyperv-daemons.conf
+            - /usr/lib/udev/rules.d/hyperv-*.rules
+            - /usr/sbin/hv_*
+            - /usr/sbin/lsvmbus
+
+    - "perf":
+        summary: Linux profiling with performance counters
+        description: Linux profiling with performance counters
+        homepage: https://perf.wiki.kernel.org/
+        paths:
+            - /usr/bin/perf
+            - /usr/bin/trace
+            - /usr/include/perf
+            - /usr/lib/perf
+            - /usr/share/bash-completion/completions/perf
+            - /usr/share/doc/perf-tip
+            - /usr/share/perf-core
+
+    - "turbostat":
+        summary: Report processor frequency and idle statistics
+        description: Report processor frequency and idle statistics
+        paths:
+            - /usr/bin/turbostat
+            - /usr/share/man/man8/turbostat*
+
+    - "x86_energy_perf_policy":
+        summary: Read or write MSR_IA32_ENERGY_PERF_BIAS
+        description: Read or write MSR_IA32_ENERGY_PERF_BIAS
+        paths:
+            - /usr/bin/x86_energy_perf_policy
+            - /usr/share/man/man8/x86_energy_perf_policy*

@@ -12,3 +12,6 @@
 ### Replaced by mesa-clc
 - intel-clc
 - intel-clc-dbginfo
+
+### Now part of linux-tools
+- perf-dbginfo
