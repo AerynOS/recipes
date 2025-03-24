@@ -28,3 +28,6 @@
 ### Split into gtk3/gtk4 specific packages
 - vte
 - vte-devel
+
+### Nodejs is now a meta-package that doesn't need headers
+- nodejs-devel
