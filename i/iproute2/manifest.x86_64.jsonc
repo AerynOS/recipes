@@ -5,14 +5,19 @@
 		"iproute2": {
 			"build-depends": [
 				"binary(bison)",
-				"binutils",
-				"flex-devel",
-				"gcc-devel"
+				"binary(flex)",
+				"pkgconfig(libbpf)",
+				"pkgconfig(libcap)",
+				"pkgconfig(libmnl)"
 			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(libbpf.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
-				"soname(libm.so.6(x86_64))"
+				"soname(libcap.so.2(x86_64))",
+				"soname(libelf.so.1(x86_64))",
+				"soname(libm.so.6(x86_64))",
+				"soname(libmnl.so.0(x86_64))"
 			],
 			"files": [
 				"/usr/lib/tc/experimental.dist",
@@ -22,17 +27,22 @@
 				"/usr/lib/tmpfiles.d/iproute2.conf",
 				"/usr/sbin/bridge",
 				"/usr/sbin/ctstat",
+				"/usr/sbin/dcb",
+				"/usr/sbin/devlink",
 				"/usr/sbin/genl",
 				"/usr/sbin/ifstat",
 				"/usr/sbin/ip",
 				"/usr/sbin/lnstat",
 				"/usr/sbin/nstat",
+				"/usr/sbin/rdma",
 				"/usr/sbin/routel",
 				"/usr/sbin/rtacct",
 				"/usr/sbin/rtmon",
 				"/usr/sbin/rtstat",
 				"/usr/sbin/ss",
 				"/usr/sbin/tc",
+				"/usr/sbin/tipc",
+				"/usr/sbin/vdpa",
 				"/usr/share/bash-completion/completions/devlink",
 				"/usr/share/bash-completion/completions/tc",
 				"/usr/share/iproute2/bpf_pinning",
@@ -102,6 +112,7 @@
 				"/usr/share/man/man8/nstat.8",
 				"/usr/share/man/man8/rdma-dev.8",
 				"/usr/share/man/man8/rdma-link.8",
+				"/usr/share/man/man8/rdma-monitor.8",
 				"/usr/share/man/man8/rdma-resource.8",
 				"/usr/share/man/man8/rdma-statistic.8",
 				"/usr/share/man/man8/rdma-system.8",
@@ -183,25 +194,31 @@
 			"provides": [
 				"sysbinary(bridge)",
 				"sysbinary(ctstat)",
+				"sysbinary(dcb)",
+				"sysbinary(devlink)",
 				"sysbinary(genl)",
 				"sysbinary(ifstat)",
 				"sysbinary(ip)",
 				"sysbinary(lnstat)",
 				"sysbinary(nstat)",
+				"sysbinary(rdma)",
 				"sysbinary(routel)",
 				"sysbinary(rtacct)",
 				"sysbinary(rtmon)",
 				"sysbinary(rtstat)",
 				"sysbinary(ss)",
-				"sysbinary(tc)"
+				"sysbinary(tc)",
+				"sysbinary(tipc)",
+				"sysbinary(vdpa)"
 			]
 		},
 		"iproute2-devel": {
 			"build-depends": [
 				"binary(bison)",
-				"binutils",
-				"flex-devel",
-				"gcc-devel"
+				"binary(flex)",
+				"pkgconfig(libbpf)",
+				"pkgconfig(libcap)",
+				"pkgconfig(libmnl)"
 			],
 			"depends": [
 				"iproute2"
@@ -214,6 +231,6 @@
 		}
 	},
 	"source-name": "iproute2",
-	"source-release": "4",
-	"source-version": "6.12.0"
+	"source-release": "5",
+	"source-version": "6.14.0"
 }
