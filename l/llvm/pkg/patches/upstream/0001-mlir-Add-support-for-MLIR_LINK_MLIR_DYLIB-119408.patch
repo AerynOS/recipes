@@ -1,0 +1,262 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Nikita Popov <npopov@redhat.com>
+Date: Thu, 12 Dec 2024 14:59:34 +0100
+Subject: [PATCH 1/2] [mlir] Add support for MLIR_LINK_MLIR_DYLIB (#119408)
+
+While MLIR currently supports building a libMLIR.so, it does not support
+actually linking against it for its own tools. When building with LTO,
+this means we have to relink the world for every tool, and the resulting
+binaries are large.
+
+This adds basic support for MLIR_LINK_MLIR_DYLIB, modelled after how
+CLANG_LINK_CLANG_DYLIB is implemented: Libraries that are part of
+libMLIR.so should be added via mlir_target_link_libraries instead of
+target_link_libraries. This will replace them with libMLIR.so if
+MLIR_LINK_MLIR_DYLIB is enabled.
+
+This adds basic support, I think there are two more things that can be
+done here:
+* C API unit tests should link against libMLIR-C.so. Currently these
+   still link statically.
+* Linking the test libs (not part of libMLIR.so) still pulls in
+   dependencies statically that should come from libMLIR.so.
+---
+ mlir/CMakeLists.txt                           |  3 +++
+ mlir/cmake/modules/AddMLIR.cmake              | 20 +++++++++++++++++++
+ mlir/tools/mlir-cpu-runner/CMakeLists.txt     |  8 +++++---
+ mlir/tools/mlir-lsp-server/CMakeLists.txt     |  7 ++-----
+ mlir/tools/mlir-opt/CMakeLists.txt            |  7 +++----
+ .../bytecode/CMakeLists.txt                   |  2 +-
+ .../mlir-parser-fuzzer/text/CMakeLists.txt    |  2 +-
+ mlir/tools/mlir-query/CMakeLists.txt          |  4 ++--
+ mlir/tools/mlir-reduce/CMakeLists.txt         |  7 ++-----
+ mlir/tools/mlir-translate/CMakeLists.txt      |  9 ++++++---
+ 10 files changed, 45 insertions(+), 24 deletions(-)
+
+diff --git a/mlir/CMakeLists.txt b/mlir/CMakeLists.txt
+index c6d44908a111..5c94feb63e2a 100644
+--- a/mlir/CMakeLists.txt
++++ b/mlir/CMakeLists.txt
+@@ -146,6 +146,9 @@ set(MLIR_INSTALL_AGGREGATE_OBJECTS 1 CACHE BOOL
+ 
+ set(MLIR_BUILD_MLIR_C_DYLIB 0 CACHE BOOL "Builds libMLIR-C shared library.")
+ 
++set(MLIR_LINK_MLIR_DYLIB ${LLVM_LINK_LLVM_DYLIB} CACHE BOOL
++    "Link tools against libMLIR.so")
++
+ configure_file(
+   ${MLIR_MAIN_INCLUDE_DIR}/mlir/Config/mlir-config.h.cmake
+   ${MLIR_INCLUDE_DIR}/mlir/Config/mlir-config.h)
+diff --git a/mlir/cmake/modules/AddMLIR.cmake b/mlir/cmake/modules/AddMLIR.cmake
+index a3324705c525..e1e79593ec2c 100644
+--- a/mlir/cmake/modules/AddMLIR.cmake
++++ b/mlir/cmake/modules/AddMLIR.cmake
+@@ -717,3 +717,23 @@ function(mlir_check_all_link_libraries name)
+     endforeach()
+   endif()
+ endfunction(mlir_check_all_link_libraries)
++
++# Link target against a list of MLIR libraries. If MLIR_LINK_MLIR_DYLIB is
++# enabled, this will link against the MLIR dylib instead of the static
++# libraries.
++#
++# This function should be used instead of target_link_libraries() when linking
++# MLIR libraries that are part of the MLIR dylib. For libraries that are not
++# part of the dylib (like test libraries), target_link_libraries() should be
++# used.
++function(mlir_target_link_libraries target type)
++  if (TARGET obj.${target})
++    target_link_libraries(obj.${target} ${ARGN})
++  endif()
++
++  if (MLIR_LINK_MLIR_DYLIB)
++    target_link_libraries(${target} ${type} MLIR)
++  else()
++    target_link_libraries(${target} ${type} ${ARGN})
++  endif()
++endfunction()
+diff --git a/mlir/tools/mlir-cpu-runner/CMakeLists.txt b/mlir/tools/mlir-cpu-runner/CMakeLists.txt
+index 1766b28aa0b1..f90fccf9bb61 100644
+--- a/mlir/tools/mlir-cpu-runner/CMakeLists.txt
++++ b/mlir/tools/mlir-cpu-runner/CMakeLists.txt
+@@ -9,12 +9,10 @@ add_mlir_tool(mlir-cpu-runner
+   mlir-cpu-runner.cpp
+   )
+ llvm_update_compile_flags(mlir-cpu-runner)
+-target_link_libraries(mlir-cpu-runner PRIVATE
++mlir_target_link_libraries(mlir-cpu-runner PRIVATE
+   MLIRAnalysis
+   MLIRBuiltinToLLVMIRTranslation
+-  MLIRExecutionEngine
+   MLIRIR
+-  MLIRJitRunner
+   MLIRLLVMDialect
+   MLIRLLVMToLLVMIRTranslation
+   MLIRToLLVMIRTranslationRegistration
+@@ -24,3 +22,7 @@ target_link_libraries(mlir-cpu-runner PRIVATE
+   )
+ 
+ export_executable_symbols(mlir-cpu-runner)
++target_link_libraries(mlir-cpu-runner PRIVATE
++  MLIRExecutionEngine
++  MLIRJitRunner
++  )
+diff --git a/mlir/tools/mlir-lsp-server/CMakeLists.txt b/mlir/tools/mlir-lsp-server/CMakeLists.txt
+index 0134b54eef1b..ef342152daaf 100644
+--- a/mlir/tools/mlir-lsp-server/CMakeLists.txt
++++ b/mlir/tools/mlir-lsp-server/CMakeLists.txt
+@@ -38,7 +38,6 @@ set(LIBS
+   ${conversion_libs}
+   ${dialect_libs}
+   ${extension_libs}
+-  ${test_libs}
+ 
+   MLIRAffineAnalysis
+   MLIRAnalysis
+@@ -55,11 +54,9 @@ set(LIBS
+ 
+ add_mlir_tool(mlir-lsp-server
+   mlir-lsp-server.cpp
+-
+-  DEPENDS
+-  ${LIBS}
+   )
+-target_link_libraries(mlir-lsp-server PRIVATE ${LIBS})
++mlir_target_link_libraries(mlir-lsp-server PRIVATE ${LIBS})
++target_link_libraries(mlir-lsp-server PRIVATE ${test_libs})
+ llvm_update_compile_flags(mlir-lsp-server)
+ 
+ mlir_check_all_link_libraries(mlir-lsp-server)
+diff --git a/mlir/tools/mlir-opt/CMakeLists.txt b/mlir/tools/mlir-opt/CMakeLists.txt
+index 8b79de58fa10..71ab67d94ef9 100644
+--- a/mlir/tools/mlir-opt/CMakeLists.txt
++++ b/mlir/tools/mlir-opt/CMakeLists.txt
+@@ -45,6 +45,7 @@ if(MLIR_INCLUDE_TESTS)
+     MLIRTestReducer
+     MLIRTestTransforms
+     MLIRTilingInterfaceTestPasses
++    MLIRTosaTestPasses
+     MLIRVectorTestPasses
+     MLIRTestVectorToSPIRV
+     MLIRLLVMTestPasses
+@@ -66,7 +67,6 @@ set(LIBS
+   ${dialect_libs}
+   ${conversion_libs}
+   ${extension_libs}
+-  ${test_libs}
+ 
+   MLIRAffineAnalysis
+   MLIRAnalysis
+@@ -99,11 +99,10 @@ add_mlir_library(MLIRMlirOptMain
+ add_mlir_tool(mlir-opt
+   mlir-opt.cpp
+ 
+-  DEPENDS
+-  ${LIBS}
+   SUPPORT_PLUGINS
+   )
+-target_link_libraries(mlir-opt PRIVATE ${LIBS})
++mlir_target_link_libraries(mlir-opt PRIVATE ${LIBS})
++target_link_libraries(mlir-opt PRIVATE ${test_libs})
+ llvm_update_compile_flags(mlir-opt)
+ 
+ mlir_check_all_link_libraries(mlir-opt)
+diff --git a/mlir/tools/mlir-parser-fuzzer/bytecode/CMakeLists.txt b/mlir/tools/mlir-parser-fuzzer/bytecode/CMakeLists.txt
+index 7d922656ad12..e17b15885198 100644
+--- a/mlir/tools/mlir-parser-fuzzer/bytecode/CMakeLists.txt
++++ b/mlir/tools/mlir-parser-fuzzer/bytecode/CMakeLists.txt
+@@ -6,7 +6,7 @@ add_llvm_fuzzer(mlir-bytecode-parser-fuzzer
+   mlir-bytecode-parser-fuzzer.cpp
+   DUMMY_MAIN DummyParserFuzzer.cpp
+ )
+-target_link_libraries(mlir-bytecode-parser-fuzzer
++mlir_target_link_libraries(mlir-bytecode-parser-fuzzer
+   PUBLIC
+   MLIRIR
+   MLIRParser
+diff --git a/mlir/tools/mlir-parser-fuzzer/text/CMakeLists.txt b/mlir/tools/mlir-parser-fuzzer/text/CMakeLists.txt
+index a9c9e1047b54..b4a2bacc0ee0 100644
+--- a/mlir/tools/mlir-parser-fuzzer/text/CMakeLists.txt
++++ b/mlir/tools/mlir-parser-fuzzer/text/CMakeLists.txt
+@@ -6,7 +6,7 @@ add_llvm_fuzzer(mlir-text-parser-fuzzer
+   mlir-text-parser-fuzzer.cpp
+   DUMMY_MAIN DummyParserFuzzer.cpp
+ )
+-target_link_libraries(mlir-text-parser-fuzzer
++mlir_target_link_libraries(mlir-text-parser-fuzzer
+   PUBLIC
+   MLIRIR
+   MLIRParser
+diff --git a/mlir/tools/mlir-query/CMakeLists.txt b/mlir/tools/mlir-query/CMakeLists.txt
+index ef2e5a84b556..18263970a7bb 100644
+--- a/mlir/tools/mlir-query/CMakeLists.txt
++++ b/mlir/tools/mlir-query/CMakeLists.txt
+@@ -10,11 +10,11 @@ add_mlir_tool(mlir-query
+   mlir-query.cpp
+   )
+ llvm_update_compile_flags(mlir-query)
+-target_link_libraries(mlir-query
++mlir_target_link_libraries(mlir-query
+   PRIVATE
+   ${dialect_libs}
+-  ${test_libs}
+   MLIRQueryLib
+   )
++target_link_libraries(mlir-query PRIVATE ${test_libs})
+ 
+ mlir_check_link_libraries(mlir-query)
+diff --git a/mlir/tools/mlir-reduce/CMakeLists.txt b/mlir/tools/mlir-reduce/CMakeLists.txt
+index 8549dbf805f5..d71ac861a29d 100644
+--- a/mlir/tools/mlir-reduce/CMakeLists.txt
++++ b/mlir/tools/mlir-reduce/CMakeLists.txt
+@@ -10,7 +10,6 @@ endif()
+ set(LIBS
+   ${conversion_libs}
+   ${dialect_libs}
+-  ${test_libs}
+   MLIRDialect
+   MLIRIR
+   MLIRPass
+@@ -19,12 +18,10 @@ set(LIBS
+ 
+ add_mlir_tool(mlir-reduce
+   mlir-reduce.cpp
+-
+-  DEPENDS
+-  ${LIBS}
+   )
+ 
+-target_link_libraries(mlir-reduce PRIVATE ${LIBS})
++mlir_target_link_libraries(mlir-reduce PRIVATE ${LIBS})
++target_link_libraries(mlir-reduce PRIVATE ${test_libs})
+ llvm_update_compile_flags(mlir-reduce)
+ 
+ mlir_check_all_link_libraries(mlir-reduce)
+diff --git a/mlir/tools/mlir-translate/CMakeLists.txt b/mlir/tools/mlir-translate/CMakeLists.txt
+index a78131b8c356..b356e04bb1dc 100644
+--- a/mlir/tools/mlir-translate/CMakeLists.txt
++++ b/mlir/tools/mlir-translate/CMakeLists.txt
+@@ -9,11 +9,9 @@ add_mlir_tool(mlir-translate
+   mlir-translate.cpp
+   )
+ llvm_update_compile_flags(mlir-translate)
+-target_link_libraries(mlir-translate
++mlir_target_link_libraries(mlir-translate
+   PRIVATE
+   ${dialect_libs}
+-  ${translation_libs}
+-  ${test_libs}
+   MLIRIR
+   MLIRParser
+   MLIRPass
+@@ -21,5 +19,10 @@ target_link_libraries(mlir-translate
+   MLIRTranslateLib
+   MLIRSupport
+   )
++target_link_libraries(mlir-translate
++  PRIVATE
++  ${translation_libs}
++  ${test_libs}
++  )
+ 
+ mlir_check_link_libraries(mlir-translate)

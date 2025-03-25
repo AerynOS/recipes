@@ -1,0 +1,35 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Reilly Brogan <reilly@reillybrogan.com>
+Date: Mon, 24 Mar 2025 20:42:51 -0500
+Subject: [PATCH] compiler-rt: Force libc++
+
+This forces the runtimes build to use libc++ for building the compiler-rt sanitizers
+
+Origin: vendor
+Forwarded: not-needed
+Last-Update: 2025-03-24
+---
+ compiler-rt/CMakeLists.txt | 8 --------
+ 1 file changed, 8 deletions(-)
+
+diff --git a/compiler-rt/CMakeLists.txt b/compiler-rt/CMakeLists.txt
+index 6cf20ab7c183..d886001eba42 100644
+--- a/compiler-rt/CMakeLists.txt
++++ b/compiler-rt/CMakeLists.txt
+@@ -216,16 +216,8 @@ macro(handle_default_cxx_lib var)
+     set(${var}_LIBNAME "${CMAKE_MATCH_1}")
+     set(${var}_SYSTEM 1)
+   elseif (${var} STREQUAL "default")
+-    if (APPLE OR CMAKE_SYSTEM_NAME MATCHES "FreeBSD")
+       set(${var}_LIBNAME "libc++")
+       set(${var}_SYSTEM 1)
+-    elseif (FUCHSIA)
+-      set(${var}_LIBNAME "libc++")
+-      set(${var}_INTREE 1)
+-    else()
+-      set(${var}_LIBNAME "libstdc++")
+-      set(${var}_SYSTEM 1)
+-    endif()
+   else()
+     set(${var}_LIBNAME "${${var}}")
+     set(${var}_SYSTEM 1)

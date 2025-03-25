@@ -12,3 +12,6 @@
 ### Replaced by mesa-clc
 - intel-clc
 - intel-clc-dbginfo
+
+### Merged into llvm package
+- libcxx-dbginfo
