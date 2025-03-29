@@ -1,4 +1,4 @@
-From 564a9880c9cb658cadf80360b9841acc46e9a834 Mon Sep 17 00:00:00 2001
+From abcc5de9c0ce4a6034882e807d089e7115b7519d Mon Sep 17 00:00:00 2001
 From: "Luke D. Jones" <luke@ljones.dev>
 Date: Thu, 10 Oct 2024 11:15:36 +1300
 Subject: [PATCH 19/28] hid-asus-ally: add calibrations (wip)
@@ -9,10 +9,10 @@ Signed-off-by: Luke D. Jones <luke@ljones.dev>
  1 file changed, 95 insertions(+)
 
 diff --git a/drivers/hid/hid-asus-ally.c b/drivers/hid/hid-asus-ally.c
-index 3e6250a7bd48..5c12d8fd1c8e 100644
+index 5ca93f8342b1..e6ff4ba08a5c 100644
 --- a/drivers/hid/hid-asus-ally.c
 +++ b/drivers/hid/hid-asus-ally.c
-@@ -274,6 +274,28 @@ struct response_curve {
+@@ -275,6 +275,28 @@ struct response_curve {
  	uint8_t response_pct_4;
  } __packed;
  
@@ -41,7 +41,7 @@ index 3e6250a7bd48..5c12d8fd1c8e 100644
  /* ROG Ally has many settings related to the gamepad, all using the same n-key endpoint */
  struct ally_gamepad_cfg {
  	struct hid_device *hdev;
-@@ -301,6 +323,9 @@ struct ally_gamepad_cfg {
+@@ -302,6 +324,9 @@ struct ally_gamepad_cfg {
  	/* joystick response curves */
  	struct response_curve ls_rc;
  	struct response_curve rs_rc;
@@ -51,7 +51,7 @@ index 3e6250a7bd48..5c12d8fd1c8e 100644
  };
  
  /* The hatswitch outputs integers, we use them to index this X|Y pair */
-@@ -379,6 +404,18 @@ static struct ally_drvdata {
+@@ -380,6 +405,18 @@ static struct ally_drvdata {
  	uint mcu_version;
  } drvdata;
  
@@ -70,7 +70,7 @@ index 3e6250a7bd48..5c12d8fd1c8e 100644
  /**
   * asus_dev_set_report - send set report request to device.
   *
-@@ -803,6 +840,63 @@ ALLY_JS_RC_POINT(axis_xy_right, response, 2);
+@@ -804,6 +841,63 @@ ALLY_JS_RC_POINT(axis_xy_right, response, 2);
  ALLY_JS_RC_POINT(axis_xy_right, response, 3);
  ALLY_JS_RC_POINT(axis_xy_right, response, 4);
  
@@ -134,7 +134,7 @@ index 3e6250a7bd48..5c12d8fd1c8e 100644
  static struct attribute *axis_xy_left_attrs[] = {
  	&dev_attr_axis_xy_left_anti_deadzone.attr,
  	&dev_attr_axis_xy_left_deadzone.attr,
-@@ -1282,6 +1376,7 @@ static struct ally_gamepad_cfg *ally_gamepad_cfg_create(struct hid_device *hdev)
+@@ -1283,6 +1377,7 @@ static struct ally_gamepad_cfg *ally_gamepad_cfg_create(struct hid_device *hdev)
  	ally_cfg->key_mapping[ally_cfg->mode - 1].btn_m1.button = BTN_KB_M1;
  	ally_cfg->key_mapping[ally_cfg->mode - 1].btn_m2.button = BTN_KB_M2;
  	_gamepad_apply_btn_pair(hdev, ally_cfg, btn_pair_m1_m2);
@@ -143,5 +143,5 @@ index 3e6250a7bd48..5c12d8fd1c8e 100644
  	ally_cfg->vibration_intensity[0] = 0x64;
  	ally_cfg->vibration_intensity[1] = 0x64;
 -- 
-2.48.1
+2.49.0
 
