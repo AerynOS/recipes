@@ -1,0 +1,42 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Reilly Brogan <reilly@reillybrogan.com>
+Date: Thu, 27 Mar 2025 15:34:16 -0500
+Subject: [PATCH] flang: Build runtime shared
+
+It should be possible to build the flang runtime libraries shared only which would ensure that we have visibility into rebuilds after updating flang.
+
+This doesn't currently work due to linking errors, try again with LLVM 20.
+
+Origin: vendor
+Forwarded: not-needed
+Last-Update: 2025-03-28
+---
+ flang/lib/Decimal/CMakeLists.txt | 2 +-
+ flang/runtime/CMakeLists.txt     | 1 +
+ 2 files changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/flang/lib/Decimal/CMakeLists.txt b/flang/lib/Decimal/CMakeLists.txt
+index 880b190f1c58..3192f993cdf9 100644
+--- a/flang/lib/Decimal/CMakeLists.txt
++++ b/flang/lib/Decimal/CMakeLists.txt
+@@ -58,7 +58,7 @@ include(AddFlangOffloadRuntime)
+ enable_cuda_compilation(FortranDecimal "${sources}")
+ enable_omp_offload_compilation("${sources}")
+ 
+-add_flang_library(FortranDecimal INSTALL_WITH_TOOLCHAIN ${sources})
++add_flang_library(FortranDecimal SHARED INSTALL_WITH_TOOLCHAIN ${sources})
+ 
+ if (DEFINED MSVC)
+   set(CMAKE_MSVC_RUNTIME_LIBRARY MultiThreaded)
+diff --git a/flang/runtime/CMakeLists.txt b/flang/runtime/CMakeLists.txt
+index d587fd44b167..ed2a9cedfd00 100644
+--- a/flang/runtime/CMakeLists.txt
++++ b/flang/runtime/CMakeLists.txt
+@@ -255,6 +255,7 @@ endif()
+ 
+ if (NOT DEFINED MSVC)
+   add_flang_library(FortranRuntime
++    SHARED
+     ${sources}
+     LINK_LIBS
+     FortranDecimal

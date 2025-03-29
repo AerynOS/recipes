@@ -1,0 +1,791 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Micha=C5=82=20G=C3=B3rny?= <mgorny@gentoo.org>
+Date: Wed, 22 Jan 2025 10:01:50 +0100
+Subject: [PATCH 2/2] Reapply "[mlir] Link libraries that aren't included in
+ libMLIR to libMLIR" (#123910)
+
+Use `mlir_target_link_libraries()` to link dependencies of libraries
+that are not included in libMLIR, to ensure that they link to the dylib
+when they are used in Flang. Otherwise, they implicitly pull in all
+their static dependencies, effectively causing Flang binaries to
+simultaneously link to the dylib and to static libraries, which is never
+a good idea.
+
+I have only covered the libraries that are used by Flang. If you wish, I
+can extend this approach to all non-libMLIR libraries in MLIR, making
+MLIR itself also link to the dylib consistently.
+
+[v3 with more `-DBUILD_SHARED_LIBS=ON` fixes]
+---
+ mlir/cmake/modules/AddMLIR.cmake                           | 4 +++-
+ mlir/lib/CAPI/ExecutionEngine/CMakeLists.txt               | 4 +++-
+ mlir/lib/ExecutionEngine/CMakeLists.txt                    | 7 +++++--
+ mlir/lib/ExecutionEngine/SparseTensor/CMakeLists.txt       | 4 ++--
+ mlir/test/lib/Analysis/CMakeLists.txt                      | 4 +++-
+ mlir/test/lib/Conversion/ConvertToSPIRV/CMakeLists.txt     | 4 ++--
+ mlir/test/lib/Conversion/FuncToLLVM/CMakeLists.txt         | 4 +++-
+ mlir/test/lib/Conversion/MathToVCIX/CMakeLists.txt         | 4 ++--
+ .../lib/Conversion/OneToNTypeConversion/CMakeLists.txt     | 4 +++-
+ mlir/test/lib/Conversion/VectorToSPIRV/CMakeLists.txt      | 4 ++--
+ mlir/test/lib/Dialect/Affine/CMakeLists.txt                | 4 +++-
+ mlir/test/lib/Dialect/Arith/CMakeLists.txt                 | 4 ++--
+ mlir/test/lib/Dialect/ArmNeon/CMakeLists.txt               | 4 ++--
+ mlir/test/lib/Dialect/ArmSME/CMakeLists.txt                | 4 ++--
+ mlir/test/lib/Dialect/Bufferization/CMakeLists.txt         | 4 ++--
+ mlir/test/lib/Dialect/ControlFlow/CMakeLists.txt           | 4 ++--
+ mlir/test/lib/Dialect/DLTI/CMakeLists.txt                  | 4 +++-
+ mlir/test/lib/Dialect/Func/CMakeLists.txt                  | 4 +++-
+ mlir/test/lib/Dialect/GPU/CMakeLists.txt                   | 4 ++--
+ mlir/test/lib/Dialect/LLVM/CMakeLists.txt                  | 4 ++--
+ mlir/test/lib/Dialect/Linalg/CMakeLists.txt                | 4 ++--
+ mlir/test/lib/Dialect/Math/CMakeLists.txt                  | 4 ++--
+ mlir/test/lib/Dialect/MemRef/CMakeLists.txt                | 4 +++-
+ mlir/test/lib/Dialect/Mesh/CMakeLists.txt                  | 4 ++--
+ mlir/test/lib/Dialect/NVGPU/CMakeLists.txt                 | 4 ++--
+ mlir/test/lib/Dialect/SCF/CMakeLists.txt                   | 4 ++--
+ mlir/test/lib/Dialect/SPIRV/CMakeLists.txt                 | 4 ++--
+ mlir/test/lib/Dialect/Shape/CMakeLists.txt                 | 4 ++--
+ mlir/test/lib/Dialect/Tensor/CMakeLists.txt                | 4 ++--
+ mlir/test/lib/Dialect/Test/CMakeLists.txt                  | 4 ++--
+ mlir/test/lib/Dialect/TestDyn/CMakeLists.txt               | 4 ++--
+ mlir/test/lib/Dialect/Tosa/CMakeLists.txt                  | 4 ++--
+ mlir/test/lib/Dialect/Transform/CMakeLists.txt             | 4 ++--
+ mlir/test/lib/Dialect/Vector/CMakeLists.txt                | 4 ++--
+ mlir/test/lib/IR/CMakeLists.txt                            | 4 ++--
+ mlir/test/lib/Interfaces/LoopLikeInterface/CMakeLists.txt  | 4 ++--
+ mlir/test/lib/Interfaces/TilingInterface/CMakeLists.txt    | 4 ++--
+ mlir/test/lib/Pass/CMakeLists.txt                          | 5 +++--
+ mlir/test/lib/Reducer/CMakeLists.txt                       | 4 ++--
+ mlir/test/lib/Rewrite/CMakeLists.txt                       | 4 ++--
+ mlir/test/lib/Tools/PDLL/CMakeLists.txt                    | 4 +++-
+ mlir/test/lib/Transforms/CMakeLists.txt                    | 4 ++--
+ mlir/test/python/lib/CMakeLists.txt                        | 4 ++--
+ mlir/tools/mlir-opt/CMakeLists.txt                         | 4 ++--
+ mlir/unittests/ExecutionEngine/CMakeLists.txt              | 7 +++++++
+ 45 files changed, 109 insertions(+), 78 deletions(-)
+
+diff --git a/mlir/cmake/modules/AddMLIR.cmake b/mlir/cmake/modules/AddMLIR.cmake
+index e1e79593ec2c..899192ceb303 100644
+--- a/mlir/cmake/modules/AddMLIR.cmake
++++ b/mlir/cmake/modules/AddMLIR.cmake
+@@ -305,7 +305,9 @@ endfunction()
+ # EXCLUDE_FROM_LIBMLIR
+ #   Don't include this library in libMLIR.so.  This option should be used
+ #   for test libraries, executable-specific libraries, or rarely used libraries
+-#   with large dependencies.
++#   with large dependencies.  When using it, please link libraries included
++#   in libMLIR via mlir_target_link_libraries(), to ensure that the library
++#   does not pull in static dependencies when MLIR_LINK_MLIR_DYLIB=ON is used.
+ # OBJECT
+ #   The library's object library is referenced using "obj.${name}". For this to
+ #   work reliably, this flag ensures that the OBJECT library exists.
+diff --git a/mlir/lib/CAPI/ExecutionEngine/CMakeLists.txt b/mlir/lib/CAPI/ExecutionEngine/CMakeLists.txt
+index 0be8f2af5dcf..bf7dff897ab6 100644
+--- a/mlir/lib/CAPI/ExecutionEngine/CMakeLists.txt
++++ b/mlir/lib/CAPI/ExecutionEngine/CMakeLists.txt
+@@ -1,8 +1,10 @@
+ set(LLVM_LINK_COMPONENTS
+   nativecodegen
+   native
++  orcjit
++  support
+ )
+-  
++
+ # Main API shared library.
+ add_mlir_upstream_c_api_library(MLIRCAPIExecutionEngine
+   ExecutionEngine.cpp
+diff --git a/mlir/lib/ExecutionEngine/CMakeLists.txt b/mlir/lib/ExecutionEngine/CMakeLists.txt
+index a091944b9ee7..fbabdf511e2b 100644
+--- a/mlir/lib/ExecutionEngine/CMakeLists.txt
++++ b/mlir/lib/ExecutionEngine/CMakeLists.txt
+@@ -87,8 +87,9 @@ add_mlir_library(MLIRExecutionEngine
+   IPO
+   Passes
+   ${LLVM_JIT_LISTENER_LIB}
++  )
+ 
+-  LINK_LIBS PUBLIC
++mlir_target_link_libraries(MLIRExecutionEngine PUBLIC
+   MLIRBuiltinToLLVMIRTranslation
+   MLIRExecutionEngineUtils
+   MLIRLLVMDialect
+@@ -135,8 +136,10 @@ add_mlir_library(MLIRJitRunner
+   JITLink
+ 
+   LINK_LIBS PUBLIC
+-  ${dialect_libs}
+   MLIRExecutionEngine
++)
++mlir_target_link_libraries(MLIRJitRunner PUBLIC
++  ${dialect_libs}
+   MLIRFuncDialect
+   MLIRFuncToLLVM
+   MLIRIR
+diff --git a/mlir/lib/ExecutionEngine/SparseTensor/CMakeLists.txt b/mlir/lib/ExecutionEngine/SparseTensor/CMakeLists.txt
+index 15024b2475b9..6ef152934345 100644
+--- a/mlir/lib/ExecutionEngine/SparseTensor/CMakeLists.txt
++++ b/mlir/lib/ExecutionEngine/SparseTensor/CMakeLists.txt
+@@ -11,8 +11,8 @@ add_mlir_library(MLIRSparseTensorRuntime
+   Storage.cpp
+ 
+   EXCLUDE_FROM_LIBMLIR
+-
+-  LINK_LIBS PUBLIC
++  )
++mlir_target_link_libraries(MLIRSparseTensorRuntime PUBLIC
+   MLIRSparseTensorEnums
+   mlir_float16_utils
+   )
+diff --git a/mlir/test/lib/Analysis/CMakeLists.txt b/mlir/test/lib/Analysis/CMakeLists.txt
+index 7c6b31ae8b73..91879981bffd 100644
+--- a/mlir/test/lib/Analysis/CMakeLists.txt
++++ b/mlir/test/lib/Analysis/CMakeLists.txt
+@@ -21,12 +21,14 @@ add_mlir_library(MLIRTestAnalysis
+   EXCLUDE_FROM_LIBMLIR
+ 
+   LINK_LIBS PUBLIC
++  MLIRTestDialect
++  )
++mlir_target_link_libraries(MLIRTestAnalysis PUBLIC
+   MLIRAffineDialect
+   MLIRAnalysis
+   MLIRFunctionInterfaces
+   MLIRMemRefDialect
+   MLIRPass
+-  MLIRTestDialect
+   )
+ 
+ target_include_directories(MLIRTestAnalysis
+diff --git a/mlir/test/lib/Conversion/ConvertToSPIRV/CMakeLists.txt b/mlir/test/lib/Conversion/ConvertToSPIRV/CMakeLists.txt
+index 69b5787f7e85..32ca58f2548a 100644
+--- a/mlir/test/lib/Conversion/ConvertToSPIRV/CMakeLists.txt
++++ b/mlir/test/lib/Conversion/ConvertToSPIRV/CMakeLists.txt
+@@ -3,8 +3,8 @@ add_mlir_library(MLIRTestConvertToSPIRV
+   TestSPIRVFuncSignatureConversion.cpp
+ 
+   EXCLUDE_FROM_LIBMLIR
+-
+-  LINK_LIBS PUBLIC
++  )
++mlir_target_link_libraries(MLIRTestConvertToSPIRV PUBLIC
+   MLIRArithDialect
+   MLIRFuncDialect
+   MLIRPass
+diff --git a/mlir/test/lib/Conversion/FuncToLLVM/CMakeLists.txt b/mlir/test/lib/Conversion/FuncToLLVM/CMakeLists.txt
+index d3dbc94a99bc..f190b2da5a19 100644
+--- a/mlir/test/lib/Conversion/FuncToLLVM/CMakeLists.txt
++++ b/mlir/test/lib/Conversion/FuncToLLVM/CMakeLists.txt
+@@ -6,12 +6,14 @@ add_mlir_library(MLIRTestFuncToLLVM
+   EXCLUDE_FROM_LIBMLIR
+ 
+   LINK_LIBS PUBLIC
++  MLIRTestDialect
++  )
++mlir_target_link_libraries(MLIRTestFuncToLLVM PUBLIC
+   MLIRFuncToLLVM
+   MLIRLLVMCommonConversion
+   MLIRLLVMDialect
+   MLIRLLVMIRTransforms
+   MLIRPass
+-  MLIRTestDialect
+   )
+ 
+ target_include_directories(MLIRTestFuncToLLVM
+diff --git a/mlir/test/lib/Conversion/MathToVCIX/CMakeLists.txt b/mlir/test/lib/Conversion/MathToVCIX/CMakeLists.txt
+index 933e84722fbb..3726993b5969 100644
+--- a/mlir/test/lib/Conversion/MathToVCIX/CMakeLists.txt
++++ b/mlir/test/lib/Conversion/MathToVCIX/CMakeLists.txt
+@@ -3,8 +3,8 @@ add_mlir_library(MLIRTestMathToVCIX
+   TestMathToVCIXConversion.cpp
+ 
+   EXCLUDE_FROM_LIBMLIR
+-
+-  LINK_LIBS PUBLIC
++)
++mlir_target_link_libraries(MLIRTestMathToVCIX PUBLIC
+   MLIRArithDialect
+   MLIRFuncDialect
+   MLIRMathDialect
+diff --git a/mlir/test/lib/Conversion/OneToNTypeConversion/CMakeLists.txt b/mlir/test/lib/Conversion/OneToNTypeConversion/CMakeLists.txt
+index b72302202f72..f0ea87946a98 100644
+--- a/mlir/test/lib/Conversion/OneToNTypeConversion/CMakeLists.txt
++++ b/mlir/test/lib/Conversion/OneToNTypeConversion/CMakeLists.txt
+@@ -4,13 +4,15 @@ add_mlir_library(MLIRTestOneToNTypeConversionPass
+   EXCLUDE_FROM_LIBMLIR
+ 
+   LINK_LIBS PUBLIC
++  MLIRTestDialect
++ )
++mlir_target_link_libraries(MLIRTestOneToNTypeConversionPass PUBLIC
+   MLIRFuncDialect
+   MLIRFuncTransforms
+   MLIRIR
+   MLIRPass
+   MLIRSCFDialect
+   MLIRSCFTransforms
+-  MLIRTestDialect
+   MLIRTransformUtils
+  )
+ 
+diff --git a/mlir/test/lib/Conversion/VectorToSPIRV/CMakeLists.txt b/mlir/test/lib/Conversion/VectorToSPIRV/CMakeLists.txt
+index 09ed283ac97b..cb5ecc933ad8 100644
+--- a/mlir/test/lib/Conversion/VectorToSPIRV/CMakeLists.txt
++++ b/mlir/test/lib/Conversion/VectorToSPIRV/CMakeLists.txt
+@@ -3,8 +3,8 @@ add_mlir_library(MLIRTestVectorToSPIRV
+   TestVectorReductionToSPIRVDotProd.cpp
+ 
+   EXCLUDE_FROM_LIBMLIR
+-
+-  LINK_LIBS PUBLIC
++  )
++mlir_target_link_libraries(MLIRTestVectorToSPIRV PUBLIC
+   MLIRVectorToSPIRV
+   MLIRArithDialect
+   MLIRFuncDialect
+diff --git a/mlir/test/lib/Dialect/Affine/CMakeLists.txt b/mlir/test/lib/Dialect/Affine/CMakeLists.txt
+index 33cefab9fa2e..885bc9b4c3af 100644
+--- a/mlir/test/lib/Dialect/Affine/CMakeLists.txt
++++ b/mlir/test/lib/Dialect/Affine/CMakeLists.txt
+@@ -21,6 +21,9 @@ add_mlir_library(MLIRAffineTransformsTestPasses
+   Core
+ 
+   LINK_LIBS PUBLIC
++  MLIRTestDialect
++  )
++mlir_target_link_libraries(MLIRAffineTransformsTestPasses PUBLIC
+   MLIRArithTransforms
+   MLIRAffineAnalysis
+   MLIRAffineTransforms
+@@ -30,7 +33,6 @@ add_mlir_library(MLIRAffineTransformsTestPasses
+   MLIRSupport
+   MLIRMemRefDialect
+   MLIRTensorDialect
+-  MLIRTestDialect
+   MLIRVectorUtils
+   )
+ 
+diff --git a/mlir/test/lib/Dialect/Arith/CMakeLists.txt b/mlir/test/lib/Dialect/Arith/CMakeLists.txt
+index 33615ab21a17..0c05ed5ce621 100644
+--- a/mlir/test/lib/Dialect/Arith/CMakeLists.txt
++++ b/mlir/test/lib/Dialect/Arith/CMakeLists.txt
+@@ -3,8 +3,8 @@ add_mlir_library(MLIRArithTestPasses
+   TestEmulateWideInt.cpp
+ 
+   EXCLUDE_FROM_LIBMLIR
+-
+-  LINK_LIBS PUBLIC
++)
++mlir_target_link_libraries(MLIRArithTestPasses PUBLIC
+   MLIRArithDialect
+   MLIRArithTransforms
+   MLIRFuncDialect
+diff --git a/mlir/test/lib/Dialect/ArmNeon/CMakeLists.txt b/mlir/test/lib/Dialect/ArmNeon/CMakeLists.txt
+index 21548ca57701..460842d23853 100644
+--- a/mlir/test/lib/Dialect/ArmNeon/CMakeLists.txt
++++ b/mlir/test/lib/Dialect/ArmNeon/CMakeLists.txt
+@@ -3,8 +3,8 @@ add_mlir_library(MLIRArmNeonTestPasses
+   TestLowerToArmNeon.cpp
+ 
+   EXCLUDE_FROM_LIBMLIR
+-
+-  LINK_LIBS PUBLIC
++  )
++mlir_target_link_libraries(MLIRArmNeonTestPasses PUBLIC
+   MLIRArmNeonDialect
+   MLIRArmNeonTransforms
+   MLIRIR
+diff --git a/mlir/test/lib/Dialect/ArmSME/CMakeLists.txt b/mlir/test/lib/Dialect/ArmSME/CMakeLists.txt
+index cdd8afe14142..9ee93dec6594 100644
+--- a/mlir/test/lib/Dialect/ArmSME/CMakeLists.txt
++++ b/mlir/test/lib/Dialect/ArmSME/CMakeLists.txt
+@@ -3,8 +3,8 @@ add_mlir_library(MLIRArmSMETestPasses
+   TestLowerToArmSME.cpp
+ 
+   EXCLUDE_FROM_LIBMLIR
+-
+-  LINK_LIBS PUBLIC
++  )
++mlir_target_link_libraries(MLIRArmSMETestPasses PUBLIC
+   MLIRArithToArmSME
+   MLIRArmSMEToLLVM
+   MLIRArmSMEToSCF
+diff --git a/mlir/test/lib/Dialect/Bufferization/CMakeLists.txt b/mlir/test/lib/Dialect/Bufferization/CMakeLists.txt
+index a183d02cefed..c14a9f2cc9bb 100644
+--- a/mlir/test/lib/Dialect/Bufferization/CMakeLists.txt
++++ b/mlir/test/lib/Dialect/Bufferization/CMakeLists.txt
+@@ -3,8 +3,8 @@ add_mlir_library(MLIRBufferizationTestPasses
+   TestTensorCopyInsertion.cpp
+ 
+   EXCLUDE_FROM_LIBMLIR
+-
+-  LINK_LIBS PUBLIC
++)
++mlir_target_link_libraries(MLIRBufferizationTestPasses PUBLIC
+   MLIRBufferizationDialect
+   MLIRBufferizationTransforms
+   MLIRIR
+diff --git a/mlir/test/lib/Dialect/ControlFlow/CMakeLists.txt b/mlir/test/lib/Dialect/ControlFlow/CMakeLists.txt
+index 39d9555c7405..03ae3c749f99 100644
+--- a/mlir/test/lib/Dialect/ControlFlow/CMakeLists.txt
++++ b/mlir/test/lib/Dialect/ControlFlow/CMakeLists.txt
+@@ -3,8 +3,8 @@ add_mlir_library(MLIRControlFlowTestPasses
+   TestAssert.cpp
+ 
+   EXCLUDE_FROM_LIBMLIR
+-
+-  LINK_LIBS PUBLIC
++)
++mlir_target_link_libraries(MLIRControlFlowTestPasses PUBLIC
+   MLIRControlFlowToLLVM
+   MLIRFuncDialect
+   MLIRLLVMCommonConversion
+diff --git a/mlir/test/lib/Dialect/DLTI/CMakeLists.txt b/mlir/test/lib/Dialect/DLTI/CMakeLists.txt
+index fddc3e342e0a..98cf47c78866 100644
+--- a/mlir/test/lib/Dialect/DLTI/CMakeLists.txt
++++ b/mlir/test/lib/Dialect/DLTI/CMakeLists.txt
+@@ -5,9 +5,11 @@ add_mlir_library(MLIRDLTITestPasses
+   EXCLUDE_FROM_LIBMLIR
+ 
+   LINK_LIBS PUBLIC
++  MLIRTestDialect
++  )
++mlir_target_link_libraries(MLIRDLTITestPasses PUBLIC
+   MLIRDLTIDialect
+   MLIRPass
+-  MLIRTestDialect
+   )
+ 
+ target_include_directories(MLIRDLTITestPasses
+diff --git a/mlir/test/lib/Dialect/Func/CMakeLists.txt b/mlir/test/lib/Dialect/Func/CMakeLists.txt
+index 6adf893e44f0..1fbe1f59e2fe 100644
+--- a/mlir/test/lib/Dialect/Func/CMakeLists.txt
++++ b/mlir/test/lib/Dialect/Func/CMakeLists.txt
+@@ -5,10 +5,12 @@ add_mlir_library(MLIRFuncTestPasses
+   EXCLUDE_FROM_LIBMLIR
+ 
+   LINK_LIBS PUBLIC
++  MLIRTestDialect
++  )
++mlir_target_link_libraries(MLIRFuncTestPasses PUBLIC
+   MLIRAffineDialect
+   MLIRPass
+   MLIRFuncTransforms
+-  MLIRTestDialect
+   MLIRTransformUtils
+   )
+ 
+diff --git a/mlir/test/lib/Dialect/GPU/CMakeLists.txt b/mlir/test/lib/Dialect/GPU/CMakeLists.txt
+index 48cbc4ad5505..4ca5974ed5a4 100644
+--- a/mlir/test/lib/Dialect/GPU/CMakeLists.txt
++++ b/mlir/test/lib/Dialect/GPU/CMakeLists.txt
+@@ -36,8 +36,8 @@ add_mlir_library(MLIRGPUTestPasses
+   TestGpuRewrite.cpp
+ 
+   EXCLUDE_FROM_LIBMLIR
+-
+-  LINK_LIBS PUBLIC
++  )
++mlir_target_link_libraries(MLIRGPUTestPasses PUBLIC
+   ${LIBS}
+   )
+ 
+diff --git a/mlir/test/lib/Dialect/LLVM/CMakeLists.txt b/mlir/test/lib/Dialect/LLVM/CMakeLists.txt
+index 734757ce79da..51e93b95b702 100644
+--- a/mlir/test/lib/Dialect/LLVM/CMakeLists.txt
++++ b/mlir/test/lib/Dialect/LLVM/CMakeLists.txt
+@@ -3,8 +3,8 @@ add_mlir_library(MLIRLLVMTestPasses
+   TestLowerToLLVM.cpp
+ 
+   EXCLUDE_FROM_LIBMLIR
+-
+-  LINK_LIBS PUBLIC
++  )
++mlir_target_link_libraries(MLIRLLVMTestPasses PUBLIC
+   MLIRAffineToStandard
+   MLIRFuncDialect
+   MLIRFuncToLLVM
+diff --git a/mlir/test/lib/Dialect/Linalg/CMakeLists.txt b/mlir/test/lib/Dialect/Linalg/CMakeLists.txt
+index 283e426b4e59..eb6f58125218 100644
+--- a/mlir/test/lib/Dialect/Linalg/CMakeLists.txt
++++ b/mlir/test/lib/Dialect/Linalg/CMakeLists.txt
+@@ -10,8 +10,8 @@ add_mlir_library(MLIRLinalgTestPasses
+   TestPadFusion.cpp
+ 
+   EXCLUDE_FROM_LIBMLIR
+-
+-  LINK_LIBS PUBLIC
++  )
++mlir_target_link_libraries(MLIRLinalgTestPasses PUBLIC
+   MLIRAffineDialect
+   MLIRArithDialect
+   MLIRArithTransforms
+diff --git a/mlir/test/lib/Dialect/Math/CMakeLists.txt b/mlir/test/lib/Dialect/Math/CMakeLists.txt
+index 195d392d6ad3..91e70d178536 100644
+--- a/mlir/test/lib/Dialect/Math/CMakeLists.txt
++++ b/mlir/test/lib/Dialect/Math/CMakeLists.txt
+@@ -5,8 +5,8 @@ add_mlir_library(MLIRMathTestPasses
+   TestPolynomialApproximation.cpp
+ 
+   EXCLUDE_FROM_LIBMLIR
+-
+-  LINK_LIBS PUBLIC
++  )
++mlir_target_link_libraries(MLIRMathTestPasses PUBLIC
+   MLIRMathTransforms
+   MLIRPass
+   MLIRTransformUtils
+diff --git a/mlir/test/lib/Dialect/MemRef/CMakeLists.txt b/mlir/test/lib/Dialect/MemRef/CMakeLists.txt
+index 0498de3eb931..39457ab2d0bf 100644
+--- a/mlir/test/lib/Dialect/MemRef/CMakeLists.txt
++++ b/mlir/test/lib/Dialect/MemRef/CMakeLists.txt
+@@ -7,10 +7,12 @@ add_mlir_library(MLIRMemRefTestPasses
+   EXCLUDE_FROM_LIBMLIR
+ 
+   LINK_LIBS PUBLIC
++  MLIRTestDialect
++  )
++mlir_target_link_libraries(MLIRMemRefTestPasses PUBLIC
+   MLIRPass
+   MLIRMemRefDialect
+   MLIRMemRefTransforms
+-  MLIRTestDialect
+   )
+ 
+ target_include_directories(MLIRMemRefTestPasses
+diff --git a/mlir/test/lib/Dialect/Mesh/CMakeLists.txt b/mlir/test/lib/Dialect/Mesh/CMakeLists.txt
+index 07e9bb6f9f23..7bd0493d11a7 100644
+--- a/mlir/test/lib/Dialect/Mesh/CMakeLists.txt
++++ b/mlir/test/lib/Dialect/Mesh/CMakeLists.txt
+@@ -5,8 +5,8 @@ add_mlir_library(MLIRMeshTest
+   TestSimplifications.cpp
+ 
+   EXCLUDE_FROM_LIBMLIR
+-
+-  LINK_LIBS PUBLIC
++  )
++mlir_target_link_libraries(MLIRMeshTest PUBLIC
+   MLIRMeshDialect
+   MLIRMeshTransforms
+   MLIRPass
+diff --git a/mlir/test/lib/Dialect/NVGPU/CMakeLists.txt b/mlir/test/lib/Dialect/NVGPU/CMakeLists.txt
+index 6b333bdb3c08..025f1a0dbc48 100644
+--- a/mlir/test/lib/Dialect/NVGPU/CMakeLists.txt
++++ b/mlir/test/lib/Dialect/NVGPU/CMakeLists.txt
+@@ -3,8 +3,8 @@ add_mlir_library(MLIRNVGPUTestPasses
+   TestNVGPUTransforms.cpp
+ 
+   EXCLUDE_FROM_LIBMLIR
+-
+-  LINK_LIBS PUBLIC
++  )
++mlir_target_link_libraries(MLIRNVGPUTestPasses PUBLIC
+   MLIRIR
+   MLIRAffineDialect
+   MLIRAnalysis
+diff --git a/mlir/test/lib/Dialect/SCF/CMakeLists.txt b/mlir/test/lib/Dialect/SCF/CMakeLists.txt
+index 792430cc84b6..791c2e681415 100644
+--- a/mlir/test/lib/Dialect/SCF/CMakeLists.txt
++++ b/mlir/test/lib/Dialect/SCF/CMakeLists.txt
+@@ -8,8 +8,8 @@ add_mlir_library(MLIRSCFTestPasses
+   TestWhileOpBuilder.cpp
+ 
+   EXCLUDE_FROM_LIBMLIR
+-
+-  LINK_LIBS PUBLIC
++  )
++mlir_target_link_libraries(MLIRSCFTestPasses PUBLIC
+   MLIRMemRefDialect
+   MLIRPass
+   MLIRSCFDialect
+diff --git a/mlir/test/lib/Dialect/SPIRV/CMakeLists.txt b/mlir/test/lib/Dialect/SPIRV/CMakeLists.txt
+index 11760da0005c..0e2c1344782d 100644
+--- a/mlir/test/lib/Dialect/SPIRV/CMakeLists.txt
++++ b/mlir/test/lib/Dialect/SPIRV/CMakeLists.txt
+@@ -9,8 +9,8 @@ add_mlir_library(MLIRSPIRVTestPasses
+   ADDITIONAL_HEADER_DIRS
+   ${MLIR_MAIN_INCLUDE_DIR}/mlir/Dialect/SPIRV
+   ${MLIR_MAIN_INCLUDE_DIR}/mlir/IR
+-
+-  LINK_LIBS PUBLIC
++  )
++mlir_target_link_libraries(MLIRSPIRVTestPasses PUBLIC
+   MLIRGPUDialect
+   MLIRIR
+   MLIRPass
+diff --git a/mlir/test/lib/Dialect/Shape/CMakeLists.txt b/mlir/test/lib/Dialect/Shape/CMakeLists.txt
+index 545f13db25a8..90c8c6cb223b 100644
+--- a/mlir/test/lib/Dialect/Shape/CMakeLists.txt
++++ b/mlir/test/lib/Dialect/Shape/CMakeLists.txt
+@@ -8,8 +8,8 @@ add_mlir_library(MLIRShapeTestPasses
+   ADDITIONAL_HEADER_DIRS
+   ${MLIR_MAIN_INCLUDE_DIR}/mlir/Dialect/Shape
+   ${MLIR_MAIN_INCLUDE_DIR}/mlir/IR
+-
+-  LINK_LIBS PUBLIC
++  )
++mlir_target_link_libraries(MLIRShapeTestPasses PUBLIC
+   MLIRIR
+   MLIRPass
+   MLIRShapeOpsTransforms
+diff --git a/mlir/test/lib/Dialect/Tensor/CMakeLists.txt b/mlir/test/lib/Dialect/Tensor/CMakeLists.txt
+index f22b21d17329..28eae8ffb670 100644
+--- a/mlir/test/lib/Dialect/Tensor/CMakeLists.txt
++++ b/mlir/test/lib/Dialect/Tensor/CMakeLists.txt
+@@ -3,8 +3,8 @@ add_mlir_library(MLIRTensorTestPasses
+   TestTensorTransforms.cpp
+ 
+   EXCLUDE_FROM_LIBMLIR
+-
+-  LINK_LIBS PUBLIC
++  )
++mlir_target_link_libraries(MLIRTensorTestPasses PUBLIC
+   MLIRArithDialect
+   MLIRLinalgDialect
+   MLIRPass
+diff --git a/mlir/test/lib/Dialect/Test/CMakeLists.txt b/mlir/test/lib/Dialect/Test/CMakeLists.txt
+index 967101242e26..618b13da9899 100644
+--- a/mlir/test/lib/Dialect/Test/CMakeLists.txt
++++ b/mlir/test/lib/Dialect/Test/CMakeLists.txt
+@@ -68,8 +68,8 @@ add_mlir_library(MLIRTestDialect
+   MLIRTestOpsIncGen
+   MLIRTestOpsSyntaxIncGen
+   MLIRTestOpsShardGen
+-
+-  LINK_LIBS PUBLIC
++  )
++mlir_target_link_libraries(MLIRTestDialect PUBLIC
+   MLIRControlFlowInterfaces
+   MLIRDataLayoutInterfaces
+   MLIRDerivedAttributeOpInterface
+diff --git a/mlir/test/lib/Dialect/TestDyn/CMakeLists.txt b/mlir/test/lib/Dialect/TestDyn/CMakeLists.txt
+index 13eb9040b074..2c6854efee53 100644
+--- a/mlir/test/lib/Dialect/TestDyn/CMakeLists.txt
++++ b/mlir/test/lib/Dialect/TestDyn/CMakeLists.txt
+@@ -2,7 +2,7 @@ add_mlir_dialect_library(MLIRTestDynDialect
+   TestDynDialect.cpp
+ 
+   EXCLUDE_FROM_LIBMLIR
+-
+-  LINK_LIBS PUBLIC
++)
++mlir_target_link_libraries(MLIRTestDynDialect PUBLIC
+   MLIRIR
+ )
+diff --git a/mlir/test/lib/Dialect/Tosa/CMakeLists.txt b/mlir/test/lib/Dialect/Tosa/CMakeLists.txt
+index e5dd35d6dbcb..7d40881ee6ee 100644
+--- a/mlir/test/lib/Dialect/Tosa/CMakeLists.txt
++++ b/mlir/test/lib/Dialect/Tosa/CMakeLists.txt
+@@ -8,8 +8,8 @@ add_mlir_dialect_library(MLIRTosaTestPasses
+ 
+   DEPENDS
+   MLIRTosaPassIncGen
+-
+-  LINK_LIBS PUBLIC
++  )
++mlir_target_link_libraries(MLIRTosaTestPasses PUBLIC
+   MLIRFuncDialect
+   MLIRPass
+   MLIRTosaDialect
+diff --git a/mlir/test/lib/Dialect/Transform/CMakeLists.txt b/mlir/test/lib/Dialect/Transform/CMakeLists.txt
+index e6ab915a657b..d75119e73889 100644
+--- a/mlir/test/lib/Dialect/Transform/CMakeLists.txt
++++ b/mlir/test/lib/Dialect/Transform/CMakeLists.txt
+@@ -14,8 +14,8 @@ add_mlir_library(MLIRTestTransformDialect
+ 
+   DEPENDS
+   MLIRTestTransformDialectExtensionIncGen
+-
+-  LINK_LIBS PUBLIC
++)
++mlir_target_link_libraries(MLIRTestTransformDialect PUBLIC
+   MLIRIR
+   MLIRPass
+   MLIRPDLDialect
+diff --git a/mlir/test/lib/Dialect/Vector/CMakeLists.txt b/mlir/test/lib/Dialect/Vector/CMakeLists.txt
+index d8e6b24b0c26..e16937029ac0 100644
+--- a/mlir/test/lib/Dialect/Vector/CMakeLists.txt
++++ b/mlir/test/lib/Dialect/Vector/CMakeLists.txt
+@@ -3,8 +3,8 @@ add_mlir_library(MLIRVectorTestPasses
+   TestVectorTransforms.cpp
+ 
+   EXCLUDE_FROM_LIBMLIR
+-
+-  LINK_LIBS PUBLIC
++  )
++mlir_target_link_libraries(MLIRVectorTestPasses PUBLIC
+   MLIRAffineDialect
+   MLIRAnalysis
+   MLIRArithDialect
+diff --git a/mlir/test/lib/IR/CMakeLists.txt b/mlir/test/lib/IR/CMakeLists.txt
+index faaa3bb8db24..4e12c891365c 100644
+--- a/mlir/test/lib/IR/CMakeLists.txt
++++ b/mlir/test/lib/IR/CMakeLists.txt
+@@ -26,8 +26,8 @@ add_mlir_library(MLIRTestIR
+   TestVisitorsGeneric.cpp
+ 
+   EXCLUDE_FROM_LIBMLIR
+-
+-  LINK_LIBS PUBLIC
++  )
++mlir_target_link_libraries(MLIRTestIR PUBLIC
+   MLIRPass
+   MLIRBytecodeReader
+   MLIRBytecodeWriter
+diff --git a/mlir/test/lib/Interfaces/LoopLikeInterface/CMakeLists.txt b/mlir/test/lib/Interfaces/LoopLikeInterface/CMakeLists.txt
+index f20219e00cb8..cb1e7adb412c 100644
+--- a/mlir/test/lib/Interfaces/LoopLikeInterface/CMakeLists.txt
++++ b/mlir/test/lib/Interfaces/LoopLikeInterface/CMakeLists.txt
+@@ -2,8 +2,8 @@ add_mlir_library(MLIRLoopLikeInterfaceTestPasses
+   TestBlockInLoop.cpp
+ 
+   EXCLUDE_FROM_LIBMLIR
+-
+-  LINK_LIBS PUBLIC
++  )
++mlir_target_link_libraries(MLIRLoopLikeInterfaceTestPasses PUBLIC
+   MLIRPass
+   MLIRLoopLikeInterface
+   MLIRFuncDialect
+diff --git a/mlir/test/lib/Interfaces/TilingInterface/CMakeLists.txt b/mlir/test/lib/Interfaces/TilingInterface/CMakeLists.txt
+index c2431dd15f1d..657fcb76815b 100644
+--- a/mlir/test/lib/Interfaces/TilingInterface/CMakeLists.txt
++++ b/mlir/test/lib/Interfaces/TilingInterface/CMakeLists.txt
+@@ -10,8 +10,8 @@ add_mlir_library(MLIRTilingInterfaceTestPasses
+   MLIRTestTilingInterfaceTransformOpsIncGen
+ 
+   EXCLUDE_FROM_LIBMLIR
+-
+-  LINK_LIBS PUBLIC
++  )
++mlir_target_link_libraries(MLIRTilingInterfaceTestPasses PUBLIC
+   MLIRAffineDialect
+   MLIRArithDialect
+   MLIRIndexDialect
+diff --git a/mlir/test/lib/Pass/CMakeLists.txt b/mlir/test/lib/Pass/CMakeLists.txt
+index dd90c228cdaf..8a412064bb1e 100644
+--- a/mlir/test/lib/Pass/CMakeLists.txt
++++ b/mlir/test/lib/Pass/CMakeLists.txt
+@@ -7,8 +7,9 @@ add_mlir_library(MLIRTestPass
+ 
+   ADDITIONAL_HEADER_DIRS
+   ${MLIR_MAIN_INCLUDE_DIR}/mlir/Pass
+-
+-  LINK_LIBS PUBLIC
++  )
++mlir_target_link_libraries(MLIRTestPass PUBLIC
++  ${conversion_libs}
+   MLIRIR
+   MLIRPass
+   MLIRTestDialect
+diff --git a/mlir/test/lib/Reducer/CMakeLists.txt b/mlir/test/lib/Reducer/CMakeLists.txt
+index 61743b6097d6..1ea33bdd0a5b 100644
+--- a/mlir/test/lib/Reducer/CMakeLists.txt
++++ b/mlir/test/lib/Reducer/CMakeLists.txt
+@@ -9,8 +9,8 @@ add_mlir_library(MLIRTestReducer
+ 
+   LINK_COMPONENTS
+   Core
+-
+-  LINK_LIBS PUBLIC
++  )
++mlir_target_link_libraries(MLIRTestReducer PUBLIC
+   MLIRIR
+   MLIRPass
+   MLIRSupport
+diff --git a/mlir/test/lib/Rewrite/CMakeLists.txt b/mlir/test/lib/Rewrite/CMakeLists.txt
+index f8926aa8e487..75702ca89333 100644
+--- a/mlir/test/lib/Rewrite/CMakeLists.txt
++++ b/mlir/test/lib/Rewrite/CMakeLists.txt
+@@ -7,8 +7,8 @@ if (MLIR_ENABLE_PDL_IN_PATTERNMATCH)
+ 
+     ADDITIONAL_HEADER_DIRS
+     ${MLIR_MAIN_INCLUDE_DIR}/mlir/Rewrite
+-
+-    LINK_LIBS PUBLIC
++    )
++  mlir_target_link_libraries(MLIRTestRewrite PUBLIC
+     MLIRIR
+     MLIRPass
+     MLIRSupport
+diff --git a/mlir/test/lib/Tools/PDLL/CMakeLists.txt b/mlir/test/lib/Tools/PDLL/CMakeLists.txt
+index 408c29ea35ec..60cf30b33e55 100644
+--- a/mlir/test/lib/Tools/PDLL/CMakeLists.txt
++++ b/mlir/test/lib/Tools/PDLL/CMakeLists.txt
+@@ -20,13 +20,15 @@ add_mlir_library(MLIRTestPDLL
+   MLIRTestPDLLPatternsIncGen
+ 
+   LINK_LIBS PUBLIC
++  MLIRTestDialect
++  )
++mlir_target_link_libraries(MLIRTestPDLL PUBLIC
+   MLIRCastInterfaces
+   MLIRIR
+   MLIRPass
+   MLIRPDLInterpDialect
+   MLIRPDLDialect
+   MLIRSupport
+-  MLIRTestDialect
+   MLIRTransformUtils
+   )
+ 
+diff --git a/mlir/test/lib/Transforms/CMakeLists.txt b/mlir/test/lib/Transforms/CMakeLists.txt
+index 66b1faf78e2d..b91265d20fb4 100644
+--- a/mlir/test/lib/Transforms/CMakeLists.txt
++++ b/mlir/test/lib/Transforms/CMakeLists.txt
+@@ -34,8 +34,8 @@ add_mlir_library(MLIRTestTransforms
+ 
+   DEPENDS
+   ${MLIRTestTransformsPDLDep}
+-
+-  LINK_LIBS PUBLIC
++  )
++mlir_target_link_libraries(MLIRTestTransforms PUBLIC
+   MLIRAnalysis
+   MLIRFuncDialect
+   MLIRInferIntRangeInterface
+diff --git a/mlir/test/python/lib/CMakeLists.txt b/mlir/test/python/lib/CMakeLists.txt
+index d7cbbfbc2147..19d4aee371ef 100644
+--- a/mlir/test/python/lib/CMakeLists.txt
++++ b/mlir/test/python/lib/CMakeLists.txt
+@@ -11,8 +11,8 @@ add_mlir_library(MLIRPythonTestDialect
+ 
+   DEPENDS
+   MLIRPythonTestIncGen
+-
+-  LINK_LIBS PUBLIC
++)
++mlir_target_link_libraries(MLIRPythonTestDialect PUBLIC
+   MLIRInferTypeOpInterface
+   MLIRIR
+   MLIRSupport
+diff --git a/mlir/tools/mlir-opt/CMakeLists.txt b/mlir/tools/mlir-opt/CMakeLists.txt
+index 71ab67d94ef9..1a99adab5a2a 100644
+--- a/mlir/tools/mlir-opt/CMakeLists.txt
++++ b/mlir/tools/mlir-opt/CMakeLists.txt
+@@ -91,8 +91,8 @@ add_mlir_library(MLIRMlirOptMain
+   mlir-opt.cpp
+ 
+   EXCLUDE_FROM_LIBMLIR
+-
+-  LINK_LIBS PUBLIC
++  )
++mlir_target_link_libraries(MLIRMlirOptMain PUBLIC
+   ${LIBS}
+   )
+ 
+diff --git a/mlir/unittests/ExecutionEngine/CMakeLists.txt b/mlir/unittests/ExecutionEngine/CMakeLists.txt
+index 383e172aa3f6..348256733c0d 100644
+--- a/mlir/unittests/ExecutionEngine/CMakeLists.txt
++++ b/mlir/unittests/ExecutionEngine/CMakeLists.txt
+@@ -1,3 +1,10 @@
++set(LLVM_LINK_COMPONENTS
++  nativecodegen
++  native
++  orcjit
++  support
++)
++
+ add_mlir_unittest(MLIRExecutionEngineTests
+   DynamicMemRef.cpp
+   StridedMemRef.cpp

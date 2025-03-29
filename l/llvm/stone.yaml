@@ -5,7 +5,7 @@
 #
 name        : llvm
 version     : 19.1.7
-release     : 21
+release     : 22
 summary     : Low Level Virtual Machine
 license     :
     - Apache-2.0 WITH LLVM-exception
@@ -30,17 +30,14 @@ builddeps   :
     - pkgconfig32(zlib)
     - binutils-devel
     - clang-32bit
-    - g++-32bit
-    - glibc-32bit-devel
-    - libcxx-32bit-devel
+    - gcc-32bit
     # TODO: Package python-myst-parser so we can build man pages
-# LTO needs to be set in LLVM cmake flags so it adds -fno-lto where needed
 tuning      :
     - fortify: false
     - frame-pointer: false
     - harden: false
     - icf: all
-    - lto: false
+    - lto: false # LTO needs to be set in LLVM cmake flags so it adds -fno-lto where needed
     - nosemantic
     - optimize: speed
     - polly
@@ -53,16 +50,18 @@ environment : |
         # We really only care about 32bit LLVM in the context of Mesa which doesn't need anything besides libLLVM
         # Additionally it's possible that we really only need it to support the AMDGPU target but that is untested.
         # TODO: Test that. Low priority since the 32bit build is already relatively short
-        _BUILD_TARGETS="X86;AMDGPU"
+        _BUILD_TARGETS="AMDGPU;X86"
         _PROJECTS="llvm"
+        _RUNTIMES="libcxx;libcxxabi;libunwind"
 
     else
         _TARGET_ARCH=x86_64
         _IS_64BIT_BUILD="ON"
 
         # Full-fat (in the milk sense) build suitable for cross-compilation
-        _BUILD_TARGETS="X86;AMDGPU;AArch64;ARM;BPF;WebAssembly"
-        _PROJECTS="clang;clang-tools-extra;compiler-rt;lld;llvm;openmp;polly"
+        _BUILD_TARGETS="AArch64;AMDGPU;ARM;BPF;RISCV;WebAssembly;X86"
+        _PROJECTS="clang;clang-tools-extra;flang;lld;llvm;mlir;polly"
+        _RUNTIMES="compiler-rt;libcxx;libcxxabi;libunwind;offload;openmp"
     fi
 
     if [[ " ${PATH[*]} " =~ "ccache" ]]; then
@@ -77,9 +76,11 @@ environment : |
         %patch %(pkgdir)/patches/build/build-libLLVMSupport-for-perf-training.patch
         %patch %(pkgdir)/patches/build/0001-Build-lld-libraries-shared.patch
         %patch %(pkgdir)/patches/build/0001-Build-polly-libraries-shared.patch
+        # %patch %(pkgdir)/patches/build/0001-flang-Build-runtime-shared.patch # TODO figure out this build failure
         %patch %(pkgdir)/patches/build/0001-Emit-relocations-for-BOLT.patch
         %patch %(pkgdir)/patches/build/0003-PATCH-clang-Don-t-install-static-libraries.patch
         %patch %(pkgdir)/patches/build/0001-downstream-Suppress-runpath-in-openmp.patch
+        %patch %(pkgdir)/patches/build/0001-compiler-rt-Force-libc.patch
 
         # Runtime config changes. These often duplicate settings set by our CFLAGS/LDFLAGS and are intended as sane
         # defaults when a build either doesn't respect our flags or when a user is building a project outside of
@@ -88,20 +89,23 @@ environment : |
         %patch %(pkgdir)/patches/config/0001-lld-Use-zstd-compression-for-debug-symbols-by-defaul.patch
         %patch %(pkgdir)/patches/config/0001-lld-Always-enable-build-id-and-use-20-byte-hashes.patch
 
-        # Serpent-specific patches
-        %patch %(pkgdir)/patches/serpent/0001-Support-serpent-as-a-distro.patch
-        %patch %(pkgdir)/patches/serpent/0001-Use-correct-Serpent-OS-multilib-paths-for-ld.patch
-        %patch %(pkgdir)/patches/serpent/0001-Update-binutils-version-to-match-Serpent-OS.patch
-        %patch %(pkgdir)/patches/serpent/ignore-werror.patch
+        # Aeryn-specific patches
+        %patch %(pkgdir)/patches/aeryn/0001-Support-serpent-aeryn-as-a-distro.patch
+        %patch %(pkgdir)/patches/aeryn/0001-Use-correct-Serpent-OS-multilib-paths-for-ld.patch
+        %patch %(pkgdir)/patches/aeryn/0001-Update-binutils-version-to-match-Serpent-OS.patch
+        %patch %(pkgdir)/patches/aeryn/ignore-werror.patch
 
         # Performance-related patches
         %patch %(pkgdir)/patches/perf/0001-Reduce-GCC-startup-searches.patch
         %patch %(pkgdir)/patches/perf/0001-Use-mimalloc-for-clang-lld-llvm.patch
 
         # Upstream backports
-        ## Empty (for now)
+        %patch %(pkgdir)/patches/upstream/0001-mlir-Add-support-for-MLIR_LINK_MLIR_DYLIB-119408.patch
+        %patch %(pkgdir)/patches/upstream/0002-Reapply-mlir-Link-libraries-that-aren-t-included-in-.patch
     }
 
+    # 2025-03-25: Add LIBCXX_TYPEINFO_COMPARISON_IMPLEMENTATION=2 for https://bugs.kde.org/show_bug.cgi?id=479679
+    #  See also https://github.com/llvm/llvm-project/issues/36746
     function cmake_llvm_configure() {
         %cmake \
             -DCMAKE_BUILD_TYPE=Release \
@@ -113,12 +117,33 @@ environment : |
             -DCLANG_DEFAULT_RTLIB=compiler-rt \
             -DCLANG_DEFAULT_UNWINDLIB=libunwind \
             -DCLANG_LINK_CLANG_DYLIB=ON \
-            -DCLANG_REPOSITORY_STRING="Serpent %(version)-%(release)" \
+            -DCLANG_REPOSITORY_STRING="Aeryn" \
             -DCOMPILER_RT_USE_BUILTINS_LIBRARY=ON \
             -DCOMPILER_RT_USE_LIBCXX=ON \
             -DENABLE_LINKER_BUILD_ID=ON \
+            -DLIBCXX_ENABLE_ASSERTIONS=OFF \
+            -DLIBCXX_ENABLE_SHARED=ON \
+            -DLIBCXX_ENABLE_STATIC=ON \
+            -DLIBCXX_ENABLE_STATIC_ABI_LIBRARY=ON \
+            -DLIBCXX_HAS_ATOMIC_LIB=ON \
+            -DLIBCXX_STATICALLY_LINK_ABI_IN_SHARED_LIBRARY=ON \
+            -DLIBCXX_STATICALLY_LINK_ABI_IN_STATIC_LIBRARY=ON \
+            -DLIBCXX_TYPEINFO_COMPARISON_IMPLEMENTATION=2 \
+            -DLIBCXX_USE_COMPILER_RT=ON \
+            -DLIBCXXABI_ENABLE_SHARED=OFF \
+            -DLIBCXXABI_ENABLE_STATIC_UNWINDER=ON \
+            -DLIBCXXABI_USE_COMPILER_RT=ON \
+            -DLIBCXXABI_USE_LLVM_UNWINDER=ON \
+            -DLIBCXXABI_STATICALLY_LINK_UNWINDER_IN_SHARED_LIBRARY=OFF \
+            -DLIBCXXABI_STATICALLY_LINK_UNWINDER_IN_STATIC_LIBRARY=OFF \
             -DLIBOMP_INSTALL_ALIASES=OFF \
             -DLIBOMP_USE_HWLOC=ON \
+            -DLIBUNWIND_ENABLE_SHARED=ON \
+            -DLIBUNWIND_ENABLE_STATIC=ON \
+            -DLIBUNWIND_INSTALL_HEADERS=ON \
+            -DLIBUNWIND_INSTALL_LIBRARY=ON \
+            -DLIBUNWIND_INSTALL_LIBRARY=ON \
+            -DLIBUNWIND_USE_COMPILER_RT=ON \
             -DLLVM_APPEND_VC_REV=OFF \
             -DLLVM_BINUTILS_INCDIR=/usr/include \
             -DLLVM_BUILD_LLVM_DYLIB=ON \
@@ -133,6 +158,8 @@ environment : |
             -DLLVM_ENABLE_MODULES=OFF \
             -DLLVM_ENABLE_PER_TARGET_RUNTIME_DIR=OFF \
             -DLLVM_ENABLE_PROJECTS=$_PROJECTS \
+            -DLLVM_ENABLE_RTTI=ON \
+            -DLLVM_ENABLE_RUNTIMES=$_RUNTIMES \
             -DLLVM_ENABLE_ZLIB=ON \
             -DLLVM_ENABLE_ZSTD=ON \
             -DLLVM_INCLUDE_BENCHMARKS=OFF \
@@ -143,9 +170,12 @@ environment : |
             -DLLVM_LINK_LLVM_DYLIB=ON \
             -DLLVM_TARGET_ARCH=$_TARGET_ARCH \
             -DLLVM_TARGETS_TO_BUILD=$_BUILD_TARGETS \
+            -DLLVM_TOOL_OPENMP_BUILD=ON \
             -DLLVM_USE_PERF=$_IS_64BIT_BUILD \
             -DLLVM_USE_SANITIZER=OFF \
-            -DLLVM_ENABLE_RTTI=ON \
+            -DMLIR_BUILD_MLIR_C_DYLIB=ON \
+            -DMLIR_INSTALL_AGGREGATE_OBJECTS=OFF \
+            -DMLIR_LINK_MLIR_DYLIB=ON \
             -DOPENMP_INSTALL_LIBDIR="%(libdir)" \
             $EXTRA_LLVM_FLAGS \
             "$@"
@@ -162,15 +192,9 @@ profiles    :
                 -DCMAKE_C_FLAGS="$CFLAGS -m32" \
                 -DCMAKE_CXX_FLAGS="$CXXFLAGS -m32"
         build:   |
-            if [[ " ${PATH[*]} " =~ "ccache" ]]; then
-                ccache --zero-stats
-            fi
-
+            %ccache_zero
             %cmake_build
-
-            if [[ " ${PATH[*]} " =~ "ccache" ]]; then
-                ccache --show-stats
-            fi
+            %ccache_stats
         install: |
             %cmake_install
 
@@ -181,6 +205,10 @@ profiles    :
             # Make sure that the .defs files are arch-dependent
             mkdir %(installroot)/usr/include/llvm/Config/32
             mv %(installroot)/usr/include/llvm/Config/*.def %(installroot)/usr/include/llvm/Config/32/
+
+            # Origin: https://raw.githubusercontent.com/kraj/meta-clang/master/recipes-devtools/clang/clang/libunwind.pc.in
+            %install_dir %(installroot)%(libdir)/pkgconfig
+            sed -e 's@\@LIBDIR\@@%(libdir)@g' -e 's/@VERSION@/%(version)/g' %(pkgdir)/libunwind.pc.in > %(installroot)%(libdir)/pkgconfig/libunwind.pc
     - x86_64:
         setup:   |
             apply_llvm_patches
@@ -197,15 +225,9 @@ profiles    :
             cmake_llvm_configure llvm \
                 # -DLLVM_PROFDATA_FILE=%(workdir)/clang.profdata
         build:   |
-            if [[ " ${PATH[*]} " =~ "ccache" ]]; then
-                ccache --zero-stats
-            fi
-
+            %ccache_zero
             %cmake_build
-
-            if [[ " ${PATH[*]} " =~ "ccache" ]]; then
-                ccache --show-stats
-            fi
+            %ccache_stats
         install: |
             %cmake_install
 
@@ -240,6 +262,24 @@ profiles    :
             # Remove static libs with equivalent shared libraries
             rm -v %(installroot)/usr/lib/libarcher_static.a
 
+            # Remove with llvm-20
+            ln -sv flang-new %(installroot)/%(bindir)/flang
+
+            # Flang runtime files, delete every static libFortran* that's not the runtime/decimal. TODO replace this with dylibs
+            find %(installroot)/%(libdir) -type f -name 'libFortran*.a' \
+                                          -a ! -name 'libFortranDecimal.a' \
+                                          -a ! -name 'libFortranRuntime.a' \
+                                          -print -delete
+
+            # We don't support building against flang (yet)
+            rm -rfv %(installroot)/%(libdir)/cmake/flang
+            rm -rfv %(installroot)/%(libdir)/libCUF*.a \
+                    %(installroot)/%(libdir)/libFIR*.a \
+                    %(installroot)/%(libdir)/libflang*.a \
+                    %(installroot)/%(libdir)/libHLFIR*.a
+            find %(installroot)/%(includedir)/flang -type f -a ! -iname '*.mod' -delete -print
+            find %(installroot)/%(includedir)/flang -type d -empty -print -delete
+
             # We probably don't need this
             rm -rfv %(installroot)/%(includedir)/clang-tidy
 
@@ -254,6 +294,10 @@ profiles    :
                 mv $i 64/
                 cat %(pkgdir)/defs.h.in | sed "s|@@REPLACE@@|$i|g" > $i
             done
+
+            # Origin: https://raw.githubusercontent.com/kraj/meta-clang/master/recipes-devtools/clang/clang/libunwind.pc.in
+            %install_dir %(installroot)%(libdir)/pkgconfig
+            sed -e 's@\@LIBDIR\@@%(libdir)@g' -e 's/@VERSION@/%(version)/g' %(pkgdir)/libunwind.pc.in > %(installroot)%(libdir)/pkgconfig/libunwind.pc
 architectures: [emul32, native]
 packages    :
     - "%(name)-libs":
@@ -303,6 +347,7 @@ packages    :
         rundeps:
             - pkgconfig(libedit)
             - pkgconfig(libzstd)
+            - mlir-devel
             - polly-devel
 
     - "%(name)-32bit":
@@ -382,7 +427,6 @@ packages    :
             - /usr/bin/clang-rename
             - /usr/bin/clang-reorder-fields
             - /usr/bin/clang-repl
-            - /usr/bin/clang-scan-deps
             - /usr/bin/clang-tidy
             - /usr/bin/clangd
             - /usr/bin/diagtool
@@ -432,6 +476,86 @@ packages    :
         paths:
             - /usr/lib/clang/*/lib/linux/*i386*
 
+    - "flang":
+        summary: Fortran language front-end designed for integration with LLVM
+        description : |
+            Fortran language front-end designed for integration with LLVM
+        rundeps:
+            - lld
+            # Maybe clang?
+        paths:
+            - /usr/bin/bbc
+            - /usr/bin/f18-parse-demo
+            - /usr/bin/fir*
+            - /usr/bin/flang*
+            - /usr/bin/tco
+            - /usr/lib/clang/*/include/ISO_Fortran_binding.h
+            - /usr/lib/libFortran*.so
+            - /usr/lib/libFortran*.a
+            - /usr/include/flang
+
+    # TODO: This fails due to linking errors, hopefully it works with LLVM 20
+    # - "flang-rt":
+    #     summary: Flang runtime libraries
+    #     description : |
+    #         Flang runtime libraries
+    #     paths:
+    #         - /usr/lib/libFortran*.so.*
+
+    - "libcxx":
+        summary: "Modern C++ standard library"
+        description: |
+            A modern C++ standard library from the LLVM project, aiming for minimal overhead
+            and compilation times. Targets the C++11 standard.
+            This is the default C++ library in Aeryn OS used in conjunction with the LLVM
+            toolchain.
+        paths:
+            - /usr/lib/libc++*.so.*
+            - /usr/lib/libunwind.so.*
+
+    - "libcxx-32bit":
+        summary: "Modern C++ standard library (32-bit)"
+        description: |
+            Modern C++ standard library (32-bit)
+        paths:
+            - /usr/lib32/libc++*.so.*
+            - /usr/lib32/libunwind.so.*
+
+    - "libcxx-devel":
+        summary: "Development files for libcxx"
+        description: |
+            Development files for libcxx
+        paths:
+            - /usr/lib/libc++*.so
+            - /usr/lib/libc++*.a
+            - /usr/lib/libunwind.so
+            - /usr/lib/libunwind.a
+            - /usr/lib/libc++.modules.json
+            - /usr/lib/pkgconfig/libunwind.pc
+            - /usr/include/c++/
+            - /usr/include/__libunwind_config.h
+            - /usr/include/libunwind*
+            - /usr/include/mach-o/compact_unwind_encoding.h
+            - /usr/include/unwind*.h
+            - /usr/share/libc++
+        rundeps:
+            - libcxx
+
+    - "libcxx-32bit-devel":
+        summary: "Development files for libcxx (32-bit)"
+        description: |
+            Development files for libcxx (32-bit)
+        paths:
+            - /usr/lib32/libc++*.so
+            - /usr/lib32/libc++*.a
+            - /usr/lib32/libunwind.so
+            - /usr/lib32/libunwind.a
+            - /usr/lib32/libc++.modules.json
+            - /usr/lib32/pkgconfig/libunwind.pc
+        rundeps:
+            - libcxx-32bit
+            - libcxx-devel
+
     - "lld-libs":
         summary: "Library files for lld"
         description: |
@@ -459,6 +583,52 @@ packages    :
         rundeps:
             - "%(name)-devel"
             - lld
+
+    - "mlir":
+        summary: Multi-Level Intermediate Representation Overview
+        description: |
+            Multi-Level Intermediate Representation Overview
+        paths:
+            - /usr/lib/libMLIR*.so.*
+            - /usr/lib/libmlir*.so.*
+
+    - "mlir-devel":
+        summary: Development files for mlir
+        description: |
+            Development files for mlir
+        paths:
+            - /usr/bin/mlir*
+            - /usr/bin/tblgen-*
+            - /usr/include/mlir
+            - /usr/include/mlir-c
+            - /usr/lib/cmake/mlir
+            - /usr/lib/libMLIR*.so
+            - /usr/lib/libMLIR*.a
+            - /usr/lib/libmlir*.so
+        rundeps:
+            - mlir
+
+    # Should this depend on openmp or the other way around? TBD I guess
+    - "offload":
+        summary: LLVM OpenMP runtime - hardware accelerator offloading
+        description: |
+            LLVM OpenMP runtime - hardware accelerator offloading support
+        paths:
+            - /usr/bin/llvm-omp-device-info
+            - /usr/lib/libomptarget.so.*
+
+    - "offload-devel":
+        summary: Development files for offload
+        description: |
+            Development files for offload
+        paths:
+            - /usr/bin/llvm-omp-kernel-replay
+            - /usr/lib/libomptarget*.bc
+            - /usr/lib/libomptarget*.a
+            - /usr/lib/libomptarget.so
+        rundeps:
+            # openmp-devel? TBD
+            - offload
 
     - "openmp":
         summary: "LLVM OpenMP runtime"
