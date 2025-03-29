@@ -4,31 +4,42 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : e2fsprogs
-version     : '1.47.0'
-release     : 3
+version     : '1.47.2'
+release     : 4
 homepage    : https://e2fsprogs.sourceforge.net 
 upstreams   :
-    - https://mirrors.edge.kernel.org/pub/linux/kernel/people/tytso/e2fsprogs/v1.47.0/e2fsprogs-1.47.0.tar.xz : 144af53f2bbd921cef6f8bea88bb9faddca865da3fbc657cc9b4d2001097d5db
+    - https://mirrors.edge.kernel.org/pub/linux/kernel/people/tytso/e2fsprogs/v1.47.2/e2fsprogs-1.47.2.tar.xz : 08242e64ca0e8194d9c1caad49762b19209a06318199b63ce74ae4ef2d74e63c
 summary     : Filesystem utilities for ext2/3/4 filesystems
 description : |
     Filesystem utilities for ext2/3/4 filesystems
 license     :
     - BSD-3-Clause
 builddeps   :
+    # Needed for /usr/share/info file generation
+    - binary(info)
+    - binary(msgmerge)
+    - binary(gzip)
+    - pkgconfig(fuse3)
     - pkgconfig(libacl)
+    - pkgconfig(libarchive)
     - pkgconfig(libattr)
+    - pkgconfig(libmagic)
     - pkgconfig(libsystemd)
     - pkgconfig(libudev)
     - pkgconfig(uuid)
-    # Needed for /usr/share/info file generation
-    - binary(info)
-    - binary(gzip)
 setup       : |
+    %patch %(pkgdir)/stateless.patch
+
+    # Doesn't detect uutils mkdir correctly, so force that
     %configure \
+        --with-root-prefix=%(prefix) \
         --enable-elf-shlibs \
+        --enable-nls \
+        --enable-symlink-install \
         --disable-libuuid \
         --disable-libblkid \
-        --disable-fsck
+        --disable-fsck \
+        MKDIR_P="/usr/bin/mkdir -p"
 build       : |
     %make
 install     : |
