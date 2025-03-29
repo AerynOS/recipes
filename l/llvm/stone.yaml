@@ -4,8 +4,8 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : llvm
-version     : 19.1.7
-release     : 25
+version     : 20.1.4
+release     : 26
 summary     : Low Level Virtual Machine
 license     :
     - Apache-2.0 WITH LLVM-exception
@@ -14,7 +14,7 @@ homepage    : https://www.llvm.org
 description : |
     Low Level Virtual Machine
 upstreams   :
-    - https://github.com/llvm/llvm-project/releases/download/llvmorg-19.1.7/llvm-project-19.1.7.src.tar.xz : 82401fea7b79d0078043f7598b835284d6650a75b93e64b6f761ea7b63097501
+    - https://github.com/llvm/llvm-project/releases/download/llvmorg-20.1.4/llvm-project-20.1.4.src.tar.xz : a95365b02536ed4aef29b325c205dd89c268cba41503ab2fc05f81418613ab63
 builddeps   :
     - binary(perl)
     - binary(python3)
@@ -30,6 +30,7 @@ builddeps   :
     - binutils-devel
     - clang-32bit
     - gcc-32bit
+    - libcxx-devel-static
     # TODO: Package python-myst-parser so we can build man pages
 tuning      :
     - fortify: false
@@ -68,7 +69,6 @@ environment : |
 
     function apply_llvm_patches() {
         # Build-related patches, achieving adjustments/fixes to the build that cannot be done via cmake flags
-        %patch %(pkgdir)/patches/build/build-libLLVMSupport-for-perf-training.patch
         %patch %(pkgdir)/patches/build/0001-Build-lld-libraries-shared.patch
         %patch %(pkgdir)/patches/build/0001-Build-polly-libraries-shared.patch
         %patch %(pkgdir)/patches/build/0001-Emit-relocations-for-BOLT.patch
@@ -84,7 +84,7 @@ environment : |
         # Runtime config changes. These often duplicate settings set by our CFLAGS/LDFLAGS and are intended as sane
         # defaults when a build either doesn't respect our flags or when a user is building a project outside of
         # our build system
-        %patch %(pkgdir)/patches/config/0001-Make-gnu-hash-the-default-for-lld-and-clang.patch
+        %patch %(pkgdir)/patches/config/0001-Make-gnuhash-the-default-when-not-specified.patch
         %patch %(pkgdir)/patches/config/0001-lld-Use-zstd-compression-for-debug-symbols-by-defaul.patch
         %patch %(pkgdir)/patches/config/0001-lld-Always-enable-build-id-and-use-20-byte-hashes.patch
 
@@ -92,16 +92,20 @@ environment : |
         %patch %(pkgdir)/patches/aerynos/0001-Support-serpent-aeryn-as-a-distro.patch
         %patch %(pkgdir)/patches/aerynos/0001-Use-correct-Serpent-OS-multilib-paths-for-ld.patch
         %patch %(pkgdir)/patches/aerynos/0001-Update-binutils-version-to-match-Serpent-OS.patch
-        %patch %(pkgdir)/patches/aerynos/ignore-werror.patch
+        %patch %(pkgdir)/patches/aerynos/0001-clang-lib-Ignore-Werror-if-CLANG_IGNORE_WERROR-is-se.patch
 
         # Performance-related patches
         %patch %(pkgdir)/patches/perf/0001-Reduce-GCC-startup-searches.patch
         %patch %(pkgdir)/patches/perf/0001-Use-mimalloc-for-clang-lld-llvm.patch
 
-        # Upstream backports
-        %patch %(pkgdir)/patches/upstream/0001-mlir-Add-support-for-MLIR_LINK_MLIR_DYLIB-119408.patch
-        %patch %(pkgdir)/patches/upstream/0002-Reapply-mlir-Link-libraries-that-aren-t-included-in-.patch
-        %patch %(pkgdir)/patches/upstream/0001-SPIR-V-Add-SPIRV-to-LLVM_ALL_TARGETS-reapply-123733.patch
+        ## Upstream backports
+        # RISC-V generic target support:
+        %patch %(pkgdir)/patches/upstream/0001-RISCV-Add-a-generic-OOO-CPU.patch
+        %patch %(pkgdir)/patches/upstream/0002-Adjust-latency-and-remove-all-stats.patch
+        %patch %(pkgdir)/patches/upstream/0003-Adjust-branch-mul-div-units.patch
+        %patch %(pkgdir)/patches/upstream/0004-Add-more-comments-and-adjust-Zfh.patch
+        %patch %(pkgdir)/patches/upstream/0005-Remove-vector-and-address-comments.patch
+        %patch %(pkgdir)/patches/upstream/0006-Fix-errors-after-rebasing-and-add-a-release-note.patch
     }
 
     # 2025-03-25: Add LIBCXX_TYPEINFO_COMPARISON_IMPLEMENTATION=2 for https://bugs.kde.org/show_bug.cgi?id=479679
@@ -290,10 +294,10 @@ environment : |
 
                 ### Flang
                 # Flang itself
-                flang-new)
+                flang)
                     ;;
                 # Supporting tools
-                bbc|tco|f18-parse-demo|fir-opt)
+                bbc|tco|f18-parse-demo|fir-*)
                     ;;
                 # Flang-rt libraries
                 FortranRuntime|FortranDecimal)
@@ -417,12 +421,6 @@ profiles    :
                 cat %(pkgdir)/defs.h.in | sed "s|@@REPLACE@@|$i|g" > $i
             done
             # LLVM (end)
-
-            ### flang (begin)
-            # Prior to LLVM 20 the flang binary is flang-new, create a symlink so we can call it as flang
-            # TODO: Remove this with LLVM 20
-            ln -sv flang-new %(installroot)/%(bindir)/flang
-            # flang (end)
 
             ### libcxx/libunwind (begin)
             # Origin: https://raw.githubusercontent.com/kraj/meta-clang/master/recipes-devtools/clang/clang/libunwind.pc.in
@@ -568,12 +566,11 @@ packages    :
             - /usr/bin/clang-move
             - /usr/bin/clang-nvlink-wrapper
             - /usr/bin/clang-offload-*
-            - /usr/bin/clang-pseudo
             - /usr/bin/clang-query
             - /usr/bin/clang-refactor
-            - /usr/bin/clang-rename
             - /usr/bin/clang-reorder-fields
             - /usr/bin/clang-repl
+            - /usr/bin/clang-sycl-linker
             - /usr/bin/clang-tidy
             - /usr/bin/clangd
             - /usr/bin/diagtool
@@ -591,7 +588,6 @@ packages    :
             - /usr/libexec
             - /usr/share/clang/clang-format*
             - /usr/share/clang/clang-include-fixer*
-            - /usr/share/clang/clang-rename*
             - /usr/share/clang/clang-tidy-diff*
             - /usr/share/clang/run-find-all-symbols*
             - /usr/share/clang-doc
@@ -640,7 +636,6 @@ packages    :
             - /usr/bin/flang*
             - /usr/bin/tco
             - /usr/lib/clang/*/include/ISO_Fortran_binding.h
-            - /usr/lib/libFortran*.so
             - /usr/lib/libFortran*.a
             - /usr/include/flang
 
@@ -775,7 +770,8 @@ packages    :
         rundeps:
             - openmp
         paths:
-            - /usr/bin/llvm-omp-device-info
+            - /usr/bin/llvm-offload-device-info
+            - /usr/lib/libLLVMOffload.so.*
             - /usr/lib/libomptarget.so.*
 
     - "offload-devel":
@@ -787,6 +783,8 @@ packages    :
             - offload
         paths:
             - /usr/bin/llvm-omp-kernel-replay
+            - /usr/include/offload
+            - /usr/lib/libLLVMOffload.so
             - /usr/lib/libomptarget*.bc
             - /usr/lib/libomptarget*.a
             - /usr/lib/libomptarget.so
