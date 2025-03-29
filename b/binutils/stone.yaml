@@ -4,16 +4,16 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : binutils
-version     : 2.43.0+git.5f8987d3
-release     : 15
+version     : 2.44.0+git.35db8c6d
+release     : 16
 summary     : A GNU collection of binary utilities
 license     : GPL-3.0-or-later
 homepage    : https://sourceware.org/binutils
 description : |
     A GNU collection of binary utilities
 upstreams   :
-    # binutils-2_43-branch
-    - git|https://sourceware.org/git/binutils-gdb.git : 5f8987d3999edb26e757115fe87be55787d510b9
+    # binutils-2_44-branch
+    - git|https://sourceware.org/git/binutils-gdb.git : 35db8c6dd2f57b43c7a1b1cde26c2cd7b98b76f4
 builddeps   :
     - binary(bison)
     - binary(flex)
@@ -25,9 +25,10 @@ builddeps   :
     - binary(yacc)
     - pkgconfig(jansson)
     - pkgconfig(libblake3)
+    - pkgconfig(libxxhash) # Not actually used but it gets past a configure error
     - pkgconfig(libzstd)
     - pkgconfig(ncursesw)
-    - pkgconfig(readline)
+    # - pkgconfig(readline)
     - pkgconfig(zlib)
 setup       : |
     %patch %(pkgdir)/0001-Proper-stateless.patch
@@ -41,6 +42,7 @@ setup       : |
         --disable-gdb \
         --disable-gdbserver \
         --disable-libdecnumber \
+        --disable-readline \
         --disable-rpath \
         --disable-sim \
         --disable-static \
@@ -63,8 +65,7 @@ setup       : |
         --enable-threads \
         --with-lib-path="/usr/lib:/usr/lib32" \
         --with-blake3=yes \
-        --with-system-readline \
-        --with-system-zlib \
+        --with-xxhash=yes \
         --with-zstd=yes \
         --without-debuginfod
 build       : |
@@ -83,3 +84,30 @@ tuning      :
     - nosemantic
     - optimize: speed
     - symbolic
+packages    :
+    - "%(name)-libs":
+        summary: "Library files for %(name)"
+        description: |
+            Library files for %(name), typically pulled in as a dependency of another package.
+        paths:
+            - /usr/lib/libbfd-*.so
+            - /usr/lib/libopcodes-*.so
+            - /usr/lib/libsframe.so.*
+
+    - "%(name)-gprofng":
+        summary: Next Generating code profiling tool
+        description: Next Generating code profiling tool
+        paths:
+            - /usr/bin/gp-*
+            - /usr/bin/gprof*
+            - /usr/lib/gprofng
+            - /usr/lib/libgprofng.so.*
+            - /usr/share/defaults/gprofng
+            - /usr/share/doc/gprofng
+            - /usr/share/info/gprof*.info
+            - /usr/share/locale/**/**/gprof.mo
+            - /usr/share/man/man1/gprof*
+
+    - "%(name)-devel":
+        rundeps:
+            - "%(name)-gprofng"

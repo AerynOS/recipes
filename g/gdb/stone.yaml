@@ -4,35 +4,50 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : gdb
-version     : 13.1
-release     : 2
+version     : 16.2
+release     : 3
 homepage    : https://www.sourceware.org/gdb
 upstreams   :
-    - https://ftp.gnu.org/gnu/gdb/gdb-13.1.tar.xz : 115ad5c18d69a6be2ab15882d365dda2a2211c14f480b3502c6eba576e2e95a0
+    - https://ftp.gnu.org/gnu/gdb/gdb-16.2.tar.xz : 4002cb7f23f45c37c790536a13a720942ce4be0402d929c9085e92f10d480119
 summary     : The GNU debugger
 description : |
     GDB, the GNU Project debugger, allows you to see what is going on "inside" another program while it executes - or what another program was doing at the moment it crashed.
 license     :
     - GPL-3.0-or-later
 builddeps   :
+    - binary(makeinfo)
     - pkgconfig(expat)
     - pkgconfig(gmp)
     - pkgconfig(liblzma)
     - pkgconfig(libxxhash)
-    - pkgconfig(ncursesw)
+    - pkgconfig(libzstd)
+    - pkgconfig(mpfr)
     - pkgconfig(python3)
     - pkgconfig(readline)
     - pkgconfig(zlib)
-    # libguile
-    # libipt
-    # source-highlight
+    # TODO: libguile, libipt, source-highlight
 setup       : |
     %configure \
         --with-python=%(bindir)/python3 \
         --with-system-readline \
-        --with-system-zlib
+        --with-system-zlib \
+        --with-zstd
 build       : |
     %make
 install     : |
     %make_install -C gdb
     %make_install -C gdbserver
+
+    rm -rv %(installroot)/usr/share/info/dir
+
+    %install_dir %(installroot)/%(docdir)/replace/%(name)-devel
+    echo "Removed" > %(installroot)/%(docdir)/replace/%(name)-devel/TRANSITION
+packages    :
+    - "%(name)":
+        paths:
+            - /usr/include
+            - /usr/lib/*.so
+
+    - "%(name)-devel":
+        paths:
+            - /usr/share/doc

@@ -12,3 +12,6 @@
 ### Replaced by mesa-clc
 - intel-clc
 - intel-clc-dbginfo
+
+### GDB didn't actually have any devel files
+- gdb-devel

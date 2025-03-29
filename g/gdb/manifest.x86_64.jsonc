@@ -4,11 +4,13 @@
 	"packages": {
 		"gdb": {
 			"build-depends": [
+				"binary(makeinfo)",
 				"pkgconfig(expat)",
 				"pkgconfig(gmp)",
 				"pkgconfig(liblzma)",
 				"pkgconfig(libxxhash)",
-				"pkgconfig(ncursesw)",
+				"pkgconfig(libzstd)",
+				"pkgconfig(mpfr)",
 				"pkgconfig(python3)",
 				"pkgconfig(readline)",
 				"pkgconfig(zlib)"
@@ -22,39 +24,71 @@
 				"soname(libgmp.so.10(x86_64))",
 				"soname(liblzma.so.5(x86_64))",
 				"soname(libm.so.6(x86_64))",
+				"soname(libmpfr.so.6(x86_64))",
 				"soname(libncursesw.so.6(x86_64))",
 				"soname(libpython3.11.so.1.0(x86_64))",
 				"soname(libreadline.so.8(x86_64))",
 				"soname(libunwind.so.1(x86_64))",
 				"soname(libxxhash.so.0(x86_64))",
-				"soname(libz.so.1(x86_64))"
+				"soname(libz.so.1(x86_64))",
+				"soname(libzstd.so.1(x86_64))"
 			],
 			"files": [
 				"/usr/bin/gcore",
 				"/usr/bin/gdb",
 				"/usr/bin/gdb-add-index",
 				"/usr/bin/gdbserver",
+				"/usr/bin/gstack",
+				"/usr/include/gdb/jit-reader.h",
+				"/usr/lib/libinproctrace.so",
 				"/usr/share/gdb/python/gdb/FrameDecorator.py",
 				"/usr/share/gdb/python/gdb/FrameIterator.py",
 				"/usr/share/gdb/python/gdb/__init__.py",
 				"/usr/share/gdb/python/gdb/command/__init__.py",
 				"/usr/share/gdb/python/gdb/command/explore.py",
 				"/usr/share/gdb/python/gdb/command/frame_filters.py",
+				"/usr/share/gdb/python/gdb/command/missing_files.py",
 				"/usr/share/gdb/python/gdb/command/pretty_printers.py",
 				"/usr/share/gdb/python/gdb/command/prompt.py",
 				"/usr/share/gdb/python/gdb/command/type_printers.py",
 				"/usr/share/gdb/python/gdb/command/unwinders.py",
 				"/usr/share/gdb/python/gdb/command/xmethods.py",
+				"/usr/share/gdb/python/gdb/dap/__init__.py",
+				"/usr/share/gdb/python/gdb/dap/breakpoint.py",
+				"/usr/share/gdb/python/gdb/dap/bt.py",
+				"/usr/share/gdb/python/gdb/dap/disassemble.py",
+				"/usr/share/gdb/python/gdb/dap/evaluate.py",
+				"/usr/share/gdb/python/gdb/dap/events.py",
+				"/usr/share/gdb/python/gdb/dap/frames.py",
+				"/usr/share/gdb/python/gdb/dap/globalvars.py",
+				"/usr/share/gdb/python/gdb/dap/io.py",
+				"/usr/share/gdb/python/gdb/dap/launch.py",
+				"/usr/share/gdb/python/gdb/dap/locations.py",
+				"/usr/share/gdb/python/gdb/dap/memory.py",
+				"/usr/share/gdb/python/gdb/dap/modules.py",
+				"/usr/share/gdb/python/gdb/dap/next.py",
+				"/usr/share/gdb/python/gdb/dap/pause.py",
+				"/usr/share/gdb/python/gdb/dap/scopes.py",
+				"/usr/share/gdb/python/gdb/dap/server.py",
+				"/usr/share/gdb/python/gdb/dap/sources.py",
+				"/usr/share/gdb/python/gdb/dap/startup.py",
+				"/usr/share/gdb/python/gdb/dap/state.py",
+				"/usr/share/gdb/python/gdb/dap/threads.py",
+				"/usr/share/gdb/python/gdb/dap/typecheck.py",
+				"/usr/share/gdb/python/gdb/dap/varref.py",
 				"/usr/share/gdb/python/gdb/disassembler.py",
 				"/usr/share/gdb/python/gdb/frames.py",
 				"/usr/share/gdb/python/gdb/function/__init__.py",
 				"/usr/share/gdb/python/gdb/function/as_string.py",
 				"/usr/share/gdb/python/gdb/function/caller_is.py",
 				"/usr/share/gdb/python/gdb/function/strfns.py",
+				"/usr/share/gdb/python/gdb/missing_debug.py",
+				"/usr/share/gdb/python/gdb/missing_files.py",
+				"/usr/share/gdb/python/gdb/missing_objfile.py",
 				"/usr/share/gdb/python/gdb/printer/__init__.py",
-				"/usr/share/gdb/python/gdb/printer/bound_registers.py",
 				"/usr/share/gdb/python/gdb/printing.py",
 				"/usr/share/gdb/python/gdb/prompt.py",
+				"/usr/share/gdb/python/gdb/ptwrite.py",
 				"/usr/share/gdb/python/gdb/styling.py",
 				"/usr/share/gdb/python/gdb/types.py",
 				"/usr/share/gdb/python/gdb/unwinder.py",
@@ -65,6 +99,7 @@
 				"/usr/share/gdb/syscalls/freebsd.xml",
 				"/usr/share/gdb/syscalls/gdb-syscalls.dtd",
 				"/usr/share/gdb/syscalls/i386-linux.xml",
+				"/usr/share/gdb/syscalls/loongarch-linux.xml",
 				"/usr/share/gdb/syscalls/mips-n32-linux.xml",
 				"/usr/share/gdb/syscalls/mips-n64-linux.xml",
 				"/usr/share/gdb/syscalls/mips-o32-linux.xml",
@@ -87,11 +122,13 @@
 				"/usr/share/info/gdb.info-6",
 				"/usr/share/info/gdb.info-7",
 				"/usr/share/info/gdb.info-8",
+				"/usr/share/info/gdb.info-9",
 				"/usr/share/info/stabs.info",
 				"/usr/share/man/man1/gcore.1",
 				"/usr/share/man/man1/gdb-add-index.1",
 				"/usr/share/man/man1/gdb.1",
 				"/usr/share/man/man1/gdbserver.1",
+				"/usr/share/man/man1/gstack.1",
 				"/usr/share/man/man5/gdbinit.5"
 			],
 			"name": "gdb",
@@ -99,37 +136,34 @@
 				"binary(gcore)",
 				"binary(gdb)",
 				"binary(gdb-add-index)",
-				"binary(gdbserver)"
+				"binary(gdbserver)",
+				"binary(gstack)",
+				"soname(libinproctrace.so(x86_64))"
 			]
 		},
 		"gdb-devel": {
 			"build-depends": [
+				"binary(makeinfo)",
 				"pkgconfig(expat)",
 				"pkgconfig(gmp)",
 				"pkgconfig(liblzma)",
 				"pkgconfig(libxxhash)",
-				"pkgconfig(ncursesw)",
+				"pkgconfig(libzstd)",
+				"pkgconfig(mpfr)",
 				"pkgconfig(python3)",
 				"pkgconfig(readline)",
 				"pkgconfig(zlib)"
 			],
 			"depends": [
-				"soname(ld-linux-x86-64.so.2(x86_64))",
-				"soname(libc++.so.1(x86_64))",
-				"soname(libc.so.6(x86_64))",
-				"soname(libunwind.so.1(x86_64))"
+				"gdb"
 			],
 			"files": [
-				"/usr/include/gdb/jit-reader.h",
-				"/usr/lib/libinproctrace.so"
+				"/usr/share/doc/replace/gdb-devel/TRANSITION"
 			],
-			"name": "gdb-devel",
-			"provides": [
-				"soname(libinproctrace.so(x86_64))"
-			]
+			"name": "gdb-devel"
 		}
 	},
 	"source-name": "gdb",
-	"source-release": "2",
-	"source-version": "13.1"
+	"source-release": "3",
+	"source-version": "16.2"
 }
