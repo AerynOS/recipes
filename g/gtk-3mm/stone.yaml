@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : gtkmm
-version     : 3.24.9
-release     : 1
+version     : 3.24.10
+release     : 2
 homepage    : https://www.gtkmm.org
 upstreams   :
-    - https://download.gnome.org/sources/gtkmm/3.24/gtkmm-3.24.9.tar.xz : 30d5bfe404571ce566a8e938c8bac17576420eb508f1e257837da63f14ad44ce
+    - https://download.gnome.org/sources/gtkmm/3.24/gtkmm-3.24.10.tar.xz : 7ab7e2266808716e26c39924ace1fb46da86c17ef39d989624c42314b32b5a76
 summary     : C++ bindings for GTK
 description : |
     gtkmm is the C++ binding for the GTK library.
@@ -20,8 +20,8 @@ builddeps   :
     - binary(python3)
     - binary(xsltproc)
     - pkgconfig(atkmm-1.6)
-    - pkgconfig(gtk+-3.0)
     - pkgconfig(cairomm-1.0)
+    - pkgconfig(gtk+-3.0)
     - pkgconfig(pangomm-1.4)
 packages    :
     - "%(name)-devel":
