@@ -4,25 +4,26 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : iproute2
-version     : 6.12.0
-release     : 4
+version     : 6.14.0
+release     : 5
 homepage    : https://wiki.linuxfoundation.org/networking/iproute2
 upstreams   :
-    - https://mirrors.edge.kernel.org/pub/linux/utils/net/iproute2/iproute2-6.12.0.tar.xz : bbd141ef7b5d0127cc2152843ba61f274dc32814fa3e0f13e7d07a080bef53d9
+    - https://mirrors.edge.kernel.org/pub/linux/utils/net/iproute2/iproute2-6.14.0.tar.xz : a6d23588150096591c3d00fc27a324a82ee71d7a1a9eea78df5df17ad9b8461f
 summary     : Utility collection to control networking and traffic
 description : |
     Iproute2 is a collection of utilities for controlling TCP/IP networking and traffic control in Linux. It supersedes ifconfig and route commands.
 license     :
     - GPL-2.0-only
 builddeps   :
-    - binutils
     - binary(bison)
-    - flex-devel
-    - gcc-devel
+    - binary(flex)
+    - pkgconfig(libbpf)
+    - pkgconfig(libcap)
+    - pkgconfig(libmnl)
 setup       : |
-    %configure
+    %configure --color=auto
 build       : |
-    %make
+    %make HOSTCC=${CC}
 install     : |
     SBINDIR=%(sbindir) %make_install
     %install_file %(pkgdir)/%(name).tmpfiles %(installroot)/%(tmpfilesdir)/%(name).conf
