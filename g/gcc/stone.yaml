@@ -4,50 +4,49 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : gcc
-version     : 14.2.0
-release     : 7
+version     : 14.2.1+git.5b4e3622
+release     : 8
 summary     : GNU C++ standard library and compiler
 license     : GPL-3.0-or-later
 homepage    : https://gcc.gnu.org/
 description : |
     GNU C++ standard library and compiler
 upstreams   :
-    - https://ftp.gnu.org/gnu/gcc/gcc-14.2.0/gcc-14.2.0.tar.xz:
-        hash: a7b39bc69cbf9e25826c5a60ab26477001f7c08d85cec04bc0e29cabed6f3cc9
-        unpackdir: "gcc"
-    - https://libisl.sourceforge.io/isl-0.24.tar.xz:
-        hash: 043105cc544f416b48736fff8caf077fb0663a717d06b1113f16e391ac99ebad
-        stripdirs: 1
-        unpackdir: "gcc/isl"
+    # Use the github mirror since the official git hosting is unreliable and slow
+    - git|https://github.com/gcc-mirror/gcc:
+        # Should be the latest commit on the releases/gcc-14 branch that isn't a bump to the date
+        ref: 5b4e362239131967698328f3648efd7b9eea862e
 builddeps   :
     - binary(bison)
     - binary(flex)
     - binary(m4)
     - binary(makeinfo)
+    - binary(msgfmt)
     - binary(python3)
-    - gcc-32bit
-    - gcc-32bit-devel
-    - glibc-32bit
-    - glibc-32bit-devel
-    - mpc-devel
     - pkgconfig(gmp)
+    - pkgconfig(isl)
     - pkgconfig(libxcrypt)
     - pkgconfig(libzstd)
     - pkgconfig(mpfr)
     - pkgconfig(zlib)
+    - gcc-32bit-devel
+    - glibc-32bit-devel
+    - mpc-devel
 toolchain   : gnu
 tuning      :
     - fortify: false
     - harden: false
+    - lto: false
     - nosemantic
     # - optimize: speed
     - symbolic
 setup       : |
     %patch %(pkgdir)/perf/increase-vectorize-cost-model-to-cheap.patch
     %patch %(pkgdir)/perf/use-highest-optimize-value.patch
-    %patch %(pkgdir)/serpent/0001-Use-modern-linker-locations-for-Serpent-OS.patch
-    %patch %(pkgdir)/serpent/0001-Install-libraries-into-lib-rather-than-lib64.patch
-    %patch %(pkgdir)/serpent/disable-rpath.patch
+    %patch %(pkgdir)/aeryn/0001-Use-modern-linker-locations-for-Serpent-OS.patch
+    %patch %(pkgdir)/aeryn/0001-Install-libraries-into-lib-rather-than-lib64.patch
+    %patch %(pkgdir)/aeryn/0001-Downstream-Don-t-run-fixincludes-during-install.patch
+    %patch %(pkgdir)/aeryn/disable-rpath.patch
 
     mkdir build && cd build
     ../configure \
@@ -73,9 +72,10 @@ setup       : |
         --enable-threads=yes \
         --with-arch=%(march) \
         --with-arch_32=%(march) \
-        --with-bugurl='https://github.com/serpent-os/recipes/issues' \
+        --with-bugurl='https://github.com/AerynOS/recipes/issues' \
         --with-build-config=bootstrap-O1 \
         --with-gcc-major-version-only \
+        --with-gxx-libcxx-include-dir=/usr/include/c++/v1 \
         --with-isl \
         --with-linker-hash-style=gnu \
         --with-multilib-list=m32,m64 \
@@ -102,9 +102,20 @@ install     : |
     rm -rv %(installroot)%(datadir)/info
     rm -v %(installroot)/usr/lib*/*.la
 
+    # Temporary, make x86_64-aeryn-linux a target alias of x86_64-serpent-linux
+    # The next step after this (after all toolchain packages are similarly updated)
+    # is to rebuild with the new triple and create compat aliases the other way
+    pushd %(installroot)/%(bindir)
+    for i in c++ g++ gcc gcc-${major_version} gcc-ar gcc-nm gcc-ranlib gfortran ; do
+        ln -sv x86_64-serpent-linux-${i} x86_64-aeryn-linux-${i}
+    done
+    popd
+    ln -srv %(installroot)/usr/include/c++/14/x86_64-serpent-linux %(installroot)/usr/include/c++/14/x86_64-aeryn-linux
+    ln -srv %(installroot)/usr/lib/gcc/x86_64-serpent-linux %(installroot)/usr/lib/gcc/x86_64-aeryn-linux
+
     # TODO: Remove once we can remove gcc-devel and gcc-32bit-devel from the index
-    mkdir %(installroot)/usr/share/tmp/
-    touch %(installroot)/usr/share/tmp/gcc{,-32bit}-devel
+    mkdir -p %(installroot)/usr/share/doc/replace/
+    touch %(installroot)/usr/share/doc/replace/gcc{,-32bit}-devel %(installroot)/usr/share/doc/replace/g++-32bit
 packages    :
     - "libgcc":
         paths:
@@ -130,15 +141,6 @@ packages    :
     - "libgomp-32bit":
         paths:
             - /usr/lib32/libgomp*.so*
-    - "libstdc++":
-        paths:
-            - /usr/lib/lib*++*.so*
-            - /usr/share/gcc-*/python/libstdcxx/*
-            - /usr/share/gdb/auto-load/usr/lib
-    - "libstdc++-32bit":
-        paths:
-            - /usr/lib32/lib*++*.so*
-            - /usr/share/gdb/auto-load/usr/lib32
     - "libgfortran":
         paths:
             - /usr/lib/*fortran*.so*
@@ -175,6 +177,38 @@ packages    :
             - libquadmath-32bit
             - libgomp-32bit
             - libgfortran-32bit
+    - "libstdc++":
+        paths:
+            - /usr/lib/lib*++*.so*
+            - /usr/share/gcc-*/python/libstdcxx/*
+            - /usr/share/gdb/auto-load/usr/lib
+            - /usr/share/locale/*/LC_MESSAGES/libstdc++.mo
+    - "libstdc++-devel":
+        paths:
+            - /usr/lib/lib*++*.a
+            - /usr/lib/lib*++*.so
+            - /usr/include/c++
+        rundeps:
+            - libstdc++
+            - glibc-devel
+            # LLVM checks for a "valid" GCC installation in order to determine where the libstdc++ headers
+            # live. It's probably possible to patch around that but for now let's just pull in GCC
+            - binary(gcc)
+    - "libstdc++-32bit":
+        paths:
+            - /usr/lib32/lib*++*.so*
+            - /usr/share/gdb/auto-load/usr/lib32
+        rundeps:
+            - libstdc++
+    - "libstdc++-32bit-devel":
+        paths:
+            - /usr/lib32/lib*++*.a
+            - /usr/lib32/lib*++*.so
+            - /usr/include/c++/*-serpent-linux/32/*
+        rundeps:
+            - libstdc++-32bit
+            - libstdc++-devel
+            - glibc-32bit-devel
     - "g++":
         paths:
             - /usr/bin/*c++
@@ -182,23 +216,19 @@ packages    :
             - /usr/bin/cpp
             - /usr/lib/gcc/*-serpent-linux/*/cc1plus
             - /usr/lib/gcc/*-serpent-linux/*/g++-mapper-server
-            - /usr/lib/lib*++*.a
-            - /usr/lib/lib*++*.so
-            - /usr/include/c++
             - /usr/share/locale/*/LC_MESSAGES/cpplib.mo
             - /usr/share/man/*/cpp*
             - /usr/share/man/*/g++*
         rundeps:
             - binary(gcc)
-            - libstdc++
+            - libcxx-devel
+            - libstdc++-devel
     - "g++-32bit":
         paths:
-            - /usr/lib32/lib*++*.a
-            - /usr/lib32/lib*++*.so
-            - /usr/include/c++/*-serpent-linux/32/*
+            - /usr/share/doc/replace/g++-32bit
         rundeps:
             - g++
-            - libstdc++-32bit
+            - libstdc++-32bit-devel
     - "gfortran":
         paths:
             - /usr/bin/*fortran*
@@ -224,11 +254,11 @@ packages    :
     # TODO: Delete once moss can handle package removals
     - "gcc-devel":
         paths:
-            - /usr/share/tmp/gcc-devel
+            - /usr/share/doc/replace/gcc-devel
         rundeps:
             - binary(gcc)
     - "gcc-32bit-devel":
         paths:
-            - /usr/share/tmp/gcc-32bit-devel
+            - /usr/share/doc/replace/gcc-32bit-devel
         rundeps:
             - gcc-32bit

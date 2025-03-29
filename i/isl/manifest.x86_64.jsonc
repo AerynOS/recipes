@@ -1,0 +1,105 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"isl": {
+			"build-depends": [
+				"pkgconfig(gmp)"
+			],
+			"depends": [
+				"soname(libc.so.6(x86_64))",
+				"soname(libgmp.so.10(x86_64))"
+			],
+			"files": [
+				"/usr/lib/libisl.so.23",
+				"/usr/lib/libisl.so.23.4.0",
+				"/usr/share/gdb/auto-load/usr/lib/libisl.so.23.4.0-gdb.py"
+			],
+			"name": "isl",
+			"provides": [
+				"soname(libisl.so.23(x86_64))"
+			]
+		},
+		"isl-devel": {
+			"build-depends": [
+				"pkgconfig(gmp)"
+			],
+			"depends": [
+				"isl"
+			],
+			"files": [
+				"/usr/include/isl/aff.h",
+				"/usr/include/isl/aff_type.h",
+				"/usr/include/isl/arg.h",
+				"/usr/include/isl/ast.h",
+				"/usr/include/isl/ast_build.h",
+				"/usr/include/isl/ast_type.h",
+				"/usr/include/isl/constraint.h",
+				"/usr/include/isl/cpp.h",
+				"/usr/include/isl/ctx.h",
+				"/usr/include/isl/fixed_box.h",
+				"/usr/include/isl/flow.h",
+				"/usr/include/isl/hash.h",
+				"/usr/include/isl/hmap.h",
+				"/usr/include/isl/hmap_templ.c",
+				"/usr/include/isl/id.h",
+				"/usr/include/isl/id_to_ast_expr.h",
+				"/usr/include/isl/id_to_id.h",
+				"/usr/include/isl/id_to_pw_aff.h",
+				"/usr/include/isl/id_type.h",
+				"/usr/include/isl/ilp.h",
+				"/usr/include/isl/list.h",
+				"/usr/include/isl/local_space.h",
+				"/usr/include/isl/lp.h",
+				"/usr/include/isl/map.h",
+				"/usr/include/isl/map_to_basic_set.h",
+				"/usr/include/isl/map_type.h",
+				"/usr/include/isl/mat.h",
+				"/usr/include/isl/maybe.h",
+				"/usr/include/isl/maybe_ast_expr.h",
+				"/usr/include/isl/maybe_basic_set.h",
+				"/usr/include/isl/maybe_id.h",
+				"/usr/include/isl/maybe_pw_aff.h",
+				"/usr/include/isl/maybe_templ.h",
+				"/usr/include/isl/multi.h",
+				"/usr/include/isl/obj.h",
+				"/usr/include/isl/options.h",
+				"/usr/include/isl/point.h",
+				"/usr/include/isl/polynomial.h",
+				"/usr/include/isl/polynomial_type.h",
+				"/usr/include/isl/printer.h",
+				"/usr/include/isl/printer_type.h",
+				"/usr/include/isl/schedule.h",
+				"/usr/include/isl/schedule_node.h",
+				"/usr/include/isl/schedule_type.h",
+				"/usr/include/isl/set.h",
+				"/usr/include/isl/set_type.h",
+				"/usr/include/isl/space.h",
+				"/usr/include/isl/space_type.h",
+				"/usr/include/isl/stdint.h",
+				"/usr/include/isl/stream.h",
+				"/usr/include/isl/stride_info.h",
+				"/usr/include/isl/typed_cpp.h",
+				"/usr/include/isl/union_map.h",
+				"/usr/include/isl/union_map_type.h",
+				"/usr/include/isl/union_set.h",
+				"/usr/include/isl/union_set_type.h",
+				"/usr/include/isl/val.h",
+				"/usr/include/isl/val_gmp.h",
+				"/usr/include/isl/val_type.h",
+				"/usr/include/isl/vec.h",
+				"/usr/include/isl/version.h",
+				"/usr/include/isl/vertices.h",
+				"/usr/lib/libisl.so",
+				"/usr/lib/pkgconfig/isl.pc"
+			],
+			"name": "isl-devel",
+			"provides": [
+				"pkgconfig(isl)"
+			]
+		}
+	},
+	"source-name": "isl",
+	"source-release": "1",
+	"source-version": "0.27"
+}

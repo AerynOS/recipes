@@ -4,8 +4,8 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : gmp
-version     : 6.2.1
-release     : 2
+version     : 6.3.0
+release     : 3
 summary     : Library for arbitrary precision arithmetic
 license     :
     - GPL-2.0-or-later
@@ -14,13 +14,15 @@ homepage    : https://www.gmplib.org/
 description : |
     Library for arbitrary precision arithmetic.
 upstreams   :
-    - https://ftp.gnu.org/gnu/gmp/gmp-6.2.1.tar.xz: fd4829912cddd12f84181c3451cc752be224643e87fac497b69edddadc49b4f2
-builddeps   :
-    - binary(file)
-    - binary(m4)
+    - https://ftp.gnu.org/gnu/gmp/gmp-6.3.0.tar.xz: a3c2b80201b89e68616f4ad30bc66aee4927c3ce50e33929ca819d5c43538898
 setup       : |
     %configure --enable-cxx
 build       : |
     %make
 install     : |
     %make_install
+check       : |
+    %make check
+tuning      :
+    - lto: full
+    - optimize: speed

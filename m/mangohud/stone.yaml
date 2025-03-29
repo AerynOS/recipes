@@ -5,7 +5,7 @@
 #
 name        : mangohud
 version     : 0.8.1
-release     : 3
+release     : 4
 homepage    : https://github.com/flightlessmango/MangoHud
 upstreams   :
     - https://github.com/flightlessmango/MangoHud/releases/download/v0.8.1/MangoHud-v0.8.1-Source.tar.xz : 4c8d8098f5deff7737978d792eef909b7469933f456a47132dccc06804825482
@@ -14,7 +14,6 @@ description : |
     A Vulkan and OpenGL overlay for monitoring FPS, temperatures, CPU/GPU load and more.
 license     : MIT
 builddeps   :
-    - binary(g++)
     - binary(glslang)
     - pkgconfig(cmocka)
     - pkgconfig(dbus-1)
@@ -27,6 +26,7 @@ builddeps   :
     - pkgconfig(xkbcommon)
     - pkgconfig(xrandr)
     - python(mako)
+    - libstdc++-devel
 setup       : |
     # Needs a static c++ stdlib, which we don't currently provide for libc++
     # Switch back if we ever build libc++.a
@@ -42,4 +42,3 @@ build       : |
     %meson_build
 install     : |
     %meson_install
-
