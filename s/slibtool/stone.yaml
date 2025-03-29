@@ -5,7 +5,7 @@
 #
 name        : slibtool
 version     : 0.6.1
-release     : 7
+release     : 8
 homepage    : https://github.com/midipix-project/slibtool
 upstreams   :
     - https://dl.midipix.org/slibtool/slibtool-0.6.1.tar.gz : 6266f64d726ac92d69e03fec262408a34b970e10be39efc245662febd76cb079
@@ -34,6 +34,7 @@ setup       : |
     %patch %(pkgdir)/0001-Revert-build-system-ccenv_set_cc_underscore-rewrite-.patch
     %patch %(pkgdir)/0001-Work-if-invoked-as-libtoolize.patch
     %patch %(pkgdir)/0001-Fix-space-breaking-macros.patch
+    %patch %(pkgdir)/0001-default-to-llvm.patch
 
     ./configure \
         --prefix=%(prefix) \

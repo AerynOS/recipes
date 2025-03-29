@@ -1,0 +1,26 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Reilly Brogan <reilly@reillybrogan.com>
+Date: Wed, 19 Mar 2025 14:16:12 -0500
+Subject: [PATCH] Default to llvm-ar
+
+On Aeryn we default to the LLVM toolchain, which uses llvm-ar as the default AR implementation. In some scenarios it has been observed that slibtool will default to binutils ar (it doesn't seem to check the AR environmental variable). 
+
+llvm-ar is a safer default
+
+---
+ src/host/slbt_host_params.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/host/slbt_host_params.c b/src/host/slbt_host_params.c
+index 6191ea5..042dad0 100644
+--- a/src/host/slbt_host_params.c
++++ b/src/host/slbt_host_params.c
+@@ -318,7 +318,7 @@ slbt_hidden int slbt_init_host_params(
+ 
+ 			/* if target is the native target, fallback to native ar */
+ 			if (ecode && !strcmp(host->host,SLBT_MACHINE)) {
+-				strcpy(drvhost->ar,"ar");
++				strcpy(drvhost->ar,"llvm-ar");
+ 				cfgmeta->ar = cfgnative;
+ 				fnative     = true;
+ 			}
