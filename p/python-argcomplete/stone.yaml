@@ -4,18 +4,18 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : python-argcomplete
-version     : 3.6.0
-release     : 1
+version     : 3.6.1
+release     : 2
 homepage    : https://pypi.org/project/python-argcomplete
 upstreams   :
-    - https://files.pythonhosted.org/packages/source/a/argcomplete/argcomplete-3.6.0.tar.gz : 2e4e42ec0ba2fff54b0d244d0b1623e86057673e57bafe72dda59c64bd5dee8b
+    - https://files.pythonhosted.org/packages/source/a/argcomplete/argcomplete-3.6.1.tar.gz : 927531c2fbaa004979f18c2316f6ffadcfc5cc2de15ae2624dfe65deaf60e14f
 summary     : Argcomplete provides easy, extensible command line tab completion of arguments for your Python application.
 description : |
     Argcomplete provides easy, extensible command line tab completion of arguments for your Python application.
 license     : Apache-2.0
 builddeps   :
-    - python(hatchling)
     - python(hatch-vcs)
+    - python(hatchling)
 build       : |
     %pyproject_build
 install     : |
