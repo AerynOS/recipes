@@ -1,0 +1,1057 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Wang Pengcheng <wangpengcheng.pp@bytedance.com>
+Date: Thu, 6 Feb 2025 17:33:28 +0800
+Subject: [PATCH 3/6] Adjust branch/mul/div units
+
+---
+ llvm/lib/Target/RISCV/RISCVSchedGenericOOO.td |  62 ++--
+ .../tools/llvm-mca/RISCV/GenericOOO/atomic.s  | 342 +++++++++---------
+ .../RISCV/GenericOOO/floating-point.s         | 168 ++++-----
+ .../tools/llvm-mca/RISCV/GenericOOO/integer.s | 250 ++++++-------
+ 4 files changed, 414 insertions(+), 408 deletions(-)
+
+diff --git a/llvm/lib/Target/RISCV/RISCVSchedGenericOOO.td b/llvm/lib/Target/RISCV/RISCVSchedGenericOOO.td
+index 06e36a062a46e..05721552e3090 100644
+--- a/llvm/lib/Target/RISCV/RISCVSchedGenericOOO.td
++++ b/llvm/lib/Target/RISCV/RISCVSchedGenericOOO.td
+@@ -10,7 +10,7 @@
+ // We assume that:
+ // * 6-issue out-of-order CPU with 192 ROB entries.
+ // * Units:
+-//   * IXU (Integer ALU Unit): 4 units, only one can execute division.
++//   * IXU (Integer ALU Unit): 4 units, only one can execute mul/div.
+ //   * FXU (Floating-point Unit): 2 units.
+ //   * LSU (Load/Store Unit): 2 units.
+ //   * VXU (Vector Unit): 1 unit.
+@@ -39,20 +39,24 @@ let SchedModel = GenericOOOModel in {
+ //===----------------------------------------------------------------------===//
+ // Resource groups
+ //===----------------------------------------------------------------------===//
+-def GenericOOODIV : ProcResource<1>;
+-def GenericOOOIXU : ProcResource<3>;
+-def GenericOOOALU : ProcResGroup<[GenericOOODIV, GenericOOOIXU]>;
++def GenericOOOBranch : ProcResource<1>;
++def GenericOOOMulDiv : ProcResource<1>;
++def GenericOOOInt : ProcResource<2>;
++def GenericOOOALU
++    : ProcResGroup<[GenericOOOBranch, GenericOOOMulDiv, GenericOOOInt]>;
+ def GenericOOOLSU : ProcResource<2>;
+-def GenericOOOFPU : ProcResource<2>;
++def GenericOOOFMulDiv : ProcResource<1>;
++def GenericOOOFloat : ProcResource<1>;
++def GenericOOOFPU : ProcResGroup<[GenericOOOFMulDiv, GenericOOOFloat]>;
+ // TODO: Add vector scheduling.
+ // def GenericOOOVXU : ProcResource<1>;
+ 
+ //===----------------------------------------------------------------------===//
+ // Branches
+ //===----------------------------------------------------------------------===//
+-def : WriteRes<WriteJmp, [GenericOOOALU]>;
+-def : WriteRes<WriteJalr, [GenericOOOALU]>;
+-def : WriteRes<WriteJal, [GenericOOOALU]>;
++def : WriteRes<WriteJmp, [GenericOOOBranch]>;
++def : WriteRes<WriteJalr, [GenericOOOBranch]>;
++def : WriteRes<WriteJal, [GenericOOOBranch]>;
+ 
+ //===----------------------------------------------------------------------===//
+ // Integer arithmetic and logic
+@@ -68,26 +72,26 @@ def : WriteRes<WriteShiftReg32, [GenericOOOALU]>;
+ // Integer multiplication
+ //===----------------------------------------------------------------------===//
+ let Latency = 4 in {
+-  def : WriteRes<WriteIMul, [GenericOOOALU]>;
+-  def : WriteRes<WriteIMul32, [GenericOOOALU]>;
++  def : WriteRes<WriteIMul, [GenericOOOMulDiv]>;
++  def : WriteRes<WriteIMul32, [GenericOOOMulDiv]>;
+ }
+ 
+ //===----------------------------------------------------------------------===//
+ // Integer division
+ //===----------------------------------------------------------------------===//
+-def : WriteRes<WriteIDiv32,  [GenericOOODIV]> {
++def : WriteRes<WriteIDiv32, [GenericOOOMulDiv]> {
+   let Latency = 13;
+   let ReleaseAtCycles = [13];
+ }
+-def : WriteRes<WriteIDiv, [GenericOOODIV]> {
++def : WriteRes<WriteIDiv, [GenericOOOMulDiv]> {
+   let Latency = 21;
+   let ReleaseAtCycles = [21];
+ }
+-def : WriteRes<WriteIRem32, [GenericOOODIV]> {
++def : WriteRes<WriteIRem32, [GenericOOOMulDiv]> {
+   let Latency = 13;
+   let ReleaseAtCycles = [13];
+ }
+-def : WriteRes<WriteIRem, [GenericOOODIV]> {
++def : WriteRes<WriteIRem, [GenericOOOMulDiv]> {
+   let Latency = 21;
+   let ReleaseAtCycles = [21];
+ }
+@@ -144,16 +148,6 @@ let Latency = 2 in {
+   def : WriteRes<WriteFAdd64, [GenericOOOFPU]>;
+ }
+ 
+-let Latency = 4 in {
+-  def : WriteRes<WriteFMul32, [GenericOOOFPU]>;
+-  def : WriteRes<WriteFMul64, [GenericOOOFPU]>;
+-}
+-
+-let Latency = 6 in {
+-  def : WriteRes<WriteFMA32, [GenericOOOFPU]>;
+-  def : WriteRes<WriteFMA64, [GenericOOOFPU]>;
+-}
+-
+ def : WriteRes<WriteFSGNJ32, [GenericOOOFPU]>;
+ def : WriteRes<WriteFSGNJ64, [GenericOOOFPU]>;
+ def : WriteRes<WriteFMinMax32, [GenericOOOFPU]>;
+@@ -165,15 +159,27 @@ let Latency = 2 in {
+   def : WriteRes<WriteFCmp64, [GenericOOOFPU]>;
+ }
+ 
++// Multiplication
++let Latency = 4 in {
++  def : WriteRes<WriteFMul32, [GenericOOOFMulDiv]>;
++  def : WriteRes<WriteFMul64, [GenericOOOFMulDiv]>;
++}
++
++// FMA
++let Latency = 6 in {
++  def : WriteRes<WriteFMA32, [GenericOOOFMulDiv]>;
++  def : WriteRes<WriteFMA64, [GenericOOOFMulDiv]>;
++}
++
+ // Division
+ let Latency = 13, ReleaseAtCycles = [13] in {
+-  def : WriteRes<WriteFDiv32, [GenericOOOFPU]>;
+-  def : WriteRes<WriteFSqrt32, [GenericOOOFPU]>;
++  def : WriteRes<WriteFDiv32, [GenericOOOFMulDiv]>;
++  def : WriteRes<WriteFSqrt32, [GenericOOOFMulDiv]>;
+ }
+ 
+ let Latency = 17, ReleaseAtCycles = [17] in {
+-  def : WriteRes<WriteFDiv64, [GenericOOOFPU]>;
+-  def : WriteRes<WriteFSqrt64, [GenericOOOFPU]>;
++  def : WriteRes<WriteFDiv64, [GenericOOOFMulDiv]>;
++  def : WriteRes<WriteFSqrt64, [GenericOOOFMulDiv]>;
+ }
+ 
+ // Conversions
+diff --git a/llvm/test/tools/llvm-mca/RISCV/GenericOOO/atomic.s b/llvm/test/tools/llvm-mca/RISCV/GenericOOO/atomic.s
+index 60532fae10f2f..2f8710175a6e9 100644
+--- a/llvm/test/tools/llvm-mca/RISCV/GenericOOO/atomic.s
++++ b/llvm/test/tools/llvm-mca/RISCV/GenericOOO/atomic.s
+@@ -385,178 +385,178 @@ amomaxu.h.aqrl s5, s4, (s3)
+ # CHECK-NEXT:  1      5     0.50    *      *            amomaxu.h.aqrl	s5, s4, (s3)
+ 
+ # CHECK:      Resources:
+-# CHECK-NEXT: [0]   - GenericOOODIV
+-# CHECK-NEXT: [1.0] - GenericOOOFPU
+-# CHECK-NEXT: [1.1] - GenericOOOFPU
+-# CHECK-NEXT: [2.0] - GenericOOOIXU
+-# CHECK-NEXT: [2.1] - GenericOOOIXU
+-# CHECK-NEXT: [2.2] - GenericOOOIXU
+-# CHECK-NEXT: [3.0] - GenericOOOLSU
+-# CHECK-NEXT: [3.1] - GenericOOOLSU
++# CHECK-NEXT: [0]   - GenericOOOBranch
++# CHECK-NEXT: [1]   - GenericOOOFMulDiv
++# CHECK-NEXT: [2]   - GenericOOOFloat
++# CHECK-NEXT: [3.0] - GenericOOOInt
++# CHECK-NEXT: [3.1] - GenericOOOInt
++# CHECK-NEXT: [4.0] - GenericOOOLSU
++# CHECK-NEXT: [4.1] - GenericOOOLSU
++# CHECK-NEXT: [5]   - GenericOOOMulDiv
+ 
+ # CHECK:      Resource pressure per iteration:
+-# CHECK-NEXT: [0]    [1.0]  [1.1]  [2.0]  [2.1]  [2.2]  [3.0]  [3.1]
+-# CHECK-NEXT:  -      -      -      -      -      -     80.00  80.00
++# CHECK-NEXT: [0]    [1]    [2]    [3.0]  [3.1]  [4.0]  [4.1]  [5]
++# CHECK-NEXT:  -      -      -      -      -     80.00  80.00   -
+ 
+ # CHECK:      Resource pressure by instruction:
+-# CHECK-NEXT: [0]    [1.0]  [1.1]  [2.0]  [2.1]  [2.2]  [3.0]  [3.1]  Instructions:
+-# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   lr.w	t0, (t1)
+-# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     lr.w.aq	t1, (t2)
+-# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   lr.w.rl	t2, (t3)
+-# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     lr.w.aqrl	t3, (t4)
+-# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   sc.w	t6, t5, (t4)
+-# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   sc.w.aq	t5, t4, (t3)
+-# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     sc.w.rl	t4, t3, (t2)
+-# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   sc.w.aqrl	t3, t2, (t1)
+-# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     lr.d	t0, (t1)
+-# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     lr.d.aq	t1, (t2)
+-# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   lr.d.rl	t2, (t3)
+-# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     lr.d.aqrl	t3, (t4)
+-# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   sc.d	t6, t5, (t4)
+-# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     sc.d.aq	t5, t4, (t3)
+-# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   sc.d.rl	t4, t3, (t2)
+-# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     sc.d.aqrl	t3, t2, (t1)
+-# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   amoswap.w	a4, ra, (s0)
+-# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amoadd.w	a1, a2, (a3)
+-# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   amoxor.w	a2, a3, (a4)
+-# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amoand.w	a3, a4, (a5)
+-# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   amoor.w	a4, a5, (a6)
+-# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amomin.w	a5, a6, (a7)
+-# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   amomax.w	s7, s6, (s5)
+-# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amominu.w	s6, s5, (s4)
+-# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   amomaxu.w	s5, s4, (s3)
+-# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amoswap.w.aq	a4, ra, (s0)
+-# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   amoadd.w.aq	a1, a2, (a3)
+-# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amoxor.w.aq	a2, a3, (a4)
+-# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   amoand.w.aq	a3, a4, (a5)
+-# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amoor.w.aq	a4, a5, (a6)
+-# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   amomin.w.aq	a5, a6, (a7)
+-# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amomax.w.aq	s7, s6, (s5)
+-# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   amominu.w.aq	s6, s5, (s4)
+-# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amomaxu.w.aq	s5, s4, (s3)
+-# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   amoswap.w.rl	a4, ra, (s0)
+-# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amoadd.w.rl	a1, a2, (a3)
+-# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   amoxor.w.rl	a2, a3, (a4)
+-# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amoand.w.rl	a3, a4, (a5)
+-# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   amoor.w.rl	a4, a5, (a6)
+-# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amomin.w.rl	a5, a6, (a7)
+-# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   amomax.w.rl	s7, s6, (s5)
+-# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amominu.w.rl	s6, s5, (s4)
+-# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   amomaxu.w.rl	s5, s4, (s3)
+-# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amoswap.w.aqrl	a4, ra, (s0)
+-# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   amoadd.w.aqrl	a1, a2, (a3)
+-# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amoxor.w.aqrl	a2, a3, (a4)
+-# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   amoand.w.aqrl	a3, a4, (a5)
+-# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amoor.w.aqrl	a4, a5, (a6)
+-# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   amomin.w.aqrl	a5, a6, (a7)
+-# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amomax.w.aqrl	s7, s6, (s5)
+-# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   amominu.w.aqrl	s6, s5, (s4)
+-# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amomaxu.w.aqrl	s5, s4, (s3)
+-# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   amoswap.d	a4, ra, (s0)
+-# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amoadd.d	a1, a2, (a3)
+-# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   amoxor.d	a2, a3, (a4)
+-# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amoand.d	a3, a4, (a5)
+-# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   amoor.d	a4, a5, (a6)
+-# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amomin.d	a5, a6, (a7)
+-# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   amomax.d	s7, s6, (s5)
+-# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amominu.d	s6, s5, (s4)
+-# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   amomaxu.d	s5, s4, (s3)
+-# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amoswap.d.aq	a4, ra, (s0)
+-# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   amoadd.d.aq	a1, a2, (a3)
+-# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amoxor.d.aq	a2, a3, (a4)
+-# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   amoand.d.aq	a3, a4, (a5)
+-# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amoor.d.aq	a4, a5, (a6)
+-# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   amomin.d.aq	a5, a6, (a7)
+-# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amomax.d.aq	s7, s6, (s5)
+-# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   amominu.d.aq	s6, s5, (s4)
+-# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amomaxu.d.aq	s5, s4, (s3)
+-# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   amoswap.d.rl	a4, ra, (s0)
+-# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amoadd.d.rl	a1, a2, (a3)
+-# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   amoxor.d.rl	a2, a3, (a4)
+-# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amoand.d.rl	a3, a4, (a5)
+-# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   amoor.d.rl	a4, a5, (a6)
+-# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amomin.d.rl	a5, a6, (a7)
+-# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   amomax.d.rl	s7, s6, (s5)
+-# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amominu.d.rl	s6, s5, (s4)
+-# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   amomaxu.d.rl	s5, s4, (s3)
+-# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amoswap.d.aqrl	a4, ra, (s0)
+-# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   amoadd.d.aqrl	a1, a2, (a3)
+-# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amoxor.d.aqrl	a2, a3, (a4)
+-# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   amoand.d.aqrl	a3, a4, (a5)
+-# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amoor.d.aqrl	a4, a5, (a6)
+-# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   amomin.d.aqrl	a5, a6, (a7)
+-# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amomax.d.aqrl	s7, s6, (s5)
+-# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   amominu.d.aqrl	s6, s5, (s4)
+-# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amomaxu.d.aqrl	s5, s4, (s3)
+-# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   amoswap.b	a4, ra, (s0)
+-# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amoadd.b	a1, a2, (a3)
+-# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   amoxor.b	a2, a3, (a4)
+-# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amoand.b	a3, a4, (a5)
+-# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   amoor.b	a4, a5, (a6)
+-# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amomin.b	a5, a6, (a7)
+-# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   amomax.b	s7, s6, (s5)
+-# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amominu.b	s6, s5, (s4)
+-# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   amomaxu.b	s5, s4, (s3)
+-# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amoswap.b.aq	a4, ra, (s0)
+-# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   amoadd.b.aq	a1, a2, (a3)
+-# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amoxor.b.aq	a2, a3, (a4)
+-# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   amoand.b.aq	a3, a4, (a5)
+-# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amoor.b.aq	a4, a5, (a6)
+-# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   amomin.b.aq	a5, a6, (a7)
+-# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amomax.b.aq	s7, s6, (s5)
+-# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   amominu.b.aq	s6, s5, (s4)
+-# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amomaxu.b.aq	s5, s4, (s3)
+-# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   amoswap.b.rl	a4, ra, (s0)
+-# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amoadd.b.rl	a1, a2, (a3)
+-# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   amoxor.b.rl	a2, a3, (a4)
+-# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amoand.b.rl	a3, a4, (a5)
+-# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   amoor.b.rl	a4, a5, (a6)
+-# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amomin.b.rl	a5, a6, (a7)
+-# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   amomax.b.rl	s7, s6, (s5)
+-# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amominu.b.rl	s6, s5, (s4)
+-# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   amomaxu.b.rl	s5, s4, (s3)
+-# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amoswap.b.aqrl	a4, ra, (s0)
+-# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   amoadd.b.aqrl	a1, a2, (a3)
+-# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amoxor.b.aqrl	a2, a3, (a4)
+-# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   amoand.b.aqrl	a3, a4, (a5)
+-# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amoor.b.aqrl	a4, a5, (a6)
+-# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   amomin.b.aqrl	a5, a6, (a7)
+-# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amomax.b.aqrl	s7, s6, (s5)
+-# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   amominu.b.aqrl	s6, s5, (s4)
+-# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amomaxu.b.aqrl	s5, s4, (s3)
+-# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   amoswap.h	a4, ra, (s0)
+-# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amoadd.h	a1, a2, (a3)
+-# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   amoxor.h	a2, a3, (a4)
+-# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amoand.h	a3, a4, (a5)
+-# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   amoor.h	a4, a5, (a6)
+-# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amomin.h	a5, a6, (a7)
+-# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   amomax.h	s7, s6, (s5)
+-# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amominu.h	s6, s5, (s4)
+-# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   amomaxu.h	s5, s4, (s3)
+-# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amoswap.h.aq	a4, ra, (s0)
+-# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   amoadd.h.aq	a1, a2, (a3)
+-# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amoxor.h.aq	a2, a3, (a4)
+-# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   amoand.h.aq	a3, a4, (a5)
+-# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amoor.h.aq	a4, a5, (a6)
+-# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   amomin.h.aq	a5, a6, (a7)
+-# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amomax.h.aq	s7, s6, (s5)
+-# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   amominu.h.aq	s6, s5, (s4)
+-# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amomaxu.h.aq	s5, s4, (s3)
+-# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   amoswap.h.rl	a4, ra, (s0)
+-# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amoadd.h.rl	a1, a2, (a3)
+-# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   amoxor.h.rl	a2, a3, (a4)
+-# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amoand.h.rl	a3, a4, (a5)
+-# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   amoor.h.rl	a4, a5, (a6)
+-# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amomin.h.rl	a5, a6, (a7)
+-# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   amomax.h.rl	s7, s6, (s5)
+-# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amominu.h.rl	s6, s5, (s4)
+-# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   amomaxu.h.rl	s5, s4, (s3)
+-# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amoswap.h.aqrl	a4, ra, (s0)
+-# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   amoadd.h.aqrl	a1, a2, (a3)
+-# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amoxor.h.aqrl	a2, a3, (a4)
+-# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   amoand.h.aqrl	a3, a4, (a5)
+-# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amoor.h.aqrl	a4, a5, (a6)
+-# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   amomin.h.aqrl	a5, a6, (a7)
+-# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amomax.h.aqrl	s7, s6, (s5)
+-# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   amominu.h.aqrl	s6, s5, (s4)
+-# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amomaxu.h.aqrl	s5, s4, (s3)
++# CHECK-NEXT: [0]    [1]    [2]    [3.0]  [3.1]  [4.0]  [4.1]  [5]    Instructions:
++# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     lr.w	t0, (t1)
++# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     lr.w.aq	t1, (t2)
++# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     lr.w.rl	t2, (t3)
++# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     lr.w.aqrl	t3, (t4)
++# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     sc.w	t6, t5, (t4)
++# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     sc.w.aq	t5, t4, (t3)
++# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     sc.w.rl	t4, t3, (t2)
++# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     sc.w.aqrl	t3, t2, (t1)
++# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     lr.d	t0, (t1)
++# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     lr.d.aq	t1, (t2)
++# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     lr.d.rl	t2, (t3)
++# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     lr.d.aqrl	t3, (t4)
++# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     sc.d	t6, t5, (t4)
++# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     sc.d.aq	t5, t4, (t3)
++# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     sc.d.rl	t4, t3, (t2)
++# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     sc.d.aqrl	t3, t2, (t1)
++# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amoswap.w	a4, ra, (s0)
++# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     amoadd.w	a1, a2, (a3)
++# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amoxor.w	a2, a3, (a4)
++# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     amoand.w	a3, a4, (a5)
++# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amoor.w	a4, a5, (a6)
++# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     amomin.w	a5, a6, (a7)
++# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amomax.w	s7, s6, (s5)
++# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     amominu.w	s6, s5, (s4)
++# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amomaxu.w	s5, s4, (s3)
++# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     amoswap.w.aq	a4, ra, (s0)
++# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amoadd.w.aq	a1, a2, (a3)
++# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     amoxor.w.aq	a2, a3, (a4)
++# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amoand.w.aq	a3, a4, (a5)
++# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     amoor.w.aq	a4, a5, (a6)
++# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amomin.w.aq	a5, a6, (a7)
++# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     amomax.w.aq	s7, s6, (s5)
++# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amominu.w.aq	s6, s5, (s4)
++# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     amomaxu.w.aq	s5, s4, (s3)
++# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amoswap.w.rl	a4, ra, (s0)
++# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     amoadd.w.rl	a1, a2, (a3)
++# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amoxor.w.rl	a2, a3, (a4)
++# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     amoand.w.rl	a3, a4, (a5)
++# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amoor.w.rl	a4, a5, (a6)
++# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     amomin.w.rl	a5, a6, (a7)
++# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amomax.w.rl	s7, s6, (s5)
++# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     amominu.w.rl	s6, s5, (s4)
++# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amomaxu.w.rl	s5, s4, (s3)
++# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     amoswap.w.aqrl	a4, ra, (s0)
++# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amoadd.w.aqrl	a1, a2, (a3)
++# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     amoxor.w.aqrl	a2, a3, (a4)
++# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amoand.w.aqrl	a3, a4, (a5)
++# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     amoor.w.aqrl	a4, a5, (a6)
++# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amomin.w.aqrl	a5, a6, (a7)
++# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     amomax.w.aqrl	s7, s6, (s5)
++# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amominu.w.aqrl	s6, s5, (s4)
++# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     amomaxu.w.aqrl	s5, s4, (s3)
++# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amoswap.d	a4, ra, (s0)
++# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     amoadd.d	a1, a2, (a3)
++# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amoxor.d	a2, a3, (a4)
++# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     amoand.d	a3, a4, (a5)
++# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amoor.d	a4, a5, (a6)
++# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     amomin.d	a5, a6, (a7)
++# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amomax.d	s7, s6, (s5)
++# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     amominu.d	s6, s5, (s4)
++# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amomaxu.d	s5, s4, (s3)
++# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     amoswap.d.aq	a4, ra, (s0)
++# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amoadd.d.aq	a1, a2, (a3)
++# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     amoxor.d.aq	a2, a3, (a4)
++# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amoand.d.aq	a3, a4, (a5)
++# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     amoor.d.aq	a4, a5, (a6)
++# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amomin.d.aq	a5, a6, (a7)
++# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     amomax.d.aq	s7, s6, (s5)
++# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amominu.d.aq	s6, s5, (s4)
++# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     amomaxu.d.aq	s5, s4, (s3)
++# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amoswap.d.rl	a4, ra, (s0)
++# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     amoadd.d.rl	a1, a2, (a3)
++# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amoxor.d.rl	a2, a3, (a4)
++# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     amoand.d.rl	a3, a4, (a5)
++# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amoor.d.rl	a4, a5, (a6)
++# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     amomin.d.rl	a5, a6, (a7)
++# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amomax.d.rl	s7, s6, (s5)
++# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     amominu.d.rl	s6, s5, (s4)
++# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amomaxu.d.rl	s5, s4, (s3)
++# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     amoswap.d.aqrl	a4, ra, (s0)
++# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amoadd.d.aqrl	a1, a2, (a3)
++# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     amoxor.d.aqrl	a2, a3, (a4)
++# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amoand.d.aqrl	a3, a4, (a5)
++# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     amoor.d.aqrl	a4, a5, (a6)
++# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amomin.d.aqrl	a5, a6, (a7)
++# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     amomax.d.aqrl	s7, s6, (s5)
++# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amominu.d.aqrl	s6, s5, (s4)
++# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     amomaxu.d.aqrl	s5, s4, (s3)
++# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amoswap.b	a4, ra, (s0)
++# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     amoadd.b	a1, a2, (a3)
++# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amoxor.b	a2, a3, (a4)
++# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     amoand.b	a3, a4, (a5)
++# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amoor.b	a4, a5, (a6)
++# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     amomin.b	a5, a6, (a7)
++# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amomax.b	s7, s6, (s5)
++# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     amominu.b	s6, s5, (s4)
++# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amomaxu.b	s5, s4, (s3)
++# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     amoswap.b.aq	a4, ra, (s0)
++# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amoadd.b.aq	a1, a2, (a3)
++# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     amoxor.b.aq	a2, a3, (a4)
++# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amoand.b.aq	a3, a4, (a5)
++# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     amoor.b.aq	a4, a5, (a6)
++# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amomin.b.aq	a5, a6, (a7)
++# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     amomax.b.aq	s7, s6, (s5)
++# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amominu.b.aq	s6, s5, (s4)
++# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     amomaxu.b.aq	s5, s4, (s3)
++# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amoswap.b.rl	a4, ra, (s0)
++# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     amoadd.b.rl	a1, a2, (a3)
++# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amoxor.b.rl	a2, a3, (a4)
++# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     amoand.b.rl	a3, a4, (a5)
++# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amoor.b.rl	a4, a5, (a6)
++# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     amomin.b.rl	a5, a6, (a7)
++# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amomax.b.rl	s7, s6, (s5)
++# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     amominu.b.rl	s6, s5, (s4)
++# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amomaxu.b.rl	s5, s4, (s3)
++# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     amoswap.b.aqrl	a4, ra, (s0)
++# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amoadd.b.aqrl	a1, a2, (a3)
++# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     amoxor.b.aqrl	a2, a3, (a4)
++# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amoand.b.aqrl	a3, a4, (a5)
++# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     amoor.b.aqrl	a4, a5, (a6)
++# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amomin.b.aqrl	a5, a6, (a7)
++# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     amomax.b.aqrl	s7, s6, (s5)
++# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amominu.b.aqrl	s6, s5, (s4)
++# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     amomaxu.b.aqrl	s5, s4, (s3)
++# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amoswap.h	a4, ra, (s0)
++# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     amoadd.h	a1, a2, (a3)
++# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amoxor.h	a2, a3, (a4)
++# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     amoand.h	a3, a4, (a5)
++# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amoor.h	a4, a5, (a6)
++# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     amomin.h	a5, a6, (a7)
++# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amomax.h	s7, s6, (s5)
++# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     amominu.h	s6, s5, (s4)
++# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amomaxu.h	s5, s4, (s3)
++# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     amoswap.h.aq	a4, ra, (s0)
++# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amoadd.h.aq	a1, a2, (a3)
++# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     amoxor.h.aq	a2, a3, (a4)
++# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amoand.h.aq	a3, a4, (a5)
++# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     amoor.h.aq	a4, a5, (a6)
++# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amomin.h.aq	a5, a6, (a7)
++# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     amomax.h.aq	s7, s6, (s5)
++# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amominu.h.aq	s6, s5, (s4)
++# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     amomaxu.h.aq	s5, s4, (s3)
++# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amoswap.h.rl	a4, ra, (s0)
++# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     amoadd.h.rl	a1, a2, (a3)
++# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amoxor.h.rl	a2, a3, (a4)
++# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     amoand.h.rl	a3, a4, (a5)
++# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amoor.h.rl	a4, a5, (a6)
++# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     amomin.h.rl	a5, a6, (a7)
++# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amomax.h.rl	s7, s6, (s5)
++# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     amominu.h.rl	s6, s5, (s4)
++# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amomaxu.h.rl	s5, s4, (s3)
++# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     amoswap.h.aqrl	a4, ra, (s0)
++# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amoadd.h.aqrl	a1, a2, (a3)
++# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     amoxor.h.aqrl	a2, a3, (a4)
++# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amoand.h.aqrl	a3, a4, (a5)
++# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     amoor.h.aqrl	a4, a5, (a6)
++# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amomin.h.aqrl	a5, a6, (a7)
++# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     amomax.h.aqrl	s7, s6, (s5)
++# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     amominu.h.aqrl	s6, s5, (s4)
++# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     amomaxu.h.aqrl	s5, s4, (s3)
+diff --git a/llvm/test/tools/llvm-mca/RISCV/GenericOOO/floating-point.s b/llvm/test/tools/llvm-mca/RISCV/GenericOOO/floating-point.s
+index 23efebe3f9a26..50e1d5a89a7f6 100644
+--- a/llvm/test/tools/llvm-mca/RISCV/GenericOOO/floating-point.s
++++ b/llvm/test/tools/llvm-mca/RISCV/GenericOOO/floating-point.s
+@@ -176,13 +176,13 @@ fgeq.d a1, ft1, ft2
+ 
+ # CHECK:      Iterations:        1
+ # CHECK-NEXT: Instructions:      113
+-# CHECK-NEXT: Total Cycles:      95
++# CHECK-NEXT: Total Cycles:      97
+ # CHECK-NEXT: Total uOps:        113
+ 
+ # CHECK:      Dispatch Width:    6
+-# CHECK-NEXT: uOps Per Cycle:    1.19
+-# CHECK-NEXT: IPC:               1.19
+-# CHECK-NEXT: Block RThroughput: 89.5
++# CHECK-NEXT: uOps Per Cycle:    1.16
++# CHECK-NEXT: IPC:               1.16
++# CHECK-NEXT: Block RThroughput: 70.0
+ 
+ # CHECK:      Instruction Info:
+ # CHECK-NEXT: [1]: #uOps
+@@ -212,26 +212,26 @@ fgeq.d a1, ft1, ft2
+ # CHECK-NEXT:  1      6     0.50                        fnmadd.h	fs6, fs7, fs8, fs9
+ # CHECK-NEXT:  1      2     0.50                        fadd.s	fs10, fs11, ft8
+ # CHECK-NEXT:  1      2     0.50                        fsub.s	ft9, ft10, ft11
+-# CHECK-NEXT:  1      4     0.50                        fmul.s	ft0, ft1, ft2
+-# CHECK-NEXT:  1      13    6.50                        fdiv.s	ft3, ft4, ft5
+-# CHECK-NEXT:  1      13    6.50                        fsqrt.s	ft6, ft7
++# CHECK-NEXT:  1      4     1.00                        fmul.s	ft0, ft1, ft2
++# CHECK-NEXT:  1      13    13.00                       fdiv.s	ft3, ft4, ft5
++# CHECK-NEXT:  1      13    13.00                       fsqrt.s	ft6, ft7
+ # CHECK-NEXT:  1      1     0.50                        fmin.s	fa5, fa6, fa7
+ # CHECK-NEXT:  1      1     0.50                        fmax.s	fs2, fs3, fs4
+-# CHECK-NEXT:  1      6     0.50                        fmadd.s	fa0, fa1, fa2, ft11
+-# CHECK-NEXT:  1      6     0.50                        fmsub.s	fa4, fa5, fa6, fa7
+-# CHECK-NEXT:  1      6     0.50                        fnmsub.s	fs2, fs3, fs4, fs5
+-# CHECK-NEXT:  1      6     0.50                        fnmadd.s	fs6, fs7, fs8, fs9
++# CHECK-NEXT:  1      6     1.00                        fmadd.s	fa0, fa1, fa2, ft11
++# CHECK-NEXT:  1      6     1.00                        fmsub.s	fa4, fa5, fa6, fa7
++# CHECK-NEXT:  1      6     1.00                        fnmsub.s	fs2, fs3, fs4, fs5
++# CHECK-NEXT:  1      6     1.00                        fnmadd.s	fs6, fs7, fs8, fs9
+ # CHECK-NEXT:  1      2     0.50                        fadd.d	fs10, fs11, ft8
+ # CHECK-NEXT:  1      2     0.50                        fsub.d	ft9, ft10, ft11
+-# CHECK-NEXT:  1      4     0.50                        fmul.d	ft0, ft1, ft2
+-# CHECK-NEXT:  1      17    8.50                        fdiv.d	ft3, ft4, ft5
+-# CHECK-NEXT:  1      17    8.50                        fsqrt.d	ft6, ft7
++# CHECK-NEXT:  1      4     1.00                        fmul.d	ft0, ft1, ft2
++# CHECK-NEXT:  1      17    17.00                       fdiv.d	ft3, ft4, ft5
++# CHECK-NEXT:  1      17    17.00                       fsqrt.d	ft6, ft7
+ # CHECK-NEXT:  1      1     0.50                        fmin.d	fa5, fa6, fa7
+ # CHECK-NEXT:  1      1     0.50                        fmax.d	fs2, fs3, fs4
+-# CHECK-NEXT:  1      6     0.50                        fmadd.d	fa0, fa1, fa2, ft11
+-# CHECK-NEXT:  1      6     0.50                        fmsub.d	fa4, fa5, fa6, fa7
+-# CHECK-NEXT:  1      6     0.50                        fnmsub.d	fs2, fs3, fs4, fs5
+-# CHECK-NEXT:  1      6     0.50                        fnmadd.d	fs6, fs7, fs8, fs9
++# CHECK-NEXT:  1      6     1.00                        fmadd.d	fa0, fa1, fa2, ft11
++# CHECK-NEXT:  1      6     1.00                        fmsub.d	fa4, fa5, fa6, fa7
++# CHECK-NEXT:  1      6     1.00                        fnmsub.d	fs2, fs3, fs4, fs5
++# CHECK-NEXT:  1      6     1.00                        fnmadd.d	fs6, fs7, fs8, fs9
+ # CHECK-NEXT:  1      2     0.50                        fmv.x.h	a2, fs7
+ # CHECK-NEXT:  1      2     0.50                        fmv.h.x	ft1, a6
+ # CHECK-NEXT:  1      2     0.50                        fcvt.s.h	fa0, ft0
+@@ -308,27 +308,27 @@ fgeq.d a1, ft1, ft2
+ # CHECK-NEXT:  1      2     0.50                        fleq.d	a1, ft2, ft1
+ 
+ # CHECK:      Resources:
+-# CHECK-NEXT: [0]   - GenericOOODIV
+-# CHECK-NEXT: [1.0] - GenericOOOFPU
+-# CHECK-NEXT: [1.1] - GenericOOOFPU
+-# CHECK-NEXT: [2.0] - GenericOOOIXU
+-# CHECK-NEXT: [2.1] - GenericOOOIXU
+-# CHECK-NEXT: [2.2] - GenericOOOIXU
+-# CHECK-NEXT: [3.0] - GenericOOOLSU
+-# CHECK-NEXT: [3.1] - GenericOOOLSU
++# CHECK-NEXT: [0]   - GenericOOOBranch
++# CHECK-NEXT: [1]   - GenericOOOFMulDiv
++# CHECK-NEXT: [2]   - GenericOOOFloat
++# CHECK-NEXT: [3.0] - GenericOOOInt
++# CHECK-NEXT: [3.1] - GenericOOOInt
++# CHECK-NEXT: [4.0] - GenericOOOLSU
++# CHECK-NEXT: [4.1] - GenericOOOLSU
++# CHECK-NEXT: [5]   - GenericOOOMulDiv
+ 
+ # CHECK:      Resource pressure per iteration:
+-# CHECK-NEXT: [0]    [1.0]  [1.1]  [2.0]  [2.1]  [2.2]  [3.0]  [3.1]
+-# CHECK-NEXT:  -     89.00  90.00   -      -      -     3.00   3.00
++# CHECK-NEXT: [0]    [1]    [2]    [3.0]  [3.1]  [4.0]  [4.1]  [5]
++# CHECK-NEXT:  -     90.00  89.00   -      -     3.00   3.00    -
+ 
+ # CHECK:      Resource pressure by instruction:
+-# CHECK-NEXT: [0]    [1.0]  [1.1]  [2.0]  [2.1]  [2.2]  [3.0]  [3.1]  Instructions:
+-# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   flh	ft0, 0(a0)
+-# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     fsh	ft0, 0(a0)
+-# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     flw	ft0, 0(a0)
+-# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   fsw	ft0, 0(a0)
+-# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   fld	ft0, 0(a0)
+-# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     fsd	ft0, 0(a0)
++# CHECK-NEXT: [0]    [1]    [2]    [3.0]  [3.1]  [4.0]  [4.1]  [5]    Instructions:
++# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     flh	ft0, 0(a0)
++# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     fsh	ft0, 0(a0)
++# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     flw	ft0, 0(a0)
++# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     fsw	ft0, 0(a0)
++# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     fld	ft0, 0(a0)
++# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     fsd	ft0, 0(a0)
+ # CHECK-NEXT:  -      -     1.00    -      -      -      -      -     fadd.h	fs10, fs11, ft8
+ # CHECK-NEXT:  -     1.00    -      -      -      -      -      -     fsub.h	ft9, ft10, ft11
+ # CHECK-NEXT:  -      -     1.00    -      -      -      -      -     fmul.h	ft0, ft1, ft2
+@@ -343,96 +343,96 @@ fgeq.d a1, ft1, ft2
+ # CHECK-NEXT:  -     1.00    -      -      -      -      -      -     fadd.s	fs10, fs11, ft8
+ # CHECK-NEXT:  -      -     1.00    -      -      -      -      -     fsub.s	ft9, ft10, ft11
+ # CHECK-NEXT:  -     1.00    -      -      -      -      -      -     fmul.s	ft0, ft1, ft2
+-# CHECK-NEXT:  -      -     13.00   -      -      -      -      -     fdiv.s	ft3, ft4, ft5
++# CHECK-NEXT:  -     13.00   -      -      -      -      -      -     fdiv.s	ft3, ft4, ft5
+ # CHECK-NEXT:  -     13.00   -      -      -      -      -      -     fsqrt.s	ft6, ft7
+ # CHECK-NEXT:  -      -     1.00    -      -      -      -      -     fmin.s	fa5, fa6, fa7
+-# CHECK-NEXT:  -     1.00    -      -      -      -      -      -     fmax.s	fs2, fs3, fs4
+-# CHECK-NEXT:  -      -     1.00    -      -      -      -      -     fmadd.s	fa0, fa1, fa2, ft11
++# CHECK-NEXT:  -      -     1.00    -      -      -      -      -     fmax.s	fs2, fs3, fs4
++# CHECK-NEXT:  -     1.00    -      -      -      -      -      -     fmadd.s	fa0, fa1, fa2, ft11
+ # CHECK-NEXT:  -     1.00    -      -      -      -      -      -     fmsub.s	fa4, fa5, fa6, fa7
+-# CHECK-NEXT:  -      -     1.00    -      -      -      -      -     fnmsub.s	fs2, fs3, fs4, fs5
++# CHECK-NEXT:  -     1.00    -      -      -      -      -      -     fnmsub.s	fs2, fs3, fs4, fs5
+ # CHECK-NEXT:  -     1.00    -      -      -      -      -      -     fnmadd.s	fs6, fs7, fs8, fs9
+ # CHECK-NEXT:  -      -     1.00    -      -      -      -      -     fadd.d	fs10, fs11, ft8
+-# CHECK-NEXT:  -     1.00    -      -      -      -      -      -     fsub.d	ft9, ft10, ft11
+-# CHECK-NEXT:  -      -     1.00    -      -      -      -      -     fmul.d	ft0, ft1, ft2
+-# CHECK-NEXT:  -      -     17.00   -      -      -      -      -     fdiv.d	ft3, ft4, ft5
++# CHECK-NEXT:  -      -     1.00    -      -      -      -      -     fsub.d	ft9, ft10, ft11
++# CHECK-NEXT:  -     1.00    -      -      -      -      -      -     fmul.d	ft0, ft1, ft2
++# CHECK-NEXT:  -     17.00   -      -      -      -      -      -     fdiv.d	ft3, ft4, ft5
+ # CHECK-NEXT:  -     17.00   -      -      -      -      -      -     fsqrt.d	ft6, ft7
+ # CHECK-NEXT:  -      -     1.00    -      -      -      -      -     fmin.d	fa5, fa6, fa7
+-# CHECK-NEXT:  -     1.00    -      -      -      -      -      -     fmax.d	fs2, fs3, fs4
++# CHECK-NEXT:  -      -     1.00    -      -      -      -      -     fmax.d	fs2, fs3, fs4
+ # CHECK-NEXT:  -     1.00    -      -      -      -      -      -     fmadd.d	fa0, fa1, fa2, ft11
+-# CHECK-NEXT:  -      -     1.00    -      -      -      -      -     fmsub.d	fa4, fa5, fa6, fa7
++# CHECK-NEXT:  -     1.00    -      -      -      -      -      -     fmsub.d	fa4, fa5, fa6, fa7
+ # CHECK-NEXT:  -     1.00    -      -      -      -      -      -     fnmsub.d	fs2, fs3, fs4, fs5
+-# CHECK-NEXT:  -      -     1.00    -      -      -      -      -     fnmadd.d	fs6, fs7, fs8, fs9
+-# CHECK-NEXT:  -     1.00    -      -      -      -      -      -     fmv.x.h	a2, fs7
++# CHECK-NEXT:  -     1.00    -      -      -      -      -      -     fnmadd.d	fs6, fs7, fs8, fs9
++# CHECK-NEXT:  -      -     1.00    -      -      -      -      -     fmv.x.h	a2, fs7
+ # CHECK-NEXT:  -      -     1.00    -      -      -      -      -     fmv.h.x	ft1, a6
+-# CHECK-NEXT:  -     1.00    -      -      -      -      -      -     fcvt.s.h	fa0, ft0
++# CHECK-NEXT:  -      -     1.00    -      -      -      -      -     fcvt.s.h	fa0, ft0
+ # CHECK-NEXT:  -      -     1.00    -      -      -      -      -     fcvt.s.h	fa0, ft0, rup
+-# CHECK-NEXT:  -     1.00    -      -      -      -      -      -     fcvt.h.s	ft2, fa2
+-# CHECK-NEXT:  -     1.00    -      -      -      -      -      -     fcvt.d.h	fa0, ft0
++# CHECK-NEXT:  -      -     1.00    -      -      -      -      -     fcvt.h.s	ft2, fa2
++# CHECK-NEXT:  -      -     1.00    -      -      -      -      -     fcvt.d.h	fa0, ft0
+ # CHECK-NEXT:  -      -     1.00    -      -      -      -      -     fcvt.d.h	fa0, ft0, rup
+ # CHECK-NEXT:  -      -     1.00    -      -      -      -      -     fcvt.h.d	ft2, fa2
+ # CHECK-NEXT:  -      -     1.00    -      -      -      -      -     fcvt.w.s	a0, fs5
+-# CHECK-NEXT:  -      -     1.00    -      -      -      -      -     fcvt.wu.s	a1, fs6
+-# CHECK-NEXT:  -     1.00    -      -      -      -      -      -     fcvt.s.w	ft11, a4
+-# CHECK-NEXT:  -     1.00    -      -      -      -      -      -     fcvt.s.wu	ft0, a5
++# CHECK-NEXT:  -     1.00    -      -      -      -      -      -     fcvt.wu.s	a1, fs6
++# CHECK-NEXT:  -      -     1.00    -      -      -      -      -     fcvt.s.w	ft11, a4
++# CHECK-NEXT:  -      -     1.00    -      -      -      -      -     fcvt.s.wu	ft0, a5
+ # CHECK-NEXT:  -      -     1.00    -      -      -      -      -     fcvt.l.s	a0, ft0
+ # CHECK-NEXT:  -      -     1.00    -      -      -      -      -     fcvt.lu.s	a1, ft1
+-# CHECK-NEXT:  -     1.00    -      -      -      -      -      -     fcvt.s.l	ft2, a2
+-# CHECK-NEXT:  -     1.00    -      -      -      -      -      -     fcvt.s.lu	ft3, a3
+-# CHECK-NEXT:  -     1.00    -      -      -      -      -      -     fmv.x.w	a2, fs7
++# CHECK-NEXT:  -      -     1.00    -      -      -      -      -     fcvt.s.l	ft2, a2
++# CHECK-NEXT:  -      -     1.00    -      -      -      -      -     fcvt.s.lu	ft3, a3
++# CHECK-NEXT:  -      -     1.00    -      -      -      -      -     fmv.x.w	a2, fs7
+ # CHECK-NEXT:  -      -     1.00    -      -      -      -      -     fmv.w.x	ft1, a6
+-# CHECK-NEXT:  -     1.00    -      -      -      -      -      -     fsgnj.s	fs1, fa0, fa1
+-# CHECK-NEXT:  -      -     1.00    -      -      -      -      -     fsgnjn.s	fa1, fa3, fa4
+-# CHECK-NEXT:  -     1.00    -      -      -      -      -      -     fcvt.wu.d	a4, ft11
++# CHECK-NEXT:  -      -     1.00    -      -      -      -      -     fsgnj.s	fs1, fa0, fa1
++# CHECK-NEXT:  -     1.00    -      -      -      -      -      -     fsgnjn.s	fa1, fa3, fa4
++# CHECK-NEXT:  -      -     1.00    -      -      -      -      -     fcvt.wu.d	a4, ft11
+ # CHECK-NEXT:  -      -     1.00    -      -      -      -      -     fcvt.w.d	a4, ft11
+-# CHECK-NEXT:  -     1.00    -      -      -      -      -      -     fcvt.d.w	ft0, a5
+-# CHECK-NEXT:  -     1.00    -      -      -      -      -      -     fcvt.d.wu	ft1, a6
++# CHECK-NEXT:  -      -     1.00    -      -      -      -      -     fcvt.d.w	ft0, a5
++# CHECK-NEXT:  -      -     1.00    -      -      -      -      -     fcvt.d.wu	ft1, a6
+ # CHECK-NEXT:  -      -     1.00    -      -      -      -      -     fcvt.s.d	fs5, fs6
+ # CHECK-NEXT:  -      -     1.00    -      -      -      -      -     fcvt.d.s	fs7, fs8
+-# CHECK-NEXT:  -     1.00    -      -      -      -      -      -     fcvt.l.d	a0, ft0
++# CHECK-NEXT:  -      -     1.00    -      -      -      -      -     fcvt.l.d	a0, ft0
+ # CHECK-NEXT:  -      -     1.00    -      -      -      -      -     fcvt.lu.d	a1, ft1
+-# CHECK-NEXT:  -     1.00    -      -      -      -      -      -     fcvt.d.l	ft3, a3
++# CHECK-NEXT:  -      -     1.00    -      -      -      -      -     fcvt.d.l	ft3, a3
+ # CHECK-NEXT:  -      -     1.00    -      -      -      -      -     fcvt.d.lu	ft4, a4
+-# CHECK-NEXT:  -     1.00    -      -      -      -      -      -     fmv.x.d	a2, ft2
+-# CHECK-NEXT:  -     1.00    -      -      -      -      -      -     fmv.d.x	ft5, a5
+-# CHECK-NEXT:  -      -     1.00    -      -      -      -      -     fsgnj.d	fs1, fa0, fa1
++# CHECK-NEXT:  -      -     1.00    -      -      -      -      -     fmv.x.d	a2, ft2
++# CHECK-NEXT:  -      -     1.00    -      -      -      -      -     fmv.d.x	ft5, a5
++# CHECK-NEXT:  -     1.00    -      -      -      -      -      -     fsgnj.d	fs1, fa0, fa1
+ # CHECK-NEXT:  -      -     1.00    -      -      -      -      -     fsgnjn.d	fa1, fa3, fa4
+-# CHECK-NEXT:  -     1.00    -      -      -      -      -      -     feq.h	a1, fs8, fs9
++# CHECK-NEXT:  -      -     1.00    -      -      -      -      -     feq.h	a1, fs8, fs9
+ # CHECK-NEXT:  -      -     1.00    -      -      -      -      -     flt.h	a2, fs10, fs11
+-# CHECK-NEXT:  -     1.00    -      -      -      -      -      -     fle.h	a3, ft8, ft9
++# CHECK-NEXT:  -      -     1.00    -      -      -      -      -     fle.h	a3, ft8, ft9
+ # CHECK-NEXT:  -      -     1.00    -      -      -      -      -     feq.s	a1, fs8, fs9
+-# CHECK-NEXT:  -     1.00    -      -      -      -      -      -     flt.s	a2, fs10, fs11
++# CHECK-NEXT:  -      -     1.00    -      -      -      -      -     flt.s	a2, fs10, fs11
+ # CHECK-NEXT:  -      -     1.00    -      -      -      -      -     fle.s	a3, ft8, ft9
+-# CHECK-NEXT:  -     1.00    -      -      -      -      -      -     feq.d	a1, fs8, fs9
++# CHECK-NEXT:  -      -     1.00    -      -      -      -      -     feq.d	a1, fs8, fs9
+ # CHECK-NEXT:  -      -     1.00    -      -      -      -      -     flt.d	a2, fs10, fs11
+ # CHECK-NEXT:  -      -     1.00    -      -      -      -      -     fle.d	a3, ft8, ft9
+-# CHECK-NEXT:  -     1.00    -      -      -      -      -      -     fclass.s	a3, ft10
+ # CHECK-NEXT:  -      -     1.00    -      -      -      -      -     fclass.s	a3, ft10
+-# CHECK-NEXT:  -     1.00    -      -      -      -      -      -     fclass.d	a3, ft10
++# CHECK-NEXT:  -      -     1.00    -      -      -      -      -     fclass.s	a3, ft10
++# CHECK-NEXT:  -      -     1.00    -      -      -      -      -     fclass.d	a3, ft10
+ # CHECK-NEXT:  -      -     1.00    -      -      -      -      -     fli.h	ft1, -1.0
+-# CHECK-NEXT:  -     1.00    -      -      -      -      -      -     fli.s	ft1, -1.0
+-# CHECK-NEXT:  -     1.00    -      -      -      -      -      -     fli.d	ft1, -1.0
++# CHECK-NEXT:  -      -     1.00    -      -      -      -      -     fli.s	ft1, -1.0
++# CHECK-NEXT:  -      -     1.00    -      -      -      -      -     fli.d	ft1, -1.0
+ # CHECK-NEXT:  -      -     1.00    -      -      -      -      -     fminm.h	fa0, fa1, fa2
+ # CHECK-NEXT:  -     1.00    -      -      -      -      -      -     fmaxm.h	fs3, fs4, fs5
+-# CHECK-NEXT:  -      -     1.00    -      -      -      -      -     fminm.s	fa0, fa1, fa2
+-# CHECK-NEXT:  -     1.00    -      -      -      -      -      -     fmaxm.s	fs3, fs4, fs5
++# CHECK-NEXT:  -     1.00    -      -      -      -      -      -     fminm.s	fa0, fa1, fa2
++# CHECK-NEXT:  -      -     1.00    -      -      -      -      -     fmaxm.s	fs3, fs4, fs5
+ # CHECK-NEXT:  -      -     1.00    -      -      -      -      -     fminm.d	fa0, fa1, fa2
+ # CHECK-NEXT:  -     1.00    -      -      -      -      -      -     fmaxm.d	fs3, fs4, fs5
+-# CHECK-NEXT:  -     1.00    -      -      -      -      -      -     fround.h	fs1, fs2
++# CHECK-NEXT:  -      -     1.00    -      -      -      -      -     fround.h	fs1, fs2
+ # CHECK-NEXT:  -      -     1.00    -      -      -      -      -     froundnx.h	fs1, fs2
+-# CHECK-NEXT:  -     1.00    -      -      -      -      -      -     fround.s	fs1, fs2
++# CHECK-NEXT:  -      -     1.00    -      -      -      -      -     fround.s	fs1, fs2
+ # CHECK-NEXT:  -      -     1.00    -      -      -      -      -     froundnx.s	fs1, fs2
+-# CHECK-NEXT:  -     1.00    -      -      -      -      -      -     fround.d	fs1, fs2
++# CHECK-NEXT:  -      -     1.00    -      -      -      -      -     fround.d	fs1, fs2
+ # CHECK-NEXT:  -      -     1.00    -      -      -      -      -     froundnx.d	fs1, fs2
+ # CHECK-NEXT:  -      -     1.00    -      -      -      -      -     fcvtmod.w.d	a1, ft1, rtz
+-# CHECK-NEXT:  -     1.00    -      -      -      -      -      -     fltq.h	a1, fs1, fs2
++# CHECK-NEXT:  -      -     1.00    -      -      -      -      -     fltq.h	a1, fs1, fs2
+ # CHECK-NEXT:  -      -     1.00    -      -      -      -      -     fleq.h	a1, ft1, ft2
+-# CHECK-NEXT:  -     1.00    -      -      -      -      -      -     fltq.h	a1, fs2, fs1
++# CHECK-NEXT:  -      -     1.00    -      -      -      -      -     fltq.h	a1, fs2, fs1
+ # CHECK-NEXT:  -      -     1.00    -      -      -      -      -     fleq.h	a1, ft2, ft1
+-# CHECK-NEXT:  -     1.00    -      -      -      -      -      -     fltq.s	a1, fs1, fs2
++# CHECK-NEXT:  -      -     1.00    -      -      -      -      -     fltq.s	a1, fs1, fs2
+ # CHECK-NEXT:  -      -     1.00    -      -      -      -      -     fleq.s	a1, ft1, ft2
+-# CHECK-NEXT:  -     1.00    -      -      -      -      -      -     fltq.s	a1, fs2, fs1
++# CHECK-NEXT:  -      -     1.00    -      -      -      -      -     fltq.s	a1, fs2, fs1
+ # CHECK-NEXT:  -      -     1.00    -      -      -      -      -     fleq.s	a1, ft2, ft1
+-# CHECK-NEXT:  -     1.00    -      -      -      -      -      -     fltq.d	a1, fs1, fs2
++# CHECK-NEXT:  -      -     1.00    -      -      -      -      -     fltq.d	a1, fs1, fs2
+ # CHECK-NEXT:  -      -     1.00    -      -      -      -      -     fleq.d	a1, ft1, ft2
+-# CHECK-NEXT:  -     1.00    -      -      -      -      -      -     fltq.d	a1, fs2, fs1
++# CHECK-NEXT:  -      -     1.00    -      -      -      -      -     fltq.d	a1, fs2, fs1
+ # CHECK-NEXT:  -      -     1.00    -      -      -      -      -     fleq.d	a1, ft2, ft1
+diff --git a/llvm/test/tools/llvm-mca/RISCV/GenericOOO/integer.s b/llvm/test/tools/llvm-mca/RISCV/GenericOOO/integer.s
+index 40e524c3f5f7d..7c23a7845c508 100644
+--- a/llvm/test/tools/llvm-mca/RISCV/GenericOOO/integer.s
++++ b/llvm/test/tools/llvm-mca/RISCV/GenericOOO/integer.s
+@@ -187,13 +187,13 @@ xperm4 a0, a1, a2
+ 
+ # CHECK:      Iterations:        1
+ # CHECK-NEXT: Instructions:      121
+-# CHECK-NEXT: Total Cycles:      155
++# CHECK-NEXT: Total Cycles:      153
+ # CHECK-NEXT: Total uOps:        121
+ 
+ # CHECK:      Dispatch Width:    6
+-# CHECK-NEXT: uOps Per Cycle:    0.78
+-# CHECK-NEXT: IPC:               0.78
+-# CHECK-NEXT: Block RThroughput: 136.0
++# CHECK-NEXT: uOps Per Cycle:    0.79
++# CHECK-NEXT: IPC:               0.79
++# CHECK-NEXT: Block RThroughput: 141.0
+ 
+ # CHECK:      Instruction Info:
+ # CHECK-NEXT: [1]: #uOps
+@@ -234,14 +234,14 @@ xperm4 a0, a1, a2
+ # CHECK-NEXT:  1      1     0.25                        sraw	a0, a0, a0
+ # CHECK-NEXT:  1      1     0.25                        sub	a0, a0, a0
+ # CHECK-NEXT:  1      1     0.25                        subw	a0, a0, a0
+-# CHECK-NEXT:  1      1     0.25                        jal	a0, .Ltmp0
+-# CHECK-NEXT:  1      1     0.25                        jalr	a0
+-# CHECK-NEXT:  1      1     0.25                        beq	a0, a0, .Ltmp1
+-# CHECK-NEXT:  1      1     0.25                        bne	a0, a0, .Ltmp2
+-# CHECK-NEXT:  1      1     0.25                        blt	a0, a0, .Ltmp3
+-# CHECK-NEXT:  1      1     0.25                        bltu	a0, a0, .Ltmp4
+-# CHECK-NEXT:  1      1     0.25                        bge	a0, a0, .Ltmp5
+-# CHECK-NEXT:  1      1     0.25                        bgeu	a0, a0, .Ltmp6
++# CHECK-NEXT:  1      1     1.00                        jal	a0, .Ltmp0
++# CHECK-NEXT:  1      1     1.00                        jalr	a0
++# CHECK-NEXT:  1      1     1.00                        beq	a0, a0, .Ltmp1
++# CHECK-NEXT:  1      1     1.00                        bne	a0, a0, .Ltmp2
++# CHECK-NEXT:  1      1     1.00                        blt	a0, a0, .Ltmp3
++# CHECK-NEXT:  1      1     1.00                        bltu	a0, a0, .Ltmp4
++# CHECK-NEXT:  1      1     1.00                        bge	a0, a0, .Ltmp5
++# CHECK-NEXT:  1      1     1.00                        bgeu	a0, a0, .Ltmp6
+ # CHECK-NEXT:  1      1     0.25                        add	a0, a0, a0
+ # CHECK-NEXT:  1      4     0.50    *                   lb	t0, 0(a0)
+ # CHECK-NEXT:  1      4     0.50    *                   lbu	t0, 0(a0)
+@@ -254,11 +254,11 @@ xperm4 a0, a1, a2
+ # CHECK-NEXT:  1      1     0.50           *            sh	t0, 0(a0)
+ # CHECK-NEXT:  1      1     0.50           *            sw	t0, 0(a0)
+ # CHECK-NEXT:  1      1     0.50           *            sd	t0, 0(a0)
+-# CHECK-NEXT:  1      4     0.25                        mul	a0, a0, a0
+-# CHECK-NEXT:  1      4     0.25                        mulh	a0, a0, a0
+-# CHECK-NEXT:  1      4     0.25                        mulhu	a0, a0, a0
+-# CHECK-NEXT:  1      4     0.25                        mulhsu	a0, a0, a0
+-# CHECK-NEXT:  1      4     0.25                        mulw	a0, a0, a0
++# CHECK-NEXT:  1      4     1.00                        mul	a0, a0, a0
++# CHECK-NEXT:  1      4     1.00                        mulh	a0, a0, a0
++# CHECK-NEXT:  1      4     1.00                        mulhu	a0, a0, a0
++# CHECK-NEXT:  1      4     1.00                        mulhsu	a0, a0, a0
++# CHECK-NEXT:  1      4     1.00                        mulw	a0, a0, a0
+ # CHECK-NEXT:  1      21    21.00                       div	a0, a1, a2
+ # CHECK-NEXT:  1      21    21.00                       divu	a0, a1, a2
+ # CHECK-NEXT:  1      21    21.00                       rem	a0, a1, a2
+@@ -327,139 +327,139 @@ xperm4 a0, a1, a2
+ # CHECK-NEXT:  1      1     0.25                        xperm4	a0, a1, a2
+ 
+ # CHECK:      Resources:
+-# CHECK-NEXT: [0]   - GenericOOODIV
+-# CHECK-NEXT: [1.0] - GenericOOOFPU
+-# CHECK-NEXT: [1.1] - GenericOOOFPU
+-# CHECK-NEXT: [2.0] - GenericOOOIXU
+-# CHECK-NEXT: [2.1] - GenericOOOIXU
+-# CHECK-NEXT: [2.2] - GenericOOOIXU
+-# CHECK-NEXT: [3.0] - GenericOOOLSU
+-# CHECK-NEXT: [3.1] - GenericOOOLSU
++# CHECK-NEXT: [0]   - GenericOOOBranch
++# CHECK-NEXT: [1]   - GenericOOOFMulDiv
++# CHECK-NEXT: [2]   - GenericOOOFloat
++# CHECK-NEXT: [3.0] - GenericOOOInt
++# CHECK-NEXT: [3.1] - GenericOOOInt
++# CHECK-NEXT: [4.0] - GenericOOOLSU
++# CHECK-NEXT: [4.1] - GenericOOOLSU
++# CHECK-NEXT: [5]   - GenericOOOMulDiv
+ 
+ # CHECK:      Resource pressure per iteration:
+-# CHECK-NEXT: [0]    [1.0]  [1.1]  [2.0]  [2.1]  [2.2]  [3.0]  [3.1]
+-# CHECK-NEXT: 147.00  -      -     30.00  30.00  31.00  5.00   6.00
++# CHECK-NEXT: [0]    [1]    [2]    [3.0]  [3.1]  [4.0]  [4.1]  [5]
++# CHECK-NEXT: 23.00   -      -     34.00  35.00  5.00   6.00   146.00
+ 
+ # CHECK:      Resource pressure by instruction:
+-# CHECK-NEXT: [0]    [1.0]  [1.1]  [2.0]  [2.1]  [2.2]  [3.0]  [3.1]  Instructions:
+-# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     addi	a0, a0, 1
++# CHECK-NEXT: [0]    [1]    [2]    [3.0]  [3.1]  [4.0]  [4.1]  [5]    Instructions:
++# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   addi	a0, a0, 1
+ # CHECK-NEXT:  -      -      -      -     1.00    -      -      -     addiw	a0, a0, 1
+ # CHECK-NEXT:  -      -      -     1.00    -      -      -      -     slti	a0, a0, 1
+-# CHECK-NEXT: 1.00    -      -      -      -      -      -      -     seqz	a0, a0
+-# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     andi	a0, a0, 1
+-# CHECK-NEXT:  -      -      -     1.00    -      -      -      -     ori	a0, a0, 1
+-# CHECK-NEXT: 1.00    -      -      -      -      -      -      -     xori	a0, a0, 1
+-# CHECK-NEXT: 1.00    -      -      -      -      -      -      -     slli	a0, a0, 1
+-# CHECK-NEXT: 1.00    -      -      -      -      -      -      -     srli	a0, a0, 1
+-# CHECK-NEXT: 1.00    -      -      -      -      -      -      -     srai	a0, a0, 1
+-# CHECK-NEXT: 1.00    -      -      -      -      -      -      -     slliw	a0, a0, 1
+-# CHECK-NEXT: 1.00    -      -      -      -      -      -      -     srliw	a0, a0, 1
+-# CHECK-NEXT: 1.00    -      -      -      -      -      -      -     sraiw	a0, a0, 1
+-# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     lui	a0, 1
+-# CHECK-NEXT:  -      -      -      -     1.00    -      -      -     auipc	a1, 1
++# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   seqz	a0, a0
++# CHECK-NEXT:  -      -      -      -     1.00    -      -      -     andi	a0, a0, 1
++# CHECK-NEXT: 1.00    -      -      -      -      -      -      -     ori	a0, a0, 1
++# CHECK-NEXT:  -      -      -      -     1.00    -      -      -     xori	a0, a0, 1
++# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   slli	a0, a0, 1
++# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   srli	a0, a0, 1
++# CHECK-NEXT:  -      -      -     1.00    -      -      -      -     srai	a0, a0, 1
++# CHECK-NEXT:  -      -      -     1.00    -      -      -      -     slliw	a0, a0, 1
++# CHECK-NEXT:  -      -      -     1.00    -      -      -      -     srliw	a0, a0, 1
++# CHECK-NEXT:  -      -      -     1.00    -      -      -      -     sraiw	a0, a0, 1
++# CHECK-NEXT:  -      -      -      -     1.00    -      -      -     lui	a0, 1
++# CHECK-NEXT: 1.00    -      -      -      -      -      -      -     auipc	a1, 1
+ # CHECK-NEXT:  -      -      -     1.00    -      -      -      -     add	a0, a0, a1
+-# CHECK-NEXT:  -      -      -      -     1.00    -      -      -     addw	a0, a0, a0
+-# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     slt	a0, a0, a0
++# CHECK-NEXT:  -      -      -     1.00    -      -      -      -     addw	a0, a0, a0
++# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   slt	a0, a0, a0
+ # CHECK-NEXT:  -      -      -     1.00    -      -      -      -     sltu	a0, a0, a0
+-# CHECK-NEXT:  -      -      -     1.00    -      -      -      -     and	a0, a0, a0
+-# CHECK-NEXT:  -      -      -     1.00    -      -      -      -     or	a0, a0, a0
+-# CHECK-NEXT:  -      -      -     1.00    -      -      -      -     xor	a0, a0, a0
+-# CHECK-NEXT:  -      -      -     1.00    -      -      -      -     sll	a0, a0, a0
+-# CHECK-NEXT:  -      -      -     1.00    -      -      -      -     srl	a0, a0, a0
+-# CHECK-NEXT:  -      -      -     1.00    -      -      -      -     sra	a0, a0, a0
+-# CHECK-NEXT: 1.00    -      -      -      -      -      -      -     sllw	a0, a0, a0
+-# CHECK-NEXT: 1.00    -      -      -      -      -      -      -     srlw	a0, a0, a0
+-# CHECK-NEXT: 1.00    -      -      -      -      -      -      -     sraw	a0, a0, a0
+-# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     sub	a0, a0, a0
++# CHECK-NEXT:  -      -      -      -     1.00    -      -      -     and	a0, a0, a0
++# CHECK-NEXT:  -      -      -      -     1.00    -      -      -     or	a0, a0, a0
++# CHECK-NEXT:  -      -      -      -     1.00    -      -      -     xor	a0, a0, a0
++# CHECK-NEXT:  -      -      -      -     1.00    -      -      -     sll	a0, a0, a0
++# CHECK-NEXT:  -      -      -      -     1.00    -      -      -     srl	a0, a0, a0
++# CHECK-NEXT:  -      -      -      -     1.00    -      -      -     sra	a0, a0, a0
++# CHECK-NEXT:  -      -      -     1.00    -      -      -      -     sllw	a0, a0, a0
++# CHECK-NEXT:  -      -      -     1.00    -      -      -      -     srlw	a0, a0, a0
++# CHECK-NEXT:  -      -      -     1.00    -      -      -      -     sraw	a0, a0, a0
++# CHECK-NEXT:  -      -      -     1.00    -      -      -      -     sub	a0, a0, a0
+ # CHECK-NEXT:  -      -      -     1.00    -      -      -      -     subw	a0, a0, a0
+-# CHECK-NEXT:  -      -      -      -     1.00    -      -      -     jal	a0, .Ltmp0
+-# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     jalr	a0
+-# CHECK-NEXT:  -      -      -      -     1.00    -      -      -     beq	a0, a0, .Ltmp1
+-# CHECK-NEXT:  -      -      -      -     1.00    -      -      -     bne	a0, a0, .Ltmp2
+-# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     blt	a0, a0, .Ltmp3
+-# CHECK-NEXT:  -      -      -      -     1.00    -      -      -     bltu	a0, a0, .Ltmp4
+-# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     bge	a0, a0, .Ltmp5
+-# CHECK-NEXT:  -      -      -      -     1.00    -      -      -     bgeu	a0, a0, .Ltmp6
+-# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     add	a0, a0, a0
+-# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   lb	t0, 0(a0)
+-# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     lbu	t0, 0(a0)
+-# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   lh	t0, 0(a0)
+-# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   lhu	t0, 0(a0)
+-# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     lw	t0, 0(a0)
+-# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   lwu	t0, 0(a0)
+-# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     ld	t0, 0(a0)
+-# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     sb	t0, 0(a0)
+-# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   sh	t0, 0(a0)
+-# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     sw	t0, 0(a0)
+-# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   sd	t0, 0(a0)
+-# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     mul	a0, a0, a0
+-# CHECK-NEXT:  -      -      -     1.00    -      -      -      -     mulh	a0, a0, a0
+-# CHECK-NEXT:  -      -      -     1.00    -      -      -      -     mulhu	a0, a0, a0
+-# CHECK-NEXT:  -      -      -     1.00    -      -      -      -     mulhsu	a0, a0, a0
+-# CHECK-NEXT:  -      -      -     1.00    -      -      -      -     mulw	a0, a0, a0
+-# CHECK-NEXT: 21.00   -      -      -      -      -      -      -     div	a0, a1, a2
+-# CHECK-NEXT: 21.00   -      -      -      -      -      -      -     divu	a0, a1, a2
+-# CHECK-NEXT: 21.00   -      -      -      -      -      -      -     rem	a0, a1, a2
+-# CHECK-NEXT: 21.00   -      -      -      -      -      -      -     remu	a0, a1, a2
+-# CHECK-NEXT: 13.00   -      -      -      -      -      -      -     divw	a0, a1, a2
+-# CHECK-NEXT: 13.00   -      -      -      -      -      -      -     divuw	a0, a1, a2
+-# CHECK-NEXT: 13.00   -      -      -      -      -      -      -     remw	a0, a1, a2
+-# CHECK-NEXT: 13.00   -      -      -      -      -      -      -     remuw	a0, a1, a2
++# CHECK-NEXT: 1.00    -      -      -      -      -      -      -     jal	a0, .Ltmp0
++# CHECK-NEXT: 1.00    -      -      -      -      -      -      -     jalr	a0
++# CHECK-NEXT: 1.00    -      -      -      -      -      -      -     beq	a0, a0, .Ltmp1
++# CHECK-NEXT: 1.00    -      -      -      -      -      -      -     bne	a0, a0, .Ltmp2
++# CHECK-NEXT: 1.00    -      -      -      -      -      -      -     blt	a0, a0, .Ltmp3
++# CHECK-NEXT: 1.00    -      -      -      -      -      -      -     bltu	a0, a0, .Ltmp4
++# CHECK-NEXT: 1.00    -      -      -      -      -      -      -     bge	a0, a0, .Ltmp5
++# CHECK-NEXT: 1.00    -      -      -      -      -      -      -     bgeu	a0, a0, .Ltmp6
++# CHECK-NEXT:  -      -      -     1.00    -      -      -      -     add	a0, a0, a0
++# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     lb	t0, 0(a0)
++# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     lbu	t0, 0(a0)
++# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     lh	t0, 0(a0)
++# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     lhu	t0, 0(a0)
++# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     lw	t0, 0(a0)
++# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     lwu	t0, 0(a0)
++# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     ld	t0, 0(a0)
++# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     sb	t0, 0(a0)
++# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     sh	t0, 0(a0)
++# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     sw	t0, 0(a0)
++# CHECK-NEXT:  -      -      -      -      -      -     1.00    -     sd	t0, 0(a0)
++# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   mul	a0, a0, a0
++# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   mulh	a0, a0, a0
++# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   mulhu	a0, a0, a0
++# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   mulhsu	a0, a0, a0
++# CHECK-NEXT:  -      -      -      -      -      -      -     1.00   mulw	a0, a0, a0
++# CHECK-NEXT:  -      -      -      -      -      -      -     21.00  div	a0, a1, a2
++# CHECK-NEXT:  -      -      -      -      -      -      -     21.00  divu	a0, a1, a2
++# CHECK-NEXT:  -      -      -      -      -      -      -     21.00  rem	a0, a1, a2
++# CHECK-NEXT:  -      -      -      -      -      -      -     21.00  remu	a0, a1, a2
++# CHECK-NEXT:  -      -      -      -      -      -      -     13.00  divw	a0, a1, a2
++# CHECK-NEXT:  -      -      -      -      -      -      -     13.00  divuw	a0, a1, a2
++# CHECK-NEXT:  -      -      -      -      -      -      -     13.00  remw	a0, a1, a2
++# CHECK-NEXT:  -      -      -      -      -      -      -     13.00  remuw	a0, a1, a2
+ # CHECK-NEXT:  -      -      -      -     1.00    -      -      -     csrrw	t0, 4095, t1
+-# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     csrrs	s3, fflags, s5
+-# CHECK-NEXT:  -      -      -      -     1.00    -      -      -     csrrc	sp, 0, ra
+-# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     csrrwi	a5, 0, 0
+-# CHECK-NEXT:  -      -      -      -     1.00    -      -      -     csrrsi	t2, 4095, 31
+-# CHECK-NEXT:  -      -      -     1.00    -      -      -      -     csrrci	t1, sscratch, 5
+-# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     czero.eqz	a0, a1, a2
++# CHECK-NEXT:  -      -      -      -     1.00    -      -      -     csrrs	s3, fflags, s5
++# CHECK-NEXT: 1.00    -      -      -      -      -      -      -     csrrc	sp, 0, ra
++# CHECK-NEXT:  -      -      -      -     1.00    -      -      -     csrrwi	a5, 0, 0
++# CHECK-NEXT: 1.00    -      -      -      -      -      -      -     csrrsi	t2, 4095, 31
++# CHECK-NEXT:  -      -      -      -     1.00    -      -      -     csrrci	t1, sscratch, 5
++# CHECK-NEXT: 1.00    -      -      -      -      -      -      -     czero.eqz	a0, a1, a2
+ # CHECK-NEXT:  -      -      -      -     1.00    -      -      -     czero.nez	a0, a1, a2
+-# CHECK-NEXT:  -      -      -      -     1.00    -      -      -     czero.eqz	a0, a1, a2
+-# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     czero.nez	a0, a1, a2
+-# CHECK-NEXT:  -      -      -     1.00    -      -      -      -     add.uw	a0, a0, a0
+-# CHECK-NEXT:  -      -      -      -     1.00    -      -      -     slli.uw	a0, a0, 1
+-# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     sh1add.uw	a0, a0, a0
+-# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     sh2add.uw	a0, a0, a0
++# CHECK-NEXT:  -      -      -     1.00    -      -      -      -     czero.eqz	a0, a1, a2
++# CHECK-NEXT: 1.00    -      -      -      -      -      -      -     czero.nez	a0, a1, a2
++# CHECK-NEXT:  -      -      -      -     1.00    -      -      -     add.uw	a0, a0, a0
++# CHECK-NEXT:  -      -      -     1.00    -      -      -      -     slli.uw	a0, a0, 1
++# CHECK-NEXT:  -      -      -     1.00    -      -      -      -     sh1add.uw	a0, a0, a0
++# CHECK-NEXT:  -      -      -     1.00    -      -      -      -     sh2add.uw	a0, a0, a0
+ # CHECK-NEXT:  -      -      -     1.00    -      -      -      -     sh3add.uw	a0, a0, a0
+ # CHECK-NEXT:  -      -      -     1.00    -      -      -      -     sh1add	a0, a0, a0
+ # CHECK-NEXT:  -      -      -     1.00    -      -      -      -     sh2add	a0, a0, a0
+-# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     sh3add	a0, a0, a0
++# CHECK-NEXT:  -      -      -     1.00    -      -      -      -     sh3add	a0, a0, a0
+ # CHECK-NEXT:  -      -      -     1.00    -      -      -      -     andn	a0, a0, a0
+-# CHECK-NEXT:  -      -      -     1.00    -      -      -      -     orn	a0, a0, a0
++# CHECK-NEXT: 1.00    -      -      -      -      -      -      -     orn	a0, a0, a0
+ # CHECK-NEXT:  -      -      -     1.00    -      -      -      -     xnor	a0, a0, a0
+-# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     clz	a0, a0
++# CHECK-NEXT:  -      -      -      -     1.00    -      -      -     clz	a0, a0
+ # CHECK-NEXT:  -      -      -     1.00    -      -      -      -     clzw	a0, a0
+-# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     ctz	a0, a0
+-# CHECK-NEXT:  -      -      -      -     1.00    -      -      -     ctzw	a0, a0
+-# CHECK-NEXT:  -      -      -     1.00    -      -      -      -     cpop	a0, a0
+-# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     cpopw	a0, a0
++# CHECK-NEXT:  -      -      -      -     1.00    -      -      -     ctz	a0, a0
++# CHECK-NEXT:  -      -      -     1.00    -      -      -      -     ctzw	a0, a0
++# CHECK-NEXT:  -      -      -      -     1.00    -      -      -     cpop	a0, a0
++# CHECK-NEXT:  -      -      -     1.00    -      -      -      -     cpopw	a0, a0
+ # CHECK-NEXT:  -      -      -      -     1.00    -      -      -     min	a0, a0, a0
+ # CHECK-NEXT:  -      -      -     1.00    -      -      -      -     minu	a0, a0, a0
+-# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     max	a0, a0, a0
+-# CHECK-NEXT:  -      -      -      -     1.00    -      -      -     maxu	a0, a0, a0
+-# CHECK-NEXT:  -      -      -     1.00    -      -      -      -     sext.b	a0, a0
+-# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     sext.h	a0, a0
++# CHECK-NEXT:  -      -      -      -     1.00    -      -      -     max	a0, a0, a0
++# CHECK-NEXT:  -      -      -     1.00    -      -      -      -     maxu	a0, a0, a0
++# CHECK-NEXT:  -      -      -      -     1.00    -      -      -     sext.b	a0, a0
++# CHECK-NEXT:  -      -      -     1.00    -      -      -      -     sext.h	a0, a0
+ # CHECK-NEXT:  -      -      -      -     1.00    -      -      -     zext.h	a0, a0
+ # CHECK-NEXT:  -      -      -     1.00    -      -      -      -     rol	a0, a0, a0
+-# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     rolw	a0, a0, a0
+-# CHECK-NEXT:  -      -      -      -     1.00    -      -      -     ror	a0, a0, a0
+-# CHECK-NEXT:  -      -      -     1.00    -      -      -      -     rorw	a0, a0, a0
+-# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     rori	a0, a0, 1
++# CHECK-NEXT:  -      -      -      -     1.00    -      -      -     rolw	a0, a0, a0
++# CHECK-NEXT:  -      -      -     1.00    -      -      -      -     ror	a0, a0, a0
++# CHECK-NEXT:  -      -      -      -     1.00    -      -      -     rorw	a0, a0, a0
++# CHECK-NEXT:  -      -      -     1.00    -      -      -      -     rori	a0, a0, 1
+ # CHECK-NEXT:  -      -      -      -     1.00    -      -      -     roriw	a0, a0, 1
+ # CHECK-NEXT:  -      -      -     1.00    -      -      -      -     orc.b	a0, a0
+-# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     rev8	a0, a0
+-# CHECK-NEXT:  -      -      -      -     1.00    -      -      -     clmul	a0, a1, a2
++# CHECK-NEXT:  -      -      -      -     1.00    -      -      -     rev8	a0, a0
++# CHECK-NEXT: 1.00    -      -      -      -      -      -      -     clmul	a0, a1, a2
+ # CHECK-NEXT:  -      -      -      -     1.00    -      -      -     clmulh	a0, a1, a2
+-# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     clmulr	a0, a1, a2
++# CHECK-NEXT: 1.00    -      -      -      -      -      -      -     clmulr	a0, a1, a2
+ # CHECK-NEXT:  -      -      -      -     1.00    -      -      -     bclr	a0, a1, a2
+-# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     bclri	a0, a1, 1
++# CHECK-NEXT: 1.00    -      -      -      -      -      -      -     bclri	a0, a1, 1
+ # CHECK-NEXT:  -      -      -      -     1.00    -      -      -     bext	a0, a1, a2
+-# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     bexti	a0, a1, 1
++# CHECK-NEXT: 1.00    -      -      -      -      -      -      -     bexti	a0, a1, 1
+ # CHECK-NEXT:  -      -      -      -     1.00    -      -      -     binv	a0, a1, a2
+-# CHECK-NEXT:  -      -      -      -     1.00    -      -      -     binvi	a0, a1, 1
+-# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     bset	a0, a1, a2
+-# CHECK-NEXT:  -      -      -      -     1.00    -      -      -     bseti	a0, a1, 1
+-# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     pack	a0, a1, a2
+-# CHECK-NEXT:  -      -      -      -     1.00    -      -      -     packh	a0, a1, a2
+-# CHECK-NEXT:  -      -      -      -      -     1.00    -      -     brev8	a0, a1
+-# CHECK-NEXT:  -      -      -      -     1.00    -      -      -     xperm8	a0, a1, a2
++# CHECK-NEXT: 1.00    -      -      -      -      -      -      -     binvi	a0, a1, 1
++# CHECK-NEXT:  -      -      -      -     1.00    -      -      -     bset	a0, a1, a2
++# CHECK-NEXT: 1.00    -      -      -      -      -      -      -     bseti	a0, a1, 1
++# CHECK-NEXT:  -      -      -      -     1.00    -      -      -     pack	a0, a1, a2
++# CHECK-NEXT: 1.00    -      -      -      -      -      -      -     packh	a0, a1, a2
++# CHECK-NEXT:  -      -      -      -     1.00    -      -      -     brev8	a0, a1
++# CHECK-NEXT: 1.00    -      -      -      -      -      -      -     xperm8	a0, a1, a2
+ # CHECK-NEXT:  -      -      -      -     1.00    -      -      -     xperm4	a0, a1, a2
