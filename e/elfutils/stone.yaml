@@ -5,7 +5,7 @@
 #
 name        : elfutils
 version     : 0.192
-release     : 5
+release     : 6
 homepage    : https://sourceware.org/elfutils
 upstreams   :
     - https://sourceware.org/elfutils/ftp/0.192/elfutils-0.192.tar.bz2 : 616099beae24aba11f9b63d86ca6cc8d566d968b802391334c91df54eab416b4
@@ -23,7 +23,6 @@ builddeps   :
     - pkgconfig32(libzstd)
     - pkgconfig32(zlib)
 emul32      : true
-toolchain   : gnu  # Doesn't play nicely with libc++'
 packages    :
     - "%(name)-libs":
         summary: Libraries for elfutils
@@ -37,6 +36,8 @@ packages    :
             - /usr/lib32/lib*-*.so
             - /usr/lib32/lib*.so.*
 setup: |
+    %patch %(pkgdir)/rename-stack.patch
+
     %configure --disable-static \
                 --disable-debuginfod \
                 --disable-libdebuginfod \
@@ -48,6 +49,10 @@ build       : |
     %make VERBOSE=1
 install     : |
     %make_install
-    find %(installroot)/%(libdir) -type f -name '*.a' -delete
+
+    # This had to be renamed during the build to fix a build failure, so rename it back
+    mv %(installroot)/%(bindir)/eu-{eu,}stack
+
+    find %(installroot)/%(libdir) -type f -name '*.a' -delete -print
 #check       : |
 #    %make check

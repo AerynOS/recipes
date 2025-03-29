@@ -1,0 +1,24 @@
+#
+# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : lzip
+version     : '1.25'
+release     : 1
+upstreams   :
+    - https://download.savannah.gnu.org/releases/lzip/lzip-1.25.tar.gz : 09418a6d8fb83f5113f5bd856e09703df5d37bae0308c668d0f346e3d3f0a56f
+homepage    : https://www.nongnu.org/lzip/lzip.html
+license     : GPL-2.0-or-later
+summary     : LZMA compressor with integrity checking
+description : |
+    LZMA compressor with integrity checking
+setup       : |
+    %configure \
+              CXXFLAGS="${CXXFLAGS}" \
+              LDFLAGS="${LDFLAGS}" \
+              CXX="${CXX}"
+build       : |
+    %make
+install     : |
+    %make_install

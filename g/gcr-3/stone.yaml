@@ -5,7 +5,7 @@
 #
 name        : gcr-3
 version     : 3.41.2
-release     : 1
+release     : 2
 homepage    : https://gitlab.gnome.org/GNOME/gcr
 upstreams   :
     - https://download.gnome.org/sources/gcr/3.41/gcr-3.41.2.tar.xz : bad10f3c553a0e1854649ab59c5b2434da22ca1a54ae6138f1f53961567e1ab7
@@ -35,7 +35,6 @@ packages    :
     - "%(name)-devel":
         paths:
             - /usr/share/vala/vapi
-toolchain   : gnu
 setup       : |
     %meson -Dgpg_path=%(bindir)/gpg2 \
            -Dgtk_doc=false

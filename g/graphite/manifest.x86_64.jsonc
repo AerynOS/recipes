@@ -8,9 +8,9 @@
 			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
-				"soname(libgcc_s.so.1(x86_64))",
-				"soname(libstdc++.so.6(x86_64))"
+				"soname(libunwind.so.1(x86_64))"
 			],
 			"files": [
 				"/usr/bin/gr2fonttest",
@@ -29,7 +29,7 @@
 			],
 			"depends": [
 				"graphite",
-				"soname(libc.so.6(x86))"
+				"soname(libc.so.6(386))"
 			],
 			"files": [
 				"/usr/lib32/libgraphite2.so.3",
@@ -82,6 +82,6 @@
 		}
 	},
 	"source-name": "graphite",
-	"source-release": "4",
+	"source-release": "5",
 	"source-version": "1.3.14"
 }

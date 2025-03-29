@@ -5,7 +5,7 @@
 #
 name        : gtk-3
 version     : 3.24.49
-release     : 9
+release     : 10
 homepage    : https://gtk.org
 upstreams   :
     - https://download.gnome.org/sources/gtk/3.24/gtk-3.24.49.tar.xz : 5ea52c6a28f0e5ecf2e9a3c2facbb30d040b73871fcd5f33cd1317e9018a146e
@@ -74,7 +74,6 @@ packages    :
         paths:
             - /usr/bin/gtk-update-icon-cache
             - /usr/share/moss/triggers/tx.d
-toolchain   : gnu
 setup       : |
     %meson
 build       : |

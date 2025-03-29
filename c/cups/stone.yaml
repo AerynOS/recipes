@@ -5,7 +5,7 @@
 #
 name        : cups
 version     : 2.4.11
-release     : 8
+release     : 9
 homepage    : https://openprinting.github.io/cups/
 upstreams   :
     - https://github.com/OpenPrinting/cups/releases/download/v2.4.11/cups-2.4.11-source.tar.gz : 9a88fe1da3a29a917c3fc67ce6eb3178399d68e1a548c6d86c70d9b13651fd71
@@ -33,7 +33,8 @@ setup       : |
         --enable-pam \
         --with-ondemand=systemd \
         --without-rcdir \
-        --with-system-groups="wheel"
+        --with-system-groups="wheel" \
+        ac_cv_path_AR=${AR}
 build       : |
     %make
 install     : |
@@ -53,5 +54,3 @@ install     : |
     %tmpfiles "d     /var/cache/cups/rss 0750 root lp      -   -"
 
     rm -rvf %(installroot)/{var,run,etc}
-# hardcoded to /usr/bin/ar, instead of llvm-ar etc.
-toolchain   : gnu

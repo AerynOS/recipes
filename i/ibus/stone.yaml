@@ -5,7 +5,7 @@
 #
 name        : ibus
 version     : "1.5.29-rc2"
-release     : 2
+release     : 3
 homepage    : https://github.com/ibus/ibus
 upstreams   :
     - https://github.com/ibus/ibus/releases/download/1.5.29/ibus-1.5.29-rc2.tar.gz : 3a27ed120485b2077c62e36e788c302f34544ceac3b3b9cda28b7418e8051415
@@ -14,7 +14,6 @@ description : |
     Intelligent Input Bus for Linux/Unix
 license     :
     - LGPL-2.1-or-later
-toolchain   : gnu
 builddeps   :
     - binary(python3)
     - pkgconfig(dbus-1)
@@ -41,7 +40,8 @@ setup       : |
                --disable-emoji-dict \
                --disable-unicode-dict \
                --disable-xim \
-               --disable-setup
+               --disable-setup \
+               CC_FOR_BUILD=${CC}
 build       : |
     %make
 install     : |

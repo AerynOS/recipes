@@ -5,7 +5,7 @@
 #
 name        : inetutils
 version     : "2.5"
-release     : 3
+release     : 4
 homepage    : https://www.gnu.org/software/inetutils
 upstreams   :
     - https://ftp.gnu.org/gnu/inetutils/inetutils-2.5.tar.xz : 87697d60a31e10b5cb86a9f0651e1ec7bee98320d048c0739431aac3d5764fb6
@@ -14,7 +14,6 @@ description : |
     Inetutils is a collection of common network programs.
 license     :
     - GPL-3.0-or-later
-toolchain   : gnu
 setup       : |
     %configure \
         --disable-ifconfig \

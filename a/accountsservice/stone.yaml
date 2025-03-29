@@ -5,7 +5,7 @@
 #
 name        : accountsservice
 version     : 23.13.9
-release     : 2
+release     : 3
 homepage    : https://www.freedesktop.org/wiki/Software/AccountsService/
 upstreams   :
     - https://www.freedesktop.org/software/accountsservice/accountsservice-23.13.9.tar.xz : adda4cdeae24fa0992e7df3ffff9effa7090be3ac233a3edfdf69d5a9c9b924f
@@ -25,7 +25,6 @@ builddeps   :
     - pkgconfig(libxcrypt)
     - pkgconfig(polkit-gobject-1)
     - pkgconfig(systemd)
-toolchain   : gnu
 setup       : |
     %patch %(pkgdir)/gcc-14.patch
 

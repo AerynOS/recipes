@@ -3,6 +3,9 @@
 	"manifest-version": "0.2",
 	"packages": {
 		"ed": {
+			"build-depends": [
+				"binary(lzip)"
+			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))"
@@ -22,6 +25,6 @@
 		}
 	},
 	"source-name": "ed",
-	"source-release": "3",
-	"source-version": "1.20.2"
+	"source-release": "4",
+	"source-version": "1.21.1"
 }

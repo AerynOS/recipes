@@ -11,13 +11,10 @@
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))",
-				"soname(libcom_err.so.2(x86_64))",
 				"soname(libcrypt.so.1(x86_64))",
 				"soname(libcrypto.so.3(x86_64))",
 				"soname(libgssapi_krb5.so.2(x86_64))",
-				"soname(libk5crypto.so.3(x86_64))",
-				"soname(libkrb5.so.3(x86_64))",
-				"soname(libresolv.so.2(x86_64))"
+				"soname(libkrb5.so.3(x86_64))"
 			],
 			"files": [
 				"/usr/lib/libsasl2.so.3",
@@ -54,15 +51,15 @@
 			],
 			"name": "cyrus-sasl",
 			"provides": [
-				"soname(libanonymous.so.3(x86_64))",
-				"soname(libcrammd5.so.3(x86_64))",
-				"soname(libdigestmd5.so.3(x86_64))",
-				"soname(libgs2.so.3(x86_64))",
-				"soname(libgssapiv2.so.3(x86_64))",
-				"soname(libotp.so.3(x86_64))",
-				"soname(libplain.so.3(x86_64))",
 				"soname(libsasl2.so.3(x86_64))",
-				"soname(libscram.so.3(x86_64))",
+				"soname(sasl2/libanonymous.so.3(x86_64))",
+				"soname(sasl2/libcrammd5.so.3(x86_64))",
+				"soname(sasl2/libdigestmd5.so.3(x86_64))",
+				"soname(sasl2/libgs2.so.3(x86_64))",
+				"soname(sasl2/libgssapiv2.so.3(x86_64))",
+				"soname(sasl2/libotp.so.3(x86_64))",
+				"soname(sasl2/libplain.so.3(x86_64))",
+				"soname(sasl2/libscram.so.3(x86_64))",
 				"sysbinary(pluginviewer)",
 				"sysbinary(saslauthd)",
 				"sysbinary(testsaslauthd)"
@@ -73,6 +70,9 @@
 				"pkgconfig(krb5)",
 				"pkgconfig(libxcrypt)",
 				"pkgconfig(openssl)"
+			],
+			"depends": [
+				"cyrus-sasl"
 			],
 			"files": [
 				"/usr/include/sasl/hmac-md5.h",
@@ -135,6 +135,6 @@
 		}
 	},
 	"source-name": "cyrus-sasl",
-	"source-release": "1",
+	"source-release": "2",
 	"source-version": "2.1.28"
 }

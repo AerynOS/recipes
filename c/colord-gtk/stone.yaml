@@ -5,7 +5,7 @@
 #
 name        : colord-gtk
 version     : 0.3.1
-release     : 2
+release     : 3
 homepage    : https://github.com/hughsie/colord-gtk
 upstreams   :
     - https://github.com/hughsie/colord-gtk/archive/refs/tags/0.3.1.tar.gz : 9cfb3aa8958dc3fad6c74a7e2e967d182a355a24bea2c6dfb32c4fba87228f7e
@@ -23,7 +23,6 @@ builddeps   :
     - pkgconfig(gobject-introspection-1.0)
     - pkgconfig(gtk+-3.0)
     - pkgconfig(gtk4)
-toolchain   : gnu
 setup       : |
     %meson -Ddocs=false \
            -Dman=false

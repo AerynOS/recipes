@@ -15,11 +15,11 @@
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"soname(libasm.so.1(x86_64))",
+				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libdw.so.1(x86_64))",
 				"soname(libelf.so.1(x86_64))",
-				"soname(libgcc_s.so.1(x86_64))",
-				"soname(libstdc++.so.6(x86_64))"
+				"soname(libunwind.so.1(x86_64))"
 			],
 			"files": [
 				"/usr/bin/eu-addr2line",
@@ -263,6 +263,6 @@
 		}
 	},
 	"source-name": "elfutils",
-	"source-release": "5",
+	"source-release": "6",
 	"source-version": "0.192"
 }

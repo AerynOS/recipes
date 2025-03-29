@@ -5,7 +5,7 @@
 #
 name        : lame
 version     : '3.100'
-release     : 2
+release     : 3
 homepage    : https://lame.sourceforge.io/
 upstreams   :
     - https://netcologne.dl.sourceforge.net/project/lame/lame/3.100/lame-3.100.tar.gz : ddfe36cab873794038ae2c1210557ad34857a4b6bdc515785d1da9e175b1da1e
@@ -17,6 +17,9 @@ license     :
 builddeps   :
     - binary(nasm)
     - pkgconfig(ncursesw)
+environment : |
+    # version script assignment of 'global' to symbol 'lame_init_old' failed: symbol not defined
+    export LDFLAGS="${LDFLAGS} -Wl,--undefined-version"
 setup       : |
     %configure \
         --disable-static \
@@ -26,8 +29,6 @@ build       : |
     %make
 install     : |
     %make_install
-# fails to link with lld
-toolchain   : gnu
 packages    :
     - "%(name)-docs":
         paths:

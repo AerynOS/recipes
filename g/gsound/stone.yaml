@@ -5,7 +5,7 @@
 #
 name        : gsound
 version     : 1.0.3
-release     : 1
+release     : 2
 homepage    : https://gitlab.gnome.org/GNOME/gsound
 upstreams   :
     - https://download.gnome.org/sources/gsound/1.0/gsound-1.0.3.tar.xz : ca2d039e1ebd148647017a7f548862350bc9af01986d39f10cfdc8e95f07881a
@@ -21,7 +21,6 @@ builddeps   :
     - pkgconfig(gobject-2.0)
     - pkgconfig(gobject-introspection-1.0)
     - pkgconfig(libcanberra)
-toolchain   : gnu
 setup       : |
     %meson
 build       : |

@@ -1,0 +1,26 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"lzip": {
+			"depends": [
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(libc++.so.1(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libunwind.so.1(x86_64))"
+			],
+			"files": [
+				"/usr/bin/lzip",
+				"/usr/share/info/lzip.info",
+				"/usr/share/man/man1/lzip.1"
+			],
+			"name": "lzip",
+			"provides": [
+				"binary(lzip)"
+			]
+		}
+	},
+	"source-name": "lzip",
+	"source-release": "1",
+	"source-version": "1.25"
+}
