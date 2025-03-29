@@ -1,0 +1,128 @@
+#
+# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : opencv
+version     : 4.11.0
+release     : 1
+upstreams   :
+    - https://github.com/opencv/opencv/archive/refs/tags/4.11.0.tar.gz : 9a7c11f924eff5f8d8070e297b322ee68b9227e003fd600d4b8122198091665f
+homepage    : https://opencv.org
+license     : BSD-3-Clause
+summary     : An open source computer vision and machine learning software library
+description : |
+    OpenCV is an open source computer vision and machine learning software library
+builddeps   :
+    - binary(nasm)
+    - cmake(OpenJPEG)
+    - cmake(Qt6Core5Compat)
+    - cmake(Tiff)
+    - cmake(VulkanHeaders)
+    - cmake(libavif)
+    - cmake(libjpeg-turbo)
+    - cmake(protobuf)
+    - pkgconfig(gstreamer-plugins-base-1.0)
+    - pkgconfig(libavcodec)
+    - pkgconfig(libpng)
+    - pkgconfig(libva)
+    - pkgconfig(openblas)
+    - pkgconfig(zlib)
+    # TODO libgif, openexr, eigen (?), opencl
+setup       : |
+    # TODO build extra modules, python module, etc, VTK, GTK
+
+    # Add x86-64v2 CPU flags to baseline (See `cmake/OpenCVCompilerOptimizations.cmake`)
+    %cmake \
+           -DBUILD_EXAMPLES=OFF \
+           -DBUILD_PERF_TESTS=OFF \
+           -DBUILD_TESTS=OFF \
+           -DBUILD_PROTOBUF=OFF \
+           -DCMAKE_CXX_STANDARD=17 \
+           -DCPU_BASELINE_REQUIRE="SSE;SSE2;SSE3;SSSE3;SSE4_1;SSE4_2;POPCNT" \
+           -DINSTALL_C_EXAMPLES=OFF \
+           -DINSTALL_PYTHON_EXAMPLES=OFF \
+           -DOPENCV_ENABLE_NONFREE=OFF \
+           -DOPENCV_SKIP_FEATURES2D_DOWNLOADING=OFF \
+           -DOPENCV_GENERATE_PKGCONFIG=ON \
+           -DOPENCV_GENERATE_SETUPVARS=OFF \
+           -DPROTOBUF_UPDATE_FILES=ON \
+           -DWITH_ADE=OFF \
+           -DWITH_FLATBUFFERS=OFF \
+           -DWITH_OPENMP=ON \
+           -DWITH_IPP=OFF \
+           -DWITH_QT=ON \
+           -DWITH_VA=ON \
+           -DWITH_VULKAN=ON \
+           -DVULKAN_INCLUDE_DIRS=%(includedir)/vulkan
+build       : |
+    %cmake_build
+install     : |
+    %cmake_install
+packages    :
+    - "%(name)-core":
+        paths:
+            - /usr/lib/libopencv_core.so.*
+            - /usr/share/licenses
+
+    - "%(name)-devel":
+        paths:
+            - /usr/share/opencv4/*.supp
+        rundeps:
+            - "%(name)-calib3d"
+            - "%(name)-core"
+            - "%(name)-dnn"
+            - "%(name)-features2d"
+            - "%(name)-flann"
+            - "%(name)-highgui"
+            - "%(name)-imgcodecs"
+            - "%(name)-imgproc"
+            - "%(name)-ml"
+            - "%(name)-objdetect"
+            - "%(name)-photo"
+            - "%(name)-stitching"
+            - "%(name)-video"
+            - "%(name)-videoio"
+
+    # Most other distros just subpackage every individual library. That seems easiest rather than
+    # trying to bundle some together into similar groupings. Autodep will just handle all of the
+    # rundeps and revdeps for us.
+    - "%(name)-calib3d":
+        paths:
+            - /usr/lib/libopencv_calib3d.so.*
+    - "%(name)-dnn":
+        paths:
+            - /usr/lib/libopencv_dnn.so.*
+    - "%(name)-features2d":
+        paths:
+            - /usr/lib/libopencv_features2d.so.*
+    - "%(name)-flann":
+        paths:
+            - /usr/lib/libopencv_flann.so.*
+    - "%(name)-highgui":
+        paths:
+            - /usr/lib/libopencv_highgui.so.*
+    - "%(name)-imgcodecs":
+        paths:
+            - /usr/lib/libopencv_imgcodecs.so.*
+    - "%(name)-imgproc":
+        paths:
+            - /usr/lib/libopencv_imgproc.so.*
+    - "%(name)-ml":
+        paths:
+            - /usr/lib/libopencv_ml.so.*
+    - "%(name)-objdetect":
+        paths:
+            - /usr/lib/libopencv_objdetect.so.*
+    - "%(name)-photo":
+        paths:
+            - /usr/lib/libopencv_photo.so.*
+    - "%(name)-stitching":
+        paths:
+            - /usr/lib/libopencv_stitching.so.*
+    - "%(name)-video":
+        paths:
+            - /usr/lib/libopencv_video.so.*
+    - "%(name)-videoio":
+        paths:
+            - /usr/lib/libopencv_videoio.so.*
