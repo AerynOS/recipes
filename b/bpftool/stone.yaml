@@ -1,0 +1,38 @@
+#
+# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : bpftool
+version     : 7.5.0
+release     : 1
+upstreams   :
+    - https://github.com/libbpf/bpftool/releases/download/v7.5.0/bpftool-libbpf-v7.5.0-sources.tar.gz: 1468d3fb8c70698359a6593d8828f0e0a56b72244cb8632c6e1947e11b3520b9
+homepage    : https://github.com/libbpf/bpftool
+license     :
+    - GPL-2.0-only
+    - BSD-2-Clause
+summary     : Inspection and simple manipulation of eBPF programs and maps
+description : |
+    Inspection and simple manipulation of eBPF programs and maps
+builddeps   :
+    - binary(llvm-config)
+    - binary(rst2man)
+    - pkgconfig(libcap)
+    - pkgconfig(libelf)
+    - binutils-devel
+environment : |
+    _common_args="-C src \
+                  prefix=/usr \
+                  mandir=%(mandir)"
+build       : |
+    %make \
+          ${_common_args} \
+          HOSTCC="${CC}" \
+          EXTRA_CFLAGS="${CFLAGS}" \
+          EXTRA_LDFLAGS="${LDFLAGS}" \
+          all doc
+install     : |
+    %make_install ${_common_args} doc-install
+
+    mv %(installroot)/usr/{sbin,bin}
