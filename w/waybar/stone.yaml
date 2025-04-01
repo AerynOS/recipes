@@ -1,0 +1,57 @@
+#
+# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : waybar
+version     : 0.12.0
+release     : 1
+homepage    : https://github.com/Alexays/Waybar
+upstreams   :
+    - https://github.com/Alexays/Waybar/archive/refs/tags/0.12.0.tar.gz : 80454a0778176f575c112bdef9107f272621b578aa629bcc257ad9844a6c7165
+summary     : Highly customizable Wayland bar for Sway and Wlroots based compositors
+description : |
+    Highly customizable Wayland bar for Sway and Wlroots based compositors.
+license     : MIT
+builddeps   :
+    - binary(clang-tidy)
+    - binary(git)
+    - pkgconfig(cava)
+    # - pkgconfig(date)
+    - pkgconfig(dbusmenu-gtk3-0.4)
+    # - pkgconfig(epoll-shim)
+    - pkgconfig(fftw3)
+    - pkgconfig(fmt)
+    - pkgconfig(gio-unix-2.0)
+    - pkgconfig(gtk-layer-shell-0)
+    - pkgconfig(gtkmm-3.0)
+    # - pkgconfig(jack)
+    - pkgconfig(jsoncpp)
+    - pkgconfig(libevdev)
+    # - pkgconfig(libinotify)
+    - pkgconfig(libinput)
+    # - pkgconfig(libmpdclient)
+    - pkgconfig(libnl-3.0)
+    - pkgconfig(libnl-genl-3.0)
+    - pkgconfig(libpipewire-0.3)
+    - pkgconfig(libpulse)
+    - pkgconfig(libudev)
+    # - pkgconfig(playerctl)
+    - pkgconfig(scdoc)
+    - pkgconfig(sigc++-2.0)
+    - pkgconfig(spdlog)
+    - pkgconfig(systemd)
+    # - pkgconfig(threads)
+    - pkgconfig(upower-glib)
+    - pkgconfig(wayland-client)
+    - pkgconfig(wayland-cursor)
+    - pkgconfig(wayland-protocols)
+    - pkgconfig(wireplumber-0.5)
+    - pkgconfig(xkbregistry)
+setup       : |
+    %meson
+build       : |
+    %meson_build
+install     : |
+    %meson_install
+
