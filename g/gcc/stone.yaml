@@ -4,8 +4,8 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : gcc
-version     : 14.2.1+git.5b4e3622
-release     : 10
+version     : 14.2.1+git.83cd4bda
+release     : 11
 summary     : GNU C++ standard library and compiler
 license     : GPL-3.0-or-later
 homepage    : https://gcc.gnu.org/
@@ -15,7 +15,7 @@ upstreams   :
     # Use the github mirror since the official git hosting is unreliable and slow
     - git|https://github.com/gcc-mirror/gcc:
         # Should be the latest commit on the releases/gcc-14 branch that isn't a bump to the date
-        ref: 5b4e362239131967698328f3648efd7b9eea862e
+        ref: 83cd4bda12f1218fea878acfc964949649ca9fc7
 builddeps   :
     - binary(bison)
     - binary(flex)
@@ -50,8 +50,8 @@ setup       : |
 
     mkdir build && cd build
     ../configure \
-        --build=x86_64-serpent-linux \
-        --host=x86_64-serpent-linux \
+        --build=%(host_platform) \
+        --host=%(host_platform) \
         --prefix=/usr \
         --libdir=%(libdir) \
         --libexecdir=%(libdir) \
@@ -102,16 +102,16 @@ install     : |
     rm -rv %(installroot)%(datadir)/info
     rm -v %(installroot)/usr/lib*/*.la
 
-    # Temporary, make x86_64-aerynos-linux a target alias of x86_64-serpent-linux
+    # Temporary, make x86_64-serpent-linux a target alias of x86_64-aerynos-linux
     # The next step after this (after all toolchain packages are similarly updated)
-    # is to rebuild with the new triple and create compat aliases the other way
+    # is to rebuild all packages with the new triple and then remove the compat links
     pushd %(installroot)/%(bindir)
     for i in c++ g++ gcc gcc-${major_version} gcc-ar gcc-nm gcc-ranlib gfortran ; do
-        ln -sv x86_64-serpent-linux-${i} x86_64-aerynos-linux-${i}
+        ln -sv %(host_platform)-${i} x86_64-serpent-linux-${i}
     done
     popd
-    ln -srv %(installroot)/usr/include/c++/14/x86_64-serpent-linux %(installroot)/usr/include/c++/14/x86_64-aerynos-linux
-    ln -srv %(installroot)/usr/lib/gcc/x86_64-serpent-linux %(installroot)/usr/lib/gcc/x86_64-aerynos-linux
+    ln -srv %(installroot)/usr/include/c++/14/%(host_platform) %(installroot)/usr/include/c++/14/x86_64-serpent-linux
+    ln -srv %(installroot)/usr/lib/gcc/%(host_platform) %(installroot)/usr/lib/gcc/x86_64-serpent-linux
 
     # TODO: Remove once we can remove gcc-devel and gcc-32bit-devel from the index
     mkdir -p %(installroot)/usr/share/doc/replace/
@@ -169,8 +169,8 @@ packages    :
             - /usr/lib32/libasan*
             - /usr/lib32/libitm*
             - /usr/lib32/libubsan*
-            - /usr/lib/gcc/*-serpent-linux/*/32/*.a
-            - /usr/lib/gcc/*-serpent-linux/*/32/*.o
+            - /usr/lib/gcc/*-linux/*/32/*.a
+            - /usr/lib/gcc/*-linux/*/32/*.o
         rundeps:
             - libgcc-32bit
             - libatomic-32bit
@@ -204,7 +204,7 @@ packages    :
         paths:
             - /usr/lib32/lib*++*.a
             - /usr/lib32/lib*++*.so
-            - /usr/include/c++/*-serpent-linux/32/*
+            - /usr/include/c++/*-linux/32/*
         rundeps:
             - libstdc++-32bit
             - libstdc++-devel
@@ -214,8 +214,8 @@ packages    :
             - /usr/bin/*c++
             - /usr/bin/*g++
             - /usr/bin/cpp
-            - /usr/lib/gcc/*-serpent-linux/*/cc1plus
-            - /usr/lib/gcc/*-serpent-linux/*/g++-mapper-server
+            - /usr/lib/gcc/*-linux/*/cc1plus
+            - /usr/lib/gcc/*-linux/*/g++-mapper-server
             - /usr/share/locale/*/LC_MESSAGES/cpplib.mo
             - /usr/share/man/*/cpp*
             - /usr/share/man/*/g++*
@@ -235,9 +235,9 @@ packages    :
             - /usr/lib/*fortran*.a
             - /usr/lib/*fortran*.so
             - /usr/lib/*fortran*.spec
-            - /usr/lib/gcc/*-serpent-linux/*/f951
-            - /usr/lib/gcc/*-serpent-linux/*/finclude/*
-            - /usr/lib/gcc/*-serpent-linux/*/include/*Fortran*.h
+            - /usr/lib/gcc/*-linux/*/f951
+            - /usr/lib/gcc/*-linux/*/finclude/*
+            - /usr/lib/gcc/*-linux/*/include/*Fortran*.h
             - /usr/share/man/*/*fortran*
         rundeps:
             - binary(gcc)
@@ -247,7 +247,7 @@ packages    :
             - /usr/lib32/*fortran*.a
             - /usr/lib32/*fortran*.so
             - /usr/lib32/*fortran*.spec
-            - /usr/lib/gcc/*-serpent-linux/*/32/finclude/*
+            - /usr/lib/gcc/*-linux/*/32/finclude/*
         rundeps:
             - gfortran
             - libgfortran-32bit
