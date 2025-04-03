@@ -1652,12 +1652,8 @@
 				"libcxx-devel"
 			],
 			"files": [
-				"/usr/lib32/libc++.a",
 				"/usr/lib32/libc++.modules.json",
 				"/usr/lib32/libc++.so",
-				"/usr/lib32/libc++abi.a",
-				"/usr/lib32/libc++experimental.a",
-				"/usr/lib32/libunwind.a",
 				"/usr/lib32/libunwind.so",
 				"/usr/lib32/pkgconfig/libunwind.pc"
 			],
@@ -1665,6 +1661,35 @@
 			"provides": [
 				"pkgconfig32(libunwind)"
 			]
+		},
+		"libcxx-32bit-devel-static": {
+			"build-depends": [
+				"binary(perl)",
+				"binary(python3)",
+				"binary(sed)",
+				"binutils-devel",
+				"clang-32bit",
+				"gcc-32bit",
+				"pkgconfig(hwloc)",
+				"pkgconfig(libedit)",
+				"pkgconfig(mimalloc)",
+				"pkgconfig32(libffi)",
+				"pkgconfig32(libxcrypt)",
+				"pkgconfig32(libxml-2.0)",
+				"pkgconfig32(libzstd)",
+				"pkgconfig32(zlib)"
+			],
+			"depends": [
+				"libcxx-32bit-devel",
+				"libcxx-devel-static"
+			],
+			"files": [
+				"/usr/lib32/libc++.a",
+				"/usr/lib32/libc++abi.a",
+				"/usr/lib32/libc++experimental.a",
+				"/usr/lib32/libunwind.a"
+			],
+			"name": "libcxx-32bit-devel-static"
 		},
 		"libcxx-devel": {
 			"build-depends": [
@@ -2716,12 +2741,8 @@
 				"/usr/include/unwind.h",
 				"/usr/include/unwind_arm_ehabi.h",
 				"/usr/include/unwind_itanium.h",
-				"/usr/lib/libc++.a",
 				"/usr/lib/libc++.modules.json",
 				"/usr/lib/libc++.so",
-				"/usr/lib/libc++abi.a",
-				"/usr/lib/libc++experimental.a",
-				"/usr/lib/libunwind.a",
 				"/usr/lib/libunwind.so",
 				"/usr/lib/pkgconfig/libunwind.pc",
 				"/usr/share/libc++/v1/std.compat.cppm",
@@ -2862,6 +2883,34 @@
 			"provides": [
 				"pkgconfig(libunwind)"
 			]
+		},
+		"libcxx-devel-static": {
+			"build-depends": [
+				"binary(perl)",
+				"binary(python3)",
+				"binary(sed)",
+				"binutils-devel",
+				"clang-32bit",
+				"gcc-32bit",
+				"pkgconfig(hwloc)",
+				"pkgconfig(libedit)",
+				"pkgconfig(mimalloc)",
+				"pkgconfig32(libffi)",
+				"pkgconfig32(libxcrypt)",
+				"pkgconfig32(libxml-2.0)",
+				"pkgconfig32(libzstd)",
+				"pkgconfig32(zlib)"
+			],
+			"depends": [
+				"libcxx-devel"
+			],
+			"files": [
+				"/usr/lib/libc++.a",
+				"/usr/lib/libc++abi.a",
+				"/usr/lib/libc++experimental.a",
+				"/usr/lib/libunwind.a"
+			],
+			"name": "libcxx-devel-static"
 		},
 		"lld": {
 			"build-depends": [
@@ -3333,6 +3382,9 @@
 				"/usr/lib32/libLLVM-19.so",
 				"/usr/lib32/libLLVM.so",
 				"/usr/lib32/libLLVMDebuginfod.a",
+				"/usr/lib32/libLLVMDemangle.a",
+				"/usr/lib32/libLLVMSupport.a",
+				"/usr/lib32/libLLVMTableGen.a",
 				"/usr/lib32/libLTO.so",
 				"/usr/lib32/libRemarks.so"
 			],
@@ -5473,6 +5525,9 @@
 				"/usr/lib/libLLVM-19.so",
 				"/usr/lib/libLLVM.so",
 				"/usr/lib/libLLVMDebuginfod.a",
+				"/usr/lib/libLLVMDemangle.a",
+				"/usr/lib/libLLVMSupport.a",
+				"/usr/lib/libLLVMTableGen.a",
 				"/usr/lib/libLTO.so",
 				"/usr/lib/libRemarks.so"
 			],
@@ -7621,6 +7676,6 @@
 		}
 	},
 	"source-name": "llvm",
-	"source-release": "24",
+	"source-release": "25",
 	"source-version": "19.1.7"
 }

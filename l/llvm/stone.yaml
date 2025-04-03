@@ -5,7 +5,7 @@
 #
 name        : llvm
 version     : 19.1.7
-release     : 24
+release     : 25
 summary     : Low Level Virtual Machine
 license     :
     - Apache-2.0 WITH LLVM-exception
@@ -108,7 +108,6 @@ environment : |
     #  See also https://github.com/llvm/llvm-project/issues/36746
     function cmake_llvm_configure() {
         %cmake \
-            -DCMAKE_BUILD_TYPE=Release \
             -DCMAKE_SKIP_INSTALL_RPATH=ON \
             -DBOLT_PACKAGE_VERSION=%(version) \
             -DCLANG_DEFAULT_CXX_STDLIB=libc++ \
@@ -210,6 +209,9 @@ environment : |
                     ;;
                 # shared libraries
                 LLVM|LLVMgold|LTO|Remarks)
+                    ;;
+                # used by *-tblgen utilities (including lldb-tblgen)
+                LLVMTableGen|LLVMSupport|LLVMDemangle)
                     ;;
                 # used by lldb
                 LLVMDebuginfod)
@@ -318,26 +320,20 @@ profiles    :
         setup:   |
             apply_llvm_patches
 
-            export CC="clang"
-            export CXX="clang++"
             cmake_llvm_configure -S llvm \
-                -DLLVM_USE_LINKER="lld" \
-                -DCMAKE_C_FLAGS="$CFLAGS -m32" \
-                -DCMAKE_CXX_FLAGS="$CXXFLAGS -m32"
+                -DLLVM_USE_LINKER="lld"
 
             distribution_components=$(get_distribution_components | paste -sd\;)
             test -n "$distribution_components"
             cmake_llvm_configure -S llvm \
                 -DLLVM_USE_LINKER="lld" \
-                -DCMAKE_C_FLAGS="$CFLAGS -m32" \
-                -DCMAKE_CXX_FLAGS="$CXXFLAGS -m32" \
                 -DLLVM_DISTRIBUTION_COMPONENTS="$distribution_components"
         build:   |
             %ccache_zero
-            %cmake_build distribution
+            %cmake_build --target distribution
             %ccache_stats
         install: |
-            DESTDIR="%(installroot)" ninja install-distribution -v -j "%(jobs)" -C "%(builddir)"
+            DESTDIR="%(installroot)" cmake --build "%(builddir)" --verbose --target install-distribution
 
             ### LLVM (begin)
             # Force this to 32-bit specific configuration
@@ -375,10 +371,10 @@ profiles    :
                 -DLLVM_DISTRIBUTION_COMPONENTS="$distribution_components"
         build:   |
             %ccache_zero
-            %cmake_build distribution
+            %cmake_build --target distribution
             %ccache_stats
         install: |
-            DESTDIR="%(installroot)" ninja install-distribution -v -j "%(jobs)" -C "%(builddir)"
+            DESTDIR="%(installroot)" cmake --build "%(builddir)" --verbose --target install-distribution
 
             # TODO: Restore the bolt'd build
 
@@ -465,6 +461,7 @@ packages    :
             - /usr/bin/yaml2obj
             - /usr/share/opt-viewer
 
+    # We can't split out the static libraries from this because the cmake files reference them
     - "%(name)-devel":
         paths:
             - /usr/bin/count
@@ -672,9 +669,7 @@ packages    :
             Development files for libcxx
         paths:
             - /usr/lib/libc++*.so
-            - /usr/lib/libc++*.a
             - /usr/lib/libunwind.so
-            - /usr/lib/libunwind.a
             - /usr/lib/libc++.modules.json
             - /usr/lib/pkgconfig/libunwind.pc
             - /usr/include/c++/
@@ -686,20 +681,39 @@ packages    :
         rundeps:
             - libcxx
 
+    - "libcxx-devel-static":
+        summary: "Development files for libcxx - static libraries"
+        description: |
+            Development files for libcxx - static libraries
+        paths:
+            - /usr/lib/libc++*.a
+            - /usr/lib/libunwind.a
+        rundeps:
+            - libcxx-devel
+
     - "libcxx-32bit-devel":
         summary: "Development files for libcxx (32-bit)"
         description: |
             Development files for libcxx (32-bit)
         paths:
             - /usr/lib32/libc++*.so
-            - /usr/lib32/libc++*.a
             - /usr/lib32/libunwind.so
-            - /usr/lib32/libunwind.a
             - /usr/lib32/libc++.modules.json
             - /usr/lib32/pkgconfig/libunwind.pc
         rundeps:
             - libcxx-32bit
             - libcxx-devel
+
+    - "libcxx-32bit-devel-static":
+        summary: "Development files for libcxx (32-bit) - static libraries"
+        description: |
+            Development files for libcxx (32-bit) - static libraries
+        paths:
+            - /usr/lib32/libc++*.a
+            - /usr/lib32/libunwind.a
+        rundeps:
+            - libcxx-32bit-devel
+            - libcxx-devel-static
 
     - "lld-libs":
         summary: "Library files for lld"
