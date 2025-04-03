@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : cmake
-version     : 3.30.2
-release     : 7
+version     : 3.31.6
+release     : 8
 homepage    : https://cmake.org/
 upstreams   :
-    - https://www.cmake.org/files/v3.30/cmake-3.30.2.tar.gz : 46074c781eccebc433e98f0bbfa265ca3fd4381f245ca3b140e7711531d60db2
+    - https://www.cmake.org/files/v3.31/cmake-3.31.6.tar.gz : 653427f0f5014750aafff22727fb2aa60c6c732ca91808cfb78ce22ddd9e55f0
 summary     : Cross-platform build system
 description : |
     CMake is an open-source, cross-platform family of tools designed to build, test and package software. CMake is used to control the software compilation process using simple platform and compiler independent configuration files, and generate native makefiles and workspaces that can be used in the compiler environment of your choice.
@@ -19,23 +19,30 @@ packages    :
         paths:
             - /usr/share/aclocal
 builddeps   :
+    - binary(flang)
     - pkgconfig(expat)
-    - pkgconfig(libcurl)
     - pkgconfig(libarchive)
+    - pkgconfig(libcurl)
+    - pkgconfig(libuv)
+    - pkgconfig(ncurses)
     - pkgconfig(zlib)
 tuning      :
     - icf: all
-    - lto
+    - lto: full
     - nosemantic
     - polly
     - symbolic
 setup       : |
     %cmake \
         -DBUILD_TESTING=OFF \
+        -DCMAKE_DOC_DIR=share/doc/cmake \
+        -DCMAKE_INSTALL_DO_STRIP=OFF \
         -DCMAKE_USE_SYSTEM_CURL=ON \
         -DCMAKE_USE_SYSTEM_EXPAT=ON \
         -DCMAKE_USE_SYSTEM_LIBARCHIVE=ON \
-        -DCMAKE_USE_SYSTEM_ZLIB=ON
+        -DCMAKE_USE_SYSTEM_LIBUV=ON \
+        -DCMAKE_USE_SYSTEM_ZLIB=ON \
+        -DCMake_TEST_NO_NETWORK=ON
 build       : |
     %cmake_build
 install     : |
