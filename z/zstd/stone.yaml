@@ -4,8 +4,8 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : zstd
-version     : 1.5.6
-release     : 7
+version     : 1.5.7
+release     : 8
 summary     : Fast real-time compression algorithm
 license     :
     - BSD-3-Clause
@@ -14,40 +14,70 @@ homepage    : https://facebook.github.io/zstd
 description : |
     Fast real-time compression algorithm
 upstreams   :
-    - https://github.com/facebook/zstd/releases/download/v1.5.6/zstd-1.5.6.tar.zst: 4aa8dd1c1115c0fd6b6b66c35c7f6ce7bd58cc1dfd3e4f175b45b39e84b14352
+    - https://github.com/facebook/zstd/releases/download/v1.5.7/zstd-1.5.7.tar.zst: 5b331d961d6989dc21bb03397fc7a2a4d86bc65a14adc5ffbbce050354e30fd2
 builddeps   :
-    - pkgconfig32(liblz4)
-    - pkgconfig32(liblzma)
-    - pkgconfig32(zlib)
+    - pkgconfig(liblz4)
+    - pkgconfig(liblzma)
+    - pkgconfig(zlib)
 emul32      : yes
 environment : |
-    export CFLAGS="${CFLAGS} -mllvm -vp-counters-per-site=1.5"
-    export PREFIX=%(prefix) LIBDIR=%(libdir)
+    export CFLAGS="${CFLAGS} -mllvm -vp-counters-per-site=2"
+setup       : |
+    # Need to build static lib for tests, but we can delete it after
+    %cmake -S build/cmake \
+           -DZSTD_ZLIB_SUPPORT=ON \
+           -DZSTD_LZMA_SUPPORT=ON \
+           -DZSTD_LZ4_SUPPORT=ON \
+           -DZSTD_BUILD_CONTRIB=ON \
+           -DZSTD_BUILD_STATIC=OFF \
+           -DZSTD_BUILD_TESTS=OFF \
+           -DZSTD_PROGRAMS_LINK_SHARED=ON
 build       : |
-    %make
+    %cmake_build
 install     : |
-    %make_install
-    rm %(installroot)/%(libdir)/*.a
+    %cmake_install
 profiles    :
+    - emul32:
+        environment: |
+            # ld.lld: error: lib/CMakeFiles/libzstd_shared.dir/mason/build/emul32/x86_64/zstd-1.5.7.tar.zst/lib/decompress/huf_decompress_amd64.S.o is incompatible with elf32-i386
+            export ASMFLAGS="-m32"
+        setup       : |
+            # We only care about the shared library, and it's the tools that use other compression algs
+            %cmake -S build/cmake \
+                -DZSTD_ZLIB_SUPPORT=OFF \
+                -DZSTD_LZMA_SUPPORT=OFF \
+                -DZSTD_LZ4_SUPPORT=OFF \
+                -DZSTD_BUILD_STATIC=OFF \
+                -DZSTD_PROGRAMS_LINK_SHARED=ON \
+                -DCMAKE_INSTALL_LIBDIR=lib32
     - x86_64:
         install: |
-            %bolt_instr programs/zstd
-            for i in $(seq 1 22); do
-                cat $(find lib -type f) | programs/zstd --ultra -${i} | programs/zstd -d > /dev/null
-                cat $(find lib -type f) | programs/zstd --ultra --long -${i} | programs/zstd -d > /dev/null
-            done
-            %bolt_merge programs/zstd
-            %bolt_opt programs/zstd
+            ### 2025-04-02: BOLT segfaults consistently here, re-enable if that is ever figured out
+            # export LD_LIBRARY_PATH=%(builddir)/lib
+            # bolt_instr %(builddir)/lib/libzstd.so
+            # for i in $(seq 1 22); do
+            #     cat $(find %(builddir)/lib -type f) | %(builddir)/programs/zstd --ultra -${i} | %(builddir)/programs/zstd -d > /dev/null
+            #     cat $(find %(builddir)/lib -type f) | %(builddir)/programs/zstd --ultra --long -${i} | %(builddir)/programs/zstd -d > /dev/null
+            # done
+            # bolt_merge %(builddir)/lib/libzstd.so
+            # bolt_opt %(builddir)/lib/libzstd.so
 
-            %make_install
-            rm %(installroot)/%(libdir)/*.a
+            %cmake_install
         workload: |
+            export LD_LIBRARY_PATH=%(builddir)/lib
             for i in $(seq 1 22); do
-                cat $(find lib -type f) | programs/zstd --ultra -${i} | programs/zstd -d > /dev/null
-                cat $(find lib -type f) | programs/zstd --ultra --long -${i} | programs/zstd -d > /dev/null
+                cat $(find %(builddir)/lib -type f) | %(builddir)/programs/zstd --ultra -${i} | %(builddir)/programs/zstd -d > /dev/null
+                cat $(find %(builddir)/lib -type f) | %(builddir)/programs/zstd --ultra --long -${i} | %(builddir)/programs/zstd -d > /dev/null
             done
+packages    :
+    - "%(name)-libs":
+            summary: "Library files for %(name)"
+            description: |
+                Library files for %(name), typically pulled in as a dependency of another package.
+            paths:
+                - /usr/lib/libzstd.so.*
 tuning      :
-    - bolt
+    # - bolt
     - icf: all
     - lto: full
     - nosemantic

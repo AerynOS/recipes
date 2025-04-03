@@ -4,26 +4,29 @@
 	"packages": {
 		"zstd": {
 			"build-depends": [
-				"pkgconfig32(liblz4)",
-				"pkgconfig32(liblzma)",
-				"pkgconfig32(zlib)"
+				"pkgconfig(liblz4)",
+				"pkgconfig(liblzma)",
+				"pkgconfig(zlib)"
 			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(liblz4.so.1(x86_64))",
 				"soname(liblzma.so.5(x86_64))",
-				"soname(libz.so.1(x86_64))"
+				"soname(libunwind.so.1(x86_64))",
+				"soname(libz.so.1(x86_64))",
+				"soname(libzstd.so.1(x86_64))"
 			],
 			"files": [
+				"/usr/bin/pzstd",
 				"/usr/bin/unzstd",
 				"/usr/bin/zstd",
 				"/usr/bin/zstdcat",
 				"/usr/bin/zstdgrep",
 				"/usr/bin/zstdless",
 				"/usr/bin/zstdmt",
-				"/usr/lib/libzstd.so.1",
-				"/usr/lib/libzstd.so.1.5.6",
+				"/usr/share/doc/zstd/zstd_manual.html",
 				"/usr/share/man/man1/unzstd.1",
 				"/usr/share/man/man1/zstd.1",
 				"/usr/share/man/man1/zstdcat.1",
@@ -32,20 +35,20 @@
 			],
 			"name": "zstd",
 			"provides": [
+				"binary(pzstd)",
 				"binary(unzstd)",
 				"binary(zstd)",
 				"binary(zstdcat)",
 				"binary(zstdgrep)",
 				"binary(zstdless)",
-				"binary(zstdmt)",
-				"soname(libzstd.so.1(x86_64))"
+				"binary(zstdmt)"
 			]
 		},
 		"zstd-32bit": {
 			"build-depends": [
-				"pkgconfig32(liblz4)",
-				"pkgconfig32(liblzma)",
-				"pkgconfig32(zlib)"
+				"pkgconfig(liblz4)",
+				"pkgconfig(liblzma)",
+				"pkgconfig(zlib)"
 			],
 			"depends": [
 				"soname(libc.so.6(386))",
@@ -53,7 +56,7 @@
 			],
 			"files": [
 				"/usr/lib32/libzstd.so.1",
-				"/usr/lib32/libzstd.so.1.5.6"
+				"/usr/lib32/libzstd.so.1.5.7"
 			],
 			"name": "zstd-32bit",
 			"provides": [
@@ -63,28 +66,33 @@
 		},
 		"zstd-32bit-devel": {
 			"build-depends": [
-				"pkgconfig32(liblz4)",
-				"pkgconfig32(liblzma)",
-				"pkgconfig32(zlib)"
+				"pkgconfig(liblz4)",
+				"pkgconfig(liblzma)",
+				"pkgconfig(zlib)"
 			],
 			"depends": [
 				"zstd-32bit",
 				"zstd-devel"
 			],
 			"files": [
+				"/usr/lib32/cmake/zstd/zstdConfig.cmake",
+				"/usr/lib32/cmake/zstd/zstdConfigVersion.cmake",
+				"/usr/lib32/cmake/zstd/zstdTargets-release.cmake",
+				"/usr/lib32/cmake/zstd/zstdTargets.cmake",
 				"/usr/lib32/libzstd.so",
 				"/usr/lib32/pkgconfig/libzstd.pc"
 			],
 			"name": "zstd-32bit-devel",
 			"provides": [
+				"cmake(zstd)",
 				"pkgconfig32(libzstd)"
 			]
 		},
 		"zstd-devel": {
 			"build-depends": [
-				"pkgconfig32(liblz4)",
-				"pkgconfig32(liblzma)",
-				"pkgconfig32(zlib)"
+				"pkgconfig(liblz4)",
+				"pkgconfig(liblzma)",
+				"pkgconfig(zlib)"
 			],
 			"depends": [
 				"zstd"
@@ -93,16 +101,39 @@
 				"/usr/include/zdict.h",
 				"/usr/include/zstd.h",
 				"/usr/include/zstd_errors.h",
+				"/usr/lib/cmake/zstd/zstdConfig.cmake",
+				"/usr/lib/cmake/zstd/zstdConfigVersion.cmake",
+				"/usr/lib/cmake/zstd/zstdTargets-release.cmake",
+				"/usr/lib/cmake/zstd/zstdTargets.cmake",
 				"/usr/lib/libzstd.so",
 				"/usr/lib/pkgconfig/libzstd.pc"
 			],
 			"name": "zstd-devel",
 			"provides": [
+				"cmake(zstd)",
 				"pkgconfig(libzstd)"
+			]
+		},
+		"zstd-libs": {
+			"build-depends": [
+				"pkgconfig(liblz4)",
+				"pkgconfig(liblzma)",
+				"pkgconfig(zlib)"
+			],
+			"depends": [
+				"soname(libc.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/lib/libzstd.so.1",
+				"/usr/lib/libzstd.so.1.5.7"
+			],
+			"name": "zstd-libs",
+			"provides": [
+				"soname(libzstd.so.1(x86_64))"
 			]
 		}
 	},
 	"source-name": "zstd",
-	"source-release": "7",
-	"source-version": "1.5.6"
+	"source-release": "8",
+	"source-version": "1.5.7"
 }
