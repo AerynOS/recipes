@@ -13,19 +13,17 @@ Last-Update: 2025-03-30
  3 files changed, 6 insertions(+), 1 deletion(-)
 
 diff --git a/polly/cmake/polly_macros.cmake b/polly/cmake/polly_macros.cmake
-index a791be4fa5bc..b63ab4c55427 100644
+index 9bd7b0b0ea59..b7cb879ad62e 100644
 --- a/polly/cmake/polly_macros.cmake
 +++ b/polly/cmake/polly_macros.cmake
-@@ -2,7 +2,7 @@
- include(CMakeParseArguments)
- 
+@@ -1,5 +1,5 @@
  macro(add_polly_library name)
 -  cmake_parse_arguments(ARG "" "" "" ${ARGN})
 +  cmake_parse_arguments(ARG "SHARED" "" "" ${ARGN})
    set(srcs ${ARG_UNPARSED_ARGUMENTS})
    if(MSVC_IDE OR XCODE)
      file( GLOB_RECURSE headers *.h *.td *.def)
-@@ -20,6 +20,9 @@ macro(add_polly_library name)
+@@ -17,6 +17,9 @@ macro(add_polly_library name)
    else()
      set(libkind)
    endif()
