@@ -13,11 +13,12 @@ summary     : Highly customizable Wayland bar for Sway and Wlroots based composi
 description : |
     Highly customizable Wayland bar for Sway and Wlroots based compositors.
 license     : MIT
+networking  : true
 builddeps   :
     - binary(clang-tidy)
     - binary(git)
+    - name(catch2)
     - pkgconfig(cava)
-    # - pkgconfig(date)
     - pkgconfig(dbusmenu-gtk3-0.4)
     # - pkgconfig(epoll-shim)
     - pkgconfig(fftw3)
