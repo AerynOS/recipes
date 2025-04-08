@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : runc
-version     : 1.1.6
-release     : 5
+version     : 1.2.6
+release     : 6
 homepage    : https://runc.io/
 upstreams   :
-    - https://github.com/opencontainers/runc/archive/refs/tags/v1.1.6.tar.gz : 1401d11f8543af6c4fd5f9c7654ffb3ad21f89ea86be74dba481213c2afb6af3
+    - https://github.com/opencontainers/runc/archive/refs/tags/v1.2.6.tar.gz : 19b280702341f33ff353fa254d1dbdb67f6aab2c74395f6d651a17524f68e752
 summary     : CLI tool for managing OCI compliant containers
 description : |
     CLI tool for managing OCI compliant containers
@@ -19,30 +19,28 @@ builddeps   :
     - binary(go)
     - binary(go-md2man)
     - pkgconfig(libseccomp)
-environment : |
-    export GOPATH="`pwd`"
-    export BUILDTAGS='seccomp'
-    export GOFLAGS="-trimpath -mod=readonly -modcacherw"
-
-    # Git SHA corresponding to the release tag
-    export COMMIT=0f48801a0e21e3f0bc4e74643ead2a502df4818d
-    
-    # https://github.com/serpent-os/boulder/issues/74
-    export CGO_CFLAGS="${CFLAGS} -Wno-error=unused-command-line-argument"
 setup       : |
-    mkdir -p src/github.com/opencontainers/runc
+    mkdir -p src/github.com/opencontainers/runc/
     find ./* -prune ! -name src -exec mv {} src/github.com/opencontainers/runc/ \;
 build      : |
-    cd src/github.com/opencontainers/runc
+    export GOPATH="${PWD}"
+    export BUILDTAGS='seccomp'
+    export GOFLAGS="-trimpath -mod=readonly -modcacherw"
+    export CGO_CFLAGS="${CFLAGS}"
+
+    # Git SHA corresponding to the release tag
+    export COMMIT=$(git ls-remote https://github.com/opencontainers/runc.git refs/tags/v%(version)^{} |awk '{print $1}')
+
+    cd src/github.com/opencontainers/runc/
     %make runc man
 install     : |
     cd src/github.com/opencontainers/runc/
     %install_bin runc
 
-    %install_file contrib/completions/bash/runc -t %(installroot)/%(completionsdir)
+    %install_file contrib/completions/bash/runc -t %(installroot)%(completionsdir)
 
-    %install_dir %(installroot)/%(mandir)/man8
-    %install_file man/man8/*.8 -t %(installroot)/%(mandir)/man8
+    %install_dir %(installroot)%(mandir)/man8
+    %install_file man/man8/*.8 -t %(installroot)%(mandir)/man8
 tune        :
     - lto
     - optimize: speed
