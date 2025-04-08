@@ -1,0 +1,19 @@
+diff -Npur sddm-0.21.0.orig/CMakeLists.txt sddm-0.21.0/CMakeLists.txt
+--- sddm-0.21.0.orig/CMakeLists.txt	2024-02-26 17:23:03.000000000 +0700
++++ sddm-0.21.0/CMakeLists.txt	2024-12-27 22:09:37.483696417 +0700
+@@ -190,15 +190,6 @@ set(COMPONENTS_TRANSLATION_DIR  "${DATA_
+ set(SDDM_INITIAL_VT             "1"                                                 CACHE STRING    "Initial tty to use")
+ 
+ 
+-# Autodetect UID_MIN and UID_MAX from /etc/login.defs
+-if(NOT DEFINED LOGIN_DEFS_PATH)
+-    set(LOGIN_DEFS_PATH "/etc/login.defs" CACHE PATH "Path to login.defs")
+-endif()
+-
+-if(NOT EXISTS "${LOGIN_DEFS_PATH}" AND NOT DEFINED UID_MIN AND NOT DEFINED UID_MAX)
+-    message(FATAL_ERROR "Could not find login.defs at ${LOGIN_DEFS_PATH}. Try -DLOGIN_DEFS_PATH.")
+-endif()
+-
+ if(NOT DEFINED UID_MIN)
+     file(STRINGS "${LOGIN_DEFS_PATH}" UID_MIN LIMIT_COUNT 1 REGEX "^UID_MIN")
+     string(REGEX REPLACE "^UID_MIN[\t ]+([0-9]+)" "\\1" UID_MIN "${UID_MIN}")
