@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : golang
-version     : 1.23.4
-release     : 14
+version     : 1.24.2
+release     : 15
 homepage    : https://go.dev
 upstreams   :
-    - https://go.dev/dl/go1.23.4.linux-amd64.tar.gz : 6924efde5de86fe277676e929dc9917d466efa02fb934197bc2eba35d5680971
+    - https://go.dev/dl/go1.24.2.linux-amd64.tar.gz : 68097bd680839cbc9d464a0edce4f7c333975e27a90246890e9f1078c7e702ad
 summary     : The Go programming language
 description : |
     Go is an open source programming language that makes it easy to build simple, reliable, and efficient software.
@@ -17,56 +17,51 @@ builddeps   :
     #- binary(ar) # checkdep
     - binary(bash)
     - binary(go)
-packages    :
-    - "%(name)":
-        paths:
-            - /usr/lib/*.a
+rundeps     :
+    - binary(ld.so) # Basically needs glibc for the internal linker implementation
 environment : |
-    # This can mess up the automatic goroot detection if set
+    # This can mess up the automatic goroot detection if set. Explicitly unset it just in case it has made it's way into the buildenv
     unset GOROOT
 
-    # needed for bootstrap in the build phase
-    export GOROOT_BOOTSTRAP="%(libdir)/%(name)"
+    # Final goroot
+    _goroot="%(libdir)/%(name)"
 
-    # Should this be set by boulder automatically?
-    export XDG_CACHE_HOME="%(workdir)/.cache"
+    # needed for bootstrap in the build phase
+    export GOROOT_BOOTSTRAP="${_goroot}"
+
+    # Set the CPU baseline to v2, which corresponds to x86_64v2
+    # Note, this is also propagated into the default build config for the distribution. ALL linux AMD64 binaries built with this golang distribution will default to v2
+    export GOAMD64=v2
 setup       : |
     %patch %(pkgdir)/stateless/x509-certificate-path.patch
+    %patch %(pkgdir)/0001-downstream-Default-to-clang-linker.patch
     %patch %(pkgdir)/go.env-toolchain-local.patch
+
+    # Upstream, fixes a segfault with kernel >= 6.11 (affects Docker)
+    %patch %(pkgdir)/fix_vgetrandom_state_segfault.patch
 build       : |
-    # some tests just fail (some need networking)
-    pushd src
-    ./make.bash -v
-    popd
-
-    # install to ./ for easier copying into the final destination later
-    # umask is already 0022 FWIW
-    GOROOT=${PWD} PATH=${PWD}/bin:${PATH} go install -buildmode=shared std
-# TODO: Properly filter unwanted content to achieve a clean package.
+    cd src && ./make.bash -v
 install     : |
-    # Don't need these
-    rm -rf .cache go
-    # Testdata searches for /libexec/ld-elf.so.1.
+    %install_dir %(installroot)/${_goroot} %(installroot)/%(bindir)
+    cp -apv api bin doc lib pkg src misc test go.env VERSION %(installroot)/${_goroot}
+
+    # Fix group/all permissions
+    chmod -Rc g+rX,o+rX %(installroot)/${_goroot}/
+
+    # gdbinit file
+    %install_file %(pkgdir)/golang-gdbinit %(installroot)/usr/share/gdb/system-gdbinit/golang.gdb
+
+    # Symlinks are required so that golang can resolve the goroot at runtime
+    ln -srv %(installroot)/${_goroot}/bin/gofmt %(installroot)/%(bindir)/gofmt
+    ln -srv %(installroot)/${_goroot}/bin/go %(installroot)/%(bindir)/go
+
+    # Useless
+    rm -v %(installroot)/${_goroot}/src/go/doc/Makefile
+
     # This is just data fed into tests, but boulder scans it regardless.
-    find -type d -name testdata -exec rm -rf {} +
+    find %(installroot)/${_libdir} -type d -name testdata -exec rm -rfv {} +
 
-    # install the tooling
-    %install_exe bin/gofmt %(installroot)%(libdir)/%(name)/bin/gofmt
-    %install_exe bin/go %(installroot)%(libdir)/%(name)/bin/go
-
-    # relative symlinks are nice for /proc/self/exe
-    %install_dir %(installroot)%(bindir)
-    ln -srvf %(installroot)%(libdir)/%(name)/bin/gofmt %(installroot)%(bindir)/
-    ln -srvf %(installroot)%(libdir)/%(name)/bin/go %(installroot)%(bindir)/
-
-    # Assets needed for proper installation
-    find -mindepth 1 -maxdepth 1 -type d -not -name bin -exec cp -a {} %(installroot)%(libdir)/%(name) \;
-
-    # Assets are for some reason not world readable ootb, which breaks e.g. `go install (...)` invocations (!)
-    chmod -Rc g+rX,o+rX %(installroot)%(libdir)/%(name)
-
-    # verify that the present toolchain version is always used for building other go recipes
-    cat go.env
-    %install_file go.env %(installroot)%(libdir)/%(name)/go.env
+# some tests just fail (some need networking)
+# TODO go through and fix them
 # check      : |
 #     cd src && ./run.bash -v -v -v -k

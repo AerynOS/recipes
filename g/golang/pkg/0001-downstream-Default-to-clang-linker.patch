@@ -1,0 +1,29 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Reilly Brogan <reilly@reillybrogan.com>
+Date: Thu, 10 Apr 2025 22:31:18 -0500
+Subject: [PATCH] downstream: Default to clang linker
+
+Default to clang as the linker when building for linux platforms. Note that this is only if CC is not set (as the correct linker would otherwise be derived from that)
+
+Origin: vendor
+Forwarded: not-needed
+Last-Update: 2025-04-10
+---
+ src/cmd/link/internal/ld/lib.go | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/src/cmd/link/internal/ld/lib.go b/src/cmd/link/internal/ld/lib.go
+index 2d8f964f35..cc39ed85f7 100644
+--- a/src/cmd/link/internal/ld/lib.go
++++ b/src/cmd/link/internal/ld/lib.go
+@@ -481,8 +481,9 @@ func (ctxt *Link) extld() []string {
+ 		// Return the default external linker for the platform.
+ 		// This only matters when link tool is called directly without explicit -extld,
+ 		// go tool already passes the correct linker in other cases.
++		// AerynOS defaults to clang as the default linker
+ 		switch buildcfg.GOOS {
+-		case "darwin", "freebsd", "openbsd":
++		case "darwin", "freebsd", "openbsd", "linux":
+ 			flagExtld = []string{"clang"}
+ 		default:
+ 			flagExtld = []string{"gcc"}
