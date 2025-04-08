@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : docker
-version     : 23.0.4
-release     : 5
+version     : 28.0.4
+release     : 6
 homepage    : https://www.docker.com
 upstreams   :
-    - https://github.com/docker/cli/archive/refs/tags/v23.0.4.tar.gz : 477c37f128db7bb6926dc410f337cb525af4f26ea9719d38dc2978460dbe2de8
+    - https://github.com/docker/cli/archive/refs/tags/v28.0.4.tar.gz : 09b41aa5ff656bc135feb80cb9b73c70aeba099ef9756c3cef7bcb2eb3c98ba6
 summary     : The open-source application container engine
 description : |
     The open-source application container engine. This contains the docker cli.
@@ -21,36 +21,28 @@ builddeps   :
 rundeps     :
     - binary(dockerd)
     - docker-buildx
-    - docker-compose
-    - docker-scan
-environment : |
+setup       : |
+    mkdir -p src/github.com/docker/
+    ln -s ${PWD} src/github.com/docker/cli
+build      : |
+    cd src/github.com/docker/cli
+    export GOPATH=${PWD}
     export GO111MODULE=auto
-    # This can probably be removed after golang reboostrap.
-    export GOMODCACHE="%(workdir)/.cache"
 
     export GOFLAGS="-buildmode=pie -trimpath -mod=readonly -modcacherw -ldflags=-linkmode=external"
 
     # Git commit corresponding to the version tag
-    export GITCOMMIT="f480fb1e374b16c8a1419e84f465f2562456145e"
-    export DOCKER_GITCOMMIT=$GITCOMMIT
+    export GITCOMMIT=$(git ls-remote https://github.com/docker/cli.git refs/tags/v%(version)^{} | awk '{print $1}')
+    export DOCKER_GITCOMMIT=${GITCOMMIT}
 
     # Docker is meant to be built inside a container and will exit with an error if this isn't set.
     export DISABLE_WARN_OUTSIDE_CONTAINER=1
 
-    # https://github.com/serpent-os/boulder/issues/74
-    export CGO_CFLAGS="${CGO_CFLAGS} -Wno-error=unused-command-line-argument"
-setup       : |
-    mkdir -p src/github.com/docker/
-    ln -s `pwd` src/github.com/docker/cli
-build      : |
-    cd src/github.com/docker/cli
-    export GOPATH=`pwd`
-    
-    # docker-cli
-    PLATFORM="Docker Engine - Community" \
-    VERSION=%(version) \
-        %make dynbinary
-    
+    # build docker-cli
+    %make dynbinary \
+        VERSION=%(version) \
+        PLATFORM="Docker Engine - Community"
+
     # man pages
     make manpages
 install    : |
