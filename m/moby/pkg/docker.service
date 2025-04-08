@@ -1,9 +1,9 @@
 [Unit]
 Description=Docker Application Container Engine
 Documentation=https://docs.docker.com
-After=docker.socket network-online.target firewalld.service containerd.service time-set.target
+After=network-online.target docker.socket firewalld.service containerd.service time-set.target
+Wants=network-online.target containerd.service
 Requires=docker.socket
-Wants=network-online.target
 
 [Service]
 Type=notify
@@ -42,7 +42,8 @@ LimitCORE=infinity
 TasksMax=infinity
 
 # set delegate yes so that systemd does not reset the cgroups of docker containers
-#Delegate=yes
+Delegate=yes
+
 # kill only the docker process, not all processes in the cgroup
 KillMode=process
 OOMScoreAdjust=-500

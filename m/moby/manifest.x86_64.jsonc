@@ -6,18 +6,23 @@
 			"build-depends": [
 				"binary(go)",
 				"binary(go-md2man)",
+				"binary(make)",
 				"linux-headers",
 				"pkgconfig(libsystemd)"
 			],
 			"depends": [
+				"binary(containerd)",
+				"binary(tini-static)",
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))",
-				"soname(libsystemd.so.0(x86_64))"
+				"soname(libsystemd.so.0(x86_64))",
+				"sysbinary(iptables)"
 			],
 			"files": [
 				"/usr/bin/dockerd",
 				"/usr/lib/moby/docker-init",
 				"/usr/lib/moby/docker-proxy",
+				"/usr/lib/systemd/system-preset/docker.preset",
 				"/usr/lib/systemd/system/docker.service",
 				"/usr/lib/systemd/system/docker.socket",
 				"/usr/lib/sysusers.d/moby.conf",
@@ -31,6 +36,6 @@
 		}
 	},
 	"source-name": "moby",
-	"source-release": "4",
-	"source-version": "23.0.2"
+	"source-release": "5",
+	"source-version": "28.0.4"
 }

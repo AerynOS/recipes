@@ -4,17 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : moby
-version     : 23.0.2
-release     : 4
+version     : 28.0.4
+release     : 5
 homepage    : https://www.docker.com
 upstreams   :
-    - https://github.com/moby/moby/archive/refs/tags/v23.0.2.tar.gz : 4caca59c774445a5aad6114d89c97c88d9705f048704fecdd3f5712cb369dc39
-    # Used for the man pages
-    - https://github.com/docker/cli/archive/refs/tags/v23.0.2.tar.gz:
-        hash: bef4fc68b9f81ab2ae8bb2605e16a0965a3c4a82f0c0cf9d9f5d2cee8e95415d
-        rename: cli.tar.gz
-        stripdirs: 1
-        unpackdir: "%(name)-%(version)/docker-cli/"
+    - https://github.com/moby/moby/archive/refs/tags/v28.0.4.tar.gz : 4b347a2b83221952cab93197f6e9bc7ffe54dd4bd0a9644c176aecde551721ca
 summary     : The open-source application container engine
 description : |
     The open-source application container engine. This package contains the Docker server.
@@ -24,64 +18,57 @@ networking  : yes
 builddeps   :
     - binary(go)
     - binary(go-md2man)
+    - binary(make)
     - pkgconfig(libsystemd)
     - linux-headers
 rundeps     :
     - binary(containerd)
     - binary(tini-static)
     - sysbinary(iptables)
-environment : |
-    export AUTO_GOPATH=1
-    export GO111MODULE=auto
-    # This can probably be removed after golang reboostrap.
-    export GOMODCACHE="%(workdir)/.cache"
-
-    # --gc-sections breaks the cgo linker
-    # export CGO_LDFLAGS="${CGO_LDFLAGS} -Wl,--no-gc-sections"
-    export GOFLAGS="-buildmode=pie -trimpath -mod=readonly -modcacherw -ldflags=-linkmode=external"
-
-    # Git commit corresponding to the version tag
-    export GITCOMMIT="219f21bf07502b447095649b5a2764661737f164"
-    export DOCKER_GITCOMMIT=$GITCOMMIT
-    
-    # https://github.com/serpent-os/boulder/issues/74
-    export CGO_CFLAGS="${CFLAGS} -Wno-error=unused-command-line-argument"
-
-    # https://github.com/serpent-os/boulder/issues/75
-    export CGO_LDFLAGS="${CGO_LDFLAGS} -Wl,--no-gc-sections"
 setup       : |
     %patch %(pkgdir)/0001-Use-serpent-paths.patch
 build      : |
+    export AUTO_GOPATH=1
+    export GO111MODULE=auto
+
+    export GOFLAGS="-buildmode=pie -trimpath -mod=readonly -modcacherw -ldflags=-linkmode=external"
+    export CGO_CFLAGS="${CFLAGS}"
+    export CGO_LDFLAGS="${CGO_LDFLAGS}"    
+
+    # Git commit corresponding to the version tag
+    export GITCOMMIT="$(git ls-remote https://github.com/moby/moby.git refs/tags/v%(version)^{} |awk '{print $1}')"
+    export DOCKER_GITCOMMIT=${GITCOMMIT}
+
     # dockerd
     PLATFORM="Docker Engine - Community" \
     VERSION=%(version) \
-    DOCKER_BUILDTAGS="journald exclude_graphdriver_aufs exclude_graphdriver_devicemapper exclude_graphdriver_overlay" \
+    DOCKER_BUILDTAGS="journald" \
     DISABLE_WARN_OUTSIDE_CONTAINER=1 \
         ./hack/make.sh dynbinary
-    
+
     # man pages
-    cd docker-cli/
-    ./scripts/docs/generate-man.sh
+    make -C man GO_MD2MAN=/usr/bin/go-md2man
 install    : |
     # dockerd
     %install_bin bundles/dynbinary-daemon/dockerd
 
     # docker-proxy/libnetwork
-    %install_exe bundles/dynbinary-daemon/docker-proxy -t %(installroot)/%(libexecdir)
+    %install_exe bundles/dynbinary-daemon/docker-proxy -t %(installroot)%(libexecdir)
 
     # docker-init
-    ln -s %(bindir)/tini-static %(installroot)/%(libexecdir)/docker-init
+    ln -sv %(bindir)/tini-static %(installroot)%(libexecdir)/docker-init
 
     # systemd
-    %install_file %(pkgdir)/docker.service -t %(installroot)/%(libdir)/systemd/system
-    %install_file contrib/init/systemd/docker.socket -t %(installroot)/%(libdir)/systemd/system
+    %install_file %(pkgdir)/docker.service -t %(installroot)%(libdir)/systemd/system
+    %install_file contrib/init/systemd/docker.socket -t %(installroot)%(libdir)/systemd/system
+    %install_file %(pkgdir)/docker.preset -t %(installroot)/%(libdir)/systemd/system-preset
 
     # sysusers configuration
     %sysusers '# Docker daemon user'
     %sysusers 'g docker - -'
 
     # udev rules
-    %install_file contrib/udev/80-docker.rules -t %(installroot)/%(udevrulesdir)
+    %install_file contrib/udev/80-docker.rules -t %(installroot)%(udevrulesdir)
 
     # man pages
-    %install_file docker-cli/man/man8/dockerd.8 -t %(installroot)/%(mandir)/man8/
+    %install_file man/man8/dockerd.8 -t %(installroot)%(mandir)/man8/
