@@ -1,14 +1,15 @@
 #
 # SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
+# SPDX-FileCopyRightText: © 2025- AerynOS Developers
 #
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : containerd
-version     : 1.7.0
-release     : 6
+version     : 2.0.4
+release     : 7
 homepage    : https://containerd.io/
 upstreams   :
-    - https://github.com/containerd/containerd/archive/refs/tags/v1.7.0.tar.gz : c80b1c7f04057108059fdec9c936fc1ec0dccafa45c00a1d54f14dceb6500552
+    - https://github.com/containerd/containerd/archive/refs/tags/v2.0.4.tar.gz : af0b18d125abf97fbe90d6d2cda53ffa0cd4cbb9e7d65fee61fc095bfb63cef5
 summary     : An open and reliable container runtime
 description : |
     An open and reliable container runtime
@@ -23,33 +24,43 @@ builddeps   :
 rundeps     :
     - binary(runc)
 environment : |
-    # This can probably be removed after golang reboostrap.
-    export GOMODCACHE="%(workdir)/.cache"
-
-    export GO111MODULE=auto
-    export GOFLAGS="-trimpath -mod=readonly -modcacherw"
-
-    # Git commit corresponding to the version tag
-    export COMMIT="1fbd70374134b891f97ce19c70b6e50c7b9f4e0d"
-
-    # https://github.com/serpent-os/boulder/issues/74
-    export CGO_CFLAGS="${CGO_CFLAGS} -Wno-error=unused-command-line-argument"
+    # Allows the go modules to be downloaded with mod vendor and properly reused later
+    export GOMODCACHE="${PWD}/.gocache"
 setup       : |
     sed -i 's|/usr/local/bin/containerd|/usr/bin/containerd|' containerd.service
-build      : |
-    %make GOPATH=`pwd`/src/github.com/containerd V=1 VERSION=%(version) REVISION=$COMMIT GO_BUILD_FLAGS="$GOFLAGS" BUILDTAGS=no_aufs binaries man
+
+    go mod vendor
+build       : |
+    export GO111MODULE=auto
+    export GOFLAGS="-trimpath -mod=readonly -modcacherw"
+    export CGO_CFLAGS="${CGO_CFLAGS}"
+
+    # Git commit corresponding to the version tag
+    GITCOMMIT=$(git ls-remote https://github.com/containerd/containerd.git refs/tags/v%(version)^{} |awk '{print $1}')
+
+    %make \
+       GOPATH=${PWD}/src/github.com/containerd \
+       GO_BUILD_FLAGS="${GOFLAGS}" \
+       VERSION=%(version) \
+       REVISION=${GITCOMMIT} \
+       binaries man
 install     : |
-    %make_install V=1 VERSION=v%(version) REVISION=$COMMIT PREFIX=/usr/
-    rm -fv %(installroot)/%(bindir)/containerd-shim-runc-v1
+    %make_install PREFIX=/usr/
 
     # systemd
-    %install_file containerd.service %(installroot)/%(libdir)/systemd/system/containerd.service
+    %install_file containerd.service -t %(installroot)%(libdir)/systemd/system
+    %install_file %(pkgdir)/containerd.preset -t %(installroot)/%(libdir)/systemd/system-preset
 
-    %install_file man/*.8 -t %(installroot)/%(mandir)/man8
-    %install_file man/*.5 -t %(installroot)/%(mandir)/man5
-check       : |
-    # Needs true root
-    GOFLAGS="-trimpath" make test || true
+    # Completions
+    %install_file contrib/autocomplete/ctr %(installroot)/%(completionsdir)/ctr
+    %install_file contrib/autocomplete/zsh_autocomplete %(installroot)/%(datadir)/zsh/site-functions/_ctr
+
+    # Man pages
+    %install_file man/*.8 -t %(installroot)%(mandir)/man8
+    %install_file man/*.5 -t %(installroot)%(mandir)/man5
+# check       : |
+#     # Needs true root
+#     GOFLAGS="-trimpath" make test || true
 tune        :
     - lto
     - optimize: speed
