@@ -6,13 +6,22 @@
 			"build-depends": [
 				"binary(go)"
 			],
+			"depends": [
+				"binary(docker)",
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(libc.so.6(x86_64))"
+			],
 			"files": [
+				"/usr/bin/docker-compose",
 				"/usr/lib/docker/cli-plugins/docker-compose"
 			],
-			"name": "docker-compose"
+			"name": "docker-compose",
+			"provides": [
+				"binary(docker-compose)"
+			]
 		}
 	},
 	"source-name": "docker-compose",
-	"source-release": "4",
-	"source-version": "2.17.3"
+	"source-release": "5",
+	"source-version": "2.34.0"
 }

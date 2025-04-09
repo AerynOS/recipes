@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : docker-compose
-version     : 2.17.3
-release     : 4
+version     : 2.34.0
+release     : 5
 homepage    : https://github.com/docker/compose
 upstreams   :
-    - https://github.com/docker/compose/archive/refs/tags/v2.17.3.tar.gz : e5e9bdfc3a827240381b656da88f92b408ea2e203c3f8cfd9e0bbfe03f825f16
+    - https://github.com/docker/compose/archive/refs/tags/v2.34.0.tar.gz : 3612fa592658bfaaf646bf3c05289396af954bbbc6299d5bcddec5b0424589be
 summary     : Define and run multi-container applications with Docker 
 description : |
     Define and run multi-container applications with Docker 
@@ -17,22 +17,26 @@ license     :
 networking  : yes
 builddeps   :
     - binary(go)
+rundeps     :
+    - binary(docker)
 environment : |
     export _compose_r=github.com/docker/compose
     export _cli_plugins_dir=%(libdir)/docker/cli-plugins
+setup      : |
+    go mod vendor
+build      : |
     export GO111MODULE=auto
 
-    # This can probably be removed after golang reboostrap.
-    export GOMODCACHE="%(workdir)/.cache"
-
-    export GOFLAGS="-buildmode=pie -trimpath -mod=readonly -modcacherw -ldflags=-linkmode=external -ldflags=-X=$_compose_r/v2/internal.Version=v%(version)"
+    export CGO_CFLAGS="${CFLAGS}"
+    export GOFLAGS="-buildmode=pie -trimpath -mod=readonly -modcacherw -ldflags=-linkmode=external -ldflags=-X=${_compose_r}/v2/internal.Version=v%(version)"
 
     # Git commit corresponding to the version tag
-    export GITCOMMIT="7b0ed13209894b5981608f7d9e329a3a58af957d"
-    
-    # https://github.com/serpent-os/boulder/issues/74
-    export CGO_CFLAGS="${CFLAGS} -Wno-error=unused-command-line-argument"
-build      : |
-    go build -o docker-compose ./cmd/compose
+    export GITCOMMIT=$(git ls-remote https://github.com/docker/compose refs/tags/v%(version)^{} |awk '{print $1}')
+
+    go build -trimpath -tags "e2e,kube" -o docker-compose ./cmd
 install    : |
-    %install_exe docker-compose -t %(installroot)/$_cli_plugins_dir
+    %install_exe docker-compose -t %(installroot)${_cli_plugins_dir}/
+
+    # Compatibility symlink
+    %install_dir %(installroot)%(bindir)
+    ln -srv %(installroot)/${_cli_plugins_dir}/docker-compose %(installroot)%(bindir)/docker-compose
