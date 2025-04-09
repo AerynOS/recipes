@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : docker-buildx
-version     : 0.10.4
-release     : 2
+version     : 0.22.0
+release     : 3
 homepage    : https://github.com/docker/buildx
 upstreams   :
-    - https://github.com/docker/buildx/archive/refs/tags/v0.10.4.tar.gz : 171d383133d7a040a4058160d4bdb6a5416e29a6b9cf3c6470f84e7a1663e8a2
+    - https://github.com/docker/buildx/archive/refs/tags/v0.22.0.tar.gz : afcfea302f639f86299d41657f2ea6ca8df0d8cc3e243c299c8ada0ecfbb1fc4
 summary     : Docker CLI plugin for extended build capabilities with BuildKit 
 description : |
     Docker CLI plugin for extended build capabilities with BuildKit 
@@ -20,29 +20,26 @@ builddeps   :
 environment : |
     export _buildx_r=github.com/docker/buildx
     export _cli_plugins_dir=%(libdir)/docker/cli-plugins
+setup       : |
+    mkdir -p src/${_buildx_r}
+    ln -s ${PWD} src/${_buildx_r}/buildx
+
+    go mod vendor
+build      : |
+    cd src/${_buildx_r}/buildx
     export GO111MODULE=auto
 
-    # This can probably be removed after golang reboostrap.
-    export GOMODCACHE="%(workdir)/.cache"
-
+    export CGO_CFLAGS="${CFLAGS}"
     export GOFLAGS="-buildmode=pie -trimpath -mod=readonly -modcacherw"
 
     # Git commit corresponding to the version tag
-    export GITCOMMIT="00ed17df6d20f3ca4553d45789264cdb78506e5f"
-    
-    # https://github.com/serpent-os/boulder/issues/74
-    export CGO_CFLAGS="${CFLAGS} -Wno-error=unused-command-line-argument"
-setup       : |
-    mkdir -p src/$_buildx_r
-    ln -s `pwd` src/$_buildx_r/buildx
-build      : |
-    cd src/$_buildx_r/buildx
-    
+    export GITCOMMIT=$(git ls-remote https://github.com/docker/buildx refs/tags/v%(version)^{} |awk '{print $1}')
+
     go build -o docker-buildx \
         -ldflags "-linkmode=external \
-        -X $_buildx_r/version.Version=v%(version) \
-        -X $_buildx_r/version.Revision=$GITCOMMIT \
-        -X $_buildx_r/version.Package=$_buildx_r" \
+        -X ${_buildx_r}/version.Version=v%(version) \
+        -X ${_buildx_r}/version.Revision=$GITCOMMIT \
+        -X ${_buildx_r}/version.Package=${_buildx_r}" \
         ./cmd/buildx
 install    : |
-    %install_exe docker-buildx -t %(installroot)/$_cli_plugins_dir
+    %install_exe docker-buildx -t %(installroot)/${_cli_plugins_dir}
