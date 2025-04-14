@@ -1,0 +1,231 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Reilly Brogan <reilly@reillybrogan.com>
+Date: Mon, 14 Apr 2025 14:32:17 -0500
+Subject: [PATCH] force override symlink
+
+This appears to be a uutils incompatibility with the ln command. coreutils won't throw an error if a symlink already exists with the same destination that we're trying to create, but uutils will.
+
+Work around this by adding the `-f` argument
+
+Origin: vendor
+Forwarded: not-needed
+Last-Update: 2025-04-14
+---
+ src/Makefile     | 52 ++++++++++++++++++++++++------------------------
+ src/installml.sh | 20 +++++++++----------
+ 2 files changed, 36 insertions(+), 36 deletions(-)
+
+diff --git a/src/Makefile b/src/Makefile
+index cde2e5581..fdbc9cc23 100644
+--- a/src/Makefile
++++ b/src/Makefile
+@@ -430,7 +430,7 @@ CClink = $(CC)
+ # NOTE: This may cause threading to be enabled, which has side effects (such
+ # as using different libraries and debugging becomes more difficult).
+ # For Python3 support make a symbolic link in /usr/local/bin:
+-#	ln -s python3 python3.1
++#	ln -sf python3 python3.1
+ # If both python2.x and python3.x are enabled then the linking will be via
+ # dlopen(), dlsym(), dlclose(), i.e. pythonX.Y.so must be available
+ # However, this may still cause problems, such as "import termios" failing.
+@@ -2201,7 +2201,7 @@ scripttests:
+ 		cd $(PODIR); $(MAKE) -f Makefile check VIMPROG=../$(VIMTARGET); \
+ 	fi
+ 	-if test $(VIMTARGET) != vim -a ! -r vim; then \
+-		ln -s $(VIMTARGET) vim; \
++		ln -sf $(VIMTARGET) vim; \
+ 	fi
+ 	cd testdir; $(MAKE) -f Makefile $(GUI_TESTTARGET) VIMPROG=../$(VIMTARGET) $(GUI_TESTARG) SCRIPTSOURCE=../$(SCRIPTSOURCE)
+ 
+@@ -2750,40 +2750,40 @@ installvimdiff: $(DEST_BIN)/$(VIMDIFFTARGET)
+ installgvimdiff: $(DEST_BIN)/$(GVIMDIFFTARGET)
+ 
+ $(DEST_BIN)/$(EXTARGET): $(DEST_BIN)
+-	cd $(DEST_BIN); ln -s $(VIMTARGET) $(EXTARGET)
++	cd $(DEST_BIN); ln -sf $(VIMTARGET) $(EXTARGET)
+ 
+ $(DEST_BIN)/$(VIEWTARGET): $(DEST_BIN)
+-	cd $(DEST_BIN); ln -s $(VIMTARGET) $(VIEWTARGET)
++	cd $(DEST_BIN); ln -sf $(VIMTARGET) $(VIEWTARGET)
+ 
+ $(DEST_BIN)/$(GVIMTARGET): $(DEST_BIN)
+-	cd $(DEST_BIN); ln -s $(VIMTARGET) $(GVIMTARGET)
++	cd $(DEST_BIN); ln -sf $(VIMTARGET) $(GVIMTARGET)
+ 
+ $(DEST_BIN)/$(GVIEWTARGET): $(DEST_BIN)
+-	cd $(DEST_BIN); ln -s $(VIMTARGET) $(GVIEWTARGET)
++	cd $(DEST_BIN); ln -sf $(VIMTARGET) $(GVIEWTARGET)
+ 
+ $(DEST_BIN)/$(RVIMTARGET): $(DEST_BIN)
+-	cd $(DEST_BIN); ln -s $(VIMTARGET) $(RVIMTARGET)
++	cd $(DEST_BIN); ln -sf $(VIMTARGET) $(RVIMTARGET)
+ 
+ $(DEST_BIN)/$(RVIEWTARGET): $(DEST_BIN)
+-	cd $(DEST_BIN); ln -s $(VIMTARGET) $(RVIEWTARGET)
++	cd $(DEST_BIN); ln -sf $(VIMTARGET) $(RVIEWTARGET)
+ 
+ $(DEST_BIN)/$(RGVIMTARGET): $(DEST_BIN)
+-	cd $(DEST_BIN); ln -s $(VIMTARGET) $(RGVIMTARGET)
++	cd $(DEST_BIN); ln -sf $(VIMTARGET) $(RGVIMTARGET)
+ 
+ $(DEST_BIN)/$(RGVIEWTARGET): $(DEST_BIN)
+-	cd $(DEST_BIN); ln -s $(VIMTARGET) $(RGVIEWTARGET)
++	cd $(DEST_BIN); ln -sf $(VIMTARGET) $(RGVIEWTARGET)
+ 
+ $(DEST_BIN)/$(VIMDIFFTARGET): $(DEST_BIN)
+-	cd $(DEST_BIN); ln -s $(VIMTARGET) $(VIMDIFFTARGET)
++	cd $(DEST_BIN); ln -sf $(VIMTARGET) $(VIMDIFFTARGET)
+ 
+ $(DEST_BIN)/$(GVIMDIFFTARGET): $(DEST_BIN)
+-	cd $(DEST_BIN); ln -s $(VIMTARGET) $(GVIMDIFFTARGET)
++	cd $(DEST_BIN); ln -sf $(VIMTARGET) $(GVIMDIFFTARGET)
+ 
+ $(DEST_BIN)/$(EVIMTARGET): $(DEST_BIN)
+-	cd $(DEST_BIN); ln -s $(VIMTARGET) $(EVIMTARGET)
++	cd $(DEST_BIN); ln -sf $(VIMTARGET) $(EVIMTARGET)
+ 
+ $(DEST_BIN)/$(EVIEWTARGET): $(DEST_BIN)
+-	cd $(DEST_BIN); ln -s $(VIMTARGET) $(EVIEWTARGET)
++	cd $(DEST_BIN); ln -sf $(VIMTARGET) $(EVIEWTARGET)
+ 
+ # Create links for the manual pages with various names to vim.	This is only
+ # done when the links (or manpages with the same name) don't exist yet.
+@@ -2963,7 +2963,7 @@ clean celan: testclean
+ # another way.  When new source files are added use "shadowupdate":
+ #  % cd shadow
+ #  % rm Makefile
+-#  % ln -s ../Makefile .
++#  % ln -sf ../Makefile .
+ #  % ./configure {options}
+ #  % make
+ # And later:
+@@ -2977,22 +2977,22 @@ LINKEDFILES = ../*.[chm] ../*.cc ../*.in ../*.sh ../*.xs ../*.xbm ../gui_gtk_res
+ 
+ shadow:	runtime pixmaps
+ 	$(MKDIR_P) $(SHADOWDIR)
+-	cd $(SHADOWDIR); ln -s $(LINKEDFILES) .
++	cd $(SHADOWDIR); ln -sf $(LINKEDFILES) .
+ 	mkdir $(SHADOWDIR)/auto
+-	cd $(SHADOWDIR)/auto; ln -s ../../auto/configure .
++	cd $(SHADOWDIR)/auto; ln -sf ../../auto/configure .
+ 	$(MKDIR_P) $(SHADOWDIR)/po
+-	cd $(SHADOWDIR)/po; ln -s ../../po/*.po ../../po/*.mak ../../po/*.vim ../../po/*.in ../../po/Makefile ../../po/*.c .
++	cd $(SHADOWDIR)/po; ln -sf ../../po/*.po ../../po/*.mak ../../po/*.vim ../../po/*.in ../../po/Makefile ../../po/*.c .
+ 	cd $(SHADOWDIR); rm -f auto/link.sed
+ 	cp Makefile configure $(SHADOWDIR)
+ 	rm -f $(SHADOWDIR)/auto/config.mk $(SHADOWDIR)/config.mk.dist
+ 	cp config.mk.dist $(SHADOWDIR)/auto/config.mk
+ 	cp config.mk.dist $(SHADOWDIR)
+ 	$(MKDIR_P) $(SHADOWDIR)/xxd
+-	cd $(SHADOWDIR)/xxd; ln -s ../../xxd/*.[ch] ../../xxd/Make* .
++	cd $(SHADOWDIR)/xxd; ln -sf ../../xxd/*.[ch] ../../xxd/Make* .
+ 	$(MKDIR_P) $(SHADOWDIR)/xdiff
+-	cd $(SHADOWDIR)/xdiff; ln -s ../../xdiff/*.[ch] .
++	cd $(SHADOWDIR)/xdiff; ln -sf ../../xdiff/*.[ch] .
+ 	$(MKDIR_P) $(SHADOWDIR)/testdir
+-	cd $(SHADOWDIR)/testdir; ln -s ../../testdir/Makefile \
++	cd $(SHADOWDIR)/testdir; ln -sf ../../testdir/Makefile \
+ 				 ../../testdir/Make_all.mak \
+ 				 ../../testdir/README.txt \
+ 				 ../../testdir/*.in \
+@@ -3012,17 +3012,17 @@ shadow:	runtime pixmaps
+ # symbolic links in the shadow directory. This isn't guaranteed to catch all
+ # changes, running "make shadow" again might sometimes be needed.
+ shadowupdate:
+-	ln -sf $(LINKEDFILES) .
++	ln -sff $(LINKEDFILES) .
+ 
+ # Link needed for doing "make install" in a shadow directory.
+ runtime:
+-	-ln -s ../runtime .
+-	-ln -s ../README.txt .
+-	-ln -s ../LICENSE .
++	-ln -sf ../runtime .
++	-ln -sf ../README.txt .
++	-ln -sf ../LICENSE .
+ 
+ # Link needed for doing "make" using GTK in a shadow directory.
+ pixmaps:
+-	-ln -s ../pixmaps .
++	-ln -sf ../pixmaps .
+ 
+ # Update the synmenu.vim file with the latest Syntax menu.
+ # This is only needed when runtime/makemenu.vim was changed.
+diff --git a/src/installml.sh b/src/installml.sh
+index 8649c6ff5..a66ba8434 100644
+--- a/src/installml.sh
++++ b/src/installml.sh
+@@ -55,25 +55,25 @@ if test $what = "install" -a \( -f $destdir/$vimname.1 -o -f $destdir/$vimdiffna
+    # ex
+    if test ! -f $destdir/$exname.1 -a -f $destdir/$vimname.1; then
+       echo creating link $destdir/$exname.1
+-      cd $destdir; ln -s $vimname.1 $exname.1
++      cd $destdir; ln -sf $vimname.1 $exname.1
+    fi
+ 
+    # view
+    if test ! -f $destdir/$viewname.1 -a -f $destdir/$vimname.1; then
+       echo creating link $destdir/$viewname.1
+-      cd $destdir; ln -s $vimname.1 $viewname.1
++      cd $destdir; ln -sf $vimname.1 $viewname.1
+    fi
+ 
+    # rvim
+    if test ! -f $destdir/$rvimname.1 -a -f $destdir/$vimname.1; then
+       echo creating link $destdir/$rvimname.1
+-      cd $destdir; ln -s $vimname.1 $rvimname.1
++      cd $destdir; ln -sf $vimname.1 $rvimname.1
+    fi
+ 
+    # rview
+    if test ! -f $destdir/$rviewname.1 -a -f $destdir/$vimname.1; then
+       echo creating link $destdir/$rviewname.1
+-      cd $destdir; ln -s $vimname.1 $rviewname.1
++      cd $destdir; ln -sf $vimname.1 $rviewname.1
+    fi
+ 
+    # GUI targets are optional
+@@ -81,37 +81,37 @@ if test $what = "install" -a \( -f $destdir/$vimname.1 -o -f $destdir/$vimdiffna
+       # gvim
+       if test ! -f $destdir/$gvimname.1 -a -f $destdir/$vimname.1; then
+ 	 echo creating link $destdir/$gvimname.1
+-	 cd $destdir; ln -s $vimname.1 $gvimname.1
++	 cd $destdir; ln -sf $vimname.1 $gvimname.1
+       fi
+ 
+       # gview
+       if test ! -f $destdir/$gviewname.1 -a -f $destdir/$vimname.1; then
+ 	 echo creating link $destdir/$gviewname.1
+-	 cd $destdir; ln -s $vimname.1 $gviewname.1
++	 cd $destdir; ln -sf $vimname.1 $gviewname.1
+       fi
+ 
+       # rgvim
+       if test ! -f $destdir/$rgvimname.1 -a -f $destdir/$vimname.1; then
+ 	 echo creating link $destdir/$rgvimname.1
+-	 cd $destdir; ln -s $vimname.1 $rgvimname.1
++	 cd $destdir; ln -sf $vimname.1 $rgvimname.1
+       fi
+ 
+       # rgview
+       if test ! -f $destdir/$rgviewname.1 -a -f $destdir/$vimname.1; then
+ 	 echo creating link $destdir/$rgviewname.1
+-	 cd $destdir; ln -s $vimname.1 $rgviewname.1
++	 cd $destdir; ln -sf $vimname.1 $rgviewname.1
+       fi
+ 
+       # gvimdiff
+       if test ! -f $destdir/$gvimdiffname.1 -a -f $destdir/$vimdiffname.1; then
+ 	 echo creating link $destdir/$gvimdiffname.1
+-	 cd $destdir; ln -s $vimdiffname.1 $gvimdiffname.1
++	 cd $destdir; ln -sf $vimdiffname.1 $gvimdiffname.1
+       fi
+ 
+       # eview
+       if test ! -f $destdir/$eviewname.1 -a -f $destdir/$evimname.1; then
+ 	 echo creating link $destdir/$eviewname.1
+-	 cd $destdir; ln -s $evimname.1 $eviewname.1
++	 cd $destdir; ln -sf $evimname.1 $eviewname.1
+       fi
+    fi
+ fi
