@@ -5,7 +5,7 @@
 #
 name        : libfuse2
 version     : 2.9.9
-release     : 2
+release     : 3
 homepage    : https://github.com/libfuse/libfuse
 upstreams   :
     - https://github.com/libfuse/libfuse/releases/download/fuse-2.9.9/fuse-2.9.9.tar.gz : d0e69d5d608cc22ff4843791ad097f554dd32540ddc9bed7638cc6fea7c1b4b5
@@ -15,22 +15,23 @@ description : |
 license     :
     - GPL-2.0-or-later
     - LGPL-2.1-or-later
-builddeps   :
-    - binary(aclocal)
-    - binary(perl)
-    - gettext-devel
-emul32      : true
 environment :
-    export UDEV_RULES_PATH=/usr/lib/udev/rules.d
+    export UDEV_RULES_PATH=%(udevrulesdir)
     export MOUNT_FUSE_PATH=%(bindir)
 setup       : |
+    %patch %(pkgdir)/0005-dlsym.patch
+    %patch %(pkgdir)/0007-Add_autofs_to_mountpoint_file_system_whitelist.patch
+    %patch %(pkgdir)/0008-Add_FAT_to_mountpoint_file_system_whitelist.patch
+    %patch %(pkgdir)/0009-dev-fd.patch
     %patch %(pkgdir)/conditionally-define-closefrom.patch
-    %reconfigure --disable-static \
-                 --enable-util
+
+    %reconfigure \
+                 --disable-static \
+                 --disable-util
 build       : |
     %make
 install     : |
     %make_install
-    rm -rvf %(installroot)%(sysconfdir)
-    rm -rf %(installroot)/dev
-    chmod 4755 %(installroot)%(bindir)/fusermount
+
+    # This is a library only package
+    rm -rfv %(installroot)/%(datadir)
