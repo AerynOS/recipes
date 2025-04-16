@@ -1,0 +1,205 @@
+From 6df0b67c6e6e8ff566db2747775f5375bf53cdda Mon Sep 17 00:00:00 2001
+From: William Edwards <shadowapex@gmail.com>
+Date: Thu, 17 Apr 2025 14:15:38 -0700
+Subject: [PATCH 1/3] chore(Flydigi Vader 4 Pro): fix clippy warnings
+
+---
+ .../capability_maps/flydigi_vader_4_pro.yaml  | 11 ++---
+ .../devices/60-flydigi_vader_4_pro.yaml       | 11 -----
+ src/drivers/flydigi_vader_4_pro/driver.rs     | 16 ++------
+ src/drivers/flydigi_vader_4_pro/event.rs      | 10 +++--
+ src/drivers/flydigi_vader_4_pro/hid_report.rs | 41 -------------------
+ .../flydigi_vader_4_pro/report_descriptor.rs  |  2 +-
+ 6 files changed, 13 insertions(+), 78 deletions(-)
+
+diff --git a/rootfs/usr/share/inputplumber/capability_maps/flydigi_vader_4_pro.yaml b/rootfs/usr/share/inputplumber/capability_maps/flydigi_vader_4_pro.yaml
+index 741a29c..7584219 100644
+--- a/rootfs/usr/share/inputplumber/capability_maps/flydigi_vader_4_pro.yaml
++++ b/rootfs/usr/share/inputplumber/capability_maps/flydigi_vader_4_pro.yaml
+@@ -1,6 +1,6 @@
+ # yaml-language-server: $schema=https://raw.githubusercontent.com/ShadowBlip/InputPlumber/main/rootfs/usr/share/inputplumber/schema/capability_map_v1.json
+-# Schema version number                                                                                                            
+-version: 1                                                                                                                         
++# Schema version number
++version: 1
+ # The type of configuration schema
+ kind: CapabilityMap
+ 
+@@ -21,9 +21,6 @@ mapping:
+         name: LeftPad
+         touch:
+           button: Touch
+-        motion:
+-          region: top-left
+-#          speed_pps: 800
+   - name: RightPaddle3
+     source_events:
+       - gamepad:
+@@ -33,8 +30,6 @@ mapping:
+         name: RightPad
+         touch:
+           button: Touch
+-        motion:
+-          region: top-left
+-#          speed_pps: 800
++
+ # List of events to filter from the source devices
+ filtered_events: []
+diff --git a/rootfs/usr/share/inputplumber/devices/60-flydigi_vader_4_pro.yaml b/rootfs/usr/share/inputplumber/devices/60-flydigi_vader_4_pro.yaml
+index 4fe209e..8cf32d6 100644
+--- a/rootfs/usr/share/inputplumber/devices/60-flydigi_vader_4_pro.yaml
++++ b/rootfs/usr/share/inputplumber/devices/60-flydigi_vader_4_pro.yaml
+@@ -40,17 +40,6 @@ source_devices:
+           value: "2412"
+       sys_name: "event*"
+       subsystem: input
+-  - group: gamepad
+-    unique: false
+-    blocked: true
+-    udev:
+-      attributes:
+-        - name: idVendor
+-          value: "04b4"
+-        - name: idProduct
+-          value: "2412"
+-      sys_name: "event*"
+-      subsystem: usb
+ 
+ # The target input device(s) to emulate by default
+ target_devices:
+diff --git a/src/drivers/flydigi_vader_4_pro/driver.rs b/src/drivers/flydigi_vader_4_pro/driver.rs
+index 1fab763..91d1752 100644
+--- a/src/drivers/flydigi_vader_4_pro/driver.rs
++++ b/src/drivers/flydigi_vader_4_pro/driver.rs
+@@ -1,9 +1,7 @@
+ use std::{error::Error, ffi::CString};
+ 
+-/* use std::{error::Error, ffi::CString, time::SystemTime, time::UNIX_EPOCH}; // adding timestamp logging. delete after. */
+-
+-use hidapi::{HidApi, HidDevice};
+-use packed_struct::{types::SizedInteger, PackedStruct};
++use hidapi::HidDevice;
++use packed_struct::PackedStruct;
+ 
+ use crate::{drivers::flydigi_vader_4_pro::hid_report::Direction, udev::device::UdevDevice};
+ 
+@@ -14,14 +12,6 @@ use super::{
+     hid_report::PackedInputDataReport,
+ };
+ 
+-/* use super::{
+-    event::{
+-        BinaryInput, ButtonEvent, Event, InertialEvent, InertialInput, JoystickEvent,
+-        JoystickInput, TriggerEvent, TriggerInput,
+-    },
+-    hid_report::PackedInputDataReport,
+-};
+- */
+ // Report ID
+ pub const REPORT_ID: u8 = 0x04;
+ 
+@@ -69,7 +59,7 @@ impl Driver {
+         }
+ 
+         Ok(Self {
+-            device: device,
++            device,
+             state: None,
+             dpad: Default::default(),
+         })
+diff --git a/src/drivers/flydigi_vader_4_pro/event.rs b/src/drivers/flydigi_vader_4_pro/event.rs
+index fff79d6..011da90 100644
+--- a/src/drivers/flydigi_vader_4_pro/event.rs
++++ b/src/drivers/flydigi_vader_4_pro/event.rs
+@@ -66,20 +66,22 @@ pub enum ButtonEvent {
+     DPadLeft(BinaryInput),
+ }
+ 
++/*
+ /// [InertialInput] represents the state of the IMU (x, y, z) values
+-/* #[derive(Clone, Debug)]
++ #[derive(Clone, Debug)]
+ pub struct InertialInput {
+     pub x: i16,
+     pub y: i16,
+     pub z: i16,
+-} */
++}
+ 
+ /// [InertialEvent] has data from the IMU
+-/* #[derive(Clone, Debug)]
++#[derive(Clone, Debug)]
+ pub enum InertialEvent {
+     Accelerometer(InertialInput),
+     Gyro(InertialInput),
+-} */
++}
++*/
+ 
+ /// [JoystickInput] is a double  (x, y) axis
+ #[derive(Clone, Debug)]
+diff --git a/src/drivers/flydigi_vader_4_pro/hid_report.rs b/src/drivers/flydigi_vader_4_pro/hid_report.rs
+index 7fbfacb..202c91d 100644
+--- a/src/drivers/flydigi_vader_4_pro/hid_report.rs
++++ b/src/drivers/flydigi_vader_4_pro/hid_report.rs
+@@ -16,47 +16,6 @@ pub enum Direction {
+     None = 0,
+ }
+ 
+-impl Direction {
+-    pub fn as_bitflag(&self) -> u8 {
+-        match *self {
+-            Self::Up => 0b00000001,
+-            Self::UpRight => 0b00000011,
+-            Self::Right => 0b00000010,
+-            Self::DownRight => 0b00000110,
+-            Self::Down => 0b00000100,
+-            Self::DownLeft => 0b00001100,
+-            Self::Left => 0b00001000,
+-            Self::UpLeft => 0b00001001,
+-            Self::None => 0b00000000,
+-        }
+-    }
+-
+-    pub fn from_bitflag(bits: u8) -> Self {
+-        match bits {
+-            0b00000001 => Self::Up,
+-            0b00000011 => Self::UpRight,
+-            0b00000010 => Self::Right,
+-            0b00000110 => Self::DownRight,
+-            0b00000100 => Self::Down,
+-            0b00001100 => Self::DownLeft,
+-            0b00001000 => Self::Left,
+-            0b00001001 => Self::UpLeft,
+-            0b00000000 => Self::None,
+-            _ => Self::None,
+-        }
+-    }
+-
+-    pub fn change(&self, direction: Direction, pressed: bool) -> Direction {
+-        let old_direction = self.as_bitflag();
+-        let new_direction = if pressed {
+-            old_direction | direction.as_bitflag()
+-        } else {
+-            old_direction ^ direction.as_bitflag()
+-        };
+-        Direction::from_bitflag(new_direction)
+-    }
+-}
+-
+ /* No Input
+ # ReportID: 4 / 0xffa00003:   -2 ,  102 ,    0 ,    0 ,    0 ,    0 ,    0 ,    0 ,    0 ,    0 ,    0 ,    0 ,   -1 ,   -1 ,    0 ,    1 ,  127 ,    0 ,  127 ,    0 ,  127 ,  127 ,    0 ,    0 ,    0 ,    0 ,    0 ,    0 ,    0 ,    0 ,    0
+ E: 000656.420862 32 04 fe 66 00 00 00 00 00 00 00 00 00 00 ff ff 00 01 7f 00 7f 00 7f 7f 00 00 00 00 00 00 00 00 00
+diff --git a/src/drivers/flydigi_vader_4_pro/report_descriptor.rs b/src/drivers/flydigi_vader_4_pro/report_descriptor.rs
+index 0c3ae78..48158d4 100644
+--- a/src/drivers/flydigi_vader_4_pro/report_descriptor.rs
++++ b/src/drivers/flydigi_vader_4_pro/report_descriptor.rs
+@@ -1,4 +1,4 @@
+-pub const REPORT_DESCRIPTOR: [u8; 125] = [
++pub const _REPORT_DESCRIPTOR: [u8; 125] = [
+     0x05, 0x01, // Usage Page (Generic Desktop)        0
+     0x09, 0x05, // Usage (Game Pad)                    2
+     0xa1, 0x01, // Collection (Application)            4
+-- 
+2.49.0
+

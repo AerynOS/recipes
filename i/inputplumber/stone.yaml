@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : inputplumber
-version     : 0.52.1
-release     : 17
+version     : 0.53.0
+release     : 18
 homepage    : https://github.com/ShadowBlip/InputPlumber
 upstreams   :
-    - https://github.com/ShadowBlip/InputPlumber/archive/refs/tags/v0.52.1.tar.gz : 1eefdbe1fcb1bd0747475dbe547c3783c69977a106e24cdb62468cb6434f9ed2
+    - https://github.com/ShadowBlip/InputPlumber/archive/refs/tags/v0.53.0.tar.gz : 7ddfd17bbbfcc1b59ec6ae5aecbfc09088fbf2cb8120be98d311eb900f2ad292
 summary     : Open source input router and remapper daemon for Linux
 description : |
     InputPlumber is an open source input routing and control daemon for Linux.
@@ -23,6 +23,9 @@ builddeps   :
     - pkgconfig(libudev)
     - clang-devel
 setup       : |
+    %patch %(pkgdir)/0001-chore-Flydigi-Vader-4-Pro-fix-clippy-warnings.patch
+    %patch %(pkgdir)/0002-feat-Add-base-support-for-Zotac-Zone-driver.patch
+    %patch %(pkgdir)/0003-zotac-drop-mouse-and-dials-capture.patch
     %cargo_fetch
 build       : |
     %cargo_build
