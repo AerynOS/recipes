@@ -4,24 +4,29 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : gnu-efi
-version     : 3.0.18
-release     : 2
+version     : 4.0.0
+release     : 3
 summary     : EFI development library
 license     : BSD
 homepage    : https://sourceforge.net/projects/gnu-efi/
 description : |
     Develop EFI applications for ARM-64, ARM-32, x86_64, IA-64 (IPF), and IA-32 (x86) platforms using the GNU toolchain and the EFI development environment.
 upstreams   :
-    - https://sourceforge.net/projects/gnu-efi/files/gnu-efi-3.0.18.tar.bz2: 7f212c96ee66547eeefb531267b641e5473d7d8529f0bd8ccdefd33cf7413f5c
-toolchain   : gnu
-tuning      :
-    - base: false
-    - harden: false
-    - asneeded: false
-    - symbolic: nonweak
-    - bindnow: false
-    - relr: false
+    - https://github.com/ncroxon/gnu-efi/archive/refs/tags/4.0.0.tar.gz: a2e5dfd25e7fc0cd2027d75dc2517b4c74d94f801ff4784eca557ac1b9835899
+builddeps   :
+    - binary(objcopy) # llvm-objcopy does not support EFI targets
+environment : |
+    # Sanitize build environment
+    unset CFLAGS CXXFLAGS LDFLAGS
+
+    MAKE_ARGS=(
+        PREFIX="%(prefix)"
+        LIBDIR="%(libdir)"
+        INSTALLROOT="%(installroot)"
+        HOSTCC=$CC
+        CC=$CC
+    )
 build       : |
-    %make
+    %make -j1 "${MAKE_ARGS[@]}"
 install     : |
-    %make_install INSTALLROOT="%(installroot)" PREFIX="%(prefix)" LIBDIR="/usr/lib"
+    %make_install -j1 "${MAKE_ARGS[@]}"

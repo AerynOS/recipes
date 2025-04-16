@@ -3,9 +3,13 @@
 	"manifest-version": "0.2",
 	"packages": {
 		"gnu-efi": {
+			"build-depends": [
+				"binary(objcopy)"
+			],
 			"files": [
 				"/usr/lib/crt0-efi-x86_64.o",
 				"/usr/lib/elf_x86_64_efi.lds",
+				"/usr/lib/elf_x86_64_fbsd_efi.lds",
 				"/usr/lib/gnuefi/apps/AllocPages.efi",
 				"/usr/lib/gnuefi/apps/FreePages.efi",
 				"/usr/lib/gnuefi/apps/bltgrid.efi",
@@ -18,6 +22,7 @@
 				"/usr/lib/gnuefi/apps/exit.efi",
 				"/usr/lib/gnuefi/apps/lfbgrid.efi",
 				"/usr/lib/gnuefi/apps/modelist.efi",
+				"/usr/lib/gnuefi/apps/old_ABI.efi",
 				"/usr/lib/gnuefi/apps/printenv.efi",
 				"/usr/lib/gnuefi/apps/route80h.efi",
 				"/usr/lib/gnuefi/apps/setdbg.efi",
@@ -36,6 +41,9 @@
 			"name": "gnu-efi"
 		},
 		"gnu-efi-devel": {
+			"build-depends": [
+				"binary(objcopy)"
+			],
 			"depends": [
 				"gnu-efi"
 			],
@@ -56,6 +64,7 @@
 				"/usr/include/efi/efiip.h",
 				"/usr/include/efi/efilib.h",
 				"/usr/include/efi/efilink.h",
+				"/usr/include/efi/efimp.h",
 				"/usr/include/efi/efinet.h",
 				"/usr/include/efi/efipart.h",
 				"/usr/include/efi/efipciio.h",
@@ -71,6 +80,7 @@
 				"/usr/include/efi/efitcp.h",
 				"/usr/include/efi/efiudp.h",
 				"/usr/include/efi/efiui.h",
+				"/usr/include/efi/legacy.h",
 				"/usr/include/efi/lib.h",
 				"/usr/include/efi/libsmbios.h",
 				"/usr/include/efi/pci22.h",
@@ -98,6 +108,6 @@
 		}
 	},
 	"source-name": "gnu-efi",
-	"source-release": "2",
-	"source-version": "3.0.18"
+	"source-release": "3",
+	"source-version": "4.0.0"
 }
