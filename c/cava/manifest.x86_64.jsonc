@@ -1,0 +1,80 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"cava": {
+			"build-depends": [
+				"pkgconfig(alsa)",
+				"pkgconfig(fftw3)",
+				"pkgconfig(gl)",
+				"pkgconfig(iniparser)",
+				"pkgconfig(libpipewire-0.3)",
+				"pkgconfig(libpulse)",
+				"pkgconfig(ncursesw)",
+				"sdl2-devel"
+			],
+			"depends": [
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(libGL.so.1(x86_64))",
+				"soname(libSDL2-2.0.so.0(x86_64))",
+				"soname(libasound.so.2(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libfftw3.so.3(x86_64))",
+				"soname(libiniparser.so.4(x86_64))",
+				"soname(libm.so.6(x86_64))",
+				"soname(libncursesw.so.6(x86_64))",
+				"soname(libpipewire-0.3.so.0(x86_64))",
+				"soname(libpulse-simple.so.0(x86_64))",
+				"soname(libpulse.so.0(x86_64))"
+			],
+			"files": [
+				"/usr/bin/cava",
+				"/usr/lib/libcava.so",
+				"/usr/share/consolefonts/cava.psf"
+			],
+			"name": "cava",
+			"provides": [
+				"binary(cava)",
+				"soname(libcava.so(x86_64))"
+			]
+		},
+		"cava-devel": {
+			"build-depends": [
+				"pkgconfig(alsa)",
+				"pkgconfig(fftw3)",
+				"pkgconfig(gl)",
+				"pkgconfig(iniparser)",
+				"pkgconfig(libpipewire-0.3)",
+				"pkgconfig(libpulse)",
+				"pkgconfig(ncursesw)",
+				"sdl2-devel"
+			],
+			"depends": [
+				"cava"
+			],
+			"files": [
+				"/usr/include/cava/cavacore.h",
+				"/usr/include/cava/common.h",
+				"/usr/include/cava/config.h",
+				"/usr/include/cava/debug.h",
+				"/usr/include/cava/input/common.h",
+				"/usr/include/cava/output/common.h",
+				"/usr/include/cava/output/noritake.h",
+				"/usr/include/cava/output/raw.h",
+				"/usr/include/cava/output/sdl_cava.h",
+				"/usr/include/cava/output/sdl_glsl.h",
+				"/usr/include/cava/output/terminal_ncurses.h",
+				"/usr/include/cava/output/terminal_noncurses.h",
+				"/usr/include/cava/util.h",
+				"/usr/lib/pkgconfig/cava.pc"
+			],
+			"name": "cava-devel",
+			"provides": [
+				"pkgconfig(cava)"
+			]
+		}
+	},
+	"source-name": "cava",
+	"source-release": "1",
+	"source-version": "0.10.3"
+}
