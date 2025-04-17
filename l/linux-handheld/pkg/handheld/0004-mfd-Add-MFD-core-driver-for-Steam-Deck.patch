@@ -43,12 +43,13 @@ diff --git a/drivers/mfd/Makefile b/drivers/mfd/Makefile
 index 2a9f91e81af8..8950b482f267 100644
 --- a/drivers/mfd/Makefile
 +++ b/drivers/mfd/Makefile
-@@ -289,3 +289,5 @@ obj-$(CONFIG_MFD_ATC260X_I2C)	+= atc260x-i2c.o
- 
+@@ -293,4 +293,6 @@ obj-$(CONFIG_MFD_QNAP_MCU)	+= qnap-mcu.o
  obj-$(CONFIG_MFD_RSMU_I2C)	+= rsmu_i2c.o rsmu_core.o
  obj-$(CONFIG_MFD_RSMU_SPI)	+= rsmu_spi.o rsmu_core.o
-+
+ 
 +obj-$(CONFIG_MFD_STEAMDECK)	+= steamdeck.o
++
+ obj-$(CONFIG_MFD_UPBOARD_FPGA)	+= upboard-fpga.o
 diff --git a/drivers/mfd/steamdeck.c b/drivers/mfd/steamdeck.c
 new file mode 100644
 index 000000000000..0e504b3c2796
