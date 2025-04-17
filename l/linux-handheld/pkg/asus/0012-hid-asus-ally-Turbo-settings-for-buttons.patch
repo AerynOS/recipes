@@ -1,4 +1,4 @@
-From 41e0f624135bbf17d33212108bd22b302f89e975 Mon Sep 17 00:00:00 2001
+From df076d04d39bc03bcc7656cdee82349d63b155de Mon Sep 17 00:00:00 2001
 From: "Luke D. Jones" <luke@ljones.dev>
 Date: Sat, 5 Oct 2024 15:40:09 +1300
 Subject: [PATCH 12/28] hid-asus-ally: Turbo settings for buttons
@@ -10,10 +10,10 @@ Signed-off-by: Luke D. Jones <luke@ljones.dev>
  2 files changed, 108 insertions(+), 14 deletions(-)
 
 diff --git a/drivers/hid/hid-asus-ally.c b/drivers/hid/hid-asus-ally.c
-index d4d7877b3065..afaeba3dfde7 100644
+index fbebe1d65080..eb9fb2bdcaeb 100644
 --- a/drivers/hid/hid-asus-ally.c
 +++ b/drivers/hid/hid-asus-ally.c
-@@ -232,6 +232,7 @@ static const char* btn_to_name(u64 key)
+@@ -233,6 +233,7 @@ static const char* btn_to_name(u64 key)
  struct btn_data {
  	u64 button;
  	u64 macro;
@@ -21,7 +21,7 @@ index d4d7877b3065..afaeba3dfde7 100644
  };
  
  struct btn_mapping {
-@@ -537,6 +538,46 @@ static int _gamepad_apply_btn_pair(struct hid_device *hdev, struct ally_gamepad_
+@@ -538,6 +539,46 @@ static int _gamepad_apply_btn_pair(struct hid_device *hdev, struct ally_gamepad_
  	return ret;
  }
  
@@ -68,7 +68,7 @@ index d4d7877b3065..afaeba3dfde7 100644
  static ssize_t _gamepad_apply_all(struct hid_device *hdev, struct ally_gamepad_cfg *ally_cfg)
  {
  	int ret;
-@@ -566,6 +607,9 @@ static ssize_t _gamepad_apply_all(struct hid_device *hdev, struct ally_gamepad_c
+@@ -567,6 +608,9 @@ static ssize_t _gamepad_apply_all(struct hid_device *hdev, struct ally_gamepad_c
  	if (ret < 0)
  		return ret;
  	ret = _gamepad_apply_btn_pair(hdev, ally_cfg, btn_pair_lt_rt);
@@ -78,7 +78,7 @@ index d4d7877b3065..afaeba3dfde7 100644
  	if (ret < 0)
  		return ret;
  
-@@ -593,22 +637,22 @@ ALLY_DEVICE_ATTR_WO(gamepad_apply_all, apply_all);
+@@ -594,22 +638,22 @@ ALLY_DEVICE_ATTR_WO(gamepad_apply_all, apply_all);
  /* button map attributes, regular and macro*/
  ALLY_BTN_MAPPING(m1, btn_m1);
  ALLY_BTN_MAPPING(m2, btn_m2);
@@ -116,10 +116,10 @@ index d4d7877b3065..afaeba3dfde7 100644
  static void _gamepad_set_xpad_default(struct ally_gamepad_cfg *ally_cfg)
  {
 diff --git a/drivers/hid/hid-asus-ally.h b/drivers/hid/hid-asus-ally.h
-index a0b0acd65bfd..4e1eccbd99ad 100644
+index f7e21be50d8e..63a3b5caa71c 100644
 --- a/drivers/hid/hid-asus-ally.h
 +++ b/drivers/hid/hid-asus-ally.h
-@@ -28,6 +28,7 @@ enum xpad_cmd {
+@@ -24,6 +24,7 @@ enum xpad_cmd {
  	xpad_cmd_set_mapping = 0x02,
  	xpad_cmd_set_leds = 0x08,
  	xpad_cmd_check_ready = 0x0A,
@@ -127,7 +127,7 @@ index a0b0acd65bfd..4e1eccbd99ad 100644
  };
  
  /* the xpad_cmd determines which feature is set or queried */
-@@ -35,6 +36,7 @@ enum xpad_cmd_len {
+@@ -31,6 +32,7 @@ enum xpad_cmd_len {
  	xpad_cmd_len_mode = 0x01,
  	xpad_cmd_len_mapping = 0x2c,
  	xpad_cmd_len_leds = 0x0C,
@@ -135,7 +135,7 @@ index a0b0acd65bfd..4e1eccbd99ad 100644
  };
  
  /* Values correspond to the actual HID byte value required */
-@@ -232,6 +234,37 @@ enum btn_pair_index {
+@@ -228,6 +230,37 @@ enum btn_pair_index {
  		return count;                                                  \
  	}
  
@@ -173,7 +173,7 @@ index a0b0acd65bfd..4e1eccbd99ad 100644
  #define ALLY_BTN_ATTRS_GROUP(_name, _fname)                               \
  	static struct attribute *_fname##_attrs[] = {                     \
  		&dev_attr_##_fname.attr,                                  \
-@@ -264,3 +297,20 @@ enum btn_pair_index {
+@@ -260,3 +293,20 @@ enum btn_pair_index {
  		.name = __stringify(btn_##_fname),                                \
  		.attrs = _fname##_attrs,                                          \
  	}
@@ -195,5 +195,5 @@ index a0b0acd65bfd..4e1eccbd99ad 100644
 +		.attrs = _fname##_turbo_attrs,                                    \
 +	}
 -- 
-2.48.1
+2.49.0
 
