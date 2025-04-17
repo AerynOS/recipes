@@ -4,12 +4,12 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : mesa
-version     : 25.0.2
+version     : 25.0.5
 # Note: keep mesa-clc in-sync with this package version-wise
-release     : 32
+release     : 33
 homepage    : https://mesa3d.org/
 upstreams   :
-    - https://mesa.freedesktop.org/archive/mesa-25.0.2.tar.xz : adf904d083b308df95898600ffed435f4b5c600d95fb6ec6d4c45638627fdc97
+    - https://mesa.freedesktop.org/archive/mesa-25.0.5.tar.xz : c0d245dea0aa4b49f74b3d474b16542e4a8799791cd33d676c69f650ad4378d0
 summary     : Mesa 3D graphics library
 description : |
     The Mesa project began as an open-source implementation of the OpenGL specification - a system for rendering interactive 3D graphics. Over the years the project has grown to implement more graphics APIs, including OpenGL ES, OpenCL, OpenMAX, VDPAU, VA-API, Vulkan and EGL. A variety of device drivers allows the Mesa libraries to be used in many different environments ranging from software emulation to complete hardware acceleration for modern GPUs. Mesa ties into several other open-source projects: the Direct Rendering Infrastructure, X.org, and Wayland to provide OpenGL support on Linux, FreeBSD, and other operating systems.
@@ -98,9 +98,6 @@ setup       : |
 
     # Fix build with Sphinx 8.2
     %patch %(pkgdir)/0001-docs-Fix-build-with-Sphinx-8.2.patch
-
-    # Fix compilation error on x86
-    %patch %(pkgdir)/0002-gfxstream-Fix-log-format-error-on-x86.patch
 
     %meson \
         -Degl=enabled \
