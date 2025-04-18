@@ -1,7 +1,7 @@
-From 550da4c6f3b2c363f87df1fa2323dff10bbf583e Mon Sep 17 00:00:00 2001
+From 7a1270f762e321deb53009c8d2382b8637ba07bf Mon Sep 17 00:00:00 2001
 From: Luke Jones <luke@ljones.dev>
 Date: Mon, 31 Mar 2025 19:54:24 +1300
-Subject: [PATCH] xpad: gate the zotac-zone PID behind #if
+Subject: [PATCH 2/3] xpad: gate the zotac-zone PID behind #if
  !IS_REACHABLE(CONFIG_ZOTAC_ZONE_HID)
 
 Signed-off-by: Luke Jones <luke@ljones.dev>
@@ -10,7 +10,7 @@ Signed-off-by: Luke Jones <luke@ljones.dev>
  1 file changed, 4 insertions(+)
 
 diff --git a/drivers/input/joystick/xpad.c b/drivers/input/joystick/xpad.c
-index c33e6f33265ba0..7864f1f932f414 100644
+index c33e6f33265b..7864f1f932f4 100644
 --- a/drivers/input/joystick/xpad.c
 +++ b/drivers/input/joystick/xpad.c
 @@ -349,7 +349,9 @@ static const struct xpad_device {
@@ -33,3 +33,6 @@ index c33e6f33265ba0..7864f1f932f414 100644
  	XPAD_XBOX360_VENDOR(0x20d6),		/* PowerA controllers */
  	XPAD_XBOXONE_VENDOR(0x20d6),		/* PowerA controllers */
  	XPAD_XBOX360_VENDOR(0x2345),		/* Machenike Controllers */
+-- 
+2.49.0
+
