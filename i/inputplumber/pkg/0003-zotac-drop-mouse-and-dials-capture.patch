@@ -1,0 +1,41 @@
+From 3ffb1dab8cb5431e34b7ad15b891b552c3c4b05e Mon Sep 17 00:00:00 2001
+From: Luke Jones <luke@ljones.dev>
+Date: Fri, 18 Apr 2025 23:55:58 +1200
+Subject: [PATCH 3/3] zotac: drop mouse and dials capture
+
+---
+ .../share/inputplumber/devices/50-zotac-zone.yaml   | 13 -------------
+ 1 file changed, 13 deletions(-)
+
+diff --git a/rootfs/usr/share/inputplumber/devices/50-zotac-zone.yaml b/rootfs/usr/share/inputplumber/devices/50-zotac-zone.yaml
+index 889bcf6..da41e86 100644
+--- a/rootfs/usr/share/inputplumber/devices/50-zotac-zone.yaml
++++ b/rootfs/usr/share/inputplumber/devices/50-zotac-zone.yaml
+@@ -41,18 +41,6 @@ source_devices:
+       product_id: "1590"
+       handler: event*
+     capability_map_id: zone1
+-  - group: mouse
+-    evdev:
+-      name: ZOTAC Gaming Zone Mouse
+-      vendor_id: "1ee9"
+-      product_id: "1590"
+-      handler: event*
+-  - group: mouse
+-    evdev:
+-      name: ZOTAC Gaming Zone Dials
+-      vendor_id: "1ee9"
+-      product_id: "1590"
+-      handler: event*
+   - group: imu
+     iio:
+       name: i2c-BMI0160:00
+@@ -68,5 +56,4 @@ options:
+ # The target input device(s) to emulate by default
+ target_devices:
+   - xbox-elite
+-  - mouse
+   - keyboard
+-- 
+2.49.0
+
