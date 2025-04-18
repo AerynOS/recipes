@@ -9,17 +9,23 @@ function cpesearch() {
         echo "usage: cpesearch <package-name>"
     else
         curl -s -X POST https://cpe-guesser.cve-search.org/search -d "{\"query\": [\"$1\"]}" | jq .
-        
+
         echo "Verify successful hits by visiting https://cve.circl.lu/search/\$VENDOR/\$PRODUCT"
         echo "- CPE entries for software applications have the form 'cpe:2.3:a:\$VENDOR:\$PRODUCT'"
     fi
 }
 
 
-# Goes to the root directory of the serpent recipes
+# Goes to the root directory of the AerynOS recipes
 # git repository from anywhere on the filesystem.
 # This function will only work if this script is sourced
 # by your zsh shell.
+function gotoaosrepo() {
+    SCRIPT_PATH=$functions_source[gotoaosrepo]
+    cd $(dirname $(readlink "${SCRIPT_PATH}"))/../
+}
+
+# Deprecated, use gotoaosrepo
 function gotoserpentrepo() {
     SCRIPT_PATH=$functions_source[gotoserpentrepo]
     cd $(dirname $(readlink "${SCRIPT_PATH}"))/../
