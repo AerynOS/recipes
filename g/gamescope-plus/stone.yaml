@@ -5,7 +5,7 @@
 #
 name        : gamescope-plus
 version     : 3.15.13.plus1
-release     : 3
+release     : 4
 homepage    : https://github.com/ChimeraOS/gamescope
 upstreams   :
     - git|https://github.com/ChimeraOS/gamescope.git : bfdccf935a35bde65ebcbb345315b46e9ac5337b
@@ -56,6 +56,8 @@ setup       : |
     # https://github.com/ValveSoftware/gamescope/issues/1509
     export CXXFLAGS="${CXXFLAGS} -stdlib=libstdc++"
 
+    %patch %(pkgdir)/1828.patch
+
     %meson
 build       : |
     %meson_build
@@ -63,7 +65,6 @@ install     : |
     %install_dir %(installroot)/usr/share/gamescope/reshade
     cp -rv %(workdir)/../GamescopeShaders.git/* %(installroot)/usr/share/gamescope/reshade/
     %meson_install --skip-subprojects
-    %install_file %(pkgdir)/zotac.zone.lcd.lua %(installroot)/usr/share/gamescope/scripts/00-gamescope/displays
 packages    :
     - "%(name)":
         paths:
