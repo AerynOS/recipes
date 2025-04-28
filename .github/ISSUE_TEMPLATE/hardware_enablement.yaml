@@ -1,17 +1,17 @@
 name: Hardware Enablement
-description: File a report for the hardware you would like enabled to Serpent OS. 
+description: File a report for the hardware you would like enabled to AerynOS.
 title: "[Hardware Enablement Report]: "
 labels: ["hardware"]
 body:
   - type: markdown
     attributes:
       value: |
-        Thanks for taking the time to fill out this hardware report! Your interest in Serpent OS is appreciated and we hope to better support your hardware in time.
+        Thanks for taking the time to fill out this hardware report! Your interest in AerynOS is appreciated and we hope to better support your hardware in time.
   - type: checkboxes
     id: search
     attributes:
       label: Existing reports?
-      description: Before opening a new issue, please search [the open issues](https://github.com/serpent-os/recipes/issues?q=is%3Aopen+is%3Aissue) to ensure there is not already an open hardware enablement report for the problem.
+      description: Before opening a new issue, please search [the open issues](https://github.com/AerynOS/recipes/issues?q=is%3Aopen+is%3Aissue) to ensure there is not already an open hardware enablement report for the problem.
       options:
         - label: I have searched open hardware enablement reports for this issue
           required: true
@@ -51,24 +51,24 @@ body:
   - type: textarea
     id: logs-lspci-serpent
     attributes:
-      label: lspci output from Serpent OS 
-      description: Please copy and paste the output of 'sudo lspci -vnn' from Serpent OS. If the command does not work, install using 'sudo moss install pciutils'. This will be automatically formatted into code, so no need for backticks.
+      label: lspci output from AerynOS 
+      description: Please copy and paste the output of 'sudo lspci -vnn' from AerynOS. If the command does not work, install using 'sudo moss install pciutils'. This will be automatically formatted into code, so no need for backticks.
       render: shell
     validations:
       required: true
   - type: textarea
     id: logs-lsusb
     attributes:
-      label: lsusb output from within Serpent OS
-      description: Please copy and paste the output of 'sudo lsusb' from Serpent OS. If the command does not work, install using 'sudo moss install usbutils'. This will be automatically formatted into code, so no need for backticks.
+      label: lsusb output from within AerynOS
+      description: Please copy and paste the output of 'sudo lsusb' from AerynOS. If the command does not work, install using 'sudo moss install usbutils'. This will be automatically formatted into code, so no need for backticks.
       render: shell
     validations:
       required: true
   - type: textarea
     id: logs-dmidecode
     attributes:
-      label: dmidecode output from within Serpent OS
-      description: Please copy and paste the output of 'sudo dmidecode' from Serpent OS. If the command does not work, install using 'sudo moss install dmidecode'. This will be automatically formatted into code, so no need for backticks.
+      label: dmidecode output from within AerynOS
+      description: Please copy and paste the output of 'sudo dmidecode' from AerynOS. If the command does not work, install using 'sudo moss install dmidecode'. This will be automatically formatted into code, so no need for backticks.
       render: shell
     validations:
       required: true

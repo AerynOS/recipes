@@ -1,17 +1,17 @@
 name: Request build support
-description: File a report where you recieved failures to build a package and are unsure how to proceed. 
+description: File a report where you recieved failures to build a package and are unsure how to proceed.
 title: "[Package Build Failure]: "
 labels: ["package: build failure"]
 body:
   - type: markdown
     attributes:
       value: |
-        Thanks for taking the time to fill out this package build support failure! Your interest in Serpent OS is appreciated and we hope to be able to support you in successfully building packages within Serpent OS.
+        Thanks for taking the time to fill out this package build support failure! Your interest in AerynOS is appreciated and we hope to be able to support you in successfully building packages within AerynOS.
   - type: checkboxes
     id: search
     attributes:
       label: Existing reports?
-      description: Before opening a new issue, please search [the open issues](https://github.com/serpent-os/recipes/issues?q=is%3Aopen+is%3Aissue) to ensure there is not already an open package build failure report for the problem.
+      description: Before opening a new issue, please search [the open issues](https://github.com/AerynOS/recipes/issues?q=is%3Aopen+is%3Aissue) to ensure there is not already an open package build failure report for the problem.
       options:
         - label: I have searched open package build failure reports for this issue
           required: true
