@@ -4,23 +4,26 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : gzip
-version     : '1.13'
-release     : 4
+version     : 1.14
+release     : 5
 homepage    : https://www.gnu.org/software/gzip/
 upstreams   :
-    - https://mirrors.kernel.org/gnu/gzip/gzip-1.13.tar.xz : 7454eb6935db17c6655576c2e1b0fabefd38b4d0936e0f87f48cd062ce91a057
+    - https://mirrors.kernel.org/gnu/gzip/gzip-1.14.tar.xz : 01a7b881bd220bfdf615f97b8718f80bdfd3f6add385b993dcf6efd14e8c0ac6
 summary     : GNU Zip Compression Utilities
 description : |
     GNU Gzip is a popular data compression program originally written by Jean-loup Gailly for the GNU project. Mark Adler wrote the decompression part.
 license     :
     - GPL-3.0-or-later
+tuning      :
+    - lto: full
 setup       : |
-    %configure
+    # This patches Makefile.am
+    %patch %(pkgdir)/disable-tests-failing-only-inside-boulder.patch
+    # so re-run automake
+    %reconfigure
 build       : |
     %make
 install     : |
     %make_install
-workload   : |
-    %make check
 check      : |
     %make check

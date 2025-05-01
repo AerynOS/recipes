@@ -1,0 +1,20 @@
+diff --git a/tests/Makefile.am b/tests/Makefile.am
+index 878e132..ba38210 100644
+--- a/tests/Makefile.am
++++ b/tests/Makefile.am
+@@ -26,7 +26,6 @@ TESTS =					\
+   memcpy-abuse				\
+   mixed					\
+   null-suffix-clobber			\
+-  pipe-output				\
+   reproducible				\
+   stdin					\
+   synchronous				\
+@@ -43,7 +42,6 @@ TESTS =					\
+   zgrep-abuse				\
+   zgrep-binary				\
+   zgrep-context				\
+-  zgrep-signal				\
+   znew-k
+ 
+ EXTRA_DIST =				\
