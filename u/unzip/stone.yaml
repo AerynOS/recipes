@@ -5,7 +5,7 @@
 #
 name        : unzip
 version     : "6.0"
-release     : 1
+release     : 2
 summary     : For extracting and viewing files in .zip archives
 license     : Info-ZIP
 homepage    : http://www.info-zip.org/UnZip.html
@@ -19,6 +19,7 @@ builddeps   :
 checkdeps   :
     - grep
 setup       : |
+    %patch %(pkgdir)/0001-use-clang.patch
     %patch %(pkgdir)/unzip-6.0-exec-shield.patch
     %patch %(pkgdir)/unzip-6.0-close.patch
     %patch %(pkgdir)/unzip-6.0-attribs-overflow.patch
@@ -56,14 +57,13 @@ build       : |
     DEFINES='-DACORN_FTYPE_NFS -DWILD_STOP_AT_DIR -DLARGE_FILE_SUPPORT \
       -DUNICODE_SUPPORT -DUNICODE_WCHAR -DUTF8_MAYBE_NATIVE -DNO_LCHMOD \
       -DDATE_FORMAT=DF_YMD -DUSE_BZIP2 -DNOMEMCPY -DNO_WORKING_ISPRINT'
-    
+
     %make -f unix/Makefile \
       D_USE_BZ2=-DUSE_BZIP2 L_BZ2=-lbz2 \
       LF2="$LDFLAGS" CF="$CFLAGS $CPPFLAGS -I. $DEFINES" \
-      generic_gcc
+      unzips
 install     : |
     %make_install prefix=%(installroot)/usr MANDIR=%(installroot)/usr/share/man/man1 -f unix/Makefile
 check       : |
     ./unzip testmake.zip -d test
     grep -q "This file is part of testmake.zip" test/notes
-toolchain   : gnu
