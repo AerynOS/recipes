@@ -5,7 +5,7 @@
 #
 name        : linux-pam
 version     : 1.6.1
-release     : 9
+release     : 10
 summary     : Pluggable Authentication Modules
 license     :
     - BSD-3-Clause
@@ -66,3 +66,7 @@ install     : |
 
     %tmpfiles "# Create run/faillock directory"
     %tmpfiles "d /run/faillock 0755 root root -"
+
+    # add ability to check pwd for any user instead only the current (required by cosmic-greeter)
+    chmod u+s %(installroot)/usr/sbin/unix_chkpwd
+    
