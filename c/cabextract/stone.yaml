@@ -1,0 +1,26 @@
+#
+# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : cabextract
+version     : "1.11"
+release     : 1
+homepage    : https://www.cabextract.org.uk
+upstreams   :
+    - https://www.cabextract.org.uk/cabextract-1.11.tar.gz : b5546db1155e4c718ff3d4b278573604f30dd64c3c5bfd4657cd089b823a3ac6
+summary     : cabextract is Free Software for extracting Microsoft cabinet files
+description : |
+    cabextract is Free Software for extracting Microsoft cabinet files, also called .CAB files.
+    It is distributed under the GNU GPL license and is based on the portable LGPL libmspack library.
+
+    cabextract supports all features and formats of Microsoft cabinet files and Windows CE
+    installation files. It can also look inside other files for embedded cabinets.
+license     : LGPL-2.1-only
+setup       : |
+    %configure
+build       : |
+    %make
+install     : |
+    %make_install
+
