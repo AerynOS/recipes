@@ -1,0 +1,39 @@
+#
+# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : cava
+version     : "0.10.3"
+release     : 1
+homepage    : https://github.com/LukashonakV/cava
+upstreams   :
+    - https://github.com/LukashonakV/cava/archive/refs/tags/0.10.3.tar.gz : aab0a4ed3f999e8461ad9de63ef8a77f28b6b2011f7dd0c69ba81819d442f6f9
+summary     : Cross-platform Audio Visualizer
+description : |
+    Cross-platform Audio Visualizer
+license     : MIT
+builddeps   :
+    - pkgconfig(alsa)
+    - pkgconfig(fftw3)
+    - pkgconfig(gl)
+    - pkgconfig(iniparser)
+    - pkgconfig(libpipewire-0.3)
+    - pkgconfig(libpulse)
+    - pkgconfig(ncursesw)
+    - sdl2-devel
+setup       : |
+    %meson -Dbuild_target=all
+    # fix paths for inline assembler
+    sed -i 's;example_files;%(workdir)/example_files;g' %(workdir)/src/config.c
+    sed -i 's;src\/output;%(workdir)/src/output;g' %(workdir)/src/config.c
+build       : |
+    %meson_build
+install     : |
+    %meson_install
+
+packages    :
+    - "%(name)":
+        paths:
+            - /usr/lib/libcava.so
+            
