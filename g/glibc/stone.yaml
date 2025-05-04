@@ -5,7 +5,7 @@
 #
 name        : glibc
 version     : 2.41+git.bcd4cf9d
-release     : 19
+release     : 20
 summary     : The GNU libc libraries
 license     :
     - GPL-2.0-or-later
@@ -19,12 +19,12 @@ upstreams   :
 builddeps   :
     - binary(bison)
     - binary(gperf)
-    - binary(gzip)
     - binary(m4)
     - binary(makeinfo)
     - binary(msgfmt)
     - binary(patch)
     - binary(python3)
+    - binary(zstd)
     - gcc-32bit
 packages    :
     - "%(name)-devel":
