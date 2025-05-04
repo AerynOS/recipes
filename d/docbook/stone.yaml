@@ -5,7 +5,7 @@
 #
 name        : docbook
 version     : 4.5
-release     : 2
+release     : 3
 homepage    : https://docbook.org
 upstreams   :
     - https://docbook.org/xml/4.5/docbook-xml-4.5.zip : 4e4e037a2b83c98c6c94818390d4bdd3f6e10f6ec62dd79188594e26190dc7b4
@@ -24,7 +24,7 @@ builddeps   :
 environment : |
     # Why does boulder `cd` into /ent directory by itself?
     cd ..
-    export xslVersion=1.79.2
+    export xslVersion=1.79.2.tar.bz2
 setup       : |
     ls -lah
     cd docbook-xsl-nons-${xslVersion}
@@ -33,12 +33,13 @@ install     : |
     # [LATER] shouldn't boulder preserve attributes?
     chmod a+x %(pkgdir)/populate-catalog.sh
 
+    cd %(name)-xml-%(version).zip
     install -Dm00644 docbook.cat *.dtd *.mod -t %(installroot)/%(datadir)/xml/docbook/xml-dtd-%(version)
     cp -a ent %(installroot)/%(datadir)/xml/docbook/xml-dtd-%(version)
     rm %(installroot)/%(datadir)/xml/docbook/xml-dtd-%(version)/ent/README
     %(pkgdir)/populate-catalog.sh xml %(version) %(datadir) %(vendordir) %(installroot)
 
-    cd docbook-xsl-nons-${xslVersion}
+    cd ../docbook-xsl-nons-${xslVersion}
     install -v -dm00755 %(installroot)/%(datadir)/xml/docbook/xsl-stylesheets-nons-${xslVersion}
     cp -a VERSION assembly common eclipse epub epub3 extensions fo      \
         highlighting html htmlhelp images javahelp lib manpages params  \
