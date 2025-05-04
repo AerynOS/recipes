@@ -5,7 +5,7 @@
 #
 name        : tzdata
 version     : 2023d
-release     : 4
+release     : 5
 summary     : Sources for time zone and daylight saving time data
 license     : Public-Domain
 homepage    : https://www.iana.org/time-zones
@@ -19,7 +19,8 @@ builddeps   :
 environment : |
     export PATH=$PATH:/usr/sbin
 setup       : |
-    tar xf %(sourcedir)/tzcode*.tar.gz
+    tar -xf %(sourcedir)/tzcode*.tar.gz
+    tar -xf %(sourcedir)/tzdata*.tar.gz
 build       : |
     make tzdata.zi
 install     : |
