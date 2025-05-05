@@ -1,17 +1,17 @@
 name: Request a new package
-description: Request a new package for Serpent OS
+description: Request a new package for AerynOS
 title: "[Package Request]: "
 labels: ["package: request"]
 body:
   - type: markdown
     attributes:
       value: |
-        Thanks for taking the time to fill out this package request! Your interest in Serpent OS is appreciated and we commit to reviewing your request. Please note that we are currently limiting the repo size during the development stages of the project.
+        Thanks for taking the time to fill out this package request! Your interest in AerynOS is appreciated and we commit to reviewing your request. Please note that we are currently limiting the repo size during the development stages of the project.
   - type: checkboxes
     id: search
     attributes:
       label: Existing package request?
-      description: Before opening a new issue, please search [the open issues](https://github.com/serpent-os/recipes/issues?q=is%3Aopen+is%3Aissue) to ensure there is not already an open package request.
+      description: Before opening a new issue, please search [the open issues](https://github.com/AerynOS/recipes/issues?q=is%3Aopen+is%3Aissue) to ensure there is not already an open package request.
       options:
         - label: I have searched open package request reports for this package
           required: true
