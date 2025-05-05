@@ -5,7 +5,7 @@
 #
 name        : flatpak
 version     : 1.14.10
-release     : 10
+release     : 11
 homepage    : https://www.flatpak.org/
 upstreams   :
     - https://github.com/flatpak/flatpak/releases/download/1.15.10/flatpak-1.15.10.tar.xz : 6aa67ca29b4f4da74654888446710b16c9fcfe640c324a51c5025087eecbf42f
@@ -52,6 +52,7 @@ builddeps   :
 networking  : true
 rundeps     :
     - binary(bwrap)
+    - binary(fusermount3)
 setup       : |
     %patch %(pkgdir)/5688.patch
     %meson -Ddbus_config_dir=/usr/share/dbus-1/system.d \

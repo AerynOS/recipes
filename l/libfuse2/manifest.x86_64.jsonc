@@ -3,87 +3,22 @@
 	"manifest-version": "0.2",
 	"packages": {
 		"libfuse2": {
-			"build-depends": [
-				"binary(aclocal)",
-				"binary(perl)",
-				"gettext-devel"
-			],
 			"depends": [
-				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))"
 			],
 			"files": [
-				"/usr/bin/fusermount",
-				"/usr/bin/mount.fuse",
-				"/usr/bin/ulockmgr_server",
 				"/usr/lib/libfuse.so.2",
 				"/usr/lib/libfuse.so.2.9.9",
 				"/usr/lib/libulockmgr.so.1",
-				"/usr/lib/libulockmgr.so.1.0.1",
-				"/usr/lib/udev/rules.d/99-fuse.rules",
-				"/usr/share/man/man1/fusermount.1",
-				"/usr/share/man/man1/ulockmgr_server.1",
-				"/usr/share/man/man8/mount.fuse.8"
+				"/usr/lib/libulockmgr.so.1.0.1"
 			],
 			"name": "libfuse2",
 			"provides": [
-				"binary(fusermount)",
-				"binary(mount.fuse)",
-				"binary(ulockmgr_server)",
 				"soname(libfuse.so.2(x86_64))",
 				"soname(libulockmgr.so.1(x86_64))"
 			]
 		},
-		"libfuse2-32bit": {
-			"build-depends": [
-				"binary(aclocal)",
-				"binary(perl)",
-				"gettext-devel"
-			],
-			"depends": [
-				"libfuse2",
-				"soname(libc.so.6(x86))"
-			],
-			"files": [
-				"/usr/lib32/libfuse.so.2",
-				"/usr/lib32/libfuse.so.2.9.9",
-				"/usr/lib32/libulockmgr.so.1",
-				"/usr/lib32/libulockmgr.so.1.0.1"
-			],
-			"name": "libfuse2-32bit",
-			"provides": [
-				"soname(libfuse.so.2(386))",
-				"soname(libfuse.so.2(x86))",
-				"soname(libulockmgr.so.1(386))",
-				"soname(libulockmgr.so.1(x86))"
-			]
-		},
-		"libfuse2-32bit-devel": {
-			"build-depends": [
-				"binary(aclocal)",
-				"binary(perl)",
-				"gettext-devel"
-			],
-			"depends": [
-				"libfuse2-32bit",
-				"libfuse2-devel"
-			],
-			"files": [
-				"/usr/lib32/libfuse.so",
-				"/usr/lib32/libulockmgr.so",
-				"/usr/lib32/pkgconfig/fuse.pc"
-			],
-			"name": "libfuse2-32bit-devel",
-			"provides": [
-				"pkgconfig32(fuse)"
-			]
-		},
 		"libfuse2-devel": {
-			"build-depends": [
-				"binary(aclocal)",
-				"binary(perl)",
-				"gettext-devel"
-			],
 			"depends": [
 				"libfuse2"
 			],
@@ -109,6 +44,6 @@
 		}
 	},
 	"source-name": "libfuse2",
-	"source-release": "2",
+	"source-release": "3",
 	"source-version": "2.9.9"
 }

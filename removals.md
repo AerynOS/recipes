@@ -19,3 +19,8 @@
 
 ### GDB didn't actually have any devel files
 - gdb-devel
+
+### Don't need
+- libfuse2-32bit
+- libfuse2-32bit-dbginfo
+- libfuse2-32bit-devel
