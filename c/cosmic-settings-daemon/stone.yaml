@@ -4,13 +4,13 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : cosmic-settings-daemon
-version     : 1.0.0-alpha.6
-release     : 13
+version     : 1.0.0-alpha.7
+release     : 14
 summary     : Cosmic Settings Daemon
 license     : GPL-3.0
 homepage    : https://github.com/pop-os/cosmic-settings-daemon
 upstreams   :
-    - git|https://github.com/pop-os/cosmic-settings-daemon.git : 58ff27f9723cd68b6e143b7acadcfe20324ea83c
+    - git|https://github.com/pop-os/cosmic-settings-daemon.git : bb9eb904e800d09965e33883e4e15dfd011b1d19
 description : |
     Cosmic Settings Daemon
 builddeps   :
@@ -19,11 +19,13 @@ builddeps   :
     - binary(mold)
     - pkgconfig(libgeoclue-2.0)
     - pkgconfig(libinput)
+    - pkgconfig(libpulse)
     - pkgconfig(libudev)
     - pkgconfig(xkbcommon)
 rundeps     :
     - geoclue
     - power-profiles-daemon
+    - pop-os-sound-theme
 networking  : yes
 tuning      :
     - lto: thin
