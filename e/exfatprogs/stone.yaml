@@ -1,0 +1,24 @@
+#
+# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : exfatprogs
+version     : 1.2.7
+release     : 1
+homepage    : https://github.com/exfatprogs/exfatprogs
+upstreams   :
+    - https://github.com/exfatprogs/exfatprogs/archive/refs/tags/1.2.7.tar.gz : dadf6c58ecc58572d6a482c66a5c60fea2ca71a7df293be6b6008d7cdcebe99a
+summary     : exFAT filesystem userspace utilities
+description : |
+    exfatprogs are the official userspace utilities that contain all of the standard utilities for creating, fixing and debugging exFAT filesystems in Linux.
+license     : GPL-2.0-or-later
+builddeps   :
+    - binary(bison)
+    - binary(flex)
+setup       : |
+    %autogen
+build       : |
+    %make
+install     : |
+    %make_install
