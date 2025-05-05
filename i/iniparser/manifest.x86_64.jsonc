@@ -1,0 +1,51 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"iniparser": {
+			"build-depends": [
+				"name(doxygen)"
+			],
+			"depends": [
+				"soname(libc.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/lib/libiniparser.so.4",
+				"/usr/lib/libiniparser.so.4.2.6"
+			],
+			"name": "iniparser",
+			"provides": [
+				"soname(libiniparser.so.4(x86_64))"
+			]
+		},
+		"iniparser-devel": {
+			"build-depends": [
+				"name(doxygen)"
+			],
+			"depends": [
+				"iniparser"
+			],
+			"files": [
+				"/usr/include/iniparser/dictionary.h",
+				"/usr/include/iniparser/iniparser.h",
+				"/usr/lib/cmake/iniparser/iniparser-config-version.cmake",
+				"/usr/lib/cmake/iniparser/iniparser-config.cmake",
+				"/usr/lib/cmake/iniparser/iniparser-sharedTargets-release.cmake",
+				"/usr/lib/cmake/iniparser/iniparser-sharedTargets.cmake",
+				"/usr/lib/cmake/iniparser/iniparser-staticTargets-release.cmake",
+				"/usr/lib/cmake/iniparser/iniparser-staticTargets.cmake",
+				"/usr/lib/libiniparser.a",
+				"/usr/lib/libiniparser.so",
+				"/usr/lib/pkgconfig/iniparser.pc"
+			],
+			"name": "iniparser-devel",
+			"provides": [
+				"cmake(iniparser)",
+				"pkgconfig(iniparser)"
+			]
+		}
+	},
+	"source-name": "iniparser",
+	"source-release": "1",
+	"source-version": "v4.2.6"
+}
