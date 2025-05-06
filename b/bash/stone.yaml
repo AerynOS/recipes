@@ -5,7 +5,7 @@
 #
 name        : bash
 version     : 5.2.37
-release     : 21
+release     : 22
 homepage    : http://www.gnu.org/software/bash/bash.html
 upstreams   :
     - https://ftp.gnu.org/gnu/bash/bash-5.2.37.tar.gz : 9599b22ecd1d5787ad7d3b7bf0c59f312b3396d1e281175dd1f8a4014da621ff
@@ -48,8 +48,9 @@ install     : |
     %install_file %(pkgdir)/40-prompt.sh %(installroot)%(vendordir)%(sysconfdir)/profile.d/40-prompt.sh
     %install_file %(pkgdir)/41-alias.sh %(installroot)%(vendordir)%(sysconfdir)/profile.d/41-alias.sh
 
-    ln -svf bash "%(installroot)%(bindir)/sh"
-    ln -sv bash.1 "%(installroot)%(mandir)/man1/sh.1"
+    # let dash own this for quicker ./configure runs during boulder builds
+    # ln -svf bash "%(installroot)%(bindir)/sh"
+    # ln -sv bash.1 "%(installroot)%(mandir)/man1/sh.1"
 
     # These are useless
     rm -rfv %(installroot)%(libdir)/bash/Makefile.*
