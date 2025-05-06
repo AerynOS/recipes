@@ -9,15 +9,18 @@
 			],
 			"files": [
 				"/usr/bin/dash",
-				"/usr/share/man/man1/dash.1"
+				"/usr/bin/sh",
+				"/usr/share/man/man1/dash.1",
+				"/usr/share/man/man1/sh.1"
 			],
 			"name": "dash",
 			"provides": [
-				"binary(dash)"
+				"binary(dash)",
+				"binary(sh)"
 			]
 		}
 	},
 	"source-name": "dash",
-	"source-release": "3",
+	"source-release": "4",
 	"source-version": "0.5.12"
 }

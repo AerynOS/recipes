@@ -5,7 +5,7 @@
 #
 name        : dash
 version     : 0.5.12
-release     : 3
+release     : 4
 homepage    : http://gondor.apana.org.au/~herbert/dash
 upstreams   :
     - http://gondor.apana.org.au/~herbert/dash/files/dash-0.5.12.tar.gz: 6a474ac46e8b0b32916c4c60df694c82058d3297d8b385b74508030ca4a8f28a
@@ -18,8 +18,20 @@ tuning      :
     - lto
     - nosemantic
 setup       : |
+    # ensure that dash owns /usr/bin/sh during this build
+    [[ -f /usr/bin/sh ]] && ls -l /usr/bin/sh && rm -vf /usr/bin/sh
+    ln -srv /usr/bin/dash /usr/bin/sh
+    ls -l /usr/bin/sh
     %configure
 build       : |
     %make
 install     : |
     %make_install
+
+    # Make dash the default sh for quicker ./configure runs in boulder
+    %install_dir %(installroot)/usr/bin
+    ln -svf dash %(installroot)/usr/bin/sh
+
+    # Take ownership of the sh.1 man page
+    %install_dir %(installroot)%(mandir)/man1/
+    ln -srvf %(installroot)%(mandir)/man1/dash.1 %(installroot)%(mandir)/man1/sh.1
