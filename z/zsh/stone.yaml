@@ -5,7 +5,7 @@
 #
 name        : zsh
 version     : 5.9
-release     : 4
+release     : 5
 homepage    : https://zsh.sourceforge.io
 upstreams   :
     - https://sourceforge.net/projects/zsh/files/zsh/5.9/zsh-5.9.tar.xz/download : 9b8d1ecedd5b5e81fbf1918e876752a7dd948e05c1a0dba10ab863842d45acd5
@@ -37,6 +37,7 @@ setup       : |
     %patch %(pkgdir)/patches/006-52383-Avoid-incompatible-pointer-types-in-terminfo-g.patch
     %patch %(pkgdir)/patches/010-gcc14.patch
 
+
     %reconfigure \
         --enable-cap \
         --enable-etcdir=%(vendordir)/zsh \
@@ -47,7 +48,10 @@ setup       : |
         --enable-zlogin=%(vendordir)/zsh/zlogin \
         --enable-zlogout=%(vendordir)/zsh/zlogout \
         --enable-zprofile=%(vendordir)/zsh/zprofile \
-        --enable-zshenv=%(vendordir)/zsh/zshenv
+        --enable-zshenv=%(vendordir)/zsh/zshenv \
+        --with-tcgetpgrp
+        # --with-tcgetpgrp is necessary because there is no controlling tty
+        # when boulder runs under avalanche
 build       : |
     %make
 install     : |
