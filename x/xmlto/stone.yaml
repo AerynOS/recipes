@@ -5,7 +5,7 @@
 #
 name        : xmlto
 version     : 0.0.29
-release     : 6
+release     : 7
 homepage    : https://pagure.io/xmlto
 upstreams   :
     - https://pagure.io/xmlto/archive/0.0.29/xmlto-0.0.29.tar.gz : 40504db68718385a4eaa9154a28f59e51e59d006d1aa14f5bc9d6fded1d6017a
@@ -16,14 +16,17 @@ license     :
     - GPL-2.0-or-later
 builddeps   :
     - binary(flex)
-    # for fetching xslt stylesheets
-    - binary(lynx)
     - binary(xsltproc)
     - docbook
 rundeps     :
     - docbook
-networking  : true
+environment : |
+    # this to avoid tools trying to fetch DTDs from the internet
+    export XSLTOPTS="--load-trace --novalid"
 setup       : |
+    # Copy in the manpages/docbook.xsl stylesheet for the xsltproc package
+    ln -sv /usr/share/xml/docbook/xsl-stylesheets-nons-*/* .
+    %patch %(pkgdir)/load-local-docbook-stylesheet-during-build.patch
     %reconfigure
 build       : |
     %make
