@@ -5,7 +5,7 @@
 #
 name        : zsh
 version     : 5.9
-release     : 7
+release     : 8
 homepage    : https://zsh.sourceforge.io
 upstreams   :
     - https://sourceforge.net/projects/zsh/files/zsh/5.9/zsh-5.9.tar.xz/download : 9b8d1ecedd5b5e81fbf1918e876752a7dd948e05c1a0dba10ab863842d45acd5
@@ -48,10 +48,7 @@ setup       : |
         --enable-zlogin=%(vendordir)/zsh/zlogin \
         --enable-zlogout=%(vendordir)/zsh/zlogout \
         --enable-zprofile=%(vendordir)/zsh/zprofile \
-        --enable-zshenv=%(vendordir)/zsh/zshenv \
-        --without-tcsetpgrp
-        # --without-tcsetpgrp is necessary because there is no controlling tty
-        # when boulder runs under avalanche
+        --enable-zshenv=%(vendordir)/zsh/zshenv
 build       : |
     %make
 install     : |
