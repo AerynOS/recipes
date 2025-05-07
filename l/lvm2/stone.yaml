@@ -5,7 +5,7 @@
 #
 name        : lvm2
 version     : 2.03.21
-release     : 5
+release     : 7
 homepage    : https://sourceware.org/lvm2/
 upstreams   :
     - https://sourceware.org/pub/lvm2/LVM2.2.03.21.tgz : 1e261921d621998adc37960c615de784c6145c7f737a80b781f3108fbec67a7e
@@ -34,7 +34,7 @@ setup       : |
     export RUN_DIR=/run
 
     %patch %(pkgdir)/stateless/0001-Fix-cache-dirs.patch
-    %patch %(pkgdir)/0002-Add-malloc_trim-call.patch
+    %patch %(pkgdir)/add-malloc_trim-call.patch
 
     %configure \
         --enable-blkid_wiping \
@@ -54,6 +54,9 @@ install     : |
     %make_install install_systemd_units install_tmpfiles_configuration
 
     # Stateless
+    # without the chmod, the build will hang because rm will ask if it's ok
+    # to remove files that aren't writable.
+    chmod -Rc u+w %(installroot)/etc/lvm/
     rm -v %(installroot)/etc/lvm/lvm.conf
     rm -v %(installroot)/etc/lvm/lvmlocal.conf
     rm -v %(installroot)/etc/lvm/profile/command_profile_template.profile

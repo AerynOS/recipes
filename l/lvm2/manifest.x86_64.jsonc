@@ -167,20 +167,20 @@
 			],
 			"name": "lvm2",
 			"provides": [
+				"soname(device-mapper/libdevmapper-event-lvm2mirror.so.2.03(x86_64))",
+				"soname(device-mapper/libdevmapper-event-lvm2raid.so.2.03(x86_64))",
+				"soname(device-mapper/libdevmapper-event-lvm2snapshot.so.2.03(x86_64))",
+				"soname(device-mapper/libdevmapper-event-lvm2thin.so.2.03(x86_64))",
+				"soname(device-mapper/libdevmapper-event-lvm2vdo.so.2.03(x86_64))",
+				"soname(libdevmapper-event-lvm2.so.2.03(x86_64))",
+				"soname(libdevmapper-event.so.1.02(x86_64))",
+				"soname(libdevmapper.so.1.02(x86_64))",
+				"soname(liblvm2cmd.so.2.03(x86_64))",
 				"sysbinary(blkdeactivate)",
 				"sysbinary(dmeventd)",
 				"sysbinary(dmsetup)",
 				"sysbinary(dmstats)",
 				"sysbinary(fsadm)",
-				"soname(libdevmapper-event-lvm2.so.2.03(x86_64))",
-				"soname(libdevmapper-event-lvm2mirror.so.2.03(x86_64))",
-				"soname(libdevmapper-event-lvm2raid.so.2.03(x86_64))",
-				"soname(libdevmapper-event-lvm2snapshot.so.2.03(x86_64))",
-				"soname(libdevmapper-event-lvm2thin.so.2.03(x86_64))",
-				"soname(libdevmapper-event-lvm2vdo.so.2.03(x86_64))",
-				"soname(libdevmapper-event.so.1.02(x86_64))",
-				"soname(libdevmapper.so.1.02(x86_64))",
-				"soname(liblvm2cmd.so.2.03(x86_64))",
 				"sysbinary(lvchange)",
 				"sysbinary(lvconvert)",
 				"sysbinary(lvcreate)",
@@ -242,6 +242,7 @@
 				"pkgconfig(systemd)"
 			],
 			"depends": [
+				"lvm2",
 				"pkgconfig(libudev)"
 			],
 			"files": [
@@ -268,6 +269,6 @@
 		}
 	},
 	"source-name": "lvm2",
-	"source-release": "5",
+	"source-release": "7",
 	"source-version": "2.03.21"
 }
