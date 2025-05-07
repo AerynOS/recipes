@@ -1,0 +1,17 @@
+diff --git a/man/Makefile.am b/man/Makefile.am
+index 79f0c13..8de2635 100644
+--- a/man/Makefile.am
++++ b/man/Makefile.am
+@@ -7,10 +7,10 @@ XSLTPROC_FLAGS = \
+         --stringparam man.copyright.section.enabled 0
+ 
+ .xml.1:
+-	$(AM_V_GEN) $(XSLTPROC) $(XSLTPROC_FLAGS) http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xsl $<
++	$(AM_V_GEN) $(XSLTPROC) $(XSLTPROC_FLAGS) --novalid --load-trace /usr/share/xml/docbook/xsl-stylesheets-nons-1.79.2.tar.bz2/manpages/docbook.xsl $<
+ 
+ .xml.5:
+-	$(AM_V_GEN) $(XSLTPROC) $(XSLTPROC_FLAGS) http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xsl $<
++	$(AM_V_GEN) $(XSLTPROC) $(XSLTPROC_FLAGS) --novalid --load-trace /usr/share/xml/docbook/xsl-stylesheets-nons-1.79.2.tar.bz2/manpages/docbook.xsl $<
+ 
+ man_MANS = \
+ 	xdg-user-dir.1 \
