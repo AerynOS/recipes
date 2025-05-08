@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : dub
-version     : 1.36.0
-release     : 4
+version     : 1.40.0
+release     : 5
 homepage    : https://dub.pm/
 upstreams   :
-    - https://github.com/dlang/dub/archive/refs/tags/v1.36.0.tar.gz : 16ac09875889af03abeeca9b60777ee51611c86b3efe5869db3331d2fd97fd2b
+    - https://github.com/dlang/dub/archive/refs/tags/v1.40.0.tar.gz : 52b963137e8a671e48ce3b64eb1e424f6a3c137b8001cf74fb98932def61c171
 summary     : The DLang package manager
 description : |
     DUB emerged as a more general replacement for vibe.d's package manager. It does not imply a dependency to vibe.d for packages and was extended to not only directly build projects, but also to generate project files (currently VisualD). Mono-D also supports the use of dub.json (dub's package description) as the project file.
@@ -16,14 +16,23 @@ description : |
 license     :
     - MIT
 builddeps   :
-    - ldc-devel
-    - binary(dub)
+    - binary(ldc2)
     - pkgconfig(libcurl)
 rundeps     :
     - binary(ldc2)
-environment : |
-    export HOME=$(pwd)
-setup       : |
-    dub build -b release-debug --skip-registry=all --parallel
+build       : |
+    ldmd2 -v -vdmd -run build.d -release
+
+    # Build man pages
+    bin/dub --single scripts/man/gen_man.d
 install     : |
     %install_bin bin/dub
+
+    # Completions
+    %install_file scripts/bash-completion/dub.bash %(installroot)/%(completionsdir)/dub
+    %install_file scripts/fish-completion/dub.fish %(installroot)/usr/share/fish/vendor_completions.d/dub.fish
+    %install_file scripts/zsh-completion/_dub %(installroot)/usr/share/zsh/site-functions/_dub
+
+    # Man pages
+    %install_dir %(installroot)/%(mandir)/man1
+    cp scripts/man/*.1 %(installroot)/%(mandir)/man1/
