@@ -5,7 +5,7 @@
 #
 name        : ldc
 version     : 1.40.1
-release     : 16
+release     : 17
 summary     : The LLVM-based D Compiler
 license     :
     - Apache-2.0
@@ -18,26 +18,35 @@ upstreams   :
     - https://github.com/ldc-developers/ldc/releases/download/v1.40.1/ldc-1.40.1-src.tar.gz:
         hash: b643bee2ee6f9819084ef7468cf739257974a99f3980364d20201bc806a4a454
         unpackdir: "ldc"
-    # - https://downloads.dlang.org/releases/2.x/2.111.0/dmd.2.111.0.linux.tar.xz:
-    #     hash: 63bd32222b51a406e365904aea6761cd4de3cb1de02f003a370b5961196caa77
-    #     stripdirs: 1
-    #     unpackdir: "ldc/dmd2/"
+    - https://github.com/ldc-developers/ldc/releases/download/v1.40.1/ldc2-1.40.1-linux-x86_64.tar.xz:
+        hash: 085a593dba4b1385ec03e7521aa97356e5a7d9f6194303eccb3c1e35935c69d8
+        stripdirs: 1
+        unpackdir: "ldc/bootstrap/"
 builddeps   :
-    - binary(ldc2)
+    # - binary(ldc2)
     - binary(llvm-config)
     - binary(make)
     - cmake(LLD)
     - pkgconfig(zlib)
-    # - gcc # dmd upstream built against GCC
-    # Temporary, remove after this package is next rebuilt
-    - ldc-devel
+    - libgcc # ldc2 upstream linked against libgcc_c.so
 setup       : |
     # Set to 1 to rebootstrap, make sure you uncomment the dmd compiler from the upstreams
-    _bootstrap=0
+    _bootstrap=1
 
     %patch %(pkgdir)/stateless/0001-Fixups-for-packaging-and-stateless-config.patch
     %patch %(pkgdir)/0001-downstream-Default-to-libcxx-for-cpp.patch
     %patch %(pkgdir)/0001-Link-against-libLLVM.so-for-LLVMSymbolize-symbols.patch
+
+    # LLVM 20 support
+    %patch %(pkgdir)/upstream/0001-tree-wide-replace-pointerTo-with-LLPointerType-get.patch
+    %patch %(pkgdir)/upstream/0002-tree-wide-shuffle-headers-around.patch
+    %patch %(pkgdir)/upstream/0003-gen-llvm.h-adapt-GET_INTRINSIC_DECL-macro-to-LLVM-20.patch
+    %patch %(pkgdir)/upstream/0004-utils-gen_gccbuiltins.cpp-mark-most-variables-as-con.patch
+    %patch %(pkgdir)/upstream/0005-gen-classes.cpp-suppress-unused-variable-warning.patch
+    %patch %(pkgdir)/upstream/0006-gen-optimizer.cpp-add-the-new-LTO-parameter-everywhe.patch
+    %patch %(pkgdir)/upstream/0007-gen-dibuilder.cpp-adapt-to-API-changes.patch
+    %patch %(pkgdir)/upstream/0008-jit-rt-adapt-to-LLVM-20-header-changes.patch
+    %patch %(pkgdir)/upstream/0009-druntime-Support-LLVM-v20.1-in-ldc.intrinsics.patch
 
     # We use CMAKE_SKIP_INSTALL_RPATH instead of CMAKE_SKIP_RPATH because the former makes it so that we use rpath
     # during building and linking but strip it when installing. This means we can link ldc against the runtime we just built.
@@ -59,7 +68,7 @@ setup       : |
     if [[ ${_bootstrap} == "1" ]]; then
         ldc_configure \
             -DCMAKE_EXE_LINKER_FLAGS="-fuse-ld=lld" \
-            -DD_COMPILER=%(buildroot)/ldc/dmd2/linux/bin64/dmd
+            -DD_COMPILER=%(buildroot)/ldc/bootstrap/bin/ldmd2
     else
         ldc_configure \
             -DD_COMPILER_FLAGS="-link-defaultlib-shared=false --flto=thin"
