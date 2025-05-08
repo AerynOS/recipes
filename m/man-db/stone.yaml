@@ -31,7 +31,7 @@ rundeps     :
     - binary(groff)
 setup       : |
     %patch %(pkgdir)/stateless.patch
-    %configure \
+    %reconfigure \
          --disable-setuid \
          --enable-cache-owner=root \
          --with-db=gdbm \
