@@ -1,0 +1,62 @@
+From e9046fc06941d87aa4e7cf8c16c8a8601416a465 Mon Sep 17 00:00:00 2001
+From: Andreas Schneider <asn@cryptomilk.org>
+Date: Wed, 15 Jan 2025 13:22:38 +0100
+Subject: torture_misc: Do not rely on environment variables
+
+The safest way is to use getpwuid().
+
+Signed-off-by: Andreas Schneider <asn@cryptomilk.org>
+Reviewed-by: Jakub Jelen <jjelen@redhat.com>
+Reviewed-by: Sahana Prasad <sahana@redhat.com>
+---
+ tests/unittests/torture_misc.c | 27 +++++++++++----------------
+ 1 file changed, 11 insertions(+), 16 deletions(-)
+
+(limited to 'tests/unittests/torture_misc.c')
+
+diff --git a/tests/unittests/torture_misc.c b/tests/unittests/torture_misc.c
+index 34327ead..bd6bf96e 100644
+--- a/tests/unittests/torture_misc.c
++++ b/tests/unittests/torture_misc.c
+@@ -244,27 +244,22 @@ static void torture_path_expand_tilde_win(void **state) {
+ #else /* _WIN32 */
+ 
+ static void torture_path_expand_tilde_unix(void **state) {
+-    char h[256];
+-    char *d;
+-    char *user;
+-    char *home;
++    char h[256] = {0};
++    char *d = NULL;
++    char *user = NULL;
++    char *home = NULL;
++    struct passwd *pw = NULL;
+ 
+     (void) state;
+ 
+-    user = getenv("USER");
+-    if (user == NULL){
+-        user = getenv("LOGNAME");
+-    }
+-    /* in certain CIs there no such variables */
+-    if (!user){
+-        struct passwd *pw = getpwuid(getuid());
+-        if (pw){
+-            user = pw->pw_name;
+-        }
+-    }
++    pw = getpwuid(getuid());
++    assert_non_null(pw);
+ 
+-    home = getenv("HOME");
++    user = pw->pw_name;
++    assert_non_null(user);
++    home = pw->pw_dir;
+     assert_non_null(home);
++
+     snprintf(h, 256 - 1, "%s/.ssh", home);
+ 
+     d = ssh_path_expand_tilde("~/.ssh");
+-- 
+cgit v1.2.3
+
