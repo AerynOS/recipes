@@ -1,0 +1,31 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Reilly Brogan <reilly@reillybrogan.com>
+Date: Wed, 7 May 2025 21:04:03 -0500
+Subject: [PATCH] downstream: Default to libcxx for cpp
+
+Since Aeryn uses the LLVM toolchain by default let's default to libc++ when building projects with mixed c++ code
+
+Origin: vendor
+Forwarded: not-needed
+Last-Update: 2025-05-07
+---
+ driver/main.cpp | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/driver/main.cpp b/driver/main.cpp
+index a23dd2a146..8da4d83eb0 100644
+--- a/driver/main.cpp
++++ b/driver/main.cpp
+@@ -847,8 +847,10 @@ void registerPredefinedTargetVersions() {
+       VersionCondition::addPredefinedGlobalIdent("CRuntime_UClibc");
+     } else {
+       VersionCondition::addPredefinedGlobalIdent("CRuntime_Glibc");
+-      VersionCondition::addPredefinedGlobalIdent("CppRuntime_GNU");
+-      VersionCondition::addPredefinedGlobalIdent("CppRuntime_Gcc"); // legacy
++      VersionCondition::addPredefinedGlobalIdent("CppRuntime_LLVM");
++      VersionCondition::addPredefinedGlobalIdent("CppRuntime_Clang"); // legacy
++      // use libunwind for backtraces
++      VersionCondition::addPredefinedGlobalIdent("DRuntime_Use_Libunwind");
+     }
+     break;
+   case llvm::Triple::Haiku:

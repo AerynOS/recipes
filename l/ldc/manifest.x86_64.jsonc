@@ -4,19 +4,22 @@
 	"packages": {
 		"ldc": {
 			"build-depends": [
+				"binary(ldc2)",
+				"binary(llvm-config)",
 				"binary(make)",
-				"gcc",
-				"lld-devel",
-				"llvm-devel"
+				"cmake(LLD)",
+				"ldc-devel",
+				"pkgconfig(zlib)"
 			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"ldc-libs",
+				"ldc-libs-debug",
 				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libLLVM.so.19.1(x86_64))",
 				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(liblldCOFF.so.19.1(x86_64))",
-				"soname(liblldCommon.so.19.1(x86_64))",
 				"soname(liblldELF.so.19.1(x86_64))",
 				"soname(liblldMachO.so.19.1(x86_64))",
 				"soname(liblldMinGW.so.19.1(x86_64))",
@@ -33,48 +36,6 @@
 				"/usr/bin/ldc2",
 				"/usr/bin/ldmd2",
 				"/usr/bin/timetrace2txt",
-				"/usr/lib/LLVMgold-ldc.so",
-				"/usr/lib/bfd-plugins/LLVMgold-ldc.so",
-				"/usr/lib/ldc_rt.dso.o",
-				"/usr/lib/libdruntime-ldc-debug-shared.so.109",
-				"/usr/lib/libdruntime-ldc-debug-shared.so.109.1",
-				"/usr/lib/libdruntime-ldc-shared.so.109",
-				"/usr/lib/libdruntime-ldc-shared.so.109.1",
-				"/usr/lib/libphobos2-ldc-debug-shared.so.109",
-				"/usr/lib/libphobos2-ldc-debug-shared.so.109.1",
-				"/usr/lib/libphobos2-ldc-shared.so.109",
-				"/usr/lib/libphobos2-ldc-shared.so.109.1",
-				"/usr/share/bash-completion/completions/ldc2",
-				"/usr/share/defaults/ldc2/ldc2.conf"
-			],
-			"name": "ldc",
-			"provides": [
-				"binary(ldc-build-plugin)",
-				"binary(ldc-build-runtime)",
-				"binary(ldc-profdata)",
-				"binary(ldc-profgen)",
-				"binary(ldc-prune-cache)",
-				"binary(ldc2)",
-				"binary(ldmd2)",
-				"binary(timetrace2txt)",
-				"soname(LLVMgold-ldc.so(x86_64))",
-				"soname(libdruntime-ldc-debug-shared.so.109(x86_64))",
-				"soname(libdruntime-ldc-shared.so.109(x86_64))",
-				"soname(libphobos2-ldc-debug-shared.so.109(x86_64))",
-				"soname(libphobos2-ldc-shared.so.109(x86_64))"
-			]
-		},
-		"ldc-devel": {
-			"build-depends": [
-				"binary(make)",
-				"gcc",
-				"lld-devel",
-				"llvm-devel"
-			],
-			"depends": [
-				"ldc"
-			],
-			"files": [
 				"/usr/include/d/__importc_builtins.di",
 				"/usr/include/d/core/atomic.d",
 				"/usr/include/d/core/attribute.d",
@@ -612,6 +573,7 @@
 				"/usr/include/d/ldc/gccbuiltins_aarch64.di",
 				"/usr/include/d/ldc/gccbuiltins_amdgcn.di",
 				"/usr/include/d/ldc/gccbuiltins_arm.di",
+				"/usr/include/d/ldc/gccbuiltins_riscv.di",
 				"/usr/include/d/ldc/gccbuiltins_x86.di",
 				"/usr/include/d/ldc/intrinsics.di",
 				"/usr/include/d/ldc/libfuzzer.di",
@@ -718,6 +680,7 @@
 				"/usr/include/d/std/internal/scopebuffer.d",
 				"/usr/include/d/std/internal/test/dummyrange.d",
 				"/usr/include/d/std/internal/test/range.d",
+				"/usr/include/d/std/internal/test/sumtype_example_overloads.d",
 				"/usr/include/d/std/internal/test/uda.d",
 				"/usr/include/d/std/internal/unicode_comp.d",
 				"/usr/include/d/std/internal/unicode_decomp.d",
@@ -785,21 +748,127 @@
 				"/usr/include/d/std/windows/syserror.d",
 				"/usr/include/d/std/zip.d",
 				"/usr/include/d/std/zlib.d",
+				"/usr/lib/LLVMgold-ldc.so",
+				"/usr/lib/bfd-plugins/LLVMgold-ldc.so",
+				"/usr/lib/ldc_rt.dso.o",
 				"/usr/lib/libdruntime-ldc-debug-shared.so",
-				"/usr/lib/libdruntime-ldc-debug.a",
-				"/usr/lib/libdruntime-ldc-lto.a",
 				"/usr/lib/libdruntime-ldc-shared.so",
-				"/usr/lib/libdruntime-ldc.a",
 				"/usr/lib/libphobos2-ldc-debug-shared.so",
-				"/usr/lib/libphobos2-ldc-debug.a",
-				"/usr/lib/libphobos2-ldc-lto.a",
 				"/usr/lib/libphobos2-ldc-shared.so",
-				"/usr/lib/libphobos2-ldc.a"
+				"/usr/share/bash-completion/completions/ldc2",
+				"/usr/share/defaults/ldc2/ldc2.conf"
+			],
+			"name": "ldc",
+			"provides": [
+				"binary(ldc-build-plugin)",
+				"binary(ldc-build-runtime)",
+				"binary(ldc-profdata)",
+				"binary(ldc-profgen)",
+				"binary(ldc-prune-cache)",
+				"binary(ldc2)",
+				"binary(ldmd2)",
+				"binary(timetrace2txt)",
+				"soname(LLVMgold-ldc.so(x86_64))"
+			]
+		},
+		"ldc-devel": {
+			"build-depends": [
+				"binary(ldc2)",
+				"binary(llvm-config)",
+				"binary(make)",
+				"cmake(LLD)",
+				"ldc-devel",
+				"pkgconfig(zlib)"
+			],
+			"depends": [
+				"ldc"
+			],
+			"files": [
+				"/usr/share/doc/replace/ldc-devel"
 			],
 			"name": "ldc-devel"
+		},
+		"ldc-libs": {
+			"build-depends": [
+				"binary(ldc2)",
+				"binary(llvm-config)",
+				"binary(make)",
+				"cmake(LLD)",
+				"ldc-devel",
+				"pkgconfig(zlib)"
+			],
+			"depends": [
+				"soname(ld-linux-x86-64.so.2(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libm.so.6(x86_64))",
+				"soname(libunwind.so.1(x86_64))",
+				"soname(libz.so.1(x86_64))"
+			],
+			"files": [
+				"/usr/lib/libdruntime-ldc-shared.so.110",
+				"/usr/lib/libdruntime-ldc-shared.so.110.0",
+				"/usr/lib/libphobos2-ldc-shared.so.110",
+				"/usr/lib/libphobos2-ldc-shared.so.110.0"
+			],
+			"name": "ldc-libs",
+			"provides": [
+				"soname(libdruntime-ldc-shared.so.110(x86_64))",
+				"soname(libphobos2-ldc-shared.so.110(x86_64))"
+			]
+		},
+		"ldc-libs-debug": {
+			"build-depends": [
+				"binary(ldc2)",
+				"binary(llvm-config)",
+				"binary(make)",
+				"cmake(LLD)",
+				"ldc-devel",
+				"pkgconfig(zlib)"
+			],
+			"depends": [
+				"soname(ld-linux-x86-64.so.2(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libm.so.6(x86_64))",
+				"soname(libunwind.so.1(x86_64))",
+				"soname(libz.so.1(x86_64))"
+			],
+			"files": [
+				"/usr/lib/libdruntime-ldc-debug-shared.so.110",
+				"/usr/lib/libdruntime-ldc-debug-shared.so.110.0",
+				"/usr/lib/libphobos2-ldc-debug-shared.so.110",
+				"/usr/lib/libphobos2-ldc-debug-shared.so.110.0"
+			],
+			"name": "ldc-libs-debug",
+			"provides": [
+				"soname(libdruntime-ldc-debug-shared.so.110(x86_64))",
+				"soname(libphobos2-ldc-debug-shared.so.110(x86_64))"
+			]
+		},
+		"ldc-static": {
+			"build-depends": [
+				"binary(ldc2)",
+				"binary(llvm-config)",
+				"binary(make)",
+				"cmake(LLD)",
+				"ldc-devel",
+				"pkgconfig(zlib)"
+			],
+			"depends": [
+				"ldc",
+				"pkgconfig(zlib)"
+			],
+			"files": [
+				"/usr/lib/libdruntime-ldc-debug.a",
+				"/usr/lib/libdruntime-ldc-lto.a",
+				"/usr/lib/libdruntime-ldc.a",
+				"/usr/lib/libphobos2-ldc-debug.a",
+				"/usr/lib/libphobos2-ldc-lto.a",
+				"/usr/lib/libphobos2-ldc.a"
+			],
+			"name": "ldc-static"
 		}
 	},
 	"source-name": "ldc",
-	"source-release": "15",
-	"source-version": "1.39.0"
+	"source-release": "16",
+	"source-version": "1.40.1"
 }

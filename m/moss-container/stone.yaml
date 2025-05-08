@@ -1,6 +1,6 @@
 name        : moss-container
 version     : 0.2
-release     : 5
+release     : 6
 summary     : Containerisation for boulder
 license     : Zlib
 homepage    : https://github.com/serpent-os/moss-container
@@ -14,8 +14,8 @@ upstreams   :
         unpackdir: libmoss
         stripdirs: 1
 builddeps   :
-    - ldc
-    - ldc-devel
+    - binary(ldc2)
+    - ldc-static
 environment : |
     cd %(buildroot)/moss-container
 setup       : |
