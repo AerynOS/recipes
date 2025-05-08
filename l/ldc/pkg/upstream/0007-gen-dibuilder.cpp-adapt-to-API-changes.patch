@@ -1,0 +1,26 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: liushuyu <liushuyu011@gmail.com>
+Date: Sat, 15 Feb 2025 01:02:02 -0700
+Subject: [PATCH 7/9] gen/dibuilder.cpp: adapt to API changes
+
+---
+ gen/dibuilder.cpp | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/gen/dibuilder.cpp b/gen/dibuilder.cpp
+index 5843c98e58..7aff0de6e7 100644
+--- a/gen/dibuilder.cpp
++++ b/gen/dibuilder.cpp
+@@ -753,7 +753,11 @@ DISubroutineType DIBuilder::CreateFunctionType(Type *type,
+     if (pointeeType) {
+       DIType ditype = DBuilder.createReferenceType(
+           llvm::dwarf::DW_TAG_pointer_type, pointeeType, target.ptrsize * 8);
+-      ditype = DBuilder.createObjectPointerType(ditype);
++      ditype = DBuilder.createObjectPointerType(ditype
++#if LDC_LLVM_VER >= 2000
++      , /* Implicit */ true
++#endif
++      );
+       params.emplace_back(ditype);
+     }
+   }

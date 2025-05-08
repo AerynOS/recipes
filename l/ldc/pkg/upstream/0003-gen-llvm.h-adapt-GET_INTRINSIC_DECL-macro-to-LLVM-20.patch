@@ -1,0 +1,25 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: liushuyu <liushuyu011@gmail.com>
+Date: Tue, 4 Feb 2025 17:45:35 -0700
+Subject: [PATCH 3/9] gen/llvm.h: adapt GET_INTRINSIC_DECL macro to LLVM 20 API
+
+---
+ gen/llvm.h | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/gen/llvm.h b/gen/llvm.h
+index 5dfe68e9e9..45f051aa93 100644
+--- a/gen/llvm.h
++++ b/gen/llvm.h
+@@ -35,7 +35,10 @@ using llvm::APFloat;
+ using llvm::APInt;
+ using llvm::IRBuilder;
+ 
+-#if LDC_LLVM_VER >= 1900
++#if LDC_LLVM_VER >= 2000
++#define GET_INTRINSIC_DECL(_X, _TY)                                              \
++  (llvm::Intrinsic::getOrInsertDeclaration(&gIR->module, llvm::Intrinsic::_X, _TY))
++#elif LDC_LLVM_VER >= 1900
+ #define GET_INTRINSIC_DECL(_X, _TY)                                              \
+   (llvm::Intrinsic::getDeclaration(&gIR->module, llvm::Intrinsic::_X, _TY))
+ #else
