@@ -1,6 +1,6 @@
 # At the end of the install phase Rust will print a message about the new change-id. Please
 # review any changed settings and then update the following field when updating to new Rust versions
-change-id = 134650
+change-id = 138986
 
 # Inherit from src/bootstrap/defaults/config.dist.toml
 profile = "dist"
@@ -10,14 +10,15 @@ link-shared = true
 targets = "X86" # TODO get AARCH64 building
 
 [build]
-rustc = "/usr/bin/rustc"
-cargo = "/usr/bin/cargo"
+#rustc = "/usr/bin/rustc"
+#cargo = "/usr/bin/cargo"
 docs = false
 # Triggers the build of tools. Cargo, in our case.
 extended = true
 # Mainly needed for cross-language PGO in Firefox.
 profiler = true
 sanitizers = true
+description = "AerynOS"
 target = ["i686-unknown-linux-gnu", "x86_64-unknown-linux-gnu"]
 tools = [
     "analysis",
@@ -38,7 +39,6 @@ prefix = "/usr"
 [rust]
 channel = "stable"
 default-linker = "clang"
-description = "Serpent OS"
 jemalloc = true
 lto = "@@LTO@@"
 new-symbol-mangling = true
