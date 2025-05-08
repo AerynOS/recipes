@@ -1,0 +1,29 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Reilly Brogan <reilly@reillybrogan.com>
+Date: Wed, 7 May 2025 18:11:47 -0500
+Subject: [PATCH] Link against libLLVM.so for LLVMSymbolize symbols
+
+LLVMSymbolize has a large target dependency tree which would dramatically balloon the number of LLVM static libs if we added it.
+
+It's also part of libLLVM, so we can just avoid that entirely by linking against libLLVM instead.
+
+Origin: vendor
+Forwarded: no
+Last-Update: 2025-05-07
+---
+ CMakeLists.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index c6974fc62c..941d1ee29c 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -602,7 +602,7 @@ if(LDC_WITH_LLD)
+     if(MSVC)
+         list(APPEND LDC_LINKERFLAG_LIST LLVMSymbolize.lib)
+     else()
+-        set(LDC_LINKERFLAG_LIST -lLLVMSymbolize ${LDC_LINKERFLAG_LIST})
++        set(LDC_LINKERFLAG_LIST -lLLVM ${LDC_LINKERFLAG_LIST})
+     endif()
+     set(LLD_MACHO lldMachO)
+     if(MSVC)
