@@ -1,0 +1,173 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: liushuyu <liushuyu011@gmail.com>
+Date: Tue, 4 Feb 2025 17:22:34 -0700
+Subject: [PATCH 1/9] tree-wide: replace pointerTo() with
+ LLPointerType::get(...)
+
+---
+ gen/abi/aarch64.cpp       | 2 +-
+ gen/classes.cpp           | 2 +-
+ gen/dcompute/druntime.h   | 2 +-
+ gen/dynamiccompile.cpp    | 7 ++++---
+ gen/nested.cpp            | 4 ++--
+ gen/toir.cpp              | 2 +-
+ gen/variable_lifetime.cpp | 5 +++--
+ ir/irtypefunction.cpp     | 2 +-
+ ir/irtypestruct.cpp       | 2 +-
+ 9 files changed, 15 insertions(+), 13 deletions(-)
+
+diff --git a/gen/abi/aarch64.cpp b/gen/abi/aarch64.cpp
+index 7719e251cd..699a10da01 100644
+--- a/gen/abi/aarch64.cpp
++++ b/gen/abi/aarch64.cpp
+@@ -126,7 +126,7 @@ public:
+     // compiler magic: pass va_list args implicitly by reference
+     if (!isReturnVal && isAAPCS64VaList(t)) {
+       arg.byref = true;
+-      arg.ltype = arg.ltype->getPointerTo();
++      arg.ltype = LLPointerType::getUnqual(arg.ltype);
+       return;
+     }
+ 
+diff --git a/gen/classes.cpp b/gen/classes.cpp
+index 51a7a554f3..95d8467f2e 100644
+--- a/gen/classes.cpp
++++ b/gen/classes.cpp
+@@ -480,7 +480,7 @@ DtoVirtualFunctionPointer(DValue *inst, FuncDeclaration *fdecl) {
+   // get the vtbl for objects
+   vtable = DtoGEP(irtc->getMemoryLLType(), vthis, 0u, 0);
+   // load vtbl ptr
+-  vtable = DtoLoad(vtblType->getPointerTo(), vtable);
++  vtable = DtoLoad(LLPointerType::getUnqual(vtblType), vtable);
+   // index vtbl
+   const std::string name = fdecl->toChars();
+   const auto vtblname = name + "@vtbl";
+diff --git a/gen/dcompute/druntime.h b/gen/dcompute/druntime.h
+index 2b1a2a6a85..1008c3cb39 100644
+--- a/gen/dcompute/druntime.h
++++ b/gen/dcompute/druntime.h
+@@ -41,7 +41,7 @@ struct DcomputePointer {
+     int as = addrspace;
+     if (translate)
+       as = gIR->dcomputetarget->mapping[as];
+-    return llType->getPointerTo(as);
++    return LLPointerType::get(llType, as);
+   }
+ };
+ llvm::Optional<DcomputePointer> toDcomputePointer(StructDeclaration *sd);
+diff --git a/gen/dynamiccompile.cpp b/gen/dynamiccompile.cpp
+index 817e3c009e..d2cf0858c5 100644
+--- a/gen/dynamiccompile.cpp
++++ b/gen/dynamiccompile.cpp
+@@ -652,7 +652,7 @@ llvm::GlobalVariable *generateModuleListElem(IRState *irs, const Types &types,
+   auto *modListElem = new llvm::GlobalVariable(
+       irs->module, elem_type, false, llvm::GlobalValue::PrivateLinkage, init,
+       ".rtcompile_modlist_elem");
+-  modListElem->setAlignment(irs->module.getDataLayout().getABITypeAlign(elem_type->getPointerTo()));
++  modListElem->setAlignment(irs->module.getDataLayout().getABITypeAlign(LLPointerType::getUnqual(elem_type)));
+ 
+   return modListElem;
+ }
+@@ -687,7 +687,8 @@ void generateCtorBody(IRState *irs, const Types &types, llvm::Function *func,
+   auto modListHeadPtr = declareModListHead(irs->module, types);
+   llvm::Value *gepVals[] = {zero64, elemIndex};
+   auto elemNextPtr = builder.CreateGEP(types.modListElemType, modListElem, gepVals);
+-  auto prevHeadVal = builder.CreateLoad(types.modListElemType->getPointerTo()->getPointerTo(), modListHeadPtr);
++  auto modListElemPtr = LLPointerType::getUnqual(types.modListElemType);
++  auto prevHeadVal = builder.CreateLoad(LLPointerType::getUnqual(modListElemPtr), modListHeadPtr);
+   auto voidPtr = builder.CreateBitOrPointerCast(
+       modListElem, getI8PtrType(irs->context()));
+   builder.CreateStore(voidPtr, modListHeadPtr);
+@@ -835,7 +836,7 @@ void defineDynamicCompiledFunction(IRState *irs, IrFunction *func) {
+     auto srcFunc = func->getLLVMFunc();
+     auto it = irs->dynamicCompiledFunctions.find(srcFunc);
+     assert(irs->dynamicCompiledFunctions.end() != it);
+-    auto thunkVarType = srcFunc->getFunctionType()->getPointerTo();
++    auto thunkVarType = LLPointerType::getUnqual(srcFunc->getFunctionType());
+     auto thunkVar = new llvm::GlobalVariable(
+         irs->module, thunkVarType, false, llvm::GlobalValue::PrivateLinkage,
+         llvm::ConstantPointerNull::get(thunkVarType),
+diff --git a/gen/nested.cpp b/gen/nested.cpp
+index 0d22b5c071..66ea4e313b 100644
+--- a/gen/nested.cpp
++++ b/gen/nested.cpp
+@@ -170,7 +170,7 @@ DValue *DtoNestedVariable(const Loc &loc, Type *astype, VarDeclaration *vd,
+     IF_LOG Logger::cout() << "Frame index: " << *val << '\n';
+     currFrame = getIrFunc(fd)->frameType;
+     gIR->DBuilder.OpDeref(dwarfAddrOps);
+-    val = DtoAlignedLoad(currFrame->getPointerTo(), val,
++    val = DtoAlignedLoad(LLPointerType::getUnqual(currFrame), val,
+                          (std::string(".frame.") + vdparent->toChars()).c_str());
+     IF_LOG Logger::cout() << "Frame: " << *val << '\n';
+   }
+@@ -505,7 +505,7 @@ void DtoCreateNestedContext(FuncGenState &funcGen) {
+         mem = gIR->ir->CreateAdd(mem, DtoConstSize_t(mask));
+         mem = gIR->ir->CreateAnd(mem, DtoConstSize_t(~mask));
+         frame =
+-            gIR->ir->CreateIntToPtr(mem, frameType->getPointerTo(), ".frame");
++            gIR->ir->CreateIntToPtr(mem, LLPointerType::getUnqual(frameType), ".frame");
+       }
+     } else {
+       frame = DtoRawAlloca(frameType, frameAlignment, ".frame");
+diff --git a/gen/toir.cpp b/gen/toir.cpp
+index c1dc6d5362..92d9535af1 100644
+--- a/gen/toir.cpp
++++ b/gen/toir.cpp
+@@ -2814,7 +2814,7 @@ public:
+       LLValue *val = DtoRVal(ex);
+ 
+       // Get and load vtbl pointer.
+-      llvm::Value *vtbl = DtoLoad(vtblType->getPointerTo(),
++      llvm::Value *vtbl = DtoLoad(LLPointerType::getUnqual(vtblType),
+                                   DtoGEP(irtc->getMemoryLLType(), val, 0u, 0));
+ 
+       // TypeInfo ptr is first vtbl entry.
+diff --git a/gen/variable_lifetime.cpp b/gen/variable_lifetime.cpp
+index 488739cd83..e479238fa4 100644
+--- a/gen/variable_lifetime.cpp
++++ b/gen/variable_lifetime.cpp
+@@ -16,6 +16,7 @@
+ 
+ #include "driver/cl_options.h"
+ #include "gen/irstate.h"
++#include "gen/llvm.h"
+ 
+ #include <vector>
+ #include <utility>
+@@ -30,8 +31,8 @@ static llvm::cl::opt<bool> fEmitLocalVarLifetime(
+ LocalVariableLifetimeAnnotator::LocalVariableLifetimeAnnotator(IRState &irs)
+     : irs(irs) {
+   allocaType =
+-      llvm::Type::getInt8Ty(irs.context())
+-          ->getPointerTo(irs.module.getDataLayout().getAllocaAddrSpace());
++      LLPointerType::get(LLType::getInt8Ty(irs.context()),
++                         irs.module.getDataLayout().getAllocaAddrSpace());
+ }
+ 
+ void LocalVariableLifetimeAnnotator::pushScope() { scopes.emplace_back(); }
+diff --git a/ir/irtypefunction.cpp b/ir/irtypefunction.cpp
+index 93629b2acf..85eaed2e4f 100644
+--- a/ir/irtypefunction.cpp
++++ b/ir/irtypefunction.cpp
+@@ -55,7 +55,7 @@ IrTypeDelegate *IrTypeDelegate::get(Type *t) {
+   IrFuncTy irFty(tf);
+   llvm::Type *ltf =
+       DtoFunctionType(tf, irFty, nullptr, pointerTo(Type::tvoid));
+-  llvm::Type *fptr = ltf->getPointerTo(gDataLayout->getProgramAddressSpace());
++  llvm::Type *fptr = LLPointerType::get(ltf, gDataLayout->getProgramAddressSpace());
+   llvm::Type *types[] = {getOpaquePtrType(), fptr};
+   LLStructType *lt = LLStructType::get(gIR->context(), types, false);
+ 
+diff --git a/ir/irtypestruct.cpp b/ir/irtypestruct.cpp
+index fba984498a..4ce3041224 100644
+--- a/ir/irtypestruct.cpp
++++ b/ir/irtypestruct.cpp
+@@ -80,7 +80,7 @@ IrTypeStruct *IrTypeStruct::get(StructDeclaration *sd) {
+     int realAS = gIR->dcomputetarget->mapping[p->addrspace];
+ 
+     llvm::SmallVector<LLType *, 1> body;
+-    body.push_back(DtoMemType(p->type)->getPointerTo(realAS));
++    body.push_back(LLPointerType::get(DtoMemType(p->type), realAS));
+ 
+     isaStruct(t->type)->setBody(body, false);
+     VarGEPIndices v;
