@@ -4,8 +4,8 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : ldc
-version     : 1.39.0
-release     : 15
+version     : 1.40.1
+release     : 16
 summary     : The LLVM-based D Compiler
 license     :
     - Apache-2.0
@@ -15,43 +15,55 @@ homepage    : https://github.com/ldc-developers/ldc
 description : |
     The LLVM-based D Compiler
 upstreams   :
-    - https://github.com/ldc-developers/ldc/releases/download/v1.39.0/ldc-1.39.0-src.tar.gz: 839bac36f6073318e36f0b163767e03bdbd3f57d99256b97494ac439b59a4562
-    - https://downloads.dlang.org/releases/2.x/2.109.1/dmd.2.109.1.linux.tar.xz:
-        hash: db52ed3cdc211a341370a07b56ee187955dfc8c1b0766f540cce3f030506fb9b
-        stripdirs: 1
-        unpackdir: "%(name)-%(version)-src/dmd2/"
+    - https://github.com/ldc-developers/ldc/releases/download/v1.40.1/ldc-1.40.1-src.tar.gz:
+        hash: b643bee2ee6f9819084ef7468cf739257974a99f3980364d20201bc806a4a454
+        unpackdir: "ldc"
+    # - https://downloads.dlang.org/releases/2.x/2.111.0/dmd.2.111.0.linux.tar.xz:
+    #     hash: 63bd32222b51a406e365904aea6761cd4de3cb1de02f003a370b5961196caa77
+    #     stripdirs: 1
+    #     unpackdir: "ldc/dmd2/"
 builddeps   :
+    - binary(ldc2)
+    - binary(llvm-config)
     - binary(make)
-    - lld-devel
-    - llvm-devel
-    - gcc # dmd upstream built against GCC
+    - cmake(LLD)
+    - pkgconfig(zlib)
+    # - gcc # dmd upstream built against GCC
+    # Temporary, remove after this package is next rebuilt
+    - ldc-devel
 setup       : |
+    # Set to 1 to rebootstrap, make sure you uncomment the dmd compiler from the upstreams
+    _bootstrap=0
+
     %patch %(pkgdir)/stateless/0001-Fixups-for-packaging-and-stateless-config.patch
+    %patch %(pkgdir)/0001-downstream-Default-to-libcxx-for-cpp.patch
+    %patch %(pkgdir)/0001-Link-against-libLLVM.so-for-LLVMSymbolize-symbols.patch
 
-    # LLVM 19 fixes
-    %patch %(pkgdir)/upstream/0001-Fix-some-compilation-errors-for-LLVM19-20.patch
-    %patch %(pkgdir)/upstream/0002-CI-Bump-LDC-LLVM-to-preliminary-v19.patch
-    %patch %(pkgdir)/upstream/0003-Add-preliminary-support-for-LLVM-19.patch
-    %patch %(pkgdir)/upstream/0004-gen-dibuilder.cpp-use-the-newer-debug-record-API.patch
-    %patch %(pkgdir)/upstream/0005-gen-llvm.h-add-a-type-parameter-to-GET_INTRINSIC_DEC.patch
-    %patch %(pkgdir)/upstream/0006-CI-switch-LLVM-to-19.1.3.patch
-    %patch %(pkgdir)/upstream/0007-CI-Test-LDC-LLVM-v19.1.3-RC.patch
-    %patch %(pkgdir)/upstream/0008-adapt-android-llvm-config.in.patch
-    %patch %(pkgdir)/upstream/0009-tests-adapt-tests-to-LLVM-19-changes.patch
-    %patch %(pkgdir)/upstream/0010-gen-dcompute-targetOCL.cpp-update-target-data-layout.patch
-    %patch %(pkgdir)/upstream/0011-gen-optimizer.cpp-gate-LLVM-19.1-functions-behind.patch
+    # We use CMAKE_SKIP_INSTALL_RPATH instead of CMAKE_SKIP_RPATH because the former makes it so that we use rpath
+    # during building and linking but strip it when installing. This means we can link ldc against the runtime we just built.
+    function ldc_configure() {
+        %cmake \
+           -DADDITIONAL_DEFAULT_LDC_SWITCHES="\"-link-defaultlib-shared\"," \
+           -DBASH_COMPLETION_COMPLETIONSDIR="%(completionsdir)" \
+           -DBUILD_LTO_LIBS=ON \
+           -DBUILD_SHARED_LIBS=BOTH \
+           -DCMAKE_INSTALL_PREFIX=/usr \
+           -DCMAKE_SKIP_INSTALL_RPATH=ON \
+           -DLDC_DYNAMIC_COMPILE=OFF \
+           -DLDC_INSTALL_LTOPLUGIN=ON \
+           -DLDC_WITH_LLD=ON \
+           -DPHOBOS_SYSTEM_ZLIB=ON \
+            "$@"
+    }
 
-    %cmake -DBUILD_SHARED_LIBS=BOTH \
-        -DBUILD_LTO_LIBS=ON \
-        -DCMAKE_INSTALL_PREFIX=/usr \
-        -DCMAKE_SKIP_RPATH=ON \
-        -DBASH_COMPLETION_COMPLETIONSDIR="%(completionsdir)" \
-        -DLDC_INSTALL_LTOPLUGIN=ON \
-        -DLDC_INSTALL_LLVM_RUNTIME_LIBS=ON \
-        -DLDC_WITH_LLD=ON \
-        -DLDC_DYNAMIC_COMPILE=OFF \
-        -DD_COMPILER=%(buildroot)/%(name)-%(version)-src/dmd2/linux/bin64/dmd \
-        -DCMAKE_EXE_LINKER_FLAGS="-fuse-ld=lld"
+    if [[ ${_bootstrap} == "1" ]]; then
+        ldc_configure \
+            -DCMAKE_EXE_LINKER_FLAGS="-fuse-ld=lld" \
+            -DD_COMPILER=%(buildroot)/ldc/dmd2/linux/bin64/dmd
+    else
+        ldc_configure \
+            -DD_COMPILER_FLAGS="-link-defaultlib-shared=false --flto=thin"
+    fi
 build       : |
     %cmake_build
 install     : |
@@ -61,4 +73,50 @@ install     : |
     ln -srf %(installroot)/%(libdir)/LLVMgold-ldc.so %(installroot)/%(libdir)/bfd-plugins/LLVMgold-ldc.so
 
     # Stateless: Put file in patched stateless location
-    %install_file %(installroot)/etc/ldc2.conf %(installroot)/%(vendordir)/ldc2/ldc2.conf
+    %install_dir %(installroot)/usr/share/defaults/ldc2
+    mv %(installroot)/etc/ldc2.conf %(installroot)/%(vendordir)/ldc2/ldc2.conf
+
+    rmdir -v %(installroot)/etc
+
+    # TODO: Remove once we can remove packages from the index
+    mkdir -p %(installroot)/usr/share/doc/replace/
+    touch %(installroot)/usr/share/doc/replace/%(name)-devel
+packages    :
+    - "%(name)":
+        paths:
+            - /usr/include
+            - /usr/lib/*.so
+        rundeps:
+            - "%(name)-libs"
+            - "%(name)-libs-debug"
+
+    - "%(name)-libs":
+        summary: Runtime libs for ldc
+        description: Runtime libs for ldc
+        paths:
+            - /usr/lib/libdruntime*.so.*
+            - /usr/lib/libphobos2*.so.*
+
+    - "%(name)-libs-debug":
+        summary: Runtime libs for ldc - debug versions
+        description: Runtime libs for ldc - debug versions
+        paths:
+            - /usr/lib/libdruntime*debug*.so.*
+            - /usr/lib/libphobos2*debug*.so.*
+
+    - "%(name)-static":
+        summary: Runtime libs for ldc - static
+        description: Runtime libs for ldc - static
+        paths:
+            - /usr/lib/libdruntime*.a
+            - /usr/lib/libphobos2*.a
+        rundeps:
+            - "%(name)"
+            - pkgconfig(zlib) # For `-lz`
+
+    - "%(name)-devel":
+        paths:
+            - /usr/share/doc/replace/ldc-devel
+        rundeps:
+            - "%(name)"
+## TODO: Add boulder macros and DFLAG support to boulder
