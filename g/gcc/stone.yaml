@@ -4,8 +4,8 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : gcc
-version     : 14.2.1+git.83cd4bda
-release     : 11
+version     : 15.1.1+git.7317c72b
+release     : 12
 summary     : GNU C++ standard library and compiler
 license     : GPL-3.0-or-later
 homepage    : https://gcc.gnu.org/
@@ -14,10 +14,11 @@ description : |
 upstreams   :
     # Use the github mirror since the official git hosting is unreliable and slow
     - git|https://github.com/gcc-mirror/gcc:
-        # Should be the latest commit on the releases/gcc-14 branch that isn't a bump to the date
-        ref: 83cd4bda12f1218fea878acfc964949649ca9fc7
+        # Should be the latest commit on the releases/gcc-15 branch that isn't a bump to the date
+        ref: 7317c72b028e057ddbe918ff6968e5e586a35850
 builddeps   :
     - binary(bison)
+    - binary(cargo)
     - binary(flex)
     - binary(m4)
     - binary(makeinfo)
@@ -48,44 +49,79 @@ setup       : |
     %patch %(pkgdir)/aerynos/0001-Downstream-Don-t-run-fixincludes-during-install.patch
     %patch %(pkgdir)/aerynos/disable-rpath.patch
 
-    mkdir build && cd build
-    ../configure \
-        --build=%(host_platform) \
-        --host=%(host_platform) \
-        --prefix=/usr \
-        --libdir=%(libdir) \
-        --libexecdir=%(libdir) \
-        --disable-libssp \
-        --enable-cet \
-        --enable-checking=release \
-        --enable-default-pie \
-        --enable-default-ssp \
-        --enable-gnu-indirect-function \
-        --enable-host-bind-now \
-        --enable-host-pie \
+    function gcc_configure() {
+        ../configure \
+            --build=%(host_platform) \
+            --host=%(host_platform) \
+            --prefix=/usr \
+            --libdir=%(libdir) \
+            --libexecdir=%(libdir) \
+            --disable-libssp \
+            --enable-cet \
+            --enable-checking=release \
+            --enable-default-pie \
+            --enable-default-ssp \
+            --enable-gnu-indirect-function \
+            --enable-host-bind-now \
+            --enable-host-pie \
+            --enable-link-serialization \
+            --enable-linker-build-id \
+            --enable-multilib \
+            --enable-plugin \
+            --enable-shared \
+            --enable-threads=yes \
+            --with-arch=%(march) \
+            --with-arch_32=%(march) \
+            --with-bugurl='https://github.com/AerynOS/recipes/issues' \
+            --with-build-config=bootstrap-O1 \
+            --with-gcc-major-version-only \
+            --with-gxx-libcxx-include-dir=/usr/include/c++/v1 \
+            --with-isl \
+            --with-linker-hash-style=gnu \
+            --with-multilib-list=m32,m64 \
+            --with-pkgversion="AerynOS" \
+            --with-system-zlib \
+            --with-tune=%(mtune) \
+            --with-tune_32=%(mtune) \
+            "$@"
+    }
+
+    mkdir gcc_build libgccjit_build
+
+    pushd gcc_build
+    gcc_configure \
+        --enable-bootstrap \
+        --enable-languages=c,c++,cobol,fortran,rust
+    popd
+
+    # Build libgccjit separately to avoid building all compilers with enable-host-shared which has a performance penalty
+    # I didn't test that but both Arch and Fedora has the same note in their repos
+    # TODO: Test that
+    pushd libgccjit_build
+    gcc_configure \
+        --disable-bootstrap \
         --enable-host-shared \
-        --enable-languages=c,c++,fortran \
-        --enable-linker-build-id \
-        --enable-multilib \
-        --enable-plugin \
-        --enable-shared \
-        --enable-threads=yes \
-        --with-arch=%(march) \
-        --with-arch_32=%(march) \
-        --with-bugurl='https://github.com/AerynOS/recipes/issues' \
-        --with-build-config=bootstrap-O1 \
-        --with-gcc-major-version-only \
-        --with-gxx-libcxx-include-dir=/usr/include/c++/v1 \
-        --with-isl \
-        --with-linker-hash-style=gnu \
-        --with-multilib-list=m32,m64 \
-        --with-system-zlib \
-        --with-tune=%(mtune) \
-        --with-tune_32=%(mtune)
+        --enable-languages=jit \
+        --enable-libgdiagnostics
+    popd
 build       : |
-    %make -C build bootstrap2-lean
+    env CCACHE_BASEDIR=${pwd}/gcc_build %make -C gcc_build bootstrap2-lean
+    env CCACHE_BASEDIR=${pwd}/libgccjit_build %make -C libgccjit_build all-gcc
+
+    cp -a libgccjit_build/gcc/libgccjit.so* gcc_build/gcc/
 install     : |
-    %make_install -C build
+    %make_install -C gcc_build
+
+    # libgccjit
+    DESTDIR="%(installroot)" %make -C gcc_build/gcc jit.install-common jit.install-info
+
+    # libgdiagnostics
+    DESTDIR="%(installroot)" %make -C libgccjit_build/gcc install-libgdiagnostics
+
+    # Info files
+    for lib in libgomp libitm libquadmath; do
+        DESTDIR="%(installroot)" %make -C gcc_build/%(host_platform)/${lib} install-info
+    done
 
     # bfd needs to be able to find the LTO plugin
     major_version=$(echo %(version) | cut -d. -f1)
@@ -97,166 +133,435 @@ install     : |
     %install_dir %(installroot)/%(datadir)/gdb/auto-load/%(libdir)32
     mv %(installroot)/%(libdir)/libstdc++.so.*-gdb.py %(installroot)/%(datadir)/gdb/auto-load/%(libdir)/.
     mv %(installroot)/%(libdir)32/libstdc++.so.*-gdb.py %(installroot)/%(datadir)/gdb/auto-load/%(libdir)32/.
+    %python_compile
 
-    # not allowed to install these =)
-    rm -rv %(installroot)%(datadir)/info
-    rm -v %(installroot)/usr/lib*/*.la
+    # Causes file conflicts
+    rm -rv %(installroot)%(datadir)/info/dir
 
     # Temporary, make x86_64-serpent-linux a target alias of x86_64-aerynos-linux
     # The next step after this (after all toolchain packages are similarly updated)
     # is to rebuild all packages with the new triple and then remove the compat links
     pushd %(installroot)/%(bindir)
-    for i in c++ g++ gcc gcc-${major_version} gcc-ar gcc-nm gcc-ranlib gfortran ; do
+    for i in c++ g++ gcc gcc-${major_version} gcc-ar gcc-nm gcc-ranlib gccrs gfortran ; do
         ln -sv %(host_platform)-${i} x86_64-serpent-linux-${i}
     done
     popd
-    ln -srv %(installroot)/usr/include/c++/14/%(host_platform) %(installroot)/usr/include/c++/14/x86_64-serpent-linux
+    ln -srv %(installroot)/usr/include/c++/${major_version}/%(host_platform) %(installroot)/usr/include/c++/${major_version}/x86_64-serpent-linux
     ln -srv %(installroot)/usr/lib/gcc/%(host_platform) %(installroot)/usr/lib/gcc/x86_64-serpent-linux
 
     # TODO: Remove once we can remove gcc-devel and gcc-32bit-devel from the index
     mkdir -p %(installroot)/usr/share/doc/replace/
     touch %(installroot)/usr/share/doc/replace/gcc{,-32bit}-devel %(installroot)/usr/share/doc/replace/g++-32bit
 packages    :
-    - "libgcc":
-        paths:
-            - /usr/lib/libgcc*.so*
-    - "libgcc-32bit":
-        paths:
-            - /usr/lib32/libgcc*.so*
-    - "libatomic":
-        paths:
-            - /usr/lib/libatomic*.so*
-    - "libatomic-32bit":
-        paths:
-            - /usr/lib32/libatomic*.so*
-    - "libquadmath":
-        paths:
-            - /usr/lib/libquadmath*.so*
-    - "libquadmath-32bit":
-        paths:
-            - /usr/lib32/libquadmath*.so*
-    - "libgomp":
-        paths:
-            - /usr/lib/libgomp*.so*
-    - "libgomp-32bit":
-        paths:
-            - /usr/lib32/libgomp*.so*
-    - "libgfortran":
-        paths:
-            - /usr/lib/*fortran*.so*
-    - "libgfortran-32bit":
-        paths:
-            - /usr/lib32/*fortran*.so*
     - "gcc":
         paths:
             - /usr/lib/*.a
             - /usr/lib/*.so
             - /usr/lib/*.spec
             - /usr/lib/libasan*
-            - /usr/lib/libitm*
             - /usr/lib/libubsan*
+            - /usr/share/locale/*/LC_MESSAGES/cpplib.mo
         rundeps:
-            - libgcc
-            - libatomic
-            - libquadmath
+            - libgcc-static
             - libgomp
-            - libgfortran
+
     - "gcc-32bit":
         paths:
             - /usr/lib32/*.a
             - /usr/lib32/*.so
             - /usr/lib32/*.spec
             - /usr/lib32/libasan*
-            - /usr/lib32/libitm*
             - /usr/lib32/libubsan*
             - /usr/lib/gcc/*-linux/*/32/*.a
             - /usr/lib/gcc/*-linux/*/32/*.o
         rundeps:
-            - libgcc-32bit
-            - libatomic-32bit
-            - libquadmath-32bit
+            - libgcc-32bit-static
             - libgomp-32bit
-            - libgfortran-32bit
-    - "libstdc++":
+
+    - "libatomic":
+        summary: The GNU Atomic library
+        description: The GNU Atomic library
         paths:
-            - /usr/lib/lib*++*.so*
-            - /usr/share/gcc-*/python/libstdcxx/*
+            - /usr/lib/libatomic*.so*
+
+    - "libatomic-static":
+        summary: The GNU Atomic library - static lib
+        description: The GNU Atomic library - static lib
+        paths:
+            - /usr/lib/libatomic*.a
+        rundeps:
+            - libatomic
+
+    - "libatomic-32bit":
+        summary: The GNU Atomic library - 32bit lib
+        description: The GNU Atomic library - 32bit lib
+        paths:
+            - /usr/lib32/libatomic*.so*
+
+    - "libatomic-32bit-static":
+        summary: The GNU Atomic library - static 32bit lib
+        description: The GNU Atomic library - static 32bit lib
+        paths:
+            - /usr/lib32/libatomic*.a
+        rundeps:
+            - libatomic-32bit-devel
+            - libatomic-static
+
+    - "libgcc":
+        summary: GCC shared support library
+        description: GCC shared support library
+        paths:
+            - /usr/lib/libgcc*.so*
+
+    - "libgcc-static":
+        summary: GCC shared support library - static lib
+        description: GCC shared support library - static lib
+        paths:
+            - /usr/lib/gcc/x86_64*-linux/*/libgcc*.a
+        rundeps:
+            - libgcc
+
+    - "libgcc-32bit":
+        summary: GCC shared support library - 32bit lib
+        description: GCC shared support library - 32bit lib
+        paths:
+            - /usr/lib32/libgcc*.so*
+
+    - "libgcc-32bit-static":
+        summary: GCC shared support library - 32bit lib
+        description: GCC shared support library - 32bit lib
+        paths:
+            - /usr/lib/gcc/x86_64*-linux/*/32/libgcc*.a
+        rundeps:
+            - libgcc-32bit
+            - libgcc-static
+
+    - "libgccjit":
+        summary: Support for embedding GCC inside programs and libraries
+        description: Support for embedding GCC inside programs and libraries
+        paths:
+            - /usr/lib/libgccjit.so*
+        rundeps:
+            - binary(gcc)
+
+    - "libgccjit-devel":
+        summary: Support for embedding GCC inside programs and libraries - devel
+        description: Support for embedding GCC inside programs and libraries - devel
+        paths:
+            - /usr/lib/libgccjit.so
+            - /usr/include/libgccjit*.h
+            - /usr/share/info/libgccjit.info*
+        rundeps:
+            - libgccjit
+
+    - "libgcobol":
+        summary: COBOL runtime
+        description: COBOL runtime
+        paths:
+            - /usr/lib/libgcobol.so*
+
+    - "libgcobol-static":
+        summary: COBOL runtime - static lib
+        description: COBOL runtime - static lib
+        paths:
+            - /usr/lib/libgcobol.a
+        rundeps:
+            - libgcobol
+
+    - "libgdiagnostics":
+        summary: Library for emitting diagnostics
+        description: Library for emitting diagnostics
+        paths:
+            - /usr/bin/sarif-replay
+            - /usr/lib/libgdiagnostics.so.*
+
+    - "libgdiagnostics-devel":
+        summary: Library for emitting diagnostics - devel
+        description: Library for emitting diagnostics - devel
+        paths:
+            - /usr/lib/libgdiagnostics.so
+            - /usr/include/libgdiagnostics*.h
+        rundeps:
+            - "libgdiagnostics"
+
+    - "libgfortran":
+        summary: Fortran runtime
+        description: Fortran runtime
+        paths:
+            - /usr/lib/libgfortran.so*
+        rundeps:
+            - libquadmath
+
+    - "libgfortran-static":
+        summary: Fortran runtime - static lib
+        description: Fortran runtime - static lib
+        paths:
+            - /usr/lib/libgfortran.a
+        rundeps:
+            - libgfortran
+            - libquadmath-static
+
+    - "libgfortran-32bit":
+        summary: Fortran runtime - 32bit lib
+        description: Fortran runtime - 32bit lib
+        paths:
+            - /usr/lib32/libgfortran.so*
+        rundeps:
+            - libquadmath-32bit
+
+    - "libgfortran-32bit-static":
+        summary: Fortran runtime - static 32bit lib
+        description: Fortran runtime - static 32bit lib
+        paths:
+            - /usr/lib32/libgfortran.a
+        rundeps:
+            - libgfortran-32bit
+            - libquadmath-32bit-static
+
+    - "libgomp":
+        summary: GCC OpenMP shared support library
+        description: GCC OpenMP shared support library
+        paths:
+            - /usr/lib/libgomp*.so*
+            - /usr/share/info/libgomp.info*
+
+    - "libgomp-static":
+        summary: GCC OpenMP shared support library - static lib
+        description: GCC OpenMP shared support library - static lib
+        paths:
+            - /usr/lib/libgomp*.a
+        rundeps:
+            - libgomp
+
+    - "libgomp-32bit":
+        summary: GCC OpenMP shared support library - 32bit lib
+        description: GCC OpenMP shared support library - 32bit lib
+        paths:
+            - /usr/lib32/libgomp*.so*
+
+    - "libgomp-32bit-static":
+        summary: GCC OpenMP shared support library - 32bit static lib
+        description: GCC OpenMP shared support library - 32bit static lib
+        paths:
+            - /usr/lib32/libgomp*.a
+        rundeps:
+            - libgomp-32bit
+            - libgomp-static
+
+    - "libitm":
+        summary: The GNU Transactional Memory library
+        description: The GNU Transactional Memory library
+        paths:
+            - /usr/lib/libitm.so*
+            - /usr/share/info/libitm.info*
+
+    - "libitm-static":
+        summary: The GNU Transactional Memory library - static lib
+        description: The GNU Transactional Memory library - static lib
+        paths:
+            - /usr/lib/libitm.a
+        rundeps:
+            - libitm
+
+    - "libitm-32bit":
+        summary: The GNU Transactional Memory library - 32bit lib
+        description: The GNU Transactional Memory library - 32bit lib
+        paths:
+            - /usr/lib32/libitm.so*
+
+    - "libitm-32bit-static":
+        summary: The GNU Transactional Memory library - static lib for 32bit
+        description: The GNU Transactional Memory library - static lib for 32bit
+        paths:
+            - /usr/lib32/libitm.a
+        rundeps:
+            - libitm-32bit
+            - libitm-static
+
+    - "libquadmath":
+        summary: GCC __float128 shared support library
+        description: GCC __float128 shared support library
+        paths:
+            - /usr/lib/libquadmath*.so*
+            - /usr/share/info/libquadmath.info*
+
+    - "libquadmath-devel":
+        summary: GCC __float128 shared support library - devel
+        description: GCC __float128 shared support library - devel
+        paths:
+            - /usr/lib/libquadmath*.so
+            - /usr/lib/gcc/*-linux/*/include/quadmath*
+        rundeps:
+            - libquadmath
+
+    - "libquadmath-static":
+        summary: GCC __float128 shared support library - static libs
+        description: GCC __float128 shared support library - static libs
+        paths:
+            - /usr/lib/libquadmath*.a
+        rundeps:
+            - libquadmath-devel
+
+    - "libquadmath-32bit":
+        summary: GCC __float128 shared support library - 32bit libs
+        description: GCC __float128 shared support library - 32bit libs
+        paths:
+            - /usr/lib32/libquadmath*.so*
+
+    - "libquadmath-32bit-devel":
+        summary: GCC __float128 shared support library - devel files for 32bit
+        description: GCC __float128 shared support library - devel files for 32bit
+        paths:
+            - /usr/lib32/libquadmath*.so
+        rundeps:
+            - libquadmath-32bit
+            - libquadmath-devel
+
+    - "libquadmath-32bit-static":
+        summary: GCC __float128 shared support library - static libs for 32bit
+        description: GCC __float128 shared support library - static libs for 32bit
+        paths:
+            - /usr/lib32/libquadmath*.a
+        rundeps:
+            - libquadmath-32bit-devel
+            - libquadmath-static
+
+    - "libstdc++":
+        summary: GNU Standard C++ Library
+        description: GNU Standard C++ Library
+        paths:
+            - /usr/lib/libstdc++.so*
+            - /usr/lib/libstdc++.modules.json
+            - /usr/share/gcc-*/python
             - /usr/share/gdb/auto-load/usr/lib
             - /usr/share/locale/*/LC_MESSAGES/libstdc++.mo
+
     - "libstdc++-devel":
+        summary: GNU Standard C++ Library - devel
+        description: GNU Standard C++ Library - devel
         paths:
-            - /usr/lib/lib*++*.a
-            - /usr/lib/lib*++*.so
+            - /usr/lib/libstdc++.so
             - /usr/include/c++
         rundeps:
             - libstdc++
             - glibc-devel
-            # LLVM checks for a "valid" GCC installation in order to determine where the libstdc++ headers
-            # live. It's probably possible to patch around that but for now let's just pull in GCC
-            - binary(gcc)
-    - "libstdc++-32bit":
+
+    - "libstdc++-static":
+        summary: GNU Standard C++ Library - static libs
+        description: GNU Standard C++ Library - static libs
         paths:
-            - /usr/lib32/lib*++*.so*
+            - /usr/lib/libstdc++*.a
+            - /usr/lib/libsupc++.a
+        rundeps:
+            - libstdc++-devel
+
+    - "libstdc++-32bit":
+        summary: GNU Standard C++ Library - 32bit libs
+        description: GNU Standard C++ Library - 32bit libs
+        paths:
+            - /usr/lib32/libstdc++.so*
+            - /usr/lib32/libstdc++.modules.json
             - /usr/share/gdb/auto-load/usr/lib32
         rundeps:
             - libstdc++
+
     - "libstdc++-32bit-devel":
+        summary: GNU Standard C++ Library - 32bit devel
+        description: GNU Standard C++ Library - 32bit devel
         paths:
-            - /usr/lib32/lib*++*.a
-            - /usr/lib32/lib*++*.so
+            - /usr/lib32/libstdc++*.so
             - /usr/include/c++/*-linux/32/*
         rundeps:
             - libstdc++-32bit
             - libstdc++-devel
             - glibc-32bit-devel
+
+    - "libstdc++-32bit-static":
+        summary: GNU Standard C++ Library - 32bit static libs
+        description: GNU Standard C++ Library - 32bit static libs
+        paths:
+            - /usr/lib32/libstdc++*.a
+            - /usr/lib32/libsupc++.a
+        rundeps:
+            - libstdc++-32bit-devel
+            - libstdc++-static
+
     - "g++":
+        summary: C++ support for GCC
+        description: C++ support for GCC
         paths:
             - /usr/bin/*c++
             - /usr/bin/*g++
-            - /usr/bin/cpp
             - /usr/lib/gcc/*-linux/*/cc1plus
             - /usr/lib/gcc/*-linux/*/g++-mapper-server
-            - /usr/share/locale/*/LC_MESSAGES/cpplib.mo
-            - /usr/share/man/*/cpp*
             - /usr/share/man/*/g++*
         rundeps:
             - binary(gcc)
             - libcxx-devel
             - libstdc++-devel
+
+    - "gccrs":
+        summary: Rust frontentd for GCC
+        description: Rust frontentd for GCC
+        paths:
+            - /usr/bin/*gccrs
+            - /usr/lib/gcc/*-linux/*/crab1
+        rundeps:
+            - binary(gcc)
+
+    - "gcobol":
+        summary: COBOL support for GCC
+        description: COBOL support for GCC
+        paths:
+            - /usr/bin/gcob*
+            - /usr/lib/gcc/*-linux/*/cobol1
+            - /usr/lib/libgcobol.spec
+            - /usr/share/gcobol
+            - /usr/share/man/man1/gcobol.1*
+            - /usr/share/man/man3/gcobol-io.3*
+        rundeps:
+            - binary(gcc)
+            - binary(g++)
+            - libgcobol
+
+    - "gfortran":
+        summary: Fortran support for GCC
+        description: Fortran support for GCC
+        paths:
+            - /usr/bin/*fortran*
+            - /usr/lib/*fortran*.spec
+            - /usr/lib/gcc/*-linux/*/f951
+            - /usr/lib/gcc/*-linux/*/finclude/*
+            - /usr/lib/gcc/*-linux/*/include/*Fortran*.h
+            - /usr/share/info/gfortran.info*
+            - /usr/share/man/*/*fortran*
+        rundeps:
+            - binary(gcc)
+            - libgfortran
+            - libquadmath-devel
+
+    - "gfortran-32bit":
+        paths:
+            - /usr/lib32/*fortran*.spec
+            - /usr/lib/gcc/*-linux/*/32/finclude/*
+        rundeps:
+            - gfortran
+            - libgfortran-32bit
+
+    # TODO: Delete once moss can handle package removals
     - "g++-32bit":
         paths:
             - /usr/share/doc/replace/g++-32bit
         rundeps:
             - g++
             - libstdc++-32bit-devel
-    - "gfortran":
-        paths:
-            - /usr/bin/*fortran*
-            - /usr/lib/*fortran*.a
-            - /usr/lib/*fortran*.so
-            - /usr/lib/*fortran*.spec
-            - /usr/lib/gcc/*-linux/*/f951
-            - /usr/lib/gcc/*-linux/*/finclude/*
-            - /usr/lib/gcc/*-linux/*/include/*Fortran*.h
-            - /usr/share/man/*/*fortran*
-        rundeps:
-            - binary(gcc)
-            - libgfortran
-    - "gfortran-32bit":
-        paths:
-            - /usr/lib32/*fortran*.a
-            - /usr/lib32/*fortran*.so
-            - /usr/lib32/*fortran*.spec
-            - /usr/lib/gcc/*-linux/*/32/finclude/*
-        rundeps:
-            - gfortran
-            - libgfortran-32bit
-    # TODO: Delete once moss can handle package removals
+
     - "gcc-devel":
         paths:
             - /usr/share/doc/replace/gcc-devel
         rundeps:
             - binary(gcc)
+
     - "gcc-32bit-devel":
         paths:
             - /usr/share/doc/replace/gcc-32bit-devel
