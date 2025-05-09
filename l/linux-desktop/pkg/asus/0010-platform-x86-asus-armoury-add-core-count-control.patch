@@ -1,7 +1,7 @@
-From ae4c3ed421c2fdea02dd0c31eb45b4fea07b7a7e Mon Sep 17 00:00:00 2001
+From 5a3a33db9bdaeff38d8529b2ec71070d357ebc57 Mon Sep 17 00:00:00 2001
 From: "Luke D. Jones" <luke@ljones.dev>
 Date: Wed, 18 Sep 2024 21:19:12 +1200
-Subject: [PATCH 25/28] platform/x86: asus-armoury: add core count control
+Subject: [PATCH 10/33] platform/x86: asus-armoury: add core count control
 
 Implement Intel core enablement under the asus-armoury module using the
 fw_attributes class.
@@ -12,16 +12,16 @@ depending on their requirements. After change a reboot is required.
 Signed-off-by: Luke D. Jones <luke@ljones.dev>
 Reviewed-by: Mario Limonciello <mario.limonciello@amd.com>
 ---
- drivers/platform/x86/asus-armoury.c        | 236 +++++++++++++++++++++
- drivers/platform/x86/asus-armoury.h        |  34 +++
+ drivers/platform/x86/asus-armoury.c        | 257 ++++++++++++++++++++-
+ drivers/platform/x86/asus-armoury.h        |  28 +++
  include/linux/platform_data/x86/asus-wmi.h |   5 +
- 3 files changed, 275 insertions(+)
+ 3 files changed, 289 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/platform/x86/asus-armoury.c b/drivers/platform/x86/asus-armoury.c
-index 298f7b203d7c..49e1788d8bba 100644
+index b1d6b0c41669..b36e19b9d2bf 100644
 --- a/drivers/platform/x86/asus-armoury.c
 +++ b/drivers/platform/x86/asus-armoury.c
-@@ -40,10 +40,39 @@
+@@ -39,13 +39,49 @@
  #define ASUS_MINI_LED_2024_STRONG 0x01
  #define ASUS_MINI_LED_2024_OFF    0x02
  
@@ -53,15 +53,26 @@ index 298f7b203d7c..49e1788d8bba 100644
 +	u32 max_power_cores;
 +};
 +
- struct asus_armoury_priv {
+ static struct asus_armoury_priv {
  	struct device *fw_attr_dev;
  	struct kset *fw_attr_kset;
  
 +	struct cpu_cores *cpu_cores;
  	u32 mini_led_dev_id;
  	u32 gpu_mux_dev_id;
+-} asus_armoury;
++	/*
++	 * Mutex to prevent big/little core count changes writing to same
++	 * endpoint at the same time. Must lock during attr store.
++	 */
++	struct mutex cpu_core_mutex;
++} asus_armoury = {
++	.cpu_core_mutex = __MUTEX_INITIALIZER(asus_armoury.cpu_core_mutex)
++};
  
-@@ -94,6 +123,8 @@ static struct kobj_attribute pending_reboot = __ATTR_RO(pending_reboot);
+ struct fw_attrs_group {
+ 	bool pending_reboot;
+@@ -87,6 +123,8 @@ static struct kobj_attribute pending_reboot = __ATTR_RO(pending_reboot);
  static bool asus_bios_requires_reboot(struct kobj_attribute *attr)
  {
  	return !strcmp(attr->attr.name, "gpu_mux_mode") ||
@@ -70,7 +81,20 @@ index 298f7b203d7c..49e1788d8bba 100644
  	       !strcmp(attr->attr.name, "panel_hd_mode");
  }
  
-@@ -509,6 +540,195 @@ static ssize_t apu_mem_possible_values_show(struct kobject *kobj, struct kobj_at
+@@ -165,6 +203,12 @@ static ssize_t enum_type_show(struct kobject *kobj, struct kobj_attribute *attr,
+ 	return sysfs_emit(buf, "enumeration\n");
+ }
+ 
++static ssize_t int_type_show(struct kobject *kobj, struct kobj_attribute *attr,
++			     char *buf)
++{
++	return sysfs_emit(buf, "integer\n");
++}
++
+ /* Mini-LED mode **************************************************************/
+ static ssize_t mini_led_mode_current_value_show(struct kobject *kobj,
+ 						struct kobj_attribute *attr, char *buf)
+@@ -501,6 +545,201 @@ static ssize_t apu_mem_possible_values_show(struct kobject *kobj, struct kobj_at
  }
  ATTR_GROUP_ENUM_CUSTOM(apu_mem, "apu_mem", "Set available system RAM (in GB) for the APU to use");
  
@@ -145,6 +169,8 @@ index 298f7b203d7c..49e1788d8bba 100644
 +	if (result)
 +		return result;
 +
++	mutex_lock(&asus_armoury.cpu_core_mutex);
++
 +	if (core_type == CPU_CORE_PERF) {
 +		perf_cores = new_cores;
 +		power_cores = out_val = asus_armoury.cpu_cores->cur_power_cores;
@@ -157,28 +183,32 @@ index 298f7b203d7c..49e1788d8bba 100644
 +		max = asus_armoury.cpu_cores->max_power_cores;
 +	}
 +
-+	if (new_cores < min || new_cores > max)
++	if (new_cores < min || new_cores > max) {
++		mutex_unlock(&asus_armoury.cpu_core_mutex);
 +		return -EINVAL;
++	}
 +
 +	out_val = 0;
 +	out_val |= FIELD_PREP(ASUS_PERF_CORE_MASK, perf_cores);
 +	out_val |= FIELD_PREP(ASUS_POWER_CORE_MASK, power_cores);
 +
-+	mutex_lock(&asus_armoury.mutex);
 +	err = asus_wmi_set_devstate(ASUS_WMI_DEVID_CORES, out_val, &result);
-+	mutex_unlock(&asus_armoury.mutex);
 +
 +	if (err) {
 +		pr_warn("Failed to set CPU core count: %d\n", err);
++		mutex_unlock(&asus_armoury.cpu_core_mutex);
 +		return err;
 +	}
 +
 +	if (result > 1) {
 +		pr_warn("Failed to set CPU core count (result): 0x%x\n", result);
++		mutex_unlock(&asus_armoury.cpu_core_mutex);
 +		return -EIO;
 +	}
 +
 +	pr_info("CPU core count changed, reboot required\n");
++	mutex_unlock(&asus_armoury.cpu_core_mutex);
++
 +	sysfs_notify(kobj, NULL, attr->attr.name);
 +	asus_set_reboot_and_signal_event();
 +
@@ -266,7 +296,7 @@ index 298f7b203d7c..49e1788d8bba 100644
  /* Simple attribute creation */
  ATTR_GROUP_ENUM_INT_RO(charge_mode, "charge_mode", ASUS_WMI_DEVID_CHARGE_MODE, "0;1;2",
  		       "Show the current mode of charging");
-@@ -530,6 +750,8 @@ static const struct asus_attr_group armoury_attr_groups[] = {
+@@ -522,6 +761,8 @@ static const struct asus_attr_group armoury_attr_groups[] = {
  	{ &egpu_enable_attr_group, ASUS_WMI_DEVID_EGPU },
  	{ &dgpu_disable_attr_group, ASUS_WMI_DEVID_DGPU },
  	{ &apu_mem_attr_group, ASUS_WMI_DEVID_APU_MEM },
@@ -275,11 +305,18 @@ index 298f7b203d7c..49e1788d8bba 100644
  
  	{ &charge_mode_attr_group, ASUS_WMI_DEVID_CHARGE_MODE },
  	{ &boot_sound_attr_group, ASUS_WMI_DEVID_BOOT_SOUND },
-@@ -643,6 +865,20 @@ static int __init asus_fw_init(void)
+@@ -625,6 +866,7 @@ static int asus_fw_attr_add(void)
+ static int __init asus_fw_init(void)
+ {
+ 	char *wmi_uid;
++	int err;
+ 
+ 	wmi_uid = wmi_get_acpi_device_uid(ASUS_WMI_MGMT_GUID);
+ 	if (!wmi_uid)
+@@ -637,6 +879,19 @@ static int __init asus_fw_init(void)
  	if (!strcmp(wmi_uid, ASUS_ACPI_UID_ASUSWMI))
  		return -ENODEV;
  
-+
 +	if (asus_wmi_is_present(ASUS_WMI_DEVID_CORES_MAX)) {
 +		asus_armoury.cpu_cores = kzalloc(sizeof(struct cpu_cores), GFP_KERNEL);
 +		if (!asus_armoury.cpu_cores)
@@ -293,61 +330,48 @@ index 298f7b203d7c..49e1788d8bba 100644
 +		}
 +	}
 +
- 	err = asus_fw_attr_add();
- 	if (err)
- 		return err;
-diff --git a/drivers/platform/x86/asus-armoury.h b/drivers/platform/x86/asus-armoury.h
-index 440f41c5df3b..5d6bef6d2b12 100644
---- a/drivers/platform/x86/asus-armoury.h
-+++ b/drivers/platform/x86/asus-armoury.h
-@@ -23,6 +23,12 @@ static ssize_t enum_type_show(struct kobject *kobj, struct kobj_attribute *attr,
- 	return sysfs_emit(buf, "enumeration\n");
+ 	return asus_fw_attr_add();
  }
  
-+static ssize_t int_type_show(struct kobject *kobj, struct kobj_attribute *attr,
-+			     char *buf)
-+{
-+	return sysfs_emit(buf, "integer\n");
-+}
-+
- #define __ASUS_ATTR_RO(_func, _name)                                  \
- 	{                                                             \
- 		.attr = { .name = __stringify(_name), .mode = 0444 }, \
-@@ -144,4 +150,32 @@ static ssize_t enum_type_show(struct kobject *kobj, struct kobj_attribute *attr,
- 		.name = _fsname, .attrs = _attrname##_attrs               \
+diff --git a/drivers/platform/x86/asus-armoury.h b/drivers/platform/x86/asus-armoury.h
+index 42c8171e5d8a..584a75df113d 100644
+--- a/drivers/platform/x86/asus-armoury.h
++++ b/drivers/platform/x86/asus-armoury.h
+@@ -162,4 +162,32 @@
+ 		.name = _fsname, .attrs = _attrname##_attrs			\
  	}
  
 +/* CPU core attributes need a little different in setup */
-+#define ATTR_GROUP_CORES_RW(_attrname, _fsname, _dispname)              \
-+	__ATTR_SHOW_FMT(scalar_increment, _attrname, "%d\n", 1);        \
-+	__ATTR_SHOW_FMT(display_name, _attrname, "%s\n", _dispname);    \
-+	static struct kobj_attribute attr_##_attrname##_current_value = \
-+		__ASUS_ATTR_RW(_attrname, current_value);               \
++#define ATTR_GROUP_CORES_RW(_attrname, _fsname, _dispname)		\
++	__ATTR_SHOW_FMT(scalar_increment, _attrname, "%d\n", 1);	\
++	__ATTR_SHOW_FMT(display_name, _attrname, "%s\n", _dispname);	\
++	static struct kobj_attribute attr_##_attrname##_current_value =	\
++		__ASUS_ATTR_RW(_attrname, current_value);		\
 +	static struct kobj_attribute attr_##_attrname##_default_value = \
-+		__ASUS_ATTR_RO(_attrname, default_value);               \
-+	static struct kobj_attribute attr_##_attrname##_min_value =     \
-+		__ASUS_ATTR_RO(_attrname, min_value);                   \
-+	static struct kobj_attribute attr_##_attrname##_max_value =     \
-+		__ASUS_ATTR_RO(_attrname, max_value);                   \
-+	static struct kobj_attribute attr_##_attrname##_type =          \
-+		__ASUS_ATTR_RO_AS(type, int_type_show);                 \
-+	static struct attribute *_attrname##_attrs[] = {                \
-+		&attr_##_attrname##_current_value.attr,                 \
-+		&attr_##_attrname##_default_value.attr,                 \
-+		&attr_##_attrname##_min_value.attr,                     \
-+		&attr_##_attrname##_max_value.attr,                     \
-+		&attr_##_attrname##_scalar_increment.attr,              \
-+		&attr_##_attrname##_display_name.attr,                  \
-+		&attr_##_attrname##_type.attr,                          \
-+		NULL                                                    \
-+	};                                                              \
-+	static const struct attribute_group _attrname##_attr_group = {  \
-+		.name = _fsname, .attrs = _attrname##_attrs             \
++		__ASUS_ATTR_RO(_attrname, default_value);		\
++	static struct kobj_attribute attr_##_attrname##_min_value =	\
++		__ASUS_ATTR_RO(_attrname, min_value);			\
++	static struct kobj_attribute attr_##_attrname##_max_value =	\
++		__ASUS_ATTR_RO(_attrname, max_value);			\
++	static struct kobj_attribute attr_##_attrname##_type =		\
++		__ASUS_ATTR_RO_AS(type, int_type_show);			\
++	static struct attribute *_attrname##_attrs[] = {		\
++		&attr_##_attrname##_current_value.attr,			\
++		&attr_##_attrname##_default_value.attr,			\
++		&attr_##_attrname##_min_value.attr,			\
++		&attr_##_attrname##_max_value.attr,			\
++		&attr_##_attrname##_scalar_increment.attr,		\
++		&attr_##_attrname##_display_name.attr,			\
++		&attr_##_attrname##_type.attr,				\
++		NULL							\
++	};								\
++	static const struct attribute_group _attrname##_attr_group = {	\
++		.name = _fsname, .attrs = _attrname##_attrs		\
 +	}
 +
  #endif /* _ASUS_ARMOURY_H_ */
 diff --git a/include/linux/platform_data/x86/asus-wmi.h b/include/linux/platform_data/x86/asus-wmi.h
-index f3494a9efea7..e735f35b423c 100644
+index c0fcdad6443f..d356dfe5ee7c 100644
 --- a/include/linux/platform_data/x86/asus-wmi.h
 +++ b/include/linux/platform_data/x86/asus-wmi.h
 @@ -137,6 +137,11 @@
@@ -363,5 +387,5 @@ index f3494a9efea7..e735f35b423c 100644
  
  /* gpu mux switch, 0 = dGPU, 1 = Optimus */
 -- 
-2.48.1
+2.49.0
 

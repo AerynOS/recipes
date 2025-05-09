@@ -1,7 +1,7 @@
-From 0a0c72d73dc9bac603fd84d41cfdada307c6e632 Mon Sep 17 00:00:00 2001
+From 7d3d86f5de3e52c63ef51a7b1080ba50c57f4cdb Mon Sep 17 00:00:00 2001
 From: "Luke D. Jones" <luke@ljones.dev>
 Date: Sun, 22 Sep 2024 21:39:43 +1200
-Subject: [PATCH 22/28] platform/x86: asus-armoury: move existing tunings to
+Subject: [PATCH 07/33] platform/x86: asus-armoury: move existing tunings to
  asus-armoury module
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -28,19 +28,16 @@ choices, etc. As en example dgpu_disable becomes:
 
 as do other attributes.
 
-The ppt_* based attributes are removed in this initial patch as the
-implementation is somewhat broken due to the WMI methods requiring a
-set of limits on the values accepted (which is not provided by WMI).
-
 Signed-off-by: Luke D. Jones <luke@ljones.dev>
+Reviewed-by: Mario Limonciello <mario.limonciello@amd.com>
 ---
  drivers/platform/x86/Kconfig               |  12 +
  drivers/platform/x86/Makefile              |   1 +
- drivers/platform/x86/asus-armoury.c        | 553 +++++++++++++++++++++
- drivers/platform/x86/asus-armoury.h        | 147 ++++++
+ drivers/platform/x86/asus-armoury.c        | 539 +++++++++++++++++++++
+ drivers/platform/x86/asus-armoury.h        | 165 +++++++
  drivers/platform/x86/asus-wmi.c            |   4 -
  include/linux/platform_data/x86/asus-wmi.h |   3 +
- 6 files changed, 716 insertions(+), 4 deletions(-)
+ 6 files changed, 720 insertions(+), 4 deletions(-)
  create mode 100644 drivers/platform/x86/asus-armoury.c
  create mode 100644 drivers/platform/x86/asus-armoury.h
 
@@ -81,10 +78,10 @@ index e1b142947067..fe3e7e7dede8 100644
  obj-$(CONFIG_ASUS_TF103C_DOCK)	+= asus-tf103c-dock.o
 diff --git a/drivers/platform/x86/asus-armoury.c b/drivers/platform/x86/asus-armoury.c
 new file mode 100644
-index 000000000000..d2e8c21d62dc
+index 000000000000..12acd851e6b2
 --- /dev/null
 +++ b/drivers/platform/x86/asus-armoury.c
-@@ -0,0 +1,553 @@
+@@ -0,0 +1,539 @@
 +// SPDX-License-Identifier: GPL-2.0-or-later
 +/*
 + * Asus Armoury (WMI) attributes driver. This driver uses the fw_attributes
@@ -96,7 +93,7 @@ index 000000000000..d2e8c21d62dc
 + * Copyright(C) 2024 Luke Jones <luke@ljones.dev>
 + */
 +
-+#include "linux/cleanup.h"
++#include <linux/acpi.h>
 +#include <linux/bitfield.h>
 +#include <linux/device.h>
 +#include <linux/dmi.h>
@@ -109,7 +106,6 @@ index 000000000000..d2e8c21d62dc
 +#include <linux/mutex.h>
 +#include <linux/platform_data/x86/asus-wmi.h>
 +#include <linux/types.h>
-+#include <linux/acpi.h>
 +
 +#include "asus-armoury.h"
 +#include "firmware_attributes_class.h"
@@ -127,19 +123,13 @@ index 000000000000..d2e8c21d62dc
 +#define ASUS_MINI_LED_2024_STRONG 0x01
 +#define ASUS_MINI_LED_2024_OFF    0x02
 +
-+struct asus_armoury_priv {
++static struct asus_armoury_priv {
 +	struct device *fw_attr_dev;
 +	struct kset *fw_attr_kset;
 +
 +	u32 mini_led_dev_id;
 +	u32 gpu_mux_dev_id;
-+
-+	struct mutex mutex;
-+};
-+
-+static struct asus_armoury_priv asus_armoury = {
-+	.mutex = __MUTEX_INITIALIZER(asus_armoury.mutex)
-+};
++} asus_armoury;
 +
 +struct fw_attrs_group {
 +	bool pending_reboot;
@@ -188,7 +178,6 @@ index 000000000000..d2e8c21d62dc
 +	u32 result;
 +	int err;
 +
-+	guard(mutex)(&asus_armoury.mutex);
 +	err = asus_wmi_set_devstate(wmi_dev, value, &result);
 +	if (err) {
 +		pr_err("Failed to set %s: %d\n", attr->attr.name, err);
@@ -251,6 +240,12 @@ index 000000000000..d2e8c21d62dc
 +		asus_set_reboot_and_signal_event();
 +
 +	return count;
++}
++
++static ssize_t enum_type_show(struct kobject *kobj, struct kobj_attribute *attr,
++			      char *buf)
++{
++	return sysfs_emit(buf, "enumeration\n");
 +}
 +
 +/* Mini-LED mode **************************************************************/
@@ -366,10 +361,9 @@ index 000000000000..d2e8c21d62dc
 +		if (err)
 +			return err;
 +		if (result && !optimus) {
-+			err = -ENODEV;
-+			pr_warn("Can not switch MUX to dGPU mode when dGPU is disabled: %02X %02X %d\n",
-+				result, optimus, err);
-+			return err;
++			pr_warn("Can not switch MUX to dGPU mode when dGPU is disabled: %02X %02X\n",
++				result, optimus);
++			return -ENODEV;
 +		}
 +	}
 +
@@ -378,10 +372,8 @@ index 000000000000..d2e8c21d62dc
 +		if (err)
 +			return err;
 +		if (result && !optimus) {
-+			err = -ENODEV;
-+			pr_warn("Can not switch MUX to dGPU mode when eGPU is enabled: %d\n",
-+				err);
-+			return err;
++			pr_warn("Can not switch MUX to dGPU mode when eGPU is enabled\n");
++			return -ENODEV;
 +		}
 +	}
 +
@@ -420,11 +412,9 @@ index 000000000000..d2e8c21d62dc
 +		if (err)
 +			return err;
 +		if (!result && disable) {
-+			err = -ENODEV;
-+			pr_warn("Can not disable dGPU when the MUX is in dGPU mode: %d\n", err);
-+			return err;
++			pr_warn("Can not disable dGPU when the MUX is in dGPU mode\n");
++			return -ENODEV;
 +		}
-+		// TODO: handle a > 1 result, shouold do a PCI rescan and run again
 +	}
 +
 +	err = armoury_wmi_set_devstate(attr, disable, ASUS_WMI_DEVID_DGPU);
@@ -465,9 +455,8 @@ index 000000000000..d2e8c21d62dc
 +			return result;
 +		}
 +		if (!result && enable) {
-+			err = -ENODEV;
-+			pr_warn("Can not enable eGPU when the MUX is in dGPU mode: %d\n", err);
-+			return err;
++			pr_warn("Can not enable eGPU when the MUX is in dGPU mode\n");
++			return -ENODEV;
 +		}
 +	}
 +
@@ -532,14 +521,14 @@ index 000000000000..d2e8c21d62dc
 +	}
 +
 +	asus_armoury.mini_led_dev_id = 0;
-+	if (asus_wmi_is_present(ASUS_WMI_DEVID_MINI_LED_MODE)) {
++	if (asus_wmi_is_present(ASUS_WMI_DEVID_MINI_LED_MODE))
 +		asus_armoury.mini_led_dev_id = ASUS_WMI_DEVID_MINI_LED_MODE;
-+	} else if (asus_wmi_is_present(ASUS_WMI_DEVID_MINI_LED_MODE2)) {
++	else if (asus_wmi_is_present(ASUS_WMI_DEVID_MINI_LED_MODE2))
 +		asus_armoury.mini_led_dev_id = ASUS_WMI_DEVID_MINI_LED_MODE2;
-+	}
 +
 +	if (asus_armoury.mini_led_dev_id) {
-+		err = sysfs_create_group(&asus_armoury.fw_attr_kset->kobj, &mini_led_mode_attr_group);
++		err = sysfs_create_group(&asus_armoury.fw_attr_kset->kobj,
++					 &mini_led_mode_attr_group);
 +		if (err) {
 +			pr_err("Failed to create sysfs-group for mini_led\n");
 +			goto err_remove_file;
@@ -547,14 +536,14 @@ index 000000000000..d2e8c21d62dc
 +	}
 +
 +	asus_armoury.gpu_mux_dev_id = 0;
-+	if (asus_wmi_is_present(ASUS_WMI_DEVID_GPU_MUX)) {
++	if (asus_wmi_is_present(ASUS_WMI_DEVID_GPU_MUX))
 +		asus_armoury.gpu_mux_dev_id = ASUS_WMI_DEVID_GPU_MUX;
-+	} else if (asus_wmi_is_present(ASUS_WMI_DEVID_GPU_MUX_VIVO)) {
++	else if (asus_wmi_is_present(ASUS_WMI_DEVID_GPU_MUX_VIVO))
 +		asus_armoury.gpu_mux_dev_id = ASUS_WMI_DEVID_GPU_MUX_VIVO;
-+	}
 +
 +	if (asus_armoury.gpu_mux_dev_id) {
-+		err = sysfs_create_group(&asus_armoury.fw_attr_kset->kobj, &gpu_mux_mode_attr_group);
++		err = sysfs_create_group(&asus_armoury.fw_attr_kset->kobj,
++					 &gpu_mux_mode_attr_group);
 +		if (err) {
 +			pr_err("Failed to create sysfs-group for gpu_mux\n");
 +			goto err_remove_mini_led_group;
@@ -579,11 +568,14 @@ index 000000000000..d2e8c21d62dc
 +err_remove_groups:
 +	while (--i >= 0) {
 +		if (asus_wmi_is_present(armoury_attr_groups[i].wmi_devid))
-+			sysfs_remove_group(&asus_armoury.fw_attr_kset->kobj, armoury_attr_groups[i].attr_group);
++			sysfs_remove_group(&asus_armoury.fw_attr_kset->kobj,
++					   armoury_attr_groups[i].attr_group);
 +	}
-+	sysfs_remove_group(&asus_armoury.fw_attr_kset->kobj, &gpu_mux_mode_attr_group);
++	if (asus_armoury.gpu_mux_dev_id)
++		sysfs_remove_group(&asus_armoury.fw_attr_kset->kobj, &gpu_mux_mode_attr_group);
 +err_remove_mini_led_group:
-+	sysfs_remove_group(&asus_armoury.fw_attr_kset->kobj, &mini_led_mode_attr_group);
++	if (asus_armoury.mini_led_dev_id)
++		sysfs_remove_group(&asus_armoury.fw_attr_kset->kobj, &mini_led_mode_attr_group);
 +err_remove_file:
 +	sysfs_remove_file(&asus_armoury.fw_attr_kset->kobj, &pending_reboot.attr);
 +err_destroy_kset:
@@ -599,7 +591,6 @@ index 000000000000..d2e8c21d62dc
 +static int __init asus_fw_init(void)
 +{
 +	char *wmi_uid;
-+	int err;
 +
 +	wmi_uid = wmi_get_acpi_device_uid(ASUS_WMI_MGMT_GUID);
 +	if (!wmi_uid)
@@ -612,22 +603,14 @@ index 000000000000..d2e8c21d62dc
 +	if (!strcmp(wmi_uid, ASUS_ACPI_UID_ASUSWMI))
 +		return -ENODEV;
 +
-+	err = asus_fw_attr_add();
-+	if (err)
-+		return err;
-+
-+	return 0;
++	return asus_fw_attr_add();
 +}
 +
 +static void __exit asus_fw_exit(void)
 +{
-+	mutex_lock(&asus_armoury.mutex);
-+
 +	sysfs_remove_file(&asus_armoury.fw_attr_kset->kobj, &pending_reboot.attr);
 +	kset_unregister(asus_armoury.fw_attr_kset);
 +	device_destroy(&firmware_attributes_class, MKDEV(0, 0));
-+
-+	mutex_unlock(&asus_armoury.mutex);
 +}
 +
 +module_init(asus_fw_init);
@@ -640,10 +623,10 @@ index 000000000000..d2e8c21d62dc
 +MODULE_ALIAS("wmi:" ASUS_NB_WMI_EVENT_GUID);
 diff --git a/drivers/platform/x86/asus-armoury.h b/drivers/platform/x86/asus-armoury.h
 new file mode 100644
-index 000000000000..440f41c5df3b
+index 000000000000..42c8171e5d8a
 --- /dev/null
 +++ b/drivers/platform/x86/asus-armoury.h
-@@ -0,0 +1,147 @@
+@@ -0,0 +1,165 @@
 +/* SPDX-License-Identifier: GPL-2.0
 + *
 + * Definitions for kernel modules using asus-armoury driver
@@ -659,140 +642,158 @@ index 000000000000..440f41c5df3b
 +
 +#define DRIVER_NAME "asus-armoury"
 +
-+static ssize_t attr_uint_store(struct kobject *kobj, struct kobj_attribute *attr,
-+			      const char *buf, size_t count, u32 min, u32 max,
-+			      u32 *store_value, u32 wmi_dev);
-+
-+static ssize_t enum_type_show(struct kobject *kobj, struct kobj_attribute *attr,
-+			      char *buf)
-+{
-+	return sysfs_emit(buf, "enumeration\n");
-+}
-+
-+#define __ASUS_ATTR_RO(_func, _name)                                  \
-+	{                                                             \
-+		.attr = { .name = __stringify(_name), .mode = 0444 }, \
-+		.show = _func##_##_name##_show,                       \
++#define __ASUS_ATTR_RO(_func, _name)					\
++	{								\
++		.attr = { .name = __stringify(_name), .mode = 0444 },	\
++		.show = _func##_##_name##_show,				\
 +	}
 +
-+#define __ASUS_ATTR_RO_AS(_name, _show)                               \
-+	{                                                             \
-+		.attr = { .name = __stringify(_name), .mode = 0444 }, \
-+		.show = _show,                                        \
++#define __ASUS_ATTR_RO_AS(_name, _show)					\
++	{								\
++		.attr = { .name = __stringify(_name), .mode = 0444 },	\
++		.show = _show,						\
 +	}
 +
 +#define __ASUS_ATTR_RW(_func, _name) \
 +	__ATTR(_name, 0644, _func##_##_name##_show, _func##_##_name##_store)
 +
-+#define __WMI_STORE_INT(_attr, _min, _max, _wmi)                          \
-+	static ssize_t _attr##_store(struct kobject *kobj,                \
-+				     struct kobj_attribute *attr,         \
-+				     const char *buf, size_t count)       \
-+	{                                                                 \
-+		return attr_uint_store(kobj, attr, buf, count, _min, _max, \
-+				      NULL, _wmi);                        \
++#define __WMI_STORE_INT(_attr, _min, _max, _wmi)			\
++	static ssize_t _attr##_store(struct kobject *kobj,		\
++				     struct kobj_attribute *attr,	\
++				     const char *buf, size_t count)	\
++	{								\
++		return attr_uint_store(kobj, attr, buf, count, _min,	\
++					_max, NULL, _wmi);		\
 +	}
 +
-+#define WMI_SHOW_INT(_attr, _fmt, _wmi)                                     \
-+	static ssize_t _attr##_show(struct kobject *kobj,                   \
-+				    struct kobj_attribute *attr, char *buf) \
-+	{                                                                   \
-+		u32 result;                                                 \
-+		int err;                                                    \
-+		                                                            \
-+		err = asus_wmi_get_devstate_dsts(_wmi, &result);            \
-+		if (err)                                                    \
-+			return err;                                         \
-+		return sysfs_emit(buf, _fmt,                                \
-+				  result & ~ASUS_WMI_DSTS_PRESENCE_BIT);    \
++#define WMI_SHOW_INT(_attr, _fmt, _wmi)						\
++	static ssize_t _attr##_show(struct kobject *kobj,			\
++				    struct kobj_attribute *attr, char *buf)	\
++	{									\
++		u32 result;							\
++		int err;							\
++										\
++		err = asus_wmi_get_devstate_dsts(_wmi, &result);		\
++		if (err)							\
++			return err;						\
++		return sysfs_emit(buf, _fmt,					\
++				  result & ~ASUS_WMI_DSTS_PRESENCE_BIT);	\
 +	}
 +
 +/* Create functions and attributes for use in other macros or on their own */
 +
-+#define __ATTR_CURRENT_INT_RO(_attr, _wmi)                          \
-+	WMI_SHOW_INT(_attr##_current_value, "%d\n", _wmi);          \
-+	static struct kobj_attribute attr_##_attr##_current_value = \
-+		__ASUS_ATTR_RO(_attr, current_value)
-+
-+#define __ATTR_CURRENT_INT_RW(_attr, _minv, _maxv, _wmi)            \
-+	__WMI_STORE_INT(_attr##_current_value, _minv, _maxv, _wmi); \
-+	WMI_SHOW_INT(_attr##_current_value, "%d\n", _wmi);          \
-+	static struct kobj_attribute attr_##_attr##_current_value = \
-+		__ASUS_ATTR_RW(_attr, current_value)
-+
 +/* Shows a formatted static variable */
-+#define __ATTR_SHOW_FMT(_prop, _attrname, _fmt, _val)                         \
-+	static ssize_t _attrname##_##_prop##_show(                            \
-+		struct kobject *kobj, struct kobj_attribute *attr, char *buf) \
-+	{                                                                     \
-+		return sysfs_emit(buf, _fmt, _val);                           \
-+	}                                                                     \
-+	static struct kobj_attribute attr_##_attrname##_##_prop =             \
++#define __ATTR_SHOW_FMT(_prop, _attrname, _fmt, _val)				\
++	static ssize_t _attrname##_##_prop##_show(				\
++		struct kobject *kobj, struct kobj_attribute *attr, char *buf)	\
++	{									\
++		return sysfs_emit(buf, _fmt, _val);				\
++	}									\
++	static struct kobj_attribute attr_##_attrname##_##_prop =		\
 +		__ASUS_ATTR_RO(_attrname, _prop)
 +
-+/* Boolean style enumeration, base macro. Requires adding show/store */
-+#define __ATTR_GROUP_ENUM(_attrname, _fsname, _possible, _dispname)     \
-+	__ATTR_SHOW_FMT(display_name, _attrname, "%s\n", _dispname);    \
-+	__ATTR_SHOW_FMT(possible_values, _attrname, "%s\n", _possible); \
-+	static struct kobj_attribute attr_##_attrname##_type =          \
-+		__ASUS_ATTR_RO_AS(type, enum_type_show);                \
-+	static struct attribute *_attrname##_attrs[] = {                \
-+		&attr_##_attrname##_current_value.attr,                 \
-+		&attr_##_attrname##_display_name.attr,                  \
-+		&attr_##_attrname##_possible_values.attr,               \
-+		&attr_##_attrname##_type.attr,                          \
-+		NULL                                                    \
-+	};                                                              \
-+	static const struct attribute_group _attrname##_attr_group = {  \
-+		.name = _fsname, .attrs = _attrname##_attrs             \
++
++#define __ATTR_RO_INT_GROUP_ENUM(_attrname, _wmi, _fsname, _possible, _dispname)\
++	WMI_SHOW_INT(_attrname##_current_value, "%d\n", _wmi);			\
++	static struct kobj_attribute attr_##_attrname##_current_value =		\
++		__ASUS_ATTR_RO(_attrname, current_value);			\
++	__ATTR_SHOW_FMT(display_name, _attrname, "%s\n", _dispname);		\
++	__ATTR_SHOW_FMT(possible_values, _attrname, "%s\n", _possible);		\
++	static struct kobj_attribute attr_##_attrname##_type =			\
++		__ASUS_ATTR_RO_AS(type, enum_type_show);			\
++	static struct attribute *_attrname##_attrs[] = {			\
++		&attr_##_attrname##_current_value.attr,				\
++		&attr_##_attrname##_display_name.attr,				\
++		&attr_##_attrname##_possible_values.attr,			\
++		&attr_##_attrname##_type.attr,					\
++		NULL								\
++	};									\
++	static const struct attribute_group _attrname##_attr_group = {		\
++		.name = _fsname, .attrs = _attrname##_attrs			\
 +	}
 +
-+#define ATTR_GROUP_BOOL_RO(_attrname, _fsname, _wmi, _dispname) \
-+	__ATTR_CURRENT_INT_RO(_attrname, _wmi);                 \
-+	__ATTR_GROUP_ENUM(_attrname, _fsname, "0;1", _dispname)
++#define __ATTR_RW_INT_GROUP_ENUM(_attrname, _minv, _maxv, _wmi, _fsname,\
++				 _possible, _dispname)			\
++	__WMI_STORE_INT(_attrname##_current_value, _minv, _maxv, _wmi);	\
++	WMI_SHOW_INT(_attrname##_current_value, "%d\n", _wmi);		\
++	static struct kobj_attribute attr_##_attrname##_current_value =	\
++		__ASUS_ATTR_RW(_attrname, current_value);		\
++	__ATTR_SHOW_FMT(display_name, _attrname, "%s\n", _dispname);	\
++	__ATTR_SHOW_FMT(possible_values, _attrname, "%s\n", _possible);	\
++	static struct kobj_attribute attr_##_attrname##_type =		\
++		__ASUS_ATTR_RO_AS(type, enum_type_show);		\
++	static struct attribute *_attrname##_attrs[] = {		\
++		&attr_##_attrname##_current_value.attr,			\
++		&attr_##_attrname##_display_name.attr,			\
++		&attr_##_attrname##_possible_values.attr,		\
++		&attr_##_attrname##_type.attr,				\
++		NULL							\
++	};								\
++	static const struct attribute_group _attrname##_attr_group = {	\
++		.name = _fsname, .attrs = _attrname##_attrs		\
++	}
 +
-+#define ATTR_GROUP_BOOL_RW(_attrname, _fsname, _wmi, _dispname) \
-+	__ATTR_CURRENT_INT_RW(_attrname, 0, 1, _wmi);           \
-+	__ATTR_GROUP_ENUM(_attrname, _fsname, "0;1", _dispname)
++/* Boolean style enumeration, base macro. Requires adding show/store */
++#define __ATTR_GROUP_ENUM(_attrname, _fsname, _possible, _dispname)	\
++	__ATTR_SHOW_FMT(display_name, _attrname, "%s\n", _dispname);	\
++	__ATTR_SHOW_FMT(possible_values, _attrname, "%s\n", _possible);	\
++	static struct kobj_attribute attr_##_attrname##_type =		\
++		__ASUS_ATTR_RO_AS(type, enum_type_show);		\
++	static struct attribute *_attrname##_attrs[] = {		\
++		&attr_##_attrname##_current_value.attr,			\
++		&attr_##_attrname##_display_name.attr,			\
++		&attr_##_attrname##_possible_values.attr,		\
++		&attr_##_attrname##_type.attr,				\
++		NULL							\
++	};								\
++	static const struct attribute_group _attrname##_attr_group = {	\
++		.name = _fsname, .attrs = _attrname##_attrs		\
++	}
++
++#define ATTR_GROUP_BOOL_RO(_attrname, _fsname, _wmi, _dispname)	\
++	__ATTR_RO_INT_GROUP_ENUM(_attrname, _wmi, _fsname, "0;1", _dispname)
++
++
++#define ATTR_GROUP_BOOL_RW(_attrname, _fsname, _wmi, _dispname)	\
++	__ATTR_RW_INT_GROUP_ENUM(_attrname, 0, 1, _wmi, _fsname, "0;1", _dispname)
++
++#define ATTR_GROUP_ENUM_INT_RO(_attrname, _fsname, _wmi, _possible, _dispname)	\
++	__ATTR_RO_INT_GROUP_ENUM(_attrname, _wmi, _fsname, _possible, _dispname)
 +
 +/*
 + * Requires <name>_current_value_show(), <name>_current_value_show()
 + */
-+#define ATTR_GROUP_BOOL_CUSTOM(_attrname, _fsname, _dispname)           \
-+	static struct kobj_attribute attr_##_attrname##_current_value = \
-+		__ASUS_ATTR_RW(_attrname, current_value);               \
++#define ATTR_GROUP_BOOL_CUSTOM(_attrname, _fsname, _dispname)		\
++	static struct kobj_attribute attr_##_attrname##_current_value =	\
++		__ASUS_ATTR_RW(_attrname, current_value);		\
 +	__ATTR_GROUP_ENUM(_attrname, _fsname, "0;1", _dispname)
-+
-+#define ATTR_GROUP_ENUM_INT_RO(_attrname, _fsname, _wmi, _possible, _dispname) \
-+	__ATTR_CURRENT_INT_RO(_attrname, _wmi);                                \
-+	__ATTR_GROUP_ENUM(_attrname, _fsname, _possible, _dispname)
 +
 +/*
 + * Requires <name>_current_value_show(), <name>_current_value_show()
 + * and <name>_possible_values_show()
 + */
-+#define ATTR_GROUP_ENUM_CUSTOM(_attrname, _fsname, _dispname)             \
-+	__ATTR_SHOW_FMT(display_name, _attrname, "%s\n", _dispname);      \
-+	static struct kobj_attribute attr_##_attrname##_current_value =   \
-+		__ASUS_ATTR_RW(_attrname, current_value);                 \
-+	static struct kobj_attribute attr_##_attrname##_possible_values = \
-+		__ASUS_ATTR_RO(_attrname, possible_values);               \
-+	static struct kobj_attribute attr_##_attrname##_type =            \
-+		__ASUS_ATTR_RO_AS(type, enum_type_show);                  \
-+	static struct attribute *_attrname##_attrs[] = {                  \
-+		&attr_##_attrname##_current_value.attr,                   \
-+		&attr_##_attrname##_display_name.attr,                    \
-+		&attr_##_attrname##_possible_values.attr,                 \
-+		&attr_##_attrname##_type.attr,                            \
-+		NULL                                                      \
-+	};                                                                \
-+	static const struct attribute_group _attrname##_attr_group = {    \
-+		.name = _fsname, .attrs = _attrname##_attrs               \
++#define ATTR_GROUP_ENUM_CUSTOM(_attrname, _fsname, _dispname)			\
++	__ATTR_SHOW_FMT(display_name, _attrname, "%s\n", _dispname);		\
++	static struct kobj_attribute attr_##_attrname##_current_value =		\
++		__ASUS_ATTR_RW(_attrname, current_value);			\
++	static struct kobj_attribute attr_##_attrname##_possible_values =	\
++		__ASUS_ATTR_RO(_attrname, possible_values);			\
++	static struct kobj_attribute attr_##_attrname##_type =			\
++		__ASUS_ATTR_RO_AS(type, enum_type_show);			\
++	static struct attribute *_attrname##_attrs[] = {			\
++		&attr_##_attrname##_current_value.attr,				\
++		&attr_##_attrname##_display_name.attr,				\
++		&attr_##_attrname##_possible_values.attr,			\
++		&attr_##_attrname##_type.attr,					\
++		NULL								\
++	};									\
++	static const struct attribute_group _attrname##_attr_group = {		\
++		.name = _fsname, .attrs = _attrname##_attrs			\
 +	}
 +
 +#endif /* _ASUS_ARMOURY_H_ */
 diff --git a/drivers/platform/x86/asus-wmi.c b/drivers/platform/x86/asus-wmi.c
-index 27085df2b47a..1377682461d7 100644
+index 4cc78922d0ab..20639e18c892 100644
 --- a/drivers/platform/x86/asus-wmi.c
 +++ b/drivers/platform/x86/asus-wmi.c
 @@ -55,8 +55,6 @@ module_param(fnlock_default, bool, 0444);
@@ -814,7 +815,7 @@ index 27085df2b47a..1377682461d7 100644
  
  #define FAN_CURVE_POINTS		8
 diff --git a/include/linux/platform_data/x86/asus-wmi.h b/include/linux/platform_data/x86/asus-wmi.h
-index 96ff25b2b51b..4574e30c53fc 100644
+index b6f15b3d0959..781e02623dc1 100644
 --- a/include/linux/platform_data/x86/asus-wmi.h
 +++ b/include/linux/platform_data/x86/asus-wmi.h
 @@ -6,6 +6,9 @@
@@ -828,5 +829,5 @@ index 96ff25b2b51b..4574e30c53fc 100644
  #define ASUS_WMI_METHODID_SPEC	        0x43455053 /* BIOS SPECification */
  #define ASUS_WMI_METHODID_SFBD		0x44424653 /* Set First Boot Device */
 -- 
-2.48.1
+2.49.0
 

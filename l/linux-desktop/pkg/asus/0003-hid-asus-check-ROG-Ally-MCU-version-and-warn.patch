@@ -1,7 +1,7 @@
-From f27a54f029f1770de14934f58f074d06acd01609 Mon Sep 17 00:00:00 2001
+From 4440fde6df1bc92dfa107864ff4f07472bcbb91a Mon Sep 17 00:00:00 2001
 From: "Luke D. Jones" <luke@ljones.dev>
 Date: Tue, 28 Jan 2025 19:29:27 +1300
-Subject: [PATCH 04/28] hid-asus: check ROG Ally MCU version and warn
+Subject: [PATCH 03/33] hid-asus: check ROG Ally MCU version and warn
 
 ASUS have fixed suspend issues arising from a flag not being cleared in
 the MCU FW in both the ROG Ally 1 and the ROG Ally X.
@@ -166,5 +166,5 @@ index 46e3e42f9eb5..599c836507ff 100644
  	    USB_DEVICE_ID_ASUSTEK_ROG_CLAYMORE_II_KEYBOARD),
  	  QUIRK_ROG_CLAYMORE_II_KEYBOARD },
 -- 
-2.48.1
+2.49.0
 

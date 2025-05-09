@@ -1,7 +1,7 @@
-From 76f2ec7b81b90b5d9151621cd9b0f368fd8aece9 Mon Sep 17 00:00:00 2001
+From aefd4190c26b944511be0602fc7e872ccef8222d Mon Sep 17 00:00:00 2001
 From: "Luke D. Jones" <luke@ljones.dev>
 Date: Sun, 2 Jun 2024 14:44:31 +1200
-Subject: [PATCH 24/28] platform/x86: asus-armoury: add apu-mem control support
+Subject: [PATCH 09/33] platform/x86: asus-armoury: add apu-mem control support
 
 Implement the APU memory size control under the asus-armoury module using
 the fw_attributes class.
@@ -17,10 +17,10 @@ Reviewed-by: Mario Limonciello <mario.limonciello@amd.com>
  2 files changed, 116 insertions(+)
 
 diff --git a/drivers/platform/x86/asus-armoury.c b/drivers/platform/x86/asus-armoury.c
-index 716bf96b6b58..298f7b203d7c 100644
+index a299471d78d5..b1d6b0c41669 100644
 --- a/drivers/platform/x86/asus-armoury.c
 +++ b/drivers/platform/x86/asus-armoury.c
-@@ -396,6 +396,119 @@ static ssize_t egpu_enable_current_value_store(struct kobject *kobj, struct kobj
+@@ -388,6 +388,119 @@ static ssize_t egpu_enable_current_value_store(struct kobject *kobj, struct kobj
  WMI_SHOW_INT(egpu_enable_current_value, "%d\n", ASUS_WMI_DEVID_EGPU);
  ATTR_GROUP_BOOL_CUSTOM(egpu_enable, "egpu_enable", "Enable the eGPU (also disables dGPU)");
  
@@ -140,7 +140,7 @@ index 716bf96b6b58..298f7b203d7c 100644
  /* Simple attribute creation */
  ATTR_GROUP_ENUM_INT_RO(charge_mode, "charge_mode", ASUS_WMI_DEVID_CHARGE_MODE, "0;1;2",
  		       "Show the current mode of charging");
-@@ -416,6 +529,7 @@ static const struct asus_attr_group armoury_attr_groups[] = {
+@@ -408,6 +521,7 @@ static const struct asus_attr_group armoury_attr_groups[] = {
  	{ &egpu_connected_attr_group, ASUS_WMI_DEVID_EGPU_CONNECTED },
  	{ &egpu_enable_attr_group, ASUS_WMI_DEVID_EGPU },
  	{ &dgpu_disable_attr_group, ASUS_WMI_DEVID_DGPU },
@@ -149,7 +149,7 @@ index 716bf96b6b58..298f7b203d7c 100644
  	{ &charge_mode_attr_group, ASUS_WMI_DEVID_CHARGE_MODE },
  	{ &boot_sound_attr_group, ASUS_WMI_DEVID_BOOT_SOUND },
 diff --git a/include/linux/platform_data/x86/asus-wmi.h b/include/linux/platform_data/x86/asus-wmi.h
-index 62a9adb1af2f..f3494a9efea7 100644
+index 52c345de03a8..c0fcdad6443f 100644
 --- a/include/linux/platform_data/x86/asus-wmi.h
 +++ b/include/linux/platform_data/x86/asus-wmi.h
 @@ -137,6 +137,8 @@
@@ -162,5 +162,5 @@ index 62a9adb1af2f..f3494a9efea7 100644
  #define ASUS_WMI_DEVID_GPU_MUX		0x00090016
  #define ASUS_WMI_DEVID_GPU_MUX_VIVO	0x00090026
 -- 
-2.48.1
+2.49.0
 
