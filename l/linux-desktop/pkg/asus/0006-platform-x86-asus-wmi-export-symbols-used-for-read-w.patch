@@ -1,13 +1,18 @@
-From 1b32c46a460c93fac2093076ad24cf766075bfba Mon Sep 17 00:00:00 2001
+From e247d111dd4122bac3a9462e0d240a80d1ed24ff Mon Sep 17 00:00:00 2001
 From: "Luke D. Jones" <luke@ljones.dev>
 Date: Sun, 22 Sep 2024 21:40:46 +1200
-Subject: [PATCH 21/28] platform/x86: asus-wmi: export symbols used for
+Subject: [PATCH 06/33] platform/x86: asus-wmi: export symbols used for
  read/write WMI
 
-Export some rather helpful read/write WMI symbols using a namespace.
-These are DEVS and DSTS only, or require the arg0 input.
+Export symbols for read/write WMI symbols using a namespace.
+Existing functions:
+- asus_wmi_evaluate_method
+- asus_wmi_set_devstate
+New function:
+- asus_wmi_get_devstate_dsts
 
-Also does a slight refactor of internals of these functions.
+The new function is inteded for use with DSTS WMI method only and
+avoids requiring the asus_wmi driver data to select the WMI method.
 
 Signed-off-by: Luke D. Jones <luke@ljones.dev>
 Reviewed-by: Mario Limonciello <mario.limonciello@amd.com>
@@ -17,7 +22,7 @@ Reviewed-by: Mario Limonciello <mario.limonciello@amd.com>
  2 files changed, 51 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/platform/x86/asus-wmi.c b/drivers/platform/x86/asus-wmi.c
-index 671c726f85b8..27085df2b47a 100644
+index 4c0a16d29d04..4cc78922d0ab 100644
 --- a/drivers/platform/x86/asus-wmi.c
 +++ b/drivers/platform/x86/asus-wmi.c
 @@ -389,7 +389,7 @@ int asus_wmi_evaluate_method(u32 method_id, u32 arg0, u32 arg1, u32 *retval)
@@ -84,18 +89,18 @@ index 671c726f85b8..27085df2b47a 100644
  /* Helper for special devices with magic return codes */
  static int asus_wmi_get_devstate_bits(struct asus_wmi *asus,
 diff --git a/include/linux/platform_data/x86/asus-wmi.h b/include/linux/platform_data/x86/asus-wmi.h
-index a32cb8865b2f..96ff25b2b51b 100644
+index 8a515179113d..b6f15b3d0959 100644
 --- a/include/linux/platform_data/x86/asus-wmi.h
 +++ b/include/linux/platform_data/x86/asus-wmi.h
-@@ -160,6 +160,7 @@
+@@ -166,6 +166,7 @@ enum asus_ally_mcu_hack {
  #if IS_REACHABLE(CONFIG_ASUS_WMI)
- void set_ally_mcu_hack(bool enabled);
+ void set_ally_mcu_hack(enum asus_ally_mcu_hack status);
  void set_ally_mcu_powersave(bool enabled);
 +int asus_wmi_get_devstate_dsts(u32 dev_id, u32 *retval);
  int asus_wmi_set_devstate(u32 dev_id, u32 ctrl_param, u32 *retval);
  int asus_wmi_evaluate_method(u32 method_id, u32 arg0, u32 arg1, u32 *retval);
  #else
-@@ -175,6 +176,14 @@ static inline int asus_wmi_set_devstate(u32 dev_id, u32 ctrl_param, u32 *retval)
+@@ -179,6 +180,14 @@ static inline int asus_wmi_set_devstate(u32 dev_id, u32 ctrl_param, u32 *retval)
  {
  	return -ENODEV;
  }
@@ -111,5 +116,5 @@ index a32cb8865b2f..96ff25b2b51b 100644
  					   u32 *retval)
  {
 -- 
-2.48.1
+2.49.0
 
