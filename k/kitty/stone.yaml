@@ -1,0 +1,46 @@
+#
+# SPDX-FileCopyrightText: © 2025- AerynOS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : kitty
+version     : 0.41.1
+release     : 1
+homepage    : https://github.com/kovidgoyal/kitty
+upstreams   :
+    - https://github.com/kovidgoyal/kitty/releases/download/v0.41.1/kitty-0.41.1.tar.xz : e30150fad1bcc885a7adbd87380696ef7b67a62a38f74634efbc05c3745f26aa
+summary     : Cross-platform, fast, feature-rich, GPU based terminal
+description : |
+    kitty the fast, feature-rich, GPU based terminal emulator
+license     :
+    - GPL-3.0-or-later
+networking  : true
+builddeps   :
+    - pkgconfig(python3)
+    - pkgconfig(libxxhash)
+    - pkgconfig(harfbuzz)
+    - pkgconfig(lcms2)
+    - pkgconfig(libcrypto)
+    - pkgconfig(gl)
+    - pkgconfig(xkbcommon)
+    - pkgconfig(xrandr)
+    - pkgconfig(xinerama)
+    - pkgconfig(xcursor)
+    - pkgconfig(dbus-1)
+    - pkgconfig(wayland-protocols)
+    - pkgconfig(wayland-scanner)
+    - pkgconfig(xi)
+    - pkgconfig(simde)
+    - binary(go)
+    - font-symbols-nerd
+build       : |
+    %make
+    %make linux-package
+install     : |
+    linux-package/bin/kitten __complete__ setup bash | %install_file /dev/stdin %(installroot)%(datadir)/bash-completion/completions/kitty
+    linux-package/bin/kitten __complete__ setup fish | %install_file /dev/stdin %(installroot)%(datadir)/fish/vendor_completions.d/kitty.fish
+    linux-package/bin/kitten __complete__ setup zsh  | %install_file /dev/stdin %(installroot)%(datadir)/zsh/site-functions/_kitty
+
+    %install_dir %(installroot)%(prefix)
+    cp -r linux-package/* %(installroot)%(prefix)
+
