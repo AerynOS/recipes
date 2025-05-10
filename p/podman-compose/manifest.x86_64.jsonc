@@ -1,0 +1,41 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"podman-compose": {
+			"depends": [
+				"podman",
+				"python(python-dotenv(3.11))",
+				"python(pyyaml(3.11))"
+			],
+			"files": [
+				"/usr/bin/podman-compose",
+				"/usr/lib/python3.11/site-packages/__pycache__/podman_compose.cpython-311.opt-1.pyc",
+				"/usr/lib/python3.11/site-packages/__pycache__/podman_compose.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/podman_compose-1.4.0.dist-info/LICENSE",
+				"/usr/lib/python3.11/site-packages/podman_compose-1.4.0.dist-info/METADATA",
+				"/usr/lib/python3.11/site-packages/podman_compose-1.4.0.dist-info/RECORD",
+				"/usr/lib/python3.11/site-packages/podman_compose-1.4.0.dist-info/WHEEL",
+				"/usr/lib/python3.11/site-packages/podman_compose-1.4.0.dist-info/entry_points.txt",
+				"/usr/lib/python3.11/site-packages/podman_compose-1.4.0.dist-info/top_level.txt",
+				"/usr/lib/python3.11/site-packages/podman_compose.py",
+				"/usr/share/doc/podman-compose/Changelog-1.1.0.md",
+				"/usr/share/doc/podman-compose/Changelog-1.2.0.md",
+				"/usr/share/doc/podman-compose/Changelog-1.3.0.md",
+				"/usr/share/doc/podman-compose/Changelog-1.4.0.md",
+				"/usr/share/doc/podman-compose/Extensions.md",
+				"/usr/share/doc/podman-compose/Mappings.md",
+				"/usr/share/doc/podman-compose/README.md"
+			],
+			"name": "podman-compose",
+			"provides": [
+				"binary(podman-compose)",
+				"python(podman-compose(3.11))",
+				"python(podman-compose)"
+			]
+		}
+	},
+	"source-name": "podman-compose",
+	"source-release": "1",
+	"source-version": "1.4.0"
+}
