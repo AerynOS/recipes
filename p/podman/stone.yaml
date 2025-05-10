@@ -1,0 +1,33 @@
+#
+# SPDX-FileCopyrightText: © 2025- AerynOS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : podman
+version     : 5.4.2
+release     : 1
+homepage    : https://github.com/containers/podman
+upstreams   :
+    - https://github.com/containers/podman/archive/refs/tags/v5.4.2.tar.gz : 8da62c25956441b14d781099e803e38410a5753e5c7349bcd34615b9ca5ed4f2
+summary     : Podman a tool for managing OCI containers and pods. 
+description : |
+    Podman (the POD MANager) is a tool for managing containers and images, volumes mounted into those containers, and pods made from groups of containers.
+license     : Apache-2.0
+builddeps   :
+    - binary(go)
+    - binary(man)
+    - pkgconfig(systemd)
+    - pkgconfig(gpgme)
+    - pkgconfig(libseccomp)
+rundeps     :
+    - conmon
+    - binary(crun)
+    - binary(netavark)
+build       : |
+    %make EXTRA_LDFLAGS='-compressdwarf=false -linkmode=external' PREFIX=/usr
+install     : |
+    %make_install install.completions DESTDIR=%(installroot) PREFIX=/usr LIBEXECDIR=/usr/lib
+
+    %install_bin bin/podman
+    %install_bin bin/podman-remote
+    %install_bin bin/podmansh
