@@ -1,0 +1,34 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"netavark": {
+			"build-depends": [
+				"binary(mandown)",
+				"binary(protoc)"
+			],
+			"depends": [
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(ld-linux-x86-64.so.2(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libm.so.6(x86_64))",
+				"soname(libunwind.so.1(x86_64))"
+			],
+			"files": [
+				"/usr/bin/netavark",
+				"/usr/lib/podman/netavark",
+				"/usr/lib/systemd/system/netavark-dhcp-proxy.service",
+				"/usr/lib/systemd/system/netavark-dhcp-proxy.socket",
+				"/usr/share/doc/netavark/README.md",
+				"/usr/share/man/man1/netavark.1"
+			],
+			"name": "netavark",
+			"provides": [
+				"binary(netavark)"
+			]
+		}
+	},
+	"source-name": "netavark",
+	"source-release": "1",
+	"source-version": "1.14.1"
+}

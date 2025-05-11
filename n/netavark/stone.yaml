@@ -1,0 +1,34 @@
+#
+# SPDX-FileCopyrightText: © 2025- AerynOS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : netavark
+version     : 1.14.1
+release     : 1
+homepage    : https://github.com/containers/netavark
+upstreams   :
+    - https://github.com/containers/netavark/archive/refs/tags/v1.14.1.tar.gz : fd4a25db0abe73e2d0d7a9958f298ace134671edc64259cbc8ea3c2907f89dd8
+summary     : Container network stack 
+description : |
+    Netavark is a rust based network stack for containers. It is being designed to work with Podman but is also applicable for other OCI container management applications.
+license     : Apache-2.0
+networking  : true
+builddeps   :
+    - binary(protoc)
+    - binary(mandown)
+setup       : |
+    %cargo_fetch
+build       : |
+    mandown docs/%(name).1.md > %(name).1
+    sed "s|@@NETAVARK@@|/usr/lib/podman/netavark|" contrib/systemd/system/netavark-dhcp-proxy.service.in > contrib/systemd/system/netavark-dhcp-proxy.service
+
+    %cargo_build --all-features
+install     : |
+    %cargo_install
+
+    %install_exe %(installroot)%(bindir)/%(name) -t %(installroot)%(libdir)/podman/
+    %install_file %(name).1 -t %(installroot)%(mandir)/man1
+    %install_file contrib/systemd/system/*.{service,socket} -t %(installroot)%(libdir)/systemd/system
+    %install_file README.md -t %(installroot)%(docdir)/%(name)
+
