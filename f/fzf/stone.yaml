@@ -1,0 +1,41 @@
+#
+# SPDX-FileCopyrightText: © 2025- AerynOS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : fzf
+version     : 0.62.0
+release     : 1
+homepage    : https://github.com/junegunn/fzf
+upstreams   :
+    - https://github.com/junegunn/fzf/archive/refs/tags/v0.62.0.tar.gz : e5beae86a3d026b2c2cfc165715d45b831b9f337a9e96f711ba3bc3d15e50900
+summary     : A command-line fuzzy finder
+description : |
+    It's an interactive filter program for any kind of list; files, command history, processes, hostnames, bookmarks, git commits, etc. It implements a "fuzzy" matching algorithm, so you can quickly type in patterns with omitted characters and still get the results you want.
+license     : MIT
+networking  : true
+builddeps   :
+  - binary(go)
+setup       : |
+    sed -i 's/-w /-w -linkmode external /' Makefile
+build       : |
+    FZF_VERSION=%(version) FZF_REVISION=tarball %make
+install     : |
+    %install_file man/man1/fzf.1 %(installroot)%(mandir)/man1/fzf.1
+    %install_file man/man1/fzf-tmux.1 %(installroot)%(mandir)/man1/fzf-tmux.1
+
+    %install_file LICENSE %(installroot)%(datadir)/licenses/fzf/LICENSE
+
+    cp target/fzf-linux_amd64 bin/fzf
+    %install_bin bin/fzf-tmux
+    %install_bin bin/fzf
+
+    %install_dir %(installroot)%(datadir)/fzf
+    %install_file shell/*.bash shell/*.zsh %(installroot)%(datadir)/fzf
+
+    %install_file shell/key-bindings.fish %(installroot)%(datadir)/fish/vendor_functions.d/fzf_key_bindings.fish
+
+    %install_file doc/fzf.txt %(installroot)%(datadir)/vim/vimfiles/doc/fzf.txt
+    %install_file plugin/fzf.vim %(installroot)%(datadir)/vim/vimfiles/plugin/fzf.vim
+
+
