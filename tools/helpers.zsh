@@ -22,13 +22,13 @@ function cpesearch() {
 # by your zsh shell.
 function gotoaosrepo() {
     SCRIPT_PATH=$functions_source[gotoaosrepo]
-    cd $(dirname $(readlink "${SCRIPT_PATH}"))/../
+    cd $(dirname $(readlink -m "${SCRIPT_PATH}"))/../
 }
 
 # Deprecated, use gotoaosrepo
 function gotoserpentrepo() {
     SCRIPT_PATH=$functions_source[gotoserpentrepo]
-    cd $(dirname $(readlink "${SCRIPT_PATH}"))/../
+    cd $(dirname $(readlink -m "${SCRIPT_PATH}"))/../
 }
 
 # Goes to the root directory of the git repository

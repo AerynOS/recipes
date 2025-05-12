@@ -78,11 +78,11 @@ function cpesearch() {
 # This function will only work if this script is sourced
 # by your bash shell.
 function gotoaosrepo() {
-    cd "$(dirname "$(readlink "${BASH_SOURCE[0]}")")/../" || return 1
+    cd "$(dirname "$(readlink -m "${BASH_SOURCE[0]}")")/../" || return 1
 }
 # deprecated - use gotoaerynosrepo
 function gotoserpentrepo() {
-    cd "$(dirname "$(readlink "${BASH_SOURCE[0]}")")/../" || return 1
+    cd "$(dirname "$(readlink -m "${BASH_SOURCE[0]}")")/../" || return 1
 }
 
 # Goes to the root directory of the git repository

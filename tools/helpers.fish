@@ -1,6 +1,6 @@
 #!/usr/bin/env fish
 function __aos_repo_dir
-    realpath (dirname (readlink (status -f)))/../
+    realpath (dirname (readlink -m (status -f)))/../
 end
 
 function __aos_toplevel
