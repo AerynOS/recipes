@@ -1,0 +1,41 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"utf8proc": {
+			"depends": [
+				"soname(libc.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/lib/libutf8proc.so.3",
+				"/usr/lib/libutf8proc.so.3.2.3"
+			],
+			"name": "utf8proc",
+			"provides": [
+				"soname(libutf8proc.so.3(x86_64))"
+			]
+		},
+		"utf8proc-devel": {
+			"depends": [
+				"utf8proc"
+			],
+			"files": [
+				"/usr/include/utf8proc.h",
+				"/usr/lib/cmake/utf8proc/utf8proc-config-version.cmake",
+				"/usr/lib/cmake/utf8proc/utf8proc-config.cmake",
+				"/usr/lib/cmake/utf8proc/utf8proc-targets-release.cmake",
+				"/usr/lib/cmake/utf8proc/utf8proc-targets.cmake",
+				"/usr/lib/libutf8proc.so",
+				"/usr/lib/pkgconfig/libutf8proc.pc"
+			],
+			"name": "utf8proc-devel",
+			"provides": [
+				"cmake(utf8proc)",
+				"pkgconfig(libutf8proc)"
+			]
+		}
+	},
+	"source-name": "utf8proc",
+	"source-release": "1",
+	"source-version": "2.11.3"
+}
