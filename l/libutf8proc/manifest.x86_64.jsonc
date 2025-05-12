@@ -1,0 +1,20 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"libutf8proc": {
+			"files": [
+				"/usr/include/utf8proc.h",
+				"/usr/lib/libutf8proc.a",
+				"/usr/lib/pkgconfig/libutf8proc.pc"
+			],
+			"name": "libutf8proc",
+			"provides": [
+				"pkgconfig(libutf8proc)"
+			]
+		}
+	},
+	"source-name": "libutf8proc",
+	"source-release": "1",
+	"source-version": "2.10.0"
+}
