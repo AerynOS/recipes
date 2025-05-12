@@ -1,0 +1,48 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"tree-sitter": {
+			"build-depends": [
+				"pkgconfig(openssl)"
+			],
+			"depends": [
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(ld-linux-x86-64.so.2(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libm.so.6(x86_64))",
+				"soname(libunwind.so.1(x86_64))"
+			],
+			"files": [
+				"/usr/bin/tree-sitter",
+				"/usr/lib/libtree-sitter.so.0.25",
+				"/usr/share/licenses/tree-sitter/LICENSE"
+			],
+			"name": "tree-sitter",
+			"provides": [
+				"binary(tree-sitter)",
+				"soname(libtree-sitter.so.0.25(x86_64))"
+			]
+		},
+		"tree-sitter-devel": {
+			"build-depends": [
+				"pkgconfig(openssl)"
+			],
+			"depends": [
+				"tree-sitter"
+			],
+			"files": [
+				"/usr/include/tree_sitter/api.h",
+				"/usr/lib/libtree-sitter.so",
+				"/usr/share/pkgconfig/tree-sitter.pc"
+			],
+			"name": "tree-sitter-devel",
+			"provides": [
+				"pkgconfig(tree-sitter)"
+			]
+		}
+	},
+	"source-name": "tree-sitter",
+	"source-release": "1",
+	"source-version": "0.25.4"
+}
