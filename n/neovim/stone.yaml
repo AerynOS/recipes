@@ -1,0 +1,34 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : neovim
+version     : "0.12.3"
+release     : 1
+homepage    : https://github.com/neovim/neovim
+upstreams   :
+    - https://github.com/neovim/neovim/archive/refs/tags/v0.12.3.tar.gz : 36a6c66bfbba5d96fa512110aecddb981148a4d013b5ecd01a42877c49855a41
+summary     : Vim-fork focused on extensibility and usability
+description : |
+    Neovim is a project that seeks to aggressively refactor Vim.
+license     : Apache-2.0
+builddeps   :
+    - binary(make)
+    - pkgconfig(luajit)
+    - pkgconfig(libuv) 
+    - pkgconfig(libluv) 
+    - pkgconfig(tree-sitter)
+    - pkgconfig(unibilium)
+    - pkgconfig(libutf8proc)
+    - lua51-lpeg
+rundeps     :
+    - lua51-lpeg
+rundeps-exclude:
+    # This is linked by the full path which boulder doesn't support. We have it as a manual rundep above
+    - 'soname\(/usr/lib/.*/lpeg.so.*\)'
+setup       : |
+    %cmake \
+        -DUSE_BUNDLED=OFF
+build       : |
+    %cmake_build
+install     : |
+    %cmake_install
