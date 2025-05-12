@@ -1,0 +1,28 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Reilly Brogan <reilly@reillybrogan.com>
+Date: Wed, 17 Jun 2026 15:15:27 -0500
+Subject: [PATCH] Fix autoconf
+
+---
+ configure.ac | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/configure.ac b/configure.ac
+index b572f61..44dcd92 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -3,7 +3,7 @@ m4_define([MINOR], [1])
+ m4_define([PATCH], [2])
+ 
+ AC_INIT([unibilium], [MAJOR.MINOR.PATCH])
+-AC_CONFIG_FILES([Makefile])
++AC_PROG_CC
+ 
+ LT_INIT
+ 
+@@ -13,4 +13,5 @@ AC_SUBST([MAJOR], [MAJOR])
+ AC_SUBST([MINOR], [MINOR])
+ AC_SUBST([PATCH], [PATCH])
+ 
++AC_CONFIG_FILES([Makefile])
+ AC_OUTPUT
