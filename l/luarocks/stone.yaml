@@ -1,0 +1,24 @@
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : luarocks
+version     : "3.13.0"
+release     : 1
+homepage    : https://luarocks.org/
+upstreams   :
+    - https://luarocks.github.io/luarocks/releases/luarocks-3.13.0.tar.gz : 245bf6ec560c042cb8948e3d661189292587c5949104677f1eecddc54dbe7e37
+summary     : LuaRocks is the package manager for the Lua programming language
+description : |
+    It allows you to install Lua modules as self-contained packages called rocks. LuaRocks supports both local and remote repositories, and multiple local rocks trees
+license     : custom
+builddeps   :
+    - binary(unzip)
+    - pkgconfig(lua)
+setup       : |
+    ./configure \
+        --prefix=/usr \
+        --sysconfdir=/etc
+build       : |
+    %make
+install     : |
+    %make_install
