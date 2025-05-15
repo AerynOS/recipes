@@ -1,0 +1,30 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"lua51-lpeg": {
+			"build-depends": [
+				"binary(unzip)",
+				"lua51-luarocks",
+				"pkgconfig(luajit)"
+			],
+			"depends": [
+				"soname(libc.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/lib/lua/5.1/lpeg.so",
+				"/usr/lib/luarocks/rocks-5.1/lpeg/1.1.0-2/doc/README.md",
+				"/usr/lib/luarocks/rocks-5.1/lpeg/1.1.0-2/lpeg-1.1.0-2.rockspec",
+				"/usr/lib/luarocks/rocks-5.1/lpeg/1.1.0-2/rock_manifest",
+				"/usr/share/lua/5.1/re.lua"
+			],
+			"name": "lua51-lpeg",
+			"provides": [
+				"soname(lua/5.1/lpeg.so(x86_64))"
+			]
+		}
+	},
+	"source-name": "lua51-lpeg",
+	"source-release": "1",
+	"source-version": "1.1.0-2"
+}
