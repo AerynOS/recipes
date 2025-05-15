@@ -14,7 +14,7 @@
 				"pkgconfig(zlib)"
 			],
 			"depends": [
-				"gcc",
+				"btrfs-progs-libs",
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libblkid.so.1(x86_64))",
@@ -39,12 +39,6 @@
 				"/usr/bin/btrfstune",
 				"/usr/bin/fsck.btrfs",
 				"/usr/bin/mkfs.btrfs",
-				"/usr/lib/libbtrfs.so.0",
-				"/usr/lib/libbtrfs.so.0.1",
-				"/usr/lib/libbtrfs.so.0.1.4",
-				"/usr/lib/libbtrfsutil.so.1",
-				"/usr/lib/libbtrfsutil.so.1.3",
-				"/usr/lib/libbtrfsutil.so.1.3.2",
 				"/usr/lib/systemd/system/btrfs-scrub@.service",
 				"/usr/lib/systemd/system/btrfs-scrub@.timer",
 				"/usr/lib/udev/rules.d/64-btrfs-dm.rules",
@@ -62,9 +56,7 @@
 				"binary(btrfsck)",
 				"binary(btrfstune)",
 				"binary(fsck.btrfs)",
-				"binary(mkfs.btrfs)",
-				"soname(libbtrfs.so.0(x86_64))",
-				"soname(libbtrfsutil.so.1(x86_64))"
+				"binary(mkfs.btrfs)"
 			]
 		},
 		"btrfs-progs-devel": {
@@ -99,9 +91,37 @@
 			"provides": [
 				"pkgconfig(libbtrfsutil)"
 			]
+		},
+		"btrfs-progs-libs": {
+			"build-depends": [
+				"pkgconfig(blkid)",
+				"pkgconfig(ext2fs)",
+				"pkgconfig(libgcrypt)",
+				"pkgconfig(libudev)",
+				"pkgconfig(libzstd)",
+				"pkgconfig(lzo2)",
+				"pkgconfig(uuid)",
+				"pkgconfig(zlib)"
+			],
+			"depends": [
+				"soname(libc.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/lib/libbtrfs.so.0",
+				"/usr/lib/libbtrfs.so.0.1",
+				"/usr/lib/libbtrfs.so.0.1.4",
+				"/usr/lib/libbtrfsutil.so.1",
+				"/usr/lib/libbtrfsutil.so.1.3",
+				"/usr/lib/libbtrfsutil.so.1.3.2"
+			],
+			"name": "btrfs-progs-libs",
+			"provides": [
+				"soname(libbtrfs.so.0(x86_64))",
+				"soname(libbtrfsutil.so.1(x86_64))"
+			]
 		}
 	},
 	"source-name": "btrfs-progs",
-	"source-release": "8",
-	"source-version": "6.13"
+	"source-release": "9",
+	"source-version": "6.14"
 }
