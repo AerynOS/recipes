@@ -5,7 +5,7 @@
 #
 name        : rust
 version     : 1.87.0
-release     : 16
+release     : 17
 homepage    : https://www.rust-lang.org/
 upstreams   :
     - https://static.rust-lang.org/dist/rustc-1.87.0-src.tar.xz : 8623b8651893e8c6aebfa45b6a90645a4f652f7b18189a0992a90d11ac2631f4
@@ -26,7 +26,7 @@ license     :
     - MIT
     - Zlib
 # Enable this when bootstrapping
-networking  : true
+# networking  : true
 builddeps   :
     - binary(FileCheck)
     - binary(cargo)
