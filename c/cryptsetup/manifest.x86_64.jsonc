@@ -4,6 +4,7 @@
 	"packages": {
 		"cryptsetup": {
 			"build-depends": [
+				"binary(asciidoctor)",
 				"binary(gettext)",
 				"pkgconfig(blkid)",
 				"pkgconfig(devmapper)",
@@ -18,12 +19,11 @@
 				"pkgconfig(uuid)"
 			],
 			"depends": [
+				"cryptsetup-libs",
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"soname(libblkid.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
-				"soname(libcrypto.so.3(x86_64))",
-				"soname(libdevmapper.so.1.02(x86_64))",
-				"soname(libjson-c.so.5(x86_64))",
+				"soname(libcryptsetup.so.12(x86_64))",
 				"soname(libpopt.so.0(x86_64))",
 				"soname(libuuid.so.1(x86_64))"
 			],
@@ -31,8 +31,6 @@
 				"/usr/bin/cryptsetup",
 				"/usr/bin/integritysetup",
 				"/usr/bin/veritysetup",
-				"/usr/lib/libcryptsetup.so.12",
-				"/usr/lib/libcryptsetup.so.12.10.0",
 				"/usr/share/locale/cs/LC_MESSAGES/cryptsetup.mo",
 				"/usr/share/locale/da/LC_MESSAGES/cryptsetup.mo",
 				"/usr/share/locale/de/LC_MESSAGES/cryptsetup.mo",
@@ -52,18 +50,57 @@
 				"/usr/share/locale/sv/LC_MESSAGES/cryptsetup.mo",
 				"/usr/share/locale/uk/LC_MESSAGES/cryptsetup.mo",
 				"/usr/share/locale/vi/LC_MESSAGES/cryptsetup.mo",
-				"/usr/share/locale/zh_CN/LC_MESSAGES/cryptsetup.mo"
+				"/usr/share/locale/zh_CN/LC_MESSAGES/cryptsetup.mo",
+				"/usr/share/man/man8/cryptsetup-benchmark.8",
+				"/usr/share/man/man8/cryptsetup-bitlkDump.8",
+				"/usr/share/man/man8/cryptsetup-bitlkOpen.8",
+				"/usr/share/man/man8/cryptsetup-close.8",
+				"/usr/share/man/man8/cryptsetup-config.8",
+				"/usr/share/man/man8/cryptsetup-convert.8",
+				"/usr/share/man/man8/cryptsetup-create.8",
+				"/usr/share/man/man8/cryptsetup-erase.8",
+				"/usr/share/man/man8/cryptsetup-fvault2Dump.8",
+				"/usr/share/man/man8/cryptsetup-isLuks.8",
+				"/usr/share/man/man8/cryptsetup-loopaesOpen.8",
+				"/usr/share/man/man8/cryptsetup-luksAddKey.8",
+				"/usr/share/man/man8/cryptsetup-luksChangeKey.8",
+				"/usr/share/man/man8/cryptsetup-luksConvertKey.8",
+				"/usr/share/man/man8/cryptsetup-luksDump.8",
+				"/usr/share/man/man8/cryptsetup-luksErase.8",
+				"/usr/share/man/man8/cryptsetup-luksFormat.8",
+				"/usr/share/man/man8/cryptsetup-luksHeaderBackup.8",
+				"/usr/share/man/man8/cryptsetup-luksHeaderRestore.8",
+				"/usr/share/man/man8/cryptsetup-luksKillSlot.8",
+				"/usr/share/man/man8/cryptsetup-luksOpen.8",
+				"/usr/share/man/man8/cryptsetup-luksRemoveKey.8",
+				"/usr/share/man/man8/cryptsetup-luksResume.8",
+				"/usr/share/man/man8/cryptsetup-luksSuspend.8",
+				"/usr/share/man/man8/cryptsetup-luksUUID.8",
+				"/usr/share/man/man8/cryptsetup-open.8",
+				"/usr/share/man/man8/cryptsetup-plainOpen.8",
+				"/usr/share/man/man8/cryptsetup-reencrypt.8",
+				"/usr/share/man/man8/cryptsetup-refresh.8",
+				"/usr/share/man/man8/cryptsetup-repair.8",
+				"/usr/share/man/man8/cryptsetup-resize.8",
+				"/usr/share/man/man8/cryptsetup-ssh.8",
+				"/usr/share/man/man8/cryptsetup-status.8",
+				"/usr/share/man/man8/cryptsetup-tcryptDump.8",
+				"/usr/share/man/man8/cryptsetup-tcryptOpen.8",
+				"/usr/share/man/man8/cryptsetup-token.8",
+				"/usr/share/man/man8/cryptsetup.8",
+				"/usr/share/man/man8/integritysetup.8",
+				"/usr/share/man/man8/veritysetup.8"
 			],
 			"name": "cryptsetup",
 			"provides": [
 				"binary(cryptsetup)",
 				"binary(integritysetup)",
-				"binary(veritysetup)",
-				"soname(libcryptsetup.so.12(x86_64))"
+				"binary(veritysetup)"
 			]
 		},
 		"cryptsetup-devel": {
 			"build-depends": [
+				"binary(asciidoctor)",
 				"binary(gettext)",
 				"pkgconfig(blkid)",
 				"pkgconfig(devmapper)",
@@ -94,9 +131,42 @@
 			"provides": [
 				"pkgconfig(libcryptsetup)"
 			]
+		},
+		"cryptsetup-libs": {
+			"build-depends": [
+				"binary(asciidoctor)",
+				"binary(gettext)",
+				"pkgconfig(blkid)",
+				"pkgconfig(devmapper)",
+				"pkgconfig(json-c)",
+				"pkgconfig(libcrypto)",
+				"pkgconfig(libgcrypt)",
+				"pkgconfig(libssh)",
+				"pkgconfig(nettle)",
+				"pkgconfig(popt)",
+				"pkgconfig(pwquality)",
+				"pkgconfig(systemd)",
+				"pkgconfig(uuid)"
+			],
+			"depends": [
+				"soname(libblkid.so.1(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libcrypto.so.3(x86_64))",
+				"soname(libdevmapper.so.1.02(x86_64))",
+				"soname(libjson-c.so.5(x86_64))",
+				"soname(libuuid.so.1(x86_64))"
+			],
+			"files": [
+				"/usr/lib/libcryptsetup.so.12",
+				"/usr/lib/libcryptsetup.so.12.10.0"
+			],
+			"name": "cryptsetup-libs",
+			"provides": [
+				"soname(libcryptsetup.so.12(x86_64))"
+			]
 		}
 	},
 	"source-name": "cryptsetup",
-	"source-release": "3",
-	"source-version": "2.7.4"
+	"source-release": "4",
+	"source-version": "2.7.5"
 }

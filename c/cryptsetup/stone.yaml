@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : cryptsetup
-version     : 2.7.4
-release     : 3
+version     : 2.7.5
+release     : 4
 homepage    : https://gitlab.com/cryptsetup/cryptsetup
 upstreams   :
-    - https://gitlab.com/cryptsetup/cryptsetup/-/archive/v2.7.4/cryptsetup-v2.7.4.tar.gz : 5f61f1214f53ee0f220fd2bf3cc65e656a8a777c4adb09bc76a8ae8cec262611
+    - https://gitlab.com/cryptsetup/cryptsetup/-/archive/v2.7.5/cryptsetup-v2.7.5.tar.gz : da290c93b17c913540b97ca177f107e22032c56e5371076d2d30e97f1fffa4cf
 summary     : cryptsetup + LUKS
 description : |
     cryptsetup + LUKS - open source disk encryption
@@ -17,6 +17,7 @@ license     :
     - GPL-2.0-or-later
     - LGPL-2.1-or-later
 builddeps   :
+    - binary(asciidoctor)
     - binary(gettext)
     - pkgconfig(blkid)
     - pkgconfig(devmapper)
@@ -30,19 +31,26 @@ builddeps   :
     - pkgconfig(systemd)
     - pkgconfig(uuid)
 setup       : |
-    %meson -Dasciidoc=disabled \
+    %patch %(pkgdir)/0001-meson-Install-binaries.patch
+
+    %meson \
            -Dargon-implementation=internal \
-           -Dinternal-sse-argon2=true \
-           -Dc_link_args='-Wl,--undefined-version'
-           # without ^, the build fails because LLVM 16+ sets
-           # '--no-undefined-version' by default; see also:
-           # https://gitlab.com/cryptsetup/cryptsetup/-/merge_requests/691
+           -Dinternal-sse-argon2=true
 build       : |
     %meson_build
 install     : |
     %meson_install
-    # The install script apparently doesn't install the executables?!
-    for exe in $(find -name '*setup' -type f -executable); do
-        %install_bin ${exe}
-    done
-    rm -v %(installroot)%(libdir)/tmpfiles.d -rf
+
+    rm -v %(installroot)%(libdir)/tmpfiles.d -rfv
+packages    :
+    - "%(name)-libs":
+        summary: "Library files for %(name)"
+        description: |
+            Library files for %(name), typically pulled in as a dependency of another package.
+        paths:
+            - /usr/lib/libcryptsetup.so.*
+
+    # Workaround due to moss upgrade issues
+    - "%(name)":
+        rundeps:
+            - "%(name)-libs"

@@ -1,0 +1,43 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Reilly Brogan <reilly@reillybrogan.com>
+Date: Thu, 15 May 2025 14:39:04 -0500
+Subject: [PATCH] meson: Install binaries
+
+---
+ src/meson.build | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
+
+diff --git a/src/meson.build b/src/meson.build
+index 3fd1ff5b..ec0c627e 100644
+--- a/src/meson.build
++++ b/src/meson.build
+@@ -25,7 +25,8 @@ if get_option('cryptsetup')
+         dependencies: cryptsetup_deps,
+         link_with: libcryptsetup,
+         link_args: link_args,
+-        include_directories: includes_tools)
++        include_directories: includes_tools,
++        install: true)
+ endif
+ 
+ if get_option('veritysetup')
+@@ -45,7 +46,8 @@ if get_option('veritysetup')
+         dependencies: veritysetup_deps,
+         link_with: libcryptsetup,
+         link_args: link_args,
+-        include_directories: includes_tools)
++        include_directories: includes_tools,
++        install: true)
+ endif
+ 
+ if get_option('integritysetup')
+@@ -68,7 +70,8 @@ if get_option('integritysetup')
+         dependencies: integritysetup_deps,
+         link_with: libcryptsetup,
+         link_args: link_args,
+-        include_directories: includes_tools)
++        include_directories: includes_tools,
++        install: true)
+ endif
+ 
+ src_ssh_token_files = files(
