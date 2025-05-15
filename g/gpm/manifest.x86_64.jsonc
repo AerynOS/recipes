@@ -10,7 +10,8 @@
 			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
-				"soname(libc.so.6(x86_64))"
+				"soname(libc.so.6(x86_64))",
+				"soname(libgpm.so.2(x86_64))"
 			],
 			"files": [
 				"/usr/bin/disable-paste",
@@ -21,8 +22,6 @@
 				"/usr/bin/hltest",
 				"/usr/bin/mev",
 				"/usr/bin/mouse-test",
-				"/usr/lib/libgpm.so.2",
-				"/usr/lib/libgpm.so.2.1.0",
 				"/usr/sbin/gpm",
 				"/usr/share/info/gpm.info",
 				"/usr/share/man/man1/gpm-root.1",
@@ -41,7 +40,6 @@
 				"binary(hltest)",
 				"binary(mev)",
 				"binary(mouse-test)",
-				"soname(libgpm.so.2(x86_64))",
 				"sysbinary(gpm)"
 			]
 		},
@@ -56,12 +54,30 @@
 			],
 			"files": [
 				"/usr/include/gpm.h",
-				"/usr/lib/libgpm.a"
+				"/usr/lib/libgpm.so"
 			],
 			"name": "gpm-devel"
+		},
+		"gpm-libs": {
+			"build-depends": [
+				"binary(ar)",
+				"binary(makeinfo)",
+				"binary(yacc)"
+			],
+			"depends": [
+				"soname(libc.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/lib/libgpm.so.2",
+				"/usr/lib/libgpm.so.2.1.0"
+			],
+			"name": "gpm-libs",
+			"provides": [
+				"soname(libgpm.so.2(x86_64))"
+			]
 		}
 	},
 	"source-name": "gpm",
-	"source-release": "2",
+	"source-release": "3",
 	"source-version": "1.20.7"
 }
