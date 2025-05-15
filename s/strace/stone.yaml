@@ -18,9 +18,6 @@ builddeps   :
     - binary(readelf)
     - pkgconfig(libdw)
 setup       : |
-    # Remove once Boulder sets this
-    export CPP=clang-cpp
-
     # This is how strace expect the variables
     for v in CC CPP {C,LD}FLAGS ; do
         bv="${v}"
