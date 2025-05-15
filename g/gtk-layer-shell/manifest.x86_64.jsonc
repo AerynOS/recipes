@@ -1,0 +1,67 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"gtk-layer-shell": {
+			"build-depends": [
+				"binary(python3)",
+				"binary(vapigen)",
+				"pkgconfig(gobject-introspection-1.0)",
+				"pkgconfig(gtk+-3.0)",
+				"pkgconfig(wayland-client)",
+				"pkgconfig(wayland-protocols)",
+				"pkgconfig(wayland-scanner)",
+				"pkgconfig(wayland-server)"
+			],
+			"depends": [
+				"soname(libc.so.6(x86_64))",
+				"soname(libgdk-3.so.0(x86_64))",
+				"soname(libglib-2.0.so.0(x86_64))",
+				"soname(libgobject-2.0.so.0(x86_64))",
+				"soname(libgtk-3.so.0(x86_64))",
+				"soname(libwayland-client.so.0(x86_64))"
+			],
+			"files": [
+				"/usr/lib/girepository-1.0/GtkLayerShell-0.1.typelib",
+				"/usr/lib/libgtk-layer-shell.so.0",
+				"/usr/lib/libgtk-layer-shell.so.0.9.0",
+				"/usr/share/gir-1.0/GtkLayerShell-0.1.gir",
+				"/usr/share/vala/vapi/gtk-layer-shell-0.deps",
+				"/usr/share/vala/vapi/gtk-layer-shell-0.vapi"
+			],
+			"name": "gtk-layer-shell",
+			"provides": [
+				"soname(libgtk-layer-shell.so.0(x86_64))"
+			]
+		},
+		"gtk-layer-shell-devel": {
+			"build-depends": [
+				"binary(python3)",
+				"binary(vapigen)",
+				"pkgconfig(gobject-introspection-1.0)",
+				"pkgconfig(gtk+-3.0)",
+				"pkgconfig(wayland-client)",
+				"pkgconfig(wayland-protocols)",
+				"pkgconfig(wayland-scanner)",
+				"pkgconfig(wayland-server)"
+			],
+			"depends": [
+				"gtk-layer-shell",
+				"pkgconfig(gtk+-3.0)",
+				"pkgconfig(wayland-client)"
+			],
+			"files": [
+				"/usr/include/gtk-layer-shell/gtk-layer-shell.h",
+				"/usr/lib/libgtk-layer-shell.so",
+				"/usr/lib/pkgconfig/gtk-layer-shell-0.pc"
+			],
+			"name": "gtk-layer-shell-devel",
+			"provides": [
+				"pkgconfig(gtk-layer-shell-0)"
+			]
+		}
+	},
+	"source-name": "gtk-layer-shell",
+	"source-release": "1",
+	"source-version": "v0.9.0"
+}
