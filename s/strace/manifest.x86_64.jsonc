@@ -4,6 +4,7 @@
 	"packages": {
 		"strace": {
 			"build-depends": [
+				"binary(readelf)",
 				"pkgconfig(libdw)"
 			],
 			"depends": [
@@ -25,6 +26,6 @@
 		}
 	},
 	"source-name": "strace",
-	"source-release": "9",
-	"source-version": "6.12"
+	"source-release": "10",
+	"source-version": "6.14"
 }
