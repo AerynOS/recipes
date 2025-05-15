@@ -1,0 +1,25 @@
+#
+# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : jsoncpp
+version     : "1.9.5"
+release     : 1
+homepage    : https://github.com/open-source-parsers/jsoncpp/
+upstreams   :
+    - https://github.com/open-source-parsers/jsoncpp/archive/1.9.5.tar.gz : f409856e5920c18d0c2fb85276e24ee607d2a09b5e7d5f0a371368903c275da2
+summary     : JsonCpp is a C++ library that allows manipulating JSON values
+description : |
+    JsonCpp is a C++ library that allows manipulating JSON values, including
+    serialization and deserialization to and from strings. It can also
+    preserve existing comment in unserialization/serialization steps, making
+    it a convenient format to store user input files.
+license     : MIT
+setup       : |
+    %meson
+build       : |
+    %meson_build
+install     : |
+    %meson_install
+
