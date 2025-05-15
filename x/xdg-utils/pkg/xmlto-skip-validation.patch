@@ -1,0 +1,24 @@
+diff --git a/scripts/Makefile.in b/scripts/Makefile.in
+index 717f1f5..746b14a 100644
+--- a/scripts/Makefile.in
++++ b/scripts/Makefile.in
+@@ -101,7 +101,7 @@ xdg-file-dialog: xdg-file-dialog.in xdg-utils-common.in
+ xdg-terminal: xdg-terminal.in xdg-utils-common.in
+ 
+ man/%.1: desc/%.xml
+-	(cd man;$(XMLTO) man ../$<)
++	(cd man;$(XMLTO) -x docbook.xsl --skip-validation man ../$<)
+ 
+ html/index.html: $(XMLFILES)
+ 	(cat html/index.html.pre; \
+@@ -109,8 +109,8 @@ html/index.html: $(XMLFILES)
+          cat html/index.html.post ) > html/index.html
+ 
+ html/%.html: desc/%.xml
+-	(cd html;$(XMLTO) html-nochunks ../$<)
++	(cd html;$(XMLTO) -x docbook.xsl --skip-validation html-nochunks ../$<)
+ 
+ %.txt: desc/%.xml
+-	$(XMLTO) txt $<
++	$(XMLTO) -x docbook.xsl --skip-validation txt $<
+ 
