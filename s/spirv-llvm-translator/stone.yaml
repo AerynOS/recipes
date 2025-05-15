@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : spirv-llvm-translator
-version     : 19.1.5
-release     : 4
+version     : 20.1.2
+release     : 5
 homepage    : https://github.com/KhronosGroup/SPIRV-LLVM-Translator
 upstreams   :
-    - git|https://github.com/KhronosGroup/SPIRV-LLVM-Translator.git: 0cf86c9b37b67907bcd85ffe8758925d4a0f5784
+    - git|https://github.com/KhronosGroup/SPIRV-LLVM-Translator.git: 6dd8f2a1681a27f16c53d932d2765920f312aeb2
 summary     : Tool/library for translation between SPIR-V and LLVM IR
 description : |
     A tool and a library for bi-directional translation between SPIR-V and LLVM IR
@@ -17,6 +17,7 @@ license     :
 builddeps  :
     - binary(llvm-config32)
     - pkgconfig32(SPIRV-Tools)
+    # TODO I think if we build llvm 32bit with spir-v backend support we can probably build this without spirv-tools
 emul32     : true
 setup       : |
     %cmake -DBUILD_SHARED_LIBS=ON \
