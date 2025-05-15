@@ -1,0 +1,23 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: liushuyu <liushuyu011@gmail.com>
+Date: Sat, 15 Feb 2025 01:02:25 -0700
+Subject: [PATCH 8/9] jit-rt: adapt to LLVM 20 header changes
+
+---
+ runtime/jit-rt/cpp-so/jit_context.cpp | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/runtime/jit-rt/cpp-so/jit_context.cpp b/runtime/jit-rt/cpp-so/jit_context.cpp
+index 8e6dc15d15..88dcac4d0e 100644
+--- a/runtime/jit-rt/cpp-so/jit_context.cpp
++++ b/runtime/jit-rt/cpp-so/jit_context.cpp
+@@ -18,6 +18,9 @@
+ 
+ #include "llvm/ADT/StringExtras.h"
+ #include "llvm/ExecutionEngine/JITLink/EHFrameSupport.h"
++#if LDC_LLVM_VER >= 2000 && defined(LDC_JITRT_USE_JITLINK)
++#include "llvm/ExecutionEngine/Orc/EHFrameRegistrationPlugin.h"
++#endif
+ #include "llvm/ExecutionEngine/Orc/ObjectLinkingLayer.h"
+ #include "llvm/ExecutionEngine/Orc/ObjectTransformLayer.h"
+ #include "llvm/IR/LLVMContext.h"

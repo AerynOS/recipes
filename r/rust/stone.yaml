@@ -4,13 +4,13 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : rust
-version     : 1.85.1
-release     : 15
+version     : 1.87.0
+release     : 16
 homepage    : https://www.rust-lang.org/
 upstreams   :
-    - https://static.rust-lang.org/dist/rustc-1.85.1-src.tar.xz : b1fbf809efe9f036939401e142631c201a53bcf43ec1696bd9f5290ba236a266
+    - https://static.rust-lang.org/dist/rustc-1.87.0-src.tar.xz : 8623b8651893e8c6aebfa45b6a90645a4f652f7b18189a0992a90d11ac2631f4
     - git|https://github.com/rust-lang/llvm-project.git :
-        ref: 1268e87bdbaed0693a9d782ccd5a21e2cab2de33 # rustc/19.1-2024-12-03
+        ref: 8448283b4bd34ea00d76fd4f18ec730b549d6e1d # rustc/20.1-2025-02-13
 summary     : Rust programming language compiler + tools
 description : |
     Rust programming language compiler + tools
@@ -26,7 +26,7 @@ license     :
     - MIT
     - Zlib
 # Enable this when bootstrapping
-# networking  : true
+networking  : true
 builddeps   :
     - binary(FileCheck)
     - binary(cargo)
@@ -56,7 +56,7 @@ environment : |
     # Force use of libsqlite3, libgit2, and libssh2 system libs
     export LIBSQLITE3_SYS_USE_PKG_CONFIG=1
     export LIBSSH2_SYS_USE_PKG_CONFIG=1
-    export LIBGIT2_NO_VENDOR=1
+    # export LIBGIT2_NO_VENDOR=1
 
     # Todo: Figure out how to link this against a dynamic libjemalloc
     export JEMALLOC_OVERRIDE=%(libdir)/libjemalloc.a
@@ -84,7 +84,7 @@ setup       : |
     find ./vendor/libssh2-sys*/libssh2/ -mindepth 1 -delete -print
     find ./vendor/libz-sys*/src/zlib{,-ng}/ -mindepth 1 -delete -print
     find ./vendor/openssl-src*/openssl/ -mindepth 1 -delete -print
-    find ./vendor/libgit2-sys*/libgit2/ -mindepth 1 -delete -print
+    # find ./vendor/libgit2-sys*/libgit2/ -mindepth 1 -delete -print
 
     # Fix bootstrap checking checksums for all the files we just deleted
     find vendor -name .cargo-checksum.json -print \
