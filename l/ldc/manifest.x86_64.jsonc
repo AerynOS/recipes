@@ -4,10 +4,11 @@
 	"packages": {
 		"ldc": {
 			"build-depends": [
+				"binary(ldc2)",
 				"binary(llvm-config)",
 				"binary(make)",
 				"cmake(LLD)",
-				"libgcc",
+				"ldc-static",
 				"pkgconfig(zlib)"
 			],
 			"depends": [
@@ -19,13 +20,13 @@
 				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(liblldCOFF.so.20.1(x86_64))",
-				"soname(liblldCommon.so.20.1(x86_64))",
 				"soname(liblldELF.so.20.1(x86_64))",
 				"soname(liblldMachO.so.20.1(x86_64))",
 				"soname(liblldMinGW.so.20.1(x86_64))",
 				"soname(liblldWasm.so.20.1(x86_64))",
 				"soname(libm.so.6(x86_64))",
-				"soname(libunwind.so.1(x86_64))"
+				"soname(libunwind.so.1(x86_64))",
+				"soname(libz.so.1(x86_64))"
 			],
 			"files": [
 				"/usr/bin/ldc-build-plugin",
@@ -769,10 +770,11 @@
 		},
 		"ldc-devel": {
 			"build-depends": [
+				"binary(ldc2)",
 				"binary(llvm-config)",
 				"binary(make)",
 				"cmake(LLD)",
-				"libgcc",
+				"ldc-static",
 				"pkgconfig(zlib)"
 			],
 			"depends": [
@@ -785,10 +787,11 @@
 		},
 		"ldc-libs": {
 			"build-depends": [
+				"binary(ldc2)",
 				"binary(llvm-config)",
 				"binary(make)",
 				"cmake(LLD)",
-				"libgcc",
+				"ldc-static",
 				"pkgconfig(zlib)"
 			],
 			"depends": [
@@ -812,10 +815,11 @@
 		},
 		"ldc-libs-debug": {
 			"build-depends": [
+				"binary(ldc2)",
 				"binary(llvm-config)",
 				"binary(make)",
 				"cmake(LLD)",
-				"libgcc",
+				"ldc-static",
 				"pkgconfig(zlib)"
 			],
 			"depends": [
@@ -839,10 +843,11 @@
 		},
 		"ldc-static": {
 			"build-depends": [
+				"binary(ldc2)",
 				"binary(llvm-config)",
 				"binary(make)",
 				"cmake(LLD)",
-				"libgcc",
+				"ldc-static",
 				"pkgconfig(zlib)"
 			],
 			"depends": [
@@ -861,6 +866,6 @@
 		}
 	},
 	"source-name": "ldc",
-	"source-release": "17",
+	"source-release": "18",
 	"source-version": "1.40.1"
 }
