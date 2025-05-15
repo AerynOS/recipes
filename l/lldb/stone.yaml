@@ -1,6 +1,6 @@
 name        : lldb
-version     : 19.1.7
-release     : 4
+version     : 20.1.5
+release     : 5
 summary     : LLVM Debugger
 license     :
     - Apache-2.0 WITH LLVM-exception
@@ -9,16 +9,17 @@ homepage    : https://www.llvm.org
 description : |
     LLDB is a next generation, high-performance debugger. It is built as a set of reusable components which highly leverage existing libraries in the larger LLVM Project, such as the Clang expression parser and LLVM disassembler.
 upstreams   :
-    - https://github.com/llvm/llvm-project/releases/download/llvmorg-19.1.7/llvm-project-19.1.7.src.tar.xz: 82401fea7b79d0078043f7598b835284d6650a75b93e64b6f761ea7b63097501
+    - https://github.com/llvm/llvm-project/releases/download/llvmorg-20.1.5/llvm-project-20.1.5.src.tar.xz: a069565cd1c6aee48ee0f36de300635b5781f355d7b3c96a28062d50d575fa3e
 builddeps  :
-  - binary(swig)
-  - cmake(Clang)
-  - pkgconfig(libedit)
-  - pkgconfig(liblzma)
-  - pkgconfig(libxml-2.0)
-  - pkgconfig(ncurses)
-  - pkgconfig(python3)
-  - pkgconfig(zlib)
+    - binary(swig)
+    - cmake(Clang)
+    - pkgconfig(libedit)
+    - pkgconfig(liblzma)
+    - pkgconfig(libxml-2.0)
+    - pkgconfig(ncurses)
+    - pkgconfig(python3)
+    - pkgconfig(zlib)
+    # TODO is it worth adding Lua support to this?
 setup      : |
     %cmake -S lldb \
         -DLLVM_LIBDIR_SUFFIX=%(libsuffix) \
@@ -34,3 +35,4 @@ build       : |
     %cmake_build
 install     : |
     %cmake_install
+    %python_compile
