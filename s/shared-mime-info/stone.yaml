@@ -5,7 +5,7 @@
 #
 name        : shared-mime-info
 version     : "2.4"
-release     : 4
+release     : 5
 homepage    : https://www.freedesktop.org/wiki/Specifications/shared-mime-info-spec/
 upstreams   :
     - https://gitlab.freedesktop.org/xdg/shared-mime-info/-/archive/2.4/shared-mime-info-2.4.tar.gz : 531291d0387eb94e16e775d7e73788d06d2b2fdd8cd2ac6b6b15287593b6a2de
@@ -28,6 +28,9 @@ packages    :
         paths:
             - /usr/share/pkgconfig
 setup       : |
+    # xmlto tries to call out to the network which fails under avalanche, so skip validation
+    %patch %(pkgdir)/xmlto-skip-validation.patch
+
     %meson
 build       : |
     %meson_build
