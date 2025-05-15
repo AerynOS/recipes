@@ -1,0 +1,55 @@
+#
+# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : libdbusmenu-gtk3
+version     : "16.04.0"
+release     : 1
+homepage    : https://launchpad.net/libdbusmenu
+upstreams   :
+    - https://launchpad.net/libdbusmenu/16.04/16.04.0/+download/libdbusmenu-16.04.0.tar.gz : b9cc4a2acd74509435892823607d966d424bd9ad5d0b00938f27240a1bfa878a
+summary     : A small library designed to make sharing and displaying of menu structures over DBus
+description : |
+    This is a small library designed to make sharing and displaying
+    of menu structures over DBus simple and easy to use.  It works
+    for both QT and GTK+ and makes building menus simple.
+
+license     :
+    - LGPL-2.1-only
+    - LGPL-3.0-only
+    - GPL-3.0-only
+builddeps   :
+    - binary(intltool-update)
+    - binary(msgfmt)
+    - binary(msgmerge)
+    - binary(xgettext)
+    - name(atk-devel)
+    - pkgconfig(gio-2.0)
+    - pkgconfig(gio-unix-2.0)
+    - pkgconfig(glib-2.0)
+    - pkgconfig(gobject-introspection-1.0)
+    - pkgconfig(gtk+-3.0)
+    - pkgconfig(json-glib-1.0)
+setup       : |
+    %configure --with-gtk=3 --disable-dumper --disable-gtk-doc-html --disable-gtk-doc --disable-static
+build       : |
+    %make
+install     : |
+    # -j 16 is constantly causing build failures
+    make -j 1 install DESTDIR=/mason/install
+packages    :
+    - "%(name)-devel":
+            "paths":
+                - "/usr/lib/girepository-1.0/Dbusmenu-0.4.typelib"
+                - "/usr/lib/girepository-1.0/DbusmenuGtk3-0.4.typelib"
+                - "/usr/lib/libdbusmenu-gtk3/dbusmenu-bench"
+                - "/usr/lib/libdbusmenu-gtk3/dbusmenu-testapp"
+                - "/usr/share/gir-1.0/Dbusmenu-0.4.gir"
+                - "/usr/share/gir-1.0/DbusmenuGtk3-0.4.gir"
+                - "/usr/share/libdbusmenu/json/test-gtk-label.json"
+    - "%(name)-docs":
+            "paths":
+                - "/usr/share/doc/libdbusmenu/README.dbusmenu-bench"
+                - "/usr/share/doc/libdbusmenu/examples/glib-server-nomenu.c"
+                
