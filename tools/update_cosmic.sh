@@ -6,7 +6,7 @@ set -x
 REPO="pop-os"
 
 # The version of the cosmic desktop
-VERSION="1.0.0-alpha.6"
+VERSION="1.0.0-alpha.7"
 
 # Find all `stone.yaml` files that contain pop-os in the upstreams section
 # and update the upstream to the latest commit
@@ -25,6 +25,8 @@ for recipe in $(find . -name "stone.yaml"); do
     elif [[ $package_name == "pop-os-launcher" ]]; then
       continue
     elif [[ $package_name == "pop-os-icon-theme" ]]; then
+      continue
+    elif [[ $package_name == "pop-os-sound-theme" ]]; then
       continue
     elif [[ $package_name == "system76-power" ]]; then
       continue

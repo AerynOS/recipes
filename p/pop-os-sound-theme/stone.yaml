@@ -1,0 +1,24 @@
+#
+# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : pop-os-sound-theme
+version     : 5.5.1+git.25ea85d
+release     : 1
+homepage    : https://github.com/pop-os/gtk-theme
+upstreams   :
+    - git|https://github.com/pop-os/gtk-theme.git : 25ea85d97126992024b03bfb4e4c3b0711c749ed
+summary     : Gtk Theme by System76
+description : |
+    Gtk Theme by System76
+license     :
+    - CC-BY-SA-4.0
+builddeps   :
+    - sassc
+setup       : |
+    %meson
+build       : |
+    %meson_build
+install     : |
+    %meson_install
