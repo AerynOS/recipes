@@ -7,7 +7,7 @@ Ensure that relocations are always emitted for the libraries/binaries that we wa
 
 Origin: vendor
 Forwarded: not-needed
-Last-Update: 2025-01-10
+Last-Update: 2025-03-29
 ---
  clang/tools/clang-shlib/CMakeLists.txt | 2 ++
  clang/tools/driver/CMakeLists.txt      | 2 ++
@@ -22,10 +22,10 @@ Last-Update: 2025-01-10
  10 files changed, 21 insertions(+)
 
 diff --git a/clang/tools/clang-shlib/CMakeLists.txt b/clang/tools/clang-shlib/CMakeLists.txt
-index 298d3a9d18fe..a8574bac5b16 100644
+index 31484ec49c77..57222a7dec70 100644
 --- a/clang/tools/clang-shlib/CMakeLists.txt
 +++ b/clang/tools/clang-shlib/CMakeLists.txt
-@@ -53,6 +53,8 @@ add_clang_library(clang-cpp
+@@ -60,6 +60,8 @@ endif()
  if (NOT APPLE AND NOT MINGW AND NOT LLVM_LINKER_IS_SOLARISLD_ILLUMOS)
    target_link_options(clang-cpp PRIVATE LINKER:-Bsymbolic-functions)
  endif()
@@ -35,20 +35,20 @@ index 298d3a9d18fe..a8574bac5b16 100644
    # The clang-cpp DLL is supposed to export all symbols (except for ones
    # that are explicitly hidden). Normally, this is what happens anyway, but
 diff --git a/clang/tools/driver/CMakeLists.txt b/clang/tools/driver/CMakeLists.txt
-index 290bf2a42536..a46d0df0d5df 100644
+index ad336fcc45b6..26b586d13178 100644
 --- a/clang/tools/driver/CMakeLists.txt
 +++ b/clang/tools/driver/CMakeLists.txt
-@@ -132,3 +132,5 @@ if(CLANG_ORDER_FILE AND
-     set_target_properties(clang PROPERTIES LINK_DEPENDS ${CLANG_ORDER_FILE})
-   endif()
+@@ -186,3 +186,5 @@ if (CLANG_BOLT AND NOT LLVM_BUILD_INSTRUMENTED)
+     VERBATIM
+   )
  endif()
 +
 +target_link_options(clang PRIVATE LINKER:--emit-relocs)
 diff --git a/clang/tools/libclang/CMakeLists.txt b/clang/tools/libclang/CMakeLists.txt
-index 7b634003d11f..c3107915a707 100644
+index 00a1223c0831..8e121e9bcb62 100644
 --- a/clang/tools/libclang/CMakeLists.txt
 +++ b/clang/tools/libclang/CMakeLists.txt
-@@ -213,6 +213,9 @@ if(ENABLE_SHARED)
+@@ -217,6 +217,9 @@ if(ENABLE_SHARED)
    endif()
  endif()
  
@@ -89,18 +89,18 @@ index 8498a91597a9..3e7b95c3953a 100644
 +
 +target_link_options(lld PRIVATE LINKER:--emit-relocs)
 diff --git a/llvm/tools/llvm-shlib/CMakeLists.txt b/llvm/tools/llvm-shlib/CMakeLists.txt
-index b20ac318e768..4b5c19ffbc4b 100644
+index ede3c5034e04..2d283f6deae3 100644
 --- a/llvm/tools/llvm-shlib/CMakeLists.txt
 +++ b/llvm/tools/llvm-shlib/CMakeLists.txt
-@@ -61,6 +61,8 @@ if(LLVM_BUILD_LLVM_DYLIB)
-       # Note: for -fno-pic default, the address of a function may be different from
-       # inside and outside libLLVM.so.
-       target_link_options(LLVM PRIVATE LINKER:-Bsymbolic-functions)
-+      # We need to emit relocations to BOLT this library on Solus
-+      target_link_options(LLVM PRIVATE LINKER:--emit-relocs)
+@@ -67,6 +67,8 @@ if(LLVM_BUILD_LLVM_DYLIB)
+         # Note: for -fno-pic default, the address of a function may be different from
+         # inside and outside libLLVM.so.
+         target_link_options(LLVM PRIVATE LINKER:-Bsymbolic-functions)
++        # We need to emit relocations to BOLT this library on Solus
++        target_link_options(LLVM PRIVATE LINKER:--emit-relocs)
+       endif()
      endif()
    endif()
- 
 diff --git a/llvm/tools/lto/CMakeLists.txt b/llvm/tools/lto/CMakeLists.txt
 index 67f6d3af40e0..64c3b48d4c6b 100644
 --- a/llvm/tools/lto/CMakeLists.txt

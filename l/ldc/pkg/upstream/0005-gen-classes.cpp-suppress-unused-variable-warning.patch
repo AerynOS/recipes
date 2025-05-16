@@ -1,0 +1,22 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: liushuyu <liushuyu011@gmail.com>
+Date: Tue, 4 Feb 2025 18:01:07 -0700
+Subject: [PATCH 5/9] gen/classes.cpp: suppress unused variable warning
+
+---
+ gen/classes.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/gen/classes.cpp b/gen/classes.cpp
+index 95d8467f2e..732a6e5c36 100644
+--- a/gen/classes.cpp
++++ b/gen/classes.cpp
+@@ -379,7 +379,7 @@ DValue *DtoDynamicCastObject(const Loc &loc, DValue *val, Type *_to) {
+   // Object _d_dynamic_cast(Object o, ClassInfo c)
+   llvm::Function *func =
+       getRuntimeFunction(loc, gIR->module, "_d_dynamic_cast");
+-  LLFunctionType *funcTy = func->getFunctionType();
++  [[maybe_unused]] LLFunctionType *funcTy = func->getFunctionType();
+ 
+   // Object o
+   LLValue *obj = DtoRVal(val);
