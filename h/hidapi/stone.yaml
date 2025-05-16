@@ -1,0 +1,25 @@
+#
+# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : hidapi
+version     : 0.14.0
+release     : 1
+homepage    : https://libusb.info/hidapi/
+upstreams   :
+    - https://github.com/libusb/hidapi/archive/refs/tags/hidapi-0.14.0.tar.gz : a5714234abe6e1f53647dd8cba7d69f65f71c558b7896ed218864ffcf405bcbd
+summary     : A Simple cross-platform library for communicating with HID devices
+description : |
+    HIDAPI is a multi-platform library which allows an application to interface
+    with USB and Bluetooth HID-Class devices.
+license     : GPL-3.0-or-later OR BSD-3-Clause
+builddeps   :
+    - pkgconfig(libudev)
+    - pkgconfig(libusb-1.0)
+setup       : |
+    %cmake
+build       : |
+    %cmake_build
+install     : |
+    %cmake_install

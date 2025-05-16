@@ -1,0 +1,58 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"hidapi": {
+			"build-depends": [
+				"pkgconfig(libudev)",
+				"pkgconfig(libusb-1.0)"
+			],
+			"depends": [
+				"soname(libc.so.6(x86_64))",
+				"soname(libudev.so.1(x86_64))",
+				"soname(libusb-1.0.so.0(x86_64))"
+			],
+			"files": [
+				"/usr/lib/libhidapi-hidraw.so.0",
+				"/usr/lib/libhidapi-hidraw.so.0.14.0",
+				"/usr/lib/libhidapi-libusb.so.0",
+				"/usr/lib/libhidapi-libusb.so.0.14.0"
+			],
+			"name": "hidapi",
+			"provides": [
+				"soname(libhidapi-hidraw.so.0(x86_64))",
+				"soname(libhidapi-libusb.so.0(x86_64))"
+			]
+		},
+		"hidapi-devel": {
+			"build-depends": [
+				"pkgconfig(libudev)",
+				"pkgconfig(libusb-1.0)"
+			],
+			"depends": [
+				"hidapi"
+			],
+			"files": [
+				"/usr/include/hidapi/hidapi.h",
+				"/usr/include/hidapi/hidapi_libusb.h",
+				"/usr/lib/cmake/hidapi/hidapi-config-version.cmake",
+				"/usr/lib/cmake/hidapi/hidapi-config.cmake",
+				"/usr/lib/cmake/hidapi/libhidapi-release.cmake",
+				"/usr/lib/cmake/hidapi/libhidapi.cmake",
+				"/usr/lib/libhidapi-hidraw.so",
+				"/usr/lib/libhidapi-libusb.so",
+				"/usr/lib/pkgconfig/hidapi-hidraw.pc",
+				"/usr/lib/pkgconfig/hidapi-libusb.pc"
+			],
+			"name": "hidapi-devel",
+			"provides": [
+				"cmake(hidapi)",
+				"pkgconfig(hidapi-hidraw)",
+				"pkgconfig(hidapi-libusb)"
+			]
+		}
+	},
+	"source-name": "hidapi",
+	"source-release": "1",
+	"source-version": "0.14.0"
+}
