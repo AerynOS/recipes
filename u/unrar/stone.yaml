@@ -1,0 +1,22 @@
+#
+# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : unrar
+version     : 7.1.6
+release     : 1
+homepage    : https://www.rarlab.com/rar
+upstreams   :
+    - https://www.rarlab.com/rar/unrarsrc-7.1.6.tar.gz : ca5e1da37dd6fa1b78bb5ed675486413f79e4a917709744aa04b6f93dfd914f0
+summary     : A program to extract, test, and view RAR archives.
+description : |
+    The UnRAR utility is a freeware program distributed with source code and developed for extracting, testing, and viewing the contents of archives created with the RAR archiver.
+license     : Proprietary
+builddeps   : 
+    - binary(strip)
+setup       : |
+build       : |
+    %make -f makefile CXX="$CXX"
+install     : |
+    %make_install DESTDIR=%(installroot)/usr
