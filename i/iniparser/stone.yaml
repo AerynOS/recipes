@@ -1,0 +1,31 @@
+#
+# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : iniparser
+version     : "4.2.6"
+release     : 1
+homepage    : https://gitlab.com/iniparser/iniparser/-/archive/v4.2.6
+upstreams   : 
+    - https://gitlab.com/iniparser/iniparser/-/archive/v4.2.6/iniparser-v4.2.6.tar.gz : 67575ed032a544d5359610e5f697af786371bbc3eb01311218ef8adfd3e5e329
+summary     : This modules offers parsing of ini files from C
+description : |
+    This modules offers parsing of ini files from C.
+
+    Key features:
+
+        Small : around 1500 sloc inside 4 files (2 .c and 2 .h)
+        Portable : no dependancies, written in -pedantic C
+        Fully re-entrant : easy to make it thread-safe (just surround library calls by mutex)
+
+license     : MIT
+builddeps   :
+    - name(doxygen)
+setup       : |
+    %cmake
+build       : |
+    %cmake_build
+install     : |
+    %cmake_install
+
