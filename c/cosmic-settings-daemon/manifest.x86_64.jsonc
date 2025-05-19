@@ -9,16 +9,19 @@
 				"binary(mold)",
 				"pkgconfig(libgeoclue-2.0)",
 				"pkgconfig(libinput)",
+				"pkgconfig(libpulse)",
 				"pkgconfig(libudev)",
 				"pkgconfig(xkbcommon)"
 			],
 			"depends": [
 				"geoclue",
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"pop-os-sound-theme",
 				"power-profiles-daemon",
 				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libm.so.6(x86_64))",
+				"soname(libpulse.so.0(x86_64))",
 				"soname(libudev.so.1(x86_64))",
 				"soname(libunwind.so.1(x86_64))"
 			],
@@ -34,6 +37,6 @@
 		}
 	},
 	"source-name": "cosmic-settings-daemon",
-	"source-release": "13",
-	"source-version": "1.0.0-alpha.6"
+	"source-release": "14",
+	"source-version": "1.0.0-alpha.7"
 }
