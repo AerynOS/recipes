@@ -1,0 +1,12 @@
+diff --git a/data/meson.build b/data/meson.build
+index d61df61..3a40e47 100644
+--- a/data/meson.build
++++ b/data/meson.build
+@@ -24,6 +24,7 @@ if xmlto.found()
+         output: 'shared-mime-info-spec-html',
+         command: [
+             xmlto,
++            '--skip-validation',
+             '-o', '@OUTPUT@',
+             'html-nochunks',
+             '@INPUT@',

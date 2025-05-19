@@ -5,7 +5,7 @@
 #
 name        : zlib-ng
 version     : 2.2.4
-release     : 17
+release     : 18
 summary     : zlib replacement with optimizations for "next generation" systems.
 license     : Zlib
 homepage    : https://github.com/zlib-ng/zlib-ng
@@ -29,27 +29,41 @@ setup       : |
         -DBUILD_SHARED_LIBS=ON \
         -DINSTALL_LIB_DIR=%(libdir)
 build       : |
-    %cmake_build -C build-zlib
-    %cmake_build -C build-zlib-ng
+    for i in build-zlib build-zlib-ng; do
+        %ccache_zero
+        BUILDDIR=${i}
+        env CCACHE_BASEDIR="${PWD}/${i}" %cmake_build
+        %ccache_stats
+    done
 install     : |
-    %cmake_install -C build-zlib
-    %cmake_install -C build-zlib-ng
+    for i in build-zlib build-zlib-ng; do
+        BUILDDIR=${i}
+        %cmake_install
+    done    
 check       : |
-    %cmake_test -C build-zlib
-    %cmake_test -C build-zlib-ng
+    for i in build-zlib build-zlib-ng; do
+        BUILDDIR=${i}
+        env CCACHE_BASEDIR="${PWD}/${i}" %cmake_test
+    done
 profiles    :
     - emul32:
         setup       : |
-            %cmake \
+            %cmake -B build-zlib-emul32 \
                 -DZLIB_COMPAT=ON \
                 -DWITH_GTEST=OFF \
                 -DBUILD_SHARED_LIBS=ON \
                 -DINSTALL_LIB_DIR=%(libdir)
         build       : |
-            %cmake_build
+            %ccache_zero
+            BUILDDIR=build-zlib-emul32
+            env CCACHE_BASEDIR="${PWD}/build-zlib" %cmake_build
+            %ccache_stats
         install     : |
+            BUILDDIR=build-zlib-emul32
             %cmake_install
         check       : |
+            BUILDDIR=build-zlib-emul32
+            env CCACHE_BASEDIR="${PWD}/${BUILDDIR}"
             %cmake_test
 packages    :
     - "zlib":

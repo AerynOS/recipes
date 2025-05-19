@@ -35,6 +35,8 @@
 			],
 			"name": "f2fs-tools",
 			"provides": [
+				"soname(libf2fs.so.10(x86_64))",
+				"soname(libf2fs_format.so.9(x86_64))",
 				"sysbinary(defrag.f2fs)",
 				"sysbinary(dump.f2fs)",
 				"sysbinary(f2fs_io)",
@@ -42,8 +44,6 @@
 				"sysbinary(f2fslabel)",
 				"sysbinary(fibmap.f2fs)",
 				"sysbinary(fsck.f2fs)",
-				"soname(libf2fs.so.10(x86_64))",
-				"soname(libf2fs_format.so.9(x86_64))",
 				"sysbinary(mkfs.f2fs)",
 				"sysbinary(parse.f2fs)",
 				"sysbinary(resize.f2fs)",
@@ -51,6 +51,9 @@
 			]
 		},
 		"f2fs-tools-devel": {
+			"depends": [
+				"f2fs-tools"
+			],
 			"files": [
 				"/usr/include/f2fs_fs.h",
 				"/usr/include/quota.h",
@@ -61,6 +64,6 @@
 		}
 	},
 	"source-name": "f2fs-tools",
-	"source-release": "2",
+	"source-release": "3",
 	"source-version": "1.16.0"
 }

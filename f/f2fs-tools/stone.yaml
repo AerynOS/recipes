@@ -5,7 +5,7 @@
 #
 name        : f2fs-tools
 version     : 1.16.0
-release     : 2
+release     : 3
 homepage    : https://git.kernel.org/cgit/linux/kernel/git/jaegeuk/f2fs-tools.git/about/
 upstreams   :
     - https://git.kernel.org/pub/scm/linux/kernel/git/jaegeuk/f2fs-tools.git/snapshot/f2fs-tools-1.16.0.tar.gz : 208c7a07e95383fbd7b466b5681590789dcb41f41bf197369c41a95383b57c5e
@@ -17,8 +17,11 @@ license     :
     - GPL-2.0-or-later
     - LGPL-2.1-or-later
 setup      : |
+    # without this, ../lib/.libs/ does not get included in shared library searches for -lf2fs
+    # TODO: Toolchain search path issue?
+    %patch %(pkgdir)/add-.libs-sharedlib-search-dir-for-mkfs-target.patch
     %autogen --disable-static
 build       : |
-    %make
+    %make 
 install     : |
     %make_install

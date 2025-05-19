@@ -5,7 +5,7 @@
 #
 name        : libsecret
 version     : 0.21.7
-release     : 5
+release     : 6
 homepage    : https://wiki.gnome.org/Projects/Libsecret
 upstreams   :
     - https://download.gnome.org/sources/libsecret/0.21/libsecret-0.21.7.tar.xz : 6b452e4750590a2b5617adc40026f28d2f4903de15f1250e1d1c40bfd68ed55e
@@ -24,6 +24,7 @@ builddeps   :
     - pkgconfig(tss2-esys)
     - docbook
 setup       : |
+    %patch %(pkgdir)/use-local-manpages-docbook.xsl-stylesheet.patch
     %meson \
         -Dgtk_doc=false \
         -Dtpm2=true

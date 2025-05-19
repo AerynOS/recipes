@@ -1,0 +1,14 @@
+diff --git a/docs/man/meson.build b/docs/man/meson.build
+index 8370d2b..e0b3921 100644
+--- a/docs/man/meson.build
++++ b/docs/man/meson.build
+@@ -9,7 +9,8 @@ secret_tool_man = custom_target('secret-tool.1',
+     '--stringparam', 'man.th.extra1.suppress', '1',
+     '--stringparam', 'man.authors.section.enabled', '0',
+     '--stringparam', 'man.copyright.section.enabled', '0',
+-    'http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xsl',
++    '--novalid', '--load-trace',
++    '/usr/share/xml/docbook/xsl-stylesheets-nons-1.79.2.tar.bz2/manpages/docbook.xsl',
+     '@INPUT@',
+   ],
+   build_by_default: true,

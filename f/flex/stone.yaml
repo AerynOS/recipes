@@ -5,7 +5,7 @@
 #
 name        : flex
 version     : 2.6.4
-release     : 2
+release     : 3
 homepage    : https://github.com/westes/flex
 upstreams   :
     - https://github.com/westes/flex/releases/download/v2.6.4/flex-2.6.4.tar.gz : e87aae032bf07c26f85ac0ed3250998c37621d95f8bd748b31f15b33c45ee995
@@ -18,6 +18,7 @@ builddeps   :
     - binary(file)
 rundeps     :
     - binary(m4)
+toolchain   : gnu
 setup       : |
     %configure --disable-static
 build       : |

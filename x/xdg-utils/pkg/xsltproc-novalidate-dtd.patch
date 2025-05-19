@@ -1,0 +1,13 @@
+diff --git a/scripts/Makefile.in b/scripts/Makefile.in
+index 7939a4e..717f1f5 100644
+--- a/scripts/Makefile.in
++++ b/scripts/Makefile.in
+@@ -105,7 +105,7 @@ man/%.1: desc/%.xml
+ 
+ html/index.html: $(XMLFILES)
+ 	(cat html/index.html.pre; \
+-         xsltproc xsl/refentry2htmlindex.xsl $(XMLFILES); \
++         xsltproc --novalid --load-trace xsl/refentry2htmlindex.xsl $(XMLFILES); \
+          cat html/index.html.post ) > html/index.html
+ 
+ html/%.html: desc/%.xml

@@ -5,7 +5,7 @@
 #
 name        : lm_sensors
 version     : 3.6.0
-release     : 1
+release     : 2
 homepage    : https://hwmon.wiki.kernel.org/lm_sensors
 upstreams   :
     - https://github.com/lm-sensors/lm-sensors/archive/V3-6-0.tar.gz : 0591f9fa0339f0d15e75326d0365871c2d4e2ed8aa1ff759b3a55d3734b7d197
@@ -19,6 +19,8 @@ builddeps   :
     - binary(bison)
     - binary(flex)
     - binary(which)
+tuning      :
+    - lto: false
 environment : |
     export MAKE_ARGS="EXLDFLAGS=\\"$LDFLAGS\\" CC=$CC AR=$AR PREFIX=/usr LIBDIR=%(libdir) MANDIR=/usr/share/man BUILD_STATIC_LIB=0"
 setup       : |

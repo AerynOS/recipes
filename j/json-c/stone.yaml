@@ -5,7 +5,7 @@
 #
 name        : json-c
 version     : 0.18
-release     : 3
+release     : 4
 homepage    : https://github.com/json-c/json-c
 upstreams   :
     - https://s3.amazonaws.com/json-c_releases/releases/json-c-0.18.tar.gz : 876ab046479166b869afc6896d288183bbc0e5843f141200c677b3e8dfb11724
@@ -16,7 +16,8 @@ description : |
     JSON formatted strings back into the C representation of JSON objects.
 license     : MIT
 setup       : |
-    %cmake -DBUILD_STATIC_LIBS=OFF
+    %cmake -DBUILD_STATIC_LIBS=OFF \
+           -DDISABLE_WERROR=ON
 build       : |
     %cmake_build
 install     : |

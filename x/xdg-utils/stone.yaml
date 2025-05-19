@@ -5,7 +5,7 @@
 #
 name        : xdg-utils
 version     : 1.2.1
-release     : 3
+release     : 6
 homepage    : https://gitlab.freedesktop.org/xdg/xdg-utils/
 upstreams   :
     - https://gitlab.freedesktop.org/xdg/xdg-utils/-/archive/v1.2.1/xdg-utils-v1.2.1.tar.gz : f6b648c064464c2636884c05746e80428110a576f8daacf46ef2e554dcfdae75
@@ -19,8 +19,36 @@ builddeps   :
     - binary(xmlto)
     - binary(xsltproc)
 setup       : |
+    # BEGIN ugly local docbook stylesheet hack
+    #
+    # Symlink in the */*.xsl stylesheets so they don't need fetching
+    # the html dir already exists, so give that special treatment
+    ln -sv /usr/share/xml/docbook/xsl-stylesheets-nons-*/* scripts/ || mkdir -pv scripts/html
+
+    # This is needed because the html dir already exists, so won't get linked in above
+    ln -sv /usr/share/xml/docbook/xsl-stylesheets-nons-*/html/* scripts/html/
+
+    # This is needed because the txt files are generated using the html stylesheets
+    ln -sv /usr/share/xml/docbook/xsl-stylesheets-nons-*/html/* scripts/
+
+    # This is needed because common/*.xsl is also used by the txt stuff
+    ln -sv scripts/common .
+    ln -sv scripts/lib .
+    ln -sv /usr/share/xml/docbook/xsl-stylesheets-nons-*/VERSION ./VERSION.xsl
+
+    # this is needed because the scripts/man dir uses the manpages/*.xsl files
+    cp -v scripts/manpages/*  scripts/man/
+    
+    # without this, xsltproc tries to reach out to the internet for DTD validation
+    %patch %(pkgdir)/xsltproc-novalidate-dtd.patch
+    
+    # without this, xmlto complains about validation
+    %patch %(pkgdir)/xmlto-skip-validation.patch
+    
+    # END ugly local docbook stylesheet hack
+    
     %configure
 build       : |
-    %make
+    %make -j1
 install     : |
-    %make_install
+    %make_install -j1
