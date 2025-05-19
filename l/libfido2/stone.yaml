@@ -1,0 +1,48 @@
+#
+# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : libfido2
+version     : 1.16.0
+release     : 1
+homepage    : https://developers.yubico.com/libfido2/
+upstreams   :
+    - https://github.com/Yubico/libfido2/archive/refs/tags/1.16.0.tar.gz : 7d86088ef4a48f9faad4ff6f41343328157849153a8dc94d88f4b5461cb29474
+summary     : Provides library functionality for FIDO2, including communication with a device over USB or NFC.
+description : |
+    Provides library functionality to communicate with a FIDO device over USB or
+    NFC, and to verify attestation and assertion signatures.
+license     : BSD-2-Clause
+builddeps   :
+    - pkgconfig(libcbor)
+    - pkgconfig(openssl)
+    - pkgconfig(zlib)
+    - pkgconfig(libudev)
+    - pkgconfig(hidapi-hidraw)
+    - pkgconfig(libpcsclite)
+setup       : |
+    %cmake -DBUILD_EXAMPLES=OFF \
+           -DBUILD_STATIC_LIBS=OFF \
+           -DUSE_HIDAPI=ON \
+           -DUSE_PCSC=ON \
+           -DUDEV_RULES_DIR=/usr/lib/udev/rules.d
+build       : |
+    %cmake_build
+install     : |
+    %cmake_install
+    %sysusers 'g plugdev - -'
+check       : |
+    %cmake_test
+packages    :
+    - "%(name)-devel":
+        paths:
+            - /usr/share/man/man3
+    - "%(name)-tools":
+        summary: Command-line tools for FIDO2
+        description: |
+            Provides command-line tools to communicate with a FIDO device over
+            USB or NFC, and to verify attestation and assertion signatures.
+        paths:
+            - /usr/bin
+            - /usr/share/man/man1
