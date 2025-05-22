@@ -48,3 +48,4 @@ install     : |
     %install_dir %(installroot)%(vendordir)%(sysconfdir)/profile.d
     mv %(installroot)%(sysconfdir)/profile.d/vte.sh %(installroot)%(vendordir)%(sysconfdir)/profile.d/10-vte.sh
     rm -frv %(installroot)%(sysconfdir)
+    echo "NoDisplay=true" >> %(installroot)/usr/share/applications/org.gnome.Vte.App.Gtk4.desktop
