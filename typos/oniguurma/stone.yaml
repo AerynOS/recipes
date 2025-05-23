@@ -3,20 +3,18 @@
 #
 # SPDX-License-Identifier: MPL-2.0
 #
-name        : oniguruma
+name        : oniguurma
 version     : 6.9.9
-release     : 1
+release     : 2
 homepage    : https://github.com/kkos/oniguruma/releases/download/v6.9.9
 upstreams   :
     - https://github.com/kkos/oniguruma/releases/download/v6.9.9/onig-6.9.9.tar.gz : 60162bd3b9fc6f4886d4c7a07925ffd374167732f55dce8c491bfd9cd818a6cf
-summary     : Regular expressions library
+summary     : TYPO package - pending deletion
 description : |
-    Oniguruma is a regular expressions library. The characteristics of this library is that
-    different character encoding for every regular expression object can be specified.
+    TYPO package - pending deletion
 license     : BSD-2-Clause
-setup       : |
-    %configure --disable-static
-build       : |
-    %make
+rundeps     :
+    - oniguruma
 install     : |
-    %make_install
+    %install_dir %(installroot)%(docdir)/typos/%(name)
+    echo "oniguruma" > %(installroot)%(docdir)/typos/%(name)/TRANSITION
