@@ -21,7 +21,10 @@
 			"files": [
 				"/usr/bin/powerstation",
 				"/usr/lib/systemd/system/powerstation.service",
-				"/usr/share/dbus-1/system.d/org.shadowblip.PowerStation.conf"
+				"/usr/share/dbus-1/system.d/org.shadowblip.PowerStation.conf",
+				"/usr/share/powerstation/platform/amd_apu_database.toml",
+				"/usr/share/powerstation/platform/dmi_overrides_apu_database.toml",
+				"/usr/share/powerstation/platform/intel_apu_database.toml"
 			],
 			"name": "powerstation",
 			"provides": [
@@ -30,6 +33,6 @@
 		}
 	},
 	"source-name": "powerstation",
-	"source-release": "3",
-	"source-version": "0.4.2"
+	"source-release": "4",
+	"source-version": "0.5.0"
 }
