@@ -1,7 +1,7 @@
 From 148731dc5fc0bed1b7b8629f1043ab028099d289 Mon Sep 17 00:00:00 2001
 From: Ikey Doherty <ikey@serpentos.com>
 Date: Mon, 9 Dec 2024 23:12:20 +0000
-Subject: [PATCH 6/6] 50plymouth: Generate proper OS plymouth for generic
+Subject: [PATCH 6/6] 45plymouth: Generate proper OS plymouth for generic
  initrd
 
 We use these during kernel builds to ensure we have reproducible
@@ -10,14 +10,15 @@ rebuilds which are costly and prone to errors caused by local
 configuration changes/drift.
 
 Signed-off-by: Ikey Doherty <ikey@serpentos.com>
+Modifyied-by: Philip Mueller <philm@manjaro.org>
 ---
- .../50plymouth/plymouth-populate-initrd.sh    | 44 +++++++------------
+ .../45plymouth/plymouth-populate-initrd.sh    | 44 +++++++------------
  1 file changed, 15 insertions(+), 29 deletions(-)
 
-diff --git a/modules.d/50plymouth/plymouth-populate-initrd.sh b/modules.d/50plymouth/plymouth-populate-initrd.sh
+diff --git a/modules.d/45plymouth/plymouth-populate-initrd.sh b/modules.d/45plymouth/plymouth-populate-initrd.sh
 index 7e3afdd..6eb51ba 100755
---- a/modules.d/50plymouth/plymouth-populate-initrd.sh
-+++ b/modules.d/50plymouth/plymouth-populate-initrd.sh
+--- a/modules.d/45plymouth/plymouth-populate-initrd.sh
++++ b/modules.d/45plymouth/plymouth-populate-initrd.sh
 @@ -12,34 +12,20 @@ mkdir -m 0755 -p "${initdir}/usr/share/plymouth"
  
  inst_libdir_file "plymouth/text.so" "plymouth/details.so"
