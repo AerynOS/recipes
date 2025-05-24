@@ -1,0 +1,30 @@
+#
+# SPDX-FileCopyrightText: © 2025- AerynOS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : tree-sitter
+version     : 0.25.4
+release     : 1
+homepage    : https://github.com/tree-sitter/tree-sitter
+upstreams   :
+    - https://github.com/tree-sitter/tree-sitter/archive/refs/tags/v0.25.4.tar.gz : 87eadc505905c70a692917c821958a819903f808f8d244068b1d273a033dc728
+summary     : An incremental parsing system for programming tools
+description : |
+    Tree-sitter is a parser generator tool and an incremental parsing library. It can build a concrete syntax tree for a source file and efficiently update the syntax tree as the source file is edited.
+license     : MIT
+networking  : true
+builddeps   :
+    - pkgconfig(openssl)
+setup       : |
+    %cargo_fetch
+    %cmake -S lib
+build       : |
+    %cargo_build
+    %cmake_build
+install     : |
+    %cargo_install
+    %cmake_install 
+
+    %install_file LICENSE -t %(installroot)%(datadir)/licenses/%(name)
+

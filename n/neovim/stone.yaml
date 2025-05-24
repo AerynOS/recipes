@@ -1,0 +1,33 @@
+#
+# SPDX-FileCopyrightText: © 2025- AerynOS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : neovim
+version     : 0.11.1
+release     : 1
+homepage    : https://github.com/neovim/neovim
+upstreams   :
+    - https://github.com/neovim/neovim/archive/refs/tags/v0.11.1.tar.gz : ffe7f9a7633ed895ff6adb1039af7516cd6453715c8889ad844b6fa39c3df443
+summary     : Vim-fork focused on extensibility and usability
+description : |
+    Neovim is a project that seeks to aggressively refactor Vim.
+license     : Apache-2.0
+builddeps   :
+    - binary(make)
+    - pkgconfig(luajit)
+    - pkgconfig(libuv) 
+    - pkgconfig(libluv) 
+    - pkgconfig(tree-sitter)
+    - pkgconfig(unibilium)
+    - pkgconfig(libutf8proc)
+    - lua51-lpeg
+rundeps     :
+    - lua51-lpeg
+setup       : |
+    %cmake -DUSE_BUNDLED=OFF 
+build       : |
+    %cmake_build
+install     : |
+    %cmake_install
+
