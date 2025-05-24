@@ -1,0 +1,57 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"crun": {
+			"build-depends": [
+				"pkgconfig(libcap)",
+				"pkgconfig(libseccomp)",
+				"pkgconfig(python3)",
+				"pkgconfig(systemd)",
+				"pkgconfig(yajl)"
+			],
+			"depends": [
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libcap.so.2(x86_64))",
+				"soname(libseccomp.so.2(x86_64))",
+				"soname(libsystemd.so.0(x86_64))",
+				"soname(libyajl.so.2(x86_64))"
+			],
+			"files": [
+				"/usr/bin/crun",
+				"/usr/lib/libcrun.so.0",
+				"/usr/lib/libcrun.so.0.0.0",
+				"/usr/lib/python3.11/site-packages/python_crun.so",
+				"/usr/share/man/man1/crun.1"
+			],
+			"name": "crun",
+			"provides": [
+				"binary(crun)",
+				"soname(libcrun.so.0(x86_64))",
+				"soname(python3.11/site-packages/python_crun.so(x86_64))"
+			]
+		},
+		"crun-devel": {
+			"build-depends": [
+				"pkgconfig(libcap)",
+				"pkgconfig(libseccomp)",
+				"pkgconfig(python3)",
+				"pkgconfig(systemd)",
+				"pkgconfig(yajl)"
+			],
+			"depends": [
+				"crun"
+			],
+			"files": [
+				"/usr/lib/libcrun.a",
+				"/usr/lib/libcrun.so",
+				"/usr/lib/python3.11/site-packages/python_crun.a"
+			],
+			"name": "crun-devel"
+		}
+	},
+	"source-name": "crun",
+	"source-release": "1",
+	"source-version": "1.21"
+}
