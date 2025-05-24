@@ -4,66 +4,91 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : thunderbird
-version     : 136.0.1
-release     : 17
+version     : 138.0.2
+release     : 18
 homepage    : https://www.thunderbird.net/
 upstreams   :
-    - https://releases.mozilla.org/pub/thunderbird/releases/136.0.1/source/thunderbird-136.0.1.source.tar.xz : 687a2ca31d6f23bb68c2c225ef593ecd8dc025dad9a1a3ef44b0f19ed24b2ffe
+    - https://releases.mozilla.org/pub/thunderbird/releases/138.0.2/source/thunderbird-138.0.2.source.tar.xz:
+        hash: 1bedb532edbd9d377022e398ae234348f9c91d9e89a6c9fe2352aed41c42121a
+        unpackdir: thunderbird
+    - https://sources.getsol.us/mozilla/thunderbird/thunderbird-138.0.2-langpacks.tar.zst:
+        hash: ca8493548180cfa93be3858705f450a2329f5973474958f689b7ed33e0702bfd
+        unpackdir: thunderbird/langpacks
 summary     : Thunderbird Email Client
 description : |
     Thunderbird Email Client
 license     : MPL-2.0
 builddeps   :
     - binary(cbindgen)
-    - binary(cc)
-    - binary(g++)
+    - binary(gcc) # libstdc++ location detection, might not be needed
     - binary(m4)
     - binary(make)
     - binary(nasm)
-    - binary(npm)
-    - binary(objdump)
+    - binary(node)
     - binary(python3)
     - binary(rustc)
     - binary(unzip)
     - pkgconfig(alsa)
     - pkgconfig(gtk+-3.0)
-    - pkgconfig(ice)
+    - pkgconfig(icu-uc)
     - pkgconfig(libevent)
     - pkgconfig(libjpeg)
-    - pkgconfig(libpng)
+    # - pkgconfig(libpng) # Not patched with APNG support
     - pkgconfig(libpulse)
+    - pkgconfig(librnp)
     - pkgconfig(libwebp)
     - pkgconfig(nspr)
     - pkgconfig(nss)
+    - pkgconfig(pango)
     - pkgconfig(pixman-1)
-    - pkgconfig(librnp)
-    - pkgconfig(sm)
     - pkgconfig(vpx)
-    - pkgconfig(zlib)
+    - pkgconfig(xkbcommon)
+    - libstdc++-devel
 rundeps     :
     - rnp
     - xdg-desktop-portal
 environment : |
     export MOZ_NOSPAM=1
-    export MACH_BUILD_PYTHON_NATIVE_PACKAGE_SOURCE=pip
-    # Not working with libc++ 18, reevaluate with LLVM 19
-    export CXXFLAGS="${CXXFLAGS} -stdlib=libstdc++"
+    export PIP_NETWORK_INSTALL_RESTRICTED_VIRTUALENVS=mach
+    export MACH_BUILD_PYTHON_NATIVE_PACKAGE_SOURCE="none"
+
+    # Something in this still links against libstdc++ and I haven't figured out how to disable it
+    # It doesn't seem to end up reflected in the final ABI at least
+    export CXXFLAGS="${CXXFLAGS} -stdlib=libc++"
 setup       : |
-    # %patch %(pkgdir)/icu74.patch
+    %patch %(pkgdir)/patches/0001-Fix-Firefox-Thunderbird-envvar-conflicts.patch
+    %patch %(pkgdir)/patches/libcxx-18.patch
+    %patch %(pkgdir)/patches/icu76.patch
+
     %install_file %(pkgdir)/mozconfig .
+    sed -e 's|@@JOBCOUNT@@|%(jobs)|' -e 's|@@LIBDIR@@|%(libdir)|' -i mozconfig
+
+    ./mach configure
 build       : |
     ./mach build
 install     : |
     DESTDIR=%(installroot) ./mach install
 
-    %install_file comm/mail/branding/thunderbird/default16.png %(installroot)%(datadir)/icons/hicolor/16x16/apps/thunderbird.png
-    %install_file comm/mail/branding/thunderbird/default22.png %(installroot)%(datadir)/icons/hicolor/22x22/apps/thunderbird.png
-    %install_file comm/mail/branding/thunderbird/default24.png %(installroot)%(datadir)/icons/hicolor/24x24/apps/thunderbird.png
-    %install_file comm/mail/branding/thunderbird/default32.png %(installroot)%(datadir)/icons/hicolor/32x32/apps/thunderbird.png
-    %install_file comm/mail/branding/thunderbird/default48.png %(installroot)%(datadir)/icons/hicolor/48x48/apps/thunderbird.png
-    %install_file comm/mail/branding/thunderbird/default128.png %(installroot)%(datadir)/icons/hicolor/128x128/apps/thunderbird.png
-    %install_file comm/mail/branding/thunderbird/default256.png %(installroot)%(datadir)/icons/hicolor/256x256/apps/thunderbird.png
+    # Install locales
+    langpackdir="%(installroot)/%(libdir)/thunderbird/langpacks"
+    %install_dir "${langpackdir}"
+
+    for i in langpacks/*.xpi; do
+        lname="$(basename ${i})"
+        %install_file "langpacks/${lname}" "${langpackdir}/${lname}"
+    done
+
+    for i in 16 22 24 32 48 128 256; do
+        install -dm00755 %(installroot)/%(datadir)/icons/hicolor/${i}x${i}/apps
+        ln -srv %(installroot)/%(libdir)/thunderbird/chrome/icons/default/default${i}.png %(installroot)/%(datadir)/icons/hicolor/${i}x${i}/apps/net.thunderbird.Thunderbird.png
+    done
+
     %install_file %(pkgdir)/thunderbird-symbolic.svg %(installroot)%(datadir)/icons/hicolor/symbolic/apps/thunderbird-symbolic.svg
-    %install_file %(pkgdir)/thunderbird.desktop %(installroot)%(datadir)/applications/thunderbird.desktop
+    %install_file %(pkgdir)/net.thunderbird.Thunderbird.desktop %(installroot)%(datadir)/applications/net.thunderbird.Thunderbird.desktop
 
     %install_file %(pkgdir)/distribution.ini %(installroot)%(libdir)/thunderbird/distribution/distribution.ini
+    %install_file %(pkgdir)/prefs.js %(installroot)/%(libdir)/thunderbird/defaults/pref/prefs.js
+
+    # Use a wrapper script to configure langpacks
+    rm -v %(installroot)/%(bindir)/thunderbird
+    install -D -m 00755 %(pkgdir)/thunderbird-wrapper.sh %(installroot)/%(bindir)/thunderbird

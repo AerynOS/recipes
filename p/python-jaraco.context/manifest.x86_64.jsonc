@@ -1,0 +1,35 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"python-jaraco.context": {
+			"build-depends": [
+				"python(setuptools-scm)"
+			],
+			"depends": [
+				"binary(python3)",
+				"python(backports.tarfile(3.11))",
+				"python(backports.tarfile)"
+			],
+			"files": [
+				"/usr/lib/python3.11/site-packages/jaraco.context-6.0.1.dist-info/LICENSE",
+				"/usr/lib/python3.11/site-packages/jaraco.context-6.0.1.dist-info/METADATA",
+				"/usr/lib/python3.11/site-packages/jaraco.context-6.0.1.dist-info/RECORD",
+				"/usr/lib/python3.11/site-packages/jaraco.context-6.0.1.dist-info/WHEEL",
+				"/usr/lib/python3.11/site-packages/jaraco.context-6.0.1.dist-info/top_level.txt",
+				"/usr/lib/python3.11/site-packages/jaraco/context/__init__.py",
+				"/usr/lib/python3.11/site-packages/jaraco/context/__pycache__/__init__.cpython-311.opt-1.pyc",
+				"/usr/lib/python3.11/site-packages/jaraco/context/__pycache__/__init__.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/jaraco/context/py.typed"
+			],
+			"name": "python-jaraco.context",
+			"provides": [
+				"python(jaraco.context(3.11))",
+				"python(jaraco.context)"
+			]
+		}
+	},
+	"source-name": "python-jaraco.context",
+	"source-release": "2",
+	"source-version": "6.0.1"
+}

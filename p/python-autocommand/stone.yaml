@@ -1,0 +1,26 @@
+#
+# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : python-autocommand
+version     : 2.2.2
+release     : 1
+homepage    : https://github.com/Lucretiel/autocommand
+upstreams   :
+    - https://pypi.debian.net/autocommand/autocommand-2.2.2.tar.gz : 878de9423c5596491167225c2a455043c3130fb5b7286ac83443d45e74955f34
+summary     : Generate argparse parsers from function signatures
+description : |
+    Generate argparse parsers from function signatures
+license     : LGPL-3.0-or-later
+rundeps     :
+    - binary(python3)
+checkdeps   :
+    - python(pytest)
+build       : |
+    %pyproject_build
+install     : |
+    %pyproject_install
+check       : |
+    # TODO replace with pytest macro
+    PYTHONPATH="$PWD"/build/lib pytest

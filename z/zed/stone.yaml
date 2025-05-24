@@ -4,8 +4,8 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : zed
-version     : 0.177.7
-release     : 30
+version     : 0.187.5
+release     : 31
 summary     : High performance, graphical code editor
 license     :
     - AGPL-3.0
@@ -13,13 +13,15 @@ license     :
     - GPL-3.0
 homepage    : https://zed.dev/
 upstreams   :
-    - git|https://github.com/zed-industries/zed.git : ab9b3f1ba31a79e125b493fa35d73bf066c66074
+    - git|https://github.com/zed-industries/zed.git:
+        ref: f6f18968b8aab2ad2940e1332b751e28a24c03ed
+    - https://github.com/livekit/rust-sdks/releases/download/webrtc-7ec4c03/webrtc-linux-x64-release.zip:
+        hash: 0f6cf95d9ceefc5c2fb1875551490dd6e350f1fe42c0c5845cb5ff6f262ebedf
+        unpackdir: zed.git
 description : |
     Code at the speed of thought – Zed is a high-performance, multiplayer code editor from the creators of Atom and Tree-sitter.
 builddeps   :
     - binary(cargo)
-    - binary(cc)
-    - binary(clang)
     - binary(cmake)
     - binary(envsubst)
     - binary(jq)
@@ -37,8 +39,11 @@ builddeps   :
     - pkgconfig(wayland-client)
     - pkgconfig(x11)
     - pkgconfig(xkbcommon)
+    - libstdc++-devel
 rundeps     :
     - binary(unzip)
+# If you don't use GCC it trieds to link libstdc++ while using libc++ headers which is obviously doomed to fail
+# I think this requires upstream support in the cc package for correctly choosing libc++: https://github.com/rust-lang/cc-rs/issues/1468
 toolchain   : gnu
 networking  : yes
 tuning      :
@@ -49,6 +54,7 @@ environment : |
 setup       : |
     %cargo_fetch
 build       : |
+    export LK_CUSTOM_WEBRTC="%(workdir)/linux-x64-release"
     RUST_BACKTRACE=1 %cargo_build -p zed -p cli
 install     : |
     %install_dir %(installroot)%(libexecdir)

@@ -1,0 +1,30 @@
+#
+# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : python-pytest
+version     : 8.3.5
+release     : 1
+homepage    : https://docs.pytest.org
+upstreams   :
+    - https://pypi.debian.net/pytest/pytest-8.3.5.tar.gz : f4efe70cc14e511565ac476b57c279e12a855b11f48f212af1080ef2263d3845
+summary     : Simple powerful testing with Python
+description : |
+    Simple powerful testing with Python
+license     : MIT
+builddeps   :
+    - python(setuptools-scm)
+rundeps     :
+    - binary(python3)
+    - python(iniconfig)
+    - python(packaging)
+    - python(pluggy)
+build       : |
+    %pyproject_build
+install     : |
+    %pyproject_install
+# check       : |
+#     # TODO replace with pytest macro
+#     # TODO have pytest
+#     PYTHONPATH="$PWD"/build/lib pytest

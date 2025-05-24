@@ -5,14 +5,14 @@
 		"lynx": {
 			"build-depends": [
 				"binary(msginit)",
-				"pkgconfig(ncurses)",
-				"pkgconfig(openssl)"
+				"pkgconfig(openssl)",
+				"pkgconfig(slang)"
 			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libcrypto.so.3(x86_64))",
-				"soname(libncursesw.so.6(x86_64))",
+				"soname(libslang.so.2(x86_64))",
 				"soname(libssl.so.3(x86_64))"
 			],
 			"files": [
@@ -51,6 +51,6 @@
 		}
 	},
 	"source-name": "lynx",
-	"source-release": "1",
+	"source-release": "2",
 	"source-version": "2.8.9rel.1"
 }

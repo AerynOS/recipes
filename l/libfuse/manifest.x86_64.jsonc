@@ -8,22 +8,27 @@
 			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
-				"soname(libc.so.6(x86_64))"
+				"libfuse-libs",
+				"soname(libc.so.6(x86_64))",
+				"soname(libfuse3.so.4(x86_64))"
 			],
 			"files": [
+				"/usr/bin/fusermount",
 				"/usr/bin/fusermount3",
-				"/usr/lib/libfuse3.so.3",
-				"/usr/lib/libfuse3.so.3.16.2",
 				"/usr/lib/udev/rules.d/99-fuse3.rules",
+				"/usr/sbin/mount.fuse",
 				"/usr/sbin/mount.fuse3",
 				"/usr/share/defaults/fuse/fuse.conf",
+				"/usr/share/man/man1/fusermount.1",
 				"/usr/share/man/man1/fusermount3.1",
+				"/usr/share/man/man8/mount.fuse.8",
 				"/usr/share/man/man8/mount.fuse3.8"
 			],
 			"name": "libfuse",
 			"provides": [
+				"binary(fusermount)",
 				"binary(fusermount3)",
-				"soname(libfuse3.so.3(x86_64))",
+				"sysbinary(mount.fuse)",
 				"sysbinary(mount.fuse3)"
 			]
 		},
@@ -49,9 +54,25 @@
 			"provides": [
 				"pkgconfig(fuse3)"
 			]
+		},
+		"libfuse-libs": {
+			"build-depends": [
+				"pkgconfig(libudev)"
+			],
+			"depends": [
+				"soname(libc.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/lib/libfuse3.so.3.17.2",
+				"/usr/lib/libfuse3.so.4"
+			],
+			"name": "libfuse-libs",
+			"provides": [
+				"soname(libfuse3.so.4(x86_64))"
+			]
 		}
 	},
 	"source-name": "libfuse",
-	"source-release": "5",
-	"source-version": "3.16.2"
+	"source-release": "7",
+	"source-version": "3.17.2"
 }

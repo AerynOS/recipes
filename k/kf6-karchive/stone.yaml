@@ -5,7 +5,7 @@
 #
 name        : kf6-karchive
 version     : 6.12.0
-release     : 3
+release     : 4
 upstreams   :
     - https://download.kde.org/stable/frameworks/6.12/karchive-6.12.0.tar.xz : 90a5397d5df3a90486b4d7efaeab29829b63a877b25e23e59f5f12f431f82904
 homepage    : https://community.kde.org/Frameworks
@@ -17,6 +17,7 @@ builddeps   :
     # Temporary, boulder doesn't handle build ordering resolution correctly when builddeps are added by macros, so add ECM manually
     - cmake(ECM)
     - pkgconfig(bzip2)
+    - pkgconfig(liblzma)
 setup       : |
     %cmake_kf6
 build       : |

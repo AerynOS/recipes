@@ -5,7 +5,7 @@
 #
 name        : libxmlb
 version     : 0.3.22
-release     : 4
+release     : 5
 homepage    : https://github.com/hughsie/libxmlb
 upstreams   :
     - https://github.com/hughsie/libxmlb/releases/download/0.3.22/libxmlb-0.3.22.tar.xz : f3c46e85588145a1a86731c77824ec343444265a457647189a43b71941b20fa0
@@ -14,9 +14,7 @@ description : |
     A library to help create and query binary XML blobs
 license     :
     - LGPL-2.1-or-later
-toolchain   : gnu
 builddeps   :
-    - binary(cmake)
     - binary(diff)
     - binary(python3)
     - pkgconfig(gio-2.0)

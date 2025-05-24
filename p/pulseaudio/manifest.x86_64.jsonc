@@ -106,11 +106,6 @@
 			],
 			"name": "pulseaudio",
 			"provides": [
-				"soname(libpulse-mainloop-glib.so.0(x86_64))",
-				"soname(libpulse-simple.so.0(x86_64))",
-				"soname(libpulse.so.0(x86_64))",
-				"soname(libpulsecommon-17.0.so(x86_64))",
-				"soname(libpulsedsp.so(x86_64))",
 				"binary(pa-info)",
 				"binary(pacat)",
 				"binary(pactl)",
@@ -119,7 +114,12 @@
 				"binary(paplay)",
 				"binary(parec)",
 				"binary(parecord)",
-				"binary(pax11publish)"
+				"binary(pax11publish)",
+				"soname(libpulse-mainloop-glib.so.0(x86_64))",
+				"soname(libpulse-simple.so.0(x86_64))",
+				"soname(libpulse.so.0(x86_64))",
+				"soname(pulseaudio/libpulsecommon-17.0.so(x86_64))",
+				"soname(pulseaudio/libpulsedsp.so(x86_64))"
 			]
 		},
 		"pulseaudio-devel": {
@@ -137,7 +137,8 @@
 				"pkgconfig(x11-xcb)"
 			],
 			"depends": [
-				"pkgconfig(glib-2.0)"
+				"pkgconfig(glib-2.0)",
+				"pulseaudio"
 			],
 			"files": [
 				"/usr/include/pulse/cdecl.h",
@@ -197,6 +198,6 @@
 		}
 	},
 	"source-name": "pulseaudio",
-	"source-release": "1",
-	"source-version": "17"
+	"source-release": "3",
+	"source-version": "17.0"
 }

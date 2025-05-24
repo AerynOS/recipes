@@ -14,6 +14,8 @@
 				"pkgconfig(glib-2.0)",
 				"pkgconfig(gobject-introspection-1.0)",
 				"pkgconfig(gstreamer-1.0)",
+				"pkgconfig(gstreamer-audio-1.0)",
+				"pkgconfig(gstreamer-tag-1.0)",
 				"pkgconfig(gudev-1.0)",
 				"pkgconfig(icu-i18n)",
 				"pkgconfig(libavformat)",
@@ -48,7 +50,7 @@
 				"soname(libtiff.so.6(x86_64))",
 				"soname(libtinysparql-3.0.so.0(x86_64))",
 				"soname(libupower-glib.so.3(x86_64))",
-				"soname(libxml2.so.2(x86_64))"
+				"soname(libxml2.so.16(x86_64))"
 			],
 			"files": [
 				"/usr/bin/localsearch",
@@ -215,6 +217,6 @@
 		}
 	},
 	"source-name": "localsearch",
-	"source-release": "5",
+	"source-release": "6",
 	"source-version": "3.9.0"
 }

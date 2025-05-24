@@ -5,7 +5,7 @@
 #
 name       : cjson
 version    : '1.7.18'
-release    : 1
+release    : 2
 homepage   : https://github.com/DaveGamble/cJSON/
 upstreams  :
     - https://github.com/DaveGamble/cJSON/archive/refs/tags/v1.7.18.tar.gz : 3aa806844a03442c00769b83e99970be70fbef03735ff898f4811dd03b9f5ee5
@@ -14,6 +14,8 @@ description: |
     Ultralightweight JSON parser in ANSI C
 license    : MIT
 setup      : |
+    # The build breaks due to our custom cflags otherwise
+    %patch %(pkgdir)/disable-Werror-flag.patch
     %cmake
 build      : |
     %cmake_build

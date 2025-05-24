@@ -5,7 +5,7 @@
 #
 name        : xmlto
 version     : 0.0.29
-release     : 3
+release     : 4
 homepage    : https://pagure.io/xmlto
 upstreams   :
     - https://pagure.io/xmlto/archive/0.0.29/xmlto-0.0.29.tar.gz : 40504db68718385a4eaa9154a28f59e51e59d006d1aa14f5bc9d6fded1d6017a
@@ -17,9 +17,12 @@ license     :
 builddeps   :
     - binary(flex)
     - binary(xsltproc)
-    - docbook
+    - docbook-xsl
 rundeps     :
-    - docbook
+    - docbook-xsl
+environment : |
+    # Temporary, replace with boulder macro
+    export XML_CATALOG_FILES="file:///usr/share/defaults/docbook/docbook-xsl/catalog"
 setup       : |
     %reconfigure
 build       : |

@@ -17,12 +17,15 @@
 			],
 			"name": "libdatrie",
 			"provides": [
-				"soname(libdatrie.so.1(x86_64))",
 				"binary(trietool)",
-				"binary(trietool-0.2)"
+				"binary(trietool-0.2)",
+				"soname(libdatrie.so.1(x86_64))"
 			]
 		},
 		"libdatrie-devel": {
+			"depends": [
+				"libdatrie"
+			],
 			"files": [
 				"/usr/include/datrie/alpha-map.h",
 				"/usr/include/datrie/trie.h",
@@ -38,6 +41,6 @@
 		}
 	},
 	"source-name": "libdatrie",
-	"source-release": "1",
+	"source-release": "2",
 	"source-version": "0.2.13"
 }

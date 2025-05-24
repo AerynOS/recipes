@@ -4,7 +4,7 @@
 	"packages": {
 		"tini": {
 			"build-depends": [
-				"gcc-devel"
+				"libcxx-devel-static"
 			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
@@ -22,6 +22,6 @@
 		}
 	},
 	"source-name": "tini",
-	"source-release": "1",
+	"source-release": "2",
 	"source-version": "0.19.0"
 }

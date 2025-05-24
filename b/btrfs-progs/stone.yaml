@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : btrfs-progs
-version     : '6.13'
-release     : 8
+version     : '6.14'
+release     : 9
 homepage    : https://github.com/kdave/btrfs-progs
 upstreams   :
-    - https://mirrors.edge.kernel.org/pub/linux/kernel/people/kdave/btrfs-progs/btrfs-progs-v6.13.tar.xz : 65b3f21117a594f80013b432620eecc6a7e2b0c05eab97136ff506c74d73ee9a
+    - https://mirrors.edge.kernel.org/pub/linux/kernel/people/kdave/btrfs-progs/btrfs-progs-v6.14.tar.xz : df5ab804fcb36e291c42ad8361f801ad1e10241b43bd304fe50ce3df9e7e3da1
 summary     : Filesystem utilities for btrfs filesystems
 description : |
     Filesystem utilities for btrfs filesystems
@@ -24,9 +24,7 @@ builddeps   :
     - pkgconfig(lzo2)
     - pkgconfig(uuid)
     - pkgconfig(zlib)
-    # TODO needs python-sphinx for docs
-rundeps    :
-    - gcc # Temporary until libgcc issue is fixed
+    # TODO needs python-sphinx for docs and man pages
 setup      : |
     %configure --disable-static \
                --disable-documentation \
@@ -46,3 +44,12 @@ check       : |
 tuning      :
     - lto
     - optimize: speed
+packages    :
+    # Due to moss not supporting this correctly yet
+    - "%(name)":
+        rundeps:
+            - "%(name)-libs"
+
+    - "%(name)-libs":
+        paths:
+            - /usr/lib/libbtrfs*.so.*

@@ -5,7 +5,7 @@
 		"dconf": {
 			"build-depends": [
 				"binary(xsltproc)",
-				"docbook",
+				"docbook-xsl",
 				"pkgconfig(bash-completion)",
 				"pkgconfig(dbus-1)",
 				"pkgconfig(gio-2.0)",
@@ -37,14 +37,14 @@
 			"name": "dconf",
 			"provides": [
 				"binary(dconf)",
-				"soname(libdconf.so.1(x86_64))",
-				"soname(libdconfsettings.so(x86_64))"
+				"soname(gio/modules/libdconfsettings.so(x86_64))",
+				"soname(libdconf.so.1(x86_64))"
 			]
 		},
 		"dconf-devel": {
 			"build-depends": [
 				"binary(xsltproc)",
-				"docbook",
+				"docbook-xsl",
 				"pkgconfig(bash-completion)",
 				"pkgconfig(dbus-1)",
 				"pkgconfig(gio-2.0)",
@@ -54,6 +54,7 @@
 				"pkgconfig(vapigen)"
 			],
 			"depends": [
+				"dconf",
 				"pkgconfig(gio-2.0)"
 			],
 			"files": [
@@ -74,6 +75,6 @@
 		}
 	},
 	"source-name": "dconf",
-	"source-release": "1",
+	"source-release": "2",
 	"source-version": "0.40.0"
 }

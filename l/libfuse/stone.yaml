@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : libfuse
-version     : 3.16.2
-release     : 5
+version     : 3.17.2
+release     : 7
 homepage    : https://github.com/libfuse/libfuse
 upstreams   :
-    - https://github.com/libfuse/libfuse/releases/download/fuse-3.16.2/fuse-3.16.2.tar.gz : f797055d9296b275e981f5f62d4e32e089614fc253d1ef2985851025b8a0ce87
+    - https://github.com/libfuse/libfuse/releases/download/fuse-3.17.2/fuse-3.17.2.tar.gz : 3d932431ad94e86179e5265cddde1d67aa3bb2fb09a5bd35c641f86f2b5ed06f
 summary     : Reference implementation of Filesystem in Userspace interface
 description : |
     FUSE (Filesystem in Userspace) is an interface for userspace programs to export a filesystem to the Linux kernel. The FUSE project consists of two components: the fuse kernel module (maintained in the regular kernel repositories) and the libfuse userspace library (maintained in this repository). libfuse provides the reference implementation for communicating with the FUSE kernel module.
@@ -17,6 +17,9 @@ license     :
     - LGPL-2.1-or-later
 builddeps   :
     - pkgconfig(libudev)
+tuning      :
+    # ld.lld: error: lib/libfuse3.so.3.17.1.p/fuse.c.o <inline asm>:7:1: default version symbol fuse_session_loop_mt@@FUSE_3.12 must be defined
+    - lto: false
 setup       : |
     %patch %(pkgdir)/stateless/stateless.patch
     %meson \
@@ -32,3 +35,21 @@ install     : |
     # -Duseroot=true is being too clever and causes a ftbfs, so we do the setsuid thing manually
     # (without this we get daft fuse mount errors when adding flatpak repos as root) /joey
     chmod 4755 %(installroot)%(bindir)/fusermount3
+
+    # Provide compat symlinks for fuse2
+    ln -srv %(installroot)/%(bindir)/fusermount3 %(installroot)/%(bindir)/fusermount
+    ln -srv %(installroot)/%(sbindir)/mount.fuse3 %(installroot)/%(sbindir)/mount.fuse
+    ln -srv %(installroot)/%(mandir)/man1/fusermount3.1 %(installroot)/%(mandir)/man1/fusermount.1
+    ln -srv %(installroot)/%(mandir)/man8/mount.fuse3.8 %(installroot)/%(mandir)/man8/mount.fuse.8
+packages    :
+    - "%(name)-libs":
+        summary: "Library files for %(name)"
+        description: |
+            Library files for %(name), typically pulled in as a dependency of another package.
+        paths:
+            - /usr/lib/lib*.so.*
+
+    # Moss workaround for updates not pulling in the new lib
+    - "%(name)":
+        rundeps:
+            - "%(name)-libs"

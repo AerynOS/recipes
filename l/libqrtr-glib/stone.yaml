@@ -5,7 +5,7 @@
 #
 name        : libqrtr-glib
 version     : 1.2.2
-release     : 1
+release     : 2
 homepage    : https://gitlab.freedesktop.org/mobile-broadband/libqrtr-glib/-/archive/1.2.2
 upstreams   :
     - https://gitlab.freedesktop.org/mobile-broadband/libqrtr-glib/-/archive/1.2.2/libqrtr-glib-1.2.2.tar.bz2 : 69ec8883d887a426c6402440b200fa53c41e9da8e098333369f2388d3559e856
@@ -26,5 +26,3 @@ build       : |
     %meson_build
 install     : |
     %meson_install
-# g-ir-scanner/compiler woes
-toolchain   : gnu

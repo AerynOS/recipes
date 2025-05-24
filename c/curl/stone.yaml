@@ -4,30 +4,31 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : curl
-version     : 8.11.1
-release     : 20
+version     : 8.13.0
+release     : 21
 summary     : A utility for fetching files from remote servers
 license     : MIT
 homepage    : https://curl.se/
 description : |
     A utility for fetching files from remote servers.
 upstreams   :
-    - https://curl.se/download/curl-8.11.1.tar.gz: a889ac9dbba3644271bd9d1302b5c22a088893719b72be3487bc3d401e5c4e80
+    - https://curl.se/download/curl-8.13.0.tar.gz: c261a4db579b289a7501565497658bbd52d3138fdbaccf1490fa918129ab45bc
 builddeps:
     - pkgconfig32(jansson)
     - pkgconfig32(libbrotlidec)
+    - pkgconfig32(libcrypto)
     - pkgconfig32(libnghttp2)
     - pkgconfig32(libpsl)
     - pkgconfig32(libzstd)
-    - pkgconfig32(rustls)
+    # - pkgconfig32(rustls)
     - pkgconfig32(zlib)
 emul32      : true
 setup       : |
+    # rustls temporarily disabled due to build failures
     %configure \
         --disable-static \
         --with-ca-bundle=%(vendordir)/etc/ssl/certs/ca-certificates.crt \
-        --with-rustls \
-        --without-openssl
+        --with-openssl
 build       : |
     %make
 install     : |
@@ -36,3 +37,8 @@ install     : |
 tune        :
     - nosemantic
     - optimize: size
+packages    :
+    - "%(name)-devel":
+        paths:
+            - /usr/bin/curl-config
+            - /usr/share/man/man1/curl-config*

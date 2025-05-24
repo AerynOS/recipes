@@ -5,7 +5,7 @@
 #
 name        : xdg-utils
 version     : 1.2.1
-release     : 3
+release     : 4
 homepage    : https://gitlab.freedesktop.org/xdg/xdg-utils/
 upstreams   :
     - https://gitlab.freedesktop.org/xdg/xdg-utils/-/archive/v1.2.1/xdg-utils-v1.2.1.tar.gz : f6b648c064464c2636884c05746e80428110a576f8daacf46ef2e554dcfdae75
@@ -18,6 +18,11 @@ builddeps   :
     - binary(lynx)
     - binary(xmlto)
     - binary(xsltproc)
+    - docbook
+    - docbook-xsl
+environment : |
+    # Temporary, replace with boulder macro
+    export XML_CATALOG_FILES="file:///usr/share/defaults/docbook/docbook-dtd/catalog file:///usr/share/defaults/docbook/docbook-xsl/catalog"
 setup       : |
     %configure
 build       : |

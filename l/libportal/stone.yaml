@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : libportal
-version     : 0.9.0
-release     : 4
+version     : 0.9.1
+release     : 5
 homepage    : https://libportal.org/
 upstreams   :
-    - https://github.com/flatpak/libportal/releases/download/0.9.0/libportal-0.9.0.tar.xz : 113910f06f39387328805397053d20c7acafb7388d8e6cd5e06e05efb9690735
+    - https://github.com/flatpak/libportal/releases/download/0.9.1/libportal-0.9.1.tar.xz : de801ee349ed3c255a9af3c01b1a401fab5b3fc1c35eb2fd7dfb35d4b8194d7f
 summary     : Flatpak portal library
 description : |
     libportal provides GIO-style async APIs for most Flatpak portals
@@ -20,11 +20,9 @@ builddeps   :
     - pkgconfig(gtk4)
     - vala
 setup       : |
-    # todo: qt5 enablement!
+    # todo: split gtk3 and gtk4
     %meson -Ddocs=false
 build       : |
     %meson_build
 install     : |
     %meson_install
-# g-ir-scanner shitting the bed with clang
-toolchain   : gnu

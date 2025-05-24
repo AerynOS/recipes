@@ -1,0 +1,47 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"python-autocommand": {
+			"build-depends": [
+				"python(pytest)"
+			],
+			"depends": [
+				"binary(python3)"
+			],
+			"files": [
+				"/usr/lib/python3.11/site-packages/autocommand-2.2.2.dist-info/LICENSE",
+				"/usr/lib/python3.11/site-packages/autocommand-2.2.2.dist-info/METADATA",
+				"/usr/lib/python3.11/site-packages/autocommand-2.2.2.dist-info/RECORD",
+				"/usr/lib/python3.11/site-packages/autocommand-2.2.2.dist-info/WHEEL",
+				"/usr/lib/python3.11/site-packages/autocommand-2.2.2.dist-info/top_level.txt",
+				"/usr/lib/python3.11/site-packages/autocommand/__init__.py",
+				"/usr/lib/python3.11/site-packages/autocommand/__pycache__/__init__.cpython-311.opt-1.pyc",
+				"/usr/lib/python3.11/site-packages/autocommand/__pycache__/__init__.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/autocommand/__pycache__/autoasync.cpython-311.opt-1.pyc",
+				"/usr/lib/python3.11/site-packages/autocommand/__pycache__/autoasync.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/autocommand/__pycache__/autocommand.cpython-311.opt-1.pyc",
+				"/usr/lib/python3.11/site-packages/autocommand/__pycache__/autocommand.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/autocommand/__pycache__/automain.cpython-311.opt-1.pyc",
+				"/usr/lib/python3.11/site-packages/autocommand/__pycache__/automain.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/autocommand/__pycache__/autoparse.cpython-311.opt-1.pyc",
+				"/usr/lib/python3.11/site-packages/autocommand/__pycache__/autoparse.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/autocommand/__pycache__/errors.cpython-311.opt-1.pyc",
+				"/usr/lib/python3.11/site-packages/autocommand/__pycache__/errors.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/autocommand/autoasync.py",
+				"/usr/lib/python3.11/site-packages/autocommand/autocommand.py",
+				"/usr/lib/python3.11/site-packages/autocommand/automain.py",
+				"/usr/lib/python3.11/site-packages/autocommand/autoparse.py",
+				"/usr/lib/python3.11/site-packages/autocommand/errors.py"
+			],
+			"name": "python-autocommand",
+			"provides": [
+				"python(autocommand(3.11))",
+				"python(autocommand)"
+			]
+		}
+	},
+	"source-name": "python-autocommand",
+	"source-release": "1",
+	"source-version": "2.2.2"
+}

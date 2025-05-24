@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : libmbim
-version     : 1.30.0
-release     : 1
+version     : 1.32.0
+release     : 2
 homepage    : https://gitlab.freedesktop.org/mobile-broadband/libmbim
 upstreams   :
-    - https://gitlab.freedesktop.org/mobile-broadband/libmbim/-/archive/1.30.0/libmbim-1.30.0.tar.bz2 : caea8fe12909fa92642936b0ab3c107ad40126c19f953180a320f7402500bd7b
+    - https://gitlab.freedesktop.org/mobile-broadband/libmbim/-/archive/1.32.0/libmbim-1.32.0.tar.bz2 : 47228f0c07dfb2fbf51e35eb60f12c22113ef6923a0e23fcae3b2a4efee5ed29
 summary     : MBIM modem protocol helper library
 description : |
     libmbim is a glib-based library for talking to WWAN modems and devices which speak the Mobile Broadband Interface Model (MBIM) protocol.
@@ -30,5 +30,3 @@ build       : |
     %meson_build
 install     : |
     %meson_install
-# g-ir-scanner/compiler woes
-toolchain   : gnu

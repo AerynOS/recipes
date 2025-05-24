@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : gnome-software
-version     : 48.0
-release     : 14
+version     : 48.1
+release     : 16
 homepage    : https://apps.gnome.org/Software/
 upstreams   :
-    - https://download.gnome.org/sources/gnome-software/48/gnome-software-48.0.tar.xz : e607af554e838fd6d07c1631f634b20e8bd4e6adf16fc7535c4520874af544f7
+    - https://download.gnome.org/sources/gnome-software/48/gnome-software-48.1.tar.xz : 084a985040294c36454b464a2144f981c0274906b4c49d71613e61ced6a96e8f
 summary     : Software allows you to find and install new apps and system extensions and remove existing installed apps.
 description : |
     Software showcases featured and popular apps with useful descriptions and multiple screenshots per app. Apps can be found either through browsing the list of categories or by searching. It also allows you to update your system using an offline update.
@@ -35,8 +35,12 @@ builddeps   :
     - pkgconfig(polkit-gobject-1)
     - pkgconfig(xmlb)
     - docbook
+    - docbook-xsl
 rundeps     :
     - gnome-app-list
+environment : |
+    # Temporary, replace with boulder macro
+    export XML_CATALOG_FILES="file:///usr/share/defaults/docbook/docbook-dtd/catalog file:///usr/share/defaults/docbook/docbook-xsl/catalog"
 setup       : |
     %meson \
         -Dfwupd=false \

@@ -4,8 +4,8 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : libgudev
-version     : 238
-release     : 4
+version     : '238'
+release     : 5
 homepage    : https://gitlab.gnome.org/GNOME/libgudev
 upstreams   :
     - https://download.gnome.org/sources/libgudev/238/libgudev-238.tar.xz : 61266ab1afc9d73dbc60a8b2af73e99d2fdff47d99544d085760e4fa667b5dd1
@@ -19,8 +19,8 @@ builddeps   :
     - pkgconfig(gobject-2.0)
     - pkgconfig(gobject-introspection-1.0)
     - pkgconfig(libudev)
-toolchain   : gnu # otherwise, the build chokes gobject-introspection enabled
 setup       : |
+    %patch %(pkgdir)/ftbfs-clang-18.patch
     %meson
 build       : |
     %meson_build

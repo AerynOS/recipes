@@ -102,9 +102,18 @@
 				"cmake(zlib-ng)",
 				"pkgconfig(zlib-ng)"
 			]
+		},
+		"zlib-static": {
+			"depends": [
+				"zlib-devel"
+			],
+			"files": [
+				"/usr/lib/libz.a"
+			],
+			"name": "zlib-static"
 		}
 	},
 	"source-name": "zlib-ng",
-	"source-release": "17",
+	"source-release": "18",
 	"source-version": "2.2.4"
 }

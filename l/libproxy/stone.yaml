@@ -5,7 +5,7 @@
 #
 name        : libproxy
 version     : 0.5.9
-release     : 4
+release     : 5
 homepage    : https://libproxy.github.io/libproxy/
 upstreams   :
     - https://github.com/libproxy/libproxy/archive/refs/tags/0.5.9.tar.gz : a1976c3ac4affedc17e6d40cf78c9d8eca6751520ea3cbbec1a8850f7ded1565
@@ -27,12 +27,8 @@ builddeps   :
     - pkgconfig(gsettings-desktop-schemas)
     - pkgconfig(libcurl)
 setup       : |
-    # Don't force werror thingies please
-    sed -i '/missing-include-dirs/d' meson.build
     %meson -Ddocs=false
 build       : |
     %meson_build
 install     : |
     %meson_install
-# g-ir-compiler crap
-toolchain   : gnu

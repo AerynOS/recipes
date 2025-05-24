@@ -33,7 +33,7 @@
 				"/usr/bin/wpctl",
 				"/usr/bin/wpexec",
 				"/usr/lib/libwireplumber-0.5.so.0",
-				"/usr/lib/libwireplumber-0.5.so.0.508.0",
+				"/usr/lib/libwireplumber-0.5.so.0.509.0",
 				"/usr/lib/systemd/user/wireplumber.service",
 				"/usr/lib/systemd/user/wireplumber@.service",
 				"/usr/lib/wireplumber-0.5/libwireplumber-module-dbus-connection.so",
@@ -136,12 +136,14 @@
 				"/usr/share/wireplumber/scripts/device/state-profile.lua",
 				"/usr/share/wireplumber/scripts/device/state-routes.lua",
 				"/usr/share/wireplumber/scripts/fallback-sink.lua",
+				"/usr/share/wireplumber/scripts/lib/audio-group-utils.lua",
 				"/usr/share/wireplumber/scripts/lib/common-utils.lua",
 				"/usr/share/wireplumber/scripts/lib/device-info-cache.lua",
 				"/usr/share/wireplumber/scripts/lib/filter-utils.lua",
 				"/usr/share/wireplumber/scripts/lib/linking-utils.lua",
 				"/usr/share/wireplumber/scripts/lib/monitor-utils.lua",
 				"/usr/share/wireplumber/scripts/lib/node-utils.lua",
+				"/usr/share/wireplumber/scripts/linking/find-audio-group-target.lua",
 				"/usr/share/wireplumber/scripts/linking/find-best-target.lua",
 				"/usr/share/wireplumber/scripts/linking/find-default-target.lua",
 				"/usr/share/wireplumber/scripts/linking/find-defined-target.lua",
@@ -168,6 +170,7 @@
 				"/usr/share/wireplumber/scripts/monitors/v4l2/enumerate-device.lua",
 				"/usr/share/wireplumber/scripts/monitors/v4l2/name-device.lua",
 				"/usr/share/wireplumber/scripts/monitors/v4l2/name-node.lua",
+				"/usr/share/wireplumber/scripts/node/audio-group.lua",
 				"/usr/share/wireplumber/scripts/node/create-item.lua",
 				"/usr/share/wireplumber/scripts/node/filter-forward-format.lua",
 				"/usr/share/wireplumber/scripts/node/software-dsp.lua",
@@ -248,6 +251,7 @@
 				"/usr/include/wireplumber-0.5/wp/object.h",
 				"/usr/include/wireplumber-0.5/wp/plugin.h",
 				"/usr/include/wireplumber-0.5/wp/port.h",
+				"/usr/include/wireplumber-0.5/wp/proc-utils.h",
 				"/usr/include/wireplumber-0.5/wp/properties.h",
 				"/usr/include/wireplumber-0.5/wp/proxy-interfaces.h",
 				"/usr/include/wireplumber-0.5/wp/proxy.h",
@@ -273,6 +277,6 @@
 		}
 	},
 	"source-name": "wireplumber",
-	"source-release": "6",
-	"source-version": "0.5.8"
+	"source-release": "7",
+	"source-version": "0.5.9"
 }

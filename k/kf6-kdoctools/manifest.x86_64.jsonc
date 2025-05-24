@@ -8,18 +8,20 @@
 				"cmake(KF6Archive)",
 				"cmake(KF6I18n)",
 				"docbook",
+				"docbook-xsl",
 				"perl-uri",
 				"pkgconfig(libxslt)"
 			],
 			"depends": [
 				"docbook",
+				"docbook-xsl",
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"soname(libKF6Archive.so.6(x86_64))",
 				"soname(libQt6Core.so.6(x86_64))",
 				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libexslt.so.0(x86_64))",
-				"soname(libxml2.so.2(x86_64))",
+				"soname(libxml2.so.16(x86_64))",
 				"soname(libxslt.so.1(x86_64))"
 			],
 			"files": [
@@ -1183,6 +1185,7 @@
 				"cmake(KF6Archive)",
 				"cmake(KF6I18n)",
 				"docbook",
+				"docbook-xsl",
 				"perl-uri",
 				"pkgconfig(libxslt)"
 			],
@@ -1212,6 +1215,6 @@
 		}
 	},
 	"source-name": "kf6-kdoctools",
-	"source-release": "4",
+	"source-release": "5",
 	"source-version": "6.12.0"
 }

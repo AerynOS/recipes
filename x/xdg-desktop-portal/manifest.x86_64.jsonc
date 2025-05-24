@@ -24,7 +24,7 @@
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))",
-				"soname(libfuse3.so.3(x86_64))",
+				"soname(libfuse3.so.4(x86_64))",
 				"soname(libgdk_pixbuf-2.0.so.0(x86_64))",
 				"soname(libgio-2.0.so.0(x86_64))",
 				"soname(libglib-2.0.so.0(x86_64))",
@@ -34,7 +34,8 @@
 				"soname(libgudev-1.0.so.0(x86_64))",
 				"soname(libjson-glib-1.0.so.0(x86_64))",
 				"soname(libpipewire-0.3.so.0(x86_64))",
-				"soname(libsystemd.so.0(x86_64))"
+				"soname(libsystemd.so.0(x86_64))",
+				"sysbinary(mount.fuse3)"
 			],
 			"files": [
 				"/usr/lib/systemd/user/xdg-desktop-portal-rewrite-launchers.service",
@@ -176,6 +177,6 @@
 		}
 	},
 	"source-name": "xdg-desktop-portal",
-	"source-release": "4",
+	"source-release": "5",
 	"source-version": "1.20.0"
 }

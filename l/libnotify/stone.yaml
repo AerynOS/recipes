@@ -5,7 +5,7 @@
 #
 name        : libnotify
 version     : 0.8.6
-release     : 3
+release     : 4
 homepage    : https://gitlab.gnome.org/GNOME/libnotify
 upstreams   :
     - https://download.gnome.org/sources/libnotify/0.8/libnotify-0.8.6.tar.xz : c5540aaefb60e1d63b1c587c05f2284ebe72ece7d0c0e5e4a778cfd5844b6b58
@@ -21,13 +21,13 @@ builddeps   :
     - pkgconfig(gio-2.0)
     - pkgconfig(glib-2.0)
     - pkgconfig(gtk+-3.0)
-    - docbook
+    - docbook-xsl
+environment : |
+    # Temporary, replace with boulder macro
+    export XML_CATALOG_FILES="file:///usr/share/defaults/docbook/docbook-xsl/catalog"
 setup       : |
-    # Can't find/use our docbook package for some reason for man pages
-    %meson -Dman=false -Dgtk_doc=false
+    %meson -Dgtk_doc=false
 build       : |
     %meson_build
 install     : |
     %meson_install
-# g-ir-scanner/compiler woes
-toolchain   : gnu

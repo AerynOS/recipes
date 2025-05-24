@@ -1,0 +1,25 @@
+#
+# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : python-more-itertools
+version     : 10.7.0
+release     : 1
+homepage    : https://github.com/more-itertools/more-itertools
+upstreams   :
+    - https://pypi.debian.net/more-itertools/more_itertools-10.7.0.tar.gz : 9fddd5403be01a94b204faadcff459ec3568cf110265d3c54323e1e866ad29d3
+summary     : More routines for operating on iterables, beyond itertools
+description : |
+    More routines for operating on iterables, beyond itertools
+license     : MIT
+builddeps   :
+    - python(flit_core)
+rundeps     :
+    - binary(python3)
+build       : |
+    SETUPTOOLS_SCM_PRETEND_VERSION=%(version) %pyproject_build
+install     : |
+    %pyproject_install
+check       : |
+    python -m unittest

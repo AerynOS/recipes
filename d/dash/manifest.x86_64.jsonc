@@ -3,21 +3,28 @@
 	"manifest-version": "0.2",
 	"packages": {
 		"dash": {
+			"build-depends": [
+				"pkgconfig(libedit)"
+			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
-				"soname(libc.so.6(x86_64))"
+				"soname(libc.so.6(x86_64))",
+				"soname(libedit.so.0(x86_64))"
 			],
 			"files": [
 				"/usr/bin/dash",
-				"/usr/share/man/man1/dash.1"
+				"/usr/bin/sh",
+				"/usr/share/man/man1/dash.1",
+				"/usr/share/man/man1/sh.1"
 			],
 			"name": "dash",
 			"provides": [
-				"binary(dash)"
+				"binary(dash)",
+				"binary(sh)"
 			]
 		}
 	},
 	"source-name": "dash",
-	"source-release": "3",
+	"source-release": "5",
 	"source-version": "0.5.12"
 }

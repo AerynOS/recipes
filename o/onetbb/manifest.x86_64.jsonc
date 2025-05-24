@@ -13,11 +13,11 @@
 			],
 			"files": [
 				"/usr/lib/libtbb.so.12",
-				"/usr/lib/libtbb.so.12.14",
+				"/usr/lib/libtbb.so.12.15",
 				"/usr/lib/libtbbmalloc.so.2",
-				"/usr/lib/libtbbmalloc.so.2.14",
+				"/usr/lib/libtbbmalloc.so.2.15",
 				"/usr/lib/libtbbmalloc_proxy.so.2",
-				"/usr/lib/libtbbmalloc_proxy.so.2.14",
+				"/usr/lib/libtbbmalloc_proxy.so.2.15",
 				"/usr/share/doc/TBB/README.md"
 			],
 			"name": "onetbb",
@@ -39,7 +39,7 @@
 			],
 			"files": [
 				"/usr/lib/libtbbbind_2_5.so.3",
-				"/usr/lib/libtbbbind_2_5.so.3.14"
+				"/usr/lib/libtbbbind_2_5.so.3.15"
 			],
 			"name": "onetbb-bind",
 			"provides": [
@@ -56,6 +56,7 @@
 			],
 			"files": [
 				"/usr/include/oneapi/tbb.h",
+				"/usr/include/oneapi/tbb/blocked_nd_range.h",
 				"/usr/include/oneapi/tbb/blocked_range.h",
 				"/usr/include/oneapi/tbb/blocked_range2d.h",
 				"/usr/include/oneapi/tbb/blocked_range3d.h",
@@ -148,6 +149,7 @@
 				"/usr/include/oneapi/tbb/tbbmalloc_proxy.h",
 				"/usr/include/oneapi/tbb/tick_count.h",
 				"/usr/include/oneapi/tbb/version.h",
+				"/usr/include/tbb/blocked_nd_range.h",
 				"/usr/include/tbb/blocked_range.h",
 				"/usr/include/tbb/blocked_range2d.h",
 				"/usr/include/tbb/blocked_range3d.h",
@@ -215,6 +217,6 @@
 		}
 	},
 	"source-name": "onetbb",
-	"source-release": "1",
-	"source-version": "2022.0.0"
+	"source-release": "2",
+	"source-version": "2022.1.0"
 }

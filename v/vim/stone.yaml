@@ -4,33 +4,123 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : vim
-version     : 9.1.0919
-release     : 8
+version     : 9.1.1406
+release     : 9
 homepage    : https://github.com/vim/vim
 upstreams   :
-    - https://github.com/vim/vim/archive/refs/tags/v9.1.0919.tar.gz : 43fe86289e0232d30eaf0e569bf30000a42b9a1cc2b3bbdc07dcc2a359c7513a
+    - https://github.com/vim/vim/archive/refs/tags/v9.1.1406.tar.gz:
+        hash: 89e5e1eda6c23e4cdd3959356ca2163fe32efeaa48614aba1ece4c7bdb27e646
+        unpack: false
+        rename: vim.tar.gz
 summary     : Vi IMproved, an advanced text editor
 description : |
     Vim, which stands for Vi IMproved, is an open-source, multiplatform text editor extended from vi. It was first released by Bram Moolenaar in 1991. Since then, numerous features have been added to Vim, many of which are helpful in editing program source code.
-license     :
-    - Vim
+license     : Vim
 builddeps   :
+    - pkgconfig(gtk+-3.0)
+    - pkgconfig(ice)
+    - pkgconfig(libcanberra)
+    - pkgconfig(libsodium)
+    - pkgconfig(luajit)
     - pkgconfig(python3)
+    - pkgconfig(ruby)
+    - pkgconfig(sm)
     - pkgconfig(ncursesw)
-    - lua-devel
-setup       : |
-    %patch %(pkgdir)/0001-Make-vim-stateless.patch
-    %patch %(pkgdir)/0001-Read-vimrc-from-etc-vim.patch
+    - pkgconfig(x11)
+    - pkgconfig(xdmcp)
+    - pkgconfig(xpm)
+    - pkgconfig(xt)
+    - gpm-devel
+environment : |
+    function vim_configure() {
+        %patch %(pkgdir)/0001-Make-vim-stateless.patch
+        %patch %(pkgdir)/0001-Read-vimrc-from-etc-vim.patch
+        %patch %(pkgdir)/0001-force-override-symlink.patch
 
-    %configure --disable-netbeans \
-               --disable-perlinterp \
-               --enable-fail-if-missing \
-               --with-compiledby="Serpent" \
-               --with-features=huge \
-               --with-modified-by="Serpent" \
-               --with-tlib=ncurses
+        %configure \
+                    --disable-netbeans \
+                    --disable-perlinterp \
+                    --enable-fail-if-missing \
+                    --enable-luainterp=dynamic \
+                    --enable-multibyte \
+                    --enable-python3interp=dynamic \
+                    --enable-rubyinterp=dynamic \
+                    --with-compiledby="AerynOS" \
+                    --with-features=huge \
+                    --with-luajit \
+                    --with-modified-by="AerynOS" \
+                    --with-python3-stable-abi \
+                    --with-tlib=ncurses \
+                    "$@"
+    }
+setup       : |
+    mkdir vim gvim
+    tar -xf %(sourcedir)/vim.tar.gz --strip-components=1 -C vim
+    tar -xf %(sourcedir)/vim.tar.gz --strip-components=1 -C gvim
+
+    pushd gvim
+    vim_configure \
+                  --enable-canberra \
+                  --enable-gtk3-check \
+                  --enable-gui=gtk3 \
+                  --enable-xim \
+                  --with-x=yes
+    popd
+
+    pushd vim
+    vim_configure \
+                  --disable-canberra \
+                  --enable-gui=no \
+                  --without-x
+    popd
 build       : |
-    %make
+    # The gvim build is a superset of the vim build so we can hit a 100% ccache hit rate with the latter by using CCACHE_BASEDIR
+    for build in gvim vim; do
+        %ccache_zero
+        env CCACHE_BASEDIR=${pwd}/${build} %make -C ${build}
+        %ccache_stats
+    done
 install     : |
-    %make_install
+    %make_install -j1 -C gvim STRIP=/usr/bin/true
+
+    # Preserve gvim build of vim
+    mv %(installroot)/%(bindir)/vim %(installroot)/%(bindir)/gvim-keep
+
+    %make_install -j1 -C vim STRIP=/usr/bin/true
+
+    # Move gvim back into place
+    mv -f %(installroot)/%(bindir)/gvim-keep %(installroot)/%(bindir)/gvim
+
+    # Fix symlinks that should point to gvim
+    for bin in eview evim gview gvimdiff rgview rgvim; do
+        ln -srvf %(installroot)/%(bindir)/gvim %(installroot)/%(bindir)/${bin}
+    done
+
     %install_file %(pkgdir)/vimrc -t %(installroot)/%(vendordir)/vim
+
+    # Provide `vi` as well
+    ln -s vim %(installroot)/%(bindir)/vi
+packages    :
+    - "%(name)":
+        rundeps:
+            - "xxd"
+
+    - "gvim":
+        summary: Vi IMproved, an advanced text editor - gvim
+        rundeps:
+            - "vim"
+        paths:
+            - /usr/bin/ev*
+            - /usr/bin/gv*
+            - /usr/bin/rg*
+            - /usr/share/applications/gvim.desktop
+            - /usr/share/man/**/**/ev*
+            - /usr/share/man/**/**/gv*
+            - /usr/share/man/**/**/rg*
+
+    - "xxd":
+        summary: A hex dump utility
+        description: A hex dump utility
+        paths:
+            - /usr/bin/xxd
+            - /usr/share/man/**/**/xxd*

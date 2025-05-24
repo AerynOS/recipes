@@ -1,9 +1,13 @@
 /** Human readable report. This is not consumed by boulder */
 {
-	"manifest-version": "0.1",
+	"manifest-version": "0.2",
 	"packages": {
 		"flex": {
+			"build-depends": [
+				"binary(file)"
+			],
 			"depends": [
+				"binary(m4)",
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libm.so.6(x86_64))"
@@ -54,6 +58,12 @@
 			]
 		},
 		"flex-devel": {
+			"build-depends": [
+				"binary(file)"
+			],
+			"depends": [
+				"flex"
+			],
 			"files": [
 				"/usr/include/FlexLexer.h",
 				"/usr/lib/libfl.so"
@@ -62,6 +72,6 @@
 		}
 	},
 	"source-name": "flex",
-	"source-release": "2",
+	"source-release": "4",
 	"source-version": "2.6.4"
 }

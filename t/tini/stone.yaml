@@ -5,7 +5,7 @@
 #
 name        : tini
 version     : 0.19.0
-release     : 1
+release     : 2
 homepage    : https://github.com/krallin/tini 
 upstreams   :
     - https://github.com/krallin/tini/archive/refs/tags/v0.19.0.tar.gz : 0fd35a7030052acd9f58948d1d900fe1e432ee37103c5561554408bdac6bbf0d
@@ -15,13 +15,22 @@ description : |
 license     : MIT
 builddeps   :
     # Note that this build needs static libraries
-    - gcc-devel
+    - libcxx-devel-static
 setup       : |
     %patch %(pkgdir)/0001-Remove-strip-option-to-linker.patch
+    %patch %(pkgdir)/ftbfs-cmake-4.patch
+
+    # disable werror
+    # Set various git settings. Commit should match the tag
+    sed -e "s/ -Werror / /" \
+        -e "s/ -pedantic-errors / /" \
+        -e "s/git.*status --porcelain.*/true/" \
+        -e "s/git.*log -n 1.*/true/" \
+        -e "s/git.\${tini_VERSION_GIT}/git.de40ad007797e0dcd8b7126f27bb87401d224240/" \
+        -i CMakeLists.txt
+
     %cmake
 build      : |
     %cmake_build
 install     : |
     %cmake_install
-# TODO fix this build with clang, which will probably need to wait until after llvm-libgcc
-toolchain   : gnu

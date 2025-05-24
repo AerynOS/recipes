@@ -5,7 +5,7 @@
 #
 name        : wayland
 version     : 1.23.1
-release     : 5
+release     : 6
 homepage    : https://wayland.freedesktop.org
 upstreams   :
     - https://gitlab.freedesktop.org/wayland/wayland/-/releases/1.23.1/downloads/wayland-1.23.1.tar.xz : 864fb2a8399e2d0ec39d56e9d9b753c093775beadc6022ce81f441929a81e5ed
@@ -16,11 +16,7 @@ description : |
     Wayland is the language (protocol) that applications can use to talk to a display server in order to make themselves visible and get input from the user (a person). A Wayland server is called a "compositor". Applications are Wayland clients.
 license     : MIT
 builddeps   :
-    - binary(cmake)
     - binary(nm)
-    - pkgconfig(expat)
-    - pkgconfig(libffi)
-    - pkgconfig(libxml-2.0)
     - pkgconfig32(expat)
     - pkgconfig32(libffi)
     - pkgconfig32(libxml-2.0)

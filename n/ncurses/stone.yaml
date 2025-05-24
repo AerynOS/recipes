@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : ncurses
-version     : 6.5-20250301
-release     : 11
+version     : 6.5-20250510
+release     : 12
 homepage    : https://invisible-island.net/ncurses/ncurses.html
 upstreams   :
-    - https://invisible-island.net/archives/ncurses/current/ncurses-6.5-20250301.tgz : b19934a5ca9e4425c4ad82d7335cec3ab03526d99c9d2cb5ea1c4f9269b31b1c
+    - https://invisible-island.net/archives/ncurses/current/ncurses-6.5-20250510.tgz : 5886d54b13c661c55c16a340033be4b2bc11df6ab07602cd87cf812da3877833
 summary     : Console display library
 description : |
     The ncurses (new curses) library is a free software emulation of curses in System V Release 4.0 (SVr4), and more. It uses terminfo format, supports pads and color and multiple highlights and forms characters and function-key mapping, and has all the other SVr4-curses enhancements over BSD curses. SVr4 curses became the basis of X/Open Curses.
@@ -37,7 +37,6 @@ setup       : |
         --with-terminfo-dirs='/etc/terminfo:/usr/share/terminfo' \
         --without-ada \
         --without-debug \
-        --without-normal \
         PKG_CONFIG_LIBDIR=%(libdir)/pkgconfig
 build       : |
     %make
@@ -58,10 +57,78 @@ install     : |
         ln -sv lib${lib}.so.${abi} %(installroot)/%(libdir)/lib${lib}.so
         ln -sv ncursesw.pc %(installroot)/%(libdir)/pkgconfig/${lib}.pc
     done
+
+    # Unused
+    rm -r %(installroot)/%(libdir)/terminfo || true
 tuning      :
     - lto: full
 packages    :
+    - "%(name)":
+        rundeps:
+            - "%(name)-libs"
+
+    - "%(name)-base":
+        summary: Descriptions of common terminals
+        description: |
+            Descriptions of common terminals
+        paths:
+            - /usr/share/tabset
+            - /usr/share/terminfo
+
     - "%(name)-devel":
         paths:
             - /usr/bin/ncursesw6-config
             - /usr/share/man/man1/ncursesw6-config*
+        rundeps:
+            - "%(name)-c++-libs"
+
+    - "%(name)-static":
+        summary: Static libs for %(name)
+        description: Static libs for %(name)
+        paths:
+            - /usr/lib/lib*.a
+        rundeps:
+            - "%(name)-devel"
+
+    - "%(name)-libs":
+        summary: "Library files for %(name)"
+        description: |
+            Library files for %(name), typically pulled in as a dependency of another package.
+        paths:
+            - /usr/lib/lib*.so.*
+        rundeps:
+            - "%(name)-base"
+
+    - "%(name)-c++-libs":
+        summary: Ncurses C++ bindings
+        description: |
+            Ncurses C++ bindings
+        paths:
+            - /usr/lib/libncurses++*.so.*
+        rundeps:
+            - "%(name)-libs"
+
+    - "%(name)-32bit":
+        rundeps:
+            - "%(name)-base"
+
+    - "%(name)-32bit-c++-libs":
+        summary: Ncurses C++ bindings
+        description: |
+            Ncurses C++ bindings
+        paths:
+            - /usr/lib32/libncurses++*.so.*
+        rundeps:
+            - "%(name)-32bit"
+
+    - "%(name)-32bit-devel":
+        rundeps:
+            - "%(name)-32bit-c++-libs"
+
+    - "%(name)-32bit-static":
+        summary: Static libs for %(name)
+        description: Static libs for %(name)
+        paths:
+            - /usr/lib32/lib*.a
+        rundeps:
+            - "%(name)-32bit-devel"

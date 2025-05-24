@@ -5,7 +5,7 @@
 #
 name        : icu
 version     : '77.1'
-release     : 7
+release     : 8
 homepage    : https://icu.unicode.org/
 upstreams   :
     - https://github.com/unicode-org/icu/releases/download/release-77-1/icu4c-77_1-src.tgz : 588e431f77327c39031ffbb8843c0e3bc122c211374485fa87dc5f3faff24061
@@ -16,6 +16,19 @@ license     : MIT
 emul32      : yes
 checkdeps   :
     - binary(python3)
+profiles    :
+    - emul32:
+        setup       : |
+            # thunderbird to show Calendar and sidebar properly.
+            # https://bugzilla.mozilla.org/show_bug.cgi?id=1843007
+            # https://unicode-org.atlassian.net/browse/ICU-22132
+            %patch %(pkgdir)/ICU-22132.patch -p2
+
+            %configure \
+                --disable-static
+        check       : |
+            # Currently failing on i686
+            %make check || :
 environment : |
     cd source
 setup       : |
@@ -24,19 +37,44 @@ setup       : |
     # https://unicode-org.atlassian.net/browse/ICU-22132
     %patch %(pkgdir)/ICU-22132.patch -p2
 
-    %configure --disable-static
+    # Static libs for static bsdtar
+    %configure \
+        --enable-static
 build       : |
     %make
 install     : |
     %make_install
 check       : |
-    # Currently failing on i686
-    %make check || :
+    %make check
+tuning      :
+    - lto: full
 packages    :
+    - "%(name)-libs":
+        summary: "Library files for %(name)"
+        description: |
+            Library files for %(name), typically pulled in as a dependency of another package.
+        paths:
+            - /usr/lib/lib*.so.*
+
+    # Workaround moss issue with moving libraries to libs package
+    - "%(name)":
+        rundeps:
+            - "%(name)-libs"
+
     - "%(name)-devel":
         paths:
-            - "/usr/bin/"
-            - "/usr/lib/icu"
+            - /usr/bin/icu-config
+            - /usr/bin/icuinfo
+            - /usr/lib/icu
+            - /usr/share/icu
+            - /usr/share/man/man1/icu-config*
+
+    - "%(name)-static":
+        paths:
+            - /usr/lib/lib*.a
+        rundeps:
+            - "%(name)-devel"
+
     - "%(name)-32bit-devel":
         paths:
             - "/usr/lib32/icu"

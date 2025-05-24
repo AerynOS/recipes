@@ -4,26 +4,35 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : libedit
-version     : 20221030-3.1
-release     : 2
+version     : 20250104-3.1
+release     : 3
 summary     : Command line editor library providing generic line editing, history, and tokenization functions
 license     : BSD-3-Clause
 homepage    : https://thrysoee.dk/editline/
 description : |
     Command line editor library providing generic line editing, history, and tokenization functions
 upstreams   :
-    - https://thrysoee.dk/editline/libedit-20221030-3.1.tar.gz: f0925a5adf4b1bf116ee19766b7daa766917aec198747943b1c4edf67a4be2bb
+    - https://thrysoee.dk/editline/libedit-20250104-3.1.tar.gz: 23792701694550a53720630cd1cd6167101b5773adddcb4104f7345b73a568ac
 builddeps   :
     - pkgconfig(ncursesw)
 setup       : |
-    %configure --disable-static
+    %configure
 build       : |
-    %make
+    %make V=1
 install     : |
     %make_install
-
-    # Conflicts with readline
-    rm %(installroot)/usr/share/man/man3/history.3
 tuning      :
-    - lto
-    - optimize: speed
+    - lto: full
+    - optimize: generic
+    - sections
+packages    :
+    - "%(name)-devel":
+        paths:
+            - /usr/share/man/man7
+
+    - "%(name)-static":
+        paths:
+            - /usr/lib/lib*.a
+        rundeps:
+            - "%(name)-devel"
+            - "ncurses-static"

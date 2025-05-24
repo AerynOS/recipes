@@ -5,7 +5,7 @@
 #
 name        : libgit2
 version     : 1.8.4
-release     : 2
+release     : 4
 homepage    : https://libgit2.org
 upstreams   :
     - https://github.com/libgit2/libgit2/archive/refs/tags/v1.8.4.tar.gz : 49d0fc50ab931816f6bfc1ac68f8d74b760450eebdb5374e803ee36550f26774
@@ -25,7 +25,7 @@ setup       : |
            -DUSE_SSH:BOOL=ON \
            -DUSE_THREADS:BOOL=ON
 build       : |
-    %cmake
+    %cmake_build
 install     : |
     %cmake_install
 packages    :

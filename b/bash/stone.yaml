@@ -5,7 +5,7 @@
 #
 name        : bash
 version     : 5.2.37
-release     : 21
+release     : 22
 homepage    : http://www.gnu.org/software/bash/bash.html
 upstreams   :
     - https://ftp.gnu.org/gnu/bash/bash-5.2.37.tar.gz : 9599b22ecd1d5787ad7d3b7bf0c59f312b3396d1e281175dd1f8a4014da621ff
@@ -31,7 +31,14 @@ setup       : |
     # often hangs
     rm tests/run-jobs
 
-    %configure \
+    # ensure that while this build is ongoing, /usr/bin/sh is guaranteed to
+    # exist and be owned by bash.
+    [[ -f /usr/bin/sh ]] && ls -l /usr/bin/sh && rm -vf /usr/bin/sh
+    ln -srv /usr/bin/bash /usr/bin/sh
+    ls -l /usr/bin/sh
+
+    # Avoid relying on /bin/sh if at all possible
+    %configure_with_bash \
         --without-bash-malloc \
         --with-installed-readline \
         --with-curses \
@@ -48,8 +55,9 @@ install     : |
     %install_file %(pkgdir)/40-prompt.sh %(installroot)%(vendordir)%(sysconfdir)/profile.d/40-prompt.sh
     %install_file %(pkgdir)/41-alias.sh %(installroot)%(vendordir)%(sysconfdir)/profile.d/41-alias.sh
 
-    ln -svf bash "%(installroot)%(bindir)/sh"
-    ln -sv bash.1 "%(installroot)%(mandir)/man1/sh.1"
+    # let dash own this for quicker ./configure runs during boulder builds
+    # ln -svf bash "%(installroot)%(bindir)/sh"
+    # ln -sv bash.1 "%(installroot)%(mandir)/man1/sh.1"
 
     # These are useless
     rm -rfv %(installroot)%(libdir)/bash/Makefile.*

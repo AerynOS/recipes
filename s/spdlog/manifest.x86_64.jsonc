@@ -10,16 +10,16 @@
 				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
-				"soname(libfmt.so.10(x86_64))",
+				"soname(libfmt.so.11(x86_64))",
 				"soname(libunwind.so.1(x86_64))"
 			],
 			"files": [
-				"/usr/lib/libspdlog.so.1.12",
-				"/usr/lib/libspdlog.so.1.12.0"
+				"/usr/lib/libspdlog.so.1.15",
+				"/usr/lib/libspdlog.so.1.15.3"
 			],
 			"name": "spdlog",
 			"provides": [
-				"soname(libspdlog.so.1.12(x86_64))"
+				"soname(libspdlog.so.1.15(x86_64))"
 			]
 		},
 		"spdlog-devel": {
@@ -40,6 +40,7 @@
 				"/usr/include/spdlog/cfg/helpers.h",
 				"/usr/include/spdlog/common-inl.h",
 				"/usr/include/spdlog/common.h",
+				"/usr/include/spdlog/common.h.orig",
 				"/usr/include/spdlog/details/backtracer-inl.h",
 				"/usr/include/spdlog/details/backtracer.h",
 				"/usr/include/spdlog/details/circular_q.h",
@@ -79,6 +80,7 @@
 				"/usr/include/spdlog/fwd.h",
 				"/usr/include/spdlog/logger-inl.h",
 				"/usr/include/spdlog/logger.h",
+				"/usr/include/spdlog/mdc.h",
 				"/usr/include/spdlog/pattern_formatter-inl.h",
 				"/usr/include/spdlog/pattern_formatter.h",
 				"/usr/include/spdlog/sinks/android_sink.h",
@@ -135,6 +137,6 @@
 		}
 	},
 	"source-name": "spdlog",
-	"source-release": "1",
-	"source-version": "1.12.0"
+	"source-release": "2",
+	"source-version": "1.15.3"
 }

@@ -5,7 +5,7 @@
 #
 name        : nvidia-graphics-driver
 version     : 570.133.07
-release     : 22
+release     : 23
 homepage    : https://www.nvidia.com/
 upstreams   :
     - https://us.download.nvidia.com/XFree86/Linux-x86_64/570.133.07/NVIDIA-Linux-x86_64-570.133.07.run:
@@ -26,7 +26,6 @@ builddeps   :
     - binary(sh)
     - pkgconfig32(libglvnd)
     - pkgconfig32(vulkan)
-    - pkgconfig32(osmesa)
 rundeps     :
     - egl-gbm
     - egl-wayland

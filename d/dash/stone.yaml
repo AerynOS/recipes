@@ -5,7 +5,7 @@
 #
 name        : dash
 version     : 0.5.12
-release     : 3
+release     : 5
 homepage    : http://gondor.apana.org.au/~herbert/dash
 upstreams   :
     - http://gondor.apana.org.au/~herbert/dash/files/dash-0.5.12.tar.gz: 6a474ac46e8b0b32916c4c60df694c82058d3297d8b385b74508030ca4a8f28a
@@ -13,13 +13,25 @@ summary     : Small and fast POSIX-compliant shell
 description : |
     Small and fast POSIX-compliant shell
 license     : BSD-3-Clause
+builddeps   :
+    - pkgconfig(libedit)
 tuning      :
     - icf: all
-    - lto
+    - lto: full
     - nosemantic
 setup       : |
-    %configure
+    %configure \
+               --enable-glob \
+               --with-libedit \
 build       : |
-    %make
+    %make V=1
 install     : |
     %make_install
+
+    # Make dash the default sh for quicker ./configure runs in boulder
+    %install_dir %(installroot)/usr/bin
+    ln -svf dash %(installroot)/usr/bin/sh
+
+    # Take ownership of the sh.1 man page
+    %install_dir %(installroot)%(mandir)/man1/
+    ln -srvf %(installroot)%(mandir)/man1/dash.1 %(installroot)%(mandir)/man1/sh.1

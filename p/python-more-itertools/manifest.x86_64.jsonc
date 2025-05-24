@@ -1,0 +1,41 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"python-more-itertools": {
+			"build-depends": [
+				"python(flit_core)"
+			],
+			"depends": [
+				"binary(python3)"
+			],
+			"files": [
+				"/usr/lib/python3.11/site-packages/more_itertools-10.7.0.dist-info/METADATA",
+				"/usr/lib/python3.11/site-packages/more_itertools-10.7.0.dist-info/RECORD",
+				"/usr/lib/python3.11/site-packages/more_itertools-10.7.0.dist-info/WHEEL",
+				"/usr/lib/python3.11/site-packages/more_itertools-10.7.0.dist-info/licenses/LICENSE",
+				"/usr/lib/python3.11/site-packages/more_itertools/__init__.py",
+				"/usr/lib/python3.11/site-packages/more_itertools/__init__.pyi",
+				"/usr/lib/python3.11/site-packages/more_itertools/__pycache__/__init__.cpython-311.opt-1.pyc",
+				"/usr/lib/python3.11/site-packages/more_itertools/__pycache__/__init__.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/more_itertools/__pycache__/more.cpython-311.opt-1.pyc",
+				"/usr/lib/python3.11/site-packages/more_itertools/__pycache__/more.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/more_itertools/__pycache__/recipes.cpython-311.opt-1.pyc",
+				"/usr/lib/python3.11/site-packages/more_itertools/__pycache__/recipes.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/more_itertools/more.py",
+				"/usr/lib/python3.11/site-packages/more_itertools/more.pyi",
+				"/usr/lib/python3.11/site-packages/more_itertools/py.typed",
+				"/usr/lib/python3.11/site-packages/more_itertools/recipes.py",
+				"/usr/lib/python3.11/site-packages/more_itertools/recipes.pyi"
+			],
+			"name": "python-more-itertools",
+			"provides": [
+				"python(more-itertools(3.11))",
+				"python(more-itertools)"
+			]
+		}
+	},
+	"source-name": "python-more-itertools",
+	"source-release": "1",
+	"source-version": "10.7.0"
+}

@@ -31,17 +31,17 @@
 				"/usr/bin/qmicli",
 				"/usr/lib/girepository-1.0/Qmi-1.0.typelib",
 				"/usr/lib/libqmi-glib.so.5",
-				"/usr/lib/libqmi-glib.so.5.10.0",
+				"/usr/lib/libqmi-glib.so.5.11.0",
 				"/usr/lib/libqmi/qmi-proxy",
 				"/usr/share/bash-completion/completions/qmicli",
 				"/usr/share/gir-1.0/Qmi-1.0.gir"
 			],
 			"name": "libqmi",
 			"provides": [
-				"soname(libqmi-glib.so.5(x86_64))",
 				"binary(qmi-firmware-update)",
 				"binary(qmi-network)",
-				"binary(qmicli)"
+				"binary(qmicli)",
+				"soname(libqmi-glib.so.5(x86_64))"
 			]
 		},
 		"libqmi-devel": {
@@ -58,6 +58,7 @@
 				"pkgconfig(udev)"
 			],
 			"depends": [
+				"libqmi",
 				"pkgconfig(gio-2.0)",
 				"pkgconfig(gio-unix-2.0)",
 				"pkgconfig(glib-2.0)",
@@ -141,6 +142,6 @@
 		}
 	},
 	"source-name": "libqmi",
-	"source-release": "1",
-	"source-version": "1.34.0"
+	"source-release": "2",
+	"source-version": "1.36.0"
 }

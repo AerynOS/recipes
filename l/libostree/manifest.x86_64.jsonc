@@ -8,6 +8,7 @@
 				"binary(python)",
 				"binary(xsltproc)",
 				"docbook",
+				"docbook-xsl",
 				"pkgconfig(e2p)",
 				"pkgconfig(fuse3)",
 				"pkgconfig(glib-2.0)",
@@ -26,7 +27,7 @@
 				"soname(libc.so.6(x86_64))",
 				"soname(libcrypto.so.3(x86_64))",
 				"soname(libcurl.so.4(x86_64))",
-				"soname(libfuse3.so.3(x86_64))",
+				"soname(libfuse3.so.4(x86_64))",
 				"soname(libgio-2.0.so.0(x86_64))",
 				"soname(libglib-2.0.so.0(x86_64))",
 				"soname(libgobject-2.0.so.0(x86_64))",
@@ -112,6 +113,7 @@
 				"binary(python)",
 				"binary(xsltproc)",
 				"docbook",
+				"docbook-xsl",
 				"pkgconfig(e2p)",
 				"pkgconfig(fuse3)",
 				"pkgconfig(glib-2.0)",
@@ -126,11 +128,20 @@
 			],
 			"depends": [
 				"libostree",
-				"pkgconfig(gio-unix-2.0)"
+				"pkgconfig(gio-unix-2.0)",
+				"pkgconfig(gpg-error)",
+				"pkgconfig(gpgme)",
+				"pkgconfig(libarchive)",
+				"pkgconfig(libcrypto)",
+				"pkgconfig(libcurl)",
+				"pkgconfig(liblzma)",
+				"pkgconfig(libsystemd)",
+				"pkgconfig(zlib)"
 			],
 			"files": [
 				"/usr/include/ostree-1/ostree-async-progress.h",
 				"/usr/include/ostree-1/ostree-autocleanups.h",
+				"/usr/include/ostree-1/ostree-blob-reader.h",
 				"/usr/include/ostree-1/ostree-bootconfig-parser.h",
 				"/usr/include/ostree-1/ostree-content-writer.h",
 				"/usr/include/ostree-1/ostree-core.h",
@@ -169,6 +180,6 @@
 		}
 	},
 	"source-name": "libostree",
-	"source-release": "7",
-	"source-version": "2024.9"
+	"source-release": "10",
+	"source-version": "2025.2"
 }

@@ -1,0 +1,54 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"python-platformdirs": {
+			"build-depends": [
+				"python(hatch-vcs)",
+				"python(hatchling)"
+			],
+			"depends": [
+				"binary(python3)"
+			],
+			"files": [
+				"/usr/lib/python3.11/site-packages/platformdirs-4.3.8.dist-info/METADATA",
+				"/usr/lib/python3.11/site-packages/platformdirs-4.3.8.dist-info/RECORD",
+				"/usr/lib/python3.11/site-packages/platformdirs-4.3.8.dist-info/WHEEL",
+				"/usr/lib/python3.11/site-packages/platformdirs-4.3.8.dist-info/licenses/LICENSE",
+				"/usr/lib/python3.11/site-packages/platformdirs/__init__.py",
+				"/usr/lib/python3.11/site-packages/platformdirs/__main__.py",
+				"/usr/lib/python3.11/site-packages/platformdirs/__pycache__/__init__.cpython-311.opt-1.pyc",
+				"/usr/lib/python3.11/site-packages/platformdirs/__pycache__/__init__.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/platformdirs/__pycache__/__main__.cpython-311.opt-1.pyc",
+				"/usr/lib/python3.11/site-packages/platformdirs/__pycache__/__main__.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/platformdirs/__pycache__/android.cpython-311.opt-1.pyc",
+				"/usr/lib/python3.11/site-packages/platformdirs/__pycache__/android.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/platformdirs/__pycache__/api.cpython-311.opt-1.pyc",
+				"/usr/lib/python3.11/site-packages/platformdirs/__pycache__/api.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/platformdirs/__pycache__/macos.cpython-311.opt-1.pyc",
+				"/usr/lib/python3.11/site-packages/platformdirs/__pycache__/macos.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/platformdirs/__pycache__/unix.cpython-311.opt-1.pyc",
+				"/usr/lib/python3.11/site-packages/platformdirs/__pycache__/unix.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/platformdirs/__pycache__/version.cpython-311.opt-1.pyc",
+				"/usr/lib/python3.11/site-packages/platformdirs/__pycache__/version.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/platformdirs/__pycache__/windows.cpython-311.opt-1.pyc",
+				"/usr/lib/python3.11/site-packages/platformdirs/__pycache__/windows.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/platformdirs/android.py",
+				"/usr/lib/python3.11/site-packages/platformdirs/api.py",
+				"/usr/lib/python3.11/site-packages/platformdirs/macos.py",
+				"/usr/lib/python3.11/site-packages/platformdirs/py.typed",
+				"/usr/lib/python3.11/site-packages/platformdirs/unix.py",
+				"/usr/lib/python3.11/site-packages/platformdirs/version.py",
+				"/usr/lib/python3.11/site-packages/platformdirs/windows.py"
+			],
+			"name": "python-platformdirs",
+			"provides": [
+				"python(platformdirs(3.11))",
+				"python(platformdirs)"
+			]
+		}
+	},
+	"source-name": "python-platformdirs",
+	"source-release": "1",
+	"source-version": "4.3.8"
+}

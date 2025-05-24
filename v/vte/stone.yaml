@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : vte
-version     : 0.80.0
-release     : 13
+version     : 0.80.1
+release     : 14
 homepage    : https://gitlab.gnome.org/GNOME/vte
 upstreams   :
-    - https://download.gnome.org/sources/vte/0.80/vte-0.80.0.tar.xz : 267f63739765e568cf8113d0e2ee8f593028946187854bebe268c778e62647c8
+    - https://download.gnome.org/sources/vte/0.80/vte-0.80.1.tar.xz : 0cdbd0e983afd9d22e065e323a743160072bf64b453e00b15edbe6f2dcdda46c
 summary     : GNOME Virtual Terminal Embedding library
 description : |
     GNOME Virtual Terminal Embedding library
@@ -16,11 +16,6 @@ license     :
     - LGPL-3.0-or-later
     - GPL-3.0-or-later
     - CC-BY-4.0
-packages    :
-    - "%(name)-devel":
-        paths:
-            - /usr/share/glade
-            - /usr/share/vala/vapi
 builddeps   :
     - binary(valac)
     - cmake(FastFloat)
@@ -29,6 +24,7 @@ builddeps   :
     - pkgconfig(fribidi)
     - pkgconfig(gio-2.0)
     - pkgconfig(glib-2.0)
+    - pkgconfig(gtk+-3.0)
     - pkgconfig(gnutls)
     - pkgconfig(gobject-2.0)
     - pkgconfig(gobject-introspection-1.0)
@@ -40,7 +36,11 @@ builddeps   :
     - pkgconfig(pango)
     - pkgconfig(zlib)
 setup       : |
-    %meson -Dgtk3=false -Dgtk4=true
+    %patch %(pkgdir)/0001-app-Make-build-configurable.patch
+    %meson \
+        -Dapp=false \
+        -Dgtk3=true \
+        -Dgtk4=true
 build       : |
     %meson_build
 install     : |
@@ -48,3 +48,63 @@ install     : |
     %install_dir %(installroot)%(vendordir)%(sysconfdir)/profile.d
     mv %(installroot)%(sysconfdir)/profile.d/vte.sh %(installroot)%(vendordir)%(sysconfdir)/profile.d/10-vte.sh
     rm -frv %(installroot)%(sysconfdir)
+
+    # Deprecations
+    for i in %(name) %(name)-devel; do
+        %install_dir %(installroot)%(docdir)/replace/${i}
+        echo "split into gtk3/gtk4 specific packages" > %(installroot)/%(docdir)/replace/${i}/TRANSITION
+    done
+packages    :
+    - "%(name)-common":
+        paths:
+            - /usr/lib/vte/vte-urlencode-cwd
+            - /usr/lib/systemd/user
+            - /usr/share/defaults/etc/profile.d/10-vte.sh
+
+    - "%(name)-gtk3":
+        rundeps:
+            - "%(name)-common"
+        paths:
+            - /usr/lib/libvte-2.91.so.*
+            - /usr/lib/girepository-1.0/Vte-2.91.typelib
+
+    - "%(name)-gtk3-devel":
+        rundeps:
+            - "%(name)-gtk3"
+        paths:
+            - /usr/include/vte-*/
+            - /usr/lib/libvte-*.so
+            - /usr/lib/pkgconfig/vte-2.91.pc
+            - /usr/share/gir-1.0/Vte-2*.gir
+            - /usr/share/vala/vapi/vte-2.91.*
+            # glade doesn't support GTK4
+            - /usr/share/glade
+
+    - "%(name)-gtk4":
+        rundeps:
+            - "%(name)-common"
+        paths:
+            - /usr/lib/libvte-2.91-gtk4.so.*
+            - /usr/lib/girepository-1.0/Vte-3.91.typelib
+
+    - "%(name)-gtk4-devel":
+        rundeps:
+            - "%(name)-gtk4"
+        paths:
+            - /usr/include/vte-2.91-gtk4/
+            - /usr/lib/libvte-2.91-gtk4.so
+            - /usr/lib/pkgconfig/vte-2.91-gtk4.pc
+            - /usr/share/gir-1.0/Vte-3.91.gir
+            - /usr/share/vala/vapi/vte-2.91-gtk4*
+
+    # Both of the below are temporary
+    - "%(name)":
+        rundeps:
+            # Moss upgrade bug
+            - "%(name)-gtk4"
+        paths:
+            - /usr/share/doc/replace/vte/TRANSITION
+
+    - "%(name)-devel":
+        paths:
+            - /usr/share/doc/replace/vte-devel/TRANSITION

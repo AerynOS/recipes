@@ -19,8 +19,7 @@
 				"soname(libcrypto.so.3(x86_64))",
 				"soname(libodbc.so.2(x86_64))",
 				"soname(libsasl2.so.3(x86_64))",
-				"soname(libssl.so.3(x86_64))",
-				"soname(libsystemd.so.0(x86_64))"
+				"soname(libssl.so.3(x86_64))"
 			],
 			"files": [
 				"/usr/bin/ldapadd",
@@ -96,6 +95,7 @@
 				"/usr/share/man/man5/slapo-dynlist.5",
 				"/usr/share/man/man5/slapo-homedir.5",
 				"/usr/share/man/man5/slapo-memberof.5",
+				"/usr/share/man/man5/slapo-nestgroup.5",
 				"/usr/share/man/man5/slapo-otp.5",
 				"/usr/share/man/man5/slapo-pbind.5",
 				"/usr/share/man/man5/slapo-pcache.5",
@@ -160,6 +160,9 @@
 				"pkgconfig(odbc)",
 				"pkgconfig(openssl)",
 				"pkgconfig(sqlite3)"
+			],
+			"depends": [
+				"openldap"
 			],
 			"files": [
 				"/usr/include/lber.h",
@@ -369,6 +372,6 @@
 		}
 	},
 	"source-name": "openldap",
-	"source-release": "1",
-	"source-version": "2.6.7"
+	"source-release": "2",
+	"source-version": "2.6.9"
 }

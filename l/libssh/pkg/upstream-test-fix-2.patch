@@ -1,0 +1,54 @@
+From e9b76ff1bd03e49fc842e2a93ad1a34f8db08a29 Mon Sep 17 00:00:00 2001
+From: Andreas Schneider <asn@cryptomilk.org>
+Date: Wed, 15 Jan 2025 13:24:41 +0100
+Subject: torture_config: Use getpwuid() instead of env variables
+
+Signed-off-by: Andreas Schneider <asn@cryptomilk.org>
+Reviewed-by: Jakub Jelen <jjelen@redhat.com>
+Reviewed-by: Sahana Prasad <sahana@redhat.com>
+---
+ tests/unittests/torture_config.c | 26 ++++++++------------------
+ 1 file changed, 8 insertions(+), 18 deletions(-)
+
+(limited to 'tests/unittests/torture_config.c')
+
+diff --git a/tests/unittests/torture_config.c b/tests/unittests/torture_config.c
+index 2631869a..3a3a5ac3 100644
+--- a/tests/unittests/torture_config.c
++++ b/tests/unittests/torture_config.c
+@@ -2392,24 +2392,14 @@ static void torture_config_make_absolute_int(void **state, bool no_sshdir_fails)
+     ssh_session session = *state;
+     char *result = NULL;
+ #ifndef _WIN32
+-    char h[256];
+-    char *user;
+-    char *home;
+-
+-    user = getenv("USER");
+-    if (user == NULL) {
+-        user = getenv("LOGNAME");
+-    }
+-
+-    /* in certain CIs there no such variables */
+-    if (!user) {
+-        struct passwd *pw = getpwuid(getuid());
+-        if (pw){
+-            user = pw->pw_name;
+-        }
+-    }
+-
+-    home = getenv("HOME");
++    char h[256] = {0};
++    char *user = NULL;
++    char *home = NULL;
++    struct passwd *pw = getpwuid(getuid());
++    assert_non_null(pw);
++    user = pw->pw_name;
++    assert_non_null(user);
++    home = pw->pw_dir;
+     assert_non_null(home);
+ #endif
+ 
+-- 
+cgit v1.2.3
+

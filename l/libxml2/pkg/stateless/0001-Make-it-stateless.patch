@@ -1,25 +1,26 @@
-From e72700d6f23332adcfd4610fef90b97e073b2008 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Fabio Forni <development@redaril.me>
 Date: Wed, 1 Mar 2023 15:49:53 +0100
 Subject: [PATCH] Make it stateless
 
 ---
- catalog.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ catalog.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/catalog.c b/catalog.c
-index b7837e3..b551f36 100644
+index 27af95f4..684f981e 100644
 --- a/catalog.c
 +++ b/catalog.c
-@@ -68,7 +68,7 @@
+@@ -53,10 +53,10 @@
  #define XML_URN_PUBID "urn:publicid:"
  #define XML_CATAL_BREAK ((xmlChar *) -1)
  #ifndef XML_XML_DEFAULT_CATALOG
 -#define XML_XML_DEFAULT_CATALOG "file://" SYSCONFDIR "/xml/catalog"
-+#define XML_XML_DEFAULT_CATALOG "file://" SYSCONFDIR "/xml/catalog" " " "file:///usr/share/defaults/etc/xml/catalog"
++#define XML_XML_DEFAULT_CATALOG "file://" SYSCONFDIR "/xml/catalog" " " "file:///usr/share/defaults/docbook/docbook-dtd/catalog" " " "file:///usr/share/defaults/docbook/docbook-xsl/catalog"
  #endif
  #ifndef XML_SGML_DEFAULT_CATALOG
- #define XML_SGML_DEFAULT_CATALOG "file://" SYSCONFDIR "/sgml/catalog"
--- 
-2.39.2
-
+-#define XML_SGML_DEFAULT_CATALOG "file://" SYSCONFDIR "/sgml/catalog"
++#define XML_SGML_DEFAULT_CATALOG "file://" SYSCONFDIR "/sgml/catalog" " " "file:///usr/share/defaults/docbook/docbook-sgml/catalog"
+ #endif
+ 
+ static xmlChar *xmlCatalogNormalizePublic(const xmlChar *pubID);

@@ -9,12 +9,12 @@
 				"soname(libunwind.so.1(x86_64))"
 			],
 			"files": [
-				"/usr/lib/libfmt.so.10",
-				"/usr/lib/libfmt.so.10.2.1"
+				"/usr/lib/libfmt.so.11",
+				"/usr/lib/libfmt.so.11.2.0"
 			],
 			"name": "fmt",
 			"provides": [
-				"soname(libfmt.so.10(x86_64))"
+				"soname(libfmt.so.11(x86_64))"
 			]
 		},
 		"fmt-devel": {
@@ -23,6 +23,7 @@
 			],
 			"files": [
 				"/usr/include/fmt/args.h",
+				"/usr/include/fmt/base.h",
 				"/usr/include/fmt/chrono.h",
 				"/usr/include/fmt/color.h",
 				"/usr/include/fmt/compile.h",
@@ -50,6 +51,6 @@
 		}
 	},
 	"source-name": "fmt",
-	"source-release": "2",
-	"source-version": "10.2.1"
+	"source-release": "4",
+	"source-version": "11.2.0"
 }

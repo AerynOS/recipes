@@ -4,15 +4,15 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : nss
-version     : 3.109
-release     : 22
+version     : "3.111"
+release     : 23
 summary     : Network Security Services
 license     : MPL-2.0
 homepage    : https://wiki.mozilla.org/NSS
 description : |
     Network Security Services (NSS) is a set of libraries designed to support cross-platform development of security-enabled client and server applications.
 upstreams   :
-    - https://ftp.mozilla.org/pub/security/nss/releases/NSS_3_109_RTM/src/nss-3.109.tar.gz : bea46c256118cd8910202f05339627d75291f13b80054527df58419b9d29c18b
+    - https://ftp.mozilla.org/pub/security/nss/releases/NSS_3_111_RTM/src/nss-3.111.tar.gz : 5a4d5a44e91ef03cdc0c4897cf616e3c92f4e590ea835d3e0ccad8b005bd73c6
 builddeps   :
     - binary(perl)
     - binary(python3)
@@ -25,18 +25,23 @@ packages    :
     - "%(name)":
         paths:
             - /usr/lib/*.so
-toolchain   : gnu
 setup       : |
     %patch %(pkgdir)/nss-3.97-standalone-1.patch
+    %patch %(pkgdir)/respect-ldflags.patch
+    %patch %(pkgdir)/clang-assembler.patch
 build       : |
     cd nss
     %make BUILT_OPT=1 \
-          USE_SYSTEM_ZLIB=1 \
+          NSPR_INCLUDE_DIR=%(includedir)/nspr \
+          NSS_DISABLE_GTESTS=1 \
           NSS_ENABLE_WERROR=0 \
           NSS_USE_SYSTEM_SQLITE=1 \
-          NSPR_INCLUDE_DIR=%(includedir)/nspr \
           USE_64=1 \
-          NSS_DISABLE_GTESTS=1
+          USE_SYSTEM_ZLIB=1 \
+          NATIVE_CC="${CC}" \
+          AR="${AR} rc \$@" \
+          NATIVE_FLAGS="${CFLAGS}" \
+          NATIVE_LDFLAGS="${LDFLAGS}"
 install     : |
     # NSS
     %install_dir %(installroot)%(libdir)

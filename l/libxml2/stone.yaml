@@ -4,57 +4,128 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : libxml2
-version     : 2.13.5
-release     : 9
+version     : 2.14.3
+release     : 10
 summary     : XML parsing library
 license     : MIT
 homepage    : http://www.xmlsoft.org/
 description : |
     XML parsing library
 upstreams   :
-    - https://download.gnome.org/sources/libxml2/2.13/libxml2-2.13.5.tar.xz: 74fc163217a3964257d3be39af943e08861263c4231f9ef5b496b6f6d4c7b2b6
+    - https://download.gnome.org/sources/libxml2/2.14/libxml2-2.14.3.tar.xz:
+        hash: 6de55cacc8c2bc758f2ef6f93c313cb30e4dd5d84ac5d3c7ccbd9344d8cc6833
+        unpackdir: current
+
+    # Don't delete this section, just comment it out if it's not needed. The build recipe accounts for it possibly not existing
+    - https://download.gnome.org/sources/libxml2/2.13/libxml2-2.13.8.tar.xz:
+        hash: 277294cb33119ab71b2bc81f2f445e9bc9435b893ad15bb2cd2b0e859a0ee84a
+        unpackdir: compat
 builddeps   :
-    - perl
-    - pkgconfig(liblzma)
-    - pkgconfig(ncursesw)
-    - pkgconfig(python3)
-    - pkgconfig(readline)
-    - pkgconfig(zlib)
-    # 32bit deps
-    - pkgconfig32(liblzma)
-    - pkgconfig32(ncursesw)
     - pkgconfig32(readline)
     - pkgconfig32(zlib)
+    - pkgconfig(icu-i18n)
+    - pkgconfig(python3)
+    - perl
 emul32      : yes
 profiles    :
     - emul32:
         setup: |
-            %patch %(pkgdir)/stateless/0001-Make-it-stateless.patch
-            %configure --disable-static \
-                       --with-history \
-                       --without-python \
-                       --with-legacy
+            if [ -d ../compat ]; then
+                pushd ../compat
+                %meson \
+                    -Dhistory=true \
+                    -Dicu=disabled \
+                    -Dlegacy=true \
+                    -Dpython=false
+                popd
+            fi
 
+            %meson \
+                -Dhistory=enabled \
+                -Dlegacy=enabled \
+                -Dpython=disabled
 setup       : |
-    %patch %(pkgdir)/stateless/0001-Make-it-stateless.patch
-    %configure --disable-static \
-               --with-history \
-               --with-legacy
+    if [ -d ../compat ]; then
+        pushd ../compat
+        %patch %(pkgdir)/0001-build-Check-for-icu-uc-instead-of-icu-i18n.patch
+
+        %meson \
+           -Dhistory=true \
+           -Dicu=enabled \
+           -Dlegacy=true \
+           -Dpython=false
+        popd
+    fi
+
+    # Build the static library so that we can build a static version of bsdtar
+    %meson \
+        -Ddefault_library=both \
+        -Dhistory=enabled \
+        -Dicu=enabled \
+        -Dlegacy=enabled
 build       : |
-    %make
+    if [ -d ../compat ]; then
+        pushd ../compat
+            %ccache_zero
+            env CCACHE_BASEDIR="${pwd}" %meson_build
+            %ccache_stats
+        popd
+    fi
+
+    %ccache_zero
+    env CCACHE_BASEDIR="${pwd}" %meson_build
+    %ccache_stats
 install     : |
-    %make_install
+    if [ -d ../compat ]; then
+        pushd ../compat
+            mkdir tmp
+            DESTDIR="${pwd}/tmp" meson install --no-rebuild -C "%(builddir)"
+
+            # Only copy the sonames
+            %install_dir %(installroot)/%(libdir)
+            find ${pwd}/tmp/%(libdir) -name "libxml2.so.*" -print -exec mv {} %(installroot)/%(libdir) \;
+        popd
+    fi
+
+    %meson_install
 check       : |
-    %make check
+    %meson_test
 workload    : |
-    %make dba100000.xml
-    ./xmllint --noout  dba100000.xml
-    ./xmllint --stream  dba100000.xml
-    ./xmllint --noout --valid test/valid/REC-xml-19980210.xml
-    ./xmllint --stream --valid test/valid/REC-xml-19980210.xml
-#For some reason libtool is stripping -fcs-profile-generate=%(pgo_dir)/CS from link flags
-cspgo       : false
+    # Script is no longer included with the source tarballs and so has been vendored
+    perl %(pkgdir)/dbgenattr.pl 100000 > dba100000.xml
+
+    %(builddir)/xmllint --noout dba100000.xml
+    %(builddir)/xmllint --stream dba100000.xml
+    %(builddir)/xmllint --noout --valid test/valid/REC-xml-19980210.xml
+    %(builddir)/xmllint --stream --valid test/valid/REC-xml-19980210.xml
+tuning      :
+    - lto: full
 packages    :
+    - "python-%(name)":
+        summary: "XML parsing library - Python support"
+        description: |
+            XML parsing library - Python support
+        rundeps:
+            - binary(python3)
+        paths:
+            - /usr/lib/python*
+
+    - "%(name)-devel":
+        paths:
+            - /usr/bin/xml2-config
+            - /usr/share/man/man1/xml2-config*
+
+    - "%(name)-static":
+        summary: "Development files for libxml2 - static libraries"
+        description: |
+            Development files for libxml2 - static libraries
+        paths:
+            - /usr/lib/lib*.a
+        rundeps:
+            - "%(name)-devel"
+            - icu-static
+            - zlib-static
+
     - "%(name)-docs":
         paths:
             - /usr/share/doc/*

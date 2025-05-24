@@ -4,7 +4,12 @@
 	"packages": {
 		"itstool": {
 			"build-depends": [
-				"binary(python3)"
+				"binary(python3)",
+				"python-libxml2"
+			],
+			"depends": [
+				"binary(python3)",
+				"python-libxml2"
 			],
 			"files": [
 				"/usr/bin/itstool",
@@ -23,6 +28,6 @@
 		}
 	},
 	"source-name": "itstool",
-	"source-release": "1",
+	"source-release": "2",
 	"source-version": "2.0.7"
 }

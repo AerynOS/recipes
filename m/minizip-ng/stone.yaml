@@ -5,7 +5,7 @@
 #
 name        : minizip-ng
 version     : 4.0.8
-release     : 1
+release     : 2
 summary     : Fork of the zlib zip library
 license     : Zlib
 homepage    : https://github.com/zlib-ng/minizip-ng
@@ -32,11 +32,17 @@ setup       : |
         -DMZ_COMPAT=OFF \
         -DMZ_LIBBSD=OFF
 build       : |
-    %cmake_build -C compat
-    %cmake_build -C ng
+    for b in compat ng; do
+        %ccache_zero
+        BUILDDIR=${b}
+        env CCACHE_BASEDIR="${PWD}/${b}" %cmake_build
+        %ccache_stats
+    done
 install     : |
-    %cmake_install -C compat
-    %cmake_install -C ng
+    for b in compat ng; do
+        BUILDDIR=${b}
+        %cmake_install
+    done
 packages    :
     - "minizip":
         paths:

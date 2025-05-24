@@ -5,7 +5,8 @@
 		"kf6-karchive": {
 			"build-depends": [
 				"cmake(ECM)",
-				"pkgconfig(bzip2)"
+				"pkgconfig(bzip2)",
+				"pkgconfig(liblzma)"
 			],
 			"depends": [
 				"soname(libQt6Core.so.6(x86_64))",
@@ -71,7 +72,8 @@
 		"kf6-karchive-devel": {
 			"build-depends": [
 				"cmake(ECM)",
-				"pkgconfig(bzip2)"
+				"pkgconfig(bzip2)",
+				"pkgconfig(liblzma)"
 			],
 			"depends": [
 				"kf6-karchive"
@@ -119,6 +121,6 @@
 		}
 	},
 	"source-name": "kf6-karchive",
-	"source-release": "3",
+	"source-release": "4",
 	"source-version": "6.12.0"
 }

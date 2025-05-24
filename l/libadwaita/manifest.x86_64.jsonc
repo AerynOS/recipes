@@ -4,7 +4,6 @@
 	"packages": {
 		"libadwaita": {
 			"build-depends": [
-				"binary(cmake)",
 				"binary(msgfmt)",
 				"binary(sassc)",
 				"binary(vapigen)",
@@ -97,7 +96,6 @@
 		},
 		"libadwaita-devel": {
 			"build-depends": [
-				"binary(cmake)",
 				"binary(msgfmt)",
 				"binary(sassc)",
 				"binary(vapigen)",
@@ -198,7 +196,6 @@
 				"/usr/include/libadwaita-1/adw-wrap-box.h",
 				"/usr/include/libadwaita-1/adw-wrap-layout.h",
 				"/usr/include/libadwaita-1/adwaita.h",
-				"/usr/lib/libadwaita-1-internal.a",
 				"/usr/lib/libadwaita-1.so",
 				"/usr/lib/pkgconfig/libadwaita-1.pc"
 			],
@@ -209,6 +206,6 @@
 		}
 	},
 	"source-name": "libadwaita",
-	"source-release": "9",
-	"source-version": "1.7.0"
+	"source-release": "11",
+	"source-version": "1.7.2"
 }

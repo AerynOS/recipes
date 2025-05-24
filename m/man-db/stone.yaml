@@ -5,7 +5,7 @@
 #
 name        : man-db
 version     : 2.12.1
-release     : 5
+release     : 6
 homepage    : https://man-db.nongnu.org/
 upstreams   :
     - https://download.savannah.nongnu.org/releases/man-db/man-db-2.12.1.tar.xz : ddee249daeb78cf92bab794ccd069cc8b575992265ea20e239e887156e880265
@@ -31,7 +31,7 @@ rundeps     :
     - binary(groff)
 setup       : |
     %patch %(pkgdir)/stateless.patch
-    %configure \
+    %reconfigure \
          --disable-setuid \
          --enable-cache-owner=root \
          --with-db=gdbm \

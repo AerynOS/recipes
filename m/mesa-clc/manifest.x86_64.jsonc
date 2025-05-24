@@ -16,28 +16,28 @@
 			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
-				"soname(libLLVM.so.19.1(x86_64))",
-				"soname(libLLVMSPIRVLib.so.19.1(x86_64))",
+				"soname(libLLVM.so.20.1(x86_64))",
+				"soname(libLLVMSPIRVLib.so.20.1(x86_64))",
 				"soname(libSPIRV-Tools-link.so(x86_64))",
 				"soname(libSPIRV-Tools.so(x86_64))",
 				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
-				"soname(libclang-cpp.so.19.1(x86_64))",
+				"soname(libclang-cpp.so.20.1(x86_64))",
 				"soname(libm.so.6(x86_64))",
 				"soname(libunwind.so.1(x86_64))"
 			],
 			"files": [
 				"/usr/bin/mesa_clc",
-				"/usr/bin/vtn_bindgen"
+				"/usr/bin/vtn_bindgen2"
 			],
 			"name": "mesa-clc",
 			"provides": [
 				"binary(mesa_clc)",
-				"binary(vtn_bindgen)"
+				"binary(vtn_bindgen2)"
 			]
 		}
 	},
 	"source-name": "mesa-clc",
-	"source-release": "2",
-	"source-version": "25.0.5"
+	"source-release": "4",
+	"source-version": "25.1.1"
 }

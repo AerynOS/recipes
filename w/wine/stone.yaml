@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : wine
-version     : 10.2
-release     : 1
+version     : "10.8"
+release     : 2
 homepage    : https://www.winehq.org
 upstreams   :
-    - https://dl.winehq.org/wine/source/10.x/wine-10.2.tar.xz : 9d90dfb6cf10b810a7b4789f0067712b4730d3ea2a88b91f1be273b2ad04243f
+    - https://dl.winehq.org/wine/source/10.x/wine-10.8.tar.xz : f2ffdb5650991d4cf6ce858c10da58da1cee06a9b7bbb6b5a307a02e47408b4e
 summary     : Wine is a program which allows running Microsoft Windows programs on Unix.
 description : |
     Wine is a program which allows running Microsoft Windows programs
@@ -23,6 +23,7 @@ builddeps   :
     - binary(flex)
     - binary(readelf)
     - binary(wayland-scanner)
+    - pkgconfig(alsa)
     - pkgconfig(cups)
     - pkgconfig(dbus-1)
     - pkgconfig(d3d)
@@ -31,16 +32,17 @@ builddeps   :
     - pkgconfig(gbm)
     - pkgconfig(gnutls)
     - pkgconfig(gstreamer-1.0)
+    - pkgconfig(gstreamer-tag-1.0)
     - pkgconfig(krb5)
     - pkgconfig(libavcodec)
     - pkgconfig(libavformat)
     - pkgconfig(libavutil)
     - pkgconfig(libpcap)
+    - pkgconfig(libpcsclite)
     - pkgconfig(libpulse)
     - pkgconfig(libudev)
     - pkgconfig(libusb-1.0)
     - pkgconfig(odbc)
-    - pkgconfig(osmesa)
     - pkgconfig(sdl2_compat)
     - pkgconfig(vulkan)
     - pkgconfig(wayland-eglstream)
@@ -54,6 +56,8 @@ builddeps   :
     - pkgconfig(xinerama)
     - pkgconfig(freetype2)
     - gettext-devel
+    # TODO Missing deps:
+    # libsane, libv4l2, libgphoto2
 setup       : |
     %patch %(pkgdir)/llvm-libunwind.patch
     %patch %(pkgdir)/0001-Prefer-wayland-over-x11.patch

@@ -1,0 +1,52 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"python-jaraco.text": {
+			"build-depends": [
+				"python(setuptools-scm)"
+			],
+			"depends": [
+				"binary(python3)",
+				"python(autocommand(3.11))",
+				"python(jaraco.context(3.11))",
+				"python(jaraco.functools(3.11))",
+				"python(more-itertools(3.11))"
+			],
+			"files": [
+				"/usr/lib/python3.11/site-packages/jaraco.text-4.0.0.dist-info/LICENSE",
+				"/usr/lib/python3.11/site-packages/jaraco.text-4.0.0.dist-info/METADATA",
+				"/usr/lib/python3.11/site-packages/jaraco.text-4.0.0.dist-info/RECORD",
+				"/usr/lib/python3.11/site-packages/jaraco.text-4.0.0.dist-info/WHEEL",
+				"/usr/lib/python3.11/site-packages/jaraco.text-4.0.0.dist-info/top_level.txt",
+				"/usr/lib/python3.11/site-packages/jaraco/text/Lorem ipsum.txt",
+				"/usr/lib/python3.11/site-packages/jaraco/text/__init__.py",
+				"/usr/lib/python3.11/site-packages/jaraco/text/__pycache__/__init__.cpython-311.opt-1.pyc",
+				"/usr/lib/python3.11/site-packages/jaraco/text/__pycache__/__init__.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/jaraco/text/__pycache__/layouts.cpython-311.opt-1.pyc",
+				"/usr/lib/python3.11/site-packages/jaraco/text/__pycache__/layouts.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/jaraco/text/__pycache__/show-newlines.cpython-311.opt-1.pyc",
+				"/usr/lib/python3.11/site-packages/jaraco/text/__pycache__/show-newlines.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/jaraco/text/__pycache__/strip-prefix.cpython-311.opt-1.pyc",
+				"/usr/lib/python3.11/site-packages/jaraco/text/__pycache__/strip-prefix.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/jaraco/text/__pycache__/to-dvorak.cpython-311.opt-1.pyc",
+				"/usr/lib/python3.11/site-packages/jaraco/text/__pycache__/to-dvorak.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/jaraco/text/__pycache__/to-qwerty.cpython-311.opt-1.pyc",
+				"/usr/lib/python3.11/site-packages/jaraco/text/__pycache__/to-qwerty.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/jaraco/text/layouts.py",
+				"/usr/lib/python3.11/site-packages/jaraco/text/show-newlines.py",
+				"/usr/lib/python3.11/site-packages/jaraco/text/strip-prefix.py",
+				"/usr/lib/python3.11/site-packages/jaraco/text/to-dvorak.py",
+				"/usr/lib/python3.11/site-packages/jaraco/text/to-qwerty.py"
+			],
+			"name": "python-jaraco.text",
+			"provides": [
+				"python(jaraco.text(3.11))",
+				"python(jaraco.text)"
+			]
+		}
+	},
+	"source-name": "python-jaraco.text",
+	"source-release": "1",
+	"source-version": "4.0.0"
+}

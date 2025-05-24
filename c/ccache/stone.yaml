@@ -4,15 +4,15 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : ccache
-version     : 4.10.2
-release     : 8
+version     : 4.11.3
+release     : 10
 summary     : ccache - a fast C/C++ compiler cache
 license     : GPL-3.0-or-later
 homepage    : https://ccache.dev/
 description : |
     Ccache is a compiler cache. It speeds up recompilation by caching previous compilations and detecting when the same compilation is being done again. Supported languages are C, C++, Objective-C and Objective-C++.
 upstreams   :
-    - https://github.com/ccache/ccache/releases/download/v4.10.2/ccache-4.10.2.tar.xz: c0b85ddfc1a3e77b105ec9ada2d24aad617fa0b447c6a94d55890972810f0f5a
+    - https://github.com/ccache/ccache/releases/download/v4.11.3/ccache-4.11.3.tar.xz: d5a340e199977b7b1e89c0add794132c977fdc2ecc7ca5451e03d43627a1b1be
 builddeps   :
     - binary(asciidoctor)
     - pkgconfig(fmt)

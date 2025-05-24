@@ -5,22 +5,21 @@
 		"libxslt": {
 			"build-depends": [
 				"pkgconfig(libxml-2.0)",
-				"pkgconfig(python3)"
+				"pkgconfig(python3)",
+				"python-libxml2"
 			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libm.so.6(x86_64))",
-				"soname(libxml2.so.2(x86_64))"
+				"soname(libxml2.so.16(x86_64))"
 			],
 			"files": [
 				"/usr/bin/xsltproc",
 				"/usr/lib/libexslt.so.0",
-				"/usr/lib/libexslt.so.0.8.23",
-				"/usr/lib/libxslt-plugins",
+				"/usr/lib/libexslt.so.0.8.24",
 				"/usr/lib/libxslt.so.1",
-				"/usr/lib/libxslt.so.1.1.42",
-				"/usr/lib/xsltConf.sh",
+				"/usr/lib/libxslt.so.1.1.43",
 				"/usr/share/man/man1/xsltproc.1"
 			],
 			"name": "libxslt",
@@ -33,7 +32,8 @@
 		"libxslt-devel": {
 			"build-depends": [
 				"pkgconfig(libxml-2.0)",
-				"pkgconfig(python3)"
+				"pkgconfig(python3)",
+				"python-libxml2"
 			],
 			"depends": [
 				"libxslt",
@@ -71,6 +71,7 @@
 				"/usr/lib/libxslt.so",
 				"/usr/lib/pkgconfig/libexslt.pc",
 				"/usr/lib/pkgconfig/libxslt.pc",
+				"/usr/lib/xsltConf.sh",
 				"/usr/share/man/man3/libexslt.3",
 				"/usr/share/man/man3/libxslt.3"
 			],
@@ -85,7 +86,8 @@
 		"libxslt-docs": {
 			"build-depends": [
 				"pkgconfig(libxml-2.0)",
-				"pkgconfig(python3)"
+				"pkgconfig(python3)",
+				"python-libxml2"
 			],
 			"files": [
 				"/usr/share/doc/libxslt/python/examples/basic.py",
@@ -155,13 +157,15 @@
 		"python-libxslt": {
 			"build-depends": [
 				"pkgconfig(libxml-2.0)",
-				"pkgconfig(python3)"
+				"pkgconfig(python3)",
+				"python-libxml2"
 			],
 			"depends": [
 				"binary(python3)",
+				"python-libxml2",
 				"soname(libc.so.6(x86_64))",
 				"soname(libexslt.so.0(x86_64))",
-				"soname(libxml2.so.2(x86_64))",
+				"soname(libxml2.so.16(x86_64))",
 				"soname(libxslt.so.1(x86_64))"
 			],
 			"files": [
@@ -177,6 +181,6 @@
 		}
 	},
 	"source-name": "libxslt",
-	"source-release": "3",
-	"source-version": "1.1.42"
+	"source-release": "4",
+	"source-version": "1.1.43"
 }

@@ -28,7 +28,6 @@
 				"/usr/lib/cmake/mimalloc/mimalloc-config.cmake",
 				"/usr/lib/cmake/mimalloc/mimalloc-release.cmake",
 				"/usr/lib/cmake/mimalloc/mimalloc.cmake",
-				"/usr/lib/libmimalloc.a",
 				"/usr/lib/libmimalloc.so",
 				"/usr/lib/pkgconfig/mimalloc.pc"
 			],
@@ -37,9 +36,18 @@
 				"cmake(mimalloc)",
 				"pkgconfig(mimalloc)"
 			]
+		},
+		"mimalloc-static": {
+			"depends": [
+				"mimalloc-devel"
+			],
+			"files": [
+				"/usr/lib/libmimalloc.a"
+			],
+			"name": "mimalloc-static"
 		}
 	},
 	"source-name": "mimalloc",
-	"source-release": "6",
+	"source-release": "7",
 	"source-version": "2.2.3"
 }

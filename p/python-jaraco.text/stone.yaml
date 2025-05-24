@@ -1,0 +1,32 @@
+#
+# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : python-jaraco.text
+version     : 4.0.0
+release     : 1
+homepage    : https://github.com/jaraco/jaraco.text
+upstreams   :
+    - https://pypi.debian.net/jaraco.text/jaraco_text-4.0.0.tar.gz : 5b71fecea69ab6f939d4c906c04fee1eda76500d1641117df6ec45b865f10db0
+summary     : Module for text manipulation
+description : |
+    Module for text manipulation
+license     : MIT
+builddeps   :
+    - python(setuptools-scm)
+rundeps     :
+    - binary(python3)
+# checkdeps   :
+#     - python(autocommand)
+#     - python(jaraco.context)
+#     - python(jaraco.functools)
+#     - python(pytest)
+# TODO: Add python-inflect for tests
+build       : |
+    %pyproject_build
+install     : |
+    %pyproject_install
+# check       : |
+#     # TODO replace with pytest macro
+#     PYTHONPATH="$PWD" pytest

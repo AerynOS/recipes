@@ -5,10 +5,13 @@
 		"systemd": {
 			"build-depends": [
 				"binary(gperf)",
+				"binary(ld.bfd)",
 				"binary(m4)",
 				"binary(readelf.py)",
 				"binary(xsltproc)",
 				"docbook",
+				"docbook-xsl",
+				"gcc-32bit",
 				"gettext-devel",
 				"gnu-efi-devel",
 				"pkgconfig(gnutls)",
@@ -45,6 +48,7 @@
 				"python-jinja"
 			],
 			"depends": [
+				"binary(dash)",
 				"binary(ntp-daemon)",
 				"binary(setfont)",
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
@@ -1276,10 +1280,13 @@
 		"systemd-32bit": {
 			"build-depends": [
 				"binary(gperf)",
+				"binary(ld.bfd)",
 				"binary(m4)",
 				"binary(readelf.py)",
 				"binary(xsltproc)",
 				"docbook",
+				"docbook-xsl",
+				"gcc-32bit",
 				"gettext-devel",
 				"gnu-efi-devel",
 				"pkgconfig(gnutls)",
@@ -1364,10 +1371,13 @@
 		"systemd-32bit-devel": {
 			"build-depends": [
 				"binary(gperf)",
+				"binary(ld.bfd)",
 				"binary(m4)",
 				"binary(readelf.py)",
 				"binary(xsltproc)",
 				"docbook",
+				"docbook-xsl",
+				"gcc-32bit",
 				"gettext-devel",
 				"gnu-efi-devel",
 				"pkgconfig(gnutls)",
@@ -1422,10 +1432,13 @@
 		"systemd-devel": {
 			"build-depends": [
 				"binary(gperf)",
+				"binary(ld.bfd)",
 				"binary(m4)",
 				"binary(readelf.py)",
 				"binary(xsltproc)",
 				"docbook",
+				"docbook-xsl",
+				"gcc-32bit",
 				"gettext-devel",
 				"gnu-efi-devel",
 				"pkgconfig(gnutls)",
@@ -2275,10 +2288,13 @@
 		"systemd-networkd": {
 			"build-depends": [
 				"binary(gperf)",
+				"binary(ld.bfd)",
 				"binary(m4)",
 				"binary(readelf.py)",
 				"binary(xsltproc)",
 				"docbook",
+				"docbook-xsl",
+				"gcc-32bit",
 				"gettext-devel",
 				"gnu-efi-devel",
 				"pkgconfig(gnutls)",
@@ -2316,6 +2332,7 @@
 			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(systemd/libsystemd-shared-254.so(x86_64))"
 			],
@@ -2366,6 +2383,6 @@
 		}
 	},
 	"source-name": "systemd",
-	"source-release": "48",
+	"source-release": "50",
 	"source-version": "254.24"
 }

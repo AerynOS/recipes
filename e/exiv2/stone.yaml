@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : exiv2
-version     : 0.28.3
-release     : 2
+version     : 0.28.5
+release     : 3
 homepage    : https://exiv2.org/
 upstreams   :
-    - https://github.com/Exiv2/exiv2/archive/refs/tags/v0.28.3.tar.gz : 1315e17d454bf4da3cc0edb857b1d2c143670f3485b537d0f946d9ed31d87b70
+    - https://github.com/Exiv2/exiv2/archive/refs/tags/v0.28.5.tar.gz : e1671f744e379a87ba0c984617406fdf8c0ad0c594e5122f525b2fb7c28d394d
 summary     : Image metadata library and tools
 description : |
     Exiv2 is a C++ library and a command-line utility to read, write, delete and modify Exif, IPTC, XMP and ICC image metadata.
@@ -30,4 +30,3 @@ build       : |
     %cmake_build
 install     : |
     %cmake_install
-#toolchain   : gnu

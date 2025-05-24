@@ -4,65 +4,169 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : python
-version     : 3.11.9
-release     : 7
+version     : 3.11.12
+release     : 8
 summary     : Python language interpreter
 license     : Python-2.0
 homepage    : https://www.python.org
 description : |
     Python language interpreter
 upstreams   :
-    - https://www.python.org/ftp/python/3.11.9/Python-3.11.9.tar.xz: 9b1e896523fc510691126c864406d9360a3d1e986acbda59cda57b5abda45b87
+    - https://www.python.org/ftp/python/3.11.12/Python-3.11.12.tar.xz: 849da87af4df137710c1796e276a955f7a85c9f971081067c8f565d15c352a09
 builddeps   :
-    - gdbm-32bit-devel
+    - binary(which)
+    - pkgconfig(bluez)
+    - pkgconfig(bzip2)
+    - pkgconfig(expat)
+    - pkgconfig(libb2)
+    - pkgconfig(libcrypt)
+    - pkgconfig(libffi)
+    - pkgconfig(liblzma)
+    - pkgconfig(libssl)
+    - pkgconfig(ncursesw)
+    - pkgconfig(readline)
+    - pkgconfig(sqlite3)
+    - pkgconfig(uuid)
+    - pkgconfig(zlib)
     - gdbm-devel
-    - llvm-bolt
-    - pkgconfig32(bzip2)
-    - pkgconfig32(expat)
-    - pkgconfig32(libcrypt)
-    - pkgconfig32(libffi)
-    - pkgconfig32(liblzma)
-    - pkgconfig32(libssl)
-    - pkgconfig32(ncursesw)
-    - pkgconfig32(sqlite3)
-    - pkgconfig32(uuid)
-    - pkgconfig32(zlib)
-emul32      : true
+    # TODO: add tcl/tk for tkinter, db5 for dbm modules
+    # TODO: libmpdec
 # FIXME: change to auxdeps, needed for python handlers
 #        this is an exception as it doesn't use python macros
 checkdeps   :
     - binary(python3)
     - python-packaging
+environment : |
+    _version_major_minor=$(echo %(version) | cut -d. -f1-2)
+    _pylibdir="%(libdir)/python${_version_major_minor}"
+    _dynload_dir="${_pylibdir}/lib-dynload"
 setup       : |
-    %patch %(pkgdir)/serpent/always-install-setuptools.patch
+    %patch %(pkgdir)/aerynos/always-install-setuptools.patch
+    %patch %(pkgdir)/upstream/CVE-2025-4516.patch
 
+    # TODO: Enable experimental JIT with Python 3.13
     %configure \
         --enable-loadable-sqlite-extensions \
-        --enable-lto \
         --enable-optimizations \
         --enable-shared \
         --with-computed-gotos \
-        --without-cxx-main \
+        --with-dbmliborder=gdbm \
+        --with-lto \
+        --with-ssl-default-suites=openssl \
         --with-system-expat \
+        --with-system-ffi \
         --with-platlibdir=lib%(libsuffix) \
-        ax_cv_c_float_words_bigendian=no
+        --without-cxx-main
 build       : |
     %make
 install     : |
     # Bolt section removed until the reason why it segfaults the install is found
     %make_install
 
-    ln -sf %(bindir)/python3 %(installroot)/%(bindir)/python
+    # Python 3 is the default Python on AerynOS
+    ln -srvf %(installroot)/%(bindir)/python3 %(installroot)/%(bindir)/python
+    ln -srvf %(installroot)/%(bindir)/pydoc3 %(installroot)/%(bindir)/pydoc
+    ln -srvf %(installroot)/%(mandir)/man1/python3.1 %(installroot)/%(mandir)/man1/python.1
+
+    # Idle desktop and appdata
+    ## TODO: We need tcl/tk so we can actually use idle/tkinter
+    # ln -srvf %(installroot)/%(bindir)/idle3 %(installroot)/%(bindir)/idle
+    # %install_file %(pkgdir)/idle3.desktop -t %(installroot)/usr/share/applications/
+    # %install_file %(pkgdir)/idle3.appdata.xml -t %(installroot)/usr/share/metainfo/
+    # for i in 16 32 48 256; do
+    #     %install_file Lib/idlelib/Icons/idle_${i}.png %(installroot)%(datadir)/icons/hicolor/${i}x${i}/apps/idle3.png
+    # done
+
+    # Because we don't have tcl/tk just delete idle/tkinter
+    rm -rfv %(installroot)%(bindir)/idle* \
+            %(installroot)${_pylibdir}/idlelib \
+            %(installroot)${_pylibdir}/tkinter \
+            %(installroot)${_pylibdir}/turtledemo \
+            %(installroot)${_pylibdir}/turtle.py
+
+    # Delete the Python test suite (this is only used for testing Python itself)
+    # If it's determined that this is actually needed it should be subpackaged
+    rm -rfv %(installroot)${_pylibdir}/test \
+            %(installroot)${_pylibdir}/{ctypes,distutils,tkinter,lib2to3,unittest}/test{,s} \
+            %(installroot)${_dynload_dir}/{_ctypes_test,_test,_xxtestfuzz}*.so
+
+    # Get rid of DOS batch files:
+    find %(installroot) -name \*.bat -print -exec rm {} \;
+
+    # Remove shebang lines from .py files that aren't executable, and
+    # remove executability from .py files that don't have a shebang line:
+    find %(installroot) -name \*.py \
+        \( \( \! -perm /u+x,g+x,o+x -exec sed -e '/^#!/Q 0' -e 'Q 1' {} \; \
+        -print -exec sed -i '1d' {} \; \) -o \( \
+        -perm /u+x,g+x,o+x ! -exec grep -m 1 -q '^#!' {} \; \
+        -exec chmod a-x {} \; \) \)
+
+    # Delete all existing pycache dirs before regenerating them
+    find %(installroot) -type d -name "__pycache__" -print -exec rm -rv {} + -depth
+
+    # Recompile pyc files
+    LD_LIBRARY_PATH="%(installroot)/${_dynload_dir}/:%(installroot)%(libdir)" \
+        %(installroot)%(bindir)/python${_version_major_minor} -s -B -m compileall \
+        -f -j %(jobs) -o 0 -o 1 -o 2 -s %(installroot) -p / %(installroot) --invalidation-mode=checked-hash \
+        -x 'bad_coding|badsyntax'
+tuning      :
+    - bolt
+    - icf: all
+    - lto
+    - frame-pointer: false # Temporary, remove with Python 3.12
+    - nosemantic
+    - optimize: speed
+    - symbolic
 packages    :
+    - "%(name)-libs":
+        summary: "Library files for %(name)"
+        description: |
+            Library files for %(name), typically pulled in as a dependency of another package.
+        rundeps:
+            - tzdata
+        paths:
+            - /usr/lib/python3*
+            # A few things want the bare .so
+            - /usr/lib/libpython3.*.so*
+
+    # Moss upgrade bug
+    - "%(name)":
+        rundeps:
+            - "%(name)-libs"
+
     - "%(name)-devel":
         rundeps:
             # python3 /usr/lib/python*/config-*-x86_64-linux-gnu/python-config.py --ldflags
             # returns "-lcrypt" among the other things. Make sure it's available.
             - pkgconfig(libcrypt)
-tuning      :
-    - bolt
-    - icf: all
-    - lto
-    - nosemantic
-    - optimize: speed
-    - symbolic
+        paths:
+            - /usr/bin/python*-config
+
+    - "%(name)-staticlib":
+        summary: Static libs for %(name)
+        description: Static libs for %(name)
+        paths:
+            - /usr/lib/python3.*/config-3.*-x86_64-linux-gnu/libpython3.*.a
+        rundeps:
+            - "%(name)-devel"
+
+    # - "%(name)-idle":
+    #     summary: Basic graphical development environment for Python
+    #     description: Basic graphical development environment for Python
+    #     rundeps:
+    #         - "%(name)"
+    #         - "%(name)-tkinter"
+    #     paths:
+    #         - /usr/bin/idle*
+    #         - /usr/lib/python3.*/idlelib
+    #         - /usr/share/applications
+    #         - /usr/share/icons
+    #         - /usr/share/metainfo
+
+    # - "%(name)-tkinter":
+    #     summary: Graphical user interface toolkit for Python
+    #     description: Graphical user interface toolkit for Python
+    #     rundeps:
+    #         - "%(name)"
+    #     paths:
+    #         - /usr/lib/python3.*/tkinter

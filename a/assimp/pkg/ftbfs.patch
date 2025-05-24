@@ -1,0 +1,105 @@
+From f398a701634dccbd555d851598f26191605e2e59 Mon Sep 17 00:00:00 2001
+From: "T.Yamada" <cielartisan@gmail.com>
+Date: Tue, 11 Mar 2025 23:09:10 +0900
+Subject: [PATCH] Use std::copy to copy array and remove user destructor to
+ make sure is_trivially_copyable in order to avoid
+ -Wno-error=nontrivial-memcall (#6029)
+
+Use std::copy to copy array and remove user destructor to make sure is_trivially_copyable in order to avoid -Wno-error=nontrivial-memcall (#6029)
+---
+ code/Common/SceneCombiner.cpp              | 6 +-----
+ contrib/Open3DGC/o3dgcCommon.h             | 2 --
+ contrib/Open3DGC/o3dgcIndexedFaceSet.h     | 3 ---
+ contrib/Open3DGC/o3dgcSC3DMCEncodeParams.h | 3 ---
+ contrib/Open3DGC/o3dgcTimer.h              | 1 -
+ 5 files changed, 1 insertion(+), 14 deletions(-)
+
+diff --git a/code/Common/SceneCombiner.cpp b/code/Common/SceneCombiner.cpp
+index 20c2ec8bd4..43cf94ab08 100644
+--- a/code/Common/SceneCombiner.cpp
++++ b/code/Common/SceneCombiner.cpp
+@@ -985,7 +985,7 @@ inline void GetArrayCopy(Type *&dest, ai_uint num) {
+     Type *old = dest;
+ 
+     dest = new Type[num];
+-    ::memcpy(dest, old, sizeof(Type) * num);
++    std::copy(old, old+num, dest);
+ }
+ 
+ // ------------------------------------------------------------------------------------------------
+@@ -1095,10 +1095,6 @@ void SceneCombiner::Copy(aiMesh **_dest, const aiMesh *src) {
+ 
+     // make a deep copy of all faces
+     GetArrayCopy(dest->mFaces, dest->mNumFaces);
+-    for (unsigned int i = 0; i < dest->mNumFaces; ++i) {
+-        aiFace &f = dest->mFaces[i];
+-        GetArrayCopy(f.mIndices, f.mNumIndices);
+-    }
+ 
+     // make a deep copy of all blend shapes
+     CopyPtrArray(dest->mAnimMeshes, dest->mAnimMeshes, dest->mNumAnimMeshes);
+diff --git a/contrib/Open3DGC/o3dgcCommon.h b/contrib/Open3DGC/o3dgcCommon.h
+index ff6bf75587..ea22c96c27 100644
+--- a/contrib/Open3DGC/o3dgcCommon.h
++++ b/contrib/Open3DGC/o3dgcCommon.h
+@@ -166,7 +166,6 @@ namespace o3dgc
+                                     {
+                                         memset(this, 0, sizeof(SC3DMCStats));
+                                     };
+-                                    ~SC3DMCStats(void){};
+         
+         double                      m_timeCoord;
+         double                      m_timeNormal;
+@@ -409,4 +408,3 @@ namespace o3dgc
+     }
+ }
+ #endif // O3DGC_COMMON_H
+-
+diff --git a/contrib/Open3DGC/o3dgcIndexedFaceSet.h b/contrib/Open3DGC/o3dgcIndexedFaceSet.h
+index adb8cb0019..8070240a28 100644
+--- a/contrib/Open3DGC/o3dgcIndexedFaceSet.h
++++ b/contrib/Open3DGC/o3dgcIndexedFaceSet.h
+@@ -43,8 +43,6 @@ namespace o3dgc
+                                              m_isTriangularMesh = true;
+                                              m_creaseAngle      = 30;
+                                          };
+-        //! Destructor.
+-                                         ~IndexedFaceSet(void) {};
+         
+         unsigned long                    GetNCoordIndex() const { return m_nCoordIndex     ;}
+         // only coordIndex is supported
+@@ -260,4 +258,3 @@ namespace o3dgc
+ }
+ #include "o3dgcIndexedFaceSet.inl"    // template implementation
+ #endif // O3DGC_INDEXED_FACE_SET_H
+-
+diff --git a/contrib/Open3DGC/o3dgcSC3DMCEncodeParams.h b/contrib/Open3DGC/o3dgcSC3DMCEncodeParams.h
+index 5f3db969cb..d0af56c367 100644
+--- a/contrib/Open3DGC/o3dgcSC3DMCEncodeParams.h
++++ b/contrib/Open3DGC/o3dgcSC3DMCEncodeParams.h
+@@ -51,8 +51,6 @@ namespace o3dgc
+                                             m_intAttributePredMode[a] = O3DGC_SC3DMC_NO_PREDICTION;
+                                         }
+                                     };
+-        //! Destructor.
+-                                    ~SC3DMCEncodeParams(void) {};
+ 
+         O3DGCStreamType             GetStreamType()    const { return m_streamTypeMode;}
+         O3DGCSC3DMCEncodingMode     GetEncodeMode()    const { return m_encodeMode;}
+@@ -137,4 +135,3 @@ namespace o3dgc
+     };
+ }
+ #endif // O3DGC_SC3DMC_ENCODE_PARAMS_H
+-
+diff --git a/contrib/Open3DGC/o3dgcTimer.h b/contrib/Open3DGC/o3dgcTimer.h
+index f5ed0c83f4..e7fa8766b6 100644
+--- a/contrib/Open3DGC/o3dgcTimer.h
++++ b/contrib/Open3DGC/o3dgcTimer.h
+@@ -113,7 +113,6 @@ namespace o3dgc
+         {
+             memset(this, 0, sizeof(Timer));
+         };
+-        ~Timer(void){};
+         void Tic() 
+         {
+             clock_gettime(CLOCK_REALTIME, &m_start);

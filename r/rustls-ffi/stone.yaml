@@ -5,7 +5,7 @@
 #
 name        : rustls-ffi
 version     : 0.14.0
-release     : 7
+release     : 9
 homepage    : https://github.com/rustls/rustls-ffi
 upstreams   :
     - https://github.com/rustls/rustls-ffi/archive/refs/tags/v0.14.0.tar.gz : cfdee5c1fe65de6293ecb3bd69bedce227fe502adfa4ce152617e25f1543c565
@@ -23,10 +23,11 @@ emul32      : yes
 networking  : true
 setup       : |
     %cargo_fetch
+    # TODO: Figure out why --frozen is broken for the cargo cbuild command
 build       : |
     cargo cbuild --destdir=%(installroot) --prefix="%(prefix)" --libdir="%(libdir)" \
-              -v -j "%(jobs)" --frozen --target "%(target_triple)"
+              -v -j "%(jobs)" --target "%(target_triple)"
 install     : |
     cargo cinstall --destdir=%(installroot) --prefix="%(prefix)" --libdir="%(libdir)" \
-              -v -j "%(jobs)" --frozen --target "%(target_triple)"
+              -v -j "%(jobs)" --target "%(target_triple)"
     rm -v %(installroot)%(libdir)/*.a

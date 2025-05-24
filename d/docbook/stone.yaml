@@ -3,47 +3,104 @@
 #
 # SPDX-License-Identifier: MPL-2.0
 #
+## TODO: Once Moss has renaming support we should probably rename this to docbook-dtd or docbook-xml
 name        : docbook
 version     : 4.5
-release     : 2
+release     : 7
 homepage    : https://docbook.org
 upstreams   :
-    - https://docbook.org/xml/4.5/docbook-xml-4.5.zip : 4e4e037a2b83c98c6c94818390d4bdd3f6e10f6ec62dd79188594e26190dc7b4
-    - https://github.com/docbook/xslt10-stylesheets/releases/download/release/1.79.2/docbook-xsl-nons-1.79.2.tar.bz2 : ee8b9eca0b7a8f89075832a2da7534bce8c5478fc8fc2676f512d5d87d832102
+    - https://docbook.org/xml/4.5/docbook-xml-4.5.zip:
+        hash: 4e4e037a2b83c98c6c94818390d4bdd3f6e10f6ec62dd79188594e26190dc7b4
+        unpack: false
+        rename: "4.5.zip"
+    - https://docbook.org/xml/4.3/docbook-xml-4.3.zip:
+        hash: 23068a94ea6fd484b004c5a73ec36a66aa47ea8f0d6b62cc1695931f5c143464
+        unpack: false
+        rename: "4.3.zip"
+    - https://docbook.org/xml/4.2/docbook-xml-4.2.zip:
+        hash: acc4601e4f97a196076b7e64b368d9248b07c7abf26b34a02cca40eeebe60fa2
+        unpack: false
+        rename: "4.2.zip"
+    - https://docbook.org/xml/4.1.2/docbkx412.zip:
+        hash: 30f0644064e0ea71751438251940b1431f46acada814a062870f486c772e7772
+        unpack: false
+        rename: "4.1.2.zip"
 summary     : Markup schema, suitable for writing technical books and documentation
 description : |
     %(name) is a schema (available in several languages including RELAX NG, W3C XML Schemas, and XML DTDs) maintained by the DocBook Technical Committee of OASIS. It is particularly well suited to books and papers about computer hardware and software (though it is by no means limited to these applications).
 license     : Copyright
 builddeps   :
     - binary(xmlcatalog)
-# Technically the XML catalog isn't for docbook only,
-# but it collects all the XML schemas installed. We shouldn't
-# be shipping a catalog file with this package.
-# If a different requirement arises, we should develop
-# a post-install trigger to populate the existing vendored catalog.
-environment : |
-    # Why does boulder `cd` into /ent directory by itself?
-    cd ..
-    export xslVersion=1.79.2
-setup       : |
-    ls -lah
-    cd docbook-xsl-nons-${xslVersion}
-    %patch %(pkgdir)/no-stack-overflow.patch
+    - binary(unzip)
+rundeps     :
+    - binary(xmlcatalog)
 install     : |
-    # [LATER] shouldn't boulder preserve attributes?
-    chmod a+x %(pkgdir)/populate-catalog.sh
+    ## Setup the catalog
+    %install_dir %(installroot)/%(vendordir)/docbook/docbook-dtd/
 
-    install -Dm00644 docbook.cat *.dtd *.mod -t %(installroot)/%(datadir)/xml/docbook/xml-dtd-%(version)
-    cp -a ent %(installroot)/%(datadir)/xml/docbook/xml-dtd-%(version)
-    rm %(installroot)/%(datadir)/xml/docbook/xml-dtd-%(version)/ent/README
-    %(pkgdir)/populate-catalog.sh xml %(version) %(datadir) %(vendordir) %(installroot)
+    xml_catalog="%(installroot)/%(vendordir)/docbook/docbook-dtd/catalog"
+    xmlcatalog --noout --create "$xml_catalog"
 
-    cd docbook-xsl-nons-${xslVersion}
-    install -v -dm00755 %(installroot)/%(datadir)/xml/docbook/xsl-stylesheets-nons-${xslVersion}
-    cp -a VERSION assembly common eclipse epub epub3 extensions fo      \
-        highlighting html htmlhelp images javahelp lib manpages params  \
-        profiling roundtrip slides template tests tools webhelp website \
-        xhtml xhtml-1_1 xhtml5                                          \
-        %(installroot)/%(datadir)/xml/docbook/xsl-stylesheets-nons-${xslVersion}
-    ln -s VERSION %(installroot)/%(datadir)/xml/docbook/xsl-stylesheets-nons-${xslVersion}/VERSION.xsl
-    %(pkgdir)/populate-catalog.sh xsl ${xslVersion} %(datadir) %(vendordir) %(installroot)
+    for ver in 4.1.2 4.2 4.3 %(version); do
+        mkdir docbook-xml-${ver}
+        unzip -d docbook-xml-${ver} %(sourcedir)/${ver}.zip
+
+        pushd docbook-xml-${ver}
+        %install_dir %(installroot)/%(datadir)/xml/docbook/xml-dtd-${ver}
+        cp -dr docbook.cat *.dtd ent/ *.mod %(installroot)/%(datadir)/xml/docbook/xml-dtd-${ver}
+
+        # Inspired by Arch
+        case $ver in
+            4.1.2) xml=' XML' ;;&
+            *)
+                xmlcatalog --noout --add "public" \
+                    "-//OASIS//DTD DocBook XML V${ver}//EN" \
+                    "http://www.oasis-open.org/docbook/xml/${ver}/docbookx.dtd" \
+                    "$xml_catalog"
+                xmlcatalog --noout --add "public" \
+                    "-//OASIS//DTD DocBook$xml CALS Table Model V${ver}//EN" \
+                    "http://www.oasis-open.org/docbook/xml/${ver}/calstblx.dtd" \
+                    "$xml_catalog"
+                xmlcatalog --noout --add "public" \
+                    "-//OASIS//DTD XML Exchange Table Model 19990315//EN" \
+                    "http://www.oasis-open.org/docbook/xml/${ver}/soextblx.dtd" \
+                    "$xml_catalog"
+                xmlcatalog --noout --add "public" \
+                    "-//OASIS//ELEMENTS DocBook$xml Information Pool V${ver}//EN" \
+                    "http://www.oasis-open.org/docbook/xml/${ver}/dbpoolx.mod" \
+                    "$xml_catalog"
+                xmlcatalog --noout --add "public" \
+                    "-//OASIS//ELEMENTS DocBook$xml Document Hierarchy V${ver}//EN" \
+                    "http://www.oasis-open.org/docbook/xml/${ver}/dbhierx.mod" \
+                    "$xml_catalog"
+                xmlcatalog --noout --add "public" \
+                    "-//OASIS//ENTITIES DocBook$xml Additional General Entities V${ver}//EN" \
+                    "http://www.oasis-open.org/docbook/xml/${ver}/dbgenent.mod" \
+                    "$xml_catalog"
+                xmlcatalog --noout --add "public" \
+                    "-//OASIS//ENTITIES DocBook$xml Notations V${ver}//EN" \
+                    "http://www.oasis-open.org/docbook/xml/${ver}/dbnotnx.mod" \
+                    "$xml_catalog"
+                xmlcatalog --noout --add "public" \
+                    "-//OASIS//ENTITIES DocBook$xml Character Entities V${ver}//EN" \
+                    "http://www.oasis-open.org/docbook/xml/${ver}/dbcentx.mod" \
+                    "$xml_catalog"
+                ;;&
+            4.[45])
+                xmlcatalog --noout --add "public" \
+                    "-//OASIS//ELEMENTS DocBook XML HTML Tables V${ver}//EN" \
+                    "http://www.oasis-open.org/docbook/xml/${ver}/htmltblx.mod" \
+                    "$xml_catalog"
+                ;;&
+            *)
+                xmlcatalog --noout --add "rewriteSystem" \
+                    "http://www.oasis-open.org/docbook/xml/${ver}" \
+                    "/usr/share/xml/docbook/xml-dtd-${ver}" \
+                    "$xml_catalog"
+                xmlcatalog --noout --add "rewriteURI" \
+                    "http://www.oasis-open.org/docbook/xml/${ver}" \
+                    "/usr/share/xml/docbook/xml-dtd-${ver}" \
+                    "$xml_catalog"
+                ;;&
+        esac
+    done

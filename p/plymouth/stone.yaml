@@ -5,7 +5,7 @@
 #
 name        : plymouth
 version     : 24.004.60+git.8bc9364c
-release     : 8
+release     : 9
 homepage    : https://www.freedesktop.org/wiki/Software/Plymouth/
 upstreams   :
     - git|https://gitlab.freedesktop.org/plymouth/plymouth.git : 8bc9364cac02179ae55344e32e30a8b459872d25
@@ -17,7 +17,6 @@ builddeps   :
     - binary(msgfmt)
     - binary(systemd-tty-ask-password-agent)
     - binary(xsltproc)
-    - docbook
     - pkgconfig(cairo)
     - pkgconfig(dbus-1)
     - pkgconfig(freetype2)
@@ -32,10 +31,15 @@ builddeps   :
     - pkgconfig(systemd)
     - pkgconfig(xkbcommon)
     - pkgconfig(xkeyboard-config)
+    - docbook
+    - docbook-xsl
     - os-artwork
 rundeps    :
     - font-cantarell
     - os-artwork
+environment : |
+    # Temporary, replace with boulder macro
+    export XML_CATALOG_FILES="file:///usr/share/defaults/docbook/docbook-dtd/catalog file:///usr/share/defaults/docbook/docbook-xsl/catalog"
 setup       : |
     %patch %(pkgdir)/0001-Set-plymouth-defaults.patch
     %meson -Dlogo=/usr/share/icons/aerynos-logo-dark.png --libexecdir=lib

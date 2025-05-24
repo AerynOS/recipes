@@ -5,7 +5,7 @@
 #
 name        : helix
 version     : 25.01
-release     : 4
+release     : 5
 license     : MPL-2.0
 homepage    : https://helix-editor.com/
 upstreams   :
@@ -30,6 +30,8 @@ install     : |
 
     %install_dir %(installroot)/%(libexecdir)
 
+    # we build as root inside a userns, so this should unstick tricky permissions
+    chmod -R u+w,g+w runtime
     rm -r runtime/grammars/sources
     mv runtime %(installroot)/%(libexecdir)/
 
