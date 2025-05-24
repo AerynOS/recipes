@@ -1,0 +1,60 @@
+#
+# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : python-setuptools
+version     : 80.8.0
+release     : 1
+homepage    : https://setuptools.pypa.io/
+upstreams   :
+    - https://pypi.debian.net/setuptools/setuptools-80.8.0.tar.gz : 49f7af965996f26d43c8ae34539c8d99c5042fbff34302ea151eaa9c207cd257
+summary     : Easily download, build, install, upgrade, and uninstall Python packages
+description : |
+    Setuptools allows the easy download, build, install, upgrade, and uninstallation of Python packages.
+license     : MIT
+builddeps   :
+    - python(jaraco.functools)
+    - python(jaraco.text)
+rundeps     :
+    - binary(python3)
+environment : |
+    # set to 1 if bootstrapping against a new python
+    _bootstrap=0
+
+    # Don't want .exe files
+    export SETUPTOOLS_INSTALL_WINDOWS_SPECIFIC_FILES=0
+setup       : |
+    if [[ ${_bootstrap} == "0" ]]; then
+        rm -r setuptools/_vendor
+
+        # Populate dependencies list for devendored deps
+        sed '/^core =/,/]/!d' pyproject.toml > ../requirements.txt
+        sed -i '1d;$d' ../requirements.txt
+        sed -i '/^dependencies =/ {
+            r ../requirements.txt
+            s/^core =/dependencies =/
+            }' pyproject.toml
+
+        # We need to fix this in Boulder, but make sure we have the correct dependency on more-itertools
+        sed -i "s|more_itertools|more-itertools|g" pyproject.toml
+    fi
+build       : |
+    if [[ ${_bootstrap} == "1" ]]; then
+        %pyproject_build
+    else
+        %python_setup
+    fi
+install     : |
+    if [[ ${_bootstrap} == "1" ]]; then
+        %pyproject_install
+    else
+        %python_install
+
+        # Delete vendored packages
+        # TODO replace with python_version macro
+        rm -rfv %(installroot)/%(libdir)/python3.*/site-packages/setuptools/_vendor/
+    fi
+
+    # Undesired files
+    find %(installroot) -type f -name "*.exe" -print -delete
