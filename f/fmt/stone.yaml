@@ -4,18 +4,16 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : fmt
-version     : 10.2.1
-release     : 2
+version     : 11.2.0
+release     : 4
 homepage    : https://fmt.dev/
 upstreams   :
-    - https://github.com/fmtlib/fmt/archive/refs/tags/10.2.1.tar.gz : 1250e4cc58bf06ee631567523f48848dc4596133e163f02615c97f78bab6c811
+    - https://github.com/fmtlib/fmt/archive/refs/tags/11.2.0.tar.gz : bc23066d87ab3168f27cef3e97d545fa63314f5c79df5ea444d41d56f962c6af
 summary     : Small, safe and fast formatting C++ library
 description : |
     {fmt} is an open-source formatting library for C++. It can be used as a safe and fast alternative to (s)printf and IOStreams.
 license     : BSD-2-Clause
 setup       : |
-    %patch %(pkgdir)/0001-Fix-handling-of-static-separator.patch
-
     %cmake -DBUILD_SHARED_LIBS=ON
 build       : |
     %cmake_build

@@ -1,0 +1,23 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Reilly Brogan <reilly@reillybrogan.com>
+Date: Thu, 22 May 2025 12:33:08 -0500
+Subject: [PATCH] disable gcc workaround
+
+---
+ Makefile.in | 3 ---
+ 1 file changed, 3 deletions(-)
+
+diff --git a/Makefile.in b/Makefile.in
+index 80fa45a..789defc 100644
+--- a/Makefile.in
++++ b/Makefile.in
+@@ -2938,9 +2938,6 @@ libostree_1_la_LIBADD = libotutil.la libotcore.la libglnx.la \
+ 	$(am__append_39) $(am__append_41) $(am__append_42)
+ EXTRA_libostree_1_la_DEPENDENCIES = $(symbol_files)
+ 
+-# XXX: work around clang being passed -fstack-clash-protection which it doesn't understand
+-# See: https://bugzilla.redhat.com/show_bug.cgi?id=1672012
+-INTROSPECTION_SCANNER_ENV = CC=gcc
+ @BUILDOPT_INTROSPECTION_TRUE@OSTree_1_0_gir_EXPORT_PACKAGES = ostree-1
+ @BUILDOPT_INTROSPECTION_TRUE@OSTree_1_0_gir_INCLUDES = Gio-2.0
+ @BUILDOPT_INTROSPECTION_TRUE@OSTree_1_0_gir_C_INCLUDES = ostree.h

@@ -5,7 +5,7 @@
 #
 name        : linux-pam
 version     : 1.6.1
-release     : 10
+release     : 11
 summary     : Pluggable Authentication Modules
 license     :
     - BSD-3-Clause
@@ -20,7 +20,6 @@ builddeps   :
     - pkgconfig(libsystemd)
     - pkgconfig32(libeconf)
     - pkgconfig32(libxcrypt)
-toolchain   : gnu
 emul32      : true
 profiles    :
     - emul32:
@@ -69,4 +68,3 @@ install     : |
 
     # add ability to check pwd for any user instead only the current (required by cosmic-greeter)
     chmod u+s %(installroot)/usr/sbin/unix_chkpwd
-    

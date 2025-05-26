@@ -19,3 +19,20 @@
 
 ### GDB didn't actually have any devel files
 - gdb-devel
+
+### Don't need
+- libfuse2-32bit
+- libfuse2-32bit-dbginfo
+- libfuse2-32bit-devel
+
+### Split into gtk3/gtk4 specific packages
+- vte
+- vte-devel
+
+### Nodejs is now a meta-package that doesn't need headers
+- nodejs-devel
+
+### Not used
+- python-32bit
+- python-32bit-devel
+- python-32bit-dbginfo

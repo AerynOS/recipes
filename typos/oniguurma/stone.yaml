@@ -1,0 +1,20 @@
+#
+# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : oniguurma
+version     : 6.9.9
+release     : 2
+homepage    : https://github.com/kkos/oniguruma/releases/download/v6.9.9
+upstreams   :
+    - https://github.com/kkos/oniguruma/releases/download/v6.9.9/onig-6.9.9.tar.gz : 60162bd3b9fc6f4886d4c7a07925ffd374167732f55dce8c491bfd9cd818a6cf
+summary     : TYPO package - pending deletion
+description : |
+    TYPO package - pending deletion
+license     : BSD-2-Clause
+rundeps     :
+    - oniguruma
+install     : |
+    %install_dir %(installroot)%(docdir)/typos/%(name)
+    echo "oniguruma" > %(installroot)%(docdir)/typos/%(name)/TRANSITION

@@ -5,7 +5,7 @@
 #
 name        : systemd
 version     : 254.24
-release     : 48
+release     : 50
 summary     : A System and Service Manager
 license     :
     - GPL-2.0-or-later
@@ -18,6 +18,7 @@ upstreams   :
     - https://github.com/systemd/systemd-stable/archive/refs/tags/v254.24.tar.gz: 9f9ecbec18b91c85ff911ece120c89e2fd523f86f29b45d5112aa88e8d5068e7
 builddeps   :
     - binary(gperf)
+    - binary(ld.bfd) # Can be removed in systemd >= 255
     - binary(m4)
     - binary(readelf.py)
     - binary(xsltproc)
@@ -53,10 +54,14 @@ builddeps   :
     - pkgconfig32(xkbcommon)
     - pkgconfig32(zlib)
     - docbook
+    - docbook-xsl
+    - gcc-32bit # Only needed for libgcc_s.so, can be removed in systemd >= 255
     - gettext-devel
     - gnu-efi-devel
     - python-jinja
 rundeps     :
+    # Dash is now the default system shell (/usr/bin/sh) so we need to ensure it is always present and pulled in on existing systems
+    - binary(dash)
     - binary(ntp-daemon)
     - binary(setfont)
     - system-accounts
@@ -81,7 +86,6 @@ packages    :
             - /usr/share/man/man8/*network*
             - /usr/share/polkit-1/actions/*network*
             - /usr/share/polkit-1/rules.d/*network*
-toolchain   : gnu
 profiles    :
     - emul32:
         setup: |
@@ -129,6 +133,9 @@ profiles    :
                     -Dman=false
         install: |
             %meson_install
+environment : |
+    # Temporary, replace with boulder macro
+    export XML_CATALOG_FILES="file:///usr/share/defaults/docbook/docbook-dtd/catalog file:///usr/share/defaults/docbook/docbook-xsl/catalog"
 setup       : |
     %patch %(pkgdir)/patches/0016-tmpfiles-Make-var-cache-ldconfig-world-readable.patch
     %patch %(pkgdir)/patches/systemd-245-disable-audit-by-default.patch
@@ -138,6 +145,7 @@ setup       : |
     %patch %(pkgdir)/patches/protocols.patch
 
     %meson \
+        -Dbpf-compiler=${CC} \
         -Dbpf-framework=false \
         -Defi=true \
         -Dbootloader=true \
@@ -219,3 +227,5 @@ install     : |
     rm -v %(installroot)%(libdir)/systemd/boot/efi/*32.efi*
 
     %install_exe -t %(installroot)/usr/lib/systemd/system-environment-generators %(pkgdir)/config/50-xdg-{config,data}-dirs
+tuning      :
+    - icf: false # Can be removed in systemd >= 255

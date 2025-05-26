@@ -17,6 +17,9 @@
 			]
 		},
 		"rpcsvc-proto-devel": {
+			"depends": [
+				"rpcsvc-proto"
+			],
 			"files": [
 				"/usr/include/rpcsvc/bootparam_prot.h",
 				"/usr/include/rpcsvc/bootparam_prot.x",
@@ -47,6 +50,6 @@
 		}
 	},
 	"source-name": "rpcsvc-proto",
-	"source-release": "1",
+	"source-release": "2",
 	"source-version": "1.4.4"
 }

@@ -5,7 +5,7 @@
 #
 name        : rpcsvc-proto
 version     : 1.4.4
-release     : 1
+release     : 2
 homepage    : https://github.com/thkukuk/rpcsvc-proto
 upstreams   :
     - https://github.com/thkukuk/rpcsvc-proto/releases/download/v1.4.4/rpcsvc-proto-1.4.4.tar.xz : 81c3aa27edb5d8a18ef027081ebb984234d5b5860c65bd99d4ac8f03145a558b
@@ -15,6 +15,7 @@ description : |
 license     :
     - BSD-3-Clause-No-Military-License
 setup       : |
+    %patch %(pkgdir)/cpp.patch
     %configure
 build       : |
     %make

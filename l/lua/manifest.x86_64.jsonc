@@ -3,17 +3,18 @@
 	"manifest-version": "0.2",
 	"packages": {
 		"lua": {
+			"build-depends": [
+				"pkgconfig(readline)"
+			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"lua-libs",
 				"soname(libc.so.6(x86_64))",
 				"soname(libm.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/bin/lua",
 				"/usr/bin/luac",
-				"/usr/lib/liblua.so.5",
-				"/usr/lib/liblua.so.5.4",
-				"/usr/lib/liblua.so.5.4.7",
 				"/usr/lib/lua/5.4",
 				"/usr/share/lua/5.4",
 				"/usr/share/man/lua.1",
@@ -22,11 +23,13 @@
 			"name": "lua",
 			"provides": [
 				"binary(lua)",
-				"binary(luac)",
-				"soname(liblua.so.5.4(x86_64))"
+				"binary(luac)"
 			]
 		},
 		"lua-devel": {
+			"build-depends": [
+				"pkgconfig(readline)"
+			],
 			"depends": [
 				"lua"
 			],
@@ -45,9 +48,26 @@
 				"pkgconfig(lua)",
 				"pkgconfig(lua-5.4)"
 			]
+		},
+		"lua-libs": {
+			"build-depends": [
+				"pkgconfig(readline)"
+			],
+			"depends": [
+				"soname(libc.so.6(x86_64))",
+				"soname(libm.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/lib/liblua.so.5.4",
+				"/usr/lib/liblua.so.5.4.7"
+			],
+			"name": "lua-libs",
+			"provides": [
+				"soname(liblua.so.5.4(x86_64))"
+			]
 		}
 	},
 	"source-name": "lua",
-	"source-release": "5",
+	"source-release": "6",
 	"source-version": "5.4.7"
 }

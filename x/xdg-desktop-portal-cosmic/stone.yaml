@@ -5,7 +5,7 @@
 #
 name        : xdg-desktop-portal-cosmic
 version     : 1.0.0-alpha.6
-release     : 9
+release     : 11
 summary     : Cosmic Desktop - XDG Portal Support
 license     : GPL-3.0
 homepage    : https://github.com/pop-os/xdg-desktop-portal-cosmic
@@ -21,6 +21,7 @@ builddeps   :
     - pkgconfig(libpipewire-0.3)
     - pkgconfig(xkbcommon)
 rundeps     :
+    - binary(pipewire)
     - xdg-desktop-portal
 tuning      :
     - lto: thin

@@ -12,6 +12,7 @@
 				"pkgconfig(xkbcommon)"
 			],
 			"depends": [
+				"binary(pipewire)",
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))",
@@ -38,6 +39,6 @@
 		}
 	},
 	"source-name": "xdg-desktop-portal-cosmic",
-	"source-release": "9",
+	"source-release": "11",
 	"source-version": "1.0.0-alpha.6"
 }

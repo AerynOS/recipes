@@ -24,16 +24,16 @@
 				"/usr/bin/mbimcli",
 				"/usr/lib/girepository-1.0/Mbim-1.0.typelib",
 				"/usr/lib/libmbim-glib.so.4",
-				"/usr/lib/libmbim-glib.so.4.8.0",
+				"/usr/lib/libmbim-glib.so.4.9.0",
 				"/usr/lib/libmbim/mbim-proxy",
 				"/usr/share/bash-completion/completions/mbimcli",
 				"/usr/share/gir-1.0/Mbim-1.0.gir"
 			],
 			"name": "libmbim",
 			"provides": [
-				"soname(libmbim-glib.so.4(x86_64))",
 				"binary(mbim-network)",
-				"binary(mbimcli)"
+				"binary(mbimcli)",
+				"soname(libmbim-glib.so.4(x86_64))"
 			]
 		},
 		"libmbim-devel": {
@@ -47,6 +47,7 @@
 				"pkgconfig(udev)"
 			],
 			"depends": [
+				"libmbim",
 				"pkgconfig(gio-2.0)",
 				"pkgconfig(gio-unix-2.0)",
 				"pkgconfig(glib-2.0)",
@@ -58,6 +59,7 @@
 				"/usr/include/libmbim-glib/mbim-auth.h",
 				"/usr/include/libmbim-glib/mbim-basic-connect.h",
 				"/usr/include/libmbim-glib/mbim-cid.h",
+				"/usr/include/libmbim-glib/mbim-compal.h",
 				"/usr/include/libmbim-glib/mbim-compat.h",
 				"/usr/include/libmbim-glib/mbim-device.h",
 				"/usr/include/libmbim-glib/mbim-dss.h",
@@ -65,6 +67,7 @@
 				"/usr/include/libmbim-glib/mbim-enums.h",
 				"/usr/include/libmbim-glib/mbim-error-types.h",
 				"/usr/include/libmbim-glib/mbim-errors.h",
+				"/usr/include/libmbim-glib/mbim-fibocom.h",
 				"/usr/include/libmbim-glib/mbim-flag-types.h",
 				"/usr/include/libmbim-glib/mbim-google.h",
 				"/usr/include/libmbim-glib/mbim-intel-firmware-update.h",
@@ -101,6 +104,6 @@
 		}
 	},
 	"source-name": "libmbim",
-	"source-release": "1",
-	"source-version": "1.30.0"
+	"source-release": "2",
+	"source-version": "1.32.0"
 }

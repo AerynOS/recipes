@@ -5,7 +5,7 @@
 #
 name        : librest
 version     : 0.9.1
-release     : 1
+release     : 2
 homepage    : https://gitlab.gnome.org/GNOME/librest
 upstreams   :
     - https://gitlab.gnome.org/GNOME/librest/-/archive/0.9.1/librest-0.9.1.tar.gz : d91247d7f8fd6c63e61bd27ad1a6ddb6819e5279286fc2ded84b5b8bf10b330e
@@ -26,7 +26,6 @@ packages    :
     - "%(name)-devel":
         paths:
             - /usr/share/vala/vapi
-toolchain   : gnu
 setup       : |
     %meson -Dsoup2=false \
            -Dintrospection=true \

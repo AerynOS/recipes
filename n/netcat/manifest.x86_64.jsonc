@@ -1,0 +1,35 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"netcat": {
+			"build-depends": [
+				"binary(patch)",
+				"pkgconfig(libbsd)"
+			],
+			"depends": [
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(libbsd.so.0(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libresolv.so.2(x86_64))"
+			],
+			"files": [
+				"/usr/bin/nc",
+				"/usr/bin/nc.openbsd",
+				"/usr/bin/netcat",
+				"/usr/share/man/man1/nc.1",
+				"/usr/share/man/man1/nc.openbsd.1",
+				"/usr/share/man/man1/netcat.1"
+			],
+			"name": "netcat",
+			"provides": [
+				"binary(nc)",
+				"binary(nc.openbsd)",
+				"binary(netcat)"
+			]
+		}
+	},
+	"source-name": "netcat",
+	"source-release": "1",
+	"source-version": "1.229"
+}

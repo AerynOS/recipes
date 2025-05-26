@@ -1,0 +1,36 @@
+#
+# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : netcat
+version     : "1.229"
+release     : 1
+upstreams   :
+    - https://salsa.debian.org/debian/netcat-openbsd/-/archive/debian/1.229-1/netcat-openbsd-debian-1.229-1.tar.gz : 4984c52882affcc638678a887964f7ab1d21901a2c5c37a38363138370d4dbda
+homepage    : https://salsa.debian.org/debian/netcat-openbsd
+license     : BSD-3-Clause AND BSD-2-Clause
+summary     : TCP/IP swiss army knife. OpenBSD variant
+description : |
+    TCP/IP swiss army knife. OpenBSD variant
+builddeps   :
+    - binary(patch)
+    - pkgconfig(libbsd)
+setup       : |
+    while read patch; do
+        printf "Applying %%s...\n" "$patch"
+        patch -Np1 -i debian/patches/$patch
+    done < debian/patches/series
+build       : |
+    _ver="%(version)"
+    %make \
+        CFLAGS="$CFLAGS -DDEBIAN_VERSION=\"\\\"${_ver/_/-}\\\"\" -I/usr/include/libbsd" \
+        LDFLAGS="$LDFLAGS -lbsd"
+install     : |
+    %install_bin nc
+    ln -s nc %(installroot)%(bindir)/netcat
+    ln -s nc %(installroot)%(bindir)/nc.openbsd
+
+    %install_file nc.1 %(installroot)%(mandir)/man1/nc.1
+    ln -s nc.1 %(installroot)%(mandir)/man1/netcat.1
+    ln -s nc.1 %(installroot)%(mandir)/man1/nc.openbsd.1

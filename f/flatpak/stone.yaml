@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : flatpak
-version     : 1.14.10
-release     : 10
+version     : 1.16.1
+release     : 12
 homepage    : https://www.flatpak.org/
 upstreams   :
-    - https://github.com/flatpak/flatpak/releases/download/1.15.10/flatpak-1.15.10.tar.xz : 6aa67ca29b4f4da74654888446710b16c9fcfe640c324a51c5025087eecbf42f
+    - https://github.com/flatpak/flatpak/releases/download/1.16.1/flatpak-1.16.1.tar.xz : 2b47e8f2d90d35d29339ed78e1a6eabb36eefa9cfa5a5ca3b0d1f27502c43675
     - https://dl.flathub.org/repo/flathub.flatpakrepo:
         hash: 3371dd250e61d9e1633630073fefda153cd4426f72f4afa0c3373ae2e8fea03a
         unpack: false
@@ -29,6 +29,7 @@ builddeps   :
     - binary(xsltproc)
     - binary(yacc)
     - docbook
+    - docbook-xsl
     - pkgconfig(appstream)
     - pkgconfig(dconf)
     - pkgconfig(fuse3)
@@ -52,8 +53,14 @@ builddeps   :
 networking  : true
 rundeps     :
     - binary(bwrap)
+    - binary(fusermount3)
+environment : |
+    # Temporary, replace with boulder macro
+    export XML_CATALOG_FILES="file:///usr/share/defaults/docbook/docbook-dtd/catalog file:///usr/share/defaults/docbook/docbook-xsl/catalog"
 setup       : |
-    %patch %(pkgdir)/5688.patch
+    # %patch %(pkgdir)/5688.patch
+
+    # We need to enable wrapping for the dbus-proxy. This could be removed in the future once we have a system package for that
     %meson -Ddbus_config_dir=/usr/share/dbus-1/system.d \
            -Ddocbook_docs=disabled \
            -Dgir=enabled \
@@ -61,7 +68,8 @@ setup       : |
            -Dhttp_backend=curl \
            -Dlibzstd=enabled \
            -Dsystem_fusermount=fusermount3 \
-           -Dsystem_bubblewrap=%(bindir)/bwrap
+           -Dsystem_bubblewrap=%(bindir)/bwrap \
+           --wrap-mode=default
 build       : |
     %meson_build
 install     : |

@@ -5,7 +5,7 @@
 #
 name        : gnome-disk-utility
 version     : 46.1
-release     : 1
+release     : 2
 homepage    : https://wiki.gnome.org/Apps/Disks
 upstreams   :
     - https://download.gnome.org/sources/gnome-disk-utility/46/gnome-disk-utility-46.1.tar.xz : c24e9439a04d70bcfae349ca134c7005435fe2b6f452114df878bff0b89bbffe
@@ -19,6 +19,7 @@ builddeps   :
     - binary(update-desktop-database)
     - binary(xsltproc)
     - docbook
+    - docbook-xsl
     - pkgconfig(dvdread)
     - pkgconfig(gio-unix-2.0)
     - pkgconfig(gmodule-2.0)
@@ -31,6 +32,9 @@ builddeps   :
     - pkgconfig(libsystemd)
     - pkgconfig(pwquality)
     - pkgconfig(udisks2)
+environment : |
+    # Temporary, replace with boulder macro
+    export XML_CATALOG_FILES="file:///usr/share/defaults/docbook/docbook-dtd/catalog file:///usr/share/defaults/docbook/docbook-xsl/catalog"
 setup       : |
     %meson
 build       : |

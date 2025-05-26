@@ -5,7 +5,7 @@
 #
 name        : gvfs
 version     : 1.57.2
-release     : 10
+release     : 11
 homepage    : https://wiki.gnome.org/Projects/gvfs
 upstreams   :
     - https://download.gnome.org/sources/gvfs/1.57/gvfs-1.57.2.tar.xz : f16bef8eca1fd6c117e85db011d21e915669790d55867349c5f1b291299e9585
@@ -51,6 +51,7 @@ builddeps   :
     - pkgconfig(udisks2)
     - binary(msgfmt)
 rundeps     :
+    - sysbinary(mount.fuse3)
     - sysbinary(usbmuxd)
 environment : |
     export LDFLAGS="${LDFLAGS} -Wl,--allow-shlib-undefined"

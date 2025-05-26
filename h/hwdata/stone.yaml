@@ -5,7 +5,7 @@
 #
 name        : hwdata
 version     : 0.394
-release     : 14
+release     : 15
 homepage    : https://github.com/vcrhonek/hwdata
 upstreams   :
     - https://github.com/vcrhonek/hwdata/archive/refs/tags/v0.394.tar.gz : b7c3fd7214a3b7c49d2661db127a712dc11cffd1799f793947aa1cb20aaf3298
@@ -15,8 +15,6 @@ description : |
 license     :
     - GPL-2.0-or-later
 setup       : |
-    # Upstream PR here: https://github.com/uutils/coreutils/pull/7867
-    %patch %(pkgdir)/remove-unsupported-in-uutils-coreutils-install-T-argument.patch
     %configure
 build       : |
     %make

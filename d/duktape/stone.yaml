@@ -5,7 +5,7 @@
 #
 name        : duktape
 version     : 2.7.0
-release     : 1
+release     : 2
 summary     : Embeddable JavaScript engine with a focus on portability and compact footprint
 license     : MIT
 homepage    : https://duktape.org
@@ -13,10 +13,12 @@ description : |
     Embeddable JavaScript engine with a focus on portability and compact footprint
 upstreams   :
     - https://github.com/svaarala/duktape/releases/download/v2.7.0/duktape-2.7.0.tar.xz: 90f8d2fa8b5567c6899830ddef2c03f3c27960b11aca222fa17aa7ac613c2890
+environment : |
+    MAKE_OPTIONS="-f Makefile.sharedlibrary INSTALL_PREFIX=/usr/"
 setup       : |
     %patch %(pkgdir)/0001-link-against-libm.patch --strip=2
 build       : |
-    %make -f Makefile.sharedlibrary
+    %make ${MAKE_OPTIONS}
 install     : |
-    %make_install -f Makefile.sharedlibrary INSTALL_PREFIX=/usr/
+    %make_install ${MAKE_OPTIONS}
     rm -v %(installroot)/%(libdir)/libduktaped.*

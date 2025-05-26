@@ -5,8 +5,7 @@
 		"sccache": {
 			"build-depends": [
 				"pkgconfig(libzstd)",
-				"pkgconfig(openssl)",
-				"pkgconfig(zlib)"
+				"pkgconfig(openssl)"
 			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
@@ -30,6 +29,6 @@
 		}
 	},
 	"source-name": "sccache",
-	"source-release": "2",
-	"source-version": "0.8.2"
+	"source-release": "4",
+	"source-version": "0.10.0"
 }

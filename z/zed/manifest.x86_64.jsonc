@@ -5,13 +5,12 @@
 		"zed": {
 			"build-depends": [
 				"binary(cargo)",
-				"binary(cc)",
-				"binary(clang)",
 				"binary(cmake)",
 				"binary(envsubst)",
 				"binary(jq)",
 				"binary(make)",
 				"binary(mold)",
+				"libstdc++-devel",
 				"pkgconfig(alsa)",
 				"pkgconfig(gl)",
 				"pkgconfig(libcurl)",
@@ -29,6 +28,8 @@
 				"binary(unzip)",
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"soname(ld-linux-x86-64.so.2(x86_64))",
+				"soname(libX11-xcb.so.1(x86_64))",
+				"soname(libX11.so.6(x86_64))",
 				"soname(libasound.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libm.so.6(x86_64))",
@@ -53,6 +54,6 @@
 		}
 	},
 	"source-name": "zed",
-	"source-release": "30",
-	"source-version": "0.177.7"
+	"source-release": "31",
+	"source-version": "0.187.5"
 }

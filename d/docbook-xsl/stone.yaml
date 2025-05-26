@@ -1,0 +1,83 @@
+#
+# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : docbook-xsl
+version     : 1.79.2
+release     : 1
+homepage    : https://docbook.org
+upstreams   :
+    - https://github.com/docbook/xslt10-stylesheets/releases/download/release/1.79.2/docbook-xsl-nons-1.79.2.tar.bz2 :
+        hash: ee8b9eca0b7a8f89075832a2da7534bce8c5478fc8fc2676f512d5d87d832102
+        unpackdir: docbook-xsl-nons
+    - https://github.com/docbook/xslt10-stylesheets/releases/download/release/1.79.2/docbook-xsl-1.79.2.tar.bz2 : 
+        hash: 316524ea444e53208a2fb90eeb676af755da96e1417835ba5f5eb719c81fa371
+        unpackdir: docbook-xsl-ns
+summary     : XML stylesheets for Docbook-xml transformations
+description : |
+    XML stylesheets for Docbook-xml transformations
+license     : Copyright
+builddeps   :
+    - binary(xmlcatalog)
+rundeps     :
+    - binary(xmlcatalog)
+environment : |
+    cd ../
+setup       : |
+    for i in docbook-xsl-nons docbook-xsl-ns; do
+        pushd $i
+        %patch %(pkgdir)/no-stack-overflow.patch
+        popd
+    done
+install     : |
+    for i in nons ns; do
+        case $i in
+            nons) ns="-nons" ;;
+            ns) ns="" ;;
+        esac
+        versioned_dir="xsl-stylesheets$ns-%(version)"
+        destdir="%(installroot)/%(datadir)/xml/docbook/$versioned_dir"
+
+        pushd docbook-xsl-$i
+        install -Dt "$destdir" -m644 VERSION{,.xsl}
+        (
+        shopt -s nullglob
+        for fn in assembly common eclipse epub epub3 fo highlighting html \
+            htmlhelp javahelp lib manpages params profiling roundtrip template \
+            website xhtml xhtml-1_1 xhtml5
+        do
+            install -Dt "$destdir/$fn" -m644 $fn/*.{xml,xsl,dtd,ent}
+        done
+        )
+
+        popd
+        # Unversioned directory for compatibility
+        ln -sv $versioned_dir %(installroot)/%(datadir)/xml/docbook/xsl-stylesheets$ns
+    done
+
+    ## Catalog
+    %install_dir %(installroot)/%(vendordir)/docbook/docbook-xsl/
+    xml_catalog="%(installroot)/%(vendordir)/docbook/docbook-xsl/catalog"
+    xmlcatalog --noout --create "$xml_catalog"
+
+    for v in %(version) current; do
+        for x in rewriteSystem rewriteURI; do
+            xmlcatalog --noout --add $x \
+                "http://cdn.docbook.org/release/xsl/$v" \
+                "%(datadir)/xml/docbook/xsl-stylesheets-%(version)" \
+                "$xml_catalog"
+            xmlcatalog --noout --add $x \
+                "http://cdn.docbook.org/release/xsl-nons/$v" \
+                "%(datadir)/xml/docbook/xsl-stylesheets-nons-%(version)" \
+                "$xml_catalog"
+            xmlcatalog --noout --add $x \
+                "http://docbook.sourceforge.net/release/xsl-ns/$v" \
+                "%(datadir)/xml/docbook/xsl-stylesheets-%(version)" \
+                "$xml_catalog"
+            xmlcatalog --noout --add $x \
+                "http://docbook.sourceforge.net/release/xsl/$v" \
+                "%(datadir)/xml/docbook/xsl-stylesheets-nons-%(version)" \
+                "$xml_catalog"
+        done
+    done

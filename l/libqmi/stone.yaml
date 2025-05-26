@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : libqmi
-version     : 1.34.0
-release     : 1
+version     : 1.36.0
+release     : 2
 homepage    : https://gitlab.freedesktop.org/mobile-broadband/libqmi
 upstreams   :
-    - https://gitlab.freedesktop.org/mobile-broadband/libqmi/-/archive/1.34.0/libqmi-1.34.0.tar.bz2 : 87be6e07b48e1429c3688cc547730c9a2389f9dd5bbe5fdf2b33280ef886e37e
+    - https://gitlab.freedesktop.org/mobile-broadband/libqmi/-/archive/1.36.0/libqmi-1.36.0.tar.bz2 : 67c97feee86e6709b9cdec303c3650059b298f1c2b886b6053a56aced1616b3f
 summary     : QMI modem protocol helper library
 description : |
     libqmi is a glib-based library for talking to WWAN modems and devices which speak the Qualcomm MSM Interface (QMI) protocol.
@@ -34,5 +34,3 @@ build       : |
     %meson_build
 install     : |
     %meson_install
-# g-ir-scanner/compilers woes
-toolchain   : gnu

@@ -4,6 +4,7 @@ Date: Fri, 16 Dec 2016 05:04:48 +0000
 Subject: [PATCH 2/6] Support stateless glibc ldconfig configuration
 
 Signed-off-by: Ikey Doherty <ikey@solus-project.com>
+Modifyied-by: Philip Mueller <philm@manjaro.org>
 ---
  dracut-init.sh | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
@@ -12,13 +13,13 @@ diff --git a/dracut-init.sh b/dracut-init.sh
 index 986da96..94cfc88 100755
 --- a/dracut-init.sh
 +++ b/dracut-init.sh
-@@ -566,7 +566,7 @@ inst_rules_wildcard() {
- 
- # make sure that library links are correct and up to date
+@@ -537,7 +537,7 @@ inst_rules() {
  build_ld_cache() {
+     local dstdir="${dstdir:-"$initdir"}"
+ 
 -    for f in "$dracutsysrootdir"/etc/ld.so.conf "$dracutsysrootdir"/etc/ld.so.conf.d/*; do
 +    for f in "$dracutsysrootdir"/etc/ld.so.conf "$dracutsysrootdir"/etc/ld.so.conf.d/* "$dracutsysrootdir"/usr/share/defaults/ld.so.conf "$dracutsysrootdir"/usr/share/defaults/ld.so.conf.d/* "$dracutsysrootdir"/usr/share/ld.so.conf.d/*; do
-         [[ -f $f ]] && inst_simple "${f#"$dracutsysrootdir"}"
+         [[ -f $f ]] && inst_simple "${f}"
      done
      if ! $DRACUT_LDCONFIG -r "$initdir" -f /etc/ld.so.conf; then
 -- 

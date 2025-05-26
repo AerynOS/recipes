@@ -5,7 +5,7 @@
 #
 name        : doxygen
 version     : 1.13.2
-release     : 1
+release     : 2
 homepage    :  https://www.doxygen.org/
 upstreams   :
     - https://github.com/doxygen/doxygen/archive/refs/tags/Release_1_13_2.tar.gz : 4c9d9c8e95c2af4163ee92bcb0f3af03b2a4089402a353e4715771e8d3701c48
@@ -27,6 +27,7 @@ setup      : |
     %cmake \
           -Dbuild_wizard=ON \
           -Duse_libclang:BOOL=ON \
+          -Duse_sys_fmt:BOOL=ON \
           -Duse_sys_spdlog:BOOL=ON \
           -Duse_sys_sqlite3:BOOL=ON
 build       : |

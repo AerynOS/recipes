@@ -5,7 +5,7 @@
 #
 name        : nheko
 version     : 0.12.0
-release     : 2
+release     : 3
 upstreams   :
     - https://nheko.im/nheko-reborn/nheko/-/archive/v0.12.0/nheko-v0.12.0.tar.gz : f9c40da73dd4bc481bdc6846545d0ec00a1216b523eaceb19fb5da50d8f5dd49
 license     : GPL-2.0-or-later
@@ -41,6 +41,7 @@ setup       : |
     %patch %(pkgdir)/0001-Better-follow-FreeDesktop-specification.patch
     %patch %(pkgdir)/0001-Default-to-system-theme.patch
     %patch %(pkgdir)/0001-downstream-Use-kirigami-mousewheel-to-fix-scrolling.patch
+    %patch %(pkgdir)/ftbfs-fmt-11-01.patch
 
     %cmake
 build       : |

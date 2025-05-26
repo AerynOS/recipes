@@ -5,7 +5,7 @@
 #
 name        : udisks
 version     : 2.10.1
-release     : 3
+release     : 4
 homepage    : https://github.com/storaged-project/udisks
 upstreams   :
     - https://github.com/storaged-project/udisks/releases/download/udisks-2.10.1/udisks-2.10.1.tar.bz2 : b75734ccf602540dedb4068bec206adcb508a4c003725e117ae8f994d92d8ece
@@ -17,6 +17,7 @@ license     :
 builddeps   :
     - binary(msgfmt)
     - binary(python3)
+    - binary(xsltproc)
     - pkgconfig(blockdev)
     - pkgconfig(glib-2.0)
     - pkgconfig(gobject-introspection-1.0)
@@ -24,13 +25,17 @@ builddeps   :
     - pkgconfig(libatasmart)
     - pkgconfig(polkit-gobject-1)
     - pkgconfig(libacl)
-toolchain   : gnu
+    - docbook-xsl
+environment : |
+    # Temporary, replace with boulder macro
+    export XML_CATALOG_FILES="file:///usr/share/defaults/docbook/docbook-xsl/catalog"
 setup       : |
     %patch %(pkgdir)/0001-Add-support-for-a-stateless-configuration-file.patch
-    %configure --disable-static \
-               --disable-man \
-               --enable-lvm2 \
-               --enable-btrfs
+    %configure \
+        --disable-static \
+        --enable-lvm2 \
+        --enable-man \
+        --enable-btrfs
 build       : |
     %make
 install     : |

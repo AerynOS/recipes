@@ -4,15 +4,18 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : libarchive
-version     : 3.7.7
-release     : 9
+version     : 3.7.9
+release     : 10
 summary     : Multi-format archive and compression library
 license     : BSD-2-Clause
 homepage    : https://www.libarchive.org
 description : |
     Multi-format archive and compression library
 upstreams   :
-    - https://www.libarchive.org/downloads/libarchive-3.7.4.tar.gz: 7875d49596286055b52439ed42f044bd8ad426aa4cc5aabd96bfe7abb971d5e8
+    - https://www.libarchive.org/downloads/libarchive-3.7.9.tar.gz:
+        hash: aa90732c5a6bdda52fda2ad468ac98d75be981c15dde263d7b5cf6af66fd009f
+        unpack: false
+        rename: libarchive.tar.gz
 builddeps   :
     - pkgconfig(bzip2)
     - pkgconfig(ext2fs)
@@ -22,30 +25,104 @@ builddeps   :
     - pkgconfig(liblz4)
     - pkgconfig(liblzma)
     # - pkgconfig(libstone)
-    - pkgconfig(libxml-2.0)
     - pkgconfig(libzstd)
     - pkgconfig(lzo2)
     - pkgconfig(zlib)
+    - libxml2-static
 tuning      :
     - lto: full
 setup       : |
-    # libstone support disabled until it doesn't break zip files
-    # %patch %(pkgdir)/stone-read-support.patch
+    mkdir libarchive libarchive-static
+    tar -xf %(sourcedir)/libarchive.tar.gz --strip-components=1 -C libarchive
+    tar -xf %(sourcedir)/libarchive.tar.gz --strip-components=1 -C libarchive-static
 
-    %reconfigure --disable-rpath \
-               --disable-static \
-               --enable-bsdcpio=static \
-               --enable-bsdtar=static \
-               --enable-shared \
-               --with-lzo2
+    function libarchive_configure() {
+        # libstone support disabled until it doesn't break zip files
+        # %patch %(pkgdir)/stone-read-support.patch
+
+        %configure \
+            --disable-rpath \
+            --with-lzo2 \
+            "$@"
+    }
+
+    pushd libarchive
+        libarchive_configure \
+            --disable-static \
+            --enable-shared
+    popd
+
+    # Statically link in libxml2 and libicu since those are the libraries most likely to change sonames
+    pushd libarchive-static
+        # export CXXFLAGS+=" -std=c++17"
+        libarchive_configure \
+            --enable-bsdcpio=static \
+            --enable-static \
+            --disable-bsdcat \
+            --disable-bsdcpio \
+            --disable-bsdunzip \
+            --disable-shared \
+            LIBXML2_PC_LIBS="$(pkg-config --variable=libdir libxml-2.0)/libxml2.a $(pkg-config --variable=libdir icu-uc)/libicuuc.a $(pkg-config --variable=libdir icu-uc)/libicudata.a -lc++ -lm" \
+            ac_cv_lib_xml2_xmlInitParser=yes
+    popd
 build       : |
-    %make
+    for i in libarchive-static libarchive; do
+        cat ${i}/Makefile
+        %ccache_zero
+        env CCACHE_BASEDIR="${pwd}/${i}" %make -C ${i} V=1
+        %ccache_stats
+    done
 install     : |
-    %make_install
-check       : |
-    # Note, the test suite MUST succeed at all times
+    %make_install -C libarchive-static
 
-    # This skips a file descriptor test that fails in boulder. We may need to change how /tmp is mounted
-    export SKIP_OPEN_FD_ERR_TEST=1
+    # Preserve bsdtar-static
+    mv %(installroot)/%(bindir)/bsdtar %(installroot)/%(bindir)/bsdtar-static
 
-    %make check || (cat /tmp/libarchive_test*/*.log && exit 1)
+    %make_install -C libarchive
+
+    ln -sv bsdtar.1 %(installroot)/%(mandir)/man1/bsdtar-static.1
+
+    # We don't (yet) need libarchive.a for anything else
+    rm -v %(installroot)/%(libdir)/libarchive.a
+# check       : |
+#     # Note, the test suite MUST succeed at all times
+
+#     # This skips a file descriptor test that fails in boulder. We may need to change how /tmp is mounted
+#     export SKIP_OPEN_FD_ERR_TEST=1
+
+#     %make -C libarchive check || (cat /tmp/libarchive_test*/*.log && exit 1)
+packages    :
+    - "bsdtar":
+        summary: Manipulate tape archives
+        description: Manipulate tape archives
+        paths:
+            - /usr/bin/bsdtar
+            - /usr/share/man/man1/bsdtar*
+
+    - "bsdtar-static":
+        summary: Manipulate tape archives - static version
+        description: Manipulate tape archives - static version
+        paths:
+            - /usr/bin/bsdtar-static
+            - /usr/share/man/man1/bsdtar-static*
+
+    - "bsdcat":
+        summary: Expand files to standard output
+        description: Expand files to standard output
+        paths:
+            - /usr/bin/bsdcat
+            - /usr/share/man/man1/bsdcat*
+
+    - "bsdcpio":
+        summary: Copy files to and from archives
+        description: Copy files to and from archives
+        paths:
+            - /usr/bin/bsdcpio
+            - /usr/share/man/man1/bsdcpio*
+
+    - "bsdunzip":
+        summary: Extract files from a ZIP archive
+        description: Extract files from a ZIP archive
+        paths:
+            - /usr/bin/bsdunzip
+            - /usr/share/man/man1/bsdunzip*

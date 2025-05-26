@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : slibtool
-version     : 0.6.1
-release     : 8
-homepage    : https://github.com/midipix-project/slibtool
+version     : 0.7.0
+release     : 9
+homepage    : https://dev.midipix.org/cross/slibtool
 upstreams   :
-    - https://dl.midipix.org/slibtool/slibtool-0.6.1.tar.gz : 6266f64d726ac92d69e03fec262408a34b970e10be39efc245662febd76cb079
+    - https://dl.midipix.org/slibtool/slibtool-0.7.0.tar.gz : 5d70da716617f6fb10ca5d8fdcb57e87cd8f105a7e990827f28ec15ef14c7449
 summary     : a surrogate libtool implementation, written in C
 description : |
     `slibtool` is an independent reimplementation of the widely used libtool,
@@ -30,15 +30,12 @@ license     :
 builddeps   :
     - binary(m4)
 setup       : |
-    # No idea why but this causes the build to fail
-    %patch %(pkgdir)/0001-Revert-build-system-ccenv_set_cc_underscore-rewrite-.patch
-    %patch %(pkgdir)/0001-Work-if-invoked-as-libtoolize.patch
-    %patch %(pkgdir)/0001-Fix-space-breaking-macros.patch
     %patch %(pkgdir)/0001-default-to-llvm.patch
 
     ./configure \
         --prefix=%(prefix) \
-        --libdir=%(libdir)
+        --libdir=%(libdir) \
+        --toolchain=llvm
 build       : |
     %make
 install     : |

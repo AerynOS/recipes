@@ -5,7 +5,7 @@
 #
 name        : libevent
 version     : 2.1.12
-release     : 1
+release     : 2
 homepage    : https://github.com/libevent/libevent
 upstreams   :
     - https://github.com/libevent/libevent/releases/download/release-2.1.12-stable/libevent-2.1.12-stable.tar.gz : 92e6de1be9ec176428fd2367677e61ceffc2ee1cb119035037a27d346b0403bb
@@ -17,6 +17,9 @@ license     :
 builddeps   :
     - pkgconfig(openssl)
 setup       : |
+    %patch %(pkgdir)/EVENT__SIZEOF_TIME_T.patch
+    %patch %(pkgdir)/libevent-2.1.12-openssl-compat.patch
+
     %cmake
 build       : |
     %cmake_build

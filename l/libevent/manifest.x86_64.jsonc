@@ -1,8 +1,11 @@
 /** Human readable report. This is not consumed by boulder */
 {
-	"manifest-version": "0.1",
+	"manifest-version": "0.2",
 	"packages": {
 		"libevent": {
+			"build-depends": [
+				"pkgconfig(openssl)"
+			],
 			"depends": [
 				"soname(libc.so.6(x86_64))",
 				"soname(libcrypto.so.3(x86_64))",
@@ -32,6 +35,12 @@
 			]
 		},
 		"libevent-devel": {
+			"build-depends": [
+				"pkgconfig(openssl)"
+			],
+			"depends": [
+				"libevent"
+			],
 			"files": [
 				"/usr/include/evdns.h",
 				"/usr/include/event.h",
@@ -96,6 +105,6 @@
 		}
 	},
 	"source-name": "libevent",
-	"source-release": "1",
+	"source-release": "2",
 	"source-version": "2.1.12"
 }

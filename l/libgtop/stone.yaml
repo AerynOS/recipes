@@ -5,7 +5,7 @@
 #
 name        : libgtop
 version     : 2.41.3
-release     : 2
+release     : 3
 homepage    : https://gitlab.gnome.org/GNOME/libgtop
 upstreams   :
     - https://download.gnome.org/sources/libgtop/2.41/libgtop-2.41.3.tar.xz : 775676df958e2ea2452f7568f28b2ea581063d312773dd5c0b7624c1b9b2da8c
@@ -20,7 +20,6 @@ builddeps   :
     - pkgconfig(glib-2.0)
     - pkgconfig(gobject-introspection-1.0)
     - pkgconfig(x11)
-toolchain   : gnu
 setup       : |
     %configure --disable-static
 build       : |

@@ -5,7 +5,7 @@
 #
 name        : libdb51
 version     : 5.1.29
-release     : 2
+release     : 3
 summary     : Berkeley DB 5.1 (binary compatibility)
 license     : BSD-3-Clause
 homepage    : https://www.oracle.com/database/technologies/related/berkeleydb.html
@@ -22,19 +22,16 @@ packages    :
             - /usr/lib32/*.so*
 
 emul32      : true
-toolchain   : gnu
 setup       : |
     %patch %(pkgdir)/CVE-2017-10140-cwd-db_config.patch
-    pushd src
     %patch %(pkgdir)/db-atomic.patch
-    popd
+    %patch %(pkgdir)/db-atomic-2.patch
 
     ./dist/configure %(options_configure) \
                      --enable-compat185 \
                      --enable-shared \
                      --disable-static \
-                     --disable-mutexsupport \
-                     --enable-dbm \
+                     --with-mutex=x86/gcc-assembly \
                      --enable-cxx
 build       : |
     %make

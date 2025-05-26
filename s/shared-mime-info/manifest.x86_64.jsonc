@@ -8,17 +8,19 @@
 				"binary(xmllint)",
 				"binary(xmlto)",
 				"binary(xsltproc)",
+				"docbook",
+				"docbook-xsl",
 				"pkgconfig(gio-2.0)",
 				"pkgconfig(glib-2.0)",
 				"pkgconfig(libxml-2.0)"
 			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
-				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libglib-2.0.so.0(x86_64))",
-				"soname(libstdc++.so.6(x86_64))",
-				"soname(libxml2.so.2(x86_64))"
+				"soname(libunwind.so.1(x86_64))",
+				"soname(libxml2.so.16(x86_64))"
 			],
 			"files": [
 				"/usr/bin/update-mime-database",
@@ -108,12 +110,12 @@
 			],
 			"name": "shared-mime-info",
 			"provides": [
-				"pkgconfig(shared-mime-info)",
-				"binary(update-mime-database)"
+				"binary(update-mime-database)",
+				"pkgconfig(shared-mime-info)"
 			]
 		}
 	},
 	"source-name": "shared-mime-info",
-	"source-release": "4",
+	"source-release": "7",
 	"source-version": "2.4"
 }

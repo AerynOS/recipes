@@ -5,7 +5,7 @@
 #
 name        : niri
 version     : "0.1.9"
-release     : 5
+release     : 7
 summary     : Niri Desktop Compositor
 license     : GPL-3.0
 homepage    : https://github.com/YaLTeR/niri
@@ -15,7 +15,6 @@ description : |
     A scrollable-tiling Wayland compositor
 builddeps   :
     - binary(cargo)
-    - binary(mold)
     - pkgconfig(gbm)
     - pkgconfig(glib-2.0)
     - pkgconfig(libinput)
@@ -26,8 +25,6 @@ builddeps   :
     - pkgconfig(xkbcommon)
     - pkgconfig(libdisplay-info)
 networking  : yes
-environment : |
-    export RUSTFLAGS="$RUSTFLAGS -Clink-arg=-fuse-ld=mold"
 setup       : |
     %cargo_fetch
 build       : |

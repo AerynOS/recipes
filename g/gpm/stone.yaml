@@ -5,7 +5,7 @@
 #
 name        : gpm
 version     : 1.20.7
-release     : 2
+release     : 3
 summary     : General Purpose Mouse (gpm)
 license     :
     - GPL-2.0-or-later
@@ -25,8 +25,16 @@ setup       : |
     %patch %(pkgdir)/patches/0002-fix-duplicate-symbol.patch
     %patch %(pkgdir)/patches/0003-fix-sigemptyset.patch
     %patch %(pkgdir)/patches/0004-fix-installdata.patch
-    %reconfigure
+    %reconfigure --disable-static
 build       : |
     make
 install     : |
     %make_install
+    ln -sv $(readlink %(installroot)/%(libdir)/libgpm.so.2) %(installroot)/%(libdir)/libgpm.so
+packages    :
+    - "%(name)-libs":
+        summary: "Library files for %(name)"
+        description: |
+            Library files for %(name), typically pulled in as a dependency of another package.
+        paths:
+            - /usr/lib/lib*.so.*

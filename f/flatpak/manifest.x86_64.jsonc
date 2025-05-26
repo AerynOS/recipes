@@ -14,6 +14,7 @@
 				"binary(xsltproc)",
 				"binary(yacc)",
 				"docbook",
+				"docbook-xsl",
 				"pkgconfig(appstream)",
 				"pkgconfig(dconf)",
 				"pkgconfig(fuse3)",
@@ -37,6 +38,7 @@
 			],
 			"depends": [
 				"binary(bwrap)",
+				"binary(fusermount3)",
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"soname(libXau.so.6(x86_64))",
 				"soname(libappstream.so.5(x86_64))",
@@ -44,12 +46,11 @@
 				"soname(libc.so.6(x86_64))",
 				"soname(libcurl.so.4(x86_64))",
 				"soname(libdconf.so.1(x86_64))",
-				"soname(libfuse3.so.3(x86_64))",
+				"soname(libfuse3.so.4(x86_64))",
 				"soname(libgdk_pixbuf-2.0.so.0(x86_64))",
 				"soname(libgio-2.0.so.0(x86_64))",
 				"soname(libglib-2.0.so.0(x86_64))",
 				"soname(libgobject-2.0.so.0(x86_64))",
-				"soname(libgpgme.so.11(x86_64))",
 				"soname(libjson-glib-1.0.so.0(x86_64))",
 				"soname(libostree-1.so.1(x86_64))",
 				"soname(libpolkit-agent-1.so.0(x86_64))",
@@ -57,7 +58,7 @@
 				"soname(libseccomp.so.2(x86_64))",
 				"soname(libsystemd.so.0(x86_64))",
 				"soname(libwayland-client.so.0(x86_64))",
-				"soname(libxml2.so.2(x86_64))",
+				"soname(libxml2.so.16(x86_64))",
 				"soname(libzstd.so.1(x86_64))"
 			],
 			"files": [
@@ -73,7 +74,7 @@
 				"/usr/lib/flatpak/revokefs-fuse",
 				"/usr/lib/girepository-1.0/Flatpak-1.0.typelib",
 				"/usr/lib/libflatpak.so.0",
-				"/usr/lib/libflatpak.so.0.11510.0",
+				"/usr/lib/libflatpak.so.0.11601.0",
 				"/usr/lib/systemd/system-environment-generators/60-flatpak-system-only",
 				"/usr/lib/systemd/system/flatpak-system-helper.service",
 				"/usr/lib/systemd/user-environment-generators/60-flatpak",
@@ -99,6 +100,7 @@
 				"/usr/share/flatpak/triggers/gtk-icon-cache.trigger",
 				"/usr/share/flatpak/triggers/mime-database.trigger",
 				"/usr/share/gir-1.0/Flatpak-1.0.gir",
+				"/usr/share/locale/bg/LC_MESSAGES/flatpak.mo",
 				"/usr/share/locale/cs/LC_MESSAGES/flatpak.mo",
 				"/usr/share/locale/da/LC_MESSAGES/flatpak.mo",
 				"/usr/share/locale/de/LC_MESSAGES/flatpak.mo",
@@ -119,6 +121,7 @@
 				"/usr/share/locale/ro/LC_MESSAGES/flatpak.mo",
 				"/usr/share/locale/ru/LC_MESSAGES/flatpak.mo",
 				"/usr/share/locale/sk/LC_MESSAGES/flatpak.mo",
+				"/usr/share/locale/sl/LC_MESSAGES/flatpak.mo",
 				"/usr/share/locale/sv/LC_MESSAGES/flatpak.mo",
 				"/usr/share/locale/tr/LC_MESSAGES/flatpak.mo",
 				"/usr/share/locale/uk/LC_MESSAGES/flatpak.mo",
@@ -200,6 +203,7 @@
 				"binary(xsltproc)",
 				"binary(yacc)",
 				"docbook",
+				"docbook-xsl",
 				"pkgconfig(appstream)",
 				"pkgconfig(dconf)",
 				"pkgconfig(fuse3)",
@@ -265,6 +269,6 @@
 		}
 	},
 	"source-name": "flatpak",
-	"source-release": "10",
-	"source-version": "1.14.10"
+	"source-release": "12",
+	"source-version": "1.16.1"
 }

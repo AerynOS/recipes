@@ -5,7 +5,7 @@
 #
 name        : libgusb
 version     : 0.4.9
-release     : 3
+release     : 4
 homepage    : https://github.com/hughsie/libgusb
 upstreams   :
     - https://github.com/hughsie/libgusb/releases/download/0.4.9/libgusb-0.4.9.tar.xz : 9df5ef301d6a4b361002aa52cce1165a87a89744055879bdbab31e7e86f1e846
@@ -20,7 +20,8 @@ builddeps   :
     - pkgconfig(gobject-introspection-1.0)
     - pkgconfig(json-glib-1.0)
     - pkgconfig(libusb-1.0)
-    - hwdata # tests
+checkdeps   :
+    - hwdata
 setup       : |
     %meson -Ddocs=false
 build       : |
@@ -29,5 +30,3 @@ install     : |
     %meson_install
 check       : |
     %meson_test
-# clang g-ir-scanner woes
-toolchain   : gnu

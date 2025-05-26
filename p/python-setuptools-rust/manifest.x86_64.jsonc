@@ -1,0 +1,68 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"python-setuptools-rust": {
+			"build-depends": [
+				"binary(pytest)",
+				"binary(rustc)",
+				"pkgconfig(python3)",
+				"python(cffi)",
+				"python(semantic_version)",
+				"python(setuptools)",
+				"python(setuptools-scm)"
+			],
+			"depends": [
+				"binary(rustc)",
+				"python(semantic_version(3.11))",
+				"python(setuptools(3.11))",
+				"python-libs"
+			],
+			"files": [
+				"/usr/lib/python3.11/site-packages/setuptools_rust-1.11.1.dist-info/METADATA",
+				"/usr/lib/python3.11/site-packages/setuptools_rust-1.11.1.dist-info/RECORD",
+				"/usr/lib/python3.11/site-packages/setuptools_rust-1.11.1.dist-info/WHEEL",
+				"/usr/lib/python3.11/site-packages/setuptools_rust-1.11.1.dist-info/entry_points.txt",
+				"/usr/lib/python3.11/site-packages/setuptools_rust-1.11.1.dist-info/licenses/LICENSE",
+				"/usr/lib/python3.11/site-packages/setuptools_rust-1.11.1.dist-info/top_level.txt",
+				"/usr/lib/python3.11/site-packages/setuptools_rust-1.11.1.dist-info/zip-safe",
+				"/usr/lib/python3.11/site-packages/setuptools_rust/__init__.py",
+				"/usr/lib/python3.11/site-packages/setuptools_rust/__pycache__/__init__.cpython-311.opt-1.pyc",
+				"/usr/lib/python3.11/site-packages/setuptools_rust/__pycache__/__init__.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/setuptools_rust/__pycache__/_utils.cpython-311.opt-1.pyc",
+				"/usr/lib/python3.11/site-packages/setuptools_rust/__pycache__/_utils.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/setuptools_rust/__pycache__/build.cpython-311.opt-1.pyc",
+				"/usr/lib/python3.11/site-packages/setuptools_rust/__pycache__/build.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/setuptools_rust/__pycache__/clean.cpython-311.opt-1.pyc",
+				"/usr/lib/python3.11/site-packages/setuptools_rust/__pycache__/clean.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/setuptools_rust/__pycache__/command.cpython-311.opt-1.pyc",
+				"/usr/lib/python3.11/site-packages/setuptools_rust/__pycache__/command.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/setuptools_rust/__pycache__/extension.cpython-311.opt-1.pyc",
+				"/usr/lib/python3.11/site-packages/setuptools_rust/__pycache__/extension.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/setuptools_rust/__pycache__/rustc_info.cpython-311.opt-1.pyc",
+				"/usr/lib/python3.11/site-packages/setuptools_rust/__pycache__/rustc_info.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/setuptools_rust/__pycache__/setuptools_ext.cpython-311.opt-1.pyc",
+				"/usr/lib/python3.11/site-packages/setuptools_rust/__pycache__/setuptools_ext.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/setuptools_rust/__pycache__/version.cpython-311.opt-1.pyc",
+				"/usr/lib/python3.11/site-packages/setuptools_rust/__pycache__/version.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/setuptools_rust/_utils.py",
+				"/usr/lib/python3.11/site-packages/setuptools_rust/build.py",
+				"/usr/lib/python3.11/site-packages/setuptools_rust/clean.py",
+				"/usr/lib/python3.11/site-packages/setuptools_rust/command.py",
+				"/usr/lib/python3.11/site-packages/setuptools_rust/extension.py",
+				"/usr/lib/python3.11/site-packages/setuptools_rust/py.typed",
+				"/usr/lib/python3.11/site-packages/setuptools_rust/rustc_info.py",
+				"/usr/lib/python3.11/site-packages/setuptools_rust/setuptools_ext.py",
+				"/usr/lib/python3.11/site-packages/setuptools_rust/version.py"
+			],
+			"name": "python-setuptools-rust",
+			"provides": [
+				"python(setuptools-rust(3.11))",
+				"python(setuptools-rust)"
+			]
+		}
+	},
+	"source-name": "python-setuptools-rust",
+	"source-release": "1",
+	"source-version": "1.11.1"
+}

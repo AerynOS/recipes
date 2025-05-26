@@ -1,0 +1,37 @@
+#
+# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : python-cffi
+version     : 1.17.1
+release     : 1
+homepage    : https://cffi.readthedocs.org/
+upstreams   :
+    - https://pypi.debian.net/cffi/cffi-1.17.1.tar.gz : 1c39c6016c32bc48dd54561950ebd6836e1670f2ae46128f67cf49e789c52824
+summary     : Foreign Function Interface for Python calling C code
+description : |
+    Foreign Function Interface for Python calling C code
+license     : MIT
+builddeps   :
+    - pkgconfig(libffi)
+    - pkgconfig(python3)
+    - python(setuptools)
+rundeps     :
+    - python-libs
+# checkdeps   :
+#     - binary(pytest)
+#     - python(pycparser)
+setup       : |
+    %patch %(pkgdir)/0001-Use-clang-for-tests.patch
+    %patch %(pkgdir)/clang-errors.patch
+build       : |
+    %pyproject_build
+install     : |
+    %pyproject_install
+## Tests don't seem to work since boulder/moss isn't creating /var which breaks ldconfig from working
+# check       : |
+#     # export CCACHE_DISABLE=1
+#     python -m installer --destdir=tmpinstall dist/*.whl
+#     python_version=$(python -c 'import sys; print(".".join(map(str, sys.version_info[:2])))')
+#     PYTHONPATH="$PWD/tmpinstall/usr/lib/python${python_version}/site-packages" pytest

@@ -6,6 +6,8 @@
 			"build-depends": [
 				"binary(msgfmt)",
 				"binary(python3)",
+				"binary(xsltproc)",
+				"docbook-xsl",
 				"pkgconfig(blockdev)",
 				"pkgconfig(glib-2.0)",
 				"pkgconfig(gobject-introspection-1.0)",
@@ -121,6 +123,11 @@
 				"/usr/share/locale/zh_CN/LC_MESSAGES/udisks2.mo",
 				"/usr/share/locale/zh_HK/LC_MESSAGES/udisks2.mo",
 				"/usr/share/locale/zh_TW/LC_MESSAGES/udisks2.mo",
+				"/usr/share/man/man1/udisksctl.1",
+				"/usr/share/man/man5/udisks2.conf.5",
+				"/usr/share/man/man8/udisks.8",
+				"/usr/share/man/man8/udisksd.8",
+				"/usr/share/man/man8/umount.udisks2.8",
 				"/usr/share/polkit-1/actions/org.freedesktop.UDisks2.btrfs.policy",
 				"/usr/share/polkit-1/actions/org.freedesktop.UDisks2.lvm2.policy",
 				"/usr/share/polkit-1/actions/org.freedesktop.UDisks2.policy",
@@ -139,6 +146,8 @@
 			"build-depends": [
 				"binary(msgfmt)",
 				"binary(python3)",
+				"binary(xsltproc)",
+				"docbook-xsl",
 				"pkgconfig(blockdev)",
 				"pkgconfig(glib-2.0)",
 				"pkgconfig(gobject-introspection-1.0)",
@@ -179,6 +188,8 @@
 			"build-depends": [
 				"binary(msgfmt)",
 				"binary(python3)",
+				"binary(xsltproc)",
+				"docbook-xsl",
 				"pkgconfig(blockdev)",
 				"pkgconfig(glib-2.0)",
 				"pkgconfig(gobject-introspection-1.0)",
@@ -333,6 +344,6 @@
 		}
 	},
 	"source-name": "udisks",
-	"source-release": "3",
+	"source-release": "4",
 	"source-version": "2.10.1"
 }

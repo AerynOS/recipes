@@ -4,13 +4,13 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : ca-certificates
-version     : 20241219
-release     : 6
+version     : 20250516
+release     : 8
 homepage    : https://wiki.mozilla.org/CA
 upstreams   :
     # https://hg.mozilla.org/releases/mozilla-release/file/default/security/nss/lib/ckfw/builtins/certdata.txt <-- for date
     - https://hg.mozilla.org/releases/mozilla-release/raw-file/default/security/nss/lib/ckfw/builtins/certdata.txt :
-        hash : 36105b01631f9fc03b1eca779b44a30a1a5890b9bf8dc07ccb001a07301e01cf
+        hash : 8944ec6b572b577daee4fc681a425881f841ec2660e4cb5f0eee727f84620697
         unpack : no
     - https://raw.githubusercontent.com/agl/extract-nss-root-certs/492d8c9/convert_mozilla_certdata.go :
         hash : 30afd0ca1df9b7788b830485645c4a2f72b07c1c9eb5c66941ae3d0b87e9e623

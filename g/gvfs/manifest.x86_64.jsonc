@@ -41,7 +41,7 @@
 				"soname(libavahi-common.so.3(x86_64))",
 				"soname(libavahi-glib.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
-				"soname(libfuse3.so.3(x86_64))",
+				"soname(libfuse3.so.4(x86_64))",
 				"soname(libgcr-4.so.4(x86_64))",
 				"soname(libgcrypt.so.20(x86_64))",
 				"soname(libgio-2.0.so.0(x86_64))",
@@ -60,7 +60,8 @@
 				"soname(libsystemd.so.0(x86_64))",
 				"soname(libudisks2.so.0(x86_64))",
 				"soname(libusb-1.0.so.0(x86_64))",
-				"soname(libxml2.so.2(x86_64))",
+				"soname(libxml2.so.16(x86_64))",
+				"sysbinary(mount.fuse3)",
 				"sysbinary(usbmuxd)"
 			],
 			"files": [
@@ -235,6 +236,6 @@
 		}
 	},
 	"source-name": "gvfs",
-	"source-release": "10",
+	"source-release": "11",
 	"source-version": "1.57.2"
 }

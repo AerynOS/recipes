@@ -5,7 +5,7 @@
 #
 name        : zlib-ng
 version     : 2.2.4
-release     : 17
+release     : 18
 summary     : zlib replacement with optimizations for "next generation" systems.
 license     : Zlib
 homepage    : https://github.com/zlib-ng/zlib-ng
@@ -17,10 +17,10 @@ emul32      : yes
 tuning      :
     - lto : full
 setup       : |
+    # Defining BUILD_SHARED_LIBS disables the static library (which we only want for the compat build)
     %cmake -B build-zlib \
         -DZLIB_COMPAT=ON \
         -DWITH_GTEST=OFF \
-        -DBUILD_SHARED_LIBS=ON \
         -DINSTALL_LIB_DIR=%(libdir)
 
     %cmake -B build-zlib-ng \
@@ -29,14 +29,22 @@ setup       : |
         -DBUILD_SHARED_LIBS=ON \
         -DINSTALL_LIB_DIR=%(libdir)
 build       : |
-    %cmake_build -C build-zlib
-    %cmake_build -C build-zlib-ng
+    for i in build-zlib build-zlib-ng; do
+        %ccache_zero
+        BUILDDIR=${i}
+        env CCACHE_BASEDIR="${PWD}/${i}" %cmake_build
+        %ccache_stats
+    done
 install     : |
-    %cmake_install -C build-zlib
-    %cmake_install -C build-zlib-ng
+    for i in build-zlib build-zlib-ng; do
+        BUILDDIR=${i}
+        %cmake_install
+    done    
 check       : |
-    %cmake_test -C build-zlib
-    %cmake_test -C build-zlib-ng
+    for i in build-zlib build-zlib-ng; do
+        BUILDDIR=${i}
+        env CCACHE_BASEDIR="${PWD}/${i}" %cmake_test
+    done
 profiles    :
     - emul32:
         setup       : |
@@ -55,6 +63,7 @@ packages    :
     - "zlib":
         paths:
             - /usr/lib/libz.so.*
+
     - "zlib-devel":
         paths:
             - /usr/include/*.h
@@ -63,9 +72,17 @@ packages    :
             - /usr/lib/pkgconfig/zlib.pc
         rundeps:
             - zlib
+
+    - "zlib-static":
+        paths:
+            - /usr/lib/libz.a
+        rundeps:
+            - "zlib-devel"
+
     - "zlib-32bit":
         paths:
             - /usr/lib32/libz.so.*
+
     - "zlib-32bit-devel":
         paths:
             - /usr/lib32/cmake
@@ -74,6 +91,7 @@ packages    :
         rundeps:
             - zlib-32bit
             - zlib-devel
+
     - "%(name)-devel":
         paths:
             - /usr/include/*-ng.h

@@ -1,0 +1,26 @@
+#
+# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : python-iniconfig
+version     : 2.1.0
+release     : 1
+homepage    : http://github.com/RonnyPfannschmidt/iniconfig
+upstreams   :
+    - https://pypi.debian.net/iniconfig/iniconfig-2.1.0.tar.gz : 3abbd2e30b36733fee78f9c7f7308f2d0050e88f0087fd25c2645f63c773e1c7
+summary     : Brain-dead simple parsing of ini files
+description : |
+    Brain-dead simple parsing of ini files
+license     : MIT
+builddeps   :
+    - python(hatch-vcs)
+rundeps     :
+    - binary(python3)
+build       : |
+    %pyproject_build
+install     : |
+    %pyproject_install
+# check       : |
+#     # TODO have pytest
+#     PYTHONPATH="$PWD"/build/lib pytest

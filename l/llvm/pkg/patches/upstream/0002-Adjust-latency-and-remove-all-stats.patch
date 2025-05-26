@@ -1,0 +1,523 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Wang Pengcheng <wangpengcheng.pp@bytedance.com>
+Date: Fri, 17 Jan 2025 18:05:31 +0800
+Subject: [PATCH 2/6] Adjust latency and remove --all-stats
+
+---
+ llvm/lib/Target/RISCV/RISCVSchedGenericOOO.td |  38 ++--
+ .../tools/llvm-mca/RISCV/GenericOOO/atomic.s  |  41 +----
+ .../RISCV/GenericOOO/floating-point.s         | 167 +++++++-----------
+ .../tools/llvm-mca/RISCV/GenericOOO/integer.s |  47 +----
+ 4 files changed, 82 insertions(+), 211 deletions(-)
+
+diff --git a/llvm/lib/Target/RISCV/RISCVSchedGenericOOO.td b/llvm/lib/Target/RISCV/RISCVSchedGenericOOO.td
+index f7bf824ccebe0..06e36a062a46e 100644
+--- a/llvm/lib/Target/RISCV/RISCVSchedGenericOOO.td
++++ b/llvm/lib/Target/RISCV/RISCVSchedGenericOOO.td
+@@ -10,7 +10,7 @@
+ // We assume that:
+ // * 6-issue out-of-order CPU with 192 ROB entries.
+ // * Units:
+-//   * IXU (Integer GenericOOOALU Unit): 4 units, only one can execute division.
++//   * IXU (Integer ALU Unit): 4 units, only one can execute division.
+ //   * FXU (Floating-point Unit): 2 units.
+ //   * LSU (Load/Store Unit): 2 units.
+ //   * VXU (Vector Unit): 1 unit.
+@@ -18,11 +18,11 @@
+ //   * Integer instructions: 1 cycle.
+ //   * Multiplication instructions: 4 cycles.
+ //   * Multiplication/Division instructions: 7-13 cycles.
+-//   * Floating-point instructions: 4-6 cycles.
++//   * Floating-point instructions: 2-6 cycles.
+ //   * Vector instructions: 2-6 cycles.
+ //   * Load/Store:
+ //     * IXU: 4 cycles.
+-//     * FXU: 6 cycles.
++//     * FXU: 4 cycles.
+ //     * VXU: 6 cycles.
+ // * Integer/floating-point/vector div/rem/sqrt/... are non-pipelined.
+ //===----------------------------------------------------------------------===//
+@@ -129,7 +129,7 @@ def : WriteRes<WriteAtomicSTD, [GenericOOOLSU]>;
+ // Floating-point
+ //===----------------------------------------------------------------------===//
+ // Floating-point load
+-let Latency = 6 in {
++let Latency = 4 in {
+   def : WriteRes<WriteFLD32, [GenericOOOLSU]>;
+   def : WriteRes<WriteFLD64, [GenericOOOLSU]>;
+ }
+@@ -139,12 +139,12 @@ def : WriteRes<WriteFST32, [GenericOOOLSU]>;
+ def : WriteRes<WriteFST64, [GenericOOOLSU]>;
+ 
+ // Arithmetic and logic
+-let Latency = 4 in {
++let Latency = 2 in {
+   def : WriteRes<WriteFAdd32, [GenericOOOFPU]>;
+   def : WriteRes<WriteFAdd64, [GenericOOOFPU]>;
+ }
+ 
+-let Latency = 5 in {
++let Latency = 4 in {
+   def : WriteRes<WriteFMul32, [GenericOOOFPU]>;
+   def : WriteRes<WriteFMul64, [GenericOOOFPU]>;
+ }
+@@ -177,29 +177,29 @@ let Latency = 17, ReleaseAtCycles = [17] in {
+ }
+ 
+ // Conversions
+-let Latency = 4 in {
++let Latency = 2 in {
+   def : WriteRes<WriteFCvtI32ToF32, [GenericOOOFPU]>;
+   def : WriteRes<WriteFCvtI32ToF64, [GenericOOOFPU]>;
+   def : WriteRes<WriteFCvtI64ToF32, [GenericOOOFPU]>;
+   def : WriteRes<WriteFCvtI64ToF64, [GenericOOOFPU]>;
+ }
+ 
+-let Latency = 4 in {
++let Latency = 2 in {
+   def : WriteRes<WriteFCvtF32ToI32, [GenericOOOFPU]>;
+   def : WriteRes<WriteFCvtF32ToI64, [GenericOOOFPU]>;
+ }
+ 
+-let Latency = 4 in {
++let Latency = 2 in {
+   def : WriteRes<WriteFCvtF64ToI32, [GenericOOOFPU]>;
+   def : WriteRes<WriteFCvtF64ToI64, [GenericOOOFPU]>;
+ }
+ 
+-let Latency = 4 in {
++let Latency = 2 in {
+   def : WriteRes<WriteFCvtF64ToF32, [GenericOOOFPU]>;
+   def : WriteRes<WriteFCvtF32ToF64, [GenericOOOFPU]>;
+ }
+ 
+-let Latency = 6 in {
++let Latency = 2 in {
+   def : WriteRes<WriteFMovI32ToF32, [GenericOOOFPU]>;
+   def : WriteRes<WriteFMovI64ToF64, [GenericOOOFPU]>;
+   def : WriteRes<WriteFMovF32ToI32, [GenericOOOFPU]>;
+@@ -275,13 +275,13 @@ def : WriteRes<WriteXPERM, [GenericOOOALU]>;
+ //===----------------------------------------------------------------------===//
+ // Zfa extension
+ //===----------------------------------------------------------------------===//
+-let Latency = 3 in {
++let Latency = 2 in {
+   def : WriteRes<WriteFRoundF16, [GenericOOOFPU]>;
+   def : WriteRes<WriteFRoundF32, [GenericOOOFPU]>;
+   def : WriteRes<WriteFRoundF64, [GenericOOOFPU]>;
+ }
+ 
+-let Latency = 5 in {
++let Latency = 2 in {
+   def : WriteRes<WriteFLI16, [GenericOOOFPU]>;
+   def : WriteRes<WriteFLI32, [GenericOOOFPU]>;
+   def : WriteRes<WriteFLI64, [GenericOOOFPU]>;
+@@ -292,25 +292,25 @@ let Latency = 5 in {
+ //===----------------------------------------------------------------------===//
+ // Zfhmin
+ // Load/Store
+-let Latency = 6 in
++let Latency = 4 in
+ def : WriteRes<WriteFLD16, [GenericOOOLSU]>;
+ def : WriteRes<WriteFST16, [GenericOOOLSU]>;
+ 
+ // Conversions
+-let Latency = 3 in {
++let Latency = 2 in {
+   def : WriteRes<WriteFCvtF16ToF64, [GenericOOOFPU]>;
+   def : WriteRes<WriteFCvtF64ToF16, [GenericOOOFPU]>;
+   def : WriteRes<WriteFCvtF32ToF16, [GenericOOOFPU]>;
+   def : WriteRes<WriteFCvtF16ToF32, [GenericOOOFPU]>;
+ }
+ 
+-let Latency = 4 in {
++let Latency = 2 in {
+   def : WriteRes<WriteFMovI16ToF16, [GenericOOOFPU]>;
+   def : WriteRes<WriteFMovF16ToI16, [GenericOOOFPU]>;
+ }
+ 
+ // Other than Zfhmin
+-let Latency = 4 in {
++let Latency = 2 in {
+   def : WriteRes<WriteFCvtI64ToF16, []>;
+   def : WriteRes<WriteFCvtI32ToF16, []>;
+   def : WriteRes<WriteFCvtF16ToI64, []>;
+@@ -318,10 +318,10 @@ let Latency = 4 in {
+ }
+ 
+ // Arithmetic and logic
+-let Latency = 4 in
++let Latency = 2 in
+ def : WriteRes<WriteFAdd16, [GenericOOOFPU]>;
+ 
+-let Latency = 5 in
++let Latency = 4 in
+ def : WriteRes<WriteFMul16, [GenericOOOFPU]>;
+ 
+ let Latency = 6 in
+diff --git a/llvm/test/tools/llvm-mca/RISCV/GenericOOO/atomic.s b/llvm/test/tools/llvm-mca/RISCV/GenericOOO/atomic.s
+index e8c19eaa4c618..60532fae10f2f 100644
+--- a/llvm/test/tools/llvm-mca/RISCV/GenericOOO/atomic.s
++++ b/llvm/test/tools/llvm-mca/RISCV/GenericOOO/atomic.s
+@@ -1,5 +1,5 @@
+ # NOTE: Assertions have been autogenerated by utils/update_mca_test_checks.py
+-# RUN: llvm-mca -mtriple=riscv64 -mattr=+rva23u64,+zabha -mcpu=generic-ooo --all-stats -iterations=1 < %s | FileCheck %s
++# RUN: llvm-mca -mtriple=riscv64 -mattr=+rva23u64,+zabha -mcpu=generic-ooo -iterations=1 < %s | FileCheck %s
+ 
+ # Zalrsc
+ lr.w t0, (t1)
+@@ -384,45 +384,6 @@ amomaxu.h.aqrl s5, s4, (s3)
+ # CHECK-NEXT:  1      5     0.50    *      *            amominu.h.aqrl	s6, s5, (s4)
+ # CHECK-NEXT:  1      5     0.50    *      *            amomaxu.h.aqrl	s5, s4, (s3)
+ 
+-# CHECK:      Dynamic Dispatch Stall Cycles:
+-# CHECK-NEXT: RAT     - Register unavailable:                      0
+-# CHECK-NEXT: RCU     - Retire tokens unavailable:                 0
+-# CHECK-NEXT: SCHEDQ  - Scheduler full:                            0
+-# CHECK-NEXT: LQ      - Load queue full:                           0
+-# CHECK-NEXT: SQ      - Store queue full:                          0
+-# CHECK-NEXT: GROUP   - Static restrictions on the dispatch group: 0
+-# CHECK-NEXT: USH     - Uncategorised Structural Hazard:           0
+-
+-# CHECK:      Dispatch Logic - number of cycles where we saw N micro opcodes dispatched:
+-# CHECK-NEXT: [# dispatched], [# cycles]
+-# CHECK-NEXT:  0,              121  (81.8%)
+-# CHECK-NEXT:  4,              1  (0.7%)
+-# CHECK-NEXT:  6,              26  (17.6%)
+-
+-# CHECK:      Schedulers - number of cycles where we saw N micro opcodes issued:
+-# CHECK-NEXT: [# issued], [# cycles]
+-# CHECK-NEXT:  0,          58  (39.2%)
+-# CHECK-NEXT:  1,          20  (13.5%)
+-# CHECK-NEXT:  2,          70  (47.3%)
+-
+-# CHECK:      Scheduler's queue usage:
+-# CHECK-NEXT: No scheduler resources used.
+-
+-# CHECK:      Retire Control Unit - number of cycles where we saw N instructions retired:
+-# CHECK-NEXT: [# retired], [# cycles]
+-# CHECK-NEXT:  0,           58  (39.2%)
+-# CHECK-NEXT:  1,           22  (14.9%)
+-# CHECK-NEXT:  2,           66  (44.6%)
+-# CHECK-NEXT:  3,           2  (1.4%)
+-
+-# CHECK:      Total ROB Entries:                192
+-# CHECK-NEXT: Max Used ROB Entries:             136  ( 70.8% )
+-# CHECK-NEXT: Average Used ROB Entries per cy:  69  ( 35.9% )
+-
+-# CHECK:      Register File statistics:
+-# CHECK-NEXT: Total number of mappings created:    160
+-# CHECK-NEXT: Max number of mappings used:         136
+-
+ # CHECK:      Resources:
+ # CHECK-NEXT: [0]   - GenericOOODIV
+ # CHECK-NEXT: [1.0] - GenericOOOFPU
+diff --git a/llvm/test/tools/llvm-mca/RISCV/GenericOOO/floating-point.s b/llvm/test/tools/llvm-mca/RISCV/GenericOOO/floating-point.s
+index ac0b12ed7d2d5..23efebe3f9a26 100644
+--- a/llvm/test/tools/llvm-mca/RISCV/GenericOOO/floating-point.s
++++ b/llvm/test/tools/llvm-mca/RISCV/GenericOOO/floating-point.s
+@@ -1,5 +1,5 @@
+ # NOTE: Assertions have been autogenerated by utils/update_mca_test_checks.py
+-# RUN: llvm-mca -mtriple=riscv64 -mattr=+rva23u64,+zfh -mcpu=generic-ooo --all-stats -iterations=1 < %s | FileCheck %s
++# RUN: llvm-mca -mtriple=riscv64 -mattr=+rva23u64,+zfh -mcpu=generic-ooo -iterations=1 < %s | FileCheck %s
+ 
+ # Floating-Point Load and Store Instructions
+ ## Half-Precision
+@@ -193,15 +193,15 @@ fgeq.d a1, ft1, ft2
+ # CHECK-NEXT: [6]: HasSideEffects (U)
+ 
+ # CHECK:      [1]    [2]    [3]    [4]    [5]    [6]    Instructions:
+-# CHECK-NEXT:  1      6     0.50    *                   flh	ft0, 0(a0)
++# CHECK-NEXT:  1      4     0.50    *                   flh	ft0, 0(a0)
+ # CHECK-NEXT:  1      1     0.50           *            fsh	ft0, 0(a0)
+-# CHECK-NEXT:  1      6     0.50    *                   flw	ft0, 0(a0)
++# CHECK-NEXT:  1      4     0.50    *                   flw	ft0, 0(a0)
+ # CHECK-NEXT:  1      1     0.50           *            fsw	ft0, 0(a0)
+-# CHECK-NEXT:  1      6     0.50    *                   fld	ft0, 0(a0)
++# CHECK-NEXT:  1      4     0.50    *                   fld	ft0, 0(a0)
+ # CHECK-NEXT:  1      1     0.50           *            fsd	ft0, 0(a0)
+-# CHECK-NEXT:  1      4     0.50                        fadd.h	fs10, fs11, ft8
+-# CHECK-NEXT:  1      4     0.50                        fsub.h	ft9, ft10, ft11
+-# CHECK-NEXT:  1      5     0.50                        fmul.h	ft0, ft1, ft2
++# CHECK-NEXT:  1      2     0.50                        fadd.h	fs10, fs11, ft8
++# CHECK-NEXT:  1      2     0.50                        fsub.h	ft9, ft10, ft11
++# CHECK-NEXT:  1      4     0.50                        fmul.h	ft0, ft1, ft2
+ # CHECK-NEXT:  1      9     4.50                        fdiv.h	ft3, ft4, ft5
+ # CHECK-NEXT:  1      9     4.50                        fsqrt.h	ft6, ft7
+ # CHECK-NEXT:  1      1     0.50                        fmin.h	fa5, fa6, fa7
+@@ -210,9 +210,9 @@ fgeq.d a1, ft1, ft2
+ # CHECK-NEXT:  1      6     0.50                        fmsub.h	fa4, fa5, fa6, fa7
+ # CHECK-NEXT:  1      6     0.50                        fnmsub.h	fs2, fs3, fs4, fs5
+ # CHECK-NEXT:  1      6     0.50                        fnmadd.h	fs6, fs7, fs8, fs9
+-# CHECK-NEXT:  1      4     0.50                        fadd.s	fs10, fs11, ft8
+-# CHECK-NEXT:  1      4     0.50                        fsub.s	ft9, ft10, ft11
+-# CHECK-NEXT:  1      5     0.50                        fmul.s	ft0, ft1, ft2
++# CHECK-NEXT:  1      2     0.50                        fadd.s	fs10, fs11, ft8
++# CHECK-NEXT:  1      2     0.50                        fsub.s	ft9, ft10, ft11
++# CHECK-NEXT:  1      4     0.50                        fmul.s	ft0, ft1, ft2
+ # CHECK-NEXT:  1      13    6.50                        fdiv.s	ft3, ft4, ft5
+ # CHECK-NEXT:  1      13    6.50                        fsqrt.s	ft6, ft7
+ # CHECK-NEXT:  1      1     0.50                        fmin.s	fa5, fa6, fa7
+@@ -221,9 +221,9 @@ fgeq.d a1, ft1, ft2
+ # CHECK-NEXT:  1      6     0.50                        fmsub.s	fa4, fa5, fa6, fa7
+ # CHECK-NEXT:  1      6     0.50                        fnmsub.s	fs2, fs3, fs4, fs5
+ # CHECK-NEXT:  1      6     0.50                        fnmadd.s	fs6, fs7, fs8, fs9
+-# CHECK-NEXT:  1      4     0.50                        fadd.d	fs10, fs11, ft8
+-# CHECK-NEXT:  1      4     0.50                        fsub.d	ft9, ft10, ft11
+-# CHECK-NEXT:  1      5     0.50                        fmul.d	ft0, ft1, ft2
++# CHECK-NEXT:  1      2     0.50                        fadd.d	fs10, fs11, ft8
++# CHECK-NEXT:  1      2     0.50                        fsub.d	ft9, ft10, ft11
++# CHECK-NEXT:  1      4     0.50                        fmul.d	ft0, ft1, ft2
+ # CHECK-NEXT:  1      17    8.50                        fdiv.d	ft3, ft4, ft5
+ # CHECK-NEXT:  1      17    8.50                        fsqrt.d	ft6, ft7
+ # CHECK-NEXT:  1      1     0.50                        fmin.d	fa5, fa6, fa7
+@@ -232,38 +232,38 @@ fgeq.d a1, ft1, ft2
+ # CHECK-NEXT:  1      6     0.50                        fmsub.d	fa4, fa5, fa6, fa7
+ # CHECK-NEXT:  1      6     0.50                        fnmsub.d	fs2, fs3, fs4, fs5
+ # CHECK-NEXT:  1      6     0.50                        fnmadd.d	fs6, fs7, fs8, fs9
+-# CHECK-NEXT:  1      4     0.50                        fmv.x.h	a2, fs7
+-# CHECK-NEXT:  1      4     0.50                        fmv.h.x	ft1, a6
+-# CHECK-NEXT:  1      3     0.50                        fcvt.s.h	fa0, ft0
+-# CHECK-NEXT:  1      3     0.50                        fcvt.s.h	fa0, ft0, rup
+-# CHECK-NEXT:  1      3     0.50                        fcvt.h.s	ft2, fa2
+-# CHECK-NEXT:  1      3     0.50                        fcvt.d.h	fa0, ft0
+-# CHECK-NEXT:  1      3     0.50                        fcvt.d.h	fa0, ft0, rup
+-# CHECK-NEXT:  1      3     0.50                        fcvt.h.d	ft2, fa2
+-# CHECK-NEXT:  1      4     0.50                        fcvt.w.s	a0, fs5
+-# CHECK-NEXT:  1      4     0.50                        fcvt.wu.s	a1, fs6
+-# CHECK-NEXT:  1      4     0.50                        fcvt.s.w	ft11, a4
+-# CHECK-NEXT:  1      4     0.50                        fcvt.s.wu	ft0, a5
+-# CHECK-NEXT:  1      4     0.50                        fcvt.l.s	a0, ft0
+-# CHECK-NEXT:  1      4     0.50                        fcvt.lu.s	a1, ft1
+-# CHECK-NEXT:  1      4     0.50                        fcvt.s.l	ft2, a2
+-# CHECK-NEXT:  1      4     0.50                        fcvt.s.lu	ft3, a3
+-# CHECK-NEXT:  1      6     0.50                        fmv.x.w	a2, fs7
+-# CHECK-NEXT:  1      6     0.50                        fmv.w.x	ft1, a6
++# CHECK-NEXT:  1      2     0.50                        fmv.x.h	a2, fs7
++# CHECK-NEXT:  1      2     0.50                        fmv.h.x	ft1, a6
++# CHECK-NEXT:  1      2     0.50                        fcvt.s.h	fa0, ft0
++# CHECK-NEXT:  1      2     0.50                        fcvt.s.h	fa0, ft0, rup
++# CHECK-NEXT:  1      2     0.50                        fcvt.h.s	ft2, fa2
++# CHECK-NEXT:  1      2     0.50                        fcvt.d.h	fa0, ft0
++# CHECK-NEXT:  1      2     0.50                        fcvt.d.h	fa0, ft0, rup
++# CHECK-NEXT:  1      2     0.50                        fcvt.h.d	ft2, fa2
++# CHECK-NEXT:  1      2     0.50                        fcvt.w.s	a0, fs5
++# CHECK-NEXT:  1      2     0.50                        fcvt.wu.s	a1, fs6
++# CHECK-NEXT:  1      2     0.50                        fcvt.s.w	ft11, a4
++# CHECK-NEXT:  1      2     0.50                        fcvt.s.wu	ft0, a5
++# CHECK-NEXT:  1      2     0.50                        fcvt.l.s	a0, ft0
++# CHECK-NEXT:  1      2     0.50                        fcvt.lu.s	a1, ft1
++# CHECK-NEXT:  1      2     0.50                        fcvt.s.l	ft2, a2
++# CHECK-NEXT:  1      2     0.50                        fcvt.s.lu	ft3, a3
++# CHECK-NEXT:  1      2     0.50                        fmv.x.w	a2, fs7
++# CHECK-NEXT:  1      2     0.50                        fmv.w.x	ft1, a6
+ # CHECK-NEXT:  1      1     0.50                        fsgnj.s	fs1, fa0, fa1
+ # CHECK-NEXT:  1      1     0.50                        fsgnjn.s	fa1, fa3, fa4
+-# CHECK-NEXT:  1      4     0.50                        fcvt.wu.d	a4, ft11
+-# CHECK-NEXT:  1      4     0.50                        fcvt.w.d	a4, ft11
+-# CHECK-NEXT:  1      4     0.50                        fcvt.d.w	ft0, a5
+-# CHECK-NEXT:  1      4     0.50                        fcvt.d.wu	ft1, a6
+-# CHECK-NEXT:  1      4     0.50                        fcvt.s.d	fs5, fs6
+-# CHECK-NEXT:  1      4     0.50                        fcvt.d.s	fs7, fs8
+-# CHECK-NEXT:  1      4     0.50                        fcvt.l.d	a0, ft0
+-# CHECK-NEXT:  1      4     0.50                        fcvt.lu.d	a1, ft1
+-# CHECK-NEXT:  1      4     0.50                        fcvt.d.l	ft3, a3
+-# CHECK-NEXT:  1      4     0.50                        fcvt.d.lu	ft4, a4
+-# CHECK-NEXT:  1      6     0.50                        fmv.x.d	a2, ft2
+-# CHECK-NEXT:  1      6     0.50                        fmv.d.x	ft5, a5
++# CHECK-NEXT:  1      2     0.50                        fcvt.wu.d	a4, ft11
++# CHECK-NEXT:  1      2     0.50                        fcvt.w.d	a4, ft11
++# CHECK-NEXT:  1      2     0.50                        fcvt.d.w	ft0, a5
++# CHECK-NEXT:  1      2     0.50                        fcvt.d.wu	ft1, a6
++# CHECK-NEXT:  1      2     0.50                        fcvt.s.d	fs5, fs6
++# CHECK-NEXT:  1      2     0.50                        fcvt.d.s	fs7, fs8
++# CHECK-NEXT:  1      2     0.50                        fcvt.l.d	a0, ft0
++# CHECK-NEXT:  1      2     0.50                        fcvt.lu.d	a1, ft1
++# CHECK-NEXT:  1      2     0.50                        fcvt.d.l	ft3, a3
++# CHECK-NEXT:  1      2     0.50                        fcvt.d.lu	ft4, a4
++# CHECK-NEXT:  1      2     0.50                        fmv.x.d	a2, ft2
++# CHECK-NEXT:  1      2     0.50                        fmv.d.x	ft5, a5
+ # CHECK-NEXT:  1      1     0.50                        fsgnj.d	fs1, fa0, fa1
+ # CHECK-NEXT:  1      1     0.50                        fsgnjn.d	fa1, fa3, fa4
+ # CHECK-NEXT:  1      2     0.50                        feq.h	a1, fs8, fs9
+@@ -278,22 +278,22 @@ fgeq.d a1, ft1, ft2
+ # CHECK-NEXT:  1      1     0.50                        fclass.s	a3, ft10
+ # CHECK-NEXT:  1      1     0.50                        fclass.s	a3, ft10
+ # CHECK-NEXT:  1      1     0.50                        fclass.d	a3, ft10
+-# CHECK-NEXT:  1      5     0.50                        fli.h	ft1, -1.0
+-# CHECK-NEXT:  1      5     0.50                        fli.s	ft1, -1.0
+-# CHECK-NEXT:  1      5     0.50                        fli.d	ft1, -1.0
++# CHECK-NEXT:  1      2     0.50                        fli.h	ft1, -1.0
++# CHECK-NEXT:  1      2     0.50                        fli.s	ft1, -1.0
++# CHECK-NEXT:  1      2     0.50                        fli.d	ft1, -1.0
+ # CHECK-NEXT:  1      1     0.50                        fminm.h	fa0, fa1, fa2
+ # CHECK-NEXT:  1      1     0.50                        fmaxm.h	fs3, fs4, fs5
+ # CHECK-NEXT:  1      1     0.50                        fminm.s	fa0, fa1, fa2
+ # CHECK-NEXT:  1      1     0.50                        fmaxm.s	fs3, fs4, fs5
+ # CHECK-NEXT:  1      1     0.50                        fminm.d	fa0, fa1, fa2
+ # CHECK-NEXT:  1      1     0.50                        fmaxm.d	fs3, fs4, fs5
+-# CHECK-NEXT:  1      3     0.50                        fround.h	fs1, fs2
+-# CHECK-NEXT:  1      3     0.50                        froundnx.h	fs1, fs2
+-# CHECK-NEXT:  1      3     0.50                        fround.s	fs1, fs2
+-# CHECK-NEXT:  1      3     0.50                        froundnx.s	fs1, fs2
+-# CHECK-NEXT:  1      3     0.50                        fround.d	fs1, fs2
+-# CHECK-NEXT:  1      3     0.50                        froundnx.d	fs1, fs2
+-# CHECK-NEXT:  1      4     0.50                        fcvtmod.w.d	a1, ft1, rtz
++# CHECK-NEXT:  1      2     0.50                        fround.h	fs1, fs2
++# CHECK-NEXT:  1      2     0.50                        froundnx.h	fs1, fs2
++# CHECK-NEXT:  1      2     0.50                        fround.s	fs1, fs2
++# CHECK-NEXT:  1      2     0.50                        froundnx.s	fs1, fs2
++# CHECK-NEXT:  1      2     0.50                        fround.d	fs1, fs2
++# CHECK-NEXT:  1      2     0.50                        froundnx.d	fs1, fs2
++# CHECK-NEXT:  1      2     0.50                        fcvtmod.w.d	a1, ft1, rtz
+ # CHECK-NEXT:  1      2     0.50                        fltq.h	a1, fs1, fs2
+ # CHECK-NEXT:  1      2     0.50                        fleq.h	a1, ft1, ft2
+ # CHECK-NEXT:  1      2     0.50                        fltq.h	a1, fs2, fs1
+@@ -307,51 +307,6 @@ fgeq.d a1, ft1, ft2
+ # CHECK-NEXT:  1      2     0.50                        fltq.d	a1, fs2, fs1
+ # CHECK-NEXT:  1      2     0.50                        fleq.d	a1, ft2, ft1
+ 
+-# CHECK:      Dynamic Dispatch Stall Cycles:
+-# CHECK-NEXT: RAT     - Register unavailable:                      0
+-# CHECK-NEXT: RCU     - Retire tokens unavailable:                 0
+-# CHECK-NEXT: SCHEDQ  - Scheduler full:                            0
+-# CHECK-NEXT: LQ      - Load queue full:                           0
+-# CHECK-NEXT: SQ      - Store queue full:                          0
+-# CHECK-NEXT: GROUP   - Static restrictions on the dispatch group: 0
+-# CHECK-NEXT: USH     - Uncategorised Structural Hazard:           0
+-
+-# CHECK:      Dispatch Logic - number of cycles where we saw N micro opcodes dispatched:
+-# CHECK-NEXT: [# dispatched], [# cycles]
+-# CHECK-NEXT:  0,              76  (80.0%)
+-# CHECK-NEXT:  5,              1  (1.1%)
+-# CHECK-NEXT:  6,              18  (18.9%)
+-
+-# CHECK:      Schedulers - number of cycles where we saw N micro opcodes issued:
+-# CHECK-NEXT: [# issued], [# cycles]
+-# CHECK-NEXT:  0,          37  (38.9%)
+-# CHECK-NEXT:  1,          4  (4.2%)
+-# CHECK-NEXT:  2,          53  (55.8%)
+-# CHECK-NEXT:  3,          1  (1.1%)
+-
+-# CHECK:      Scheduler's queue usage:
+-# CHECK-NEXT: No scheduler resources used.
+-
+-# CHECK:      Retire Control Unit - number of cycles where we saw N instructions retired:
+-# CHECK-NEXT: [# retired], [# cycles]
+-# CHECK-NEXT:  0,           56  (58.9%)
+-# CHECK-NEXT:  1,           12  (12.6%)
+-# CHECK-NEXT:  2,           13  (13.7%)
+-# CHECK-NEXT:  3,           3  (3.2%)
+-# CHECK-NEXT:  4,           6  (6.3%)
+-# CHECK-NEXT:  6,           1  (1.1%)
+-# CHECK-NEXT:  8,           1  (1.1%)
+-# CHECK-NEXT:  9,           2  (2.1%)
+-# CHECK-NEXT:  10,          1  (1.1%)
+-
+-# CHECK:      Total ROB Entries:                192
+-# CHECK-NEXT: Max Used ROB Entries:             100  ( 52.1% )
+-# CHECK-NEXT: Average Used ROB Entries per cy:  61  ( 31.8% )
+-
+-# CHECK:      Register File statistics:
+-# CHECK-NEXT: Total number of mappings created:    110
+-# CHECK-NEXT: Max number of mappings used:         100
+-
+ # CHECK:      Resources:
+ # CHECK-NEXT: [0]   - GenericOOODIV
+ # CHECK-NEXT: [1.0] - GenericOOOFPU
+@@ -423,24 +378,24 @@ fgeq.d a1, ft1, ft2
+ # CHECK-NEXT:  -      -     1.00    -      -      -      -      -     fcvt.lu.s	a1, ft1
+ # CHECK-NEXT:  -     1.00    -      -      -      -      -      -     fcvt.s.l	ft2, a2
+ # CHECK-NEXT:  -     1.00    -      -      -      -      -      -     fcvt.s.lu	ft3, a3
+-# CHECK-NEXT:  -      -     1.00    -      -      -      -      -     fmv.x.w	a2, fs7
+-# CHECK-NEXT:  -     1.00    -      -      -      -      -      -     fmv.w.x	ft1, a6
+-# CHECK-NEXT:  -      -     1.00    -      -      -      -      -     fsgnj.s	fs1, fa0, fa1
+-# CHECK-NEXT:  -     1.00    -      -      -      -      -      -     fsgnjn.s	fa1, fa3, fa4
++# CHECK-NEXT:  -     1.00    -      -      -      -      -      -     fmv.x.w	a2, fs7
++# CHECK-NEXT:  -      -     1.00    -      -      -      -      -     fmv.w.x	ft1, a6
++# CHECK-NEXT:  -     1.00    -      -      -      -      -      -     fsgnj.s	fs1, fa0, fa1
++# CHECK-NEXT:  -      -     1.00    -      -      -      -      -     fsgnjn.s	fa1, fa3, fa4
+ # CHECK-NEXT:  -     1.00    -      -      -      -      -      -     fcvt.wu.d	a4, ft11
+ # CHECK-NEXT:  -      -     1.00    -      -      -      -      -     fcvt.w.d	a4, ft11
+ # CHECK-NEXT:  -     1.00    -      -      -      -      -      -     fcvt.d.w	ft0, a5
+ # CHECK-NEXT:  -     1.00    -      -      -      -      -      -     fcvt.d.wu	ft1, a6
+ # CHECK-NEXT:  -      -     1.00    -      -      -      -      -     fcvt.s.d	fs5, fs6
+ # CHECK-NEXT:  -      -     1.00    -      -      -      -      -     fcvt.d.s	fs7, fs8
+-# CHECK-NEXT:  -      -     1.00    -      -      -      -      -     fcvt.l.d	a0, ft0
++# CHECK-NEXT:  -     1.00    -      -      -      -      -      -     fcvt.l.d	a0, ft0
+ # CHECK-NEXT:  -      -     1.00    -      -      -      -      -     fcvt.lu.d	a1, ft1
+ # CHECK-NEXT:  -     1.00    -      -      -      -      -      -     fcvt.d.l	ft3, a3
+-# CHECK-NEXT:  -     1.00    -      -      -      -      -      -     fcvt.d.lu	ft4, a4
+-# CHECK-NEXT:  -      -     1.00    -      -      -      -      -     fmv.x.d	a2, ft2
++# CHECK-NEXT:  -      -     1.00    -      -      -      -      -     fcvt.d.lu	ft4, a4
++# CHECK-NEXT:  -     1.00    -      -      -      -      -      -     fmv.x.d	a2, ft2
+ # CHECK-NEXT:  -     1.00    -      -      -      -      -      -     fmv.d.x	ft5, a5
+ # CHECK-NEXT:  -      -     1.00    -      -      -      -      -     fsgnj.d	fs1, fa0, fa1
+-# CHECK-NEXT:  -     1.00    -      -      -      -      -      -     fsgnjn.d	fa1, fa3, fa4
++# CHECK-NEXT:  -      -     1.00    -      -      -      -      -     fsgnjn.d	fa1, fa3, fa4
+ # CHECK-NEXT:  -     1.00    -      -      -      -      -      -     feq.h	a1, fs8, fs9
+ # CHECK-NEXT:  -      -     1.00    -      -      -      -      -     flt.h	a2, fs10, fs11
+ # CHECK-NEXT:  -     1.00    -      -      -      -      -      -     fle.h	a3, ft8, ft9
+diff --git a/llvm/test/tools/llvm-mca/RISCV/GenericOOO/integer.s b/llvm/test/tools/llvm-mca/RISCV/GenericOOO/integer.s
+index f58a859885f58..40e524c3f5f7d 100644
+--- a/llvm/test/tools/llvm-mca/RISCV/GenericOOO/integer.s
++++ b/llvm/test/tools/llvm-mca/RISCV/GenericOOO/integer.s
+@@ -1,5 +1,5 @@
+ # NOTE: Assertions have been autogenerated by utils/update_mca_test_checks.py
+-# RUN: llvm-mca -mtriple=riscv64 -mattr=+rva23u64,+zbc,+zbkb,+zbkx -mcpu=generic-ooo --all-stats -iterations=1 < %s | FileCheck %s
++# RUN: llvm-mca -mtriple=riscv64 -mattr=+rva23u64,+zbc,+zbkb,+zbkx -mcpu=generic-ooo -iterations=1 < %s | FileCheck %s
+ 
+ # Integer Register-Immediate Instructions
+ addi a0, a0, 1
+@@ -326,51 +326,6 @@ xperm4 a0, a1, a2
+ # CHECK-NEXT:  1      1     0.25                        xperm8	a0, a1, a2
+ # CHECK-NEXT:  1      1     0.25                        xperm4	a0, a1, a2
+ 
+-# CHECK:      Dynamic Dispatch Stall Cycles:
+-# CHECK-NEXT: RAT     - Register unavailable:                      0
+-# CHECK-NEXT: RCU     - Retire tokens unavailable:                 0
+-# CHECK-NEXT: SCHEDQ  - Scheduler full:                            0
+-# CHECK-NEXT: LQ      - Load queue full:                           0
+-# CHECK-NEXT: SQ      - Store queue full:                          0
+-# CHECK-NEXT: GROUP   - Static restrictions on the dispatch group: 0
+-# CHECK-NEXT: USH     - Uncategorised Structural Hazard:           0
+-
+-# CHECK:      Dispatch Logic - number of cycles where we saw N micro opcodes dispatched:
+-# CHECK-NEXT: [# dispatched], [# cycles]
+-# CHECK-NEXT:  0,              134  (86.5%)
+-# CHECK-NEXT:  1,              1  (0.6%)
+-# CHECK-NEXT:  6,              20  (12.9%)
+-
+-# CHECK:      Schedulers - number of cycles where we saw N micro opcodes issued:
+-# CHECK-NEXT: [# issued], [# cycles]
+-# CHECK-NEXT:  0,          102  (65.8%)
+-# CHECK-NEXT:  1,          27  (17.4%)
+-# CHECK-NEXT:  2,          4  (2.6%)
+-# CHECK-NEXT:  3,          13  (8.4%)
+-# CHECK-NEXT:  4,          3  (1.9%)
+-# CHECK-NEXT:  5,          1  (0.6%)
+-# CHECK-NEXT:  6,          5  (3.2%)
+-
+-# CHECK:      Scheduler's queue usage:
+-# CHECK-NEXT: No scheduler resources used.
+-
+-# CHECK:      Retire Control Unit - number of cycles where we saw N instructions retired:
+-# CHECK-NEXT: [# retired], [# cycles]
+-# CHECK-NEXT:  0,           132  (85.2%)
+-# CHECK-NEXT:  1,           19  (12.3%)
+-# CHECK-NEXT:  2,           1  (0.6%)
+-# CHECK-NEXT:  13,          1  (0.6%)
+-# CHECK-NEXT:  28,          1  (0.6%)
+-# CHECK-NEXT:  59,          1  (0.6%)
+-
+-# CHECK:      Total ROB Entries:                192
+-# CHECK-NEXT: Max Used ROB Entries:             91  ( 47.4% )
+-# CHECK-NEXT: Average Used ROB Entries per cy:  75  ( 39.1% )
+-
+-# CHECK:      Register File statistics:
+-# CHECK-NEXT: Total number of mappings created:    111
+-# CHECK-NEXT: Max number of mappings used:         81
+-
+ # CHECK:      Resources:
+ # CHECK-NEXT: [0]   - GenericOOODIV
+ # CHECK-NEXT: [1.0] - GenericOOOFPU

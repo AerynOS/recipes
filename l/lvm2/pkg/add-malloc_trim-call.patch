@@ -1,0 +1,28 @@
+This patch just includes <malloc.h>, and is otherwise based on
+a clear linux patch with the following header:
+
+From 0cfae760ea35c7f678ff7a289aef76c95fa6d9f4 Mon Sep 17 00:00:00 2001
+From: Auke Kok <auke-jan.h.kok@intel.com>
+Date: Wed, 11 Sep 2019 11:09:49 -0700
+Subject: [PATCH 2/3] Add malloc_trim call.
+
+diff --git a/libdaemon/server/daemon-server.c b/libdaemon/server/daemon-server.c
+index bb52857ce..a8ad5f89b 100644
+--- a/libdaemon/server/daemon-server.c
++++ b/libdaemon/server/daemon-server.c
+@@ -20,6 +20,7 @@
+ #include <dlfcn.h>
+ #include <errno.h>
+ #include <fcntl.h> /* help musl C */
++#include <malloc.h>
+ #include <pthread.h>
+ #include <sys/stat.h>
+ #include <sys/wait.h>
+@@ -658,6 +659,7 @@ void daemon_start(daemon_state s)
+ 
+ 	while (!failed && !_shutdown_requested) {
+ 		_reset_timeout(s);
++		malloc_trim(0);
+ 		FD_ZERO(&in);
+ 		FD_SET(s.socket_fd, &in);
+ 

@@ -30,10 +30,6 @@
 				"/usr/lib/libQt5Help.so.5",
 				"/usr/lib/libQt5Help.so.5.15",
 				"/usr/lib/libQt5Help.so.5.15.16",
-				"/usr/lib/qt5/plugins/designer/libcontainerextension.so",
-				"/usr/lib/qt5/plugins/designer/libcustomwidgetplugin.so",
-				"/usr/lib/qt5/plugins/designer/libtaskmenuextension.so",
-				"/usr/lib/qt5/plugins/designer/libworldtimeclockplugin.so",
 				"/usr/share/qt5/phrasebooks/danish.qph",
 				"/usr/share/qt5/phrasebooks/dutch.qph",
 				"/usr/share/qt5/phrasebooks/finnish.qph",
@@ -54,11 +50,7 @@
 				"binary(qtpaths)",
 				"soname(libQt5Designer.so.5(x86_64))",
 				"soname(libQt5DesignerComponents.so.5(x86_64))",
-				"soname(libQt5Help.so.5(x86_64))",
-				"soname(qt5/plugins/designer/libcontainerextension.so(x86_64))",
-				"soname(qt5/plugins/designer/libcustomwidgetplugin.so(x86_64))",
-				"soname(qt5/plugins/designer/libtaskmenuextension.so(x86_64))",
-				"soname(qt5/plugins/designer/libworldtimeclockplugin.so(x86_64))"
+				"soname(libQt5Help.so.5(x86_64))"
 			]
 		},
 		"qt5-tools-demos": {
@@ -247,7 +239,7 @@
 				"soname(libQt5Xml.so.5(x86_64))",
 				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
-				"soname(libclang.so.19.1(x86_64))"
+				"soname(libclang.so.20.1(x86_64))"
 			],
 			"files": [
 				"/usr/bin/assistant",
@@ -546,7 +538,11 @@
 				"/usr/lib/qt5/mkspecs/modules/qt_lib_help_private.pri",
 				"/usr/lib/qt5/mkspecs/modules/qt_lib_uiplugin.pri",
 				"/usr/lib/qt5/mkspecs/modules/qt_lib_uitools.pri",
-				"/usr/lib/qt5/mkspecs/modules/qt_lib_uitools_private.pri"
+				"/usr/lib/qt5/mkspecs/modules/qt_lib_uitools_private.pri",
+				"/usr/lib/qt5/plugins/designer/libcontainerextension.so",
+				"/usr/lib/qt5/plugins/designer/libcustomwidgetplugin.so",
+				"/usr/lib/qt5/plugins/designer/libtaskmenuextension.so",
+				"/usr/lib/qt5/plugins/designer/libworldtimeclockplugin.so"
 			],
 			"name": "qt5-tools-devel",
 			"provides": [
@@ -578,11 +574,15 @@
 				"pkgconfig(Qt5Designer)",
 				"pkgconfig(Qt5Help)",
 				"pkgconfig(Qt5UiPlugin)",
-				"pkgconfig(Qt5UiTools)"
+				"pkgconfig(Qt5UiTools)",
+				"soname(qt5/plugins/designer/libcontainerextension.so(x86_64))",
+				"soname(qt5/plugins/designer/libcustomwidgetplugin.so(x86_64))",
+				"soname(qt5/plugins/designer/libtaskmenuextension.so(x86_64))",
+				"soname(qt5/plugins/designer/libworldtimeclockplugin.so(x86_64))"
 			]
 		}
 	},
 	"source-name": "qt5-tools",
-	"source-release": "7",
+	"source-release": "8",
 	"source-version": "5.15.16+kde.15deb8f2"
 }

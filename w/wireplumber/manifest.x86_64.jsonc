@@ -4,9 +4,9 @@
 	"packages": {
 		"wireplumber": {
 			"build-depends": [
+				"binary(doxygen)",
+				"binary(g-ir-scanner)",
 				"binary(msgfmt)",
-				"lua",
-				"lua-devel",
 				"pkgconfig(gio-2.0)",
 				"pkgconfig(glib-2.0)",
 				"pkgconfig(gmodule-2.0)",
@@ -14,42 +14,26 @@
 				"pkgconfig(libpipewire-0.3)",
 				"pkgconfig(libspa-0.2)",
 				"pkgconfig(libsystemd)",
-				"pkgconfig(systemd)"
+				"pkgconfig(lua)",
+				"pkgconfig(systemd)",
+				"python(lxml)"
 			],
 			"depends": [
+				"binary(pipewire)",
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))",
-				"soname(libgio-2.0.so.0(x86_64))",
 				"soname(libglib-2.0.so.0(x86_64))",
-				"soname(libgmodule-2.0.so.0(x86_64))",
 				"soname(libgobject-2.0.so.0(x86_64))",
-				"soname(liblua.so.5.4(x86_64))",
-				"soname(libm.so.6(x86_64))",
 				"soname(libpipewire-0.3.so.0(x86_64))",
-				"soname(libsystemd.so.0(x86_64))"
+				"soname(libwireplumber-0.5.so.0(x86_64))",
+				"wireplumber-libs"
 			],
 			"files": [
 				"/usr/bin/wireplumber",
 				"/usr/bin/wpctl",
 				"/usr/bin/wpexec",
-				"/usr/lib/libwireplumber-0.5.so.0",
-				"/usr/lib/libwireplumber-0.5.so.0.508.0",
 				"/usr/lib/systemd/user/wireplumber.service",
 				"/usr/lib/systemd/user/wireplumber@.service",
-				"/usr/lib/wireplumber-0.5/libwireplumber-module-dbus-connection.so",
-				"/usr/lib/wireplumber-0.5/libwireplumber-module-default-nodes-api.so",
-				"/usr/lib/wireplumber-0.5/libwireplumber-module-file-monitor-api.so",
-				"/usr/lib/wireplumber-0.5/libwireplumber-module-log-settings.so",
-				"/usr/lib/wireplumber-0.5/libwireplumber-module-logind.so",
-				"/usr/lib/wireplumber-0.5/libwireplumber-module-lua-scripting.so",
-				"/usr/lib/wireplumber-0.5/libwireplumber-module-mixer-api.so",
-				"/usr/lib/wireplumber-0.5/libwireplumber-module-portal-permissionstore.so",
-				"/usr/lib/wireplumber-0.5/libwireplumber-module-reserve-device.so",
-				"/usr/lib/wireplumber-0.5/libwireplumber-module-settings.so",
-				"/usr/lib/wireplumber-0.5/libwireplumber-module-si-audio-adapter.so",
-				"/usr/lib/wireplumber-0.5/libwireplumber-module-si-node.so",
-				"/usr/lib/wireplumber-0.5/libwireplumber-module-si-standard-link.so",
-				"/usr/lib/wireplumber-0.5/libwireplumber-module-standard-event-source.so",
 				"/usr/share/doc/wireplumber/examples/wireplumber.conf.d/access.conf",
 				"/usr/share/doc/wireplumber/examples/wireplumber.conf.d/alsa.conf",
 				"/usr/share/doc/wireplumber/examples/wireplumber.conf.d/bluetooth.conf",
@@ -136,12 +120,14 @@
 				"/usr/share/wireplumber/scripts/device/state-profile.lua",
 				"/usr/share/wireplumber/scripts/device/state-routes.lua",
 				"/usr/share/wireplumber/scripts/fallback-sink.lua",
+				"/usr/share/wireplumber/scripts/lib/audio-group-utils.lua",
 				"/usr/share/wireplumber/scripts/lib/common-utils.lua",
 				"/usr/share/wireplumber/scripts/lib/device-info-cache.lua",
 				"/usr/share/wireplumber/scripts/lib/filter-utils.lua",
 				"/usr/share/wireplumber/scripts/lib/linking-utils.lua",
 				"/usr/share/wireplumber/scripts/lib/monitor-utils.lua",
 				"/usr/share/wireplumber/scripts/lib/node-utils.lua",
+				"/usr/share/wireplumber/scripts/linking/find-audio-group-target.lua",
 				"/usr/share/wireplumber/scripts/linking/find-best-target.lua",
 				"/usr/share/wireplumber/scripts/linking/find-default-target.lua",
 				"/usr/share/wireplumber/scripts/linking/find-defined-target.lua",
@@ -168,6 +154,7 @@
 				"/usr/share/wireplumber/scripts/monitors/v4l2/enumerate-device.lua",
 				"/usr/share/wireplumber/scripts/monitors/v4l2/name-device.lua",
 				"/usr/share/wireplumber/scripts/monitors/v4l2/name-node.lua",
+				"/usr/share/wireplumber/scripts/node/audio-group.lua",
 				"/usr/share/wireplumber/scripts/node/create-item.lua",
 				"/usr/share/wireplumber/scripts/node/filter-forward-format.lua",
 				"/usr/share/wireplumber/scripts/node/software-dsp.lua",
@@ -183,29 +170,14 @@
 			"provides": [
 				"binary(wireplumber)",
 				"binary(wpctl)",
-				"binary(wpexec)",
-				"soname(libwireplumber-0.5.so.0(x86_64))",
-				"soname(wireplumber-0.5/libwireplumber-module-dbus-connection.so(x86_64))",
-				"soname(wireplumber-0.5/libwireplumber-module-default-nodes-api.so(x86_64))",
-				"soname(wireplumber-0.5/libwireplumber-module-file-monitor-api.so(x86_64))",
-				"soname(wireplumber-0.5/libwireplumber-module-log-settings.so(x86_64))",
-				"soname(wireplumber-0.5/libwireplumber-module-logind.so(x86_64))",
-				"soname(wireplumber-0.5/libwireplumber-module-lua-scripting.so(x86_64))",
-				"soname(wireplumber-0.5/libwireplumber-module-mixer-api.so(x86_64))",
-				"soname(wireplumber-0.5/libwireplumber-module-portal-permissionstore.so(x86_64))",
-				"soname(wireplumber-0.5/libwireplumber-module-reserve-device.so(x86_64))",
-				"soname(wireplumber-0.5/libwireplumber-module-settings.so(x86_64))",
-				"soname(wireplumber-0.5/libwireplumber-module-si-audio-adapter.so(x86_64))",
-				"soname(wireplumber-0.5/libwireplumber-module-si-node.so(x86_64))",
-				"soname(wireplumber-0.5/libwireplumber-module-si-standard-link.so(x86_64))",
-				"soname(wireplumber-0.5/libwireplumber-module-standard-event-source.so(x86_64))"
+				"binary(wpexec)"
 			]
 		},
 		"wireplumber-devel": {
 			"build-depends": [
+				"binary(doxygen)",
+				"binary(g-ir-scanner)",
 				"binary(msgfmt)",
-				"lua",
-				"lua-devel",
 				"pkgconfig(gio-2.0)",
 				"pkgconfig(glib-2.0)",
 				"pkgconfig(gmodule-2.0)",
@@ -213,7 +185,9 @@
 				"pkgconfig(libpipewire-0.3)",
 				"pkgconfig(libspa-0.2)",
 				"pkgconfig(libsystemd)",
-				"pkgconfig(systemd)"
+				"pkgconfig(lua)",
+				"pkgconfig(systemd)",
+				"python(lxml)"
 			],
 			"depends": [
 				"pkgconfig(gio-2.0)",
@@ -248,6 +222,7 @@
 				"/usr/include/wireplumber-0.5/wp/object.h",
 				"/usr/include/wireplumber-0.5/wp/plugin.h",
 				"/usr/include/wireplumber-0.5/wp/port.h",
+				"/usr/include/wireplumber-0.5/wp/proc-utils.h",
 				"/usr/include/wireplumber-0.5/wp/properties.h",
 				"/usr/include/wireplumber-0.5/wp/proxy-interfaces.h",
 				"/usr/include/wireplumber-0.5/wp/proxy.h",
@@ -264,15 +239,81 @@
 				"/usr/include/wireplumber-0.5/wp/wpenums.h",
 				"/usr/include/wireplumber-0.5/wp/wpversion.h",
 				"/usr/lib/libwireplumber-0.5.so",
-				"/usr/lib/pkgconfig/wireplumber-0.5.pc"
+				"/usr/lib/pkgconfig/wireplumber-0.5.pc",
+				"/usr/share/gir-1.0/Wp-0.5.gir"
 			],
 			"name": "wireplumber-devel",
 			"provides": [
 				"pkgconfig(wireplumber-0.5)"
 			]
+		},
+		"wireplumber-libs": {
+			"build-depends": [
+				"binary(doxygen)",
+				"binary(g-ir-scanner)",
+				"binary(msgfmt)",
+				"pkgconfig(gio-2.0)",
+				"pkgconfig(glib-2.0)",
+				"pkgconfig(gmodule-2.0)",
+				"pkgconfig(gobject-2.0)",
+				"pkgconfig(libpipewire-0.3)",
+				"pkgconfig(libspa-0.2)",
+				"pkgconfig(libsystemd)",
+				"pkgconfig(lua)",
+				"pkgconfig(systemd)",
+				"python(lxml)"
+			],
+			"depends": [
+				"soname(libc.so.6(x86_64))",
+				"soname(libgio-2.0.so.0(x86_64))",
+				"soname(libglib-2.0.so.0(x86_64))",
+				"soname(libgmodule-2.0.so.0(x86_64))",
+				"soname(libgobject-2.0.so.0(x86_64))",
+				"soname(liblua.so.5.4(x86_64))",
+				"soname(libm.so.6(x86_64))",
+				"soname(libpipewire-0.3.so.0(x86_64))",
+				"soname(libsystemd.so.0(x86_64))"
+			],
+			"files": [
+				"/usr/lib/girepository-1.0/Wp-0.5.typelib",
+				"/usr/lib/libwireplumber-0.5.so.0",
+				"/usr/lib/libwireplumber-0.5.so.0.510.0",
+				"/usr/lib/wireplumber-0.5/libwireplumber-module-dbus-connection.so",
+				"/usr/lib/wireplumber-0.5/libwireplumber-module-default-nodes-api.so",
+				"/usr/lib/wireplumber-0.5/libwireplumber-module-file-monitor-api.so",
+				"/usr/lib/wireplumber-0.5/libwireplumber-module-log-settings.so",
+				"/usr/lib/wireplumber-0.5/libwireplumber-module-logind.so",
+				"/usr/lib/wireplumber-0.5/libwireplumber-module-lua-scripting.so",
+				"/usr/lib/wireplumber-0.5/libwireplumber-module-mixer-api.so",
+				"/usr/lib/wireplumber-0.5/libwireplumber-module-portal-permissionstore.so",
+				"/usr/lib/wireplumber-0.5/libwireplumber-module-reserve-device.so",
+				"/usr/lib/wireplumber-0.5/libwireplumber-module-settings.so",
+				"/usr/lib/wireplumber-0.5/libwireplumber-module-si-audio-adapter.so",
+				"/usr/lib/wireplumber-0.5/libwireplumber-module-si-node.so",
+				"/usr/lib/wireplumber-0.5/libwireplumber-module-si-standard-link.so",
+				"/usr/lib/wireplumber-0.5/libwireplumber-module-standard-event-source.so"
+			],
+			"name": "wireplumber-libs",
+			"provides": [
+				"soname(libwireplumber-0.5.so.0(x86_64))",
+				"soname(wireplumber-0.5/libwireplumber-module-dbus-connection.so(x86_64))",
+				"soname(wireplumber-0.5/libwireplumber-module-default-nodes-api.so(x86_64))",
+				"soname(wireplumber-0.5/libwireplumber-module-file-monitor-api.so(x86_64))",
+				"soname(wireplumber-0.5/libwireplumber-module-log-settings.so(x86_64))",
+				"soname(wireplumber-0.5/libwireplumber-module-logind.so(x86_64))",
+				"soname(wireplumber-0.5/libwireplumber-module-lua-scripting.so(x86_64))",
+				"soname(wireplumber-0.5/libwireplumber-module-mixer-api.so(x86_64))",
+				"soname(wireplumber-0.5/libwireplumber-module-portal-permissionstore.so(x86_64))",
+				"soname(wireplumber-0.5/libwireplumber-module-reserve-device.so(x86_64))",
+				"soname(wireplumber-0.5/libwireplumber-module-settings.so(x86_64))",
+				"soname(wireplumber-0.5/libwireplumber-module-si-audio-adapter.so(x86_64))",
+				"soname(wireplumber-0.5/libwireplumber-module-si-node.so(x86_64))",
+				"soname(wireplumber-0.5/libwireplumber-module-si-standard-link.so(x86_64))",
+				"soname(wireplumber-0.5/libwireplumber-module-standard-event-source.so(x86_64))"
+			]
 		}
 	},
 	"source-name": "wireplumber",
-	"source-release": "6",
-	"source-version": "0.5.8"
+	"source-release": "8",
+	"source-version": "0.5.10"
 }

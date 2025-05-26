@@ -4,14 +4,14 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : cargo-c
-version     : 0.10.7
-release     : 3
+version     : 0.10.13
+release     : 4
 homepage    : https://github.com/lu-zero/cargo-c
 upstreams   :
-    - https://github.com/lu-zero/cargo-c/archive/refs/tags/v0.10.7.tar.gz : c4532dd2bf23769df5f64649d5b0c037fb2a29467c74d16a54bad3054d9f3f3a
-    - https://github.com/lu-zero/cargo-c/releases/download/v0.10.7/Cargo.lock :
+    - https://github.com/lu-zero/cargo-c/archive/refs/tags/v0.10.13.tar.gz : 57dffba592179c7ca2b0322d28265b6962750eebb3a23b28ad677371cc10c36e
+    - https://github.com/lu-zero/cargo-c/releases/download/v0.10.13/Cargo.lock :
         unpack: false
-        hash: 7272f41442713ce20c42198fdf9128a77b539ded1649872ab88dc1411db8dee4
+        hash: e5548cf627d93b53c6f32ccd21315e2fd64d8a08990100426a40c41d2ff832c0
 summary     : Generate C Libraries using Cargo
 description : |
     Generate C Libraries using Cargo
@@ -27,7 +27,7 @@ environment: |
     # Force libsqlite3-sys and libssh2-sys to use the system deps
     export LIBSQLITE3_SYS_USE_PKG_CONFIG=1
     export LIBSSH2_SYS_USE_PKG_CONFIG=1
-    export LIBGIT2_NO_VENDOR=1
+    # export LIBGIT2_NO_VENDOR=1
 setup       : |
     %install_file %(sourcedir)/Cargo.lock -v .
     %cargo_fetch

@@ -5,7 +5,7 @@
 #
 name        : gnome-keyring
 version     : 48.0
-release     : 3
+release     : 4
 homepage    : https://gitlab.gnome.org/GNOME/gnome-keyring
 upstreams   :
     - https://download.gnome.org/sources/gnome-keyring/48/gnome-keyring-48.0.tar.xz : f20518c920e9ea3f9c9b8b44be8c50d8d7feecd0dd5624960f77bd2ca4fbeb9d
@@ -29,6 +29,10 @@ builddeps   :
     - pkgconfig(pam)
     - pkgconfig(libsystemd)
     - docbook
+    - docbook-xsl
+environment : |
+    # Temporary, replace with boulder macro
+    export XML_CATALOG_FILES="file:///usr/share/defaults/docbook/docbook-dtd/catalog file:///usr/share/defaults/docbook/docbook-xsl/catalog"
 setup       : |
     %meson
 build       : |

@@ -1,0 +1,27 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Reilly Brogan <reilly@reillybrogan.com>
+Date: Mon, 24 Mar 2025 15:34:19 -0500
+Subject: [PATCH] Don't try to link libatomic
+
+https://github.com/nodejs/node/issues/39546
+
+Basically libatomic is unnecessary on Aeryn since the required symbols are provided by compiler-rt
+
+---
+ node.gyp | 3 ---
+ 1 file changed, 3 deletions(-)
+
+diff --git a/node.gyp b/node.gyp
+index d97004c8e1..9a8f1fe4ad 100644
+--- a/node.gyp
++++ b/node.gyp
+@@ -518,9 +518,6 @@
+           '-Wl,-bnoerrmsg',
+         ],
+       }],
+-      ['OS=="linux" and clang==1', {
+-        'libraries': ['-latomic'],
+-      }],
+     ],
+   },
+ 

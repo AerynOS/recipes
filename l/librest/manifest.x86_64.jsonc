@@ -19,7 +19,7 @@
 				"soname(libgobject-2.0.so.0(x86_64))",
 				"soname(libjson-glib-1.0.so.0(x86_64))",
 				"soname(libsoup-3.0.so.0(x86_64))",
-				"soname(libxml2.so.2(x86_64))"
+				"soname(libxml2.so.16(x86_64))"
 			],
 			"files": [
 				"/usr/lib/girepository-1.0/Rest-1.0.typelib",
@@ -48,6 +48,7 @@
 				"pkgconfig(libxml-2.0)"
 			],
 			"depends": [
+				"librest",
 				"pkgconfig(glib-2.0)",
 				"pkgconfig(json-glib-1.0)",
 				"pkgconfig(libsoup-3.0)",
@@ -89,6 +90,6 @@
 		}
 	},
 	"source-name": "librest",
-	"source-release": "1",
+	"source-release": "2",
 	"source-version": "0.9.1"
 }

@@ -1,0 +1,66 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"python-pycparser": {
+			"build-depends": [
+				"binary(clang-cpp)",
+				"python(ply)"
+			],
+			"depends": [
+				"binary(python3)",
+				"python(ply(3.11))",
+				"python(ply)"
+			],
+			"files": [
+				"/usr/lib/python3.11/site-packages/pycparser-2.22.dist-info/LICENSE",
+				"/usr/lib/python3.11/site-packages/pycparser-2.22.dist-info/METADATA",
+				"/usr/lib/python3.11/site-packages/pycparser-2.22.dist-info/RECORD",
+				"/usr/lib/python3.11/site-packages/pycparser-2.22.dist-info/WHEEL",
+				"/usr/lib/python3.11/site-packages/pycparser-2.22.dist-info/top_level.txt",
+				"/usr/lib/python3.11/site-packages/pycparser/__init__.py",
+				"/usr/lib/python3.11/site-packages/pycparser/__pycache__/__init__.cpython-311.opt-1.pyc",
+				"/usr/lib/python3.11/site-packages/pycparser/__pycache__/__init__.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/pycparser/__pycache__/_ast_gen.cpython-311.opt-1.pyc",
+				"/usr/lib/python3.11/site-packages/pycparser/__pycache__/_ast_gen.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/pycparser/__pycache__/_build_tables.cpython-311.opt-1.pyc",
+				"/usr/lib/python3.11/site-packages/pycparser/__pycache__/_build_tables.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/pycparser/__pycache__/ast_transforms.cpython-311.opt-1.pyc",
+				"/usr/lib/python3.11/site-packages/pycparser/__pycache__/ast_transforms.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/pycparser/__pycache__/c_ast.cpython-311.opt-1.pyc",
+				"/usr/lib/python3.11/site-packages/pycparser/__pycache__/c_ast.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/pycparser/__pycache__/c_generator.cpython-311.opt-1.pyc",
+				"/usr/lib/python3.11/site-packages/pycparser/__pycache__/c_generator.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/pycparser/__pycache__/c_lexer.cpython-311.opt-1.pyc",
+				"/usr/lib/python3.11/site-packages/pycparser/__pycache__/c_lexer.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/pycparser/__pycache__/c_parser.cpython-311.opt-1.pyc",
+				"/usr/lib/python3.11/site-packages/pycparser/__pycache__/c_parser.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/pycparser/__pycache__/lextab.cpython-311.opt-1.pyc",
+				"/usr/lib/python3.11/site-packages/pycparser/__pycache__/lextab.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/pycparser/__pycache__/plyparser.cpython-311.opt-1.pyc",
+				"/usr/lib/python3.11/site-packages/pycparser/__pycache__/plyparser.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/pycparser/__pycache__/yacctab.cpython-311.opt-1.pyc",
+				"/usr/lib/python3.11/site-packages/pycparser/__pycache__/yacctab.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/pycparser/_ast_gen.py",
+				"/usr/lib/python3.11/site-packages/pycparser/_build_tables.py",
+				"/usr/lib/python3.11/site-packages/pycparser/_c_ast.cfg",
+				"/usr/lib/python3.11/site-packages/pycparser/ast_transforms.py",
+				"/usr/lib/python3.11/site-packages/pycparser/c_ast.py",
+				"/usr/lib/python3.11/site-packages/pycparser/c_generator.py",
+				"/usr/lib/python3.11/site-packages/pycparser/c_lexer.py",
+				"/usr/lib/python3.11/site-packages/pycparser/c_parser.py",
+				"/usr/lib/python3.11/site-packages/pycparser/lextab.py",
+				"/usr/lib/python3.11/site-packages/pycparser/plyparser.py",
+				"/usr/lib/python3.11/site-packages/pycparser/yacctab.py"
+			],
+			"name": "python-pycparser",
+			"provides": [
+				"python(pycparser(3.11))",
+				"python(pycparser)"
+			]
+		}
+	},
+	"source-name": "python-pycparser",
+	"source-release": "1",
+	"source-version": "2.22"
+}

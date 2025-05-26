@@ -1,0 +1,69 @@
+Author: Pino Toscano <pino@debian.org>
+Description: Look for zstd before Clang
+ The story is more or less the following:
+ - LLVM ships its own Findzstd cmake find module from 16; this module defines
+   2 targets: zstd::libzstd_shared and zstd::libzstd_static
+ - libzstd ships a cmake config module that defines 3 targets:
+   zstd::libzstd_shared, zstd::libzstd_static, and zstd::libzstd
+ - the libzstd config module assumes that if one target is defined, all of them
+   are, as if the config module itself was already run (i.e. multiple
+   "find_package(zstd)" in a cmake project)
+ - in qttools, Clang is searched first, which in turns requires LLVM, and then
+   libzstd
+ .
+ More details here: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1073480#47
+ .
+ As workaround, look for libzstd before Clang: this way the proper zstd cmake
+ targets are defined, and the Findzstd cmake find module shipped with LLVM will
+ use them just fine without redefining them.
+ .
+ This should most likely be fixed on LLVM side.
+Last-Update: 2024-07-17
+Forwarded: not-needed
+
+---
+ configure.cmake                     | 10 ++++++++++
+ src/designer/src/lib/CMakeLists.txt |  9 ---------
+ 2 files changed, 10 insertions(+), 9 deletions(-)
+
+diff --git a/configure.cmake b/configure.cmake
+index 798078a4..c63ad1b0 100644
+--- a/configure.cmake
++++ b/configure.cmake
+@@ -3,6 +3,16 @@
+ 
+ #### Tests
+ 
++if(NOT TARGET WrapZSTD::WrapZSTD)
++    qt_find_package(WrapZSTD 1.3
++        PROVIDED_TARGETS
++            WrapZSTD::WrapZSTD
++            zstd::libzstd
++            zstd::libzstd_static
++            zstd::libzstd_shared
++    )
++endif()
++
+ qt_find_package(WrapLibClang 8 PROVIDED_TARGETS WrapLibClang::WrapLibClang)
+ 
+ if(TARGET WrapLibClang::WrapLibClang)
+diff --git a/src/designer/src/lib/CMakeLists.txt b/src/designer/src/lib/CMakeLists.txt
+index 5513f2b2..0cccbd5d 100644
+--- a/src/designer/src/lib/CMakeLists.txt
++++ b/src/designer/src/lib/CMakeLists.txt
+@@ -421,15 +421,6 @@ endif()
+ if(TARGET zstd::libzstd_static)
+     qt_internal_disable_find_package_global_promotion(zstd::libzstd_static)
+ endif()
+-if(NOT TARGET WrapZSTD::WrapZSTD)
+-    qt_find_package(WrapZSTD 1.3
+-        PROVIDED_TARGETS
+-            WrapZSTD::WrapZSTD
+-            zstd::libzstd
+-            zstd::libzstd_static
+-            zstd::libzstd_shared
+-    )
+-endif()
+ 
+ qt_internal_extend_target(Designer CONDITION QT_FEATURE_zstd
+     LIBRARIES

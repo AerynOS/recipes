@@ -1,0 +1,18 @@
+diff --git a/mpi/Makefile.am b/mpi/Makefile.am
+index e57e5aa..1691dbc 100644
+--- a/mpi/Makefile.am
++++ b/mpi/Makefile.am
+@@ -7,9 +7,10 @@ include $(top_srcdir)/Makefile.all.am
+ CC = $(MPI_CC)
+ DEFS =
+ DEFAULT_INCLUDES =
+-CPPFLAGS =
+-CFLAGS =
+-LDFLAGS =
++# Respect FLAGS for mpi
++# CPPFLAGS =
++# CFLAGS =
++# LDFLAGS =
+ 
+ EXTRA_DIST = \
+ 	mpiwrap_type_test.c

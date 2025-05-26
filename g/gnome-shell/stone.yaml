@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : gnome-shell
-version     : 48.0
-release     : 29
+version     : 48.1
+release     : 31
 homepage    : https://gitlab.gnome.org/GNOME/gnome-shell
 upstreams   :
-    - https://download.gnome.org/sources/gnome-shell/48/gnome-shell-48.0.tar.xz : 36aac2edcdc7588aaadb658cd4687df262b37ba0b667102dcbefbff0c2232bc3
+    - https://download.gnome.org/sources/gnome-shell/48/gnome-shell-48.1.tar.xz : ba4f455afd6213f387545946e3cd9daa39c904f7ab16dd830ac77a73ff1002ca
 summary     : The core GNOME desktop experience
 description : |
     GNOME Shell provides core user interface functions for the GNOME desktop,
@@ -29,6 +29,7 @@ builddeps   :
     - binary(rtkitctl)
     - binary(wireplumber)
     - pkgconfig(atk-bridge-2.0)
+    - pkgconfig(bash-completion)
     - pkgconfig(gcr-4)
     - pkgconfig(gdk-pixbuf-2.0)
     - pkgconfig(gdk-x11-3.0)
@@ -52,7 +53,6 @@ builddeps   :
     - pkgconfig(libsystemd)
     - pkgconfig(libxml-2.0)
     - pkgconfig(mutter-clutter-16)
-    - pkgconfig(osmesa)
     - pkgconfig(polkit-agent-1)
     - pkgconfig(systemd)
     - pkgconfig(x11)

@@ -1,0 +1,44 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"python-backports.tarfile": {
+			"build-depends": [
+				"python(setuptools-scm)"
+			],
+			"depends": [
+				"binary(python3)"
+			],
+			"files": [
+				"/usr/lib/python3.11/site-packages/backports.tarfile-1.2.0.dist-info/LICENSE",
+				"/usr/lib/python3.11/site-packages/backports.tarfile-1.2.0.dist-info/METADATA",
+				"/usr/lib/python3.11/site-packages/backports.tarfile-1.2.0.dist-info/RECORD",
+				"/usr/lib/python3.11/site-packages/backports.tarfile-1.2.0.dist-info/WHEEL",
+				"/usr/lib/python3.11/site-packages/backports.tarfile-1.2.0.dist-info/top_level.txt",
+				"/usr/lib/python3.11/site-packages/backports/__init__.py",
+				"/usr/lib/python3.11/site-packages/backports/__pycache__/__init__.cpython-311.opt-1.pyc",
+				"/usr/lib/python3.11/site-packages/backports/__pycache__/__init__.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/backports/tarfile/__init__.py",
+				"/usr/lib/python3.11/site-packages/backports/tarfile/__main__.py",
+				"/usr/lib/python3.11/site-packages/backports/tarfile/__pycache__/__init__.cpython-311.opt-1.pyc",
+				"/usr/lib/python3.11/site-packages/backports/tarfile/__pycache__/__init__.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/backports/tarfile/__pycache__/__main__.cpython-311.opt-1.pyc",
+				"/usr/lib/python3.11/site-packages/backports/tarfile/__pycache__/__main__.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/backports/tarfile/compat/__init__.py",
+				"/usr/lib/python3.11/site-packages/backports/tarfile/compat/__pycache__/__init__.cpython-311.opt-1.pyc",
+				"/usr/lib/python3.11/site-packages/backports/tarfile/compat/__pycache__/__init__.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/backports/tarfile/compat/__pycache__/py38.cpython-311.opt-1.pyc",
+				"/usr/lib/python3.11/site-packages/backports/tarfile/compat/__pycache__/py38.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/backports/tarfile/compat/py38.py"
+			],
+			"name": "python-backports.tarfile",
+			"provides": [
+				"python(backports.tarfile(3.11))",
+				"python(backports.tarfile)"
+			]
+		}
+	},
+	"source-name": "python-backports.tarfile",
+	"source-release": "1",
+	"source-version": "1.2.0"
+}

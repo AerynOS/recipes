@@ -6,35 +6,33 @@
 			"build-depends": [
 				"pkgconfig32(jansson)",
 				"pkgconfig32(libbrotlidec)",
+				"pkgconfig32(libcrypto)",
 				"pkgconfig32(libnghttp2)",
 				"pkgconfig32(libpsl)",
 				"pkgconfig32(libzstd)",
-				"pkgconfig32(rustls)",
 				"pkgconfig32(zlib)"
 			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"soname(libbrotlidec.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
+				"soname(libcrypto.so.3(x86_64))",
 				"soname(libidn2.so.0(x86_64))",
 				"soname(libnghttp2.so.14(x86_64))",
 				"soname(libpsl.so.5(x86_64))",
-				"soname(librustls.so.0.14.0(x86_64))",
+				"soname(libssl.so.3(x86_64))",
 				"soname(libz.so.1(x86_64))",
 				"soname(libzstd.so.1(x86_64))"
 			],
 			"files": [
 				"/usr/bin/curl",
-				"/usr/bin/curl-config",
 				"/usr/lib/libcurl.so.4",
 				"/usr/lib/libcurl.so.4.8.0",
-				"/usr/share/man/man1/curl-config.1",
 				"/usr/share/man/man1/curl.1"
 			],
 			"name": "curl",
 			"provides": [
 				"binary(curl)",
-				"binary(curl-config)",
 				"soname(libcurl.so.4(x86_64))"
 			]
 		},
@@ -42,20 +40,21 @@
 			"build-depends": [
 				"pkgconfig32(jansson)",
 				"pkgconfig32(libbrotlidec)",
+				"pkgconfig32(libcrypto)",
 				"pkgconfig32(libnghttp2)",
 				"pkgconfig32(libpsl)",
 				"pkgconfig32(libzstd)",
-				"pkgconfig32(rustls)",
 				"pkgconfig32(zlib)"
 			],
 			"depends": [
 				"curl",
 				"soname(libbrotlidec.so.1(386))",
 				"soname(libc.so.6(386))",
+				"soname(libcrypto.so.3(386))",
 				"soname(libidn2.so.0(386))",
 				"soname(libnghttp2.so.14(386))",
 				"soname(libpsl.so.5(386))",
-				"soname(librustls.so.0.14.0(386))",
+				"soname(libssl.so.3(386))",
 				"soname(libz.so.1(386))",
 				"soname(libzstd.so.1(386))"
 			],
@@ -73,21 +72,22 @@
 			"build-depends": [
 				"pkgconfig32(jansson)",
 				"pkgconfig32(libbrotlidec)",
+				"pkgconfig32(libcrypto)",
 				"pkgconfig32(libnghttp2)",
 				"pkgconfig32(libpsl)",
 				"pkgconfig32(libzstd)",
-				"pkgconfig32(rustls)",
 				"pkgconfig32(zlib)"
 			],
 			"depends": [
 				"curl-32bit",
 				"curl-devel",
+				"pkgconfig32(libbrotlicommon)",
 				"pkgconfig32(libbrotlidec)",
 				"pkgconfig32(libidn2)",
 				"pkgconfig32(libnghttp2)",
 				"pkgconfig32(libpsl)",
 				"pkgconfig32(libzstd)",
-				"pkgconfig32(rustls)",
+				"pkgconfig32(openssl)",
 				"pkgconfig32(zlib)"
 			],
 			"files": [
@@ -103,23 +103,25 @@
 			"build-depends": [
 				"pkgconfig32(jansson)",
 				"pkgconfig32(libbrotlidec)",
+				"pkgconfig32(libcrypto)",
 				"pkgconfig32(libnghttp2)",
 				"pkgconfig32(libpsl)",
 				"pkgconfig32(libzstd)",
-				"pkgconfig32(rustls)",
 				"pkgconfig32(zlib)"
 			],
 			"depends": [
 				"curl",
+				"pkgconfig(libbrotlicommon)",
 				"pkgconfig(libbrotlidec)",
 				"pkgconfig(libidn2)",
 				"pkgconfig(libnghttp2)",
 				"pkgconfig(libpsl)",
 				"pkgconfig(libzstd)",
-				"pkgconfig(rustls)",
+				"pkgconfig(openssl)",
 				"pkgconfig(zlib)"
 			],
 			"files": [
+				"/usr/bin/curl-config",
 				"/usr/include/curl/curl.h",
 				"/usr/include/curl/curlver.h",
 				"/usr/include/curl/easy.h",
@@ -135,6 +137,7 @@
 				"/usr/lib/libcurl.so",
 				"/usr/lib/pkgconfig/libcurl.pc",
 				"/usr/share/aclocal/libcurl.m4",
+				"/usr/share/man/man1/curl-config.1",
 				"/usr/share/man/man3/CURLINFO_ACTIVESOCKET.3",
 				"/usr/share/man/man3/CURLINFO_APPCONNECT_TIME.3",
 				"/usr/share/man/man3/CURLINFO_APPCONNECT_TIME_T.3",
@@ -159,6 +162,7 @@
 				"/usr/share/man/man3/CURLINFO_FTP_ENTRY_PATH.3",
 				"/usr/share/man/man3/CURLINFO_HEADER_SIZE.3",
 				"/usr/share/man/man3/CURLINFO_HTTPAUTH_AVAIL.3",
+				"/usr/share/man/man3/CURLINFO_HTTPAUTH_USED.3",
 				"/usr/share/man/man3/CURLINFO_HTTP_CONNECTCODE.3",
 				"/usr/share/man/man3/CURLINFO_HTTP_VERSION.3",
 				"/usr/share/man/man3/CURLINFO_LASTSOCKET.3",
@@ -176,6 +180,7 @@
 				"/usr/share/man/man3/CURLINFO_PRIVATE.3",
 				"/usr/share/man/man3/CURLINFO_PROTOCOL.3",
 				"/usr/share/man/man3/CURLINFO_PROXYAUTH_AVAIL.3",
+				"/usr/share/man/man3/CURLINFO_PROXYAUTH_USED.3",
 				"/usr/share/man/man3/CURLINFO_PROXY_ERROR.3",
 				"/usr/share/man/man3/CURLINFO_PROXY_SSL_VERIFYRESULT.3",
 				"/usr/share/man/man3/CURLINFO_QUEUE_TIME_T.3",
@@ -520,6 +525,7 @@
 				"/usr/share/man/man3/CURLOPT_UPKEEP_INTERVAL_MS.3",
 				"/usr/share/man/man3/CURLOPT_UPLOAD.3",
 				"/usr/share/man/man3/CURLOPT_UPLOAD_BUFFERSIZE.3",
+				"/usr/share/man/man3/CURLOPT_UPLOAD_FLAGS.3",
 				"/usr/share/man/man3/CURLOPT_URL.3",
 				"/usr/share/man/man3/CURLOPT_USERAGENT.3",
 				"/usr/share/man/man3/CURLOPT_USERNAME.3",
@@ -554,6 +560,8 @@
 				"/usr/share/man/man3/curl_easy_reset.3",
 				"/usr/share/man/man3/curl_easy_send.3",
 				"/usr/share/man/man3/curl_easy_setopt.3",
+				"/usr/share/man/man3/curl_easy_ssls_export.3",
+				"/usr/share/man/man3/curl_easy_ssls_import.3",
 				"/usr/share/man/man3/curl_easy_strerror.3",
 				"/usr/share/man/man3/curl_easy_unescape.3",
 				"/usr/share/man/man3/curl_easy_upkeep.3",
@@ -639,11 +647,12 @@
 			],
 			"name": "curl-devel",
 			"provides": [
+				"binary(curl-config)",
 				"pkgconfig(libcurl)"
 			]
 		}
 	},
 	"source-name": "curl",
-	"source-release": "20",
-	"source-version": "8.11.1"
+	"source-release": "21",
+	"source-version": "8.13.0"
 }

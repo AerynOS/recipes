@@ -1,0 +1,45 @@
+#
+# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : bcachefs-tools
+version     : 1.25.2
+release     : 1
+homepage    : https://bcachefs.org
+upstreams   :
+    - https://evilpiepirate.org/bcachefs-tools/bcachefs-tools-vendored-1.25.2.tar.zst : 5989d8b75e3ac918895b08ed362c17985b872c5673f7f7116136fa4ac50c534f
+summary     : BCacheFS filesystem utilities
+description : |
+    BCacheFS filesystem utilities
+license     : GPL-2.0-only
+builddeps   :
+    - binary(cargo)
+    - pkgconfig(blkid)
+    - pkgconfig(libkeyutils)
+    - pkgconfig(liblz4)
+    - pkgconfig(libsodium)
+    - pkgconfig(libudev)
+    - pkgconfig(liburcu)
+    - pkgconfig(libzstd)
+    - pkgconfig(uuid)
+    - pkgconfig(zlib)
+    - libaio-devel
+environment : |
+    export MAKE_ARGS="PREFIX=%(prefix) ROOT_SBINDIR=%(sbindir) LIBEXECDIR=%(libdir)/bcachefs-tools"
+build       : |
+    %make $MAKE_ARGS
+install     : |
+    %make_install $MAKE_ARGS
+
+    # Incompatible with dracut
+    rm -rfv %(installroot)/usr/share/initramfs-tools
+
+    # FUSE support is still experimental
+    rm -v %(installroot)/%(sbindir)/*fuse*
+
+    # Shell completions
+    %install_dir %(installroot)/usr/share/{bash-completion/completions,fish/vendor_completions.d,zsh/site-functions}
+    %(installroot)/%(sbindir)/bcachefs completions bash > %(installroot)/usr/share/bash-completion/completions/bcachefs
+    %(installroot)/%(sbindir)/bcachefs completions fish > %(installroot)/usr/share/fish/vendor_completions.d/bcachefs.fish
+    %(installroot)/%(sbindir)/bcachefs completions zsh > %(installroot)/usr/share/zsh/site-functions/_bcachefs

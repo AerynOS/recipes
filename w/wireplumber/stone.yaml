@@ -4,17 +4,19 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : wireplumber
-version     : 0.5.8
-release     : 6
+version     : 0.5.10
+release     : 8
 homepage    : https://gitlab.freedesktop.org/pipewire/wireplumber/
 upstreams   :
-    - https://gitlab.freedesktop.org/pipewire/wireplumber/-/archive/0.5.8/wireplumber-0.5.8.tar.gz : 234667497c6b1dd2457e7f4566567fad6cde31e4cb8990c7d0f149cb45a3894a
+    - https://gitlab.freedesktop.org/pipewire/wireplumber/-/archive/0.5.10/wireplumber-0.5.10.tar.gz : c2e021d8e6ef1db644facd4a97f5a644b67481c641da9100e851aab6752ba446
 summary     : Session / policy manager implementation for PipeWire
 description : |
     Session / policy manager implementation for PipeWire
 license     :
     - MIT
 builddeps   :
+    - binary(doxygen)
+    - binary(g-ir-scanner)
     - binary(msgfmt)
     - pkgconfig(gio-2.0)
     - pkgconfig(glib-2.0)
@@ -23,16 +25,36 @@ builddeps   :
     - pkgconfig(libpipewire-0.3)
     - pkgconfig(libspa-0.2)
     - pkgconfig(libsystemd)
+    - pkgconfig(lua)
     - pkgconfig(systemd)
-    - lua-devel
-    - lua
+    - python(lxml)
+rundeps     :
+    - binary(pipewire)
 setup       : |
     #https://github.com/ValveSoftware/steam-for-linux/issues/11901
     %patch %(pkgdir)/block_steam_clear_default.patch
 
-    %meson -Dsystem-lua=true \
-           -Dsystem-lua-version=5.4
+    %meson -Dsystem-lua=true
 build       : |
     %meson_build
 install     : |
     %meson_install
+packages    :
+    - "%(name)-libs":
+        summary: "Library files for %(name)"
+        description: |
+            Library files for %(name), typically pulled in as a dependency of another package.
+        paths:
+            - /usr/lib/wireplumber-0.5/libwireplumber-*.so
+            - /usr/lib/libwireplumber-0.5.so.*
+            - /usr/lib/girepository-1.0/Wp-0.5.typelib
+    
+    # Moss upgrade issue
+    - "%(name)":
+        rundeps:
+            - "%(name)-libs"
+    
+    - "%(name)-devel":
+        paths:
+            # Remove once https://github.com/AerynOS/os-tools/pull/491 is merged
+            - /usr/share/gir-1.0/*.gir

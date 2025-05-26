@@ -1,8 +1,1144 @@
+From 9ba55e4661ebadd5eb8d4173d0d250de78fe105b Mon Sep 17 00:00:00 2001
+From: Andrew Liebenow <andrewliebenow@gmail.com>
+Date: Sat, 19 Oct 2024 09:36:40 -0500
+Subject: [PATCH 1/9] stty: fix negated operands
+
+Also: use correct file descriptor (stdin) to look up tty
+Also: fix handling of end of options delimiter ("--")
+Also: use `StdoutLock` for printing
+---
+ src/uu/stty/src/stty.rs    | 226 +++++++++++++++++++++++++++----------
+ tests/by-util/test_stty.rs |  80 +++++++++++--
+ 2 files changed, 238 insertions(+), 68 deletions(-)
+
+diff --git a/src/uu/stty/src/stty.rs b/src/uu/stty/src/stty.rs
+index 5a5c31f5e60..313b3de6c87 100644
+--- a/src/uu/stty/src/stty.rs
++++ b/src/uu/stty/src/stty.rs
+@@ -3,7 +3,7 @@
+ // For the full copyright and license information, please view the LICENSE
+ // file that was distributed with this source code.
+ 
+-// spell-checker:ignore clocal erange tcgetattr tcsetattr tcsanow tiocgwinsz tiocswinsz cfgetospeed cfsetospeed ushort vmin vtime
++// spell-checker:ignore clocal erange tcgetattr tcsetattr tcsanow tiocgwinsz tiocswinsz cfgetospeed cfsetospeed ushort vmin vtime ixon
+ 
+ mod flags;
+ 
+@@ -14,8 +14,10 @@ use nix::sys::termios::{
+     OutputFlags, SpecialCharacterIndices, Termios,
+ };
+ use nix::{ioctl_read_bad, ioctl_write_ptr_bad};
++use std::ffi::OsStr;
+ use std::fs::File;
+-use std::io::{self, stdout, Stdout};
++use std::io::Write;
++use std::io::{self, Stdin, StdoutLock};
+ use std::ops::ControlFlow;
+ use std::os::fd::{AsFd, BorrowedFd};
+ use std::os::unix::fs::OpenOptionsExt;
+@@ -99,14 +101,14 @@ struct Options<'a> {
+ 
+ enum Device {
+     File(File),
+-    Stdout(Stdout),
++    Stdin(Stdin),
+ }
+ 
+ impl AsFd for Device {
+     fn as_fd(&self) -> BorrowedFd<'_> {
+         match self {
+             Self::File(f) => f.as_fd(),
+-            Self::Stdout(stdout) => stdout.as_fd(),
++            Self::Stdin(stdin) => stdin.as_fd(),
+         }
+     }
+ }
+@@ -115,7 +117,7 @@ impl AsRawFd for Device {
+     fn as_raw_fd(&self) -> RawFd {
+         match self {
+             Self::File(f) => f.as_raw_fd(),
+-            Self::Stdout(stdout) => stdout.as_raw_fd(),
++            Self::Stdin(stdin) => stdin.as_raw_fd(),
+         }
+     }
+ }
+@@ -141,7 +143,7 @@ impl<'a> Options<'a> {
+                         .custom_flags(O_NONBLOCK)
+                         .open(f)?,
+                 ),
+-                None => Device::Stdout(stdout()),
++                None => Device::Stdin(io::stdin()),
+             },
+             settings: matches
+                 .get_many::<String>(options::SETTINGS)
+@@ -176,7 +178,15 @@ ioctl_write_ptr_bad!(
+ 
+ #[uucore::main]
+ pub fn uumain(args: impl uucore::Args) -> UResult<()> {
+-    let matches = uu_app().try_get_matches_from(args)?;
++    // Manually fix this edge case:
++    //
++    // stty -- -ixon
++    let end_of_options_os_str = OsStr::new("--");
++
++    // Ignore the end of options delimiter ("--") and everything after, as GNU Core Utilities does
++    let fixed_args = args.take_while(|os| os.as_os_str() != end_of_options_os_str);
++
++    let matches = uu_app().try_get_matches_from(fixed_args)?;
+ 
+     let opts = Options::from(&matches)?;
+ 
+@@ -199,31 +209,67 @@ fn stty(opts: &Options) -> UResult<()> {
+     }
+ 
+     // TODO: Figure out the right error message for when tcgetattr fails
+-    let mut termios = tcgetattr(opts.file.as_fd()).expect("Could not get terminal attributes");
++    let mut termios = match tcgetattr(opts.file.as_fd()) {
++        Ok(te) => te,
++        Err(er) => {
++            return Err(USimpleError::new(
++                1,
++                format!("could not get terminal attributes: errno {er}"),
++            ));
++        }
++    };
+ 
+     if let Some(settings) = &opts.settings {
+         for setting in settings {
+-            if let ControlFlow::Break(false) = apply_setting(&mut termios, setting) {
+-                return Err(USimpleError::new(
+-                    1,
+-                    format!("invalid argument '{setting}'"),
+-                ));
++            match apply_setting(&mut termios, setting) {
++                ControlFlow::Break(re) => {
++                    if re? {
++                        // The setting was successfully applied
++                        continue;
++                    } else {
++                        // All attempts to apply the setting failed
++                        return Err(USimpleError::new(
++                            1,
++                            format!("invalid argument '{setting}'"),
++                        ));
++                    }
++                }
++                ControlFlow::Continue(()) => {
++                    // Should be unreachable
++                    debug_assert!(false);
++                }
+             }
+         }
+ 
+-        tcsetattr(
++        if let Err(er) = tcsetattr(
+             opts.file.as_fd(),
+             nix::sys::termios::SetArg::TCSANOW,
+             &termios,
+-        )
+-        .expect("Could not write terminal attributes");
++        ) {
++            return Err(USimpleError::new(
++                1,
++                format!("Could not write terminal attributes: errno {er}"),
++            ));
++        }
+     } else {
+-        print_settings(&termios, opts).expect("TODO: make proper error here from nix error");
++        //
++        #[allow(clippy::collapsible_else_if)]
++        if let Err(bo) = print_settings(&termios, opts) {
++            return Err(USimpleError::new(
++                1,
++                format!("failed to print settings: {bo}"),
++            ));
++        }
+     }
++
+     Ok(())
+ }
+ 
+-fn print_terminal_size(termios: &Termios, opts: &Options) -> nix::Result<()> {
++fn print_terminal_size(
++    stdout_lock: &mut StdoutLock,
++    termios: &Termios,
++    opts: &Options,
++) -> UResult<()> {
+     let speed = cfgetospeed(termios);
+ 
+     // BSDs use a u32 for the baud rate, so we can simply print it.
+@@ -235,7 +281,7 @@ fn print_terminal_size(termios: &Termios, opts: &Options) -> nix::Result<()> {
+         target_os = "netbsd",
+         target_os = "openbsd"
+     ))]
+-    print!("speed {speed} baud; ");
++    write!(stdout_lock, "speed {speed} baud; ")?;
+ 
+     // Other platforms need to use the baud rate enum, so printing the right value
+     // becomes slightly more complicated.
+@@ -249,15 +295,22 @@ fn print_terminal_size(termios: &Termios, opts: &Options) -> nix::Result<()> {
+     )))]
+     for (text, baud_rate) in BAUD_RATES {
+         if *baud_rate == speed {
+-            print!("speed {text} baud; ");
++            write!(stdout_lock, "speed {text} baud; ")?;
++
+             break;
+         }
+     }
+ 
+     if opts.all {
+         let mut size = TermSize::default();
++
+         unsafe { tiocgwinsz(opts.file.as_raw_fd(), &mut size as *mut _)? };
+-        print!("rows {}; columns {}; ", size.rows, size.columns);
++
++        write!(
++            stdout_lock,
++            "rows {}; columns {}; ",
++            size.rows, size.columns
++        )?;
+     }
+ 
+     #[cfg(any(target_os = "linux", target_os = "redox"))]
+@@ -266,10 +319,12 @@ fn print_terminal_size(termios: &Termios, opts: &Options) -> nix::Result<()> {
+         // so we get the underlying libc::termios struct to get that information.
+         let libc_termios: nix::libc::termios = termios.clone().into();
+         let line = libc_termios.c_line;
+-        print!("line = {line};");
++
++        write!(stdout_lock, "line = {line};")?;
+     }
+ 
+-    println!();
++    writeln!(stdout_lock)?;
++
+     Ok(())
+ }
+ 
+@@ -299,56 +354,78 @@ fn control_char_to_string(cc: nix::libc::cc_t) -> nix::Result<String> {
+     Ok(format!("{meta_prefix}{ctrl_prefix}{character}"))
+ }
+ 
+-fn print_control_chars(termios: &Termios, opts: &Options) -> nix::Result<()> {
++fn print_control_chars(
++    stdout_lock: &mut StdoutLock,
++    termios: &Termios,
++    opts: &Options,
++) -> UResult<()> {
+     if !opts.all {
+         // TODO: this branch should print values that differ from defaults
+         return Ok(());
+     }
+ 
+     for (text, cc_index) in CONTROL_CHARS {
+-        print!(
++        write!(
++            stdout_lock,
+             "{text} = {}; ",
+             control_char_to_string(termios.control_chars[*cc_index as usize])?
+-        );
++        )?;
+     }
+-    println!(
++
++    writeln!(
++        stdout_lock,
+         "min = {}; time = {};",
+         termios.control_chars[SpecialCharacterIndices::VMIN as usize],
+         termios.control_chars[SpecialCharacterIndices::VTIME as usize]
+-    );
++    )?;
++
+     Ok(())
+ }
+ 
+-fn print_in_save_format(termios: &Termios) {
+-    print!(
++fn print_in_save_format(stdout_lock: &mut StdoutLock, termios: &Termios) -> UResult<()> {
++    write!(
++        stdout_lock,
+         "{:x}:{:x}:{:x}:{:x}",
+         termios.input_flags.bits(),
+         termios.output_flags.bits(),
+         termios.control_flags.bits(),
+         termios.local_flags.bits()
+-    );
++    )?;
++
+     for cc in termios.control_chars {
+-        print!(":{cc:x}");
++        write!(stdout_lock, ":{cc:x}")?;
+     }
+-    println!();
++
++    writeln!(stdout_lock)?;
++
++    Ok(())
+ }
+ 
+-fn print_settings(termios: &Termios, opts: &Options) -> nix::Result<()> {
++fn print_settings(termios: &Termios, opts: &Options) -> UResult<()> {
++    let mut stdout_lock = io::stdout().lock();
++
+     if opts.save {
+-        print_in_save_format(termios);
++        print_in_save_format(&mut stdout_lock, termios)?;
+     } else {
+-        print_terminal_size(termios, opts)?;
+-        print_control_chars(termios, opts)?;
+-        print_flags(termios, opts, CONTROL_FLAGS);
+-        print_flags(termios, opts, INPUT_FLAGS);
+-        print_flags(termios, opts, OUTPUT_FLAGS);
+-        print_flags(termios, opts, LOCAL_FLAGS);
++        print_terminal_size(&mut stdout_lock, termios, opts)?;
++        print_control_chars(&mut stdout_lock, termios, opts)?;
++        print_flags(&mut stdout_lock, termios, opts, CONTROL_FLAGS)?;
++        print_flags(&mut stdout_lock, termios, opts, INPUT_FLAGS)?;
++        print_flags(&mut stdout_lock, termios, opts, OUTPUT_FLAGS)?;
++        print_flags(&mut stdout_lock, termios, opts, LOCAL_FLAGS)?;
+     }
++
+     Ok(())
+ }
+ 
+-fn print_flags<T: TermiosFlag>(termios: &Termios, opts: &Options, flags: &[Flag<T>]) {
++fn print_flags<T: TermiosFlag>(
++    stdout_lock: &mut StdoutLock,
++    termios: &Termios,
++    opts: &Options,
++    flags: &[Flag<T>],
++) -> UResult<()> {
+     let mut printed = false;
++
+     for &Flag {
+         name,
+         flag,
+@@ -360,41 +437,51 @@ fn print_flags<T: TermiosFlag>(termios: &Termios, opts: &Options, flags: &[Flag<
+         if !show {
+             continue;
+         }
++
+         let val = flag.is_in(termios, group);
++
+         if group.is_some() {
+             if val && (!sane || opts.all) {
+-                print!("{name} ");
++                write!(stdout_lock, "{name} ")?;
++
+                 printed = true;
+             }
+         } else if opts.all || val != sane {
+             if !val {
+-                print!("-");
++                write!(stdout_lock, "-")?;
+             }
+-            print!("{name} ");
++
++            write!(stdout_lock, "{name} ")?;
++
+             printed = true;
+         }
+     }
++
+     if printed {
+-        println!();
++        writeln!(stdout_lock)?;
+     }
++
++    Ok(())
+ }
+ 
+ /// Apply a single setting
+ ///
+ /// The value inside the `Break` variant of the `ControlFlow` indicates whether
+ /// the setting has been applied.
+-fn apply_setting(termios: &mut Termios, s: &str) -> ControlFlow<bool> {
+-    apply_baud_rate_flag(termios, s)?;
++fn apply_setting(termios: &mut Termios, setting: &str) -> ControlFlow<UResult<bool>> {
++    apply_baud_rate_flag(termios, setting)?;
+ 
+-    let (remove, name) = match s.strip_prefix('-') {
+-        Some(s) => (true, s),
+-        None => (false, s),
++    let (remove, name) = match setting.strip_prefix('-') {
++        Some(st) => (true, st),
++        None => (false, setting),
+     };
++
+     apply_flag(termios, CONTROL_FLAGS, name, remove)?;
+     apply_flag(termios, INPUT_FLAGS, name, remove)?;
+     apply_flag(termios, OUTPUT_FLAGS, name, remove)?;
+     apply_flag(termios, LOCAL_FLAGS, name, remove)?;
+-    ControlFlow::Break(false)
++
++    ControlFlow::Break(Ok(false))
+ }
+ 
+ /// Apply a flag to a slice of flags
+@@ -406,7 +493,7 @@ fn apply_flag<T: TermiosFlag>(
+     flags: &[Flag<T>],
+     input: &str,
+     remove: bool,
+-) -> ControlFlow<bool> {
++) -> ControlFlow<UResult<bool>> {
+     for Flag {
+         name, flag, group, ..
+     } in flags
+@@ -415,20 +502,24 @@ fn apply_flag<T: TermiosFlag>(
+             // Flags with groups cannot be removed
+             // Since the name matches, we can short circuit and don't have to check the other flags.
+             if remove && group.is_some() {
+-                return ControlFlow::Break(false);
++                return ControlFlow::Break(Ok(false));
+             }
++
+             // If there is a group, the bits for that group should be cleared before applying the flag
+             if let Some(group) = group {
+                 group.apply(termios, false);
+             }
++
+             flag.apply(termios, !remove);
+-            return ControlFlow::Break(true);
++
++            return ControlFlow::Break(Ok(true));
+         }
+     }
++
+     ControlFlow::Continue(())
+ }
+ 
+-fn apply_baud_rate_flag(termios: &mut Termios, input: &str) -> ControlFlow<bool> {
++fn apply_baud_rate_flag(termios: &mut Termios, input: &str) -> ControlFlow<UResult<bool>> {
+     // BSDs use a u32 for the baud rate, so any decimal number applies.
+     #[cfg(any(
+         target_os = "freebsd",
+@@ -439,8 +530,14 @@ fn apply_baud_rate_flag(termios: &mut Termios, input: &str) -> ControlFlow<bool>
+         target_os = "openbsd"
+     ))]
+     if let Ok(n) = input.parse::<u32>() {
+-        cfsetospeed(termios, n).expect("Failed to set baud rate");
+-        return ControlFlow::Break(true);
++        if let Err(er) = cfsetospeed(termios, n) {
++            return Err(USimpleError::new(
++                1,
++                format!("failed to set baud rate: errno {er}"),
++            ));
++        }
++
++        return ControlFlow::Break(Ok(true));
+     }
+ 
+     // Other platforms use an enum.
+@@ -454,10 +551,17 @@ fn apply_baud_rate_flag(termios: &mut Termios, input: &str) -> ControlFlow<bool>
+     )))]
+     for (text, baud_rate) in BAUD_RATES {
+         if *text == input {
+-            cfsetospeed(termios, *baud_rate).expect("Failed to set baud rate");
+-            return ControlFlow::Break(true);
++            if let Err(er) = cfsetospeed(termios, *baud_rate) {
++                return ControlFlow::Break(Err(USimpleError::new(
++                    1,
++                    format!("failed to set baud rate: errno {er}"),
++                )));
++            }
++
++            return ControlFlow::Break(Ok(true));
+         }
+     }
++
+     ControlFlow::Continue(())
+ }
+ 
+@@ -492,6 +596,8 @@ pub fn uu_app() -> Command {
+         .arg(
+             Arg::new(options::SETTINGS)
+                 .action(ArgAction::Append)
++                // Allows e.g. "stty -ixon" to work
++                .allow_hyphen_values(true)
+                 .help("settings to change"),
+         )
+ }
+diff --git a/tests/by-util/test_stty.rs b/tests/by-util/test_stty.rs
+index a9a9209b034..c9fb7ca9582 100644
+--- a/tests/by-util/test_stty.rs
++++ b/tests/by-util/test_stty.rs
+@@ -2,31 +2,39 @@
+ //
+ // For the full copyright and license information, please view the LICENSE
+ // file that was distributed with this source code.
+-// spell-checker:ignore parenb parmrk ixany iuclc onlcr ofdel icanon noflsh
++
++// spell-checker:ignore parenb parmrk ixany iuclc onlcr ofdel icanon noflsh ixon
+ 
+ use crate::common::util::TestScenario;
++use regex::Regex;
+ 
+ #[test]
+ fn test_invalid_arg() {
+-    new_ucmd!().arg("--definitely-invalid").fails().code_is(1);
++    new_ucmd!()
++        .args(&["--file=/dev/tty", "--definitely-invalid"])
++        .fails()
++        .code_is(1);
+ }
+ 
+ #[test]
+-#[ignore = "Fails because cargo test does not run in a tty"]
+ fn runs() {
+-    new_ucmd!().succeeds();
++    new_ucmd!().arg("--file=/dev/tty").succeeds();
+ }
+ 
+ #[test]
+-#[ignore = "Fails because cargo test does not run in a tty"]
+ fn print_all() {
+-    let res = new_ucmd!().succeeds();
++    let cmd_result = new_ucmd!().args(&["--file=/dev/tty", "-a"]).succeeds();
++
++    // "iuclc" removed due to this comment in stty.rs:
++    //
++    // not supported by nix
++    // Flag::new("iuclc", I::IUCLC),
+ 
+     // Random selection of flags to check for
+     for flag in [
+-        "parenb", "parmrk", "ixany", "iuclc", "onlcr", "ofdel", "icanon", "noflsh",
++        "parenb", "parmrk", "ixany", "onlcr", "ofdel", "icanon", "noflsh",
+     ] {
+-        res.stdout_contains(flag);
++        cmd_result.stdout_contains(flag);
+     }
+ }
+ 
+@@ -62,3 +70,59 @@ fn save_and_all() {
+             "the options for verbose and stty-readable output styles are mutually exclusive",
+         );
+ }
++
++// Make sure the "allow_hyphen_values" clap function has been called with true
++#[test]
++fn negation() {
++    new_ucmd!()
++        .args(&["--file=/dev/tty", "-ixon"])
++        .succeeds()
++        .stdout_is_bytes([])
++        .stderr_is_bytes([]);
++}
++
++fn succeeds_test_with_regex(args: &[&str], stdout_regex: &Regex) {
++    new_ucmd!()
++        .args(args)
++        .succeeds()
++        .stdout_str_check(|st| {
++            let Some(str) = st.lines().next() else {
++                return false;
++            };
++
++            stdout_regex.is_match(str)
++        })
++        .no_stderr();
++}
++
++// The end of options delimiter ("--") and everything after must be ignored
++#[test]
++fn ignore_end_of_options_and_after() {
++    {
++        // e.g.:
++        // speed 38400 baud; rows 54; columns 216; line = 0;
++        let regex =
++            Regex::new("speed [0-9]+ baud; rows [0-9]+; columns [0-9]+; line = [0-9]+;").unwrap();
++
++        // "stty -a -- -ixon" should behave like "stty -a"
++        // Should not abort with an error complaining about passing both "-a" and "-ixon" (since "-ixon" is after "--")
++        succeeds_test_with_regex(&["--file=/dev/tty", "-a", "--", "-ixon"], &regex);
++    }
++
++    {
++        // e.g.:
++        // speed 38400 baud; line = 0;
++        let regex = Regex::new("speed [0-9]+ baud; line = [0-9]+;").unwrap();
++
++        // "stty -- non-existent-option-that-must-be-ignore" should behave like "stty"
++        // Should not abort with an error complaining about an invalid argument, since the invalid argument is after "--"
++        succeeds_test_with_regex(
++            &[
++                "--file=/dev/tty",
++                "--",
++                "non-existent-option-that-must-be-ignored",
++            ],
++            &regex,
++        );
++    }
++}
+
+From e7fca79283958ff23e9409747f78236c44c330c2 Mon Sep 17 00:00:00 2001
+From: Andrew Liebenow <andrewliebenow@gmail.com>
+Date: Sat, 19 Oct 2024 11:14:47 -0500
+Subject: [PATCH 2/9] Fix multiple issues in previous commit
+
+---
+ src/uu/stty/src/stty.rs    |  28 +++----
+ tests/by-util/test_stty.rs | 151 +++++++++++++++++++++++++++++++------
+ 2 files changed, 144 insertions(+), 35 deletions(-)
+
+diff --git a/src/uu/stty/src/stty.rs b/src/uu/stty/src/stty.rs
+index 313b3de6c87..ccacddfe209 100644
+--- a/src/uu/stty/src/stty.rs
++++ b/src/uu/stty/src/stty.rs
+@@ -520,6 +520,16 @@ fn apply_flag<T: TermiosFlag>(
+ }
+ 
+ fn apply_baud_rate_flag(termios: &mut Termios, input: &str) -> ControlFlow<UResult<bool>> {
++    fn map_cfsetospeed_result(result: nix::Result<()>) -> UResult<bool> {
++        match result {
++            Ok(()) => Ok(true),
++            Err(er) => Err(USimpleError::new(
++                1,
++                format!("failed to set baud rate: errno {er}"),
++            )),
++        }
++    }
++
+     // BSDs use a u32 for the baud rate, so any decimal number applies.
+     #[cfg(any(
+         target_os = "freebsd",
+@@ -530,14 +540,9 @@ fn apply_baud_rate_flag(termios: &mut Termios, input: &str) -> ControlFlow<UResu
+         target_os = "openbsd"
+     ))]
+     if let Ok(n) = input.parse::<u32>() {
+-        if let Err(er) = cfsetospeed(termios, n) {
+-            return Err(USimpleError::new(
+-                1,
+-                format!("failed to set baud rate: errno {er}"),
+-            ));
+-        }
++        let result = map_cfsetospeed_result(cfsetospeed(termios, n));
+ 
+-        return ControlFlow::Break(Ok(true));
++        return ControlFlow::Break(result);
+     }
+ 
+     // Other platforms use an enum.
+@@ -551,14 +556,9 @@ fn apply_baud_rate_flag(termios: &mut Termios, input: &str) -> ControlFlow<UResu
+     )))]
+     for (text, baud_rate) in BAUD_RATES {
+         if *text == input {
+-            if let Err(er) = cfsetospeed(termios, *baud_rate) {
+-                return ControlFlow::Break(Err(USimpleError::new(
+-                    1,
+-                    format!("failed to set baud rate: errno {er}"),
+-                )));
+-            }
++            let result = map_cfsetospeed_result(cfsetospeed(termios, *baud_rate));
+ 
+-            return ControlFlow::Break(Ok(true));
++            return ControlFlow::Break(result);
+         }
+     }
+ 
+diff --git a/tests/by-util/test_stty.rs b/tests/by-util/test_stty.rs
+index c9fb7ca9582..558633be951 100644
+--- a/tests/by-util/test_stty.rs
++++ b/tests/by-util/test_stty.rs
+@@ -5,25 +5,76 @@
+ 
+ // spell-checker:ignore parenb parmrk ixany iuclc onlcr ofdel icanon noflsh ixon
+ 
+-use crate::common::util::TestScenario;
++use crate::common::util::{TestScenario, UCommand};
++use nix::{
++    fcntl::{self, OFlag},
++    sys::stat::Mode,
++};
++use once_cell::sync::OnceCell;
+ use regex::Regex;
++use std::{io::Read, process::Stdio};
++
++const DEV_TTY: &str = "/dev/tty";
++
++fn get_print_first_line_regex() -> &'static Regex {
++    static ONCE_CELL: OnceCell<Regex> = OnceCell::<Regex>::new();
++
++    ONCE_CELL.get_or_init(|| {
++        // e.g.:
++        // speed 38400 baud; line = 0;
++        Regex::new("speed [0-9]+ baud; line = [0-9]+;").unwrap()
++    })
++}
++
++fn get_print_dash_a_first_line_regex() -> &'static Regex {
++    static ONCE_CELL: OnceCell<Regex> = OnceCell::<Regex>::new();
++
++    ONCE_CELL.get_or_init(|| {
++        // e.g.:
++        // speed 38400 baud; rows 54; columns 216; line = 0;
++        Regex::new("speed [0-9]+ baud; rows [0-9]+; columns [0-9]+; line = [0-9]+;").unwrap()
++    })
++}
++
++fn get_dev_tty_stdio() -> Stdio {
++    use std::os::fd::FromRawFd;
++
++    let dev_tty_raw_fd = fcntl::open(DEV_TTY, OFlag::O_NONBLOCK, Mode::empty()).unwrap();
++
++    // TODO
++    // Verify safety
++    unsafe { Stdio::from_raw_fd(dev_tty_raw_fd) }
++}
++
++impl UCommand {
++    fn set_stdin_to_dev_tty_stdio(&mut self) -> &mut Self {
++        self.set_stdin(get_dev_tty_stdio())
++    }
++}
+ 
+ #[test]
++#[cfg(not(target_os = "android"))]
+ fn test_invalid_arg() {
+     new_ucmd!()
+-        .args(&["--file=/dev/tty", "--definitely-invalid"])
++        .arg("--definitely-invalid")
++        .set_stdin_to_dev_tty_stdio()
+         .fails()
+         .code_is(1);
+ }
+ 
+ #[test]
++#[cfg(not(target_os = "android"))]
+ fn runs() {
+-    new_ucmd!().arg("--file=/dev/tty").succeeds();
++    new_ucmd!().set_stdin_to_dev_tty_stdio().succeeds();
+ }
+ 
+ #[test]
++#[cfg(not(target_os = "android"))]
+ fn print_all() {
+-    let cmd_result = new_ucmd!().args(&["--file=/dev/tty", "-a"]).succeeds();
++    let cmd_result = new_ucmd!()
++        .arg("-a")
++        .set_stdin_to_dev_tty_stdio()
++        .succeeds();
+ 
+     // "iuclc" removed due to this comment in stty.rs:
+     //
+@@ -73,9 +124,11 @@ fn save_and_all() {
+ 
+ // Make sure the "allow_hyphen_values" clap function has been called with true
+ #[test]
++#[cfg(not(target_os = "android"))]
+ fn negation() {
+     new_ucmd!()
+-        .args(&["--file=/dev/tty", "-ixon"])
++        .arg("-ixon")
++        .set_stdin_to_dev_tty_stdio()
+         .succeeds()
+         .stdout_is_bytes([])
+         .stderr_is_bytes([]);
+@@ -84,6 +137,7 @@ fn negation() {
+ fn succeeds_test_with_regex(args: &[&str], stdout_regex: &Regex) {
+     new_ucmd!()
+         .args(args)
++        .set_stdin_to_dev_tty_stdio()
+         .succeeds()
+         .stdout_str_check(|st| {
+             let Some(str) = st.lines().next() else {
+@@ -97,32 +151,87 @@ fn succeeds_test_with_regex(args: &[&str], stdout_regex: &Regex) {
+ 
+ // The end of options delimiter ("--") and everything after must be ignored
+ #[test]
++#[cfg(not(target_os = "android"))]
+ fn ignore_end_of_options_and_after() {
+     {
+-        // e.g.:
+-        // speed 38400 baud; rows 54; columns 216; line = 0;
+-        let regex =
+-            Regex::new("speed [0-9]+ baud; rows [0-9]+; columns [0-9]+; line = [0-9]+;").unwrap();
+-
+         // "stty -a -- -ixon" should behave like "stty -a"
+         // Should not abort with an error complaining about passing both "-a" and "-ixon" (since "-ixon" is after "--")
+-        succeeds_test_with_regex(&["--file=/dev/tty", "-a", "--", "-ixon"], &regex);
++        succeeds_test_with_regex(&["-a", "--", "-ixon"], get_print_dash_a_first_line_regex());
+     }
+ 
+     {
+-        // e.g.:
+-        // speed 38400 baud; line = 0;
+-        let regex = Regex::new("speed [0-9]+ baud; line = [0-9]+;").unwrap();
+-
+         // "stty -- non-existent-option-that-must-be-ignore" should behave like "stty"
+         // Should not abort with an error complaining about an invalid argument, since the invalid argument is after "--"
+         succeeds_test_with_regex(
+-            &[
+-                "--file=/dev/tty",
+-                "--",
+-                "non-existent-option-that-must-be-ignored",
+-            ],
+-            &regex,
++            &["--", "non-existent-option-that-must-be-ignored"],
++            get_print_first_line_regex(),
+         );
+     }
+ }
++
++#[test]
++fn f_file_option() {
++    for st in ["-F", "--file"] {
++        for bo in [false, true] {
++            let (args, regex): (&[&str], &'static Regex) = if bo {
++                (&[st, DEV_TTY, "-a"], get_print_dash_a_first_line_regex())
++            } else {
++                (&[st, DEV_TTY], get_print_first_line_regex())
++            };
++
++            new_ucmd!()
++                .args(args)
++                .set_stdin_to_dev_tty_stdio()
++                .succeeds()
++                .stdout_str_check(|st| {
++                    let Some(str) = st.lines().next() else {
++                        return false;
++                    };
++
++                    regex.is_match(str)
++                })
++                .no_stderr();
++        }
++    }
++}
++
++// Make sure stty is using stdin to look up terminal attributes, not stdout
++#[test]
++fn correct_file_descriptor_output_piped() {
++    const PIPE_STDOUT_TO: &str = "pipe_stdout_to";
++    const PIPE_STDERR_TO: &str = "pipe_stderr_to";
++
++    let test_scenario = TestScenario::new(util_name!());
++
++    let at_path = &test_scenario.fixtures;
++
++    let stdout_file = at_path.make_file(PIPE_STDOUT_TO);
++    let stderr_file = at_path.make_file(PIPE_STDERR_TO);
++
++    test_scenario
++        .ucmd()
++        .set_stdin_to_dev_tty_stdio()
++        .set_stdout(Stdio::from(stdout_file))
++        .set_stderr(Stdio::from(stderr_file))
++        .succeeds();
++
++    let mut read_to_string_buffer = String::new();
++
++    at_path
++        .open(PIPE_STDOUT_TO)
++        .read_to_string(&mut read_to_string_buffer)
++        .unwrap();
++
++    let stdout_first_line = read_to_string_buffer.lines().next().unwrap();
++
++    assert!(get_print_first_line_regex().is_match(stdout_first_line));
++
++    read_to_string_buffer.clear();
++
++    at_path
++        .open(PIPE_STDERR_TO)
++        .read_to_string(&mut read_to_string_buffer)
++        .unwrap();
++
++    assert!(read_to_string_buffer.is_empty());
++}
+
+From def1730f2f293231e4cecf10f4e603be84b8a4a4 Mon Sep 17 00:00:00 2001
+From: Andrew Liebenow <andrewliebenow@gmail.com>
+Date: Sat, 19 Oct 2024 11:27:59 -0500
+Subject: [PATCH 3/9] Remove unnecessary unsafe code
+
+---
+ tests/by-util/test_stty.rs | 46 +++++++++++++-------------------------
+ 1 file changed, 15 insertions(+), 31 deletions(-)
+
+diff --git a/tests/by-util/test_stty.rs b/tests/by-util/test_stty.rs
+index 558633be951..75d681dd367 100644
+--- a/tests/by-util/test_stty.rs
++++ b/tests/by-util/test_stty.rs
+@@ -6,13 +6,9 @@
+ // spell-checker:ignore parenb parmrk ixany iuclc onlcr ofdel icanon noflsh ixon
+ 
+ use crate::common::util::{TestScenario, UCommand};
+-use nix::{
+-    fcntl::{self, OFlag},
+-    sys::stat::Mode,
+-};
+ use once_cell::sync::OnceCell;
+ use regex::Regex;
+-use std::{io::Read, process::Stdio};
++use std::{fs::File, io::Read, process::Stdio};
+ 
+ const DEV_TTY: &str = "/dev/tty";
+ 
+@@ -36,19 +32,13 @@ fn get_print_dash_a_first_line_regex() -> &'static Regex {
+     })
+ }
+ 
+-fn get_dev_tty_stdio() -> Stdio {
+-    use std::os::fd::FromRawFd;
+-
+-    let dev_tty_raw_fd = fcntl::open(DEV_TTY, OFlag::O_NONBLOCK, Mode::empty()).unwrap();
+-
+-    // TODO
+-    // Verify safety
+-    unsafe { Stdio::from_raw_fd(dev_tty_raw_fd) }
+-}
+-
+ impl UCommand {
+     fn set_stdin_to_dev_tty_stdio(&mut self) -> &mut Self {
+-        self.set_stdin(get_dev_tty_stdio())
++        let file = File::open(DEV_TTY).unwrap();
++
++        let stdio = Stdio::from(file);
++
++        self.set_stdin(stdio)
+     }
+ }
+ 
+@@ -134,7 +124,7 @@ fn negation() {
+         .stderr_is_bytes([]);
+ }
+ 
+-fn succeeds_test_with_regex(args: &[&str], stdout_regex: &Regex) {
++fn run_and_check_print_should_succeed(args: &[&str], stdout_regex: &Regex) {
+     new_ucmd!()
+         .args(args)
+         .set_stdin_to_dev_tty_stdio()
+@@ -156,13 +146,16 @@ fn ignore_end_of_options_and_after() {
+     {
+         // "stty -a -- -ixon" should behave like "stty -a"
+         // Should not abort with an error complaining about passing both "-a" and "-ixon" (since "-ixon" is after "--")
+-        succeeds_test_with_regex(&["-a", "--", "-ixon"], get_print_dash_a_first_line_regex());
++        run_and_check_print_should_succeed(
++            &["-a", "--", "-ixon"],
++            get_print_dash_a_first_line_regex(),
++        );
+     }
+ 
+     {
+         // "stty -- non-existent-option-that-must-be-ignore" should behave like "stty"
+         // Should not abort with an error complaining about an invalid argument, since the invalid argument is after "--"
+-        succeeds_test_with_regex(
++        run_and_check_print_should_succeed(
+             &["--", "non-existent-option-that-must-be-ignored"],
+             get_print_first_line_regex(),
+         );
+@@ -170,6 +163,7 @@ fn ignore_end_of_options_and_after() {
+ }
+ 
+ #[test]
++#[cfg(not(target_os = "android"))]
+ fn f_file_option() {
+     for st in ["-F", "--file"] {
+         for bo in [false, true] {
+@@ -179,24 +173,14 @@ fn f_file_option() {
+                 (&[st, DEV_TTY], get_print_first_line_regex())
+             };
+ 
+-            new_ucmd!()
+-                .args(args)
+-                .set_stdin_to_dev_tty_stdio()
+-                .succeeds()
+-                .stdout_str_check(|st| {
+-                    let Some(str) = st.lines().next() else {
+-                        return false;
+-                    };
+-
+-                    regex.is_match(str)
+-                })
+-                .no_stderr();
++            run_and_check_print_should_succeed(args, regex);
+         }
+     }
+ }
+ 
+ // Make sure stty is using stdin to look up terminal attributes, not stdout
+ #[test]
++#[cfg(not(target_os = "android"))]
+ fn correct_file_descriptor_output_piped() {
+     const PIPE_STDOUT_TO: &str = "pipe_stdout_to";
+     const PIPE_STDERR_TO: &str = "pipe_stderr_to";
+
+From e56b46a4d1a8f219cc4e9e4246167ac00858cb3d Mon Sep 17 00:00:00 2001
+From: Andrew Liebenow <andrewliebenow@gmail.com>
+Date: Sat, 19 Oct 2024 11:38:20 -0500
+Subject: [PATCH 4/9] Fix MSRV issue
+
+---
+ tests/by-util/test_stty.rs | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
+
+diff --git a/tests/by-util/test_stty.rs b/tests/by-util/test_stty.rs
+index 75d681dd367..3cdfcb07949 100644
+--- a/tests/by-util/test_stty.rs
++++ b/tests/by-util/test_stty.rs
+@@ -167,10 +167,17 @@ fn ignore_end_of_options_and_after() {
+ fn f_file_option() {
+     for st in ["-F", "--file"] {
+         for bo in [false, true] {
++            let ar: [&str; 3];
++            let arr: [&str; 2];
++
+             let (args, regex): (&[&str], &'static Regex) = if bo {
+-                (&[st, DEV_TTY, "-a"], get_print_dash_a_first_line_regex())
++                ar = [st, DEV_TTY, "-a"];
++
++                (&ar, get_print_dash_a_first_line_regex())
+             } else {
+-                (&[st, DEV_TTY], get_print_first_line_regex())
++                arr = [st, DEV_TTY];
++
++                (&arr, get_print_first_line_regex())
+             };
+ 
+             run_and_check_print_should_succeed(args, regex);
+
+From ee2b11fad11f750d6c9969f44d8304bd9cf2e7e1 Mon Sep 17 00:00:00 2001
+From: Andrew Liebenow <andrewliebenow@gmail.com>
+Date: Sat, 19 Oct 2024 12:05:28 -0500
+Subject: [PATCH 5/9] Disable tests that do not work in CI
+
+---
+ tests/by-util/test_stty.rs | 23 ++++++++++++++++++++---
+ 1 file changed, 20 insertions(+), 3 deletions(-)
+
+diff --git a/tests/by-util/test_stty.rs b/tests/by-util/test_stty.rs
+index 3cdfcb07949..4cc09a81c00 100644
+--- a/tests/by-util/test_stty.rs
++++ b/tests/by-util/test_stty.rs
+@@ -40,10 +40,19 @@ impl UCommand {
+ 
+         self.set_stdin(stdio)
+     }
++
++    fn conditional_set_stdin_to_dev_tty_stdio(&mut self, set_stdin: bool) -> &mut Self {
++        if set_stdin {
++            self.set_stdin_to_dev_tty_stdio()
++        } else {
++            self
++        }
++    }
+ }
+ 
+ #[test]
+ #[cfg(not(target_os = "android"))]
++#[ignore = "These tests should work locally, but /dev/tty isn't configured when running in CI"]
+ fn test_invalid_arg() {
+     new_ucmd!()
+         .arg("--definitely-invalid")
+@@ -54,12 +63,14 @@ fn test_invalid_arg() {
+ 
+ #[test]
+ #[cfg(not(target_os = "android"))]
++#[ignore = "These tests should work locally, but /dev/tty isn't configured when running in CI"]
+ fn runs() {
+     new_ucmd!().set_stdin_to_dev_tty_stdio().succeeds();
+ }
+ 
+ #[test]
+ #[cfg(not(target_os = "android"))]
++#[ignore = "These tests should work locally, but /dev/tty isn't configured when running in CI"]
+ fn print_all() {
+     let cmd_result = new_ucmd!()
+         .arg("-a")
+@@ -115,6 +126,7 @@ fn save_and_all() {
+ // Make sure the "allow_hyphen_values" clap function has been called with true
+ #[test]
+ #[cfg(not(target_os = "android"))]
++#[ignore = "These tests should work locally, but /dev/tty isn't configured when running in CI"]
+ fn negation() {
+     new_ucmd!()
+         .arg("-ixon")
+@@ -124,10 +136,10 @@ fn negation() {
+         .stderr_is_bytes([]);
+ }
+ 
+-fn run_and_check_print_should_succeed(args: &[&str], stdout_regex: &Regex) {
++fn run_and_check_print_should_succeed(args: &[&str], stdout_regex: &Regex, set_stdin: bool) {
+     new_ucmd!()
+         .args(args)
+-        .set_stdin_to_dev_tty_stdio()
++        .conditional_set_stdin_to_dev_tty_stdio(set_stdin)
+         .succeeds()
+         .stdout_str_check(|st| {
+             let Some(str) = st.lines().next() else {
+@@ -142,6 +154,7 @@ fn run_and_check_print_should_succeed(args: &[&str], stdout_regex: &Regex) {
+ // The end of options delimiter ("--") and everything after must be ignored
+ #[test]
+ #[cfg(not(target_os = "android"))]
++#[ignore = "These tests should work locally, but /dev/tty isn't configured when running in CI"]
+ fn ignore_end_of_options_and_after() {
+     {
+         // "stty -a -- -ixon" should behave like "stty -a"
+@@ -149,6 +162,7 @@ fn ignore_end_of_options_and_after() {
+         run_and_check_print_should_succeed(
+             &["-a", "--", "-ixon"],
+             get_print_dash_a_first_line_regex(),
++            true,
+         );
+     }
+ 
+@@ -158,12 +172,14 @@ fn ignore_end_of_options_and_after() {
+         run_and_check_print_should_succeed(
+             &["--", "non-existent-option-that-must-be-ignored"],
+             get_print_first_line_regex(),
++            true,
+         );
+     }
+ }
+ 
+ #[test]
+ #[cfg(not(target_os = "android"))]
++#[ignore = "These tests should work locally, but /dev/tty isn't configured when running in CI"]
+ fn f_file_option() {
+     for st in ["-F", "--file"] {
+         for bo in [false, true] {
+@@ -180,7 +196,7 @@ fn f_file_option() {
+                 (&arr, get_print_first_line_regex())
+             };
+ 
+-            run_and_check_print_should_succeed(args, regex);
++            run_and_check_print_should_succeed(args, regex, false);
+         }
+     }
+ }
+@@ -188,6 +204,7 @@ fn f_file_option() {
+ // Make sure stty is using stdin to look up terminal attributes, not stdout
+ #[test]
+ #[cfg(not(target_os = "android"))]
++#[ignore = "These tests should work locally, but /dev/tty isn't configured when running in CI"]
+ fn correct_file_descriptor_output_piped() {
+     const PIPE_STDOUT_TO: &str = "pipe_stdout_to";
+     const PIPE_STDERR_TO: &str = "pipe_stderr_to";
+
+From 16b6a0bb31c0cdb52fb005e33f919b17660e6371 Mon Sep 17 00:00:00 2001
+From: Andrew Liebenow <andrewliebenow@gmail.com>
+Date: Sun, 20 Oct 2024 09:51:40 -0500
+Subject: [PATCH 6/9] stty: add handling of special characters
+
+---
+ Cargo.lock                                    |  34 ++
+ src/uu/stty/Cargo.toml                        |   7 +-
+ src/uu/stty/build.rs                          | 136 +++++++
+ src/uu/stty/circumflex-control-characters.txt | 240 ++++++++++++
+ src/uu/stty/src/generated.rs                  |   4 +
+ src/uu/stty/src/stty.rs                       | 349 ++++++++++++++++--
+ 6 files changed, 736 insertions(+), 34 deletions(-)
+ create mode 100644 src/uu/stty/build.rs
+ create mode 100644 src/uu/stty/circumflex-control-characters.txt
+ create mode 100644 src/uu/stty/src/generated.rs
+
 diff --git a/Cargo.lock b/Cargo.lock
-index 1b2a67c13..1a6aff816 100644
+index 83fe0dc78e6..fb0f0988fe8 100644
 --- a/Cargo.lock
 +++ b/Cargo.lock
-@@ -1037,6 +1037,15 @@ dependencies = [
+@@ -1057,6 +1057,15 @@ dependencies = [
   "version_check",
  ]
  
@@ -12,13 +1148,13 @@ index 1b2a67c13..1a6aff816 100644
 +source = "registry+https://github.com/rust-lang/crates.io-index"
 +checksum = "14dbbfd5c71d70241ecf9e6f13737f7b5ce823821063188d7e46c41d371eebd5"
 +dependencies = [
-+ "unicode-width 0.1.14",
++ "unicode-width",
 +]
 +
  [[package]]
  name = "getrandom"
  version = "0.2.15"
-@@ -2416,6 +2425,28 @@ version = "0.2.6"
+@@ -2485,6 +2494,28 @@ version = "0.2.6"
  source = "registry+https://github.com/rust-lang/crates.io-index"
  checksum = "ebc1c04c71510c7f702b52b7c350734c9ff1295c464a03335b00bb84fc54f853"
  
@@ -47,7 +1183,7 @@ index 1b2a67c13..1a6aff816 100644
  [[package]]
  name = "unindent"
  version = "0.2.3"
-@@ -3217,6 +3248,9 @@ version = "0.0.29"
+@@ -3292,6 +3323,9 @@ version = "0.0.29"
  dependencies = [
   "clap",
   "nix",
@@ -58,7 +1194,7 @@ index 1b2a67c13..1a6aff816 100644
  ]
  
 diff --git a/src/uu/stty/Cargo.toml b/src/uu/stty/Cargo.toml
-index 7d34d13f1..174102e4c 100644
+index 7d34d13f1d4..174102e4cff 100644
 --- a/src/uu/stty/Cargo.toml
 +++ b/src/uu/stty/Cargo.toml
 @@ -18,8 +18,13 @@ path = "src/stty.rs"
@@ -78,15 +1214,10 @@ index 7d34d13f1..174102e4c 100644
  name = "stty"
 diff --git a/src/uu/stty/build.rs b/src/uu/stty/build.rs
 new file mode 100644
-index 000000000..02ac5cd89
+index 00000000000..d055ca0a0be
 --- /dev/null
 +++ b/src/uu/stty/build.rs
-@@ -0,0 +1,141 @@
-+// This file is part of the uutils coreutils package.
-+//
-+// For the full copyright and license information, please view the LICENSE
-+// file that was distributed with this source code.
-+
+@@ -0,0 +1,136 @@
 +// spell-checker:ignore tbody
 +
 +use std::{
@@ -225,7 +1356,7 @@ index 000000000..02ac5cd89
 +}
 diff --git a/src/uu/stty/circumflex-control-characters.txt b/src/uu/stty/circumflex-control-characters.txt
 new file mode 100644
-index 000000000..75afcfbb3
+index 00000000000..75afcfbb3bd
 --- /dev/null
 +++ b/src/uu/stty/circumflex-control-characters.txt
 @@ -0,0 +1,240 @@
@@ -471,28 +1602,23 @@ index 000000000..75afcfbb3
 +
 diff --git a/src/uu/stty/src/generated.rs b/src/uu/stty/src/generated.rs
 new file mode 100644
-index 000000000..1d72caf4d
+index 00000000000..0b7e8e582c6
 --- /dev/null
 +++ b/src/uu/stty/src/generated.rs
-@@ -0,0 +1,9 @@
-+// This file is part of the uutils coreutils package.
-+//
-+// For the full copyright and license information, please view the LICENSE
-+// file that was distributed with this source code.
-+
+@@ -0,0 +1,4 @@
 +include!(concat!(
 +    env!("OUT_DIR"),
 +    "/circumflex_control_characters_table.rs"
 +));
 diff --git a/src/uu/stty/src/stty.rs b/src/uu/stty/src/stty.rs
-index 5a5c31f5e..05cd35aa8 100644
+index ccacddfe209..6f022ccfeb4 100644
 --- a/src/uu/stty/src/stty.rs
 +++ b/src/uu/stty/src/stty.rs
-@@ -3,23 +3,31 @@
+@@ -3,17 +3,22 @@
  // For the full copyright and license information, please view the LICENSE
  // file that was distributed with this source code.
  
--// spell-checker:ignore clocal erange tcgetattr tcsetattr tcsanow tiocgwinsz tiocswinsz cfgetospeed cfsetospeed ushort vmin vtime
+-// spell-checker:ignore clocal erange tcgetattr tcsetattr tcsanow tiocgwinsz tiocswinsz cfgetospeed cfsetospeed ushort vmin vtime ixon
 +// spell-checker:ignore clocal erange tcgetattr tcsetattr tcsanow tiocgwinsz tiocswinsz cfgetospeed cfsetospeed ushort vmin vtime ixon pathconf endregion
  
  mod flags;
@@ -510,12 +1636,10 @@ index 5a5c31f5e..05cd35aa8 100644
 +use std::collections::HashMap;
 +use std::env;
 +use std::error::Error;
-+use std::ffi::OsStr;
+ use std::ffi::OsStr;
  use std::fs::File;
--use std::io::{self, stdout, Stdout};
-+use std::io::Write;
-+use std::io::{self, Stdin, StdoutLock};
- use std::ops::ControlFlow;
+ use std::io::Write;
+@@ -22,6 +27,7 @@ use std::ops::ControlFlow;
  use std::os::fd::{AsFd, BorrowedFd};
  use std::os::unix::fs::OpenOptionsExt;
  use std::os::unix::io::{AsRawFd, RawFd};
@@ -523,60 +1647,14 @@ index 5a5c31f5e..05cd35aa8 100644
  use uucore::error::{UResult, USimpleError};
  use uucore::{format_usage, help_about, help_usage};
  
-@@ -99,14 +107,14 @@ struct Options<'a> {
+@@ -188,20 +194,20 @@ pub fn uumain(args: impl uucore::Args) -> UResult<()> {
  
- enum Device {
-     File(File),
--    Stdout(Stdout),
-+    Stdin(Stdin),
- }
- 
- impl AsFd for Device {
-     fn as_fd(&self) -> BorrowedFd<'_> {
-         match self {
-             Self::File(f) => f.as_fd(),
--            Self::Stdout(stdout) => stdout.as_fd(),
-+            Self::Stdin(stdin) => stdin.as_fd(),
-         }
-     }
- }
-@@ -115,7 +123,7 @@ impl AsRawFd for Device {
-     fn as_raw_fd(&self) -> RawFd {
-         match self {
-             Self::File(f) => f.as_raw_fd(),
--            Self::Stdout(stdout) => stdout.as_raw_fd(),
-+            Self::Stdin(stdin) => stdin.as_raw_fd(),
-         }
-     }
- }
-@@ -141,7 +149,7 @@ impl<'a> Options<'a> {
-                         .custom_flags(O_NONBLOCK)
-                         .open(f)?,
-                 ),
--                None => Device::Stdout(stdout()),
-+                None => Device::Stdin(io::stdin()),
-             },
-             settings: matches
-                 .get_many::<String>(options::SETTINGS)
-@@ -176,22 +184,30 @@ ioctl_write_ptr_bad!(
- 
- #[uucore::main]
- pub fn uumain(args: impl uucore::Args) -> UResult<()> {
--    let matches = uu_app().try_get_matches_from(args)?;
-+    // Manually fix this edge case:
-+    //
-+    // stty -- -ixon
-+    let end_of_options_os_str = OsStr::new("--");
+     let matches = uu_app().try_get_matches_from(fixed_args)?;
  
 -    let opts = Options::from(&matches)?;
-+    // Ignore the end of options delimiter ("--") and everything after, as GNU Core Utilities does
-+    let fixed_args = args.take_while(|os| os.as_os_str() != end_of_options_os_str);
++    let options = Options::from(&matches)?;
  
 -    stty(&opts)
-+    let matches = uu_app().try_get_matches_from(fixed_args)?;
-+
-+    let options = Options::from(&matches)?;
-+
 +    stty(options)
  }
  
@@ -595,21 +1673,21 @@ index 5a5c31f5e..05cd35aa8 100644
          return Err(USimpleError::new(
              1,
              "when specifying an output style, modes may not be set",
-@@ -199,31 +215,128 @@ fn stty(opts: &Options) -> UResult<()> {
+@@ -209,7 +215,7 @@ fn stty(opts: &Options) -> UResult<()> {
      }
  
      // TODO: Figure out the right error message for when tcgetattr fails
--    let mut termios = tcgetattr(opts.file.as_fd()).expect("Could not get terminal attributes");
+-    let mut termios = match tcgetattr(opts.file.as_fd()) {
 +    let mut termios = match tcgetattr(options.file.as_fd()) {
-+        Ok(te) => te,
-+        Err(er) => {
-+            return Err(USimpleError::new(
-+                1,
-+                format!("could not get terminal attributes: errno {er}"),
-+            ));
-+        }
-+    };
-+
+         Ok(te) => te,
+         Err(er) => {
+             return Err(USimpleError::new(
+@@ -219,8 +225,44 @@ fn stty(opts: &Options) -> UResult<()> {
+         }
+     };
+ 
+-    if let Some(settings) = &opts.settings {
+-        for setting in settings {
 +    if let Some(settings) = options.settings {
 +        let settings_len = settings.len();
 +
@@ -648,38 +1726,26 @@ index 5a5c31f5e..05cd35aa8 100644
 +        }
 +
 +        for setting in rest {
-+            match apply_setting(&mut termios, setting) {
-+                ControlFlow::Break(re) => {
-+                    if re? {
-+                        // The setting was successfully applied
-+                        continue;
-+                    } else {
-+                        // All attempts to apply the setting failed
-+                        return Err(USimpleError::new(
-+                            1,
-+                            format!("invalid argument '{setting}'"),
-+                        ));
-+                    }
-+                }
-+                ControlFlow::Continue(()) => {
-+                    // Should be unreachable
-+                    debug_assert!(false);
-+                }
-+            }
-+        }
+             match apply_setting(&mut termios, setting) {
+                 ControlFlow::Break(re) => {
+                     if re? {
+@@ -241,20 +283,45 @@ fn stty(opts: &Options) -> UResult<()> {
+             }
+         }
  
--    if let Some(settings) = &opts.settings {
--        for setting in settings {
--            if let ControlFlow::Break(false) = apply_setting(&mut termios, setting) {
+-        if let Err(er) = tcsetattr(
+-            opts.file.as_fd(),
+-            nix::sys::termios::SetArg::TCSANOW,
+-            &termios,
+-        ) {
 +        for (sp, spe) in special {
 +            let sp_usize = sp as usize;
 +
 +            let Some(control_char) = termios.control_chars.get_mut(sp_usize) else {
-                 return Err(USimpleError::new(
-                     1,
--                    format!("invalid argument '{setting}'"),
++                return Err(USimpleError::new(
++                    1,
 +                    format!("failed to get special character to assign: '{sp_usize}'"),
-                 ));
++                ));
 +            };
 +
 +            match spe {
@@ -699,172 +1765,75 @@ index 5a5c31f5e..05cd35aa8 100644
 +                SpecialCharacterAssignment::AssignTo(ue) => {
 +                    *control_char = ue;
 +                }
-             }
-         }
- 
--        tcsetattr(
--            opts.file.as_fd(),
--            nix::sys::termios::SetArg::TCSANOW,
--            &termios,
--        )
--        .expect("Could not write terminal attributes");
-+        if let Err(er) = tcsetattr(options.file.as_fd(), SetArg::TCSANOW, &termios) {
-+            return Err(USimpleError::new(
-+                1,
-+                format!("Could not write terminal attributes: errno {er}"),
-+            ));
++            }
 +        }
-     } else {
--        print_settings(&termios, opts).expect("TODO: make proper error here from nix error");
-+        #[allow(clippy::collapsible_else_if)]
-+        if let Err(bo) = print_settings(&termios, &options) {
-+            return Err(USimpleError::new(
-+                1,
-+                format!("failed to print settings: {bo}"),
-+            ));
-+        }
-     }
 +
-     Ok(())
- }
- 
--fn print_terminal_size(termios: &Termios, opts: &Options) -> nix::Result<()> {
-+fn print_terminal_size(
-+    stdout_lock: &mut StdoutLock,
-+    termios: &Termios,
++        if let Err(er) = tcsetattr(options.file.as_fd(), SetArg::TCSANOW, &termios) {
+             return Err(USimpleError::new(
+                 1,
+                 format!("Could not write terminal attributes: errno {er}"),
+             ));
+         }
+     } else {
+-        //
+         #[allow(clippy::collapsible_else_if)]
+-        if let Err(bo) = print_settings(&termios, opts) {
++        if let Err(bo) = print_settings(&termios, &options) {
+             return Err(USimpleError::new(
+                 1,
+                 format!("failed to print settings: {bo}"),
+@@ -268,7 +335,7 @@ fn stty(opts: &Options) -> UResult<()> {
+ fn print_terminal_size(
+     stdout_lock: &mut StdoutLock,
+     termios: &Termios,
+-    opts: &Options,
 +    options: &Options,
-+) -> UResult<()> {
+ ) -> UResult<()> {
      let speed = cfgetospeed(termios);
  
-     // BSDs use a u32 for the baud rate, so we can simply print it.
-@@ -235,7 +348,7 @@ fn print_terminal_size(termios: &Termios, opts: &Options) -> nix::Result<()> {
-         target_os = "netbsd",
-         target_os = "openbsd"
-     ))]
--    print!("speed {speed} baud; ");
-+    write!(stdout_lock, "speed {speed} baud; ")?;
- 
-     // Other platforms need to use the baud rate enum, so printing the right value
-     // becomes slightly more complicated.
-@@ -249,15 +362,22 @@ fn print_terminal_size(termios: &Termios, opts: &Options) -> nix::Result<()> {
-     )))]
-     for (text, baud_rate) in BAUD_RATES {
-         if *baud_rate == speed {
--            print!("speed {text} baud; ");
-+            write!(stdout_lock, "speed {text} baud; ")?;
-+
-             break;
+@@ -301,10 +368,10 @@ fn print_terminal_size(
          }
      }
  
 -    if opts.all {
 +    if options.all {
          let mut size = TermSize::default();
+ 
 -        unsafe { tiocgwinsz(opts.file.as_raw_fd(), &mut size as *mut _)? };
--        print!("rows {}; columns {}; ", size.rows, size.columns);
-+
 +        unsafe { tiocgwinsz(options.file.as_raw_fd(), &mut size as *mut _)? };
-+
-+        write!(
-+            stdout_lock,
-+            "rows {}; columns {}; ",
-+            size.rows, size.columns
-+        )?;
-     }
  
-     #[cfg(any(target_os = "linux", target_os = "redox"))]
-@@ -266,10 +386,12 @@ fn print_terminal_size(termios: &Termios, opts: &Options) -> nix::Result<()> {
-         // so we get the underlying libc::termios struct to get that information.
-         let libc_termios: nix::libc::termios = termios.clone().into();
-         let line = libc_termios.c_line;
--        print!("line = {line};");
-+
-+        write!(stdout_lock, "line = {line};")?;
-     }
- 
--    println!();
-+    writeln!(stdout_lock)?;
-+
-     Ok(())
- }
- 
-@@ -299,56 +421,78 @@ fn control_char_to_string(cc: nix::libc::cc_t) -> nix::Result<String> {
-     Ok(format!("{meta_prefix}{ctrl_prefix}{character}"))
- }
- 
--fn print_control_chars(termios: &Termios, opts: &Options) -> nix::Result<()> {
--    if !opts.all {
-+fn print_control_chars(
-+    stdout_lock: &mut StdoutLock,
-+    termios: &Termios,
+         write!(
+             stdout_lock,
+@@ -357,9 +424,9 @@ fn control_char_to_string(cc: nix::libc::cc_t) -> nix::Result<String> {
+ fn print_control_chars(
+     stdout_lock: &mut StdoutLock,
+     termios: &Termios,
+-    opts: &Options,
 +    options: &Options,
-+) -> UResult<()> {
+ ) -> UResult<()> {
+-    if !opts.all {
 +    if !options.all {
          // TODO: this branch should print values that differ from defaults
          return Ok(());
      }
- 
-     for (text, cc_index) in CONTROL_CHARS {
--        print!(
-+        write!(
-+            stdout_lock,
-             "{text} = {}; ",
-             control_char_to_string(termios.control_chars[*cc_index as usize])?
--        );
-+        )?;
-     }
--    println!(
-+
-+    writeln!(
-+        stdout_lock,
-         "min = {}; time = {};",
-         termios.control_chars[SpecialCharacterIndices::VMIN as usize],
-         termios.control_chars[SpecialCharacterIndices::VTIME as usize]
--    );
-+    )?;
-+
+@@ -401,18 +468,18 @@ fn print_in_save_format(stdout_lock: &mut StdoutLock, termios: &Termios) -> URes
      Ok(())
  }
  
--fn print_in_save_format(termios: &Termios) {
--    print!(
-+fn print_in_save_format(stdout_lock: &mut StdoutLock, termios: &Termios) -> UResult<()> {
-+    write!(
-+        stdout_lock,
-         "{:x}:{:x}:{:x}:{:x}",
-         termios.input_flags.bits(),
-         termios.output_flags.bits(),
-         termios.control_flags.bits(),
-         termios.local_flags.bits()
--    );
-+    )?;
-+
-     for cc in termios.control_chars {
--        print!(":{cc:x}");
-+        write!(stdout_lock, ":{cc:x}")?;
-     }
--    println!();
-+
-+    writeln!(stdout_lock)?;
-+
-+    Ok(())
- }
- 
--fn print_settings(termios: &Termios, opts: &Options) -> nix::Result<()> {
--    if opts.save {
--        print_in_save_format(termios);
+-fn print_settings(termios: &Termios, opts: &Options) -> UResult<()> {
 +fn print_settings(termios: &Termios, options: &Options) -> UResult<()> {
-+    let mut stdout_lock = io::stdout().lock();
-+
+     let mut stdout_lock = io::stdout().lock();
+ 
+-    if opts.save {
 +    if options.save {
-+        print_in_save_format(&mut stdout_lock, termios)?;
+         print_in_save_format(&mut stdout_lock, termios)?;
      } else {
--        print_terminal_size(termios, opts)?;
--        print_control_chars(termios, opts)?;
--        print_flags(termios, opts, CONTROL_FLAGS);
--        print_flags(termios, opts, INPUT_FLAGS);
--        print_flags(termios, opts, OUTPUT_FLAGS);
--        print_flags(termios, opts, LOCAL_FLAGS);
+-        print_terminal_size(&mut stdout_lock, termios, opts)?;
+-        print_control_chars(&mut stdout_lock, termios, opts)?;
+-        print_flags(&mut stdout_lock, termios, opts, CONTROL_FLAGS)?;
+-        print_flags(&mut stdout_lock, termios, opts, INPUT_FLAGS)?;
+-        print_flags(&mut stdout_lock, termios, opts, OUTPUT_FLAGS)?;
+-        print_flags(&mut stdout_lock, termios, opts, LOCAL_FLAGS)?;
 +        print_terminal_size(&mut stdout_lock, termios, options)?;
 +        print_control_chars(&mut stdout_lock, termios, options)?;
 +        print_flags(&mut stdout_lock, termios, options, CONTROL_FLAGS)?;
@@ -872,170 +1841,33 @@ index 5a5c31f5e..05cd35aa8 100644
 +        print_flags(&mut stdout_lock, termios, options, OUTPUT_FLAGS)?;
 +        print_flags(&mut stdout_lock, termios, options, LOCAL_FLAGS)?;
      }
-+
-     Ok(())
- }
  
--fn print_flags<T: TermiosFlag>(termios: &Termios, opts: &Options, flags: &[Flag<T>]) {
-+fn print_flags<T: TermiosFlag>(
-+    stdout_lock: &mut StdoutLock,
-+    termios: &Termios,
+     Ok(())
+@@ -421,7 +488,7 @@ fn print_settings(termios: &Termios, opts: &Options) -> UResult<()> {
+ fn print_flags<T: TermiosFlag>(
+     stdout_lock: &mut StdoutLock,
+     termios: &Termios,
+-    opts: &Options,
 +    options: &Options,
-+    flags: &[Flag<T>],
-+) -> UResult<()> {
+     flags: &[Flag<T>],
+ ) -> UResult<()> {
      let mut printed = false;
-+
-     for &Flag {
-         name,
-         flag,
-@@ -360,41 +504,51 @@ fn print_flags<T: TermiosFlag>(termios: &Termios, opts: &Options, flags: &[Flag<
-         if !show {
-             continue;
-         }
-+
+@@ -441,12 +508,12 @@ fn print_flags<T: TermiosFlag>(
          let val = flag.is_in(termios, group);
-+
+ 
          if group.is_some() {
 -            if val && (!sane || opts.all) {
--                print!("{name} ");
 +            if val && (!sane || options.all) {
-+                write!(stdout_lock, "{name} ")?;
-+
+                 write!(stdout_lock, "{name} ")?;
+ 
                  printed = true;
              }
 -        } else if opts.all || val != sane {
 +        } else if options.all || val != sane {
              if !val {
--                print!("-");
-+                write!(stdout_lock, "-")?;
+                 write!(stdout_lock, "-")?;
              }
--            print!("{name} ");
-+
-+            write!(stdout_lock, "{name} ")?;
-+
-             printed = true;
-         }
-     }
-+
-     if printed {
--        println!();
-+        writeln!(stdout_lock)?;
-     }
-+
-+    Ok(())
- }
- 
- /// Apply a single setting
- ///
- /// The value inside the `Break` variant of the `ControlFlow` indicates whether
- /// the setting has been applied.
--fn apply_setting(termios: &mut Termios, s: &str) -> ControlFlow<bool> {
--    apply_baud_rate_flag(termios, s)?;
-+fn apply_setting(termios: &mut Termios, setting: &str) -> ControlFlow<UResult<bool>> {
-+    apply_baud_rate_flag(termios, setting)?;
- 
--    let (remove, name) = match s.strip_prefix('-') {
--        Some(s) => (true, s),
--        None => (false, s),
-+    let (remove, name) = match setting.strip_prefix('-') {
-+        Some(st) => (true, st),
-+        None => (false, setting),
-     };
-+
-     apply_flag(termios, CONTROL_FLAGS, name, remove)?;
-     apply_flag(termios, INPUT_FLAGS, name, remove)?;
-     apply_flag(termios, OUTPUT_FLAGS, name, remove)?;
-     apply_flag(termios, LOCAL_FLAGS, name, remove)?;
--    ControlFlow::Break(false)
-+
-+    ControlFlow::Break(Ok(false))
- }
- 
- /// Apply a flag to a slice of flags
-@@ -406,7 +560,7 @@ fn apply_flag<T: TermiosFlag>(
-     flags: &[Flag<T>],
-     input: &str,
-     remove: bool,
--) -> ControlFlow<bool> {
-+) -> ControlFlow<UResult<bool>> {
-     for Flag {
-         name, flag, group, ..
-     } in flags
-@@ -415,20 +569,34 @@ fn apply_flag<T: TermiosFlag>(
-             // Flags with groups cannot be removed
-             // Since the name matches, we can short circuit and don't have to check the other flags.
-             if remove && group.is_some() {
--                return ControlFlow::Break(false);
-+                return ControlFlow::Break(Ok(false));
-             }
-+
-             // If there is a group, the bits for that group should be cleared before applying the flag
-             if let Some(group) = group {
-                 group.apply(termios, false);
-             }
-+
-             flag.apply(termios, !remove);
--            return ControlFlow::Break(true);
-+
-+            return ControlFlow::Break(Ok(true));
-         }
-     }
-+
-     ControlFlow::Continue(())
- }
- 
--fn apply_baud_rate_flag(termios: &mut Termios, input: &str) -> ControlFlow<bool> {
-+fn apply_baud_rate_flag(termios: &mut Termios, input: &str) -> ControlFlow<UResult<bool>> {
-+    fn map_cfsetospeed_result(result: nix::Result<()>) -> UResult<bool> {
-+        match result {
-+            Ok(()) => Ok(true),
-+            Err(er) => Err(USimpleError::new(
-+                1,
-+                format!("failed to set baud rate: errno {er}"),
-+            )),
-+        }
-+    }
-+
-     // BSDs use a u32 for the baud rate, so any decimal number applies.
-     #[cfg(any(
-         target_os = "freebsd",
-@@ -439,8 +607,9 @@ fn apply_baud_rate_flag(termios: &mut Termios, input: &str) -> ControlFlow<bool>
-         target_os = "openbsd"
-     ))]
-     if let Ok(n) = input.parse::<u32>() {
--        cfsetospeed(termios, n).expect("Failed to set baud rate");
--        return ControlFlow::Break(true);
-+        let result = map_cfsetospeed_result(cfsetospeed(termios, n));
-+
-+        return ControlFlow::Break(result);
-     }
- 
-     // Other platforms use an enum.
-@@ -454,10 +623,12 @@ fn apply_baud_rate_flag(termios: &mut Termios, input: &str) -> ControlFlow<bool>
-     )))]
-     for (text, baud_rate) in BAUD_RATES {
-         if *text == input {
--            cfsetospeed(termios, *baud_rate).expect("Failed to set baud rate");
--            return ControlFlow::Break(true);
-+            let result = map_cfsetospeed_result(cfsetospeed(termios, *baud_rate));
-+
-+            return ControlFlow::Break(result);
-         }
-     }
-+
-     ControlFlow::Continue(())
- }
- 
-@@ -492,6 +663,8 @@ pub fn uu_app() -> Command {
-         .arg(
-             Arg::new(options::SETTINGS)
-                 .action(ArgAction::Append)
-+                // Allows e.g. "stty -ixon" to work
-+                .allow_hyphen_values(true)
-                 .help("settings to change"),
-         )
- }
-@@ -539,3 +712,221 @@ impl TermiosFlag for LocalFlags {
+@@ -645,3 +712,219 @@ impl TermiosFlag for LocalFlags {
          termios.local_flags.set(*self, val);
      }
  }
@@ -1156,9 +1988,7 @@ index 5a5c31f5e..05cd35aa8 100644
 +    let mut hash_map = HashMap::<&'static str, SpecialCharacterIndices>::with_capacity(18_usize);
 +
 +    let mut insert = |key: &'static str, value: SpecialCharacterIndices| {
-+        let op = hash_map.insert(key, value);
-+
-+        debug_assert!(op.is_none());
++        debug_assert!(hash_map.insert(key, value).is_none());
 +    };
 +
 +    /* #region POSIX */
@@ -1257,235 +2087,88 @@ index 5a5c31f5e..05cd35aa8 100644
 +        )),
 +    }
 +}
-diff --git a/tests/by-util/test_stty.rs b/tests/by-util/test_stty.rs
-index a9a9209b0..4cc09a81c 100644
---- a/tests/by-util/test_stty.rs
-+++ b/tests/by-util/test_stty.rs
-@@ -2,31 +2,91 @@
- //
- // For the full copyright and license information, please view the LICENSE
- // file that was distributed with this source code.
--// spell-checker:ignore parenb parmrk ixany iuclc onlcr ofdel icanon noflsh
+
+From 79bdca97a02d2baa1781abd8fb690d598938cebd Mon Sep 17 00:00:00 2001
+From: Andrew Liebenow <andrewliebenow@gmail.com>
+Date: Sun, 20 Oct 2024 11:59:23 -0500
+Subject: [PATCH 7/9] Add license header
+
+---
+ src/uu/stty/build.rs         | 5 +++++
+ src/uu/stty/src/generated.rs | 5 +++++
+ 2 files changed, 10 insertions(+)
+
+diff --git a/src/uu/stty/build.rs b/src/uu/stty/build.rs
+index d055ca0a0be..02ac5cd899b 100644
+--- a/src/uu/stty/build.rs
++++ b/src/uu/stty/build.rs
+@@ -1,3 +1,8 @@
++// This file is part of the uutils coreutils package.
++//
++// For the full copyright and license information, please view the LICENSE
++// file that was distributed with this source code.
++
+ // spell-checker:ignore tbody
  
--use crate::common::util::TestScenario;
-+// spell-checker:ignore parenb parmrk ixany iuclc onlcr ofdel icanon noflsh ixon
+ use std::{
+diff --git a/src/uu/stty/src/generated.rs b/src/uu/stty/src/generated.rs
+index 0b7e8e582c6..1d72caf4d7b 100644
+--- a/src/uu/stty/src/generated.rs
++++ b/src/uu/stty/src/generated.rs
+@@ -1,3 +1,8 @@
++// This file is part of the uutils coreutils package.
++//
++// For the full copyright and license information, please view the LICENSE
++// file that was distributed with this source code.
 +
-+use crate::common::util::{TestScenario, UCommand};
-+use once_cell::sync::OnceCell;
-+use regex::Regex;
-+use std::{fs::File, io::Read, process::Stdio};
-+
-+const DEV_TTY: &str = "/dev/tty";
-+
-+fn get_print_first_line_regex() -> &'static Regex {
-+    static ONCE_CELL: OnceCell<Regex> = OnceCell::<Regex>::new();
-+
-+    ONCE_CELL.get_or_init(|| {
-+        // e.g.:
-+        // speed 38400 baud; line = 0;
-+        Regex::new("speed [0-9]+ baud; line = [0-9]+;").unwrap()
-+    })
-+}
-+
-+fn get_print_dash_a_first_line_regex() -> &'static Regex {
-+    static ONCE_CELL: OnceCell<Regex> = OnceCell::<Regex>::new();
-+
-+    ONCE_CELL.get_or_init(|| {
-+        // e.g.:
-+        // speed 38400 baud; rows 54; columns 216; line = 0;
-+        Regex::new("speed [0-9]+ baud; rows [0-9]+; columns [0-9]+; line = [0-9]+;").unwrap()
-+    })
-+}
-+
-+impl UCommand {
-+    fn set_stdin_to_dev_tty_stdio(&mut self) -> &mut Self {
-+        let file = File::open(DEV_TTY).unwrap();
-+
-+        let stdio = Stdio::from(file);
-+
-+        self.set_stdin(stdio)
-+    }
-+
-+    fn conditional_set_stdin_to_dev_tty_stdio(&mut self, set_stdin: bool) -> &mut Self {
-+        if set_stdin {
-+            self.set_stdin_to_dev_tty_stdio()
-+        } else {
-+            self
-+        }
-+    }
-+}
+ include!(concat!(
+     env!("OUT_DIR"),
+     "/circumflex_control_characters_table.rs"
+
+From f1369f0c0dbb2c9011feb7c97a22c6a086789dcd Mon Sep 17 00:00:00 2001
+From: Andrew Liebenow <andrewliebenow@gmail.com>
+Date: Sun, 20 Oct 2024 12:33:46 -0500
+Subject: [PATCH 8/9] Fix release profile bug
+
+---
+ src/uu/stty/src/stty.rs | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/src/uu/stty/src/stty.rs b/src/uu/stty/src/stty.rs
+index 6f022ccfeb4..05cd35aa812 100644
+--- a/src/uu/stty/src/stty.rs
++++ b/src/uu/stty/src/stty.rs
+@@ -829,7 +829,9 @@ fn get_special_character_indices_hash_map() -> HashMap<&'static str, SpecialChar
+     let mut hash_map = HashMap::<&'static str, SpecialCharacterIndices>::with_capacity(18_usize);
  
- #[test]
-+#[cfg(not(target_os = "android"))]
-+#[ignore = "These tests should work locally, but /dev/tty isn't configured when running in CI"]
- fn test_invalid_arg() {
--    new_ucmd!().arg("--definitely-invalid").fails().code_is(1);
-+    new_ucmd!()
-+        .arg("--definitely-invalid")
-+        .set_stdin_to_dev_tty_stdio()
-+        .fails()
-+        .code_is(1);
- }
+     let mut insert = |key: &'static str, value: SpecialCharacterIndices| {
+-        debug_assert!(hash_map.insert(key, value).is_none());
++        let op = hash_map.insert(key, value);
++
++        debug_assert!(op.is_none());
+     };
  
- #[test]
--#[ignore = "Fails because cargo test does not run in a tty"]
-+#[cfg(not(target_os = "android"))]
-+#[ignore = "These tests should work locally, but /dev/tty isn't configured when running in CI"]
- fn runs() {
--    new_ucmd!().succeeds();
-+    new_ucmd!().set_stdin_to_dev_tty_stdio().succeeds();
- }
+     /* #region POSIX */
+
+From b434321f1dad8c81f51cca7d8437ff257c1fef39 Mon Sep 17 00:00:00 2001
+From: Sylvestre Ledru <sylvestre@debian.org>
+Date: Wed, 4 Dec 2024 10:11:48 +0100
+Subject: [PATCH 9/9] fix cargo.lock
+
+---
+ Cargo.lock | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Cargo.lock b/Cargo.lock
+index fb0f0988fe8..8f9d65daca4 100644
+--- a/Cargo.lock
++++ b/Cargo.lock
+@@ -1063,7 +1063,7 @@ version = "0.2.21"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+ checksum = "14dbbfd5c71d70241ecf9e6f13737f7b5ce823821063188d7e46c41d371eebd5"
+ dependencies = [
+- "unicode-width",
++ "unicode-width 0.1.13",
+ ]
  
- #[test]
--#[ignore = "Fails because cargo test does not run in a tty"]
-+#[cfg(not(target_os = "android"))]
-+#[ignore = "These tests should work locally, but /dev/tty isn't configured when running in CI"]
- fn print_all() {
--    let res = new_ucmd!().succeeds();
-+    let cmd_result = new_ucmd!()
-+        .arg("-a")
-+        .set_stdin_to_dev_tty_stdio()
-+        .succeeds();
-+
-+    // "iuclc" removed due to this comment in stty.rs:
-+    //
-+    // not supported by nix
-+    // Flag::new("iuclc", I::IUCLC),
- 
-     // Random selection of flags to check for
-     for flag in [
--        "parenb", "parmrk", "ixany", "iuclc", "onlcr", "ofdel", "icanon", "noflsh",
-+        "parenb", "parmrk", "ixany", "onlcr", "ofdel", "icanon", "noflsh",
-     ] {
--        res.stdout_contains(flag);
-+        cmd_result.stdout_contains(flag);
-     }
- }
- 
-@@ -62,3 +122,124 @@ fn save_and_all() {
-             "the options for verbose and stty-readable output styles are mutually exclusive",
-         );
- }
-+
-+// Make sure the "allow_hyphen_values" clap function has been called with true
-+#[test]
-+#[cfg(not(target_os = "android"))]
-+#[ignore = "These tests should work locally, but /dev/tty isn't configured when running in CI"]
-+fn negation() {
-+    new_ucmd!()
-+        .arg("-ixon")
-+        .set_stdin_to_dev_tty_stdio()
-+        .succeeds()
-+        .stdout_is_bytes([])
-+        .stderr_is_bytes([]);
-+}
-+
-+fn run_and_check_print_should_succeed(args: &[&str], stdout_regex: &Regex, set_stdin: bool) {
-+    new_ucmd!()
-+        .args(args)
-+        .conditional_set_stdin_to_dev_tty_stdio(set_stdin)
-+        .succeeds()
-+        .stdout_str_check(|st| {
-+            let Some(str) = st.lines().next() else {
-+                return false;
-+            };
-+
-+            stdout_regex.is_match(str)
-+        })
-+        .no_stderr();
-+}
-+
-+// The end of options delimiter ("--") and everything after must be ignored
-+#[test]
-+#[cfg(not(target_os = "android"))]
-+#[ignore = "These tests should work locally, but /dev/tty isn't configured when running in CI"]
-+fn ignore_end_of_options_and_after() {
-+    {
-+        // "stty -a -- -ixon" should behave like "stty -a"
-+        // Should not abort with an error complaining about passing both "-a" and "-ixon" (since "-ixon" is after "--")
-+        run_and_check_print_should_succeed(
-+            &["-a", "--", "-ixon"],
-+            get_print_dash_a_first_line_regex(),
-+            true,
-+        );
-+    }
-+
-+    {
-+        // "stty -- non-existent-option-that-must-be-ignore" should behave like "stty"
-+        // Should not abort with an error complaining about an invalid argument, since the invalid argument is after "--"
-+        run_and_check_print_should_succeed(
-+            &["--", "non-existent-option-that-must-be-ignored"],
-+            get_print_first_line_regex(),
-+            true,
-+        );
-+    }
-+}
-+
-+#[test]
-+#[cfg(not(target_os = "android"))]
-+#[ignore = "These tests should work locally, but /dev/tty isn't configured when running in CI"]
-+fn f_file_option() {
-+    for st in ["-F", "--file"] {
-+        for bo in [false, true] {
-+            let ar: [&str; 3];
-+            let arr: [&str; 2];
-+
-+            let (args, regex): (&[&str], &'static Regex) = if bo {
-+                ar = [st, DEV_TTY, "-a"];
-+
-+                (&ar, get_print_dash_a_first_line_regex())
-+            } else {
-+                arr = [st, DEV_TTY];
-+
-+                (&arr, get_print_first_line_regex())
-+            };
-+
-+            run_and_check_print_should_succeed(args, regex, false);
-+        }
-+    }
-+}
-+
-+// Make sure stty is using stdin to look up terminal attributes, not stdout
-+#[test]
-+#[cfg(not(target_os = "android"))]
-+#[ignore = "These tests should work locally, but /dev/tty isn't configured when running in CI"]
-+fn correct_file_descriptor_output_piped() {
-+    const PIPE_STDOUT_TO: &str = "pipe_stdout_to";
-+    const PIPE_STDERR_TO: &str = "pipe_stderr_to";
-+
-+    let test_scenario = TestScenario::new(util_name!());
-+
-+    let at_path = &test_scenario.fixtures;
-+
-+    let stdout_file = at_path.make_file(PIPE_STDOUT_TO);
-+    let stderr_file = at_path.make_file(PIPE_STDERR_TO);
-+
-+    test_scenario
-+        .ucmd()
-+        .set_stdin_to_dev_tty_stdio()
-+        .set_stdout(Stdio::from(stdout_file))
-+        .set_stderr(Stdio::from(stderr_file))
-+        .succeeds();
-+
-+    let mut read_to_string_buffer = String::new();
-+
-+    at_path
-+        .open(PIPE_STDOUT_TO)
-+        .read_to_string(&mut read_to_string_buffer)
-+        .unwrap();
-+
-+    let stdout_first_line = read_to_string_buffer.lines().next().unwrap();
-+
-+    assert!(get_print_first_line_regex().is_match(stdout_first_line));
-+
-+    read_to_string_buffer.clear();
-+
-+    at_path
-+        .open(PIPE_STDERR_TO)
-+        .read_to_string(&mut read_to_string_buffer)
-+        .unwrap();
-+
-+    assert!(read_to_string_buffer.is_empty());
-+}
--- 
-2.47.1
+ [[package]]

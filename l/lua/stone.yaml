@@ -5,7 +5,7 @@
 #
 name        : lua
 version     : 5.4.7
-release     : 5
+release     : 6
 homepage    : https://www.lua.org
 upstreams   :
     - https://www.lua.org/ftp/lua-5.4.7.tar.gz : 9fbf5e28ef86c69858f6d3d34eccc32e911c1a28b4120ff3e84aaa70cfbf1e30
@@ -15,26 +15,52 @@ description : |
 
     Lua combines simple procedural syntax with powerful data description constructs based on associative arrays and extensible semantics. Lua is dynamically typed, runs by interpreting bytecode with a register-based virtual machine, and has automatic memory management with incremental garbage collection, making it ideal for configuration, scripting, and rapid prototyping.
 license     : MIT
+builddeps   :
+    - pkgconfig(readline)
+environment : |
+    _ver="%(version)"
+    _major_ver=${_ver%.*}
 setup       : |
-    %patch %(pkgdir)/serpent/soname.patch
+    %patch %(pkgdir)/aeryn/soname.patch
 build       : |
-    %make \
+    %make linux-readline \
         CC="$CC" \
-        CFLAGS="$CFLAGS -DLUA_USE_LINUX" \
+        CFLAGS="$CFLAGS -DLUA_USE_LINUX -fPIC" \
         LDFLAGS="$LDFLAGS" \
         AR="$AR rcu" \
         RANLIB="$RANLIB"
 install     : |
     %make_install \
+        TO_LIB="liblua.so liblua.so.$_major_ver liblua.so.$_ver" \
         INSTALL_TOP=%(installroot)/usr \
         INSTALL_BIN=%(installroot)/%(bindir) \
         INSTALL_INC=%(installroot)/%(includedir) \
         INSTALL_LIB=%(installroot)/%(libdir) \
         INSTALL_MAN=%(installroot)/%(mandir)
-    rm %(installroot)/%(libdir)/liblua.a
+
     %install_file %(pkgdir)/lua-5.4.pc %(installroot)%(libdir)/pkgconfig/lua-5.4.pc
     ln -s lua-5.4.pc %(installroot)%(libdir)/pkgconfig/lua.pc
 
     mv %(installroot)%(libdir)/liblua.so %(installroot)%(libdir)/liblua.so.%(version)
-    ln -s liblua.so.%(version) %(installroot)%(libdir)/liblua.so.5
-    ln -s liblua.so.5 %(installroot)%(libdir)/liblua.so
+    ln -sf liblua.so.%(version) %(installroot)%(libdir)/liblua.so.$_major_ver
+    ln -s liblua.so.%(version) %(installroot)%(libdir)/liblua.so
+packages    :
+    - "%(name)-libs":
+        summary: "Library files for %(name)"
+        description: |
+            Library files for %(name), typically pulled in as a dependency of another package.
+        paths:
+            - /usr/lib/liblua.so.*
+
+    # Moss upgrade bug
+    - "%(name)":
+        rundeps:
+            - "%(name)-libs"
+
+    - "%(name)-staticlib":
+        summary: Static libs for %(name)
+        description: Static libs for %(name)
+        paths:
+            - /usr/lib/lib*.a
+        rundeps:
+            - "%(name)-devel"

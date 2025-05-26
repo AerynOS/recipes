@@ -5,7 +5,7 @@
 #
 name        : rust-bindgen
 version     : 0.70.0
-release     : 1
+release     : 2
 homepage    : https://github.com/rust-lang/rust-bindgen
 upstreams   :
     - https://github.com/rust-lang/rust-bindgen/releases/download/v0.70.0/source.tar.gz : 8a785ea72f8683bb1cad6016f69b30cec154814cec95a9e81a730682c1c6c3e5
@@ -20,12 +20,12 @@ build       : |
     %cargo_build --all-targets
 
     mkdir -p completions
-    ./target/%(target_triple)/debug/bindgen --generate-shell-completions bash > "completions/bindgen"
-    ./target/%(target_triple)/debug/bindgen --generate-shell-completions fish > "completions/bindgen.fish"
-    ./target/%(target_triple)/debug/bindgen --generate-shell-completions zsh  > "completions/_bindgen"
+    ./target/%(target_triple)/release/bindgen --generate-shell-completions bash > "completions/bindgen"
+    ./target/%(target_triple)/release/bindgen --generate-shell-completions fish > "completions/bindgen.fish"
+    ./target/%(target_triple)/release/bindgen --generate-shell-completions zsh  > "completions/_bindgen"
 install     : |
     %cargo_install bindgen
 
-    %install_file completions/bindgen -t %(installroot)/usr/share/bash-completion/completions/
-    %install_file completions/bindgen.fish -t %(installroot)/usr/share/fish/vendor_completions.d/
-    %install_file completions/_bindgen -t %(installroot)/usr/share/zsh/site-functions/
+    %install_file completions/bindgen -t %(installroot)%(bashcompletionsdir)/
+    %install_file completions/bindgen.fish -t %(installroot)%(fishcompletionsdir)/
+    %install_file completions/_bindgen -t %(installroot)%(zshcompletionsdir)/

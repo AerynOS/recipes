@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : bluez
-version     : 5.79
-release     : 3
+version     : "5.82"
+release     : 5
 homepage    : https://www.bluez.org/
 upstreams   :
-    - https://www.kernel.org/pub/linux/bluetooth/bluez-5.79.tar.xz : 4164a5303a9f71c70f48c03ff60be34231b568d93a9ad5e79928d34e6aa0ea8a
+    - https://www.kernel.org/pub/linux/bluetooth/bluez-5.82.tar.xz : 0739fa608a837967ee6d5572b43fb89946a938d1c6c26127158aaefd743a790b
 summary     : Bluetooth protocol stack for Linux
 description : |
     BlueZ provides support for the core Bluetooth layers and protocols. It is flexible, efficient and uses a modular implementation. It has many interesting features:
@@ -17,34 +17,126 @@ license     :
     - GPL-2.0-or-later
 builddeps   :
     - binary(bison)
+    - binary(flex)
+    - binary(msgfmt)
+    - binary(rst2man)
     - binary(sed)
     - binary(yacc)
+    - pkgconfig(cups)
     - pkgconfig(dbus-1)
     - pkgconfig(glib-2.0)
     - pkgconfig(gobject-introspection-1.0)
+    - pkgconfig(json-c)
     - pkgconfig(libical)
     - pkgconfig(libudev)
     - pkgconfig(readline)
-    - binary(msgfmt)
+    # TODO: libell
 setup       : |
     %patch %(pkgdir)/0001-stateless.patch
     %patch %(pkgdir)/0002-Make-main.conf-stateless.patch
 
-    # disabled client due to readline crap
-    %reconfigure --disable-manpages \
-               --enable-experimental \
-               --enable-deprecated \
-               --enable-cups \
-               --enable-obex \
-               --enable-library \
-               --disable-client \
-               --with-dbusconfdir=%(datadir) \
-               --with-vendordir=%(vendordir)/etc/bluetooth
+    %reconfigure \
+        --enable-experimental \
+        --enable-hid2hci \
+        --enable-library \
+        --enable-mesh \
+        --enable-nfc \
+        --enable-sixaxis \
+        --enable-testing \
+        --with-dbusconfdir=%(datadir) \
+        --with-vendordir=%(vendordir)/bluetooth
 build       : |
     %make
 install     : |
     %make_install
-    %install_dir %(installroot)%(vendordir)%(sysconfdir)
-    mv %(installroot)%(sysconfdir)/bluetooth %(installroot)%(vendordir)/etc/.
 
-    ln -s bluez/bluetooth %(installroot)%(libdir)/bluetooth
+    # Not installed by make install, useful for determining which codecs are supported
+    %install_bin tools/avinfo
+    # Not installed by make install, useful for debugging some issues and to set MAC addresses on HCIs
+    %install_bin tools/btmgmt
+
+    # Stateless
+    %install_dir %(installroot)%(vendordir)
+    mv %(installroot)%(sysconfdir)/bluetooth %(installroot)%(vendordir)/.
+
+    # Is this actually needed?
+    ln -srv %(installroot)%(libdir)/bluez/bluetooth %(installroot)%(libdir)/bluetooth
+
+    # Enable system-wide upon install
+    %install_file %(pkgdir)/bluetooth{,-mesh}.preset -t %(installroot)/%(libdir)/systemd/system-preset
+
+    # Enable at user level
+    %install_file %(pkgdir)/obex.preset -t %(installroot)%(libdir)/systemd/user-preset
+tuning      :
+    - lto: full
+packages    :
+    - "%(name)-libs":
+        summary: "Library files for %(name)"
+        description: |
+            Library files for %(name), typically pulled in as a dependency of another package.
+        paths:
+            - /usr/lib/libbluetooth.so.*
+
+    # Moss upgrade issue
+    - "%(name)":
+        rundeps:
+            - "%(name)-libs"
+
+    - "%(name)-devel":
+        paths:
+            - /usr/bin/isotest
+            - /usr/bin/l2test
+            - /usr/bin/l2ping
+            - /usr/bin/rctest
+            - /usr/share/man/man1/isotest*
+            - /usr/share/man/man1/l2test*
+            - /usr/share/man/man1/l2ping*
+            - /usr/share/man/man1/rctest*
+
+    - "%(name)-cups":
+        summary: CUPS printer backend for Bluetooth printers
+        description: CUPS printer backend for Bluetooth printers
+        rundeps:
+            - "%(name)"
+            - cups
+        paths:
+            - /usr/lib/cups
+
+    - "%(name)-hid2hci":
+        summary: Put HID proxying bluetooth HCI's into HCI mode
+        description: Put HID proxying bluetooth HCI's into HCI mode
+        rundeps:
+            - "%(name)"
+        paths:
+            - /usr/lib/udev/hid2hci
+            - /usr/lib/udev/rules.d/*hid2hci.rules
+            - /usr/share/man/man1/hid2hci.1
+
+    - "%(name)-mesh":
+        summary: Services for bluetooth mesh
+        description: Services for bluetooth mesh
+        rundeps:
+            - "%(name)"
+        paths:
+            - /usr/bin/mesh-*
+            - /usr/lib/bluez/bluetooth/bluetooth-meshd
+            - /usr/lib/systemd/system/bluetooth-mesh.service
+            - /usr/lib/systemd/system-preset/bluetooth-mesh.preset
+            - /usr/share/defaults/bluetooth/mesh-main.conf
+            - /usr/share/dbus-1/system-services/org.bluez.mesh.service
+            - /usr/share/dbus-1/system.d/bluetooth-mesh.conf
+            - /usr/share/man/man8/bluetooth-meshd.*
+
+    - "%(name)-obexd":
+        summary: Object Exchange daemon for sharing content
+        description: Object Exchange daemon for sharing content
+        rundeps:
+            - "%(name)"
+        paths:
+            - /usr/lib/bluez/bluetooth/obexd
+            - /usr/lib/systemd/user-preset/obex.preset
+            - /usr/lib/systemd/user/obex.service
+            - /usr/lib/systemd/user/dbus-org.bluez.obex.service
+            - /usr/share/dbus-1/services/org.bluez.obex.service
+            - /usr/share/dbus-1/system.d/obex.conf
+            - /usr/share/man/man5/org.bluez.obex*

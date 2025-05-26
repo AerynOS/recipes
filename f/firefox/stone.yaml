@@ -4,63 +4,90 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : firefox
-version     : 137.0
-release     : 22
+version     : 138.0.4
+release     : 23
 homepage    : https://www.mozilla.org/
 upstreams   :
-    - https://ftp.mozilla.org/pub/firefox/releases/137.0/source/firefox-137.0.source.tar.xz : 1ec47e2f83ccb80c0133f171091b5669c7ffdf7b86051fc85c0f915b7bcba91d
+    - https://ftp.mozilla.org/pub/firefox/releases/138.0.4/source/firefox-138.0.4.source.tar.xz:
+        hash: 3fd30db08dad90b339e08d27db1e3aab03a174817d336314327dc5305c145056
+        unpackdir: firefox
+    - https://sources.getsol.us/mozilla/firefox/firefox-138.0.4-langpacks.tar.zst:
+        hash: f4c868a4805eedad5c626f429d8d8c22583e75658129d43e458fe7a8f437f3e7
+        unpackdir: firefox/langpacks
 summary     : Firefox web browser
 description : |
     Firefox web browser
 license     : MPL-2.0
 builddeps   :
     - binary(cbindgen)
-    - binary(cc)
-    - binary(g++)
     - binary(m4)
     - binary(make)
     - binary(nasm)
-    - binary(npm)
-    - binary(objdump)
+    - binary(node)
     - binary(python3)
     - binary(rustc)
     - binary(unzip)
     - pkgconfig(alsa)
     - pkgconfig(gtk+-3.0)
-    - pkgconfig(ice)
+    - pkgconfig(icu-uc)
     - pkgconfig(libevent)
     - pkgconfig(libjpeg)
-    - pkgconfig(libpng)
+    # - pkgconfig(libpng) # Not patched with APNG support
     - pkgconfig(libpulse)
     - pkgconfig(libwebp)
     - pkgconfig(nspr)
     - pkgconfig(nss)
+    - pkgconfig(pango)
     - pkgconfig(pixman-1)
-    - pkgconfig(sm)
     - pkgconfig(vpx)
-    - pkgconfig(zlib)
+    - pkgconfig(xkbcommon)
+    - libstdc++-devel
 rundeps     :
-    - ffmpeg
+    - ffmpeg # dlopen()s libavcodec
     - xdg-desktop-portal
 environment : |
     export MOZ_NOSPAM=1
-    export MACH_BUILD_PYTHON_NATIVE_PACKAGE_SOURCE=pip
+    export PIP_NETWORK_INSTALL_RESTRICTED_VIRTUALENVS=mach
+    export MACH_BUILD_PYTHON_NATIVE_PACKAGE_SOURCE="none"
 setup       : |
-    %patch %(pkgdir)/libcxx18.patch
+    %patch %(pkgdir)/patches/0001-Fix-Firefox-Thunderbird-envvar-conflicts.patch
+    %patch %(pkgdir)/patches/libcxx18.patch
+    %patch %(pkgdir)/patches/icu76.patch
+
     %install_file %(pkgdir)/mozconfig .
+    sed -e 's|@@JOBCOUNT@@|%(jobs)|' -e 's|@@LIBDIR@@|%(libdir)|' -i mozconfig
+
+    ./mach configure
 build       : |
     ./mach build
 install     : |
     DESTDIR=%(installroot) ./mach install
 
-    %install_file browser/branding/official/default16.png %(installroot)%(datadir)/icons/hicolor/16x16/apps/firefox.png
-    %install_file browser/branding/official/default22.png %(installroot)%(datadir)/icons/hicolor/22x22/apps/firefox.png
-    %install_file browser/branding/official/default24.png %(installroot)%(datadir)/icons/hicolor/24x24/apps/firefox.png
-    %install_file browser/branding/official/default32.png %(installroot)%(datadir)/icons/hicolor/32x32/apps/firefox.png
-    %install_file browser/branding/official/default48.png %(installroot)%(datadir)/icons/hicolor/48x48/apps/firefox.png
-    %install_file browser/branding/official/default128.png %(installroot)%(datadir)/icons/hicolor/128x128/apps/firefox.png
-    %install_file browser/branding/official/default256.png %(installroot)%(datadir)/icons/hicolor/256x256/apps/firefox.png
+    # Install locales
+    langpackdir="%(installroot)/%(libdir)/firefox/langpacks"
+    %install_dir "${langpackdir}"
+
+    for i in langpacks/*.xpi; do
+        lname="$(basename ${i})"
+        %install_file "langpacks/${lname}" "${langpackdir}/${lname}"
+    done
+
+    for i in 16 22 24 32 48 128 256; do
+        %install_dir %(installroot)/%(datadir)/icons/hicolor/${i}x${i}/apps
+        ln -srv %(installroot)/%(libdir)/firefox/browser/chrome/icons/default/default${i}.png %(installroot)/%(datadir)/icons/hicolor/${i}x${i}/apps/org.mozilla.firefox.png
+    done
+
     %install_file %(pkgdir)/firefox-symbolic.svg %(installroot)%(datadir)/icons/hicolor/symbolic/apps/firefox-symbolic.svg
-    %install_file %(pkgdir)/firefox.desktop %(installroot)%(datadir)/applications/firefox.desktop
+    %install_file %(pkgdir)/org.mozilla.firefox.desktop %(installroot)%(datadir)/applications/org.mozilla.firefox.desktop
 
     %install_file %(pkgdir)/distribution.ini %(installroot)%(libdir)/firefox/distribution/distribution.ini
+    %install_file %(pkgdir)/prefs.js %(installroot)/%(libdir)/firefox/defaults/pref/prefs.js
+    %install_file %(pkgdir)/firefox-l10n.js %(installroot)/%(libdir)/firefox/defaults/pref/firefox-l10n.js
+
+    # gnome search provider
+    %install_file %(pkgdir)/org.mozilla.firefox.SearchProvider.service %(installroot)/usr/share/dbus-1/services/org.mozilla.firefox.SearchProvider.service
+    %install_file %(pkgdir)/org.mozilla.firefox.search-provider.ini %(installroot)/usr/share/gnome-shell/search-providers/org.mozilla.firefox.search-provider.ini
+
+    # Use a wrapper script to configure langpacks
+    rm -v %(installroot)/%(bindir)/firefox
+    install -D -m 00755 %(pkgdir)/firefox-wrapper.sh %(installroot)/%(bindir)/firefox

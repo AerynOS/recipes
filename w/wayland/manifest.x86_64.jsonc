@@ -4,11 +4,7 @@
 	"packages": {
 		"wayland": {
 			"build-depends": [
-				"binary(cmake)",
 				"binary(nm)",
-				"pkgconfig(expat)",
-				"pkgconfig(libffi)",
-				"pkgconfig(libxml-2.0)",
 				"pkgconfig32(expat)",
 				"pkgconfig32(libffi)",
 				"pkgconfig32(libxml-2.0)"
@@ -40,11 +36,7 @@
 		},
 		"wayland-32bit": {
 			"build-depends": [
-				"binary(cmake)",
 				"binary(nm)",
-				"pkgconfig(expat)",
-				"pkgconfig(libffi)",
-				"pkgconfig(libxml-2.0)",
 				"pkgconfig32(expat)",
 				"pkgconfig32(libffi)",
 				"pkgconfig32(libxml-2.0)"
@@ -78,11 +70,7 @@
 		},
 		"wayland-32bit-devel": {
 			"build-depends": [
-				"binary(cmake)",
 				"binary(nm)",
-				"pkgconfig(expat)",
-				"pkgconfig(libffi)",
-				"pkgconfig(libxml-2.0)",
 				"pkgconfig32(expat)",
 				"pkgconfig32(libffi)",
 				"pkgconfig32(libxml-2.0)"
@@ -116,11 +104,7 @@
 		},
 		"wayland-devel": {
 			"build-depends": [
-				"binary(cmake)",
 				"binary(nm)",
-				"pkgconfig(expat)",
-				"pkgconfig(libffi)",
-				"pkgconfig(libxml-2.0)",
 				"pkgconfig32(expat)",
 				"pkgconfig32(libffi)",
 				"pkgconfig32(libxml-2.0)"
@@ -130,7 +114,7 @@
 				"pkgconfig(libffi)",
 				"soname(libc.so.6(x86_64))",
 				"soname(libexpat.so.1(x86_64))",
-				"soname(libxml2.so.2(x86_64))",
+				"soname(libxml2.so.16(x86_64))",
 				"wayland"
 			],
 			"files": [
@@ -172,6 +156,6 @@
 		}
 	},
 	"source-name": "wayland",
-	"source-release": "5",
+	"source-release": "6",
 	"source-version": "1.23.1"
 }

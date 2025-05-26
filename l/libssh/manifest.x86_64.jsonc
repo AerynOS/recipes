@@ -4,19 +4,20 @@
 	"packages": {
 		"libssh": {
 			"build-depends": [
-				"pkgconfig(libgcrypt)",
+				"cmake(cmocka)",
+				"libgcc",
+				"pkgconfig(openssl)",
 				"pkgconfig(zlib)"
 			],
 			"depends": [
 				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))",
-				"soname(libgcrypt.so.20(x86_64))",
-				"soname(libgpg-error.so.0(x86_64))",
+				"soname(libcrypto.so.3(x86_64))",
 				"soname(libz.so.1(x86_64))"
 			],
 			"files": [
 				"/usr/lib/libssh.so.4",
-				"/usr/lib/libssh.so.4.9.6"
+				"/usr/lib/libssh.so.4.10.1"
 			],
 			"name": "libssh",
 			"provides": [
@@ -25,8 +26,13 @@
 		},
 		"libssh-devel": {
 			"build-depends": [
-				"pkgconfig(libgcrypt)",
+				"cmake(cmocka)",
+				"libgcc",
+				"pkgconfig(openssl)",
 				"pkgconfig(zlib)"
+			],
+			"depends": [
+				"libssh"
 			],
 			"files": [
 				"/usr/include/libssh/callbacks.h",
@@ -36,6 +42,7 @@
 				"/usr/include/libssh/libsshpp.hpp",
 				"/usr/include/libssh/server.h",
 				"/usr/include/libssh/sftp.h",
+				"/usr/include/libssh/sftpserver.h",
 				"/usr/include/libssh/ssh2.h",
 				"/usr/lib/cmake/libssh/libssh-config-release.cmake",
 				"/usr/lib/cmake/libssh/libssh-config-version.cmake",
@@ -45,12 +52,12 @@
 			],
 			"name": "libssh-devel",
 			"provides": [
-				"pkgconfig(libssh)",
-				"cmake(libssh)"
+				"cmake(libssh)",
+				"pkgconfig(libssh)"
 			]
 		}
 	},
 	"source-name": "libssh",
-	"source-release": "1",
-	"source-version": "0.10.6"
+	"source-release": "2",
+	"source-version": "0.11.1"
 }

@@ -4,17 +4,17 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : hwloc
-version     : 2.11.2
-release     : 1
+version     : 2.12.1
+release     : 3
 summary     : Portable Hardware Locality
 license     : BSD-3-Clause
 homepage    : https://www.open-mpi.org/projects/hwloc/
 description : |
     Portable Hardware Locality - portable abstraction of hierarchical architectures
 upstreams   :
-    - https://download.open-mpi.org/release/hwloc/v2.11/hwloc-2.11.2.tar.gz: 866ac8ef07b350a6a2ba0c6826c37d78e8994dcbcd443bdd2b436350de19d540
+    - https://download.open-mpi.org/release/hwloc/v2.12/hwloc-2.12.1.tar.gz: ffa02c3a308275a9339fbe92add054fac8e9a00cb8fe8c53340094012cb7c633
 builddeps   :
-    - pkgconfig(cairo)
+    # - pkgconfig(cairo) # Re-enable post-rebuilds
     - pkgconfig(libxml-2.0)
     - pkgconfig(ncursesw)
     - pkgconfig(pciaccess)

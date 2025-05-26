@@ -1,0 +1,41 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"python-iniconfig": {
+			"build-depends": [
+				"python(hatch-vcs)"
+			],
+			"depends": [
+				"binary(python3)"
+			],
+			"files": [
+				"/usr/lib/python3.11/site-packages/iniconfig-2.1.0.dist-info/METADATA",
+				"/usr/lib/python3.11/site-packages/iniconfig-2.1.0.dist-info/RECORD",
+				"/usr/lib/python3.11/site-packages/iniconfig-2.1.0.dist-info/WHEEL",
+				"/usr/lib/python3.11/site-packages/iniconfig-2.1.0.dist-info/licenses/LICENSE",
+				"/usr/lib/python3.11/site-packages/iniconfig/__init__.py",
+				"/usr/lib/python3.11/site-packages/iniconfig/__pycache__/__init__.cpython-311.opt-1.pyc",
+				"/usr/lib/python3.11/site-packages/iniconfig/__pycache__/__init__.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/iniconfig/__pycache__/_parse.cpython-311.opt-1.pyc",
+				"/usr/lib/python3.11/site-packages/iniconfig/__pycache__/_parse.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/iniconfig/__pycache__/_version.cpython-311.opt-1.pyc",
+				"/usr/lib/python3.11/site-packages/iniconfig/__pycache__/_version.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/iniconfig/__pycache__/exceptions.cpython-311.opt-1.pyc",
+				"/usr/lib/python3.11/site-packages/iniconfig/__pycache__/exceptions.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/iniconfig/_parse.py",
+				"/usr/lib/python3.11/site-packages/iniconfig/_version.py",
+				"/usr/lib/python3.11/site-packages/iniconfig/exceptions.py",
+				"/usr/lib/python3.11/site-packages/iniconfig/py.typed"
+			],
+			"name": "python-iniconfig",
+			"provides": [
+				"python(iniconfig(3.11))",
+				"python(iniconfig)"
+			]
+		}
+	},
+	"source-name": "python-iniconfig",
+	"source-release": "1",
+	"source-version": "2.1.0"
+}

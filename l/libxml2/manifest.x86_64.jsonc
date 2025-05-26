@@ -5,76 +5,61 @@
 		"libxml2": {
 			"build-depends": [
 				"perl",
-				"pkgconfig(liblzma)",
-				"pkgconfig(ncursesw)",
+				"pkgconfig(icu-i18n)",
 				"pkgconfig(python3)",
-				"pkgconfig(readline)",
-				"pkgconfig(zlib)",
-				"pkgconfig32(liblzma)",
-				"pkgconfig32(ncursesw)",
 				"pkgconfig32(readline)",
 				"pkgconfig32(zlib)"
 			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))",
-				"soname(liblzma.so.5(x86_64))",
+				"soname(libicuuc.so.77(x86_64))",
 				"soname(libm.so.6(x86_64))",
 				"soname(libreadline.so.8(x86_64))",
 				"soname(libz.so.1(x86_64))"
 			],
 			"files": [
-				"/usr/bin/xml2-config",
 				"/usr/bin/xmlcatalog",
 				"/usr/bin/xmllint",
+				"/usr/lib/libxml2.so.16",
+				"/usr/lib/libxml2.so.16.0.3",
 				"/usr/lib/libxml2.so.2",
-				"/usr/lib/libxml2.so.2.13.5",
-				"/usr/lib/python3.11/site-packages/__pycache__/drv_libxml2.cpython-311.opt-1.pyc",
-				"/usr/lib/python3.11/site-packages/__pycache__/drv_libxml2.cpython-311.pyc",
-				"/usr/lib/python3.11/site-packages/__pycache__/libxml2.cpython-311.opt-1.pyc",
-				"/usr/lib/python3.11/site-packages/__pycache__/libxml2.cpython-311.pyc",
-				"/usr/lib/python3.11/site-packages/drv_libxml2.py",
-				"/usr/lib/python3.11/site-packages/libxml2.py",
-				"/usr/lib/python3.11/site-packages/libxml2mod.so",
-				"/usr/share/man/man1/xml2-config.1",
+				"/usr/lib/libxml2.so.2.13.8",
 				"/usr/share/man/man1/xmlcatalog.1",
 				"/usr/share/man/man1/xmllint.1"
 			],
 			"name": "libxml2",
 			"provides": [
-				"binary(xml2-config)",
 				"binary(xmlcatalog)",
 				"binary(xmllint)",
-				"soname(libxml2.so.2(x86_64))",
-				"soname(python3.11/site-packages/libxml2mod.so(x86_64))"
+				"soname(libxml2.so.16(x86_64))",
+				"soname(libxml2.so.2(x86_64))"
 			]
 		},
 		"libxml2-32bit": {
 			"build-depends": [
 				"perl",
-				"pkgconfig(liblzma)",
-				"pkgconfig(ncursesw)",
+				"pkgconfig(icu-i18n)",
 				"pkgconfig(python3)",
-				"pkgconfig(readline)",
-				"pkgconfig(zlib)",
-				"pkgconfig32(liblzma)",
-				"pkgconfig32(ncursesw)",
 				"pkgconfig32(readline)",
 				"pkgconfig32(zlib)"
 			],
 			"depends": [
 				"libxml2",
 				"soname(libc.so.6(386))",
-				"soname(liblzma.so.5(386))",
 				"soname(libm.so.6(386))",
 				"soname(libz.so.1(386))"
 			],
 			"files": [
+				"/usr/lib32/libxml2.so.16",
+				"/usr/lib32/libxml2.so.16.0.3",
 				"/usr/lib32/libxml2.so.2",
-				"/usr/lib32/libxml2.so.2.13.5"
+				"/usr/lib32/libxml2.so.2.13.8"
 			],
 			"name": "libxml2-32bit",
 			"provides": [
+				"soname(libxml2.so.16(386))",
+				"soname(libxml2.so.16(x86))",
 				"soname(libxml2.so.2(386))",
 				"soname(libxml2.so.2(x86))"
 			]
@@ -82,20 +67,14 @@
 		"libxml2-32bit-devel": {
 			"build-depends": [
 				"perl",
-				"pkgconfig(liblzma)",
-				"pkgconfig(ncursesw)",
+				"pkgconfig(icu-i18n)",
 				"pkgconfig(python3)",
-				"pkgconfig(readline)",
-				"pkgconfig(zlib)",
-				"pkgconfig32(liblzma)",
-				"pkgconfig32(ncursesw)",
 				"pkgconfig32(readline)",
 				"pkgconfig32(zlib)"
 			],
 			"depends": [
 				"libxml2-32bit",
 				"libxml2-devel",
-				"pkgconfig32(liblzma)",
 				"pkgconfig32(zlib)"
 			],
 			"files": [
@@ -112,22 +91,18 @@
 		"libxml2-devel": {
 			"build-depends": [
 				"perl",
-				"pkgconfig(liblzma)",
-				"pkgconfig(ncursesw)",
+				"pkgconfig(icu-i18n)",
 				"pkgconfig(python3)",
-				"pkgconfig(readline)",
-				"pkgconfig(zlib)",
-				"pkgconfig32(liblzma)",
-				"pkgconfig32(ncursesw)",
 				"pkgconfig32(readline)",
 				"pkgconfig32(zlib)"
 			],
 			"depends": [
 				"libxml2",
-				"pkgconfig(liblzma)",
+				"pkgconfig(icu-uc)",
 				"pkgconfig(zlib)"
 			],
 			"files": [
+				"/usr/bin/xml2-config",
 				"/usr/include/libxml2/libxml/HTMLparser.h",
 				"/usr/include/libxml2/libxml/HTMLtree.h",
 				"/usr/include/libxml2/libxml/SAX.h",
@@ -177,10 +152,11 @@
 				"/usr/lib/cmake/libxml2/libxml2-config.cmake",
 				"/usr/lib/libxml2.so",
 				"/usr/lib/pkgconfig/libxml-2.0.pc",
-				"/usr/share/aclocal/libxml.m4"
+				"/usr/share/man/man1/xml2-config.1"
 			],
 			"name": "libxml2-devel",
 			"provides": [
+				"binary(xml2-config)",
 				"cmake(libxml2)",
 				"pkgconfig(libxml-2.0)"
 			]
@@ -188,13 +164,8 @@
 		"libxml2-docs": {
 			"build-depends": [
 				"perl",
-				"pkgconfig(liblzma)",
-				"pkgconfig(ncursesw)",
+				"pkgconfig(icu-i18n)",
 				"pkgconfig(python3)",
-				"pkgconfig(readline)",
-				"pkgconfig(zlib)",
-				"pkgconfig32(liblzma)",
-				"pkgconfig32(ncursesw)",
 				"pkgconfig32(readline)",
 				"pkgconfig32(zlib)"
 			],
@@ -257,9 +228,54 @@
 				"/usr/share/gtk-doc/html/libxml2/up.png"
 			],
 			"name": "libxml2-docs"
+		},
+		"libxml2-static": {
+			"build-depends": [
+				"perl",
+				"pkgconfig(icu-i18n)",
+				"pkgconfig(python3)",
+				"pkgconfig32(readline)",
+				"pkgconfig32(zlib)"
+			],
+			"depends": [
+				"icu-static",
+				"libxml2-devel",
+				"zlib-static"
+			],
+			"files": [
+				"/usr/lib/libxml2.a"
+			],
+			"name": "libxml2-static"
+		},
+		"python-libxml2": {
+			"build-depends": [
+				"perl",
+				"pkgconfig(icu-i18n)",
+				"pkgconfig(python3)",
+				"pkgconfig32(readline)",
+				"pkgconfig32(zlib)"
+			],
+			"depends": [
+				"binary(python3)",
+				"soname(libc.so.6(x86_64))",
+				"soname(libxml2.so.16(x86_64))"
+			],
+			"files": [
+				"/usr/lib/python3.11/site-packages/__pycache__/drv_libxml2.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/__pycache__/libxml2.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/__pycache__/libxml2class.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/drv_libxml2.py",
+				"/usr/lib/python3.11/site-packages/libxml2.py",
+				"/usr/lib/python3.11/site-packages/libxml2class.py",
+				"/usr/lib/python3.11/site-packages/libxml2mod.cpython-311-x86_64-linux-gnu.so"
+			],
+			"name": "python-libxml2",
+			"provides": [
+				"soname(python3.11/site-packages/libxml2mod.cpython-311-x86_64-linux-gnu.so(x86_64))"
+			]
 		}
 	},
 	"source-name": "libxml2",
-	"source-release": "9",
-	"source-version": "2.13.5"
+	"source-release": "10",
+	"source-version": "2.14.3"
 }

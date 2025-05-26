@@ -1,0 +1,36 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"python-jaraco.collections": {
+			"build-depends": [
+				"python(jaraco.text)",
+				"python(pytest)",
+				"python(setuptools-scm)"
+			],
+			"depends": [
+				"binary(python3)",
+				"python(jaraco.text(3.11))"
+			],
+			"files": [
+				"/usr/lib/python3.11/site-packages/jaraco.collections-5.1.0.dist-info/LICENSE",
+				"/usr/lib/python3.11/site-packages/jaraco.collections-5.1.0.dist-info/METADATA",
+				"/usr/lib/python3.11/site-packages/jaraco.collections-5.1.0.dist-info/RECORD",
+				"/usr/lib/python3.11/site-packages/jaraco.collections-5.1.0.dist-info/WHEEL",
+				"/usr/lib/python3.11/site-packages/jaraco.collections-5.1.0.dist-info/top_level.txt",
+				"/usr/lib/python3.11/site-packages/jaraco/collections/__init__.py",
+				"/usr/lib/python3.11/site-packages/jaraco/collections/__pycache__/__init__.cpython-311.opt-1.pyc",
+				"/usr/lib/python3.11/site-packages/jaraco/collections/__pycache__/__init__.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/jaraco/collections/py.typed"
+			],
+			"name": "python-jaraco.collections",
+			"provides": [
+				"python(jaraco.collections(3.11))",
+				"python(jaraco.collections)"
+			]
+		}
+	},
+	"source-name": "python-jaraco.collections",
+	"source-release": "1",
+	"source-version": "5.1.0"
+}

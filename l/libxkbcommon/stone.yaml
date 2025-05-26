@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : libxkbcommon
-version     : 1.7.0
-release     : 5
+version     : 1.9.0
+release     : 6
 homepage    : https://xkbcommon.org
 upstreams   :
-    - https://xkbcommon.org/download/libxkbcommon-1.7.0.tar.xz : 65782f0a10a4b455af9c6baab7040e2f537520caa2ec2092805cdfd36863b247
+    - https://github.com/xkbcommon/libxkbcommon/archive/refs/tags/xkbcommon-1.9.0.tar.gz : c8c4ccf203ff73b647ea70b67afa2fd749cd428cd027fc2e5ca3b9954f1d77a8
 summary     : Library for handling of keyboard descriptions
 description : |
     xkbcommon is a library for handling of keyboard descriptions, including
@@ -20,6 +20,7 @@ builddeps   :
     - binary(bison)
     - binary(m4)
     - pkgconfig(wayland-protocols)
+    - pkgconfig32(icu-uc)
     - pkgconfig32(libxml-2.0)
     - pkgconfig32(wayland-client)
     - pkgconfig32(wayland-scanner)

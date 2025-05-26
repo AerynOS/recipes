@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : libxslt
-version     : 1.1.42
-release     : 3
+version     : 1.1.43
+release     : 4
 homepage    : https://gitlab.gnome.org/GNOME/libxslt/-/wikis/home
 upstreams   :
-    - https://download.gnome.org/sources/libxslt/1.1/libxslt-1.1.42.tar.xz : 85ca62cac0d41fc77d3f6033da9df6fd73d20ea2fc18b0a3609ffb4110e1baeb
+    - https://download.gnome.org/sources/libxslt/1.1/libxslt-1.1.43.tar.xz : 5a3d6b383ca5afc235b171118e90f5ff6aa27e9fea3303065231a6d403f0183a
 summary     : XSLT processor based on libxml2
 description : |
     libxslt provides bindings to interact with XSLT files and
@@ -18,6 +18,7 @@ license     :
 builddeps:
     - pkgconfig(libxml-2.0)
     - pkgconfig(python3)
+    - python-libxml2
 setup       : |
     %configure
 build       : |
@@ -30,10 +31,13 @@ packages    :
     - "%(name)-docs":
         paths:
             - /usr/share/doc/libxslt/*
+
     - "%(name)-devel":
         paths:
-            - /usr/share/man/man3/*
             - /usr/bin/xslt-config
+            - /usr/lib/xsltConf.sh
+            - /usr/share/man/man3/*
+
     - "python-%(name)":
         summary: "XSLT processor based on libxml2 - Python library"
         description: |
@@ -41,6 +45,7 @@ packages    :
             is based on GNOME's libxml2 - Python Library
         rundeps:
             - binary(python3)
+            - python-libxml2
         paths:
             - /usr/lib/python*
 tuning      :

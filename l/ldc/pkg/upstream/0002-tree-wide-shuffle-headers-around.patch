@@ -1,0 +1,42 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: liushuyu <liushuyu011@gmail.com>
+Date: Tue, 4 Feb 2025 17:45:03 -0700
+Subject: [PATCH 2/9] tree-wide: shuffle headers around
+
+---
+ driver/cl_options_sanitizers.h | 4 ++++
+ gen/optimizer.cpp              | 4 ++++
+ 2 files changed, 8 insertions(+)
+
+diff --git a/driver/cl_options_sanitizers.h b/driver/cl_options_sanitizers.h
+index 16b38f70c8..e1eaa3c934 100644
+--- a/driver/cl_options_sanitizers.h
++++ b/driver/cl_options_sanitizers.h
+@@ -14,7 +14,11 @@
+ #pragma once
+ 
+ #include "driver/cl_helpers.h"
++#if LDC_LLVM_VER >= 2000
++#include "llvm/Transforms/Utils/Instrumentation.h"
++#else
+ #include "llvm/Transforms/Instrumentation.h"
++#endif
+ 
+ class FuncDeclaration;
+ namespace llvm {
+diff --git a/gen/optimizer.cpp b/gen/optimizer.cpp
+index 27d4026e2d..16152fd90a 100644
+--- a/gen/optimizer.cpp
++++ b/gen/optimizer.cpp
+@@ -52,7 +52,11 @@
+ #include "llvm/LinkAllPasses.h"
+ #include "llvm/Support/CommandLine.h"
+ #include "llvm/Target/TargetMachine.h"
++#if LDC_LLVM_VER >= 2000
++#include "llvm/Transforms/Utils/Instrumentation.h"
++#else
+ #include "llvm/Transforms/Instrumentation.h"
++#endif
+ #include "llvm/Transforms/IPO.h"
+ #if LDC_LLVM_VER < 1700
+ #include "llvm/Transforms/IPO/PassManagerBuilder.h"

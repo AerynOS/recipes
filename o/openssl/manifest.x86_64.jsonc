@@ -5,8 +5,8 @@
 		"openssl": {
 			"build-depends": [
 				"binary(perl)",
-				"gcc",
-				"gcc-32bit",
+				"libatomic",
+				"libatomic-32bit",
 				"pkgconfig32(zlib)"
 			],
 			"depends": [
@@ -355,8 +355,8 @@
 		"openssl-32bit": {
 			"build-depends": [
 				"binary(perl)",
-				"gcc",
-				"gcc-32bit",
+				"libatomic",
+				"libatomic-32bit",
 				"pkgconfig32(zlib)"
 			],
 			"depends": [
@@ -394,8 +394,8 @@
 		"openssl-32bit-devel": {
 			"build-depends": [
 				"binary(perl)",
-				"gcc",
-				"gcc-32bit",
+				"libatomic",
+				"libatomic-32bit",
 				"pkgconfig32(zlib)"
 			],
 			"depends": [
@@ -422,8 +422,8 @@
 		"openssl-devel": {
 			"build-depends": [
 				"binary(perl)",
-				"gcc",
-				"gcc-32bit",
+				"libatomic",
+				"libatomic-32bit",
 				"pkgconfig32(zlib)"
 			],
 			"depends": [
@@ -6478,8 +6478,8 @@
 		"openssl-docs": {
 			"build-depends": [
 				"binary(perl)",
-				"gcc",
-				"gcc-32bit",
+				"libatomic",
+				"libatomic-32bit",
 				"pkgconfig32(zlib)"
 			],
 			"files": [
@@ -7367,6 +7367,6 @@
 		}
 	},
 	"source-name": "openssl",
-	"source-release": "20",
-	"source-version": "3.4.0"
+	"source-release": "21",
+	"source-version": "3.4.1"
 }

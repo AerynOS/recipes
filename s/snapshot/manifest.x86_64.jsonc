@@ -20,7 +20,8 @@
 				"pkgconfig(libseccomp)"
 			],
 			"depends": [
-				"gst-plugins-rs",
+				"gstreamer-plugin-gtk4",
+				"gstreamer-plugin-pipewire",
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libadwaita-1.so.0(x86_64))",
@@ -105,6 +106,6 @@
 		}
 	},
 	"source-name": "snapshot",
-	"source-release": "3",
+	"source-release": "4",
 	"source-version": "48.0.1"
 }

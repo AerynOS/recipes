@@ -5,7 +5,7 @@
 #
 name        : xdg-user-dirs
 version     : 0.18
-release     : 3
+release     : 4
 homepage    : http://user-dirs.freedesktop.org/releases
 upstreams   :
     - git|https://gitlab.freedesktop.org/xdg/xdg-user-dirs.git : 97ff189affdbf0d33c0f8e91d3fd5608f425ef96
@@ -15,8 +15,11 @@ description : |
 license     : GPL-2.0
 builddeps   :
     - binary(xsltproc)
-    - docbook
+    - docbook-xsl
     - gettext-devel
+environment : |
+    # Temporary, replace with boulder macro
+    export XML_CATALOG_FILES="file:///usr/share/defaults/docbook/docbook-xsl/catalog"
 setup       : |
     %patch %(pkgdir)/0001-Fallback-to-stateless-directories-ship-files-in-data.patch
     %reconfigure

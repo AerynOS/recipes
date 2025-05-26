@@ -5,7 +5,7 @@
 #
 name        : openssh
 version     : "9.3p1"
-release     : 7
+release     : 8
 summary     : OpenSSH (OpenBSD Secure Shell)
 license     :
     - BSD-2-Clause
@@ -21,12 +21,12 @@ builddeps   :
     - pkgconfig(libcrypt)
     - pkgconfig(libcrypto)
     - pkgconfig(libedit)
+    - pkgconfig(libfido2)
     - pkgconfig(libldns)
     - pkgconfig(libsystemd)
     - pkgconfig(pam)
     - pkgconfig(zlib)
 # TODO Kerberos support (krb5)
-# TODO FIDO support (libfido)
 setup       : |
     %patch %(pkgdir)/openssh-7.4p1-systemd.patch
     %patch %(pkgdir)/stateless/0001-Make-SSH-stateless.patch
@@ -48,6 +48,7 @@ setup       : |
                  --with-pam \
                  --with-ssl-engine \
                  --with-systemd \
+                 --with-security-key-builtin \
                  --disable-lastlog \
                  --disable-strip
 build       : |
@@ -90,8 +91,8 @@ packages    :
             - /usr/sbin/
             - /usr/lib/openssh/sftp-server
             - /usr/lib/systemd/
-            - /usr/lib/sysusers.d/openssh-server
-            - /usr/lib/tmpfiles.d/openssh-server
+            - /usr/lib/sysusers.d/openssh-server.conf
+            - /usr/lib/tmpfiles.d/openssh-server.conf
             - /usr/share/defaults/etc/pam.d/
             - /usr/share/defaults/etc/ssh/moduli
             - /usr/share/defaults/etc/ssh/sshd_config

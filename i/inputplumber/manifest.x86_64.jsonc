@@ -24,6 +24,8 @@
 				"/usr/lib/systemd/system/inputplumber-suspend.service",
 				"/usr/lib/systemd/system/inputplumber.service",
 				"/usr/lib/udev/hwdb.d/59-inputplumber.hwdb",
+				"/usr/lib/udev/hwdb.d/60-inputplumber-autostart.hwdb",
+				"/usr/lib/udev/rules.d/90-inputplumber-autostart.rules",
 				"/usr/share/dbus-1/system.d/org.shadowblip.InputPlumber.conf",
 				"/usr/share/inputplumber/capability_maps/ally_type1.yaml",
 				"/usr/share/inputplumber/capability_maps/anbernic_type1.yaml",
@@ -119,6 +121,6 @@
 		}
 	},
 	"source-name": "inputplumber",
-	"source-release": "18",
-	"source-version": "0.57.1"
+	"source-release": "19",
+	"source-version": "0.58.1"
 }

@@ -1,6 +1,6 @@
 /** Human readable report. This is not consumed by boulder */
 {
-	"manifest-version": "0.1",
+	"manifest-version": "0.2",
 	"packages": {
 		"duktape": {
 			"depends": [
@@ -17,6 +17,9 @@
 			]
 		},
 		"duktape-devel": {
+			"depends": [
+				"duktape"
+			],
 			"files": [
 				"/usr/include/duk_config.h",
 				"/usr/include/duktape.h",
@@ -30,6 +33,6 @@
 		}
 	},
 	"source-name": "duktape",
-	"source-release": "1",
+	"source-release": "2",
 	"source-version": "2.7.0"
 }

@@ -1,0 +1,30 @@
+#
+# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : libbsd
+version     : 0.12.2
+release     : 1
+upstreams   :
+    - https://libbsd.freedesktop.org/releases/libbsd-0.12.2.tar.xz : b88cc9163d0c652aaf39a99991d974ddba1c3a9711db8f1b5838af2a14731014
+homepage    : https://libbsd.freedesktop.org
+license     : BSD-3-Clause AND BSD-2-Clause
+summary     : Provides useful functions commonly found on BSD systems
+description : |
+    Provides useful functions commonly found on BSD systems
+builddeps   :
+    - pkgconfig(libmd)
+setup       : |
+    %configure --disable-static
+build       : |
+    %make
+install     : |
+    %make_install
+
+    # We don't need the static-only CTOR library (yet)
+    rm -v %(installroot)%(libdir)/*-ctor.a
+packages    :
+    - "%(name)-devel":
+        rundeps:
+            - pkgconfig(libmd)

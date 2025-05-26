@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : modemmanager
-version     : 1.22.0
-release     : 2
+version     : 1.24.0
+release     : 3
 homepage    : https://gitlab.freedesktop.org/mobile-broadband/ModemManager
 upstreams   :
-    - https://gitlab.freedesktop.org/mobile-broadband/ModemManager/-/archive/1.22.0/ModemManager-1.22.0.tar.gz : 6c8f8720737a3788e394c700f36236278c9de09d76069a079e6f1daaf08b2768
+    - https://gitlab.freedesktop.org/mobile-broadband/ModemManager/-/archive/1.24.0/ModemManager-1.24.0.tar.gz : 50e166bb24acb00bcaed814483920dfbc5b26d5424faee974b54c702e425a7c7
 summary     : Cellular modem control and connectivity
 description : |
     ModemManager provides a unified high level API for communicating with mobile broadband modems, regardless of the protocol used to communicate with the actual device (Generic AT, vendor-specific AT, QCDM, QMI, MBIM...).
@@ -42,5 +42,3 @@ install     : |
     %meson_install
 
     # TODO: Vendor enable by default?
-# g-ir-scanner/compiler woes
-toolchain   : gnu

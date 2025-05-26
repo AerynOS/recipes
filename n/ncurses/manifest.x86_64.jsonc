@@ -5,9 +5,9 @@
 		"ncurses": {
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
-				"soname(libc++.so.1(x86_64))",
+				"ncurses-libs",
 				"soname(libc.so.6(x86_64))",
-				"soname(libunwind.so.1(x86_64))"
+				"soname(libncursesw.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/bin/captoinfo",
@@ -20,19 +20,6 @@
 				"/usr/bin/toe",
 				"/usr/bin/tput",
 				"/usr/bin/tset",
-				"/usr/lib/libformw.so.6",
-				"/usr/lib/libformw.so.6.5",
-				"/usr/lib/libmenuw.so.6",
-				"/usr/lib/libmenuw.so.6.5",
-				"/usr/lib/libncurses++w.so.6",
-				"/usr/lib/libncurses++w.so.6.5",
-				"/usr/lib/libncursesw.so.6",
-				"/usr/lib/libncursesw.so.6.5",
-				"/usr/lib/libpanelw.so.6",
-				"/usr/lib/libpanelw.so.6.5",
-				"/usr/lib/libtic.so.6",
-				"/usr/lib/libtinfo.so.6",
-				"/usr/lib/terminfo",
 				"/usr/share/man/man1/captoinfo.1m",
 				"/usr/share/man/man1/clear.1",
 				"/usr/share/man/man1/infocmp.1m",
@@ -47,7 +34,136 @@
 				"/usr/share/man/man5/term.5",
 				"/usr/share/man/man5/terminfo.5",
 				"/usr/share/man/man5/user_caps.5",
-				"/usr/share/man/man7/term.7",
+				"/usr/share/man/man7/term.7"
+			],
+			"name": "ncurses",
+			"provides": [
+				"binary(captoinfo)",
+				"binary(clear)",
+				"binary(infocmp)",
+				"binary(infotocap)",
+				"binary(reset)",
+				"binary(tabs)",
+				"binary(tic)",
+				"binary(toe)",
+				"binary(tput)",
+				"binary(tset)"
+			]
+		},
+		"ncurses-32bit": {
+			"depends": [
+				"ncurses",
+				"ncurses-base",
+				"soname(libc.so.6(386))"
+			],
+			"files": [
+				"/usr/lib32/libformw.so.6",
+				"/usr/lib32/libformw.so.6.5",
+				"/usr/lib32/libmenuw.so.6",
+				"/usr/lib32/libmenuw.so.6.5",
+				"/usr/lib32/libncursesw.so.6",
+				"/usr/lib32/libncursesw.so.6.5",
+				"/usr/lib32/libpanelw.so.6",
+				"/usr/lib32/libpanelw.so.6.5",
+				"/usr/lib32/libtic.so.6",
+				"/usr/lib32/libtinfo.so.6"
+			],
+			"name": "ncurses-32bit",
+			"provides": [
+				"soname(libformw.so.6(386))",
+				"soname(libformw.so.6(x86))",
+				"soname(libmenuw.so.6(386))",
+				"soname(libmenuw.so.6(x86))",
+				"soname(libncursesw.so.6(386))",
+				"soname(libncursesw.so.6(x86))",
+				"soname(libpanelw.so.6(386))",
+				"soname(libpanelw.so.6(x86))"
+			]
+		},
+		"ncurses-32bit-c++-libs": {
+			"depends": [
+				"ncurses-32bit",
+				"soname(libc++.so.1(386))",
+				"soname(libc.so.6(386))",
+				"soname(libformw.so.6(386))",
+				"soname(libmenuw.so.6(386))",
+				"soname(libncursesw.so.6(386))",
+				"soname(libpanelw.so.6(386))",
+				"soname(libunwind.so.1(386))"
+			],
+			"files": [
+				"/usr/lib32/libncurses++w.so.6",
+				"/usr/lib32/libncurses++w.so.6.5"
+			],
+			"name": "ncurses-32bit-c++-libs",
+			"provides": [
+				"soname(libncurses++w.so.6(386))",
+				"soname(libncurses++w.so.6(x86))"
+			]
+		},
+		"ncurses-32bit-devel": {
+			"depends": [
+				"ncurses-32bit",
+				"ncurses-32bit-c++-libs",
+				"ncurses-devel"
+			],
+			"files": [
+				"/usr/lib32/libform.so",
+				"/usr/lib32/libformw.so",
+				"/usr/lib32/libmenu.so",
+				"/usr/lib32/libmenuw.so",
+				"/usr/lib32/libncurses++.so",
+				"/usr/lib32/libncurses++w.so",
+				"/usr/lib32/libncurses.so",
+				"/usr/lib32/libncursesw.so",
+				"/usr/lib32/libpanel.so",
+				"/usr/lib32/libpanelw.so",
+				"/usr/lib32/libtic.so",
+				"/usr/lib32/libtinfo.so",
+				"/usr/lib32/pkgconfig/form.pc",
+				"/usr/lib32/pkgconfig/formw.pc",
+				"/usr/lib32/pkgconfig/menu.pc",
+				"/usr/lib32/pkgconfig/menuw.pc",
+				"/usr/lib32/pkgconfig/ncurses++.pc",
+				"/usr/lib32/pkgconfig/ncurses++w.pc",
+				"/usr/lib32/pkgconfig/ncurses.pc",
+				"/usr/lib32/pkgconfig/ncursesw.pc",
+				"/usr/lib32/pkgconfig/panel.pc",
+				"/usr/lib32/pkgconfig/panelw.pc",
+				"/usr/lib32/pkgconfig/tic.pc",
+				"/usr/lib32/pkgconfig/tinfo.pc"
+			],
+			"name": "ncurses-32bit-devel",
+			"provides": [
+				"pkgconfig32(form)",
+				"pkgconfig32(formw)",
+				"pkgconfig32(menu)",
+				"pkgconfig32(menuw)",
+				"pkgconfig32(ncurses)",
+				"pkgconfig32(ncurses++)",
+				"pkgconfig32(ncurses++w)",
+				"pkgconfig32(ncursesw)",
+				"pkgconfig32(panel)",
+				"pkgconfig32(panelw)",
+				"pkgconfig32(tic)",
+				"pkgconfig32(tinfo)"
+			]
+		},
+		"ncurses-32bit-static": {
+			"depends": [
+				"ncurses-32bit-devel"
+			],
+			"files": [
+				"/usr/lib32/libformw.a",
+				"/usr/lib32/libmenuw.a",
+				"/usr/lib32/libncurses++w.a",
+				"/usr/lib32/libncursesw.a",
+				"/usr/lib32/libpanelw.a"
+			],
+			"name": "ncurses-32bit-static"
+		},
+		"ncurses-base": {
+			"files": [
 				"/usr/share/tabset/std",
 				"/usr/share/tabset/stdcrt",
 				"/usr/share/tabset/vt100",
@@ -931,7 +1047,9 @@
 				"/usr/share/terminfo/e/ecma+index",
 				"/usr/share/terminfo/e/ecma+italics",
 				"/usr/share/terminfo/e/ecma+sgr",
+				"/usr/share/terminfo/e/ecma+standout",
 				"/usr/share/terminfo/e/ecma+strikeout",
+				"/usr/share/terminfo/e/ecma+underline",
 				"/usr/share/terminfo/e/elks",
 				"/usr/share/terminfo/e/elks-ansi",
 				"/usr/share/terminfo/e/elks-glasstty",
@@ -1248,6 +1366,7 @@
 				"/usr/share/terminfo/i/icl6404",
 				"/usr/share/terminfo/i/icl6404-w",
 				"/usr/share/terminfo/i/ifmr",
+				"/usr/share/terminfo/i/illumos",
 				"/usr/share/terminfo/i/ims-ansi",
 				"/usr/share/terminfo/i/ims950",
 				"/usr/share/terminfo/i/ims950-b",
@@ -1412,6 +1531,7 @@
 				"/usr/share/terminfo/m/minix-old-am",
 				"/usr/share/terminfo/m/mintty",
 				"/usr/share/terminfo/m/mintty+common",
+				"/usr/share/terminfo/m/mintty+keypad",
 				"/usr/share/terminfo/m/mintty-direct",
 				"/usr/share/terminfo/m/mlterm",
 				"/usr/share/terminfo/m/mlterm+pcfkeys",
@@ -1720,6 +1840,9 @@
 				"/usr/share/terminfo/p/p9-8",
 				"/usr/share/terminfo/p/p9-8-w",
 				"/usr/share/terminfo/p/p9-w",
+				"/usr/share/terminfo/p/pangoterm",
+				"/usr/share/terminfo/p/pangoterm-256color",
+				"/usr/share/terminfo/p/pangoterm-direct",
 				"/usr/share/terminfo/p/pc-coherent",
 				"/usr/share/terminfo/p/pc-minix",
 				"/usr/share/terminfo/p/pc-venix",
@@ -1906,6 +2029,7 @@
 				"/usr/share/terminfo/r/report+version",
 				"/usr/share/terminfo/r/rio",
 				"/usr/share/terminfo/r/rio-direct",
+				"/usr/share/terminfo/r/rlogin-color",
 				"/usr/share/terminfo/r/rt6221",
 				"/usr/share/terminfo/r/rt6221-w",
 				"/usr/share/terminfo/r/rtpc",
@@ -1928,6 +2052,7 @@
 				"/usr/share/terminfo/s/sc410",
 				"/usr/share/terminfo/s/sc415",
 				"/usr/share/terminfo/s/scanset",
+				"/usr/share/terminfo/s/sclp",
 				"/usr/share/terminfo/s/scoansi",
 				"/usr/share/terminfo/s/scoansi-new",
 				"/usr/share/terminfo/s/scoansi-old",
@@ -2021,14 +2146,17 @@
 				"/usr/share/terminfo/s/sun+sl",
 				"/usr/share/terminfo/s/sun-1",
 				"/usr/share/terminfo/s/sun-12",
+				"/usr/share/terminfo/s/sun-16color",
 				"/usr/share/terminfo/s/sun-17",
 				"/usr/share/terminfo/s/sun-24",
+				"/usr/share/terminfo/s/sun-256color",
 				"/usr/share/terminfo/s/sun-34",
 				"/usr/share/terminfo/s/sun-48",
 				"/usr/share/terminfo/s/sun-c",
 				"/usr/share/terminfo/s/sun-cgsix",
 				"/usr/share/terminfo/s/sun-cmd",
 				"/usr/share/terminfo/s/sun-color",
+				"/usr/share/terminfo/s/sun-direct",
 				"/usr/share/terminfo/s/sun-e",
 				"/usr/share/terminfo/s/sun-e-s",
 				"/usr/share/terminfo/s/sun-il",
@@ -2118,6 +2246,7 @@
 				"/usr/share/terminfo/t/teraterm2.3",
 				"/usr/share/terminfo/t/teraterm4.59",
 				"/usr/share/terminfo/t/teraterm4.97",
+				"/usr/share/terminfo/t/teraterm5.0",
 				"/usr/share/terminfo/t/terminator",
 				"/usr/share/terminfo/t/terminet",
 				"/usr/share/terminfo/t/terminet1200",
@@ -2391,6 +2520,7 @@
 				"/usr/share/terminfo/v/vt100+keypad",
 				"/usr/share/terminfo/v/vt100+noapp",
 				"/usr/share/terminfo/v/vt100+noapp+pc",
+				"/usr/share/terminfo/v/vt100+pf1-pf4",
 				"/usr/share/terminfo/v/vt100+pfkeys",
 				"/usr/share/terminfo/v/vt100-am",
 				"/usr/share/terminfo/v/vt100-bm",
@@ -2484,6 +2614,7 @@
 				"/usr/share/terminfo/v/vte-2014",
 				"/usr/share/terminfo/v/vte-2017",
 				"/usr/share/terminfo/v/vte-2018",
+				"/usr/share/terminfo/v/vte-2022",
 				"/usr/share/terminfo/v/vte-256color",
 				"/usr/share/terminfo/v/vte-direct",
 				"/usr/share/terminfo/v/vtnt",
@@ -2627,6 +2758,7 @@
 				"/usr/share/terminfo/w/wy99gt-w",
 				"/usr/share/terminfo/w/wy99gt-w-vb",
 				"/usr/share/terminfo/w/wy99gt-wvb",
+				"/usr/share/terminfo/w/wyse+cvis",
 				"/usr/share/terminfo/w/wyse+sl",
 				"/usr/share/terminfo/w/wyse-325",
 				"/usr/share/terminfo/w/wyse-75ap",
@@ -2802,6 +2934,7 @@
 				"/usr/share/terminfo/x/xterm+256color",
 				"/usr/share/terminfo/x/xterm+256color2",
 				"/usr/share/terminfo/x/xterm+256setaf",
+				"/usr/share/terminfo/x/xterm+256setaf2",
 				"/usr/share/terminfo/x/xterm+88color",
 				"/usr/share/terminfo/x/xterm+88color2",
 				"/usr/share/terminfo/x/xterm+acs",
@@ -2935,110 +3068,32 @@
 				"/usr/share/terminfo/z/ztx-1-a",
 				"/usr/share/terminfo/z/ztx11"
 			],
-			"name": "ncurses",
-			"provides": [
-				"binary(captoinfo)",
-				"binary(clear)",
-				"binary(infocmp)",
-				"binary(infotocap)",
-				"binary(reset)",
-				"binary(tabs)",
-				"binary(tic)",
-				"binary(toe)",
-				"binary(tput)",
-				"binary(tset)",
+			"name": "ncurses-base"
+		},
+		"ncurses-c++-libs": {
+			"depends": [
+				"ncurses-libs",
+				"soname(libc++.so.1(x86_64))",
+				"soname(libc.so.6(x86_64))",
 				"soname(libformw.so.6(x86_64))",
 				"soname(libmenuw.so.6(x86_64))",
-				"soname(libncurses++w.so.6(x86_64))",
 				"soname(libncursesw.so.6(x86_64))",
-				"soname(libpanelw.so.6(x86_64))"
-			]
-		},
-		"ncurses-32bit": {
-			"depends": [
-				"ncurses",
-				"soname(libc++.so.1(386))",
-				"soname(libc.so.6(386))",
-				"soname(libunwind.so.1(386))"
+				"soname(libpanelw.so.6(x86_64))",
+				"soname(libunwind.so.1(x86_64))"
 			],
 			"files": [
-				"/usr/lib32/libformw.so.6",
-				"/usr/lib32/libformw.so.6.5",
-				"/usr/lib32/libmenuw.so.6",
-				"/usr/lib32/libmenuw.so.6.5",
-				"/usr/lib32/libncurses++w.so.6",
-				"/usr/lib32/libncurses++w.so.6.5",
-				"/usr/lib32/libncursesw.so.6",
-				"/usr/lib32/libncursesw.so.6.5",
-				"/usr/lib32/libpanelw.so.6",
-				"/usr/lib32/libpanelw.so.6.5",
-				"/usr/lib32/libtic.so.6",
-				"/usr/lib32/libtinfo.so.6"
+				"/usr/lib/libncurses++w.so.6",
+				"/usr/lib/libncurses++w.so.6.5"
 			],
-			"name": "ncurses-32bit",
+			"name": "ncurses-c++-libs",
 			"provides": [
-				"soname(libformw.so.6(386))",
-				"soname(libformw.so.6(x86))",
-				"soname(libmenuw.so.6(386))",
-				"soname(libmenuw.so.6(x86))",
-				"soname(libncurses++w.so.6(386))",
-				"soname(libncurses++w.so.6(x86))",
-				"soname(libncursesw.so.6(386))",
-				"soname(libncursesw.so.6(x86))",
-				"soname(libpanelw.so.6(386))",
-				"soname(libpanelw.so.6(x86))"
-			]
-		},
-		"ncurses-32bit-devel": {
-			"depends": [
-				"ncurses-32bit",
-				"ncurses-devel"
-			],
-			"files": [
-				"/usr/lib32/libform.so",
-				"/usr/lib32/libformw.so",
-				"/usr/lib32/libmenu.so",
-				"/usr/lib32/libmenuw.so",
-				"/usr/lib32/libncurses++.so",
-				"/usr/lib32/libncurses++w.so",
-				"/usr/lib32/libncurses.so",
-				"/usr/lib32/libncursesw.so",
-				"/usr/lib32/libpanel.so",
-				"/usr/lib32/libpanelw.so",
-				"/usr/lib32/libtic.so",
-				"/usr/lib32/libtinfo.so",
-				"/usr/lib32/pkgconfig/form.pc",
-				"/usr/lib32/pkgconfig/formw.pc",
-				"/usr/lib32/pkgconfig/menu.pc",
-				"/usr/lib32/pkgconfig/menuw.pc",
-				"/usr/lib32/pkgconfig/ncurses++.pc",
-				"/usr/lib32/pkgconfig/ncurses++w.pc",
-				"/usr/lib32/pkgconfig/ncurses.pc",
-				"/usr/lib32/pkgconfig/ncursesw.pc",
-				"/usr/lib32/pkgconfig/panel.pc",
-				"/usr/lib32/pkgconfig/panelw.pc",
-				"/usr/lib32/pkgconfig/tic.pc",
-				"/usr/lib32/pkgconfig/tinfo.pc"
-			],
-			"name": "ncurses-32bit-devel",
-			"provides": [
-				"pkgconfig32(form)",
-				"pkgconfig32(formw)",
-				"pkgconfig32(menu)",
-				"pkgconfig32(menuw)",
-				"pkgconfig32(ncurses)",
-				"pkgconfig32(ncurses++)",
-				"pkgconfig32(ncurses++w)",
-				"pkgconfig32(ncursesw)",
-				"pkgconfig32(panel)",
-				"pkgconfig32(panelw)",
-				"pkgconfig32(tic)",
-				"pkgconfig32(tinfo)"
+				"soname(libncurses++w.so.6(x86_64))"
 			]
 		},
 		"ncurses-devel": {
 			"depends": [
-				"ncurses"
+				"ncurses",
+				"ncurses-c++-libs"
 			],
 			"files": [
 				"/usr/bin/ncursesw6-config",
@@ -4019,9 +4074,47 @@
 				"pkgconfig(tic)",
 				"pkgconfig(tinfo)"
 			]
+		},
+		"ncurses-libs": {
+			"depends": [
+				"ncurses-base",
+				"soname(libc.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/lib/libformw.so.6",
+				"/usr/lib/libformw.so.6.5",
+				"/usr/lib/libmenuw.so.6",
+				"/usr/lib/libmenuw.so.6.5",
+				"/usr/lib/libncursesw.so.6",
+				"/usr/lib/libncursesw.so.6.5",
+				"/usr/lib/libpanelw.so.6",
+				"/usr/lib/libpanelw.so.6.5",
+				"/usr/lib/libtic.so.6",
+				"/usr/lib/libtinfo.so.6"
+			],
+			"name": "ncurses-libs",
+			"provides": [
+				"soname(libformw.so.6(x86_64))",
+				"soname(libmenuw.so.6(x86_64))",
+				"soname(libncursesw.so.6(x86_64))",
+				"soname(libpanelw.so.6(x86_64))"
+			]
+		},
+		"ncurses-static": {
+			"depends": [
+				"ncurses-devel"
+			],
+			"files": [
+				"/usr/lib/libformw.a",
+				"/usr/lib/libmenuw.a",
+				"/usr/lib/libncurses++w.a",
+				"/usr/lib/libncursesw.a",
+				"/usr/lib/libpanelw.a"
+			],
+			"name": "ncurses-static"
 		}
 	},
 	"source-name": "ncurses",
-	"source-release": "11",
-	"source-version": "6.5-20250301"
+	"source-release": "12",
+	"source-version": "6.5-20250510"
 }

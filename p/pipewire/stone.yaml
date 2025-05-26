@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : pipewire
-version     : 1.4.1
-release     : 9
+version     : 1.4.2
+release     : 10
 homepage    : https://pipewire.org/
 upstreams   :
-    - https://gitlab.freedesktop.org/pipewire/pipewire/-/archive/1.4.0/pipewire-1.4.1.tar.gz : 361fea20116fa79cf33459e62688c9a939a4ec82a0a951e5f64ac2c13eb54d44
+    - https://gitlab.freedesktop.org/pipewire/pipewire/-/archive/1.4.2/pipewire-1.4.2.tar.gz : 4712aada64b9b49ad41fbb8b440914481432a560f2619ffbdd49461f8d22994f
 summary     : Linux audio + video multiplexing
 description : |
     PipeWire is a project that aims to greatly improve handling of audio and video under Linux. It provides a low-latency, graph-based processing engine on top of audio and video devices that can be used to support the use cases currently handled by both PulseAudio and JACK. PipeWire was designed with a powerful security model that makes interacting with audio and video devices from containerized applications easy, with support for Flatpak applications being the primary goal.
@@ -24,6 +24,9 @@ builddeps   :
     - pkgconfig(fdk-aac)
     - pkgconfig(gio-2.0)
     - pkgconfig(glib-2.0)
+    - pkgconfig(gstreamer-1.0)
+    - pkgconfig(gstreamer-video-1.0)
+    - pkgconfig(libavcodec)
     - pkgconfig(libcanberra)
     - pkgconfig(libcap)
     - pkgconfig(libdrm)
@@ -39,8 +42,6 @@ builddeps   :
     - pkgconfig(vulkan)
     - pkgconfig(x11-xcb)
     - pkgconfig(xfixes)
-    - pkgconfig(gstreamer-1.0)
-    - pkgconfig(libavcodec)
     - pkgconfig(opus)
     - pkgconfig(sbc)
     - pkgconfig(sdl2_compat)
@@ -58,3 +59,22 @@ build       : |
     %meson_build
 install     : |
     %meson_install
+packages    :
+    - "%(name)-libs":
+        summary: "Library files for %(name)"
+        description: |
+            Library files for %(name), typically pulled in as a dependency of another package.
+        paths:
+            - /usr/lib/libpipewire-0.3.so.*
+            - /usr/lib/spa-0.2/libspa.so
+
+    # Hack for moss not handling this migration correctly
+    - "%(name)":
+        rundeps:
+            - "%(name)-libs"
+
+    - "gstreamer-plugin-pipewire":
+        summary: GStreamer pipewire plugin
+        description: GStreamer pipewire plugin
+        paths:
+            - /usr/lib/gstreamer-1.0/

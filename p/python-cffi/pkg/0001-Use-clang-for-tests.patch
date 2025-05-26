@@ -1,0 +1,23 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Reilly Brogan <reilly@reillybrogan.com>
+Date: Sun, 25 May 2025 01:35:06 -0500
+Subject: [PATCH] Use clang for tests
+
+Signed-off-by: Reilly Brogan <reilly@reillybrogan.com>
+---
+ testing/cffi0/test_ownlib.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/testing/cffi0/test_ownlib.py b/testing/cffi0/test_ownlib.py
+index e1a61d67..406ce38a 100644
+--- a/testing/cffi0/test_ownlib.py
++++ b/testing/cffi0/test_ownlib.py
+@@ -174,7 +174,7 @@ class TestOwnLib(object):
+                 unicode_name = u+'testownlib'
+                 encoded = str(unicode_name)
+             subprocess.check_call(
+-                "cc testownlib.c -shared -fPIC -o '%s.so'" % (encoded,),
++                "clang testownlib.c -shared -fPIC -o '%s.so'" % (encoded,),
+                 cwd=str(udir), shell=True)
+             cls.module = os.path.join(str(udir), unicode_name + (u+'.so'))
+         print(repr(cls.module))

@@ -1,6 +1,6 @@
 # At the end of the install phase Rust will print a message about the new change-id. Please
 # review any changed settings and then update the following field when updating to new Rust versions
-change-id = 134650
+change-id = 138986
 
 # Inherit from src/bootstrap/defaults/config.dist.toml
 profile = "dist"
@@ -18,6 +18,7 @@ extended = true
 # Mainly needed for cross-language PGO in Firefox.
 profiler = true
 sanitizers = true
+description = "AerynOS"
 target = ["i686-unknown-linux-gnu", "x86_64-unknown-linux-gnu"]
 tools = [
     "analysis",
@@ -38,7 +39,6 @@ prefix = "/usr"
 [rust]
 channel = "stable"
 default-linker = "clang"
-description = "Serpent OS"
 jemalloc = true
 lto = "@@LTO@@"
 new-symbol-mangling = true

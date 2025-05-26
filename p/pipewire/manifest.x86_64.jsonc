@@ -2,6 +2,59 @@
 {
 	"manifest-version": "0.2",
 	"packages": {
+		"gstreamer-plugin-pipewire": {
+			"build-depends": [
+				"binary(gettext)",
+				"cmake(VulkanHeaders)",
+				"pkgconfig(alsa)",
+				"pkgconfig(avahi-client)",
+				"pkgconfig(bluez)",
+				"pkgconfig(dbus-1)",
+				"pkgconfig(fdk-aac)",
+				"pkgconfig(gio-2.0)",
+				"pkgconfig(glib-2.0)",
+				"pkgconfig(gstreamer-1.0)",
+				"pkgconfig(gstreamer-video-1.0)",
+				"pkgconfig(libavcodec)",
+				"pkgconfig(libcanberra)",
+				"pkgconfig(libcap)",
+				"pkgconfig(libdrm)",
+				"pkgconfig(libebur128)",
+				"pkgconfig(libpulse)",
+				"pkgconfig(libsystemd)",
+				"pkgconfig(libusb-1.0)",
+				"pkgconfig(ncursesw)",
+				"pkgconfig(openssl)",
+				"pkgconfig(opus)",
+				"pkgconfig(readline)",
+				"pkgconfig(sbc)",
+				"pkgconfig(sdl2_compat)",
+				"pkgconfig(sndfile)",
+				"pkgconfig(systemd)",
+				"pkgconfig(vulkan)",
+				"pkgconfig(x11-xcb)",
+				"pkgconfig(xfixes)"
+			],
+			"depends": [
+				"soname(libc.so.6(x86_64))",
+				"soname(libglib-2.0.so.0(x86_64))",
+				"soname(libgobject-2.0.so.0(x86_64))",
+				"soname(libgstallocators-1.0.so.0(x86_64))",
+				"soname(libgstaudio-1.0.so.0(x86_64))",
+				"soname(libgstbase-1.0.so.0(x86_64))",
+				"soname(libgstreamer-1.0.so.0(x86_64))",
+				"soname(libgstvideo-1.0.so.0(x86_64))",
+				"soname(libm.so.6(x86_64))",
+				"soname(libpipewire-0.3.so.0(x86_64))"
+			],
+			"files": [
+				"/usr/lib/gstreamer-1.0/libgstpipewire.so"
+			],
+			"name": "gstreamer-plugin-pipewire",
+			"provides": [
+				"soname(gstreamer-1.0/libgstpipewire.so(x86_64))"
+			]
+		},
 		"pipewire": {
 			"build-depends": [
 				"binary(gettext)",
@@ -14,6 +67,7 @@
 				"pkgconfig(gio-2.0)",
 				"pkgconfig(glib-2.0)",
 				"pkgconfig(gstreamer-1.0)",
+				"pkgconfig(gstreamer-video-1.0)",
 				"pkgconfig(libavcodec)",
 				"pkgconfig(libcanberra)",
 				"pkgconfig(libcap)",
@@ -36,6 +90,7 @@
 			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"pipewire-libs",
 				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libX11.so.6(x86_64))",
 				"soname(libXfixes.so.3(x86_64))",
@@ -55,14 +110,10 @@
 				"soname(libgio-2.0.so.0(x86_64))",
 				"soname(libglib-2.0.so.0(x86_64))",
 				"soname(libgobject-2.0.so.0(x86_64))",
-				"soname(libgstallocators-1.0.so.0(x86_64))",
-				"soname(libgstaudio-1.0.so.0(x86_64))",
-				"soname(libgstbase-1.0.so.0(x86_64))",
-				"soname(libgstreamer-1.0.so.0(x86_64))",
-				"soname(libgstvideo-1.0.so.0(x86_64))",
 				"soname(libm.so.6(x86_64))",
 				"soname(libncursesw.so.6(x86_64))",
 				"soname(libopus.so.0(x86_64))",
+				"soname(libpipewire-0.3.so.0(x86_64))",
 				"soname(libpulse.so.0(x86_64))",
 				"soname(libreadline.so.8(x86_64))",
 				"soname(libsbc.so.1(x86_64))",
@@ -108,18 +159,15 @@
 				"/usr/bin/spa-resample",
 				"/usr/lib/alsa-lib/libasound_module_ctl_pipewire.so",
 				"/usr/lib/alsa-lib/libasound_module_pcm_pipewire.so",
-				"/usr/lib/gstreamer-1.0/libgstpipewire.so",
-				"/usr/lib/libpipewire-0.3.so.0",
-				"/usr/lib/libpipewire-0.3.so.0.1400.0",
 				"/usr/lib/pipewire-0.3/jack/libjack.so",
 				"/usr/lib/pipewire-0.3/jack/libjack.so.0",
-				"/usr/lib/pipewire-0.3/jack/libjack.so.0.3.1400",
+				"/usr/lib/pipewire-0.3/jack/libjack.so.0.3.1402",
 				"/usr/lib/pipewire-0.3/jack/libjacknet.so",
 				"/usr/lib/pipewire-0.3/jack/libjacknet.so.0",
-				"/usr/lib/pipewire-0.3/jack/libjacknet.so.0.3.1400",
+				"/usr/lib/pipewire-0.3/jack/libjacknet.so.0.3.1402",
 				"/usr/lib/pipewire-0.3/jack/libjackserver.so",
 				"/usr/lib/pipewire-0.3/jack/libjackserver.so.0",
-				"/usr/lib/pipewire-0.3/jack/libjackserver.so.0.3.1400",
+				"/usr/lib/pipewire-0.3/jack/libjackserver.so.0.3.1402",
 				"/usr/lib/pipewire-0.3/libpipewire-module-access.so",
 				"/usr/lib/pipewire-0.3/libpipewire-module-adapter.so",
 				"/usr/lib/pipewire-0.3/libpipewire-module-avb.so",
@@ -180,7 +228,6 @@
 				"/usr/lib/spa-0.2/filter-graph/libspa-filter-graph-plugin-ebur128.so",
 				"/usr/lib/spa-0.2/filter-graph/libspa-filter-graph-plugin-ladspa.so",
 				"/usr/lib/spa-0.2/filter-graph/libspa-filter-graph.so",
-				"/usr/lib/spa-0.2/libspa.so",
 				"/usr/lib/spa-0.2/support/libspa-dbus.so",
 				"/usr/lib/spa-0.2/support/libspa-journal.so",
 				"/usr/lib/spa-0.2/support/libspa-support.so",
@@ -387,8 +434,6 @@
 				"binary(spa-resample)",
 				"soname(alsa-lib/libasound_module_ctl_pipewire.so(x86_64))",
 				"soname(alsa-lib/libasound_module_pcm_pipewire.so(x86_64))",
-				"soname(gstreamer-1.0/libgstpipewire.so(x86_64))",
-				"soname(libpipewire-0.3.so.0(x86_64))",
 				"soname(pipewire-0.3/jack/libjack.so.0(x86_64))",
 				"soname(pipewire-0.3/jack/libjacknet.so.0(x86_64))",
 				"soname(pipewire-0.3/jack/libjackserver.so.0(x86_64))",
@@ -452,7 +497,6 @@
 				"soname(spa-0.2/filter-graph/libspa-filter-graph-plugin-ebur128.so(x86_64))",
 				"soname(spa-0.2/filter-graph/libspa-filter-graph-plugin-ladspa.so(x86_64))",
 				"soname(spa-0.2/filter-graph/libspa-filter-graph.so(x86_64))",
-				"soname(spa-0.2/libspa.so(x86_64))",
 				"soname(spa-0.2/support/libspa-dbus.so(x86_64))",
 				"soname(spa-0.2/support/libspa-journal.so(x86_64))",
 				"soname(spa-0.2/support/libspa-support.so(x86_64))",
@@ -474,6 +518,7 @@
 				"pkgconfig(gio-2.0)",
 				"pkgconfig(glib-2.0)",
 				"pkgconfig(gstreamer-1.0)",
+				"pkgconfig(gstreamer-video-1.0)",
 				"pkgconfig(libavcodec)",
 				"pkgconfig(libcanberra)",
 				"pkgconfig(libcap)",
@@ -717,9 +762,57 @@
 				"pkgconfig(libpipewire-0.3)",
 				"pkgconfig(libspa-0.2)"
 			]
+		},
+		"pipewire-libs": {
+			"build-depends": [
+				"binary(gettext)",
+				"cmake(VulkanHeaders)",
+				"pkgconfig(alsa)",
+				"pkgconfig(avahi-client)",
+				"pkgconfig(bluez)",
+				"pkgconfig(dbus-1)",
+				"pkgconfig(fdk-aac)",
+				"pkgconfig(gio-2.0)",
+				"pkgconfig(glib-2.0)",
+				"pkgconfig(gstreamer-1.0)",
+				"pkgconfig(gstreamer-video-1.0)",
+				"pkgconfig(libavcodec)",
+				"pkgconfig(libcanberra)",
+				"pkgconfig(libcap)",
+				"pkgconfig(libdrm)",
+				"pkgconfig(libebur128)",
+				"pkgconfig(libpulse)",
+				"pkgconfig(libsystemd)",
+				"pkgconfig(libusb-1.0)",
+				"pkgconfig(ncursesw)",
+				"pkgconfig(openssl)",
+				"pkgconfig(opus)",
+				"pkgconfig(readline)",
+				"pkgconfig(sbc)",
+				"pkgconfig(sdl2_compat)",
+				"pkgconfig(sndfile)",
+				"pkgconfig(systemd)",
+				"pkgconfig(vulkan)",
+				"pkgconfig(x11-xcb)",
+				"pkgconfig(xfixes)"
+			],
+			"depends": [
+				"soname(libc.so.6(x86_64))",
+				"soname(libm.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/lib/libpipewire-0.3.so.0",
+				"/usr/lib/libpipewire-0.3.so.0.1402.0",
+				"/usr/lib/spa-0.2/libspa.so"
+			],
+			"name": "pipewire-libs",
+			"provides": [
+				"soname(libpipewire-0.3.so.0(x86_64))",
+				"soname(spa-0.2/libspa.so(x86_64))"
+			]
 		}
 	},
 	"source-name": "pipewire",
-	"source-release": "9",
-	"source-version": "1.4.1"
+	"source-release": "10",
+	"source-version": "1.4.2"
 }

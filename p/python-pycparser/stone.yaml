@@ -1,0 +1,34 @@
+#
+# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : python-pycparser
+version     : "2.22"
+release     : 1
+homepage    : https://github.com/eliben/pycparser
+upstreams   :
+    - https://pypi.debian.net/pycparser/pycparser-2.22.tar.gz : 491c8be9c040f5390f5bf44a5b07752bd07f56edf992381b05c701439eec10f6
+summary     : C parser and AST generator written in Python
+description : |
+    C parser and AST generator written in Python
+license     : BSD-3-Clause
+builddeps   :
+    - python(ply)
+rundeps     :
+    - binary(python3)
+    - python(ply)
+checkdeps   :
+    - binary(clang-cpp)
+setup       : |
+    # remove embedded copy of ply
+    rm -rv pycparser/ply
+
+    %patch %(pkgdir)/debundle-ply.patch
+    %patch %(pkgdir)/0001-downstream-Default-to-clang-cpp.patch
+build       : |
+    %pyproject_build
+install     : |
+    %pyproject_install
+check       : |
+    python -m unittest discover

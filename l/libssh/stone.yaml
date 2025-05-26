@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : libssh
-version     : 0.10.6
-release     : 1
+version     : 0.11.1
+release     : 2
 homepage    : https://www.libssh.org/
 upstreams   :
-    - https://www.libssh.org/files/0.10/libssh-0.10.6.tar.xz : 1861d498f5b6f1741b6abc73e608478491edcf9c9d4b6630eef6e74596de9dc1
+    - https://www.libssh.org/files/0.11/libssh-0.11.1.tar.xz : 14b7dcc72e91e08151c58b981a7b570ab2663f630e7d2837645d5a9c612c1b79
 summary     : C library for SSHv2 protocol support
 description : |
     libssh is a multiplatform C library implementing the SSHv2 protocol on client and server side. With libssh, you can remotely execute programs, transfer files, use a secure and transparent tunnel, manage public keys and much more
@@ -17,11 +17,21 @@ license     :
     - LGPL-2.1-or-later
     - MIT
 builddeps   :
-    - pkgconfig(libgcrypt)
+    - pkgconfig(openssl)
     - pkgconfig(zlib)
+checkdeps  :
+    - cmake(cmocka)
+    - libgcc # libgcc_s.so.1 must be installed for pthread_exit to work
 setup       : |
-    %cmake -DWITH_GCRYPT:BOOL=ON
+    %patch %(pkgdir)/upstream-test-fix-1.patch
+    %patch %(pkgdir)/upstream-test-fix-2.patch
+
+    %cmake \
+           -DUNIT_TESTING:BOOL=ON \
+           -DWITH_GCRYPT:BOOL=OFF
 build       : |
     %cmake_build
 install     : |
     %cmake_install
+check       : |
+    %cmake_test

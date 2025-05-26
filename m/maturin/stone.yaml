@@ -1,0 +1,44 @@
+#
+# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : maturin
+version     : 1.8.6
+release     : 1
+homepage    : https://www.maturin.rs
+upstreams   :
+    - https://pypi.debian.net/maturin/maturin-1.8.6.tar.gz : 0e0dc2e0bfaa2e1bd238e0236cf8a2b7e2250ccaa29c1aa8d0e61fa664b0289d
+summary     : Build and publish crates with pyo3, rust-cpython and cffi bindings
+description : |
+    Build and publish crates with pyo3, rust-cpython and cffi bindings
+license     :
+    - Apache-2.0
+    - MIT
+networking  : true
+builddeps   :
+    - pkgconfig(bzip2)
+    - pkgconfig(liblzma)
+    - pkgconfig(openssl)
+    - python(setuptools)
+    - python(setuptools-rust)
+setup       : |
+    %patch %(pkgdir)/revert-setuptools.patch
+
+    %cargo_fetch
+build       : |
+    export MATURIN_SETUP_ARGS="--frozen --all-features"
+    %pyproject_build
+install     : |
+    %pyproject_install
+# check       : |
+# TODO: tests!
+packages     :
+    - "python-%(name)":
+        summary: Python bindings for %(name)
+        description: Python bindings for %(name)
+        rundeps:
+            - "%(name)"
+            - python-libs
+        paths:
+            - /usr/lib/python*

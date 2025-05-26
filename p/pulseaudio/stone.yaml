@@ -4,8 +4,8 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : pulseaudio
-version     : 17.0
-release     : 1
+version     : "17.0"
+release     : 3
 homepage    : https://freedesktop.org/software/pulseaudio/releases
 upstreams   :
     - https://freedesktop.org/software/pulseaudio/releases/pulseaudio-17.0.tar.xz : 053794d6671a3e397d849e478a80b82a63cb9d8ca296bd35b73317bb5ceb87b5
@@ -31,6 +31,9 @@ packages    :
         paths:
             - /usr/share/vala/vapi
 setup       : |
+    # version script assignment of 'PULSE_0' to symbol 'pa_glib_mainloop_free' failed: symbol not defined
+    export LDFLAGS="$LDFLAGS -Wl,--undefined-version"
+
     %meson -Ddaemon=false \
            -Dclient=true \
            -Dgsettings=enabled \
