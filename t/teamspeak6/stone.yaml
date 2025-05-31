@@ -1,0 +1,38 @@
+#
+# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : teamspeak6
+version     : 6.0.0
+release     : 1
+homepage    : https://files.teamspeak-services.com/pre_releases/client/6.0.0-beta2
+upstreams   :
+    - https://files.teamspeak-services.com/pre_releases/client/6.0.0-beta2/teamspeak-client.tar.gz : de334fbf7b90d91ced475a785d034b520e4856bbd6fdd71db6a5dd88624a552b
+summary     : The 6th TeamSpeak client
+description : |
+    Communicate with your team mates cross-platform with security, lag-free performance & unparalleled reliability and uptime.
+license     : Proprietary
+strip       : false
+rundeps     :
+    - soname(libcef.so(x86_64)) # is missing
+setup       : |
+    tar xf %(sourcedir)/*.tar.gz
+install     : |
+    # Define target locations
+    _teamspeak6_root=%(libdir)/teamspeak6
+    _teamspeak6_install=%(installroot)/$_teamspeak6_root
+
+    # Move app contents to libdir
+    %install_dir $_teamspeak6_install
+    cp -R ./* $_teamspeak6_install
+
+    # Install binary to bindir
+    %install_exe $_teamspeak6_install/TeamSpeak %(installroot)/%(bindir)/teamspeak6
+
+    # Install desktop file
+    %install_file %(pkgdir)/teamspeak6.desktop %(installroot)/%(datadir)/applications/teamspeak6.desktop
+
+    # Install icon
+    %install_dir %(installroot)/%(datadir)/icons/hicolor/256x256/apps
+    ln -srv $_teamspeak6_install/logo-256.png %(installroot)%(datadir)/icons/hicolor/256x256/apps/teamspeak6.png
