@@ -1,0 +1,203 @@
+From db75ae3942ee412218e13dc049f0378fff412def Mon Sep 17 00:00:00 2001
+From: Luke Jones <luke@ljones.dev>
+Date: Mon, 5 May 2025 19:33:01 +1200
+Subject: [PATCH 5/6] zotac: shift rgb controls to led class sysfs
+
+---
+ .../hid/zotac-zone-hid/zotac-zone-hid-rgb.c   | 59 ++++++++-----------
+ 1 file changed, 25 insertions(+), 34 deletions(-)
+
+diff --git a/drivers/hid/zotac-zone-hid/zotac-zone-hid-rgb.c b/drivers/hid/zotac-zone-hid/zotac-zone-hid-rgb.c
+index 3f5b35132a9d..86d5320abca5 100644
+--- a/drivers/hid/zotac-zone-hid/zotac-zone-hid-rgb.c
++++ b/drivers/hid/zotac-zone-hid/zotac-zone-hid-rgb.c
+@@ -309,12 +309,11 @@ static void zotac_rgb_restore_settings(struct zotac_rgb_dev *led_rgb,
+ static ssize_t rgb_effect_show(struct device *dev,
+ 			       struct device_attribute *attr, char *buf)
+ {
+-	struct zotac_device *zotac = dev_get_drvdata(dev);
+ 	int effect;
+ 
+-	if (!zotac || !zotac->cfg_data)
++	if (!zotac.cfg_data)
+ 		return -ENODEV;
+-	effect = zotac_send_get_byte(zotac, CMD_GET_RGB, SETTING_EFFECT, NULL,
++	effect = zotac_send_get_byte(&zotac, CMD_GET_RGB, SETTING_EFFECT, NULL,
+ 				     0);
+ 	if (effect < 0)
+ 		return effect;
+@@ -326,11 +325,10 @@ static ssize_t rgb_effect_store(struct device *dev,
+ 				struct device_attribute *attr, const char *buf,
+ 				size_t count)
+ {
+-	struct zotac_device *zotac = dev_get_drvdata(dev);
+ 	int effect, ret;
+ 	u8 effect_val;
+ 
+-	if (!zotac || !zotac->cfg_data)
++	if (!zotac.cfg_data)
+ 		return -ENODEV;
+ 
+ 	ret = kstrtoint(buf, 10, &effect);
+@@ -350,28 +348,26 @@ static ssize_t rgb_effect_store(struct device *dev,
+ 	}
+ 
+ 	effect_val = (u8)effect;
+-	ret = zotac_send_set_command(zotac, CMD_SET_RGB, SETTING_EFFECT,
++	ret = zotac_send_set_command(&zotac, CMD_SET_RGB, SETTING_EFFECT,
+ 				     &effect_val, 1);
+ 	if (ret < 0)
+ 		return ret;
+ 
+-	zotac->led_rgb_data.effect = effect_val;
++	zotac.led_rgb_data.effect = effect_val;
+ 
+ 	return count;
+ }
+-
+-static DEVICE_ATTR_RW(rgb_effect);
++static DEVICE_ATTR_RW_NAMED(rgb_effect, "effect");
+ 
+ static ssize_t rgb_speed_show(struct device *dev, struct device_attribute *attr,
+ 			      char *buf)
+ {
+-	struct zotac_device *zotac = dev_get_drvdata(dev);
+ 	int speed;
+ 
+-	if (!zotac || !zotac->cfg_data)
++	if (!zotac.cfg_data)
+ 		return -ENODEV;
+ 
+-	speed = zotac_send_get_byte(zotac, CMD_GET_RGB, SETTING_SPEED, NULL, 0);
++	speed = zotac_send_get_byte(&zotac, CMD_GET_RGB, SETTING_SPEED, NULL, 0);
+ 	if (speed < 0)
+ 		return speed;
+ 
+@@ -382,11 +378,10 @@ static ssize_t rgb_speed_store(struct device *dev,
+ 			       struct device_attribute *attr, const char *buf,
+ 			       size_t count)
+ {
+-	struct zotac_device *zotac = dev_get_drvdata(dev);
+ 	int speed, ret;
+ 	u8 speed_val;
+ 
+-	if (!zotac || !zotac->cfg_data)
++	if (!zotac.cfg_data)
+ 		return -ENODEV;
+ 
+ 	ret = kstrtoint(buf, 10, &speed);
+@@ -406,19 +401,18 @@ static ssize_t rgb_speed_store(struct device *dev,
+ 	}
+ 
+ 	speed_val = (u8)speed;
+-	ret = zotac_send_set_command(zotac, CMD_SET_RGB, SETTING_SPEED,
++	ret = zotac_send_set_command(&zotac, CMD_SET_RGB, SETTING_SPEED,
+ 				     &speed_val, 1);
+ 	if (ret < 0) {
+ 		dev_err(dev, "Failed to set RGB speed: %d\n", ret);
+ 		return ret;
+ 	}
+ 
+-	zotac->led_rgb_data.speed = speed_val;
++	zotac.led_rgb_data.speed = speed_val;
+ 
+ 	return count;
+ }
+-
+-static DEVICE_ATTR_RW(rgb_speed);
++static DEVICE_ATTR_RW_NAMED(rgb_speed, "speed");
+ 
+ static u8 brightness_level_to_value(unsigned int level)
+ {
+@@ -455,14 +449,13 @@ static unsigned int brightness_value_to_level(u8 value)
+ static ssize_t rgb_brightness_show(struct device *dev,
+ 				   struct device_attribute *attr, char *buf)
+ {
+-	struct zotac_device *zotac = dev_get_drvdata(dev);
+ 	int brightness = 0;
+ 	unsigned int level;
+ 
+-	if (!zotac || !zotac->cfg_data)
++	if (!zotac.cfg_data)
+ 		return -ENODEV;
+ 
+-	brightness = zotac_send_get_byte(zotac, CMD_GET_RGB, SETTING_BRIGHTNESS,
++	brightness = zotac_send_get_byte(&zotac, CMD_GET_RGB, SETTING_BRIGHTNESS,
+ 					 NULL, 0);
+ 	if (brightness < 0)
+ 		return brightness;
+@@ -476,11 +469,10 @@ static ssize_t rgb_brightness_store(struct device *dev,
+ 				    struct device_attribute *attr,
+ 				    const char *buf, size_t count)
+ {
+-	struct zotac_device *zotac = dev_get_drvdata(dev);
+ 	int level, ret;
+ 	u8 brightness;
+ 
+-	if (!zotac || !zotac->cfg_data)
++	if (!zotac.cfg_data)
+ 		return -ENODEV;
+ 
+ 	ret = kstrtoint(buf, 10, &level);
+@@ -492,20 +484,20 @@ static ssize_t rgb_brightness_store(struct device *dev,
+ 
+ 	brightness = brightness_level_to_value(level);
+ 
+-	ret = zotac_send_set_command(zotac, CMD_SET_RGB, SETTING_BRIGHTNESS,
++	ret = zotac_send_set_command(&zotac, CMD_SET_RGB, SETTING_BRIGHTNESS,
+ 				     &brightness, 1);
+ 	if (ret < 0)
+ 		return ret;
+ 
+-	ret = zotac_send_set_command(zotac, CMD_SAVE_CONFIG, 0, NULL, 0);
++	ret = zotac_send_set_command(&zotac, CMD_SAVE_CONFIG, 0, NULL, 0);
+ 	if (ret < 0)
+ 		return ret;
+ 
+-	zotac->led_rgb_data.brightness = brightness;
++	zotac.led_rgb_data.brightness = brightness;
+ 
+ 	return count;
+ }
+-static DEVICE_ATTR_RW(rgb_brightness);
++static DEVICE_ATTR_RW_NAMED(rgb_brightness, "brightness");
+ 
+ static struct attribute *zotac_rgb_attrs[] = { &dev_attr_rgb_effect.attr,
+ 					       &dev_attr_rgb_speed.attr,
+@@ -616,6 +608,11 @@ static int zotac_rgb_register_zone(struct hid_device *hdev,
+ 		return err;
+ 	}
+ 
++	err = sysfs_create_group(&led_cdev->dev->kobj, &zotac_rgb_attr_group);
++	if (err) {
++		return err;
++	}
++
+ 	return 0;
+ }
+ 
+@@ -661,7 +658,7 @@ void zotac_rgb_cleanup(struct zotac_device *zotac)
+ 	if (!zotac->led_rgb_dev)
+ 		return;
+ 
+-	sysfs_remove_group(&zotac->hdev->dev.kobj, &zotac_rgb_attr_group);
++	sysfs_remove_group(&zotac->led_rgb_dev->led_rgb_dev.led_cdev.dev->kobj, &zotac_rgb_attr_group);
+ 
+ 	for (i = 0; i < ZOTAC_RGB_ZONE_COUNT; i++) {
+ 		led_rgb = &zotac->led_rgb_dev[i];
+@@ -714,12 +711,6 @@ int zotac_rgb_init(struct zotac_device *zotac)
+ 
+ 	zotac->led_rgb_data.initialized = true;
+ 
+-	ret = sysfs_create_group(&zotac->hdev->dev.kobj, &zotac_rgb_attr_group);
+-	if (ret) {
+-		hid_err(zotac->hdev, "Failed to create RGB sysfs group: %d\n",
+-			ret);
+-	}
+-
+ 	for (i = 0; i < ZOTAC_RGB_ZONE_COUNT; i++) {
+ 		led_rgb = &zotac->led_rgb_dev[i];
+ 		led_rgb->update_rgb = true;
+-- 
+2.49.0
+

@@ -1,0 +1,71 @@
+From 7b3e3a8957aecec793ad8e123a5bb38dcf3dd251 Mon Sep 17 00:00:00 2001
+From: Luke Jones <luke@ljones.dev>
+Date: Sat, 24 May 2025 18:47:36 +0200
+Subject: [PATCH 6/6] Fix RGB off by 2
+
+---
+ .../hid/zotac-zone-hid/zotac-zone-hid-rgb.c   | 22 ++++++++-----------
+ 1 file changed, 9 insertions(+), 13 deletions(-)
+
+diff --git a/drivers/hid/zotac-zone-hid/zotac-zone-hid-rgb.c b/drivers/hid/zotac-zone-hid/zotac-zone-hid-rgb.c
+index 86d5320abca5..0305de2bd549 100644
+--- a/drivers/hid/zotac-zone-hid/zotac-zone-hid-rgb.c
++++ b/drivers/hid/zotac-zone-hid/zotac-zone-hid-rgb.c
+@@ -5,7 +5,6 @@
+ 	* Copyright (c) 2025 Luke D. Jones <luke@ljones.dev>
+ 	*/
+ 
+-#include "linux/kstrtox.h"
+ #include <linux/device.h>
+ #include <linux/hid.h>
+ #include <linux/module.h>
+@@ -183,7 +182,7 @@ static void zotac_rgb_do_work(struct work_struct *work)
+ 		container_of(work, struct zotac_rgb_dev, work);
+ 	struct zotac_device *zotac = led->zotac;
+ 	u8 zone_idx = led - zotac->led_rgb_dev;
+-	u8 zone_data[1 + ZOTAC_RGB_LEDS_PER_ZONE * 3];
++	u8 zone_data[3 + ZOTAC_RGB_LEDS_PER_ZONE * 3];
+ 	unsigned long flags;
+ 	int j, led_index;
+ 
+@@ -196,11 +195,12 @@ static void zotac_rgb_do_work(struct work_struct *work)
+ 
+ 	zone_data[0] = zone_idx;
+ 
++	// [0] = zone number, [1..2] = blank, [3..] = data
+ 	for (j = 0; j < ZOTAC_RGB_LEDS_PER_ZONE; j++) {
+ 		led_index = zone_idx * ZOTAC_RGB_LEDS_PER_ZONE + j;
+-		zone_data[1 + (j * 3)] = led->red[led_index];
+-		zone_data[1 + (j * 3) + 1] = led->green[led_index];
+-		zone_data[1 + (j * 3) + 2] = led->blue[led_index];
++		zone_data[3 + (j * 3)] = led->red[led_index];
++		zone_data[4 + (j * 3)] = led->green[led_index];
++		zone_data[5 + (j * 3)] = led->blue[led_index];
+ 	}
+ 	spin_unlock_irqrestore(&led->lock, flags);
+ 
+@@ -239,17 +239,13 @@ static void zotac_rgb_set_brightness(struct led_classdev *cdev,
+ 	for (i = 0; i < ZOTAC_RGB_LEDS_PER_ZONE; i++) {
+ 		led_index = zone_idx * ZOTAC_RGB_LEDS_PER_ZONE + i;
+ 		intensity = mc_cdev->subled_info[i].intensity;
+-		led->red[led_index] =
+-			(((intensity >> 16) & 0xFF) * bright) / 255;
+-		led->green[led_index] =
+-			(((intensity >> 8) & 0xFF) * bright) / 255;
++		led->red[led_index] = (((intensity >> 16) & 0xFF) * bright) / 255;
++		led->green[led_index] = (((intensity >> 8) & 0xFF) * bright) / 255;
+ 		led->blue[led_index] = ((intensity & 0xFF) * bright) / 255;
+ 
+ 		zotac->led_rgb_data.zone[zone_idx].red[i] = led->red[led_index];
+-		zotac->led_rgb_data.zone[zone_idx].green[i] =
+-			led->green[led_index];
+-		zotac->led_rgb_data.zone[zone_idx].blue[i] =
+-			led->blue[led_index];
++		zotac->led_rgb_data.zone[zone_idx].green[i] = led->green[led_index];
++		zotac->led_rgb_data.zone[zone_idx].blue[i] = led->blue[led_index];
+ 	}
+ 
+ 	zotac->led_rgb_data.zone[zone_idx].brightness = bright;
+-- 
+2.49.0
+
