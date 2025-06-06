@@ -6,7 +6,7 @@
 #
 name        : linux-handheld
 version     : 6.14.10
-release     : 25
+release     : 26
 homepage    : https://kernel.org/
 upstreams   :
     - https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.14.10.tar.xz : de8b97cfeae74c22f832ee4ca2333c157cc978d98baa122f0ee9c01796a2fe43
@@ -20,6 +20,7 @@ license     :
     - GPL-2.0-only
 builddeps   :
     - binary(bc)
+    - binary(bindgen)
     - binary(bison)
     - binary(cryptsetup)
     - binary(dash)
@@ -30,12 +31,14 @@ builddeps   :
     - binary(grep)
     - binary(gzip)
     - binary(kmod)
-    - binary(moss)
     - binary(less)
     - binary(loadkeys)
     - binary(m4)
+    - binary(moss)
+    - binary(pahole)
     - binary(perl)
     - binary(python3)
+    - binary(rustc)
     - binary(setfont)
     - binary(tr)
     - binary(which)
@@ -49,18 +52,23 @@ builddeps   :
     - sysbinary(fsck.f2fs)
     - sysbinary(fsck.xfs)
     - sysbinary(lvm)
-    - gcc # libgcc_s.so.1 - needed until we get llvm-libgcc
     - font-cantarell
     - intel-microcode
+    - libgcc # libgcc_s.so.1 - needed until we get llvm-libgcc
     - linux-firmware
     - linux-firmware-amd
     - linux-firmware-intel
     - linux-firmware-nvidia
+    - rust-devel # Needs Rust source
     - serpent-artwork
 packages    :
     - "%(name)-devel":
         paths:
             - /usr/src
+environment : |
+    # Maximize ccache efficiency as well as make the build fully reproducible, except for the initrd which needs a timestamp to be signed
+    export KBUILD_BUILD_USER=root
+    export KBUILD_BUILD_TIMESTAMP=$(date --utc --date=@$SOURCE_DATE_EPOCH +%%F)
 setup       : |
     for i in $(cat %(pkgdir)/series) ; do
         %patch %(pkgdir)/$i
@@ -71,11 +79,12 @@ setup       : |
 
     %install_file %(pkgdir)/config-x86_64 .config
     %make CC=%(cc) LD=%(ld) ARCH=x86_64 LLVM=1 LLVM_IAS=1 WERROR=0 oldconfig || exit 1
-    cat .config
 build       : |
+    %ccache_zero
     # Do NOT use CONFIG_DEBUG_SECTION_MISMATCH as it is GCC specific
     %make VERBOSE=0 V=0 CC=%(cc) LD=%(ld) ARCH=x86_64 LLVM=1 LLVM_IAS=1 WERROR=0
     %make -C tools/objtool VERBOSE=0 V=0 CC=%(cc) LD=%(ld) ARCH=x86_64 LLVM=1 LLVM_IAS=1 WERROR=0
+    %ccache_stats
 install     : |
     umask 022
     kernelVersion="%(version)-%(release).handheld"
@@ -86,13 +95,63 @@ install     : |
 
     # Modules please
     %install_dir %(installroot)%(libdir)/modules/$kernelVersion
-    %make CC=%(cc) LD=%(ld) ARCH=x86_64 LLVM=1 WERROR=0 INSTALL_MOD_STRIP=1 INSTALL_MOD_PATH=%(installroot)/usr modules_install KERNELRELEASE="$kernelVersion" mod-fw= DEPMOD=/usr/bin/true
+    %make CC=%(cc) LD=%(ld) ARCH=x86_64 LLVM=1 WERROR=0 INSTALL_MOD_PATH=%(installroot)/usr modules_install KERNELRELEASE="$kernelVersion" mod-fw= DEPMOD=/usr/bin/true
+
+    # Manually construct the debug info from the kernel modules
+    %install_dir %(installroot)%(libdir)/debug/.build-id
+    pushd %(installroot)
+    module_list=()
+    while IFS=  read -r -d $'\0'; do
+        module_list+=("$REPLY")
+    done < <(find .%(libdir)/modules -type f -name "*.ko" -print0)
+    for module in "${module_list[@]}"; do
+        build_id=$(eu-readelf -n ${module} | grep Bui | awk '{print $3}')
+        debug_path="%(libdir)/debug/.build-id/${build_id:0:2}/${build_id: 2}.debug"
+        %install_dir $(dirname .${debug_path})
+        llvm-objcopy --only-keep-debug "${module}" ".${debug_path}"
+        llvm-objcopy --add-gnu-debuglink ".${debug_path}" "${module}"
+        llvm-strip -g --strip-unneeded "${module}"
+    done
+    popd
     /usr/sbin/depmod -b %(installroot)/usr ${kernelVersion} -a
+
+    # We can make the initrd smaller by decompressing the firmware prior to compressing the entire initrd.
+    mkdir -p eb-fw/
+    cp -ra /usr/lib/firmware/* eb-fw
+    file_list=()
+    while IFS=  read -r -d $'\0'; do
+        file_list+=("$REPLY")
+    done < <(find eb-fw -type f -print0)
+    for file in "${file_list[@]}"; do
+        if [ -z ${file##*.zst} ]; then
+            unzstd --rm "$file"
+        fi
+    done
+
+    # Update symlinks
+    link_list=()
+    while IFS=  read -r -d $'\0'; do
+        link_list+=("$REPLY")
+    done < <(find eb-fw -type l -print0)
+    for file in "${link_list[@]}"; do
+        link=$(readlink "$file")
+        if [ -z ${link##*.zst} ]; then
+            new_link="${link%.zst}"
+            ln -sfv "$new_link" "$file"
+        fi
+        if [ -z ${file##*.zst} ]; then
+            new_filename="${file%.zst}"
+            mv -v "$file" "$new_filename"
+        fi
+    done
 
     # Include early microcode
     PATH="/usr/bin:/usr/sbin" dracut --strip --tmpdir /tmp -N -f \
-        --kmoddir %(installroot)%(libdir)/modules/${kernelVersion} --kver $kernelVersion --add "bash rescue systemd virtiofs lvm dm moss" \
-        --strip --hardlink --nomdadmconf --nolvmconf --add-drivers "qxl virtio-gpu" --zstd --early-microcode --fwdir %(libdir)/firmware \
+        --kmoddir %(installroot)%(libdir)/modules/${kernelVersion} --kver $kernelVersion \
+        --add "bash rescue systemd virtiofs lvm dm moss zz-init-extension" \
+        --strip --hardlink --nomdadmconf --nolvmconf --reproducible \
+        --add-drivers "amdgpu hyperv_drm i915 qxl radeon simpledrm virtio-gpu xe" \
+        --zstd --early-microcode --fwdir eb-fw/ \
         --include %(pkgdir)/depmod.conf %(libdir)/depmod.d/depmod.conf \
         %(installroot)%(libdir)/kernel/$kernelVersion/50-default.initrd
 
@@ -139,3 +198,6 @@ install     : |
     rm -vf %(installroot)%(libdir)/modules/$kernelVersion/source || :
     ln -svf build %(installroot)%(libdir)/modules/$kernelVersion/source
     ln -svf $headerRoot %(installroot)%(libdir)/modules/$kernelVersion/build
+
+    # Compress modules with zstd
+    find "%(installroot)%(libdir)/modules" -name '*.ko' -print -exec zstd {} \; -exec rm -v {} \;
