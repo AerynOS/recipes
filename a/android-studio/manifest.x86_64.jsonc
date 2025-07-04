@@ -3,6 +3,9 @@
 	"manifest-version": "0.2",
 	"packages": {
 		"android-studio": {
+			"build-depends": [
+				"binary(tar)"
+			],
 			"depends": [
 				"interpreter(/lib64/ld-linux-x86-64.so.2(x86_64))",
 				"interpreter(/system/bin/linker(386))",
@@ -3610,18 +3613,15 @@
 				"soname(android-studio/plugins/android/resources/perfetto/arm64-v8a/libperfetto.so(aarch64))",
 				"soname(android-studio/plugins/android/resources/perfetto/armeabi-v7a/libperfetto.so(arm))",
 				"soname(android-studio/plugins/android/resources/perfetto/x86/libperfetto.so(386))",
-				"soname(android-studio/plugins/android/resources/perfetto/x86/libperfetto.so(x86))",
 				"soname(android-studio/plugins/android/resources/perfetto/x86_64/libperfetto.so(x86_64))",
 				"soname(android-studio/plugins/android/resources/screen-sharing-agent/arm64-v8a/libscreen-sharing-agent.so(aarch64))",
 				"soname(android-studio/plugins/android/resources/screen-sharing-agent/armeabi-v7a/libscreen-sharing-agent.so(arm))",
 				"soname(android-studio/plugins/android/resources/screen-sharing-agent/x86/libscreen-sharing-agent.so(386))",
-				"soname(android-studio/plugins/android/resources/screen-sharing-agent/x86/libscreen-sharing-agent.so(x86))",
 				"soname(android-studio/plugins/android/resources/screen-sharing-agent/x86_64/libscreen-sharing-agent.so(x86_64))",
 				"soname(android-studio/plugins/android/resources/simpleperf/linux-x86_64/libsimpleperf_report.so(x86_64))",
 				"soname(android-studio/plugins/android/resources/transport/native/agent/arm64-v8a/libjvmtiagent.so(aarch64))",
 				"soname(android-studio/plugins/android/resources/transport/native/agent/armeabi-v7a/libjvmtiagent.so(arm))",
 				"soname(android-studio/plugins/android/resources/transport/native/agent/x86/libjvmtiagent.so(386))",
-				"soname(android-studio/plugins/android/resources/transport/native/agent/x86/libjvmtiagent.so(x86))",
 				"soname(android-studio/plugins/android/resources/transport/native/agent/x86_64/libjvmtiagent.so(x86_64))",
 				"soname(android-studio/plugins/c-clangd-plugin/bin/clang/linux/x64/bin/libc++.so.1(x86_64))",
 				"soname(android-studio/plugins/design-tools/resources/layoutlib/data/linux/lib64/layoutlib_jni.so(x86_64))",
@@ -3631,6 +3631,6 @@
 		}
 	},
 	"source-name": "android-studio",
-	"source-release": "1",
+	"source-release": "2",
 	"source-version": "2024.3.2.14"
 }

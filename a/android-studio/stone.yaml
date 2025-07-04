@@ -5,7 +5,7 @@
 #
 name: android-studio
 version: 2024.3.2.14
-release: 1
+release: 2
 homepage: https://developer.android.com/studio
 upstreams:
     - https://dl.google.com/dl/android/studio/ide-zips/2024.3.2.14/android-studio-2024.3.2.14-linux.tar.gz: 2c7b4f0097b8668d85718c0ed23e75bedf1050d3d0d83c1fd944fb1fbd83c8a5
@@ -13,8 +13,9 @@ summary: Android Studio is the integrated development environment (IDE) for Goog
 description: |
     Android Studio is the integrated development environment (IDE) for Google's Android operating system.
 license: Apache-2.0
-# rundeps     :
-strip       : false
+builddeps:
+    - binary(tar)
+strip: false
 setup: |
     tar xf %(sourcedir)/*.tar.gz
 install: |
