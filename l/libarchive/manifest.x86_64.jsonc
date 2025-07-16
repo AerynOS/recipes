@@ -12,9 +12,11 @@
 				"pkgconfig(libcrypto)",
 				"pkgconfig(liblz4)",
 				"pkgconfig(liblzma)",
+				"pkgconfig(libstone)",
 				"pkgconfig(libzstd)",
 				"pkgconfig(lzo2)",
-				"pkgconfig(zlib)"
+				"pkgconfig(zlib)",
+				"tar"
 			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
@@ -40,9 +42,11 @@
 				"pkgconfig(libcrypto)",
 				"pkgconfig(liblz4)",
 				"pkgconfig(liblzma)",
+				"pkgconfig(libstone)",
 				"pkgconfig(libzstd)",
 				"pkgconfig(lzo2)",
-				"pkgconfig(zlib)"
+				"pkgconfig(zlib)",
+				"tar"
 			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
@@ -68,9 +72,11 @@
 				"pkgconfig(libcrypto)",
 				"pkgconfig(liblz4)",
 				"pkgconfig(liblzma)",
+				"pkgconfig(libstone)",
 				"pkgconfig(libzstd)",
 				"pkgconfig(lzo2)",
-				"pkgconfig(zlib)"
+				"pkgconfig(zlib)",
+				"tar"
 			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
@@ -96,9 +102,11 @@
 				"pkgconfig(libcrypto)",
 				"pkgconfig(liblz4)",
 				"pkgconfig(liblzma)",
+				"pkgconfig(libstone)",
 				"pkgconfig(libzstd)",
 				"pkgconfig(lzo2)",
-				"pkgconfig(zlib)"
+				"pkgconfig(zlib)",
+				"tar"
 			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
@@ -112,6 +120,7 @@
 				"soname(liblzma.so.5(x86_64))",
 				"soname(liblzo2.so.2(x86_64))",
 				"soname(libm.so.6(x86_64))",
+				"soname(libstone.so.0.24(x86_64))",
 				"soname(libunwind.so.1(x86_64))",
 				"soname(libz.so.1(x86_64))",
 				"soname(libzstd.so.1(x86_64))"
@@ -135,9 +144,11 @@
 				"pkgconfig(libcrypto)",
 				"pkgconfig(liblz4)",
 				"pkgconfig(liblzma)",
+				"pkgconfig(libstone)",
 				"pkgconfig(libzstd)",
 				"pkgconfig(lzo2)",
-				"pkgconfig(zlib)"
+				"pkgconfig(zlib)",
+				"tar"
 			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
@@ -163,9 +174,11 @@
 				"pkgconfig(libcrypto)",
 				"pkgconfig(liblz4)",
 				"pkgconfig(liblzma)",
+				"pkgconfig(libstone)",
 				"pkgconfig(libzstd)",
 				"pkgconfig(lzo2)",
-				"pkgconfig(zlib)"
+				"pkgconfig(zlib)",
+				"tar"
 			],
 			"depends": [
 				"soname(libacl.so.1(x86_64))",
@@ -176,6 +189,7 @@
 				"soname(liblz4.so.1(x86_64))",
 				"soname(liblzma.so.5(x86_64))",
 				"soname(liblzo2.so.2(x86_64))",
+				"soname(libstone.so.0.24(x86_64))",
 				"soname(libxml2.so.16(x86_64))",
 				"soname(libz.so.1(x86_64))",
 				"soname(libzstd.so.1(x86_64))"
@@ -203,9 +217,11 @@
 				"pkgconfig(libcrypto)",
 				"pkgconfig(liblz4)",
 				"pkgconfig(liblzma)",
+				"pkgconfig(libstone)",
 				"pkgconfig(libzstd)",
 				"pkgconfig(lzo2)",
-				"pkgconfig(zlib)"
+				"pkgconfig(zlib)",
+				"tar"
 			],
 			"depends": [
 				"libarchive",
@@ -261,6 +277,6 @@
 		}
 	},
 	"source-name": "libarchive",
-	"source-release": "11",
+	"source-release": "12",
 	"source-version": "3.7.9"
 }

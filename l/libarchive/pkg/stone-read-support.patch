@@ -1,28 +1,28 @@
-From c4d08db994c255bbde329edb579d88941258b29e Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Cory Forsstrom <cforsstrom18@gmail.com>
 Date: Mon, 4 Nov 2024 14:34:16 -0800
 Subject: [PATCH] Add stone read support
 
 ---
- CMakeLists.txt                                |  34 ++
+ CMakeLists.txt                                |  34 +
  Makefile.am                                   |   1 +
  build/cmake/config.h.in                       |   6 +
  configure.ac                                  |   8 +
  libarchive/CMakeLists.txt                     |   1 +
- libarchive/archive.h                          |   2 +
+ libarchive/archive.h                          |   3 +
  libarchive/archive_read_private.h             |   2 +-
  libarchive/archive_read_set_format.c          |   3 +
- libarchive/archive_read_support_format_all.c  |   1 +
- .../archive_read_support_format_by_code.c     |   3 +
- .../archive_read_support_format_stone.c       | 560 ++++++++++++++++++
- 11 files changed, 620 insertions(+), 1 deletion(-)
+ libarchive/archive_read_support_format_all.c  |   2 +
+ .../archive_read_support_format_by_code.c     |   2 +
+ .../archive_read_support_format_stone.c       | 582 ++++++++++++++++++
+ 11 files changed, 643 insertions(+), 1 deletion(-)
  create mode 100644 libarchive/archive_read_support_format_stone.c
 
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index bfe68acd50..05aa56d090 100644
+index 2c2f7100..cdae102d 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -241,6 +241,7 @@ OPTION(ENABLE_EXPAT "Enable the use of the system EXPAT library if found" ON)
+@@ -228,6 +228,7 @@ OPTION(ENABLE_EXPAT "Enable the use of the system EXPAT library if found" ON)
  OPTION(ENABLE_PCREPOSIX "Enable the use of the system PCREPOSIX library if found" ON)
  OPTION(ENABLE_PCRE2POSIX "Enable the use of the system PCRE2POSIX library if found" ON)
  OPTION(ENABLE_LIBGCC "Enable the use of the system LibGCC library if found" ON)
@@ -30,7 +30,7 @@ index bfe68acd50..05aa56d090 100644
  # CNG is used for encrypt/decrypt Zip archives on Windows.
  OPTION(ENABLE_CNG "Enable the use of CNG(Crypto Next Generation)" ON)
  
-@@ -689,6 +690,39 @@ IF(ZSTD_FOUND)
+@@ -664,6 +665,39 @@ IF(ZSTD_FOUND)
  ENDIF(ZSTD_FOUND)
  MARK_AS_ADVANCED(CLEAR ZSTD_INCLUDE_DIR)
  MARK_AS_ADVANCED(CLEAR ZSTD_LIBRARY)
@@ -71,22 +71,22 @@ index bfe68acd50..05aa56d090 100644
  
  #
 diff --git a/Makefile.am b/Makefile.am
-index a36126c471..b3bcf41cb8 100644
+index 4fafc41c..db6387fa 100644
 --- a/Makefile.am
 +++ b/Makefile.am
-@@ -189,6 +189,7 @@ libarchive_la_SOURCES= \
- 	libarchive/archive_read_support_format_rar.c \
- 	libarchive/archive_read_support_format_rar5.c \
- 	libarchive/archive_read_support_format_raw.c \
-+	libarchive/archive_read_support_format_stone.c \
- 	libarchive/archive_read_support_format_tar.c \
+@@ -193,6 +193,7 @@ libarchive_la_SOURCES= \
  	libarchive/archive_read_support_format_warc.c \
  	libarchive/archive_read_support_format_xar.c \
+ 	libarchive/archive_read_support_format_zip.c \
++	libarchive/archive_read_support_format_stone.c \
+ 	libarchive/archive_string.c \
+ 	libarchive/archive_string.h \
+ 	libarchive/archive_string_composition.h \
 diff --git a/build/cmake/config.h.in b/build/cmake/config.h.in
-index d6e5487921..f8f99360c7 100644
+index 1f6b0c21..4199c994 100644
 --- a/build/cmake/config.h.in
 +++ b/build/cmake/config.h.in
-@@ -777,6 +777,9 @@ typedef uint64_t uintmax_t;
+@@ -774,6 +774,9 @@ typedef uint64_t uintmax_t;
  /* Define to 1 if you have the ZSTD_compressStream function. */
  #cmakedefine HAVE_ZSTD_compressStream 1
  
@@ -107,7 +107,7 @@ index d6e5487921..f8f99360c7 100644
  #cmakedefine HAVE_CTIME_S 1
  
 diff --git a/configure.ac b/configure.ac
-index 9cdaee5094..0b9e85dedf 100644
+index 5532afbe..9250c511 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -485,6 +485,14 @@ if test "x$with_zstd" != "xno"; then
@@ -126,39 +126,40 @@ index 9cdaee5094..0b9e85dedf 100644
    AS_HELP_STRING([--without-lzma], [Don't build support for xz through lzma]))
  
 diff --git a/libarchive/CMakeLists.txt b/libarchive/CMakeLists.txt
-index dd0b2808d9..97a002e8ab 100644
+index dd0b2808..c19831a8 100644
 --- a/libarchive/CMakeLists.txt
 +++ b/libarchive/CMakeLists.txt
-@@ -109,6 +109,7 @@ SET(libarchive_SOURCES
-   archive_read_support_format_rar.c
-   archive_read_support_format_rar5.c
-   archive_read_support_format_raw.c
-+  archive_read_support_format_stone.c
-   archive_read_support_format_tar.c
+@@ -113,6 +113,7 @@ SET(libarchive_SOURCES
    archive_read_support_format_warc.c
    archive_read_support_format_xar.c
+   archive_read_support_format_zip.c
++  archive_read_support_format_stone.c
+   archive_string.c
+   archive_string.h
+   archive_string_composition.h
 diff --git a/libarchive/archive.h b/libarchive/archive.h
-index 5b65475f61..bc0f69477a 100644
+index ddbf66c1..9dea6349 100644
 --- a/libarchive/archive.h
 +++ b/libarchive/archive.h
 @@ -344,6 +344,7 @@ typedef const char *archive_passphrase_callback(struct archive *,
  #define	ARCHIVE_FORMAT_7ZIP			0xE0000
  #define	ARCHIVE_FORMAT_WARC			0xF0000
  #define	ARCHIVE_FORMAT_RAR_V5			0x100000
-+#define	ARCHIVE_FORMAT_STONE			0x110000
++#define	ARCHIVE_FORMAT_STONE			0x200000
  
  /*
   * Codes returned by archive_read_format_capabilities().
-@@ -456,6 +457,7 @@ __LA_DECL int archive_read_support_format_mtree(struct archive *);
- __LA_DECL int archive_read_support_format_rar(struct archive *);
- __LA_DECL int archive_read_support_format_rar5(struct archive *);
- __LA_DECL int archive_read_support_format_raw(struct archive *);
+@@ -469,6 +470,8 @@ __LA_DECL int archive_read_support_format_zip_streamable(struct archive *);
+ /* Reads starting from central directory; requires seekable input. */
+ __LA_DECL int archive_read_support_format_zip_seekable(struct archive *);
+ 
 +__LA_DECL int archive_read_support_format_stone(struct archive *);
- __LA_DECL int archive_read_support_format_tar(struct archive *);
- __LA_DECL int archive_read_support_format_warc(struct archive *);
- __LA_DECL int archive_read_support_format_xar(struct archive *);
++
+ /* Functions to manually set the format and filters to be used. This is
+  * useful to bypass the bidding process when the format and filters to use
+  * is known in advance.
 diff --git a/libarchive/archive_read_private.h b/libarchive/archive_read_private.h
-index 0c374f487e..3c4efafb82 100644
+index 0c374f48..3c4efafb 100644
 --- a/libarchive/archive_read_private.h
 +++ b/libarchive/archive_read_private.h
 @@ -205,7 +205,7 @@ struct archive_read {
@@ -171,51 +172,51 @@ index 0c374f487e..3c4efafb82 100644
  
  	/*
 diff --git a/libarchive/archive_read_set_format.c b/libarchive/archive_read_set_format.c
-index c74361b20c..ba44e14a97 100644
+index c74361b2..69fc3479 100644
 --- a/libarchive/archive_read_set_format.c
 +++ b/libarchive/archive_read_set_format.c
-@@ -81,6 +81,9 @@ archive_read_set_format(struct archive *_a, int code)
-     case ARCHIVE_FORMAT_RAW:
-       strcpy(str, "raw");
+@@ -93,6 +93,9 @@ archive_read_set_format(struct archive *_a, int code)
+     case ARCHIVE_FORMAT_ZIP:
+       strcpy(str, "zip");
        break;
 +    case ARCHIVE_FORMAT_STONE:
 +      strcpy(str, "stone");
 +      break;
-     case ARCHIVE_FORMAT_TAR:
-       strcpy(str, "tar");
-       break;
+     default:
+       archive_set_error(&a->archive, ARCHIVE_ERRNO_PROGRAMMER,
+           "Invalid format code specified");
 diff --git a/libarchive/archive_read_support_format_all.c b/libarchive/archive_read_support_format_all.c
-index 3b53c9ad5f..f73f9f042c 100644
+index 3b53c9ad..228ef43c 100644
 --- a/libarchive/archive_read_support_format_all.c
 +++ b/libarchive/archive_read_support_format_all.c
-@@ -72,6 +72,7 @@ archive_read_support_format_all(struct archive *a)
- 	archive_read_support_format_cab(a);
- 	archive_read_support_format_rar(a);
- 	archive_read_support_format_rar5(a);
-+	archive_read_support_format_stone(a);
- 	archive_read_support_format_iso9660(a);
- 	/* Seek is really bad, since it forces the read-ahead
+@@ -77,6 +77,8 @@ archive_read_support_format_all(struct archive *a)
  	 * logic to discard buffered data. */
+ 	archive_read_support_format_zip(a);
+ 
++	archive_read_support_format_stone(a);
++
+ 	/* Note: We always return ARCHIVE_OK here, even if some of the
+ 	 * above return ARCHIVE_WARN.  The intent here is to enable
+ 	 * "as much as possible."  Clients who need specific
 diff --git a/libarchive/archive_read_support_format_by_code.c b/libarchive/archive_read_support_format_by_code.c
-index 7ed045f568..a78987bb5b 100644
+index 982e2db7..8c0bcd5d 100644
 --- a/libarchive/archive_read_support_format_by_code.c
 +++ b/libarchive/archive_read_support_format_by_code.c
-@@ -72,6 +72,9 @@ archive_read_support_format_by_code(struct archive *a, int format_code)
- 	case ARCHIVE_FORMAT_RAW:
- 		return archive_read_support_format_raw(a);
- 		break;
+@@ -69,6 +69,8 @@ archive_read_support_format_by_code(struct archive *a, int format_code)
+ 		return archive_read_support_format_xar(a);
+ 	case ARCHIVE_FORMAT_ZIP:
+ 		return archive_read_support_format_zip(a);
 +	case ARCHIVE_FORMAT_STONE:
 +		return archive_read_support_format_stone(a);
-+		break;
- 	case ARCHIVE_FORMAT_TAR:
- 		return archive_read_support_format_tar(a);
- 		break;
+ 	}
+ 	archive_set_error(a, ARCHIVE_ERRNO_PROGRAMMER,
+ 	    "Invalid format code specified");
 diff --git a/libarchive/archive_read_support_format_stone.c b/libarchive/archive_read_support_format_stone.c
 new file mode 100644
-index 0000000000..e830fe2462
+index 00000000..ad279e8e
 --- /dev/null
 +++ b/libarchive/archive_read_support_format_stone.c
-@@ -0,0 +1,560 @@
+@@ -0,0 +1,582 @@
 +/*-
 + * Copyright (c) 2011 Michihiro NAKAJIMA
 + * All rights reserved.
@@ -287,6 +288,7 @@ index 0000000000..e830fe2462
 +static signed int cmp_index_keys(const struct archive_rb_node *, const void *);
 +static signed int cmp_file_nodes(const struct archive_rb_node *,
 +                                 const struct archive_rb_node *);
++static char *stone_string_to_pathname(const StoneString *);
 +static char *stone_string_to_cstring(const StoneString *);
 +
 +size_t read_shim(void *, char *, size_t);
@@ -416,55 +418,62 @@ index 0000000000..e830fe2462
 +}
 +
 +static int archive_read_format_stone_bid(struct archive_read *a, int best_bid) {
-+  struct _stone *stone;
-+  StoneHeaderVersion version;
++  const void *magic;
 +
-+  stone = (struct _stone *)(a->format->data);
++  (void)best_bid; /* UNUSED */
 +
-+  /* If there's already a better bid than we can ever
-+     make, don't bother testing. */
-+  if (best_bid > STONE_HEADER_SIZE) {
-+    return -1;
++  if ((magic = __archive_read_ahead(a, 4, NULL)) == NULL)
++    return (-1);
++  if (memcmp(magic, "\0mos", 4) == 0) {
++    return (32);
 +  }
-+
-+  if (stone_read(a, stone_read_vtable, &stone->reader, &version) < 0) {
-+    return 0;
-+  }
-+
-+  if (version != STONE_HEADER_VERSION_V1) {
-+    return 0;
-+  }
-+
-+  if (stone_reader_header_v1(stone->reader, &stone->header) < 0) {
-+    return 0;
-+  }
-+
-+  if (stone->header.file_type != STONE_HEADER_V1_FILE_TYPE_BINARY) {
-+    return 0;
-+  }
-+
-+  return STONE_HEADER_SIZE;
++  return (-1);
 +}
 +
 +static int archive_read_format_stone_read_header(struct archive_read *a,
 +                                                 struct archive_entry *entry) {
 +  struct _stone *stone;
++  StoneHeaderVersion version;
 +
 +  (void)entry; /* UNUSED */
 +
 +  stone = (struct _stone *)(a->format->data);
 +
 +  a->archive.archive_format = ARCHIVE_FORMAT_STONE;
-+  if (a->archive.archive_format_name == NULL)
-+    a->archive.archive_format_name = "stone";
++  a->archive.archive_format_name = "stone";
 +
++  /* Initialize */
 +  if (stone->payloads == 0) {
++    if (a->filter->position != 0) {
++      __archive_read_seek(a, 0, 0);
++    }
++
++    if (stone_read(a, stone_read_vtable, &stone->reader, &version) < 0) {
++      archive_set_error(&a->archive, ARCHIVE_ERRNO_FILE_FORMAT,
++                        "Invalid stone format");
++      return (ARCHIVE_FATAL);
++    }
++
++    if (version != STONE_HEADER_VERSION_V1) {
++      archive_set_error(&a->archive, ARCHIVE_ERRNO_FILE_FORMAT,
++                        "Unsupported stone format version %d", version);
++      return (ARCHIVE_FATAL);
++    }
++
++    if (stone_reader_header_v1(stone->reader, &stone->header) < 0) {
++      archive_set_error(&a->archive, ARCHIVE_ERRNO_FILE_FORMAT,
++                        "Invalid stone format");
++      return (ARCHIVE_FATAL);
++    }
++
++    if (stone->header.file_type != STONE_HEADER_V1_FILE_TYPE_BINARY) {
++      archive_set_error(&a->archive, ARCHIVE_ERRNO_FILE_FORMAT,
++                        "Non-binary format stone");
++      return (ARCHIVE_FATAL);
++    }
++
 +    __archive_rb_tree_init(&stone->index_tree, &rb_index_ops);
 +    __archive_rb_tree_init(&stone->file_tree, &rb_file_ops);
-+
-+    if (a->filter->position != STONE_HEADER_SIZE) {
-+      __archive_read_seek(a, STONE_HEADER_SIZE, 0);
-+    }
 +
 +    stone->payloads =
 +        calloc(stone->header.num_payloads, sizeof(struct _payload));
@@ -549,14 +558,26 @@ index 0000000000..e830fe2462
 +
 +      switch (layout->record.file_type) {
 +      case STONE_PAYLOAD_LAYOUT_FILE_TYPE_REGULAR: {
-+        file->type = AE_IFREG;
-+        file->path = stone_string_to_cstring(
++        file->path = stone_string_to_pathname(
 +            &file->layout->record.file_payload.regular.name);
++
++        struct _index *index = (struct _index *)__archive_rb_tree_find_node(
++            &stone->index_tree, &layout->record.file_payload.regular.hash);
++
++        if (index->matched_path == NULL) {
++          index->matched_path = file->path;
++          file->index = index;
++          file->type = AE_IFREG;
++          file->size = index->record.end - index->record.start;
++        } else {
++          file->hardlink = index->matched_path;
++        }
++
 +        break;
 +      }
 +      case STONE_PAYLOAD_LAYOUT_FILE_TYPE_SYMLINK: {
 +        file->type = AE_IFLNK;
-+        file->path = stone_string_to_cstring(
++        file->path = stone_string_to_pathname(
 +            &file->layout->record.file_payload.symlink.target);
 +        file->link = stone_string_to_cstring(
 +            &file->layout->record.file_payload.symlink.source);
@@ -571,32 +592,32 @@ index 0000000000..e830fe2462
 +      }
 +      case STONE_PAYLOAD_LAYOUT_FILE_TYPE_DIRECTORY: {
 +        file->type = AE_IFDIR;
-+        file->path = stone_string_to_cstring(
++        file->path = stone_string_to_pathname(
 +            &file->layout->record.file_payload.directory);
 +        break;
 +      }
 +      case STONE_PAYLOAD_LAYOUT_FILE_TYPE_CHARACTER_DEVICE: {
 +        file->type = AE_IFCHR;
-+        file->path = stone_string_to_cstring(
++        file->path = stone_string_to_pathname(
 +            &file->layout->record.file_payload.character_device);
 +        break;
 +      }
 +      case STONE_PAYLOAD_LAYOUT_FILE_TYPE_BLOCK_DEVICE: {
 +        file->type = AE_IFBLK;
-+        file->path = stone_string_to_cstring(
++        file->path = stone_string_to_pathname(
 +            &file->layout->record.file_payload.block_device);
 +        break;
 +      }
 +      case STONE_PAYLOAD_LAYOUT_FILE_TYPE_FIFO: {
 +        file->type = AE_IFIFO;
 +        file->path =
-+            stone_string_to_cstring(&file->layout->record.file_payload.fifo);
++            stone_string_to_pathname(&file->layout->record.file_payload.fifo);
 +        break;
 +      }
 +      case STONE_PAYLOAD_LAYOUT_FILE_TYPE_SOCKET: {
 +        file->type = AE_IFSOCK;
 +        file->path =
-+            stone_string_to_cstring(&file->layout->record.file_payload.socket);
++            stone_string_to_pathname(&file->layout->record.file_payload.socket);
 +        break;
 +      }
 +      default: {
@@ -608,20 +629,6 @@ index 0000000000..e830fe2462
 +        archive_set_error(&a->archive, ENOMEM,
 +                          "Can't allocate memory for file name");
 +        return (ARCHIVE_FATAL);
-+      }
-+
-+      if (layout->record.file_type == STONE_PAYLOAD_LAYOUT_FILE_TYPE_REGULAR) {
-+        struct _index *index = (struct _index *)__archive_rb_tree_find_node(
-+            &stone->index_tree, &layout->record.file_payload.regular.hash);
-+
-+        file->size = index->record.end - index->record.start;
-+
-+        if (index->matched_path == NULL) {
-+          index->matched_path = file->path;
-+          file->index = index;
-+        } else {
-+          file->hardlink = index->matched_path;
-+        }
 +      }
 +
 +      __archive_rb_tree_insert_node(&stone->file_tree, &file->node);
@@ -640,7 +647,13 @@ index 0000000000..e830fe2462
 +    const struct _file *file = stone->file;
 +
 +    archive_entry_set_pathname_utf8(entry, file->path);
-+    archive_entry_set_filetype(entry, file->type);
++
++    if (file->type > 0) {
++      archive_entry_set_filetype(entry, file->type);
++    }
++    if (file->size > 0) {
++      archive_entry_set_size(entry, file->size);
++    }
 +
 +    if (file->link != NULL) {
 +      archive_entry_set_symlink_utf8(entry, file->link);
@@ -651,10 +664,6 @@ index 0000000000..e830fe2462
 +    archive_entry_set_uid(entry, file->layout->record.uid);
 +    archive_entry_set_gid(entry, file->layout->record.gid);
 +    archive_entry_set_mode(entry, file->layout->record.mode);
-+
-+    if (file->size > 0) {
-+      archive_entry_set_size(entry, file->size);
-+    }
 +
 +    return (ARCHIVE_OK);
 +  } else {
@@ -762,6 +771,20 @@ index 0000000000..e830fe2462
 +  struct archive_read *a = (struct archive_read *)_a;
 +
 +  return __archive_read_seek(a, offset, from);
++}
++
++static char *stone_string_to_pathname(const StoneString *stone) {
++  char *p;
++  char *prefix = "usr/";
++  int prefix_len = strlen(prefix);
++
++  p = calloc(stone->size + prefix_len + 1, 1);
++  if (p == NULL) {
++    return (p);
++  }
++  memcpy(p, prefix, prefix_len);
++  memcpy(p + prefix_len, stone->buf, stone->size);
++  return (p);
 +}
 +
 +static char *stone_string_to_cstring(const StoneString *stone) {

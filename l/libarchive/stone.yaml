@@ -5,7 +5,7 @@
 #
 name        : libarchive
 version     : 3.7.9
-release     : 11
+release     : 12
 summary     : Multi-format archive and compression library
 license     : BSD-2-Clause
 homepage    : https://www.libarchive.org
@@ -24,11 +24,12 @@ builddeps   :
     - pkgconfig(libcrypto)
     - pkgconfig(liblz4)
     - pkgconfig(liblzma)
-    # - pkgconfig(libstone)
+    - pkgconfig(libstone)
     - pkgconfig(libzstd)
     - pkgconfig(lzo2)
     - pkgconfig(zlib)
     - libxml2-static
+    - tar
 tuning      :
     - lto: full
 setup       : |
@@ -38,11 +39,12 @@ setup       : |
 
     function libarchive_configure() {
         # libstone support disabled until it doesn't break zip files
-        # %patch %(pkgdir)/stone-read-support.patch
+        %patch %(pkgdir)/stone-read-support.patch
 
-        %configure \
+        %reconfigure \
             --disable-rpath \
             --with-lzo2 \
+            --with-libstone \
             "$@"
     }
 
@@ -84,13 +86,11 @@ install     : |
 
     # We don't (yet) need libarchive.a for anything else
     rm -v %(installroot)/%(libdir)/libarchive.a
-# check       : |
-#     # Note, the test suite MUST succeed at all times
+check       : |
+    # This skips a file descriptor test that fails in boulder. We may need to change how /tmp is mounted
+    export SKIP_OPEN_FD_ERR_TEST=1
 
-#     # This skips a file descriptor test that fails in boulder. We may need to change how /tmp is mounted
-#     export SKIP_OPEN_FD_ERR_TEST=1
-
-#     %make -C libarchive check || (cat /tmp/libarchive_test*/*.log && exit 1)
+    %make -C libarchive check || (cat /tmp/libarchive_test*/*.log && exit 1)
 packages    :
     - "bsdtar":
         summary: Manipulate tape archives
