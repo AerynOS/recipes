@@ -13,7 +13,18 @@
 		},
 		"pkgset-aeryn-gnome-minimal": {
 			"depends": [
-				"pkgset-aeryn-base-desktop"
+				"binary(file-roller)",
+				"binary(gnome-calculator)",
+				"binary(gnome-control-center)",
+				"binary(gnome-software)",
+				"binary(gnome-text-editor)",
+				"binary(nautilus)",
+				"binary(ptyxis)",
+				"binary(resources)",
+				"gnome-backgrounds",
+				"gnome-desktop-defaults",
+				"pkgset-aeryn-base-desktop",
+				"sysbinary(gdm)"
 			],
 			"files": [
 				"/usr/share/doc/pkgset-aeryn-gnome-minimal/README"
@@ -22,6 +33,16 @@
 		},
 		"pkgset-aeryn-gnome-recommended": {
 			"depends": [
+				"binary(celluloid)",
+				"binary(gnome-calendar)",
+				"binary(gnome-clocks)",
+				"binary(gnome-disks)",
+				"binary(gnome-tweaks)",
+				"binary(gnome-weather)",
+				"binary(loupe)",
+				"binary(papers)",
+				"binary(snapshot)",
+				"binary(zed)",
 				"decibels",
 				"pkgset-aeryn-gnome-minimal"
 			],
@@ -32,6 +53,6 @@
 		}
 	},
 	"source-name": "pkgset-aeryn-gnome",
-	"source-release": "2",
-	"source-version": "2025.06"
+	"source-release": "3",
+	"source-version": "2025.08"
 }

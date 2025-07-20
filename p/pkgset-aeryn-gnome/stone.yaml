@@ -4,8 +4,8 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : pkgset-aeryn-gnome
-version     : "2025.06" # I guess let's just match the OS version for now
-release     : 2
+version     : "2025.08" # I guess let's just match the OS version for now
+release     : 3
 homepage    : https://aerynos.com/
 # No upstreams!
 summary     : pkgset virtual packages - GNOME Desktop
@@ -23,7 +23,18 @@ packages    :
         description: |
             Minimal packages for a GNOME Desktop session
         rundeps:
+            - binary(file-roller)
+            - binary(gnome-calculator)
+            - binary(gnome-control-center)
+            - binary(gnome-software)
+            - binary(gnome-text-editor)
+            - binary(nautilus)
+            - binary(ptyxis)
+            - binary(resources)
+            - gnome-backgrounds
+            - gnome-desktop-defaults
             - pkgset-aeryn-base-desktop
+            - sysbinary(gdm)
         paths:
             - /usr/share/doc/%(name)-minimal/README
 
@@ -33,6 +44,16 @@ packages    :
             GNOME Desktop plus recommended applications
         rundeps:
             - "%(name)-minimal"
+            - binary(celluloid)
+            - binary(gnome-calendar)
+            - binary(gnome-clocks)
+            - binary(gnome-disks)
+            - binary(gnome-tweaks)
+            - binary(gnome-weather)
+            - binary(loupe)
+            - binary(papers)
+            - binary(snapshot)
+            - binary(zed)
             - decibels
         paths:
             - /usr/share/doc/%(name)-recommended/README
@@ -45,4 +66,3 @@ packages    :
             - "%(name)-recommended"
         paths:
             - /usr/share/doc/%(name)-full/README
-
