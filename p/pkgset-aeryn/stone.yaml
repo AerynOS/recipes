@@ -4,8 +4,8 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : pkgset-aeryn
-version     : "2025.06" # I guess let's just match the OS version for now
-release     : 10
+version     : "2025.08" # I guess let's just match the OS version for now
+release     : 11
 homepage    : https://aerynos.com/
 # No upstreams!
 summary     : pkgset virtual packages
@@ -28,12 +28,15 @@ packages    :
             - binary(moss)
             - binary(setfont)
             - binary(sudo)
+            # need dbus on boot and we want to use the fast implementation
+            - dbus-broker
             - kmod
             - linux-pam
             - lvm2
             - shadow
             - systemd
             - tzdata
+            - util-linux
             - uutils-coreutils
         paths:
             - /usr/share/doc/pkgset-aeryn-base/README
@@ -79,8 +82,6 @@ packages    :
         description: |
             Base packages common to graphical environments. It is not recommened to uninstall this package unless you are only interested in non-graphical usage.
         rundeps:
-            - dbus-broker
-
             # Intel/AMD/virt drivers
             - libva-intel-media-driver
             - mesa-dri-drivers

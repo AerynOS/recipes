@@ -9,12 +9,14 @@
 				"binary(moss)",
 				"binary(setfont)",
 				"binary(sudo)",
+				"dbus-broker",
 				"kmod",
 				"linux-pam",
 				"lvm2",
 				"shadow",
 				"systemd",
 				"tzdata",
+				"util-linux",
 				"uutils-coreutils"
 			],
 			"files": [
@@ -24,7 +26,6 @@
 		},
 		"pkgset-aeryn-base-desktop": {
 			"depends": [
-				"dbus-broker",
 				"libva-intel-media-driver",
 				"mesa-dri-drivers",
 				"mesa-libegl",
@@ -76,6 +77,6 @@
 		}
 	},
 	"source-name": "pkgset-aeryn",
-	"source-release": "10",
-	"source-version": "2025.06"
+	"source-release": "11",
+	"source-version": "2025.08"
 }
