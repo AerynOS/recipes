@@ -5,7 +5,7 @@
 #
 name        : build-essential
 version     : 0
-release     : 5
+release     : 6
 summary     : Essential build tools for AerynOS
 license     : MPL-2.0
 homepage    : https://github.com/AerynOS
@@ -38,6 +38,7 @@ rundeps     :
     - pkgconfig(libssl)
     - pkgconfig(libxcrypt)
     - pkgconfig(ncurses)
+    - python(ruamel-yaml)
     - glibc-devel
     - layout
     - linux-headers
