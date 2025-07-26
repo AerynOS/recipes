@@ -1,0 +1,25 @@
+From 2d21fcfbb1e73e1389984f500c780b3e57898907 Mon Sep 17 00:00:00 2001
+From: Dimitri John Ledkov <dimitri.j.ledkov@intel.com>
+Date: Mon, 9 Feb 2015 11:33:23 +0000
+Subject: [PATCH] Use system location of bash completions.
+Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way, Swindon SN3 1RJ
+
+---
+ dbus/Makefile.am | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/dbus/Makefile.am b/dbus/Makefile.am
+index 6d885f9..f2f3bfb 100644
+--- a/dbus/Makefile.am
++++ b/dbus/Makefile.am
+@@ -89,7 +89,7 @@ regenerate-built-sources:
+         @GLIB_GENMARSHAL@ --prefix=_dbus_g_marshal dbus-gmarshal.list --body >> dbus-gmarshal.c
+ 
+ 
+-completiondir = $(sysconfdir)/bash_completion.d
++completiondir = $(datadir)/bash-completion/completions
+ if DBUS_BASH_COMPLETION
+ libexec_PROGRAMS=dbus-bash-completion-helper
+ completion_SCRIPTS=dbus-bash-completion.sh
+-- 
+2.1.0

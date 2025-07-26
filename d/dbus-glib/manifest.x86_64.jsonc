@@ -1,0 +1,100 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"dbus-glib": {
+			"build-depends": [
+				"gtk-doc",
+				"pkgconfig(dbus-1)",
+				"pkgconfig(expat)",
+				"pkgconfig(glib-2.0)"
+			],
+			"depends": [
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libdbus-1.so.3(x86_64))",
+				"soname(libexpat.so.1(x86_64))",
+				"soname(libgio-2.0.so.0(x86_64))",
+				"soname(libglib-2.0.so.0(x86_64))",
+				"soname(libgobject-2.0.so.0(x86_64))"
+			],
+			"files": [
+				"/usr/bin/dbus-binding-tool",
+				"/usr/lib/dbus-glib/dbus-bash-completion-helper",
+				"/usr/lib/libdbus-glib-1.so.2",
+				"/usr/lib/libdbus-glib-1.so.2.3.5",
+				"/usr/share/bash-completion/completions/dbus-bash-completion.sh",
+				"/usr/share/man/man1/dbus-binding-tool.1"
+			],
+			"name": "dbus-glib",
+			"provides": [
+				"binary(dbus-binding-tool)",
+				"soname(libdbus-glib-1.so.2(x86_64))"
+			]
+		},
+		"dbus-glib-devel": {
+			"build-depends": [
+				"gtk-doc",
+				"pkgconfig(dbus-1)",
+				"pkgconfig(expat)",
+				"pkgconfig(glib-2.0)"
+			],
+			"depends": [
+				"dbus-glib",
+				"pkgconfig(dbus-1)",
+				"pkgconfig(glib-2.0)",
+				"pkgconfig(gobject-2.0)"
+			],
+			"files": [
+				"/usr/include/dbus-1.0/dbus/dbus-glib-bindings.h",
+				"/usr/include/dbus-1.0/dbus/dbus-glib-lowlevel.h",
+				"/usr/include/dbus-1.0/dbus/dbus-glib.h",
+				"/usr/include/dbus-1.0/dbus/dbus-gtype-specialized.h",
+				"/usr/include/dbus-1.0/dbus/dbus-gvalue-parse-variant.h",
+				"/usr/lib/libdbus-glib-1.so",
+				"/usr/lib/pkgconfig/dbus-glib-1.pc"
+			],
+			"name": "dbus-glib-devel",
+			"provides": [
+				"pkgconfig(dbus-glib-1)"
+			]
+		},
+		"dbus-glib-docs": {
+			"build-depends": [
+				"gtk-doc",
+				"pkgconfig(dbus-1)",
+				"pkgconfig(expat)",
+				"pkgconfig(glib-2.0)"
+			],
+			"files": [
+				"/usr/share/gtk-doc/html/dbus-glib/api-index-full.html",
+				"/usr/share/gtk-doc/html/dbus-glib/ch01.html",
+				"/usr/share/gtk-doc/html/dbus-glib/ch02.html",
+				"/usr/share/gtk-doc/html/dbus-glib/ch03.html",
+				"/usr/share/gtk-doc/html/dbus-glib/dbus-binding-tool.html",
+				"/usr/share/gtk-doc/html/dbus-glib/dbus-glib-DBus-GLib-low-level.html",
+				"/usr/share/gtk-doc/html/dbus-glib/dbus-glib-DBus-GObject-related-functions.html",
+				"/usr/share/gtk-doc/html/dbus-glib/dbus-glib-DBusGConnection.html",
+				"/usr/share/gtk-doc/html/dbus-glib/dbus-glib-DBusGError.html",
+				"/usr/share/gtk-doc/html/dbus-glib/dbus-glib-DBusGMessage.html",
+				"/usr/share/gtk-doc/html/dbus-glib/dbus-glib-DBusGMethod.html",
+				"/usr/share/gtk-doc/html/dbus-glib/dbus-glib-DBusGProxy.html",
+				"/usr/share/gtk-doc/html/dbus-glib/dbus-glib-Specializable-GType-System.html",
+				"/usr/share/gtk-doc/html/dbus-glib/dbus-glib.devhelp2",
+				"/usr/share/gtk-doc/html/dbus-glib/home.png",
+				"/usr/share/gtk-doc/html/dbus-glib/index.html",
+				"/usr/share/gtk-doc/html/dbus-glib/left-insensitive.png",
+				"/usr/share/gtk-doc/html/dbus-glib/left.png",
+				"/usr/share/gtk-doc/html/dbus-glib/right-insensitive.png",
+				"/usr/share/gtk-doc/html/dbus-glib/right.png",
+				"/usr/share/gtk-doc/html/dbus-glib/style.css",
+				"/usr/share/gtk-doc/html/dbus-glib/up-insensitive.png",
+				"/usr/share/gtk-doc/html/dbus-glib/up.png"
+			],
+			"name": "dbus-glib-docs"
+		}
+	},
+	"source-name": "dbus-glib",
+	"source-release": "1",
+	"source-version": "0.112"
+}

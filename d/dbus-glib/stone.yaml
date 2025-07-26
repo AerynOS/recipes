@@ -1,0 +1,29 @@
+#
+# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name: dbus-glib
+version: 0.112
+release: 1
+homepage: https://www.freedesktop.org/wiki/Software/dbus/
+upstreams:
+  - https://dbus.freedesktop.org/releases/dbus-glib/dbus-glib-0.112.tar.gz: 7d550dccdfcd286e33895501829ed971eeb65c614e73aadb4a08aeef719b143a
+license: LGPL-2.0-or-later
+summary: D-Bus GLib Bindings
+description: |
+  The D-Bus Bindings are a group of packages that contain programming language and platform interfaces to the D-Bus API. This is useful for programmers to easily interface D-Bus with their supported platform or language of choice. Some non-D-Bus packages will require one or more of the Bindings packages in order to build successfully.
+builddeps:
+  - pkgconfig(expat)
+  - pkgconfig(dbus-1)
+  - pkgconfig(glib-2.0)
+  - gtk-doc
+setup: |
+  %patch %(pkgdir)/0001-Use-system-location-of-bash-completions.patch
+  %reconfigure  --disable-static
+build: |
+  %make
+check: |
+  make check
+install: |
+  %make_install
