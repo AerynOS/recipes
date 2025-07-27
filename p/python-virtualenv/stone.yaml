@@ -1,0 +1,34 @@
+#
+# SPDX-FileCopyrightText: © 2020-2025 Aeryn OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : python-virtualenv
+version     : 20.32.0
+release     : 1
+homepage    : https://virtualenv.pypa.io/
+upstreams:
+  - https://files.pythonhosted.org/packages/source/v/virtualenv/virtualenv-20.32.0.tar.gz: 886bf75cadfdc964674e6e33eb74d787dff31ca314ceace03ca5810620f4ecf0
+license     : MIT
+summary     : Tool to create isolated 'virtual' python environments
+description : |
+  virtualenv is a tool to create isolated python environments, allowing for easier management of versions and dependencies in Python applications.
+builddeps   :
+    - python-build
+    - python-distlib
+    - python-filelock
+    - python-hatch-vcs
+    - python-installer
+    - python-platformdirs
+    - python-setuptools_scm
+rundeps     :
+    - python-distlib
+    - python-filelock
+    - python-platformdirs
+    - python-six
+build       : |
+    %pyproject_build
+install     : |
+    %pyproject_install
+#check      : |
+    # TODO
