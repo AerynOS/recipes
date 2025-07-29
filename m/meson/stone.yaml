@@ -5,10 +5,10 @@
 #
 name        : meson
 version     : 1.8.2
-release     : 14
+release     : 15
 homepage    : https://github.com/mesonbuild/meson
 upstreams   :
-    - https://github.com/mesonbuild/meson/releases/download/1.8.2/meson-1.8.2.tar.gz : c105816d8158c76b72adcb9ff60297719096da7d07f6b1f000fd8c013cd387af
+    - https://github.com/mesonbuild/meson/archive/5a82ea0501736a666ca9cc003ea0774f8219fd65.tar.gz : f84d9defb7fdb26e2e22942e32b59933de7f1d8d365849bb28c1741ac0a46c70
 summary     : The Meson Build System
 description : |
     Meson® is a project to create the best possible next-generation build system.
@@ -22,6 +22,10 @@ rundeps     :
     - binary(ninja)
     - binary(pkgconf)
     - binary(python3)
+setup       : |
+    # hermetic-usr patch adding the 'distconfdir' build-time configuration variable as an alternative to 'sysconfdir'
+    # upstream: https://gitlab.postmarketos.org/JustSoup321/hermetic-patches/-/raw/trunk/build-system-patches/meson/meson-1.8.2-distconfdir.patch
+    %patch %(pkgdir)/distconfdir.patch
 build       : |
     %pyproject_build
 install     : |
