@@ -1,0 +1,29 @@
+#
+# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : packagekit-qt
+version     : "1.1.4"
+release     : 1
+homepage    : https://github.com/PackageKit/PackageKit-Qt
+upstreams   :
+    - https://www.freedesktop.org/software/PackageKit/releases/PackageKit-Qt-1.1.4.tar.xz : 5eae53721baec5ae2d52d97eee114d804cb769c922f9b5204d10ba70e82a17f3
+summary     : Qt bindings for PackageKit
+description : |
+    Qt bindings for PackageKit
+license     : LGPL-2.1-or-later
+builddeps   :
+    - cmake(Qt6)
+    - pkgconfig(packagekit-glib2)
+rundeps     :
+    - packagekit
+environment : |
+    cd PackageKit-Qt-%(version)
+setup       : |
+    %cmake
+build       : |
+    %cmake_build
+install     : |
+    %cmake_install
+
