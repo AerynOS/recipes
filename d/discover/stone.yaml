@@ -5,7 +5,7 @@
 #
 name        : discover
 version     : "6.6.3"
-release     : 17
+release     : 18
 upstreams   :
     - https://download.kde.org/stable/plasma/6.6.3/discover-6.6.3.tar.xz : 5d37916377d2c62ae630745c0160e5004c96b2bd4d45fc6cee7134b5249e62dd
 homepage    : https://apps.kde.org/discover/
@@ -41,13 +41,14 @@ builddeps   :
     - cmake(QCoro6)
     - cmake(Qt6Quick)
     - cmake(Qt6WebView)
+    - cmake(packagekitqt6)
     - pkgconfig(flatpak)
     - pkgconfig(libmarkdown)
     - pkgconfig(ostree-1)
     # TODO:
     # - fwupd
-    # - packagekitqt
 rundeps    :
+    - appstream-catalog
     - kf6-kirigami
     - kf6-kitemmodels
     - kf6-purpose
