@@ -4,7 +4,7 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : pkgset-aeryn-cosmic
-version     : "2025.06" # I guess let's just match the OS version for now
+version     : "2025.08" # I guess let's just match the OS version for now
 release     : 1
 homepage    : https://aerynos.com/
 # No upstreams!
@@ -23,6 +23,30 @@ packages    :
         description: |
             Minimal packages for a COSMIC Desktop session
         rundeps:
+            - cosmic-applets
+            - cosmic-applibrary
+            - cosmic-bg
+            - cosmic-comp
+            - cosmic-desktop
+            - cosmic-edit
+            - cosmic-files
+            - cosmic-greeter
+            - cosmic-icons
+            - cosmic-idle
+            - cosmic-launcher
+            - cosmic-notifications
+            - cosmic-osd
+            - cosmic-panel
+            - cosmic-player
+            - cosmic-randr
+            - cosmic-screenshot
+            - cosmic-session
+            - cosmic-settings
+            - cosmic-settings-daemon
+            - cosmic-store
+            - cosmic-term
+            - cosmic-workspaces
+            - xdg-desktop-portal-cosmic
             - pkgset-aeryn-base-desktop
         paths:
             - /usr/share/doc/%(name)-minimal/README
