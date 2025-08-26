@@ -3,6 +3,9 @@
 ## Please only use `visudo` to make changes, via snippets in
 ## `/etc/sudoers.d/*`
 
+# Add the default secure path
+Defaults secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin"
+
 root ALL=(ALL:ALL) ALL
 
 # Permit "wheel" group to run any command
