@@ -1,0 +1,45 @@
+#
+# SPDX-FileCopyrightText: © 2025- AerynOS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : mullvad
+version     : 2025.8
+release     : 1
+homepage    : https://mullvad.net
+upstreams   :
+    - git|https://github.com/mullvad/mullvadvpn-app.git : 94fee68b5a83fe1df0cbc99a3d303fd7ef15519f
+summary     : The Mullvad VPN client app for desktop
+description : |
+    The Mullvad VPN client app for desktop
+license     : GPL-3.0-or-later
+networking  : true
+builddeps   :
+    - binary(ar)
+    - binary(go)
+    - binary(npm)
+    - binary(protoc)
+    - binary(rustc)
+    - pkgconfig(dbus-1)
+    - soname(libgcc_s.so.1(x86_64))
+rundeps    :
+    - libayatana-appindicator
+setup       : |
+    %patch %(pkgdir)/0001-pack-to-folder.patch
+    %patch %(pkgdir)/0002-update-build.sh.patch
+build       : |
+    ./build.sh --optimize
+install     : |
+    %install_dir %(installroot)%(libdir)/%(name)
+    cp -a dist/linux-unpacked/* %(installroot)%(libdir)/%(name)
+
+    %install_bin dist-assets/mullvad
+    %install_bin dist-assets/mullvad-exclude
+    %install_bin dist-assets/mullvad-daemon
+
+    %install_file %(pkgdir)/mullvad-vpn.desktop %(installroot)/%(datadir)/applications/mullvad-vpn.desktop
+    %install_file graphics/icon.svg %(installroot)%(datadir)/icons/hicolor/scalable/apps/mullvad-vpn.svg
+
+    %install_file dist-assets/linux/mullvad-daemon.service %(installroot)%(libdir)/systemd/system/mullvad-daemon.service
+    sed -i 's|/opt/Mullvad.*VPN|/usr/share/mullvad|g' %(installroot)%(libdir)/systemd/system/mullvad-daemon.service
+
