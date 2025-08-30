@@ -1,18 +1,18 @@
-From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From c9f46c769ef881d9b1902061561757696b93d3bb Mon Sep 17 00:00:00 2001
 From: Reilly Brogan <reilly@reillybrogan.com>
 Date: Tue, 12 Aug 2025 15:49:40 -0500
 Subject: [PATCH] Allow libdisplay-info 0.3
 
 ---
  Cargo.lock | 9 +++------
- Cargo.toml | 3 +++
- 2 files changed, 6 insertions(+), 6 deletions(-)
+ Cargo.toml | 1 +
+ 2 files changed, 4 insertions(+), 6 deletions(-)
 
 diff --git a/Cargo.lock b/Cargo.lock
-index 7dc1733..e165823 100644
+index 06498aa..2741a14 100644
 --- a/Cargo.lock
 +++ b/Cargo.lock
-@@ -2901,8 +2901,7 @@ dependencies = [
+@@ -2927,8 +2927,7 @@ dependencies = [
  [[package]]
  name = "libdisplay-info"
  version = "0.2.2"
@@ -20,9 +20,9 @@ index 7dc1733..e165823 100644
 -checksum = "4210cfe93a0dc37228e08105e3c13171e5af816f7bd39e00e3d3adcf2b487a2b"
 +source = "git+https://github.com/ReillyBrogan/libdisplay-info-rs.git#8ea9def6dcf831ee2f441d70a4398e348396a96c"
  dependencies = [
-  "bitflags 2.8.0",
+  "bitflags 2.9.1",
   "libc",
-@@ -2914,8 +2913,7 @@ dependencies = [
+@@ -2940,8 +2939,7 @@ dependencies = [
  [[package]]
  name = "libdisplay-info-derive"
  version = "0.1.0"
@@ -32,7 +32,7 @@ index 7dc1733..e165823 100644
  dependencies = [
   "proc-macro2",
   "quote",
-@@ -2925,8 +2923,7 @@ dependencies = [
+@@ -2951,8 +2949,7 @@ dependencies = [
  [[package]]
  name = "libdisplay-info-sys"
  version = "0.2.2"
@@ -43,13 +43,11 @@ index 7dc1733..e165823 100644
   "semver",
   "system-deps",
 diff --git a/Cargo.toml b/Cargo.toml
-index 53154e9..b148736 100644
+index 30ad630..a37d8c6 100644
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -124,3 +124,6 @@ cosmic-client-toolkit = { git = "https://github.com/pop-os//cosmic-protocols", b
+@@ -148,3 +148,4 @@ cosmic-client-toolkit = { git = "https://github.com/pop-os//cosmic-protocols", b
  
- [patch."https://github.com/smithay/smithay"]
- smithay = { git = "https://github.com/smithay/smithay//", rev = "ce61c9b" }
-+
-+[patch.crates-io]
+ [patch.crates-io]
+ smithay = { git = "https://github.com/smithay/smithay.git", rev = "20d2dac" }
 +libdisplay-info = { git = 'https://github.com/ReillyBrogan/libdisplay-info-rs.git' }
