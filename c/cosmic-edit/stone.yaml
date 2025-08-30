@@ -5,10 +5,10 @@
 #
 name        : cosmic-edit
 version     : 1.0.0-alpha.7
-release     : 15
+release     : 16
 homepage    : https://github.com/pop-os/cosmic-edit
 upstreams   :
-    - git|https://github.com/pop-os/cosmic-edit : d4294713d8fc5c44ed7c9b1957aa6db7ee16a4d4
+    - git|https://github.com/pop-os/cosmic-edit : 7d279a1d8bde4e5b3f485cf9969fba13f43a9324
 summary     : Cosmic Desktop Text Editor
 description : |
     Cosmic desktop Text Editor
@@ -16,6 +16,7 @@ license     :
     - GPL-3.0
 builddeps   :
     - binary(just)
+    - pkgconfig(glib-2.0)
     - pkgconfig(xkbcommon)
 networking  : yes
 setup       : |
