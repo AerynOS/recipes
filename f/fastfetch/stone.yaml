@@ -4,7 +4,7 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : fastfetch
-version     : 2.51.1
+version     : 2.51.1+git.1242fda
 release     : 11
 homepage    : https://github.com/fastfetch-cli/fastfetch
 upstreams   :
@@ -34,7 +34,7 @@ builddeps   :
     - pkgconfig(zlib)
     - imagemagick
     # TODO missing deps:
-    # xfconf, imagemagick
+    # xfconf
 tuning      :
     - lto: thin
     - optimize: speed
