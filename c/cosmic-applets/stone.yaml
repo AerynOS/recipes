@@ -5,18 +5,19 @@
 #
 name        : cosmic-applets
 version     : 1.0.0-alpha.7
-release     : 17
+release     : 18
 summary     : Cosmic Panel Applets
 license     : GPL-3.0
 homepage    : https://github.com/pop-os/cosmic-applets
 upstreams   :
-    - git|https://github.com/pop-os/cosmic-applets.git : f26992e41a7a68aafdd74db4b3c78560282f4e05
+    - git|https://github.com/pop-os/cosmic-applets.git : 4dfb2025b60baa922933b62300f9da30c2a93eb8
 description : |
     Cosmic Panel Applets
 builddeps   :
     - binary(just)
     - pkgconfig(dbus-1)
     - pkgconfig(libinput)
+    - pkgconfig(libpipewire-0.3)
     - pkgconfig(libpulse)
     - pkgconfig(libudev)
     - pkgconfig(xkbcommon)
