@@ -5,7 +5,7 @@
 #
 name        : util-linux
 version     : 2.41.1
-release     : 15
+release     : 16
 summary     : Random collection of Linux utilities
 license     :
     - BSD-3-Clause
@@ -98,7 +98,7 @@ setup       : |
     %patch %(pkgdir)/0001-downstream-Update-default-PATH.patch
 
     # Because we're checking out the git source we need to create this file so the version string won't contain "-dirty"
-    if [ ! -f ".tarball-version" ]; then
+    if [[ ! -f ".tarball-version" ]]; then
         echo "%(version)" > .tarball-version
     fi
 
@@ -110,7 +110,6 @@ setup       : |
         -Dbuild-line=disabled \
         -Dbuild-newgrp=disabled \
         -Dbuild-su=disabled \
-        -Dbuild-sulogin=disabled \
         -Dbuild-uuidd=disabled \
         -Dbuild-vipw=disabled \
         -Dusrdir-path=enabled \
