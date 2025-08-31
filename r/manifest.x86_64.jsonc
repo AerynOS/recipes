@@ -1,0 +1,25 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"rclone": {
+			"build-depends": [
+				"binary(go)"
+			],
+			"depends": [
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(libc.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/bin/rclone"
+			],
+			"name": "rclone",
+			"provides": [
+				"binary(rclone)"
+			]
+		}
+	},
+	"source-name": "rclone",
+	"source-release": "1",
+	"source-version": "1.71.0"
+}
