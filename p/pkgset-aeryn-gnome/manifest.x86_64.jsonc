@@ -4,6 +4,9 @@
 	"packages": {
 		"pkgset-aeryn-gnome-full": {
 			"depends": [
+				"binary(apostrophe)",
+				"binary(celluloid)",
+				"binary(resources)",
 				"pkgset-aeryn-gnome-recommended"
 			],
 			"files": [
@@ -17,10 +20,10 @@
 				"binary(gnome-calculator)",
 				"binary(gnome-control-center)",
 				"binary(gnome-software)",
+				"binary(gnome-system-monitor)",
 				"binary(gnome-text-editor)",
 				"binary(nautilus)",
 				"binary(ptyxis)",
-				"binary(resources)",
 				"gnome-backgrounds",
 				"gnome-desktop-defaults",
 				"pkgset-aeryn-base-desktop",
@@ -33,16 +36,20 @@
 		},
 		"pkgset-aeryn-gnome-recommended": {
 			"depends": [
-				"binary(celluloid)",
+				"binary(baobab)",
 				"binary(gnome-calendar)",
+				"binary(gnome-characters)",
 				"binary(gnome-clocks)",
+				"binary(gnome-contacts)",
 				"binary(gnome-disks)",
+				"binary(gnome-font-viewer)",
 				"binary(gnome-tweaks)",
 				"binary(gnome-weather)",
 				"binary(loupe)",
+				"binary(org.gnome.Decibels)",
 				"binary(papers)",
+				"binary(showtime)",
 				"binary(snapshot)",
-				"decibels",
 				"pkgset-aeryn-gnome-minimal"
 			],
 			"files": [
@@ -52,6 +59,6 @@
 		}
 	},
 	"source-name": "pkgset-aeryn-gnome",
-	"source-release": "4",
+	"source-release": "5",
 	"source-version": "2025.08"
 }
