@@ -5,7 +5,7 @@
 #
 name        : pkgset-aeryn-cosmic
 version     : "2025.08" # I guess let's just match the OS version for now
-release     : 1
+release     : 3
 homepage    : https://aerynos.com/
 # No upstreams!
 summary     : pkgset virtual packages - COSMIC Desktop
@@ -23,29 +23,27 @@ packages    :
         description: |
             Minimal packages for a COSMIC Desktop session
         rundeps:
-            - cosmic-applets
-            - cosmic-applibrary
-            - cosmic-bg
-            - cosmic-comp
-            - cosmic-desktop
-            - cosmic-edit
-            - cosmic-files
-            - cosmic-greeter
+            - binary(cosmic-applets)
+            - binary(cosmic-applibrary)
+            - binary(cosmic-bg)
+            - binary(cosmic-comp)
+            - binary(cosmic-edit)
+            - binary(cosmic-files)
+            - binary(cosmic-greeter)
+            - binary(cosmic-idle)
+            - binary(cosmic-launcher)
+            - binary(cosmic-osd)
+            - binary(cosmic-notifications)
+            - binary(cosmic-panel)
+            - binary(cosmic-randr)
+            - binary(cosmic-screenshot)
+            - binary(cosmic-session)
+            - binary(cosmic-settings)
+            - binary(cosmic-settings-daemon)
+            - binary(cosmic-store)
+            - binary(cosmic-term)
+            - binary(cosmic-workspaces)
             - cosmic-icons
-            - cosmic-idle
-            - cosmic-launcher
-            - cosmic-notifications
-            - cosmic-osd
-            - cosmic-panel
-            - cosmic-player
-            - cosmic-randr
-            - cosmic-screenshot
-            - cosmic-session
-            - cosmic-settings
-            - cosmic-settings-daemon
-            - cosmic-store
-            - cosmic-term
-            - cosmic-workspaces
             - xdg-desktop-portal-cosmic
             - pkgset-aeryn-base-desktop
         paths:
@@ -56,6 +54,7 @@ packages    :
         description: |
             COSMIC Desktop plus recommended applications
         rundeps:
+            - binary(cosmic-player)
             - "%(name)-minimal"
         paths:
             - /usr/share/doc/%(name)-recommended/README
