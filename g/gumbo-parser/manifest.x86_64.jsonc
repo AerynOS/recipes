@@ -1,0 +1,43 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"gumbo-parser": {
+			"build-depends": [
+				"pkgconfig(gtest_main)"
+			],
+			"depends": [
+				"soname(libc.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/lib/libgumbo.so.3",
+				"/usr/lib/libgumbo.so.3.0.0"
+			],
+			"name": "gumbo-parser",
+			"provides": [
+				"soname(libgumbo.so.3(x86_64))"
+			]
+		},
+		"gumbo-parser-devel": {
+			"build-depends": [
+				"pkgconfig(gtest_main)"
+			],
+			"depends": [
+				"gumbo-parser"
+			],
+			"files": [
+				"/usr/include/gumbo.h",
+				"/usr/include/tag_enum.h",
+				"/usr/lib/libgumbo.so",
+				"/usr/lib/pkgconfig/gumbo.pc"
+			],
+			"name": "gumbo-parser-devel",
+			"provides": [
+				"pkgconfig(gumbo)"
+			]
+		}
+	},
+	"source-name": "gumbo-parser",
+	"source-release": "1",
+	"source-version": "0.13.2"
+}
