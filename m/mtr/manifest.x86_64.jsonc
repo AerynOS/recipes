@@ -1,0 +1,34 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"mtr": {
+			"build-depends": [
+				"pkgconfig(jansson)",
+				"pkgconfig(ncurses)"
+			],
+			"depends": [
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libjansson.so.4(x86_64))",
+				"soname(libm.so.6(x86_64))",
+				"soname(libncursesw.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/sbin/mtr",
+				"/usr/sbin/mtr-packet",
+				"/usr/share/bash-completion/completions/mtr",
+				"/usr/share/man/man8/mtr-packet.8",
+				"/usr/share/man/man8/mtr.8"
+			],
+			"name": "mtr",
+			"provides": [
+				"sysbinary(mtr)",
+				"sysbinary(mtr-packet)"
+			]
+		}
+	},
+	"source-name": "mtr",
+	"source-release": "1",
+	"source-version": "0.96"
+}

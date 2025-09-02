@@ -1,0 +1,29 @@
+#
+# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
+# SPDX-FileCopyrightText: © 2025-     AerynOS OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : mtr
+version     : "0.96"
+release     : 1
+homepage    : https://www.bitwizard.nl/mtr/
+upstreams   :
+    - https://github.com/traviscross/mtr/archive/refs/tags/v0.96.tar.gz :
+        hash: 73e6aef3fb6c8b482acb5b5e2b8fa7794045c4f2420276f035ce76c5beae632d
+summary     : Combined ping+traceroute network diagnostic tool
+description : |
+    Combines the functionality of the 'traceroute' and 'ping' programs in a single network diagnostic tool.
+license     : GPL-2.0-only
+builddeps   :
+    - pkgconfig(jansson)
+    - pkgconfig(ncurses)
+setup       : |
+    %reconfigure
+build       : |
+    %make
+install     : |
+    %make_install
+
+    # mtr-packet must be suid-root because it requires access to raw IP sockets
+    chmod -c u+s %(installroot)%(sbindir)/mtr-packet
