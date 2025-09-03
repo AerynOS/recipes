@@ -4,7 +4,9 @@
 	"packages": {
 		"bolt": {
 			"build-depends": [
+				"binary(a2x)",
 				"binary(git)",
+				"docbook",
 				"pkgconfig(gio-2.0)",
 				"pkgconfig(gio-unix-2.0)",
 				"pkgconfig(glib-2.0)",
@@ -30,6 +32,8 @@
 				"/usr/share/dbus-1/interfaces/org.freedesktop.bolt.xml",
 				"/usr/share/dbus-1/system-services/org.freedesktop.bolt.service",
 				"/usr/share/dbus-1/system.d/org.freedesktop.bolt.conf",
+				"/usr/share/man/man1/boltctl.1",
+				"/usr/share/man/man8/boltd.8",
 				"/usr/share/polkit-1/actions/org.freedesktop.bolt.policy",
 				"/usr/share/polkit-1/rules.d/org.freedesktop.bolt.rules"
 			],
@@ -40,6 +44,6 @@
 		}
 	},
 	"source-name": "bolt",
-	"source-release": "4",
+	"source-release": "5",
 	"source-version": "0.9.10"
 }

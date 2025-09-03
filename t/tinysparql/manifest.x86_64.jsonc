@@ -4,6 +4,7 @@
 	"packages": {
 		"libtinysparql": {
 			"build-depends": [
+				"binary(a2x)",
 				"binary(dot)",
 				"binary(gi-docgen)",
 				"binary(msgfmt)",
@@ -63,6 +64,7 @@
 		},
 		"tinysparql": {
 			"build-depends": [
+				"binary(a2x)",
 				"binary(dot)",
 				"binary(gi-docgen)",
 				"binary(msgfmt)",
@@ -176,7 +178,14 @@
 				"/usr/share/locale/vi/LC_MESSAGES/tinysparql3.mo",
 				"/usr/share/locale/zh_CN/LC_MESSAGES/tinysparql3.mo",
 				"/usr/share/locale/zh_HK/LC_MESSAGES/tinysparql3.mo",
-				"/usr/share/locale/zh_TW/LC_MESSAGES/tinysparql3.mo"
+				"/usr/share/locale/zh_TW/LC_MESSAGES/tinysparql3.mo",
+				"/usr/share/man/man1/tinysparql-endpoint.1",
+				"/usr/share/man/man1/tinysparql-export.1",
+				"/usr/share/man/man1/tinysparql-import.1",
+				"/usr/share/man/man1/tinysparql-introspect.1",
+				"/usr/share/man/man1/tinysparql-query.1",
+				"/usr/share/man/man1/tinysparql-sql.1",
+				"/usr/share/man/man1/tinysparql-xdg-portal-3.1"
 			],
 			"name": "tinysparql",
 			"provides": [
@@ -185,6 +194,7 @@
 		},
 		"tinysparql-devel": {
 			"build-depends": [
+				"binary(a2x)",
 				"binary(dot)",
 				"binary(gi-docgen)",
 				"binary(msgfmt)",
@@ -260,6 +270,7 @@
 		},
 		"tinysparql-docs": {
 			"build-depends": [
+				"binary(a2x)",
 				"binary(dot)",
 				"binary(gi-docgen)",
 				"binary(msgfmt)",
@@ -535,6 +546,6 @@
 		}
 	},
 	"source-name": "tinysparql",
-	"source-release": "9",
+	"source-release": "10",
 	"source-version": "3.9.2"
 }

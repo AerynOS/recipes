@@ -3,12 +3,18 @@
 	"manifest-version": "0.2",
 	"packages": {
 		"evtest": {
+			"build-depends": [
+				"binary(asciidoc)",
+				"binary(xmlto)",
+				"docbook"
+			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))"
 			],
 			"files": [
-				"/usr/bin/evtest"
+				"/usr/bin/evtest",
+				"/usr/share/man/man1/evtest.1"
 			],
 			"name": "evtest",
 			"provides": [
@@ -17,6 +23,6 @@
 		}
 	},
 	"source-name": "evtest",
-	"source-release": "2",
-	"source-version": "1.35"
+	"source-release": "3",
+	"source-version": "1.36"
 }

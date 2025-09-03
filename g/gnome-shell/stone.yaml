@@ -4,8 +4,8 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : gnome-shell
-version     : 48.4
-release     : 36
+version     : "48.4"
+release     : 37
 homepage    : https://gitlab.gnome.org/GNOME/gnome-shell
 upstreams   :
     - https://download.gnome.org/sources/gnome-shell/48/gnome-shell-48.4.tar.xz : 40e2ed74b45367f0ca38fbfaa0ab470868d23591d03dc40d0abd6ff77d23b707
@@ -21,11 +21,11 @@ license     :
     - GPL-3.0-or-later
     - LGPL-2.1-or-later
 builddeps   :
-    # - binary(a2x)
     - binary(gjs)
     - binary(msgfmt)
     - binary(perl)
     - binary(python3)
+    - binary(rst2man)
     - binary(rtkitctl)
     - binary(wireplumber)
     - pkgconfig(atk-bridge-2.0)
@@ -76,7 +76,8 @@ rundeps     :
 setup       : |
     # Redonkulous logo sizes are redonkulous
     %patch %(pkgdir)/3674.patch
-    %meson -Dtests=false -Dman=false
+    %meson \
+        -Dtests=false
 build       : |
     %meson_build
 install     : |

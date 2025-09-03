@@ -4,10 +4,12 @@
 	"packages": {
 		"gnome-remote-desktop": {
 			"build-depends": [
+				"binary(a2x)",
 				"binary(glslc)",
 				"binary(msgfmt)",
 				"binary(mutter)",
 				"binary(spirv-opt)",
+				"docbook",
 				"pkgconfig(cairo)",
 				"pkgconfig(dbus-1)",
 				"pkgconfig(epoxy)",
@@ -142,6 +144,7 @@
 				"/usr/share/locale/vi/LC_MESSAGES/gnome-remote-desktop.mo",
 				"/usr/share/locale/zh_CN/LC_MESSAGES/gnome-remote-desktop.mo",
 				"/usr/share/locale/zh_TW/LC_MESSAGES/gnome-remote-desktop.mo",
+				"/usr/share/man/man1/grdctl.1",
 				"/usr/share/polkit-1/actions/org.gnome.remotedesktop.configure-system-daemon.policy",
 				"/usr/share/polkit-1/actions/org.gnome.remotedesktop.enable-system-daemon.policy",
 				"/usr/share/polkit-1/rules.d/20-gnome-remote-desktop.rules"
@@ -153,6 +156,6 @@
 		}
 	},
 	"source-name": "gnome-remote-desktop",
-	"source-release": "12",
+	"source-release": "13",
 	"source-version": "48.1"
 }

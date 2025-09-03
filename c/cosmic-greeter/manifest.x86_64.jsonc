@@ -28,6 +28,7 @@
 			"files": [
 				"/usr/bin/cosmic-greeter",
 				"/usr/bin/cosmic-greeter-daemon",
+				"/usr/bin/cosmic-greeter-start",
 				"/usr/lib/systemd/system/cosmic-greeter-daemon.service",
 				"/usr/lib/systemd/system/cosmic-greeter.service",
 				"/usr/lib/tmpfiles.d/cosmic-greeter.conf",
@@ -42,11 +43,12 @@
 			"name": "cosmic-greeter",
 			"provides": [
 				"binary(cosmic-greeter)",
-				"binary(cosmic-greeter-daemon)"
+				"binary(cosmic-greeter-daemon)",
+				"binary(cosmic-greeter-start)"
 			]
 		}
 	},
 	"source-name": "cosmic-greeter",
-	"source-release": "20",
+	"source-release": "21",
 	"source-version": "1.0.0-alpha.7"
 }

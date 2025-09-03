@@ -4,8 +4,8 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : gnome-remote-desktop
-version     : 48.1
-release     : 12
+version     : "48.1"
+release     : 13
 homepage    : https://gitlab.gnome.org/GNOME/gnome-remote-desktop
 upstreams   :
     - https://download.gnome.org/sources/gnome-remote-desktop/48/gnome-remote-desktop-48.1.tar.xz : bcf3770fca0faeda2fae3b1a3ff6f2e90a02778f76a42e8fd103cae18628f4f2
@@ -15,6 +15,7 @@ description : |
 license     :
     - GPL-2.0-or-later
 builddeps   :
+    - binary(a2x)
     - binary(glslc)
     - binary(msgfmt)
     - binary(mutter)
@@ -50,17 +51,19 @@ builddeps   :
     - pkgconfig(winpr3)
     - pkgconfig(wireplumber-0.5)
     - pkgconfig(xkbcommon)
+    - docbook
     - vulkan-headers
-    # TODO: a2x required for man pages
     # TODO: libvncclient required for VNC support
 rundeps     :
     - binary(pipewire)
+environment : |
+    # Temporary, replace with boulder macro
+    export XML_CATALOG_FILES="file:///usr/share/defaults/docbook/docbook-dtd/catalog file:///usr/share/defaults/docbook/docbook-xsl/catalog"
 setup       : |
     %meson \
         -Drdp=true \
-        -Dvnc=false \
         -Dsystemd=true \
-        -Dman=false
+        -Dvnc=false
 build       : |
     %meson_build
 install     : |

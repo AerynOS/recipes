@@ -5,11 +5,9 @@
 		"libtraceevent": {
 			"build-depends": [
 				"binary(readelf)",
-				"cunit",
-				"cunit-devel"
+				"pkgconfig(cunit)"
 			],
 			"depends": [
-				"cunit",
 				"soname(libc.so.6(x86_64))"
 			],
 			"files": [
@@ -49,8 +47,7 @@
 		"libtraceevent-devel": {
 			"build-depends": [
 				"binary(readelf)",
-				"cunit",
-				"cunit-devel"
+				"pkgconfig(cunit)"
 			],
 			"depends": [
 				"libtraceevent"
@@ -60,7 +57,6 @@
 				"/usr/include/traceevent/event-utils.h",
 				"/usr/include/traceevent/kbuffer.h",
 				"/usr/include/traceevent/trace-seq.h",
-				"/usr/lib/libtraceevent.a",
 				"/usr/lib/libtraceevent.so",
 				"/usr/lib/pkgconfig/libtraceevent.pc"
 			],
@@ -71,6 +67,6 @@
 		}
 	},
 	"source-name": "libtraceevent",
-	"source-release": "3",
+	"source-release": "4",
 	"source-version": "1.8.4"
 }

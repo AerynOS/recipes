@@ -112,9 +112,7 @@
 				"/usr/share/locale/zh_CN/LC_MESSAGES/accounts-service.mo",
 				"/usr/share/locale/zh_HK/LC_MESSAGES/accounts-service.mo",
 				"/usr/share/locale/zh_TW/LC_MESSAGES/accounts-service.mo",
-				"/usr/share/polkit-1/actions/org.freedesktop.accounts.policy",
-				"/usr/share/vala/vapi/accountsservice.deps",
-				"/usr/share/vala/vapi/accountsservice.vapi"
+				"/usr/share/polkit-1/actions/org.freedesktop.accounts.policy"
 			],
 			"name": "accountsservice",
 			"provides": [
@@ -148,7 +146,9 @@
 				"/usr/include/accountsservice-1.0/act/act.h",
 				"/usr/lib/libaccountsservice.so",
 				"/usr/lib/pkgconfig/accountsservice.pc",
-				"/usr/share/gir-1.0/AccountsService-1.0.gir"
+				"/usr/share/gir-1.0/AccountsService-1.0.gir",
+				"/usr/share/vala/vapi/accountsservice.deps",
+				"/usr/share/vala/vapi/accountsservice.vapi"
 			],
 			"name": "accountsservice-devel",
 			"provides": [
@@ -157,6 +157,6 @@
 		}
 	},
 	"source-name": "accountsservice",
-	"source-release": "5",
+	"source-release": "6",
 	"source-version": "23.13.9"
 }

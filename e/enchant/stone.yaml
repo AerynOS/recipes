@@ -4,26 +4,26 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : enchant
-version     : 2.8.11
-release     : 3
+version     : 2.8.12
+release     : 4
 homepage    : https://rrthomas.github.io/enchant/
 upstreams   :
-    - https://github.com/rrthomas/enchant/releases/download/v2.8.11/enchant-2.8.11.tar.gz : fc6694a496848fb1204169c0cc6b844beec49fddd547bbf2bd2a7e33322c55d9
+    - https://github.com/rrthomas/enchant/releases/download/v2.8.12/enchant-2.8.12.tar.gz : 20e5fab2ca0f95ba9d1ef5052fe5b028e3e1d66d4cdea6b9adfcbd3e524c2a09
 summary     : Generic spell checking library
 description : |
     Enchant is a library (and command-line program) that wraps a number of different spelling libraries and programs with a consistent interface. By using Enchant, you can use a wide range of spelling libraries, including some specialised for particular languages, without needing to program to each library's interface. If it's not convenient to call a C library, you can access most of Enchant's functionality via the enchant program, which communicates over a pipe, like Ispell, and is indeed Ispell-compatible.
 license     : LGPL-2.1-or-later
 builddeps   :
+    - binary(doxygen)
     - binary(groff)
     - binary(valac)
     - pkgconfig(glib-2.0)
     - pkgconfig(hunspell)
-    # TODO: voikko
+    # TODO: voikko, aspell, hspell
 setup       : |
     %configure \
         --disable-static \
-        --enable-myspell \
-        --with-myspell-dir=/usr/share/hunspell
+        --with-hunspell
 build       : |
     %make
 install     : |

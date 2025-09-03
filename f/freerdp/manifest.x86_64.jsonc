@@ -450,21 +450,27 @@
 				"soname(libz.so.1(x86_64))"
 			],
 			"files": [
-				"/usr/lib/freerdp3/proxy/proxy-bitmap-filter-plugin.so",
-				"/usr/lib/freerdp3/proxy/proxy-demo-plugin.so",
-				"/usr/lib/freerdp3/proxy/proxy-dyn-channel-dump-plugin.so",
+				"/usr/lib/freerdp3/proxy/libproxy-bitmap-filter-plugin.so",
+				"/usr/lib/freerdp3/proxy/libproxy-bitmap-filter-plugin.so.3",
+				"/usr/lib/freerdp3/proxy/libproxy-bitmap-filter-plugin.so.3.17.1",
+				"/usr/lib/freerdp3/proxy/libproxy-demo-plugin.so",
+				"/usr/lib/freerdp3/proxy/libproxy-demo-plugin.so.3",
+				"/usr/lib/freerdp3/proxy/libproxy-demo-plugin.so.3.17.1",
+				"/usr/lib/freerdp3/proxy/libproxy-dyn-channel-dump-plugin.so",
+				"/usr/lib/freerdp3/proxy/libproxy-dyn-channel-dump-plugin.so.3",
+				"/usr/lib/freerdp3/proxy/libproxy-dyn-channel-dump-plugin.so.3.17.1",
 				"/usr/lib/libfreerdp-client3.so.3",
-				"/usr/lib/libfreerdp-client3.so.3.17.0",
+				"/usr/lib/libfreerdp-client3.so.3.17.1",
 				"/usr/lib/libfreerdp-server-proxy3.so.3",
-				"/usr/lib/libfreerdp-server-proxy3.so.3.17.0",
+				"/usr/lib/libfreerdp-server-proxy3.so.3.17.1",
 				"/usr/lib/libfreerdp-server3.so.3",
-				"/usr/lib/libfreerdp-server3.so.3.17.0",
+				"/usr/lib/libfreerdp-server3.so.3.17.1",
 				"/usr/lib/libfreerdp-shadow-subsystem3.so.3",
-				"/usr/lib/libfreerdp-shadow-subsystem3.so.3.17.0",
+				"/usr/lib/libfreerdp-shadow-subsystem3.so.3.17.1",
 				"/usr/lib/libfreerdp-shadow3.so.3",
-				"/usr/lib/libfreerdp-shadow3.so.3.17.0",
+				"/usr/lib/libfreerdp-shadow3.so.3.17.1",
 				"/usr/lib/libfreerdp3.so.3",
-				"/usr/lib/libfreerdp3.so.3.17.0",
+				"/usr/lib/libfreerdp3.so.3.17.1",
 				"/usr/lib/librdtk0.so.0",
 				"/usr/lib/librdtk0.so.0.2.0",
 				"/usr/lib/libuwac0.so.0",
@@ -477,9 +483,9 @@
 			],
 			"name": "freerdp-libs",
 			"provides": [
-				"soname(freerdp3/proxy/proxy-bitmap-filter-plugin.so(x86_64))",
-				"soname(freerdp3/proxy/proxy-demo-plugin.so(x86_64))",
-				"soname(freerdp3/proxy/proxy-dyn-channel-dump-plugin.so(x86_64))",
+				"soname(freerdp3/proxy/libproxy-bitmap-filter-plugin.so.3(x86_64))",
+				"soname(freerdp3/proxy/libproxy-demo-plugin.so.3(x86_64))",
+				"soname(freerdp3/proxy/libproxy-dyn-channel-dump-plugin.so.3(x86_64))",
 				"soname(libfreerdp-client3.so.3(x86_64))",
 				"soname(libfreerdp-server-proxy3.so.3(x86_64))",
 				"soname(libfreerdp-server3.so.3(x86_64))",
@@ -533,9 +539,9 @@
 			],
 			"files": [
 				"/usr/lib/libwinpr-tools3.so.3",
-				"/usr/lib/libwinpr-tools3.so.3.17.0",
+				"/usr/lib/libwinpr-tools3.so.3.17.1",
 				"/usr/lib/libwinpr3.so.3",
-				"/usr/lib/libwinpr3.so.3.17.0"
+				"/usr/lib/libwinpr3.so.3.17.1"
 			],
 			"name": "libwinpr",
 			"provides": [
@@ -674,6 +680,6 @@
 		}
 	},
 	"source-name": "freerdp",
-	"source-release": "8",
-	"source-version": "3.17.0"
+	"source-release": "9",
+	"source-version": "3.17.1"
 }

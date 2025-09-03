@@ -6,7 +6,7 @@
 #
 name        : linux-desktop
 version     : 6.15.11
-release     : 108
+release     : 109
 homepage    : https://kernel.org/
 upstreams   :
     - https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.15.11.tar.xz : 89ab469fc35bd9cbc6c5bf4e5cb802581806d5cbc14fb47e5c9edcc477e65d93
@@ -22,7 +22,6 @@ builddeps   :
     - binary(bc)
     - binary(bindgen)
     - binary(bison)
-    - binary(cryptsetup)
     - binary(dash)
     - binary(dbus-broker)
     - binary(dracut)
@@ -49,6 +48,7 @@ builddeps   :
     - pkgconfig(libzstd)
     - pkgconfig(mpfr)
     - pkgconfig(ply-boot-client)
+    - sysbinary(cryptsetup)
     - sysbinary(fsck.ext4)
     - sysbinary(fsck.f2fs)
     - sysbinary(fsck.xfs)

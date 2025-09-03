@@ -5,7 +5,7 @@
 #
 name        : accountsservice
 version     : 23.13.9
-release     : 5
+release     : 6
 homepage    : https://www.freedesktop.org/wiki/Software/AccountsService/
 upstreams   :
     - https://www.freedesktop.org/software/accountsservice/accountsservice-23.13.9.tar.xz : adda4cdeae24fa0992e7df3ffff9effa7090be3ac233a3edfdf69d5a9c9b924f
@@ -27,6 +27,7 @@ builddeps   :
     - pkgconfig(systemd)
 setup       : |
     %patch %(pkgdir)/gcc-14.patch
+    %patch %(pkgdir)/upstream-01.patch
 
     %meson
 build       : |
@@ -42,3 +43,7 @@ install     : |
              %(installroot)/var/lib/AccountsService/ \
              %(installroot)/var/lib/ \
              %(installroot)/var/
+packages    :
+    - "%(name)-devel":
+        paths:
+            - /usr/share/vala/

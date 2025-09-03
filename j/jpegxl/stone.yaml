@@ -1,0 +1,94 @@
+#
+# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : jpegxl
+version     : 0.11.1
+release     : 4
+homepage    : https://github.com/libjxl/libjxl
+upstreams   :
+    - https://github.com/libjxl/libjxl/archive/refs/tags/v0.11.1.tar.gz : 1492dfef8dd6c3036446ac3b340005d92ab92f7d48ee3271b5dac1d36945d3d9
+    - git|https://github.com/webmproject/sjpeg.git : e5ab13008bb214deb66d5f3e17ca2f8dbff150bf
+    - git|https://skia.googlesource.com/skcms.git : 42030a771244ba67f86b1c1c76a6493f873c5f91
+summary     : JPEG XL image format reference implementation
+description : |
+    JPEG XL image format reference implementation
+license     : BSD-3-Clause
+builddeps   :
+    - binary(asciidoc)
+    - binary(doxygen)
+    - binary(sphinx-build)
+    - pkgconfig(gdk-pixbuf-2.0)
+    - pkgconfig(gl)
+    - pkgconfig(glut)
+    - pkgconfig(lcms2)
+    - pkgconfig(libbrotlidec)
+    - pkgconfig(libhwy)
+    - pkgconfig(libjpeg)
+    - pkgconfig(libpng)
+    - pkgconfig(zlib)
+    - docbook
+    # openexr, gimp-2.0, libgif
+environment : |
+    # Temporary, replace with boulder macro
+    export XML_CATALOG_FILES="file:///usr/share/defaults/docbook/docbook-dtd/catalog file:///usr/share/defaults/docbook/docbook-xsl/catalog"
+setup       : |
+    rm -rf third_party/{sjpeg,skcms}
+    ln -s ../../sjpeg.git third_party/sjpeg
+    ln -s ../../skcms.git third_party/skcms
+
+    pushd third_party/sjpeg
+    %patch %(pkgdir)/sjpeg-ftbfs-cmake-4.patch
+    popd
+
+    %cmake \
+        -DBUILD_TESTING=OFF \
+        -DJPEGXL_ENABLE_BENCHMARK=OFF \
+        -DJPEGXL_ENABLE_PLUGINS=ON \
+        -DJPEGXL_ENABLE_PLUGIN_MIME=ON \
+        -DJPEGXL_ENABLE_PLUGIN_GDKPIXBUF=ON
+build       : |
+    %cmake_build
+install     : |
+    %cmake_install
+tuning      :
+    - optimize: speed
+packages    :
+    - "libjxl":
+        summary: Library files for JPEG-XL
+        description: Library files for JPEG-XL
+        rundeps:
+            - jxl-pixbuf-loader # Temporary, once moss supports dynamic dependencies this should only get pulled in if both libjxl and gdk-pixbuf are installed
+        paths:
+            - /usr/lib/libjxl*.so.*
+            - /usr/share/mime/packages/image-jxl.xml
+            - /usr/share/thumbnailers/jxl.thumbnailer
+
+    - "libjxl-devel":
+        summary: Library files for JPEG-XL - Development headers
+        description: Library files for JPEG-XL - Development headers
+        rundeps:
+            - "libjxl"
+        paths:
+            - /usr/include/jxl/
+            - /usr/lib/pkgconfig/libjxl*.pc
+            - /usr/lib/libjxl*.a
+            - /usr/lib/libjxl*.so
+    
+    - "jxl-pixbuf-loader":
+        summary: JPEG-XL image loader for GTK+ applications
+        description: JPEG-XL image loader for GTK+ applications
+        paths:
+            - /usr/lib/gdk-pixbuf-2.0/*/loaders/libpixbufloader-jxl.so
+    
+    - "libjxl-utils":
+        summary: Utilities for manipulating JPEG XL images
+        description: Utilities for manipulating JPEG XL images
+        paths:
+            - /usr/bin/cjxl
+            - /usr/bin/djxl
+            - /usr/bin/jxlinfo
+            - /usr/share/man/man1/cjxl.1*
+            - /usr/share/man/man1/djxl.1*
+# TODO: enable tests

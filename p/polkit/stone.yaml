@@ -5,7 +5,7 @@
 #
 name        : polkit
 version     : "126"
-release     : 8
+release     : 9
 summary     : Application-level authorization toolkit
 license     : GPL-2.0-or-later
 homepage    : https://github.com/polkit-org/polkit
@@ -63,6 +63,10 @@ install     : |
     %install_file %(pkgdir)/polkitd.user %(installroot)%(libdir)/userdb/polkitd.user
     ln -s polkitd.user %(installroot)%(libdir)/userdb/27.user
     rm -fr %(installroot)%(libdir)/sysusers.d
+
+    # Allow the active user to change the timezone or NTP settings
+    # https://community.kde.org/Distributions/Packaging_Recommendations#Polkit_configuration
+    %install_file %(pkgdir)/00-ntp-and-time-zones.rules %(installroot)%(datadir)/polkit-1/rules.d/00-ntp-and-time-zones.rules
 
     # TODO: Capabilities
 

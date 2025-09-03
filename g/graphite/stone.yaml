@@ -16,6 +16,9 @@ description : |
     Graphite was primarily developed to provide the flexibility needed for minority languages which often need to be written according to slightly different rules than well-known languages that use the same script.
 license     :
     - LGPL-2.1-or-later
+# builddeps   :
+#     - pkgconfig(freetype2) # Only used for building tests, and building tests fails
+#     - a2x Docs (need a few other things)
 checkdeps   :
     - binary(readelf)
 emul32      : yes
@@ -23,7 +26,9 @@ setup       : |
     %patch %(pkgdir)/ftbfs-clang.patch
     %patch %(pkgdir)/ftbfs-cmake-4.patch
 
-    %cmake -DGRAPHITE2_VM_TYPE=call -DLIB_SUFFIX=%(libsuffix)
+    %cmake \
+        -DGRAPHITE2_VM_TYPE=call \
+        -DLIB_SUFFIX=%(libsuffix)
 build       : |
     %cmake_build
 install     : |

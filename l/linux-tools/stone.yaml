@@ -4,35 +4,43 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : linux-tools
-version     : '6.15.7'
-release     : 17
+version     : '6.16.4'
+release     : 18
 summary     : Tools included with the Linux source code
 license     : GPL-2.0-only
 homepage    : https://perf.wiki.kernel.org/
 description : |
     Tools included with the Linux source code
 upstreams   :
-    - https://www.kernel.org/pub/linux/kernel/v6.x/linux-6.15.7.tar.xz: 3507dd105b0a0e1101bd43d294472fccf853429a259a5fa7c67467bba318f8e9
+    - https://www.kernel.org/pub/linux/kernel/v6.x/linux-6.16.4.tar.xz: d6a5e3c71a10b533a756251387cc8bf48bbd5c76d842ba5e957d8b1c316ab622
 builddeps   :
+    - binary(a2x)
     - binary(bison)
     - binary(flex)
     - binary(llvm-config)
     - binary(perl)
     - binary(msgmerge)
+    - binary(xmlto)
     - binary(which)
     - pkgconfig(libbpf)
     - pkgconfig(libcap)
     - pkgconfig(libcrypto)
+    - pkgconfig(libdw)
     - pkgconfig(libelf)
     - pkgconfig(libpci)
     - pkgconfig(libtraceevent)
     - pkgconfig(python3)
     - pkgconfig(slang)
     - python(setuptools)
+    - docbook
     - linux-headers
     - perl-devel
     # NOTE: Don't add binutils-devel, it's redundant with building against LLVM
+    # libbabeltrace, libnuma, libcapstone
 environment : |
+    # Temporary, replace with boulder macro
+    export XML_CATALOG_FILES="file:///usr/share/defaults/docbook/docbook-dtd/catalog file:///usr/share/defaults/docbook/docbook-xsl/catalog"
+
     # Maximize ccache efficiency
     export KBUILD_BUILD_USER=root
     export KBUILD_BUILD_TIMESTAMP=$(date --utc --date=@$SOURCE_DATE_EPOCH +%%F)
@@ -43,13 +51,13 @@ environment : |
                   LLVM=1"
 
     _perf_args="-f Makefile.perf \
-                -C tools/perf \
                 ${_common_args} \
                 lib=lib/perf \
                 perfexecdir=lib/perf
                 LIBBPF_DYNAMIC=1 WERROR=0"
 
     _cpupower_args="-C tools/power/cpupower \
+                    libexecdir=%(libdir)/cpupower \
                     ${_common_args} \
                     docdir=%(docdir)/cpupower"
 
@@ -64,13 +72,16 @@ environment : |
                   libexecdir=%(libdir)/hyperv"
     export CFLAGS+=" -DKVP_SCRIPTS_PATH=\\\"%(libdir)/hyperv\\\""
 build       : |
+    pushd tools/perf
     %make ${_perf_args}
+    popd
+
     %make ${_cpupower_args}
     %make ${_x86_energy_args}
     %make ${_turbostat_args}
     %make ${_hyperv_args}
 install     : |
-    %make_install ${_perf_args}
+    %make_install -C tools/perf ${_perf_args}
     %install_file %(installroot)/etc/bash_completion.d/perf %(installroot)/%(completionsdir)/perf
     rm %(installroot)/etc/bash_completion.d/perf
     rmdir %(installroot)/etc/bash_completion.d %(installroot)/etc
@@ -107,7 +118,9 @@ packages    :
             - /usr/bin/cpufreq*
             - /usr/bin/cpupower
             - /usr/sbin/cpufreq*
+            - /usr/lib/cpupower/
             - /usr/lib/libcpupower.so.*
+            - /usr/lib/systemd/system/cpupower.service
             - /usr/share/bash-completion/completions/cpupower
             - /usr/share/doc/cpupower
             - /usr/share/locale/**/**/cpupower.mo
@@ -145,6 +158,7 @@ packages    :
             - /usr/include/perf
             - /usr/lib/perf
             - /usr/share/bash-completion/completions/perf
+            - /usr/share/man/man1/perf*
             - /usr/share/doc/perf-tip
             - /usr/share/perf-core
 

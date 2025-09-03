@@ -5,15 +5,22 @@
 #
 name        : ca-certificates
 version     : 20250516 # TODO: Figure out what version we should use
-release     : 16
+release     : 17
 homepage    : https://fedoraproject.org/wiki/CA-Certificates
 # No upstreams!
 summary     : Certificate Authority Files
 description : |
     The Public Key Infrastructure is used for many security issues in a Linux system. In order for a certificate to be trusted, it must be signed by a trusted agent called a Certificate Authority (CA).
 license     : GPL-2.0-or-later
-# builddeps  :
-    # TODO: Need a2x for man page
+builddeps  :
+    - binary(a2x)
+    - docbook
+environment : |
+    # Temporary, replace with boulder macro
+    export XML_CATALOG_FILES="file:///usr/share/defaults/docbook/docbook-dtd/catalog file:///usr/share/defaults/docbook/docbook-xsl/catalog"
+build       : |
+    cp %(pkgdir)/update-ca-trust.8.txt .
+    a2x -v -f manpage update-ca-trust.8.txt
 install     : |
     etcdir="/etc/%(name)"
     ssldir="/etc/ssl"
@@ -21,6 +28,7 @@ install     : |
 
     %install_file %(pkgdir)/README.* -t %(installroot)%(datadir)/doc/ca-certificates
     %install_bin %(pkgdir)/update-ca-trust
+    %install_file update-ca-trust.8 -t %(installroot)%(mandir)/man8
 
     # The following lines are a workaround to /etc/ssl/certs being a symlink in the previous ca-certificates mechanism
     # These lines can be removed ~6 months after 2025-05-27 to ensure that users can upgrade successfully
@@ -66,6 +74,7 @@ packages    :
             - /usr/lib/tmpfiles.d
             - /usr/share/ca-certificates
             - /usr/share/doc/ca-certificates
+            - /usr/share/man/man8/update-ca-trust.8*
             - /usr/share/moss
 
     - "%(name)":

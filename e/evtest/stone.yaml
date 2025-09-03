@@ -4,16 +4,23 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : evtest
-version     : 1.35
-release     : 2
+version     : "1.36"
+release     : 3
 homepage    : https://gitlab.freedesktop.org/libevdev/evtest
 upstreams   :
-    - https://gitlab.freedesktop.org/libevdev/evtest/-/archive/evtest-1.35/evtest-evtest-1.35.tar.gz : 06dfe6b9760b78f3f73aca2120cbcb79339b33e59d5c79a49b4bd5d34844b054
+    - https://gitlab.freedesktop.org/libevdev/evtest/-/archive/evtest-1.36/evtest-evtest-1.36.tar.gz : 3b9a66c92e48b0cd13b689530b5729c031bc1bcbfe9d19c258f9245e2f8d2a0f
 summary     : Kernel evdev device information and monitor
 description : |
     evtest is a tool to print evdev kernel events. It reads directly from the kernel device and prints a
     device description and the events with the value and the symbolic name.
 license     : GPL-2.0-or-later
+builddeps   :
+    - binary(asciidoc)
+    - binary(xmlto)
+    - docbook
+environment : |
+    # Temporary, replace with boulder macro
+    export XML_CATALOG_FILES="file:///usr/share/defaults/docbook/docbook-dtd/catalog file:///usr/share/defaults/docbook/docbook-xsl/catalog"
 setup       : |
     %autogen
 build       : |

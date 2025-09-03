@@ -62,6 +62,9 @@
 				"pkgconfig(xkeyboard-config)"
 			],
 			"depends": [
+				"binary(xdg-user-dir)",
+				"font-noto",
+				"font-noto-emoji",
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"iso-codes",
 				"kf6-kded",
@@ -4473,6 +4476,6 @@
 		}
 	},
 	"source-name": "plasma-desktop",
-	"source-release": "10",
+	"source-release": "11",
 	"source-version": "6.4.4"
 }

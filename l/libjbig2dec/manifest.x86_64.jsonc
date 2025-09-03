@@ -1,0 +1,42 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"jbig2dec": {
+			"depends": [
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libm.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/bin/jbig2dec",
+				"/usr/lib/libjbig2dec.so.0",
+				"/usr/lib/libjbig2dec.so.0.0.0",
+				"/usr/share/man/man1/jbig2dec.1"
+			],
+			"name": "jbig2dec",
+			"provides": [
+				"binary(jbig2dec)",
+				"soname(libjbig2dec.so.0(x86_64))"
+			]
+		},
+		"jbig2dec-devel": {
+			"depends": [
+				"jbig2dec"
+			],
+			"files": [
+				"/usr/include/jbig2.h",
+				"/usr/lib/libjbig2dec.a",
+				"/usr/lib/libjbig2dec.so",
+				"/usr/lib/pkgconfig/jbig2dec.pc"
+			],
+			"name": "jbig2dec-devel",
+			"provides": [
+				"pkgconfig(jbig2dec)"
+			]
+		}
+	},
+	"source-name": "jbig2dec",
+	"source-release": "1",
+	"source-version": "0.2"
+}

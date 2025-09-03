@@ -1,0 +1,27 @@
+#
+# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : chafa
+version     : 1.16.2
+release     : 1
+homepage    : https://github.com/hpjansson/chafa
+upstreams   :
+    - https://github.com/hpjansson/chafa/releases/download/1.16.2/chafa-1.16.2.tar.xz : 657898dd9a89b45130a44c1efe1fc03e2c7bd00c2f543ed7111613cb9e7861df
+summary     : Converts image data into graphics formats or ANSI/Unicode character art suitable for display in a terminal.
+description : |
+    Converts image data into graphics formats or ANSI/Unicode character art suitable for display in a terminal.
+license     :
+    - LGPL-3.0
+    - GPL-3.0
+builddeps   :
+    - pkgconfig(freetype2)
+    - pkgconfig(glib-2.0)
+setup       : |
+    %configure
+build       : |
+    %make
+install     : |
+    %make_install
+

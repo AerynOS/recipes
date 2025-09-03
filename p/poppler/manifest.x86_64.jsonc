@@ -43,13 +43,13 @@
 				"soname(libz.so.1(x86_64))"
 			],
 			"files": [
-				"/usr/lib/libpoppler.so.152",
-				"/usr/lib/libpoppler.so.152.0.0",
+				"/usr/lib/libpoppler.so.153",
+				"/usr/lib/libpoppler.so.153.0.0",
 				"/usr/share/locale/ca/LC_MESSAGES/pdfsig.mo"
 			],
 			"name": "poppler",
 			"provides": [
-				"soname(libpoppler.so.152(x86_64))"
+				"soname(libpoppler.so.153(x86_64))"
 			]
 		},
 		"poppler-cpp": {
@@ -74,7 +74,7 @@
 			"depends": [
 				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
-				"soname(libpoppler.so.152(x86_64))"
+				"soname(libpoppler.so.153(x86_64))"
 			],
 			"files": [
 				"/usr/lib/libpoppler-cpp.so.2",
@@ -151,6 +151,17 @@
 				"poppler-data"
 			],
 			"depends": [
+				"pkgconfig(fontconfig)",
+				"pkgconfig(freetype2)",
+				"pkgconfig(gpgmepp)",
+				"pkgconfig(lcms2)",
+				"pkgconfig(libcurl)",
+				"pkgconfig(libjpeg)",
+				"pkgconfig(libopenjp2)",
+				"pkgconfig(libpng)",
+				"pkgconfig(libtiff-4)",
+				"pkgconfig(nss)",
+				"pkgconfig(zlib)",
 				"poppler"
 			],
 			"files": [
@@ -288,7 +299,7 @@
 				"soname(libglib-2.0.so.0(x86_64))",
 				"soname(libgobject-2.0.so.0(x86_64))",
 				"soname(libm.so.6(x86_64))",
-				"soname(libpoppler.so.152(x86_64))"
+				"soname(libpoppler.so.153(x86_64))"
 			],
 			"files": [
 				"/usr/lib/girepository-1.0/Poppler-0.18.typelib",
@@ -321,6 +332,8 @@
 			],
 			"depends": [
 				"pkgconfig(cairo)",
+				"pkgconfig(freetype2)",
+				"pkgconfig(gio-2.0)",
 				"pkgconfig(glib-2.0)",
 				"pkgconfig(gobject-2.0)",
 				"pkgconfig(poppler)",
@@ -377,7 +390,7 @@
 				"soname(libc.so.6(x86_64))",
 				"soname(libfreetype.so.6(x86_64))",
 				"soname(liblcms2.so.2(x86_64))",
-				"soname(libpoppler.so.152(x86_64))"
+				"soname(libpoppler.so.153(x86_64))"
 			],
 			"files": [
 				"/usr/lib/libpoppler-qt6.so.3",
@@ -408,6 +421,7 @@
 				"poppler-data"
 			],
 			"depends": [
+				"pkgconfig(freetype2)",
 				"pkgconfig(poppler)",
 				"poppler-devel",
 				"poppler-qt6"
@@ -458,7 +472,7 @@
 				"soname(libfreetype.so.6(x86_64))",
 				"soname(liblcms2.so.2(x86_64))",
 				"soname(libm.so.6(x86_64))",
-				"soname(libpoppler.so.152(x86_64))"
+				"soname(libpoppler.so.153(x86_64))"
 			],
 			"files": [
 				"/usr/bin/pdfattach",
@@ -507,6 +521,6 @@
 		}
 	},
 	"source-name": "poppler",
-	"source-release": "8",
-	"source-version": "25.08.0"
+	"source-release": "9",
+	"source-version": "25.09.0"
 }

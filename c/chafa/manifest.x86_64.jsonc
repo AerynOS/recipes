@@ -1,0 +1,109 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"chafa": {
+			"build-depends": [
+				"pkgconfig(freetype2)",
+				"pkgconfig(glib-2.0)"
+			],
+			"depends": [
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libfreetype.so.6(x86_64))",
+				"soname(libglib-2.0.so.0(x86_64))",
+				"soname(libm.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/bin/chafa",
+				"/usr/lib/chafa/include/chafaconfig.h",
+				"/usr/lib/libchafa.so.0",
+				"/usr/lib/libchafa.so.0.10.2"
+			],
+			"name": "chafa",
+			"provides": [
+				"binary(chafa)",
+				"soname(libchafa.so.0(x86_64))"
+			]
+		},
+		"chafa-devel": {
+			"build-depends": [
+				"pkgconfig(freetype2)",
+				"pkgconfig(glib-2.0)"
+			],
+			"depends": [
+				"chafa",
+				"pkgconfig(glib-2.0)"
+			],
+			"files": [
+				"/usr/include/chafa/chafa-canvas-config.h",
+				"/usr/include/chafa/chafa-canvas.h",
+				"/usr/include/chafa/chafa-common.h",
+				"/usr/include/chafa/chafa-features.h",
+				"/usr/include/chafa/chafa-frame.h",
+				"/usr/include/chafa/chafa-image.h",
+				"/usr/include/chafa/chafa-placement.h",
+				"/usr/include/chafa/chafa-symbol-map.h",
+				"/usr/include/chafa/chafa-term-db.h",
+				"/usr/include/chafa/chafa-term-info.h",
+				"/usr/include/chafa/chafa-term-seq-def.h",
+				"/usr/include/chafa/chafa-util.h",
+				"/usr/include/chafa/chafa-version-macros.h",
+				"/usr/include/chafa/chafa.h",
+				"/usr/lib/libchafa.a",
+				"/usr/lib/libchafa.so",
+				"/usr/lib/pkgconfig/chafa.pc"
+			],
+			"name": "chafa-devel",
+			"provides": [
+				"pkgconfig(chafa)"
+			]
+		},
+		"chafa-docs": {
+			"build-depends": [
+				"pkgconfig(freetype2)",
+				"pkgconfig(glib-2.0)"
+			],
+			"files": [
+				"/usr/share/gtk-doc/html/chafa/api-index-deprecated.html",
+				"/usr/share/gtk-doc/html/chafa/api-index-full.html",
+				"/usr/share/gtk-doc/html/chafa/ch01.html",
+				"/usr/share/gtk-doc/html/chafa/ch02.html",
+				"/usr/share/gtk-doc/html/chafa/chafa-ChafaCanvas.html",
+				"/usr/share/gtk-doc/html/chafa/chafa-ChafaCanvasConfig.html",
+				"/usr/share/gtk-doc/html/chafa/chafa-ChafaFrame.html",
+				"/usr/share/gtk-doc/html/chafa/chafa-ChafaImage.html",
+				"/usr/share/gtk-doc/html/chafa/chafa-ChafaPlacement.html",
+				"/usr/share/gtk-doc/html/chafa/chafa-ChafaSymbolMap.html",
+				"/usr/share/gtk-doc/html/chafa/chafa-ChafaTermDb.html",
+				"/usr/share/gtk-doc/html/chafa/chafa-ChafaTermInfo.html",
+				"/usr/share/gtk-doc/html/chafa/chafa-Features.html",
+				"/usr/share/gtk-doc/html/chafa/chafa-Miscellaneous.html",
+				"/usr/share/gtk-doc/html/chafa/chafa-building.html",
+				"/usr/share/gtk-doc/html/chafa/chafa-using.html",
+				"/usr/share/gtk-doc/html/chafa/chafa.devhelp2",
+				"/usr/share/gtk-doc/html/chafa/home.png",
+				"/usr/share/gtk-doc/html/chafa/index.html",
+				"/usr/share/gtk-doc/html/chafa/left-insensitive.png",
+				"/usr/share/gtk-doc/html/chafa/left.png",
+				"/usr/share/gtk-doc/html/chafa/new-api-index-1.10.html",
+				"/usr/share/gtk-doc/html/chafa/new-api-index-1.12.html",
+				"/usr/share/gtk-doc/html/chafa/new-api-index-1.14.html",
+				"/usr/share/gtk-doc/html/chafa/new-api-index-1.16.html",
+				"/usr/share/gtk-doc/html/chafa/new-api-index-1.2.html",
+				"/usr/share/gtk-doc/html/chafa/new-api-index-1.4.html",
+				"/usr/share/gtk-doc/html/chafa/new-api-index-1.6.html",
+				"/usr/share/gtk-doc/html/chafa/new-api-index-1.8.html",
+				"/usr/share/gtk-doc/html/chafa/right-insensitive.png",
+				"/usr/share/gtk-doc/html/chafa/right.png",
+				"/usr/share/gtk-doc/html/chafa/style.css",
+				"/usr/share/gtk-doc/html/chafa/up-insensitive.png",
+				"/usr/share/gtk-doc/html/chafa/up.png"
+			],
+			"name": "chafa-docs"
+		}
+	},
+	"source-name": "chafa",
+	"source-release": "1",
+	"source-version": "1.16.2"
+}

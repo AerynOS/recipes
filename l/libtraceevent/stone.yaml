@@ -5,7 +5,7 @@
 #                
 name        : libtraceevent
 version     : 1.8.4
-release     : 3
+release     : 4
 homepage    : https://git.kernel.org/pub/scm/libs/libtrace/libtraceevent.git/about/
 upstreams   :
     - https://git.kernel.org/pub/scm/libs/libtrace/libtraceevent.git/snapshot/libtraceevent-1.8.4.tar.gz : dc456d4d2bf4b4cd4d0c737d3374a8093f9e5ca18c1d7fc2279a4bf41e613121
@@ -16,14 +16,15 @@ license     :
     - GPL-2.0
     - LGPL-2.1
 builddeps   :
+    # - binary(asciidoc)
     - binary(readelf)
-    - cunit
-    - cunit-devel
-rundeps     :
-    - cunit
+    # - binary(xmlto)
+    - pkgconfig(cunit)
+    # Needs source-highlight for docs
 setup       : |
-    # TODO: enable docs once we have a decent AsciiDoc story
-    %meson -Ddoc=false
+    %meson \
+        -Ddefault_library=shared \
+        -Ddoc=false
 build       : |
     %meson_build
 install     : |

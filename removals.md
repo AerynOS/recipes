@@ -105,3 +105,6 @@
 ### Split to subpackages
 - glycin
 - glycin-devel
+
+### Renamed to jpegxl-dbginfo
+- libjxl-dbginfo

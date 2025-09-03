@@ -1,0 +1,28 @@
+#
+# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : kvantum
+version     : 1.1.5
+release     : 1
+upstreams   :
+    - https://github.com/tsujan/Kvantum/releases/download/V1.1.5/Kvantum-1.1.5.tar.xz : 64af08988e8579ac8078b7db38a4986daa24d490ea6d54d70c08140a7737bc53
+homepage    : https://github.com/tsujan/Kvantum
+license     : GPL-3.0-or-later
+summary     : A Linux SVG-based theme engine for Qt6
+description : |
+    A Linux SVG-based theme engine for Qt6
+builddeps   :
+    - cmake(KF6WindowSystem)
+    - cmake(Qt6Core)
+    - cmake(Qt6LinguistTools)
+    - cmake(Qt6Svg)
+environment : |
+    cd Kvantum
+setup       : |
+    %cmake
+build       : |
+    %cmake_build
+install     : |
+    %cmake_install

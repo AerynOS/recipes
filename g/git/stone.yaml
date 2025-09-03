@@ -5,7 +5,7 @@
 #
 name        : git
 version     : 2.51.0
-release     : 16
+release     : 17
 summary     : Fast, scalable, distributed revision control system
 license     : GPL-2.0-only
 homepage    : https://git-scm.com
@@ -14,8 +14,10 @@ description : |
 upstreams   :
     - https://www.kernel.org/pub/software/scm/git/git-2.51.0.tar.gz: 3d531799d2cf2cac8e294ec6e3229e07bfca60dc6c783fe69e7712738bef7283
 builddeps   :
+    - binary(asciidoc)
     - binary(msgfmt)
     - binary(tar)
+    - binary(xmlto)
     - pkgconfig(expat)
     - pkgconfig(gobject-2.0)
     - pkgconfig(libcurl)
@@ -24,6 +26,10 @@ builddeps   :
     - pkgconfig(libxcrypt)
     - pkgconfig(openssl)
     - pkgconfig(zlib)
+    - docbook
+environment : |
+    # Temporary, replace with boulder macro
+    export XML_CATALOG_FILES="file:///usr/share/defaults/docbook/docbook-dtd/catalog file:///usr/share/defaults/docbook/docbook-xsl/catalog"
 setup       : |
     %reconfigure \
         --disable-static \
@@ -32,13 +38,18 @@ setup       : |
         --without-tcltk \
 build       : |
     %make
+    %make man
     %make -C contrib/subtree
     %make -C contrib/credential/libsecret
 install     : |
-    %make_install
+    %make_install install-man
     %make_install -C contrib/subtree
 
     %install_file contrib/completion/git-completion.bash %(installroot)%(datadir)/bash-completion/completions/git
     %install_file contrib/completion/git-completion.zsh %(installroot)%(datadir)/zsh/site-functions/_git
     %install_exe contrib/credential/libsecret/git-credential-libsecret %(installroot)%(libdir)/git/git-core/.
 # TODO Checks
+packages    :
+    - "%(name)":
+        paths:
+            - /usr/share/man/man3/

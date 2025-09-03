@@ -5,7 +5,7 @@
 #
 name        : plasma-browser-integration
 version     : 6.4.4
-release     : 3
+release     : 4
 upstreams   :
     - https://download.kde.org/stable/plasma/6.4.4/plasma-browser-integration-6.4.4.tar.xz : efdd5b9bf1acfbe16edcb31b029c7f91b20616598bbfc6a0959fefd698b638cf
 homepage    : https://kde.org/plasma-desktop/
@@ -44,6 +44,9 @@ install     : |
 
     # Add policy file so Firefox downloads the extension automatically
     %install_file %(pkgdir)/firefox-policy.json %(installroot)%(libdir)/firefox/distribution/policies.json
+
+    # Firefox prefs for Plasma
+    %install_file %(pkgdir)/firefox-prefs.js %(installroot)%(libdir)/firefox/defaults/pref/kde-plasma.js
 
     # Stateless
     # All of these are the same, so move one of them to /usr and use tmpfiles to create the other links

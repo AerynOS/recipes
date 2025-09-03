@@ -4,7 +4,10 @@
 	"packages": {
 		"ocl-icd": {
 			"build-depends": [
+				"binary(a2x)",
 				"binary(ruby)",
+				"binary(xmlto)",
+				"docbook",
 				"pkgconfig(OpenCL-Headers)"
 			],
 			"depends": [
@@ -13,7 +16,9 @@
 			],
 			"files": [
 				"/usr/lib/libOpenCL.so.1",
-				"/usr/lib/libOpenCL.so.1.0.0"
+				"/usr/lib/libOpenCL.so.1.0.0",
+				"/usr/share/man/man7/libOpenCL.7",
+				"/usr/share/man/man7/libOpenCL.so.7"
 			],
 			"name": "ocl-icd",
 			"provides": [
@@ -22,7 +27,10 @@
 		},
 		"ocl-icd-devel": {
 			"build-depends": [
+				"binary(a2x)",
 				"binary(ruby)",
+				"binary(xmlto)",
+				"docbook",
 				"pkgconfig(OpenCL-Headers)"
 			],
 			"depends": [
@@ -38,7 +46,8 @@
 				"/usr/lib/libOpenCL.so",
 				"/usr/lib/pkgconfig/OpenCL.pc",
 				"/usr/lib/pkgconfig/ocl-icd.pc",
-				"/usr/share/doc/ocl-icd/examples/ocl_icd_bindings.c"
+				"/usr/share/doc/ocl-icd/examples/ocl_icd_bindings.c",
+				"/usr/share/doc/ocl-icd/html/libOpenCL.html"
 			],
 			"name": "ocl-icd-devel",
 			"provides": [
@@ -49,6 +58,6 @@
 		}
 	},
 	"source-name": "ocl-icd",
-	"source-release": "2",
+	"source-release": "3",
 	"source-version": "2.3.3"
 }

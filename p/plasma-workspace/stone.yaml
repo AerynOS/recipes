@@ -5,7 +5,7 @@
 #
 name        : plasma-workspace
 version     : 6.4.4
-release     : 14
+release     : 15
 upstreams   :
     - https://download.kde.org/stable/plasma/6.4.4/plasma-workspace-6.4.4.tar.xz : de53b4eef688b59b7c56090485d41e7f8be3d3b99f1cf1358a7d3f4da9eebcb2
 homepage    : https://kde.org/plasma-desktop/
@@ -124,6 +124,7 @@ install     : |
 packages    :
     - "%(name)":
         rundeps:
+            - accountsservice # DBUS service used by kcm_users
             - iso-codes # Translations of country names in digital clock applet
             - kactivitymanagerd
             - kf6-kirigami # QML dep

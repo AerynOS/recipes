@@ -4,6 +4,7 @@
 	"packages": {
 		"localsearch": {
 			"build-depends": [
+				"binary(a2x)",
 				"binary(glib-compile-schemas)",
 				"binary(glib-mkenums)",
 				"binary(msgfmt)",
@@ -19,8 +20,10 @@
 				"pkgconfig(gudev-1.0)",
 				"pkgconfig(icu-i18n)",
 				"pkgconfig(libavformat)",
+				"pkgconfig(libexif)",
 				"pkgconfig(libjpeg)",
 				"pkgconfig(libnm)",
+				"pkgconfig(libosinfo-1.0)",
 				"pkgconfig(libpng)",
 				"pkgconfig(libseccomp)",
 				"pkgconfig(libtiff-4)",
@@ -35,6 +38,7 @@
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"soname(libavformat.so.61(x86_64))",
 				"soname(libc.so.6(x86_64))",
+				"soname(libexif.so.12(x86_64))",
 				"soname(libgexiv2.so.2(x86_64))",
 				"soname(libgio-2.0.so.0(x86_64))",
 				"soname(libglib-2.0.so.0(x86_64))",
@@ -45,6 +49,7 @@
 				"soname(libgudev-1.0.so.0(x86_64))",
 				"soname(libicui18n.so.77(x86_64))",
 				"soname(libjpeg.so.8(x86_64))",
+				"soname(libosinfo-1.0.so.0(x86_64))",
 				"soname(libpng16.so.16(x86_64))",
 				"soname(libpoppler-glib.so.8(x86_64))",
 				"soname(libseccomp.so.2(x86_64))",
@@ -62,6 +67,7 @@
 				"/usr/lib/localsearch-3.0/extract-modules/libextract-dummy.so",
 				"/usr/lib/localsearch-3.0/extract-modules/libextract-html.so",
 				"/usr/lib/localsearch-3.0/extract-modules/libextract-icon.so",
+				"/usr/lib/localsearch-3.0/extract-modules/libextract-iso.so",
 				"/usr/lib/localsearch-3.0/extract-modules/libextract-jpeg.so",
 				"/usr/lib/localsearch-3.0/extract-modules/libextract-libav.so",
 				"/usr/lib/localsearch-3.0/extract-modules/libextract-mp3.so",
@@ -184,6 +190,7 @@
 				"/usr/share/localsearch3/extract-rules/10-raw.rule",
 				"/usr/share/localsearch3/extract-rules/10-svg.rule",
 				"/usr/share/localsearch3/extract-rules/10-tiff.rule",
+				"/usr/share/localsearch3/extract-rules/11-iso.rule",
 				"/usr/share/localsearch3/extract-rules/15-executable.rule",
 				"/usr/share/localsearch3/extract-rules/15-games.rule",
 				"/usr/share/localsearch3/extract-rules/15-libav-guess.rule",
@@ -191,6 +198,16 @@
 				"/usr/share/localsearch3/extract-rules/90-libav-audio-generic.rule",
 				"/usr/share/localsearch3/extract-rules/90-libav-video-generic.rule",
 				"/usr/share/localsearch3/miners/org.freedesktop.Tracker3.Miner.Files.service",
+				"/usr/share/man/man1/localsearch-3.1",
+				"/usr/share/man/man1/localsearch-daemon.1",
+				"/usr/share/man/man1/localsearch-extract.1",
+				"/usr/share/man/man1/localsearch-index.1",
+				"/usr/share/man/man1/localsearch-info.1",
+				"/usr/share/man/man1/localsearch-reset.1",
+				"/usr/share/man/man1/localsearch-search.1",
+				"/usr/share/man/man1/localsearch-status.1",
+				"/usr/share/man/man1/localsearch-tag.1",
+				"/usr/share/man/man1/localsearch-writeback-3.1",
 				"/usr/share/xdg/autostart/localsearch-3.desktop"
 			],
 			"name": "localsearch",
@@ -203,6 +220,7 @@
 				"soname(localsearch-3.0/extract-modules/libextract-dummy.so(x86_64))",
 				"soname(localsearch-3.0/extract-modules/libextract-html.so(x86_64))",
 				"soname(localsearch-3.0/extract-modules/libextract-icon.so(x86_64))",
+				"soname(localsearch-3.0/extract-modules/libextract-iso.so(x86_64))",
 				"soname(localsearch-3.0/extract-modules/libextract-jpeg.so(x86_64))",
 				"soname(localsearch-3.0/extract-modules/libextract-libav.so(x86_64))",
 				"soname(localsearch-3.0/extract-modules/libextract-mp3.so(x86_64))",
@@ -218,6 +236,6 @@
 		}
 	},
 	"source-name": "localsearch",
-	"source-release": "8",
+	"source-release": "9",
 	"source-version": "3.9.0"
 }

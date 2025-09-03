@@ -1,0 +1,34 @@
+#
+# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : asciidoc
+version     : 10.2.1
+release     : 2
+upstreams   :
+    - https://github.com/asciidoc-py/asciidoc-py/releases/download/10.2.1/asciidoc-10.2.1.tar.gz : aa7be8ae894f6cc1e67784d76ffa6c6b9e9f96efdc695db43c6bd63820e5072b
+homepage    : https://asciidoc-py.github.io/
+license     : GPL-2.0-or-later
+summary     : AsciiDoc is a text document format for writing notes, documentation, and more.
+description : |
+    AsciiDoc is a text document format for writing notes, documentation, and more.
+builddeps   :
+    - python(pip)
+    - binary(python3)
+rundeps     :
+    - binary(python3)
+    - binary(xmllint)
+    - docbook-xsl
+    - libxslt
+    # source-highlight
+networking  : true
+setup       : |
+    %reconfigure
+build       : |
+    %make
+install     : |
+    %make_install docs manpages
+
+    %install_dir %(installroot)%(mandir)/man1
+    mv %(installroot)/share/doc/doc/{asciidoc.1,a2x.1} %(installroot)%(mandir)/man1
