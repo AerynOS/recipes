@@ -1,0 +1,35 @@
+#
+# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : apostrophe
+version     : 3.2
+release     : 1
+homepage    : https://world.pages.gitlab.gnome.org/apostrophe/
+upstreams   :
+    - https://gitlab.gnome.org/World/apostrophe/-/archive/v3.2/apostrophe-v3.2.tar.gz : 6a69c0e4b7800099396129d5a07a6eb4592897f17c742586c411f17b6fe450d5
+summary     : Distraction free Markdown editor
+description : |
+    Apostrophe is a GTK+ based distraction free Markdown editor, mainly developed by Wolf Vollprecht and Manuel Genovés. It uses pandoc as backend for markdown parsing and offers a very clean and sleek user interface.
+license     : GPL-3.0-or-later
+builddeps   :
+    - binary(glib-compile-schemas)
+    - binary(gtk-update-icon-cache)
+    - binary(msgfmt)
+    - binary(update-desktop-database)
+    - pkgconfig(glib-2.0)
+    - pkgconfig(gobject-2.0)
+    - pkgconfig(gobject-introspection-1.0)
+    - pkgconfig(gtk4)
+    - pkgconfig(libadwaita-1)
+setup       : |
+    # Make reveal.js optional
+    %patch %(pkgdir)/305.patch
+
+    %meson
+build       : |
+    %meson_build
+install     : |
+    %meson_install
+
