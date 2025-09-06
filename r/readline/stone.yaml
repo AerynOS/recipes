@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : readline
-version     : 8.2.013
-release     : 7
+version     : 8.3
+release     : 8
 homepage    : https://ftp.gnu.org/gnu/readline
 upstreams   :
-    - https://ftp.gnu.org/gnu/readline/readline-8.2.tar.gz : 3feb7171f16a84ee82ca18a36d7b9be109a52c04f492a053331d7d1095007c35
+    - https://ftp.gnu.org/gnu/readline/readline-8.3.tar.gz : fe5383204467828cd495ee8d1d3c037a7eba1389c22bc6a041f627976f9061cc
 summary     : Library to edit command lines as they are typed in
 description : |
     The GNU Readline library provides a set of functions for use by applications that allow users to edit command lines as they are typed in. Both Emacs and vi editing modes are available. The Readline library includes additional functions to maintain a list of previously-entered command lines, to recall and perhaps reedit those lines, and perform csh-like history expansion on previous commands.
@@ -20,10 +20,7 @@ builddeps   :
     - pkgconfig32(ncursesw)
 emul32      : yes
 setup       : |
-    for i in $(seq -f "%%03g" 1 13); do
-        %patch %(pkgdir)/readline82-$i -p0
-    done
-    %patch %(pkgdir)/c23.patch
+    %patch %(pkgdir)/readline83-001 -p0
 
     %configure --with-curses \
                --disable-static
