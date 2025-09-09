@@ -1,0 +1,68 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"PackageKit-Qt": {
+			"build-depends": [
+				"cmake(Qt6)",
+				"pkgconfig(packagekit-glib2)"
+			],
+			"depends": [
+				"packagekit",
+				"soname(libQt6Core.so.6(x86_64))",
+				"soname(libQt6DBus.so.6(x86_64))",
+				"soname(libc++.so.1(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libunwind.so.1(x86_64))"
+			],
+			"files": [
+				"/usr/lib/libpackagekitqt6.so.1",
+				"/usr/lib/libpackagekitqt6.so.1.1.3"
+			],
+			"name": "PackageKit-Qt",
+			"provides": [
+				"soname(libpackagekitqt6.so.1(x86_64))"
+			]
+		},
+		"PackageKit-Qt-devel": {
+			"build-depends": [
+				"cmake(Qt6)",
+				"pkgconfig(packagekit-glib2)"
+			],
+			"depends": [
+				"PackageKit-Qt",
+				"pkgconfig(Qt6Core)",
+				"pkgconfig(Qt6DBus)"
+			],
+			"files": [
+				"/usr/include/packagekitqt6/PackageKit/Daemon",
+				"/usr/include/packagekitqt6/PackageKit/Details",
+				"/usr/include/packagekitqt6/PackageKit/Offline",
+				"/usr/include/packagekitqt6/PackageKit/PackageKitQt",
+				"/usr/include/packagekitqt6/PackageKit/Transaction",
+				"/usr/include/packagekitqt6/PackageKit/bitfield.h",
+				"/usr/include/packagekitqt6/PackageKit/common.h",
+				"/usr/include/packagekitqt6/PackageKit/daemon.h",
+				"/usr/include/packagekitqt6/PackageKit/details.h",
+				"/usr/include/packagekitqt6/PackageKit/offline.h",
+				"/usr/include/packagekitqt6/PackageKit/packagekitqt_global.h",
+				"/usr/include/packagekitqt6/PackageKit/qpk-version.h",
+				"/usr/include/packagekitqt6/PackageKit/transaction.h",
+				"/usr/lib/cmake/packagekitqt6/PackageKitQtTargets-release.cmake",
+				"/usr/lib/cmake/packagekitqt6/PackageKitQtTargets.cmake",
+				"/usr/lib/cmake/packagekitqt6/packagekitqt6-config-version.cmake",
+				"/usr/lib/cmake/packagekitqt6/packagekitqt6-config.cmake",
+				"/usr/lib/libpackagekitqt6.so",
+				"/usr/lib/pkgconfig/packagekitqt6.pc"
+			],
+			"name": "PackageKit-Qt-devel",
+			"provides": [
+				"cmake(packagekitqt6)",
+				"pkgconfig(packagekitqt6)"
+			]
+		}
+	},
+	"source-name": "PackageKit-Qt",
+	"source-release": "1",
+	"source-version": "1.1.3"
+}

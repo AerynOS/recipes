@@ -1,0 +1,51 @@
+#
+# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : packagekit
+version     : 1.3.1
+release     : 1
+homepage    : https://github.com/PackageKit/PackageKit
+upstreams   :
+    - https://www.freedesktop.org/software/PackageKit/releases/PackageKit-1.3.1.tar.xz : 8c5d5272821d61b50aba24736ca0f4812c28bc6334922f17396b43fd2ed7a7e1
+summary     : A D-BUS abstraction layer that allows the user to manage packages in a secure way using a cross-distro, cross-architecture API.
+description : |
+    PackageKit is a system designed to make installing and updating software on your computer easier. The primary design goal is to unify all the software graphical tools used in different distributions, and use some of the latest technology like PolicyKit.
+license     : GPL-2.0-or-later
+networking  : yes
+builddeps   :
+    - binary(cargo)
+    - binary(msgfmt)
+    - binary(vapigen)
+    - binary(xsltproc)
+    - pkgconfig(bash-completion)
+    - pkgconfig(glib-2.0)
+    - pkgconfig(gobject-introspection-1.0)
+    - pkgconfig(gstreamer-plugins-base-1.0)
+    - pkgconfig(gtk+-3.0)
+    - pkgconfig(libsystemd)
+    - pkgconfig(polkit-gobject-1)
+    - pkgconfig(sqlite3)
+    - pkgconfig(systemd)
+environment : |
+    export RUSTFLAGS="${RUSTFLAGS} -L native=aerynos-builddir/lib/packagekit-glib2 -l packagekit-glib2"
+setup       : |
+    %patch %(pkgdir)/0001-Add-moss-backend-rust-packagekit-bindings.patch
+    %patch %(pkgdir)/0001-install-PackageKit.conf-to-datadir.patch
+    %patch %(pkgdir)/851.patch # https://github.com/PackageKit/PackageKit/pull/851
+
+    %meson -Dbash_command_not_found=false -Dman_pages=false
+    cargo fetch
+build       : |
+    %meson_build
+
+    # move built templated headers back to source directory
+    cp aerynos-builddir/lib/packagekit-glib2/pk-enum-types.h lib/packagekit-glib2/pk-enum-types.h
+    cp aerynos-builddir/lib/packagekit-glib2/pk-version.h lib/packagekit-glib2/pk-version.h
+
+    %cargo_build
+install     : |
+    %meson_install
+    %install_file target/x86_64-unknown-linux-gnu/release/libpackagekit.so %(installroot)%(libdir)/packagekit-backend/libpk_backend_moss.so
+

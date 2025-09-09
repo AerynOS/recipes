@@ -1,0 +1,51 @@
+name       : appstream-catalog
+version    : '20250817'
+release    : 1
+upstreams  :
+    - https://appstream.aerynos.dev/data/unstable/main/Components-x86_64.xml.gz:
+        hash: a8581fcd47b7ff44ebad2ce67982d6b4717f5deac6a295af596b10aa5a86f4b7
+        unpack: false
+    - https://appstream.aerynos.dev/data/unstable/main/icons-128x128.tar.gz:
+        hash: 664d2b84e55056d439163c759e514bd10d1a0ce74d6ebd56319e10f657854c06
+        unpack: false
+    - https://appstream.aerynos.dev/data/unstable/main/icons-128x128@2.tar.gz:
+        hash: e5ddd2d49d2a2cac6531f5a20709f6181d3707d5a39089f48c8133f6937a454d
+        unpack: false
+    - https://appstream.aerynos.dev/data/unstable/main/icons-48x48.tar.gz:
+        hash: 060fd70a53e2d559eb37fa450348c54649b236adbce7220697e437bf915140b3
+        unpack: false
+    - https://appstream.aerynos.dev/data/unstable/main/icons-48x48@2.tar.gz:
+        hash: cf339dcb849afd0bdd2b29039a68ff855ad3d901f7d3d3630366b408d2bcf5bc
+        unpack: false
+    - https://appstream.aerynos.dev/data/unstable/main/icons-64x64.tar.gz:
+        hash: 268b04658ee5e69c8801afddcd7bf023ef6c7da56a0554b68a751d929440e66b
+        unpack: false
+    - https://appstream.aerynos.dev/data/unstable/main/icons-64x64@2.tar.gz:
+        hash: c5798521f4428e48c83396b83432620115e081b7d1fe965f6ad3063333b92af8
+        unpack: false
+homepage   : https://www.freedesktop.org/wiki/Distributions/AppStream/
+license    :
+    - CC-BY-SA-3.0
+    - CC-BY-SA-4.0
+    - CC0-1.0
+    - GFDL-1.3
+component  : desktop.core
+summary    : AppStream data for AerynOS
+description: |
+    AppStream data for AerynOS
+install    : |
+    install -Dm00644 %(sourcedir)/Components-x86_64.xml.gz %(installroot)/usr/share/swcatalog/xml/aerynos-unstable-main.xml.gz
+
+    install -dm00755 %(installroot)/usr/share/swcatalog/icons/aerynos-unstable-main/48x48
+    install -dm00755 %(installroot)/usr/share/swcatalog/icons/aerynos-unstable-main/48x48@2
+    install -dm00755 %(installroot)/usr/share/swcatalog/icons/aerynos-unstable-main/64x64
+    install -dm00755 %(installroot)/usr/share/swcatalog/icons/aerynos-unstable-main/64x64@2
+    install -dm00755 %(installroot)/usr/share/swcatalog/icons/aerynos-unstable-main/128x128
+    install -dm00755 %(installroot)/usr/share/swcatalog/icons/aerynos-unstable-main/128x128@2
+
+    bsdtar xf %(sourcedir)/icons-48x48.tar.gz -C %(installroot)/usr/share/swcatalog/icons/aerynos-unstable-main/48x48
+    bsdtar xf %(sourcedir)/icons-48x48@2.tar.gz -C %(installroot)/usr/share/swcatalog/icons/aerynos-unstable-main/48x48@2
+    bsdtar xf %(sourcedir)/icons-64x64.tar.gz -C %(installroot)/usr/share/swcatalog/icons/aerynos-unstable-main/64x64
+    bsdtar xf %(sourcedir)/icons-64x64@2.tar.gz -C %(installroot)/usr/share/swcatalog/icons/aerynos-unstable-main/64x64@2
+    bsdtar xf %(sourcedir)/icons-128x128.tar.gz -C %(installroot)/usr/share/swcatalog/icons/aerynos-unstable-main/128x128
+    bsdtar xf %(sourcedir)/icons-128x128@2.tar.gz -C %(installroot)/usr/share/swcatalog/icons/aerynos-unstable-main/128x128@2

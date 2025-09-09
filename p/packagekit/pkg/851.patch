@@ -1,0 +1,168 @@
+From 4161c9477ad08e4531ad113df4ab29260fa03f7c Mon Sep 17 00:00:00 2001
+From: sid <sidtosh4@gmail.com>
+Date: Sat, 3 May 2025 05:58:10 +0100
+Subject: [PATCH 1/4] pkcon: Make description field as the last field in
+ 'get-details' output
+
+This is useful when description is multiline, and the output is
+difficult to read with random multiline text in the middle of the
+output.
+---
+ client/pk-console.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/client/pk-console.c b/client/pk-console.c
+index bedb26f82..518bb9d71 100644
+--- a/client/pk-console.c
++++ b/client/pk-console.c
+@@ -476,9 +476,9 @@ pk_console_details_cb (PkDetails *item, gpointer data)
+ 	g_print ("  summary:     %s\n", summary);
+ 	g_print ("  license:     %s\n", license);
+ 	g_print ("  group:       %s\n", pk_group_enum_to_string (group));
+-	g_print ("  description: %s\n", description);
+ 	g_print ("  size:        %lu bytes\n", (long unsigned int) size);
+ 	g_print ("  url:         %s\n", url);
++	g_print ("  description: %s\n", description);
+ }
+ 
+ static void
+
+From 15bf64a4d8db90c7384ad26836fd96525af8c642 Mon Sep 17 00:00:00 2001
+From: sid <sidtosh4@gmail.com>
+Date: Sat, 3 May 2025 06:07:31 +0100
+Subject: [PATCH 2/4] pkcon: Improve 'size' output formatting for 'get-details'
+ command
+
+- Handle unknown size case
+- Use 'g_format_size' for better readability than xxxxx bytes. Output is
+  now '7.1 MB (7,080,960 bytes)' instead of '7080960 bytes'
+---
+ client/pk-console.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
+
+diff --git a/client/pk-console.c b/client/pk-console.c
+index 518bb9d71..d117a729b 100644
+--- a/client/pk-console.c
++++ b/client/pk-console.c
+@@ -455,6 +455,7 @@ pk_console_details_cb (PkDetails *item, gpointer data)
+ 	g_autofree gchar *package = NULL;
+ 	g_autofree gchar *summary = NULL;
+ 	g_autofree gchar *url = NULL;
++	g_autofree gchar *size_str = NULL;
+ 
+ 	/* get data */
+ 	g_object_get (item,
+@@ -470,13 +471,18 @@ pk_console_details_cb (PkDetails *item, gpointer data)
+ 	/* create printable */
+ 	package = pk_package_id_to_printable (package_id);
+ 
++	if (size == G_MAXUINT64)
++		size_str = g_strdup ("unknown");
++	else
++		size_str = g_format_size_full (size, G_FORMAT_SIZE_LONG_FORMAT);
++
+ 	/* TRANSLATORS: This a list of details about the package */
+ 	g_print ("%s\n", _("Package description"));
+ 	g_print ("  package:     %s\n", package);
+ 	g_print ("  summary:     %s\n", summary);
+ 	g_print ("  license:     %s\n", license);
+ 	g_print ("  group:       %s\n", pk_group_enum_to_string (group));
+-	g_print ("  size:        %lu bytes\n", (long unsigned int) size);
++	g_print ("  size:        %s\n", size_str);
+ 	g_print ("  url:         %s\n", url);
+ 	g_print ("  description: %s\n", description);
+ }
+
+From f923a382e3aec6e027c035e738c4b0d5a35ccd81 Mon Sep 17 00:00:00 2001
+From: sid <sidtosh4@gmail.com>
+Date: Sat, 3 May 2025 06:10:38 +0100
+Subject: [PATCH 3/4] pkcon: Add 'download-size' to 'get-details' command
+
+---
+ client/pk-console.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+diff --git a/client/pk-console.c b/client/pk-console.c
+index d117a729b..46b9ca37c 100644
+--- a/client/pk-console.c
++++ b/client/pk-console.c
+@@ -449,6 +449,7 @@ pk_console_details_cb (PkDetails *item, gpointer data)
+ {
+ 	PkGroupEnum group;
+ 	guint64 size;
++	guint64 download_size;
+ 	g_autofree gchar *description = NULL;
+ 	g_autofree gchar *license = NULL;
+ 	g_autofree gchar *package_id = NULL;
+@@ -456,6 +457,7 @@ pk_console_details_cb (PkDetails *item, gpointer data)
+ 	g_autofree gchar *summary = NULL;
+ 	g_autofree gchar *url = NULL;
+ 	g_autofree gchar *size_str = NULL;
++	g_autofree gchar *download_size_str = NULL;
+ 
+ 	/* get data */
+ 	g_object_get (item,
+@@ -466,6 +468,7 @@ pk_console_details_cb (PkDetails *item, gpointer data)
+ 		      "summary", &summary,
+ 		      "group", &group,
+ 		      "size", &size,
++		      "download-size", &download_size,
+ 		      NULL);
+ 
+ 	/* create printable */
+@@ -476,12 +479,18 @@ pk_console_details_cb (PkDetails *item, gpointer data)
+ 	else
+ 		size_str = g_format_size_full (size, G_FORMAT_SIZE_LONG_FORMAT);
+ 
++	if (download_size == G_MAXUINT64)
++		download_size_str = g_strdup ("unknown");
++	else
++		download_size_str = g_format_size_full (download_size, G_FORMAT_SIZE_LONG_FORMAT);
++
+ 	/* TRANSLATORS: This a list of details about the package */
+ 	g_print ("%s\n", _("Package description"));
+ 	g_print ("  package:     %s\n", package);
+ 	g_print ("  summary:     %s\n", summary);
+ 	g_print ("  license:     %s\n", license);
+ 	g_print ("  group:       %s\n", pk_group_enum_to_string (group));
++	g_print ("  download size:  %s\n", download_size_str);
+ 	g_print ("  size:        %s\n", size_str);
+ 	g_print ("  url:         %s\n", url);
+ 	g_print ("  description: %s\n", description);
+
+From ef67e4380862583d74b70046ce7d10bb6f12d60b Mon Sep 17 00:00:00 2001
+From: sid <sidtosh4@gmail.com>
+Date: Sat, 3 May 2025 06:13:20 +0100
+Subject: [PATCH 4/4] pkcon: Align 'get-details' output by adding whitespace
+
+---
+ client/pk-console.c | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
+
+diff --git a/client/pk-console.c b/client/pk-console.c
+index 46b9ca37c..b53820da7 100644
+--- a/client/pk-console.c
++++ b/client/pk-console.c
+@@ -486,14 +486,14 @@ pk_console_details_cb (PkDetails *item, gpointer data)
+ 
+ 	/* TRANSLATORS: This a list of details about the package */
+ 	g_print ("%s\n", _("Package description"));
+-	g_print ("  package:     %s\n", package);
+-	g_print ("  summary:     %s\n", summary);
+-	g_print ("  license:     %s\n", license);
+-	g_print ("  group:       %s\n", pk_group_enum_to_string (group));
+-	g_print ("  download size:  %s\n", download_size_str);
+-	g_print ("  size:        %s\n", size_str);
+-	g_print ("  url:         %s\n", url);
+-	g_print ("  description: %s\n", description);
++	g_print ("  package:       %s\n", package);
++	g_print ("  summary:       %s\n", summary);
++	g_print ("  license:       %s\n", license);
++	g_print ("  group:         %s\n", pk_group_enum_to_string (group));
++	g_print ("  download size: %s\n", download_size_str);
++	g_print ("  size:          %s\n", size_str);
++	g_print ("  url:           %s\n", url);
++	g_print ("  description:   %s\n", description);
+ }
+ 
+ static void

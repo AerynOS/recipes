@@ -31,13 +31,14 @@ builddeps   :
     - pkgconfig(libsoup-3.0)
     # pkgconfig(malcontent-0)
     - pkgconfig(ostree-1)
-    # pkgconfig(packagekit-glib2)
+    - pkgconfig(packagekit-glib2)
     - pkgconfig(polkit-gobject-1)
     - pkgconfig(sysprof-capture-4)
     - pkgconfig(xmlb)
     - docbook
     - docbook-xsl
 rundeps     :
+    - appstream-catalog
     - gnome-app-list
 environment : |
     # Temporary, replace with boulder macro
@@ -45,7 +46,6 @@ environment : |
 setup       : |
     %meson \
         -Dfwupd=false \
-        -Dpackagekit=false \
         -Dmalcontent=false \
         -Dtests=false \
         -Dgtk_doc=false

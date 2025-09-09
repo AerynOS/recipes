@@ -30,11 +30,13 @@
 				"cmake(QCoro6)",
 				"cmake(Qt6Quick)",
 				"cmake(Qt6WebView)",
+				"cmake(packagekitqt6)",
 				"pkgconfig(flatpak)",
 				"pkgconfig(libmarkdown)",
 				"pkgconfig(ostree-1)"
 			],
 			"depends": [
+				"appstream-catalog",
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"kf6-kirigami",
 				"kf6-kitemmodels",
@@ -80,6 +82,8 @@
 				"soname(libglib-2.0.so.0(x86_64))",
 				"soname(libgobject-2.0.so.0(x86_64))",
 				"soname(libm.so.6(x86_64))",
+				"soname(libmarkdown.so.3(x86_64))",
+				"soname(libpackagekitqt6.so.1(x86_64))",
 				"soname(libunwind.so.1(x86_64))"
 			],
 			"files": [
@@ -87,9 +91,11 @@
 				"/usr/lib/kf6/DiscoverNotifier",
 				"/usr/lib/libDiscoverCommon.so",
 				"/usr/lib/libDiscoverNotifiers.so",
+				"/usr/lib/qt6/plugins/discover-notifier/DiscoverPackageKitNotifier.so",
 				"/usr/lib/qt6/plugins/discover-notifier/FlatpakNotifier.so",
 				"/usr/lib/qt6/plugins/discover/flatpak-backend.so",
 				"/usr/lib/qt6/plugins/discover/kns-backend.so",
+				"/usr/lib/qt6/plugins/discover/packagekit-backend.so",
 				"/usr/lib/qt6/plugins/plasma/kcms/systemsettings/kcm_updates.so",
 				"/usr/share/applications/kcm_updates.desktop",
 				"/usr/share/applications/org.kde.discover-flatpak.desktop",
@@ -107,6 +113,7 @@
 				"/usr/share/knotifications6/discoverabstractnotifier.notifyrc",
 				"/usr/share/kxmlgui5/plasmadiscover/plasmadiscoverui.rc",
 				"/usr/share/libdiscover/categories/flatpak-backend-categories.xml",
+				"/usr/share/libdiscover/categories/packagekit-backend-categories.xml",
 				"/usr/share/locale/ar/LC_MESSAGES/kcm_updates.mo",
 				"/usr/share/locale/ar/LC_MESSAGES/libdiscover.mo",
 				"/usr/share/locale/ar/LC_MESSAGES/plasma-discover-notifier.mo",
@@ -344,6 +351,7 @@
 				"/usr/share/locale/zh_TW/LC_MESSAGES/plasma-discover.mo",
 				"/usr/share/metainfo/org.kde.discover.appdata.xml",
 				"/usr/share/metainfo/org.kde.discover.flatpak.appdata.xml",
+				"/usr/share/metainfo/org.kde.discover.packagekit.appdata.xml",
 				"/usr/share/qlogging-categories6/discover.categories",
 				"/usr/share/xdg/autostart/org.kde.discover.notifier.desktop"
 			],
@@ -352,14 +360,16 @@
 				"binary(plasma-discover)",
 				"soname(libDiscoverCommon.so(x86_64))",
 				"soname(libDiscoverNotifiers.so(x86_64))",
+				"soname(qt6/plugins/discover-notifier/DiscoverPackageKitNotifier.so(x86_64))",
 				"soname(qt6/plugins/discover-notifier/FlatpakNotifier.so(x86_64))",
 				"soname(qt6/plugins/discover/flatpak-backend.so(x86_64))",
 				"soname(qt6/plugins/discover/kns-backend.so(x86_64))",
+				"soname(qt6/plugins/discover/packagekit-backend.so(x86_64))",
 				"soname(qt6/plugins/plasma/kcms/systemsettings/kcm_updates.so(x86_64))"
 			]
 		}
 	},
 	"source-name": "discover",
-	"source-release": "5",
+	"source-release": "6",
 	"source-version": "6.4.4"
 }

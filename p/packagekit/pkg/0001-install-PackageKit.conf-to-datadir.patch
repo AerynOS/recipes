@@ -1,0 +1,56 @@
+From 1628755767c161bc9afe9f9ca5d862f59ff21811 Mon Sep 17 00:00:00 2001
+From: Joey Riches <josephriches@gmail.com>
+Date: Mon, 4 Aug 2025 17:23:13 +0100
+Subject: [PATCH 1/1] install PackageKit.conf to datadir
+
+---
+ etc/meson.build | 2 +-
+ src/pk-engine.c | 3 +--
+ src/pk-shared.c | 2 +-
+ 3 files changed, 3 insertions(+), 4 deletions(-)
+
+diff --git a/etc/meson.build b/etc/meson.build
+index d3687f820..039127e2f 100644
+--- a/etc/meson.build
++++ b/etc/meson.build
+@@ -1,5 +1,5 @@
+ install_data(
+   'PackageKit.conf',
+   'Vendor.conf',
+-  install_dir: join_paths(get_option('sysconfdir'), 'PackageKit')
++  install_dir: join_paths(get_option('datadir'), 'PackageKit')
+ )
+diff --git a/src/pk-engine.c b/src/pk-engine.c
+index 5022a55db..b5de3bd6e 100644
+--- a/src/pk-engine.c
++++ b/src/pk-engine.c
+@@ -924,7 +924,7 @@ pk_engine_network_state_changed_cb (GNetworkMonitor *network_monitor,
+ static void
+ pk_engine_setup_file_monitors (PkEngine *engine)
+ {
+-	const gchar *filename = SYSCONFDIR "/PackageKit/PackageKit.conf";
++	const gchar *filename = DATADIR "/PackageKit/PackageKit.conf";
+ 	g_autoptr(GError) error = NULL;
+ 	g_autoptr(GFile) file_binary = NULL;
+ 	g_autoptr(GFile) file_conf = NULL;
+@@ -2039,4 +2039,3 @@ pk_engine_new (GKeyFile *conf)
+ 			  G_CALLBACK (pk_engine_scheduler_changed_cb), engine);
+ 	return PK_ENGINE (engine);
+ }
+-
+diff --git a/src/pk-shared.c b/src/pk-shared.c
+index 61bf8bb21..bbae31258 100644
+--- a/src/pk-shared.c
++++ b/src/pk-shared.c
+@@ -326,7 +326,7 @@ pk_util_get_config_filename (void)
+ 	g_free (path);
+ #endif
+ 	/* check the prefix path */
+-	path = g_build_filename (SYSCONFDIR, "PackageKit", "PackageKit.conf", NULL);
++	path = g_build_filename (DATADIR, "PackageKit", "PackageKit.conf", NULL);
+ 	if (g_file_test (path, G_FILE_TEST_EXISTS))
+ 		goto out;
+ 
+-- 
+2.49.1
+
