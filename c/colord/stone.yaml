@@ -5,7 +5,7 @@
 #
 name        : colord
 version     : 1.4.7
-release     : 4
+release     : 5
 homepage    : https://www.freedesktop.org/software/colord/releases
 upstreams   :
     - https://www.freedesktop.org/software/colord/releases/colord-1.4.7.tar.xz : de02d9910634ae159547585cec414e450f711c27235453b4f9b38a9f2361a653
@@ -42,7 +42,8 @@ setup       : |
     %meson \
         -Ddocs=false \
         -Dman=false \
-        -Ddaemon_user=colord
+        -Ddaemon_user=colord \
+        -Dvapi=true
 build       : |
     %meson_build
 install     : |

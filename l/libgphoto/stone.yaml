@@ -1,0 +1,30 @@
+#
+# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : libgphoto
+version     : 2.5.31
+release     : 1
+homepage    : http://www.gphoto.org/proj/libgphoto2/
+upstreams   :
+    - https://sourceforge.net/projects/gphoto/files/libgphoto/2.5.31/libgphoto2-2.5.31.tar.bz2 : 4f81c34c0b812bee67afd5f144940fbcbe01a2055586a6a1fa2d0626024a545b
+summary     : libgphoto2 is the core library designed to allow access to digital camera by external programs
+description : |
+    libgphoto2 is the core library designed to allow access to digital camera by external programs
+license     : LGPL-2.1-or-later
+builddeps   :
+    - pkgconfig(libcurl)
+    - pkgconfig(libexif)
+    - pkgconfig(libjpeg)
+    - pkgconfig(libusb-1.0)
+    - pkgconfig(libxml-2.0)
+    - libtool-ltldl-devel
+environment : |
+    export LDFLAGS="${LDFLAGS} -Wl,--undefined-version"
+setup       : |
+    %configure
+build       : |
+    %make
+install     : |
+    %make_install

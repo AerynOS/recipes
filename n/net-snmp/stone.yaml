@@ -1,0 +1,41 @@
+#
+# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : net-snmp
+version     : 5.9.4
+release     : 1
+homepage    : https://github.com/net-snmp/net-snmp
+upstreams   :
+    - https://github.com/net-snmp/net-snmp/archive/refs/tags/v5.9.4.tar.gz : 0699e7effc5782124c1fa2f2823d816ae740fac5bef002440edfee86b17c1aba
+summary     : A SNMP application library, tools and daemon
+description : |
+    A SNMP application library, tools and daemon
+license     : BSD-3-Clause
+builddeps   :
+    - binary(perl)
+    # pkgconfig(libnsl)
+    - pkgconfig(libpcap)
+    - pkgconfig(libpci)
+    - pkgconfig(libpcre2-posix)
+    - pkgconfig(openssl)
+    - lm_sensors-devel
+setup       : |
+    %patch %(pkgdir)/pcre2/add-pcre2-support.patch
+    %patch %(pkgdir)/pcre2/improve-pcre2-support.patch
+    %patch %(pkgdir)/linux-6.7-compat-fixup.patch
+    %patch %(pkgdir)/net-snmp-5.9-cflags.patch
+    %patch %(pkgdir)/net-snmp-libs-misunderstanding.patch
+
+    %configure \
+      --disable-static \
+      --with-defaults \
+      --with-systemd
+build       : |
+    sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
+    sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
+    %make
+install     : |
+    %make_install LIBDIR=lib INSTALLDIRS=vendor
+toolchain   : gnu
