@@ -5,7 +5,7 @@
 #
 name        : pkgset-aeryn-cosmic
 version     : "2025.08" # I guess let's just match the OS version for now
-release     : 3
+release     : 4
 homepage    : https://aerynos.com/
 # No upstreams!
 summary     : pkgset virtual packages - COSMIC Desktop
@@ -23,8 +23,8 @@ packages    :
         description: |
             Minimal packages for a COSMIC Desktop session
         rundeps:
+            - binary(cosmic-app-library)
             - binary(cosmic-applets)
-            - binary(cosmic-applibrary)
             - binary(cosmic-bg)
             - binary(cosmic-comp)
             - binary(cosmic-edit)
