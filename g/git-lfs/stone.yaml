@@ -1,0 +1,28 @@
+#
+# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : git-lfs
+version     : v3.7.0
+release     : 1
+homepage    : https://github.com/git-lfs/git-lfs
+upstreams   :
+    - git|https://github.com/git-lfs/git-lfs.git : 92dddf560e62ef7dd25877d87ce072f7595aa52d
+summary     : A command line extension and specification for managing large files with Git.
+description : |
+    A command line extension and specification for managing large files with Git.
+license     : MIT
+builddeps   :
+    - binary(git)
+    - binary(go)
+    - binary(tar)
+rundeps     :
+    - binary(git)
+networking     : yes
+build       : |
+    %make
+install     : |
+    %install_exe bin/git-lfs %(installroot)%(bindir)/git-lfs
+    PATH=$PATH:./bin
+    git lfs install
