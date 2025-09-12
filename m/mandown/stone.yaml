@@ -1,0 +1,25 @@
+#
+# SPDX-FileCopyrightText: © 2025- AerynOS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : mandown
+version     : 1.1.0
+release     : 1
+homepage    : https://gitlab.com/kornelski/mandown/-/archive/v1.1.0
+upstreams   :
+    - https://gitlab.com/kornelski/mandown/-/archive/v1.1.0/mandown-v1.1.0.tar.gz : f0312e813b7fd74973b9f9971f8ee8b9021d5445d55fba1529989579d9dcc122
+summary     : Convert Markdown to man pages
+description : |
+    Create man pages from markdown markup
+license     : Apache-2.0
+networking  : true
+setup       : |
+    %cargo_fetch
+build       : |
+    %cargo_build
+install     : |
+    %cargo_install
+check       : |
+    %cargo_test
+
