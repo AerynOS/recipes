@@ -1,0 +1,38 @@
+#
+# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name: android-studio
+version: 2024.3.2.14
+release: 2
+homepage: https://developer.android.com/studio
+upstreams:
+    - https://dl.google.com/dl/android/studio/ide-zips/2024.3.2.14/android-studio-2024.3.2.14-linux.tar.gz: 2c7b4f0097b8668d85718c0ed23e75bedf1050d3d0d83c1fd944fb1fbd83c8a5
+summary: Android Studio is the integrated development environment (IDE) for Google's Android operating system.
+description: |
+    Android Studio is the integrated development environment (IDE) for Google's Android operating system.
+license: Apache-2.0
+builddeps:
+    - binary(tar)
+strip: false
+setup: |
+    tar xf %(sourcedir)/*.tar.gz
+install: |
+    # Define target locations
+    _androidstudio_root=%(libdir)/android-studio
+    _androidstudio_install=%(installroot)/$_androidstudio_root
+  
+    # Move app contents to libdir
+    %install_dir $_androidstudio_install
+    cp -R ./android-studio/* $_androidstudio_install
+  
+    # Install binary to bindir
+    %install_exe $_androidstudio_install/bin/studio %(installroot)/%(bindir)/android-studio
+  
+    # Install desktop file
+    %install_file %(pkgdir)/android-studio.desktop %(installroot)/%(datadir)/applications/android-studio.desktop
+  
+    # Install icon
+    %install_dir %(installroot)/%(datadir)/icons/hicolor/128x128/apps
+    ln -srv $_androidstudio_install/bin/studio.png %(installroot)%(datadir)/icons/hicolor/128x128/apps/android-studio.png
