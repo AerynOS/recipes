@@ -1,0 +1,45 @@
+#
+# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : gnome-contacts
+version     : 48.0
+release     : 1
+homepage    : https://apps.gnome.org/Contacts/
+upstreams   :
+    - https://download.gnome.org/sources/gnome-contacts/48/gnome-contacts-48.0.tar.xz : a2762995b59427ec3f185f28b5594e37077b72a70cd7c19217ed634637ecc1b5
+summary     : Manage your contacts
+description : |
+    Contacts keeps and organize your contacts information. You can create, edit, delete and link together pieces of information about your contacts. Contacts aggregates the details from all your sources providing a centralized place for managing your contacts. Contacts will also integrate with online address books and automatically link contacts from different online sources.
+license     : GPL-2.0-or-later
+builddeps   :
+    - binary(msgfmt)
+    - binary(update-desktop-database)
+    - binary(vapigen)
+    - binary(xsltproc)
+    - pkgconfig(folks)
+    - pkgconfig(folks-eds)
+    - pkgconfig(gee-0.8)
+    - pkgconfig(gio-unix-2.0)
+    - pkgconfig(glib-2.0)
+    - pkgconfig(gmodule-export-2.0)
+    - pkgconfig(goa-1.0)
+    - pkgconfig(gstreamer-1.0)
+    - pkgconfig(gtk4)
+    - pkgconfig(libadwaita-1)
+    - pkgconfig(libebook-1.2)
+    - pkgconfig(libedataserver-1.2)
+    - pkgconfig(libportal-gtk4)
+    - pkgconfig(libqrencode)
+    - docbook-xsl
+environment : |
+    # Temporary, replace with boulder macro
+    export XML_CATALOG_FILES="file:///usr/share/defaults/docbook/docbook-xsl/catalog"
+setup       : |
+    %meson
+build       : |
+    %meson_build
+install     : |
+    %meson_install
+

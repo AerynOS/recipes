@@ -5,7 +5,7 @@
 #
 name        : pkgset-aeryn-gnome
 version     : "2025.08" # I guess let's just match the OS version for now
-release     : 4
+release     : 5
 homepage    : https://aerynos.com/
 # No upstreams!
 summary     : pkgset virtual packages - GNOME Desktop
@@ -23,14 +23,15 @@ packages    :
         description: |
             Minimal packages for a GNOME Desktop session
         rundeps:
+            # Use only Core Gnome apps, except ptyxis
             - binary(file-roller)
             - binary(gnome-calculator)
             - binary(gnome-control-center)
             - binary(gnome-software)
+            - binary(gnome-system-monitor)
             - binary(gnome-text-editor)
             - binary(nautilus)
             - binary(ptyxis)
-            - binary(resources)
             - gnome-backgrounds
             - gnome-desktop-defaults
             - pkgset-aeryn-base-desktop
@@ -43,17 +44,22 @@ packages    :
         description: |
             GNOME Desktop plus recommended applications
         rundeps:
+            #Gnome core apps
             - "%(name)-minimal"
-            - binary(celluloid)
+            - binary(baobab)
             - binary(gnome-calendar)
+            - binary(gnome-characters)
             - binary(gnome-clocks)
+            - binary(gnome-contacts)
             - binary(gnome-disks)
+            - binary(gnome-font-viewer)
             - binary(gnome-tweaks)
             - binary(gnome-weather)
             - binary(loupe)
+            - binary(org.gnome.Decibels)
             - binary(papers)
+            - binary(showtime)
             - binary(snapshot)
-            - decibels
         paths:
             - /usr/share/doc/%(name)-recommended/README
 
@@ -62,6 +68,10 @@ packages    :
         description: |
             GNOME Desktop plus all GNOME applications
         rundeps:
+            # Gnome Circle apps and others
             - "%(name)-recommended"
+            - binary(resources)
+            - binary(celluloid)
+            - binary(apostrophe)
         paths:
             - /usr/share/doc/%(name)-full/README

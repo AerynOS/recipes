@@ -1,0 +1,41 @@
+#
+# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : folks
+version     : 0.15.9
+release     : 1
+homepage    : https://gitlab.gnome.org/GNOME/folks/-/wikis/Home
+upstreams   :
+    - https://download.gnome.org/sources/folks/0.15/folks-0.15.9.tar.xz : 2311b37355c351f33f163fdc394874a22a0a0682c319493d6d8a6e420711415f
+summary     : Folks is a contact aggregation library
+description : |
+    Folks is a library that aggregates people from multiple sources (eg, Telepathy connection managers and eventually Evolution Data Server, Facebook, etc.) to create metacontacts.
+license     : LGPL-2.1-or-later
+builddeps   :
+    - binary(g-ir-compiler)
+    - binary(vala)
+    - pkgconfig(dbus-glib-1)
+    - pkgconfig(evolution-data-server-1.2)
+    - pkgconfig(gee-0.8)
+    - pkgconfig(gio-2.0)
+    - pkgconfig(glib-2.0)
+    - pkgconfig(gmodule-2.0)
+    - pkgconfig(gobject-2.0)
+    - pkgconfig(libebook-1.2)
+    - pkgconfig(libebook-contacts-1.2)
+    - pkgconfig(libedataserver-1.2)
+    - pkgconfig(libxml-2.0)
+    - pkgconfig(readline)
+    - pkgconfig(sysprof-capture-4)
+    - pkgconfig(telepathy-glib)
+    # pkgconfig(zeitgeist-2.0)
+    - python-dbusmock
+setup       : |
+    %meson
+build       : |
+    %meson_build
+install     : |
+    %meson_install
+

@@ -1,0 +1,26 @@
+#
+# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : python-dbusmock
+version     : 0.36.0
+release     : 1
+homepage    : https://github.com/martinpitt/python-dbusmock
+upstreams   :
+    - https://files.pythonhosted.org/packages/source/p/python-dbusmock/python_dbusmock-0.36.0.tar.gz : 2d3812ee6c1e15607bca882ed5dfcabaac449c1a3b9627080bbab3deefd56fd2
+summary     : Mock D-Bus objects for tests
+description : |
+    With this program/Python library you can easily create mock objects on D-Bus. This is useful for writing tests for software which talks to D-Bus services such as upower, systemd, logind, gnome-session or others, and it is hard (or impossible without root privileges) to set the state of the real services to what you expect in your tests.
+license     : LGPL-3.0-or-later
+builddeps   :
+    - pkgconfig(python3)
+    - python-build
+    - python-installer
+    - python-packaging
+    - python-setuptools_scm
+    - python-wheel
+build       : |
+    %pyproject_build
+install     : |
+    %pyproject_install

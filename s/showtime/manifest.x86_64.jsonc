@@ -1,0 +1,84 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"showtime": {
+			"build-depends": [
+				"binary(msgfmt)",
+				"binary(update-desktop-database)",
+				"pkgconfig(blueprint-compiler)",
+				"pkgconfig(gtk4)",
+				"pkgconfig(libadwaita-1)"
+			],
+			"depends": [
+				"gst-plugins-rs"
+			],
+			"files": [
+				"/usr/bin/showtime",
+				"/usr/lib/python3.11/site-packages/showtime/__init__.py",
+				"/usr/lib/python3.11/site-packages/showtime/application_delegate.py",
+				"/usr/lib/python3.11/site-packages/showtime/drag_overlay.py",
+				"/usr/lib/python3.11/site-packages/showtime/logging/color_log_formatter.py",
+				"/usr/lib/python3.11/site-packages/showtime/logging/session_file_handler.py",
+				"/usr/lib/python3.11/site-packages/showtime/logging/setup.py",
+				"/usr/lib/python3.11/site-packages/showtime/main.py",
+				"/usr/lib/python3.11/site-packages/showtime/messenger.py",
+				"/usr/lib/python3.11/site-packages/showtime/mpris.py",
+				"/usr/lib/python3.11/site-packages/showtime/play.py",
+				"/usr/lib/python3.11/site-packages/showtime/shared.py",
+				"/usr/lib/python3.11/site-packages/showtime/utils.py",
+				"/usr/lib/python3.11/site-packages/showtime/window.py",
+				"/usr/share/applications/org.gnome.Showtime.desktop",
+				"/usr/share/glib-2.0/schemas/org.gnome.Showtime.gschema.xml",
+				"/usr/share/icons/hicolor/scalable/apps/org.gnome.Showtime.svg",
+				"/usr/share/icons/hicolor/symbolic/apps/org.gnome.Showtime-symbolic.svg",
+				"/usr/share/locale/be/LC_MESSAGES/showtime.mo",
+				"/usr/share/locale/bg/LC_MESSAGES/showtime.mo",
+				"/usr/share/locale/ca/LC_MESSAGES/showtime.mo",
+				"/usr/share/locale/cs/LC_MESSAGES/showtime.mo",
+				"/usr/share/locale/de/LC_MESSAGES/showtime.mo",
+				"/usr/share/locale/el/LC_MESSAGES/showtime.mo",
+				"/usr/share/locale/en_GB/LC_MESSAGES/showtime.mo",
+				"/usr/share/locale/eu/LC_MESSAGES/showtime.mo",
+				"/usr/share/locale/fa/LC_MESSAGES/showtime.mo",
+				"/usr/share/locale/fi/LC_MESSAGES/showtime.mo",
+				"/usr/share/locale/fr/LC_MESSAGES/showtime.mo",
+				"/usr/share/locale/he/LC_MESSAGES/showtime.mo",
+				"/usr/share/locale/hi/LC_MESSAGES/showtime.mo",
+				"/usr/share/locale/hu/LC_MESSAGES/showtime.mo",
+				"/usr/share/locale/ia/LC_MESSAGES/showtime.mo",
+				"/usr/share/locale/id/LC_MESSAGES/showtime.mo",
+				"/usr/share/locale/it/LC_MESSAGES/showtime.mo",
+				"/usr/share/locale/ka/LC_MESSAGES/showtime.mo",
+				"/usr/share/locale/kab/LC_MESSAGES/showtime.mo",
+				"/usr/share/locale/ko/LC_MESSAGES/showtime.mo",
+				"/usr/share/locale/ne/LC_MESSAGES/showtime.mo",
+				"/usr/share/locale/nl/LC_MESSAGES/showtime.mo",
+				"/usr/share/locale/oc/LC_MESSAGES/showtime.mo",
+				"/usr/share/locale/pa/LC_MESSAGES/showtime.mo",
+				"/usr/share/locale/pt/LC_MESSAGES/showtime.mo",
+				"/usr/share/locale/pt_BR/LC_MESSAGES/showtime.mo",
+				"/usr/share/locale/ro/LC_MESSAGES/showtime.mo",
+				"/usr/share/locale/ru/LC_MESSAGES/showtime.mo",
+				"/usr/share/locale/sk/LC_MESSAGES/showtime.mo",
+				"/usr/share/locale/sl/LC_MESSAGES/showtime.mo",
+				"/usr/share/locale/sr/LC_MESSAGES/showtime.mo",
+				"/usr/share/locale/sv/LC_MESSAGES/showtime.mo",
+				"/usr/share/locale/tr/LC_MESSAGES/showtime.mo",
+				"/usr/share/locale/uk/LC_MESSAGES/showtime.mo",
+				"/usr/share/locale/uz/LC_MESSAGES/showtime.mo",
+				"/usr/share/locale/zh_CN/LC_MESSAGES/showtime.mo",
+				"/usr/share/locale/zh_TW/LC_MESSAGES/showtime.mo",
+				"/usr/share/metainfo/org.gnome.Showtime.metainfo.xml",
+				"/usr/share/showtime/showtime.gresource"
+			],
+			"name": "showtime",
+			"provides": [
+				"binary(showtime)"
+			]
+		}
+	},
+	"source-name": "showtime",
+	"source-release": "1",
+	"source-version": "48.1"
+}
