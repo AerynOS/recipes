@@ -1,0 +1,63 @@
+# SPDX-FileCopyrightText: © 2025 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name: elecwhat
+version: 1.9.1
+release: 1
+summary: Simple desktop Whatsapp client for Linux
+license: GPL-3.0-or-later
+homepage: https://github.com/piec/elecwhat
+upstreams:
+- https://github.com/piec/elecwhat/releases/download/v1.9.1/elecwhat-1.9.1.tar.xz:
+    hash: e33608a3d1e2c9640037a1d3592e73dec9c2d86ba85567a62ec0ca859809a109
+    unpack: false
+    rename: elecwhat-binary.tar.xz
+- https://github.com/piec/elecwhat/raw/master/static/app-512.png:
+    hash: 72e93aafe32142ca912effb4aafb5609fd5d1a16c02c3c5c1db03b386f9fc8cd
+    unpack: false
+    rename: elecwhat-icon.png
+description: |
+  ElecWhat is a simple and stable desktop Whatsapp client for Linux built with Electron.
+  Features include desktop notifications, tray icon with unread count, custom keyboard 
+  shortcuts, custom CSS, spellcheck, CLI & D-Bus interface, and custom user scripts.
+builddeps:
+- binary(tar)
+rundeps:
+- binary(xdg-open)
+install: |
+  # Extract the pre-compiled binary
+  tar -xf %(sourcedir)/elecwhat-binary.tar.xz
+
+  # Install the entire application to libdir
+  %install_dir %(installroot)/%(libdir)/elecwhat
+  cp -r elecwhat-%(version)/* %(installroot)/%(libdir)/elecwhat/
+
+  # Make the main binary executable
+  chmod +x %(installroot)/%(libdir)/elecwhat/elecwhat
+
+  # Install wrapper script
+  %install_exe %(pkgdir)/elecwhat %(installroot)/%(bindir)/elecwhat
+
+  # Install desktop file
+  %install_file %(pkgdir)/elecwhat.desktop %(installroot)/%(datadir)/applications/elecwhat.desktop
+
+  # Install icon in proper hicolor icon theme structure
+  %install_dir %(installroot)/%(datadir)/icons/hicolor/512x512/apps
+  %install_file %(sourcedir)/elecwhat-icon.png %(installroot)/%(datadir)/icons/hicolor/512x512/apps/elecwhat.png
+
+  # Create proper icon sizes (not just symlinks)
+  %install_dir %(installroot)/%(datadir)/icons/hicolor/48x48/apps
+  %install_dir %(installroot)/%(datadir)/icons/hicolor/64x64/apps
+  %install_dir %(installroot)/%(datadir)/icons/hicolor/128x128/apps
+  %install_dir %(installroot)/%(datadir)/icons/hicolor/256x256/apps
+
+  # Create proper icon sizes by copying the source icon to all sizes
+  cp %(sourcedir)/elecwhat-icon.png %(installroot)/%(datadir)/icons/hicolor/48x48/apps/elecwhat.png
+  cp %(sourcedir)/elecwhat-icon.png %(installroot)/%(datadir)/icons/hicolor/64x64/apps/elecwhat.png
+  cp %(sourcedir)/elecwhat-icon.png %(installroot)/%(datadir)/icons/hicolor/128x128/apps/elecwhat.png
+  cp %(sourcedir)/elecwhat-icon.png %(installroot)/%(datadir)/icons/hicolor/256x256/apps/elecwhat.png
+
+  # Also install a fallback icon in pixmaps for older applications
+  %install_dir %(installroot)/%(datadir)/pixmaps
+  cp %(sourcedir)/elecwhat-icon.png %(installroot)/%(datadir)/pixmaps/elecwhat.png
