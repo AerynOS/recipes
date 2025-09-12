@@ -1,0 +1,56 @@
+#
+# SPDX-FileCopyrightText: © 2025 AerynOS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : openconnect
+version     : 9.12
+release     : 1
+homepage    : https://www.infradead.org/openconnect/
+upstreams   :
+    - https://www.infradead.org/openconnect/download/openconnect-9.12.tar.gz : a2bedce3aa4dfe75e36e407e48e8e8bc91d46def5335ac9564fbf91bd4b2413e
+    - https://gitlab.com/openconnect/vpnc-scripts/-/archive/master/vpnc-scripts-master.tar.gz : ea62d561bae690a14023b440b7bb61873af66d074c8432164780b915884a87d7
+summary     : Open client for Cisco AnyConnect VPN
+description : |
+    OpenConnect is a VPN client initially created to support Cisco's AnyConnect SSL VPN.
+    It has since been extended to support multiple VPN protocols.
+license     :
+    - LGPL-2.1-or-later
+    - GPL-2.0-or-later # vpnc-script
+builddeps   :
+    - intltool
+    - binary(msgfmt)
+    - binary(python3)
+    - pkgconfig(gnutls)
+    - pkgconfig(krb5-gssapi)
+    - pkgconfig(liblz4)
+    - pkgconfig(libpcsclite)
+    - pkgconfig(libproxy-1.0)
+    - pkgconfig(libxml-2.0)
+    - pkgconfig(p11-kit-1)
+setup       : |
+    %configure \
+        --sbindir=%(bindir) \
+        --libexecdir=%(libdir) \
+        --with-vpnc-script=%(vendordir)%(sysconfdir)/vpnc/vpnc-script \
+        --disable-static
+build       : |
+    %make
+install     : |
+    %make_install
+    # Install upstream vpnc-script for routing/DNS configuration
+    %install_dir %(installroot)%(vendordir)%(sysconfdir)/vpnc
+    bsdtar-static -xOf %(sourcedir)/vpnc-scripts-master.tar.gz vpnc-scripts-master/vpnc-script > %(installroot)%(vendordir)%(sysconfdir)/vpnc/vpnc-script
+    chmod 0755 %(installroot)%(vendordir)%(sysconfdir)/vpnc/vpnc-script
+check       : |
+    %make check || :
+packages    :
+    - "%(name)-devel":
+        summary: Development files for %(name)
+        description: Headers and pkg-config files for building against libopenconnect.
+        rundeps:
+            - "%(name)"
+        paths:
+            - /usr/include
+            - /usr/lib/pkgconfig
+            - /usr/lib/libopenconnect.so

@@ -1,0 +1,127 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"openconnect": {
+			"build-depends": [
+				"binary(msgfmt)",
+				"binary(python3)",
+				"intltool",
+				"pkgconfig(gnutls)",
+				"pkgconfig(krb5-gssapi)",
+				"pkgconfig(liblz4)",
+				"pkgconfig(libpcsclite)",
+				"pkgconfig(libproxy-1.0)",
+				"pkgconfig(libxml-2.0)",
+				"pkgconfig(p11-kit-1)"
+			],
+			"depends": [
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libcom_err.so.2(x86_64))",
+				"soname(libgnutls.so.30(x86_64))",
+				"soname(libgssapi_krb5.so.2(x86_64))",
+				"soname(libk5crypto.so.3(x86_64))",
+				"soname(libkrb5.so.3(x86_64))",
+				"soname(liblz4.so.1(x86_64))",
+				"soname(libm.so.6(x86_64))",
+				"soname(libp11-kit.so.0(x86_64))",
+				"soname(libpcsclite.so.1(x86_64))",
+				"soname(libproxy.so.1(x86_64))",
+				"soname(libxml2.so.16(x86_64))",
+				"soname(libz.so.1(x86_64))"
+			],
+			"files": [
+				"/usr/bin/openconnect",
+				"/usr/lib/libopenconnect.so.5",
+				"/usr/lib/libopenconnect.so.5.9.0",
+				"/usr/lib/openconnect/csd-post.sh",
+				"/usr/lib/openconnect/csd-wrapper.sh",
+				"/usr/lib/openconnect/hipreport-android.sh",
+				"/usr/lib/openconnect/hipreport.sh",
+				"/usr/lib/openconnect/tncc-emulate.py",
+				"/usr/lib/openconnect/tncc-wrapper.py",
+				"/usr/share/bash-completion/completions/openconnect",
+				"/usr/share/defaults/etc/vpnc/vpnc-script",
+				"/usr/share/locale/ar/LC_MESSAGES/openconnect.mo",
+				"/usr/share/locale/bs/LC_MESSAGES/openconnect.mo",
+				"/usr/share/locale/ca/LC_MESSAGES/openconnect.mo",
+				"/usr/share/locale/cs/LC_MESSAGES/openconnect.mo",
+				"/usr/share/locale/da/LC_MESSAGES/openconnect.mo",
+				"/usr/share/locale/de/LC_MESSAGES/openconnect.mo",
+				"/usr/share/locale/el/LC_MESSAGES/openconnect.mo",
+				"/usr/share/locale/en_GB/LC_MESSAGES/openconnect.mo",
+				"/usr/share/locale/en_US/LC_MESSAGES/openconnect.mo",
+				"/usr/share/locale/es/LC_MESSAGES/openconnect.mo",
+				"/usr/share/locale/eu/LC_MESSAGES/openconnect.mo",
+				"/usr/share/locale/fi/LC_MESSAGES/openconnect.mo",
+				"/usr/share/locale/fr/LC_MESSAGES/openconnect.mo",
+				"/usr/share/locale/gl/LC_MESSAGES/openconnect.mo",
+				"/usr/share/locale/hr/LC_MESSAGES/openconnect.mo",
+				"/usr/share/locale/hu/LC_MESSAGES/openconnect.mo",
+				"/usr/share/locale/id/LC_MESSAGES/openconnect.mo",
+				"/usr/share/locale/it/LC_MESSAGES/openconnect.mo",
+				"/usr/share/locale/ka/LC_MESSAGES/openconnect.mo",
+				"/usr/share/locale/lt/LC_MESSAGES/openconnect.mo",
+				"/usr/share/locale/nl/LC_MESSAGES/openconnect.mo",
+				"/usr/share/locale/pa/LC_MESSAGES/openconnect.mo",
+				"/usr/share/locale/pl/LC_MESSAGES/openconnect.mo",
+				"/usr/share/locale/pt/LC_MESSAGES/openconnect.mo",
+				"/usr/share/locale/pt_BR/LC_MESSAGES/openconnect.mo",
+				"/usr/share/locale/sk/LC_MESSAGES/openconnect.mo",
+				"/usr/share/locale/sl/LC_MESSAGES/openconnect.mo",
+				"/usr/share/locale/sr/LC_MESSAGES/openconnect.mo",
+				"/usr/share/locale/sr@latin/LC_MESSAGES/openconnect.mo",
+				"/usr/share/locale/sv/LC_MESSAGES/openconnect.mo",
+				"/usr/share/locale/tg/LC_MESSAGES/openconnect.mo",
+				"/usr/share/locale/tr/LC_MESSAGES/openconnect.mo",
+				"/usr/share/locale/ug/LC_MESSAGES/openconnect.mo",
+				"/usr/share/locale/uk/LC_MESSAGES/openconnect.mo",
+				"/usr/share/locale/zh_CN/LC_MESSAGES/openconnect.mo",
+				"/usr/share/locale/zh_TW/LC_MESSAGES/openconnect.mo",
+				"/usr/share/man/man8/openconnect.8"
+			],
+			"name": "openconnect",
+			"provides": [
+				"binary(openconnect)",
+				"soname(libopenconnect.so.5(x86_64))"
+			]
+		},
+		"openconnect-devel": {
+			"build-depends": [
+				"binary(msgfmt)",
+				"binary(python3)",
+				"intltool",
+				"pkgconfig(gnutls)",
+				"pkgconfig(krb5-gssapi)",
+				"pkgconfig(liblz4)",
+				"pkgconfig(libpcsclite)",
+				"pkgconfig(libproxy-1.0)",
+				"pkgconfig(libxml-2.0)",
+				"pkgconfig(p11-kit-1)"
+			],
+			"depends": [
+				"openconnect",
+				"pkgconfig(gnutls)",
+				"pkgconfig(liblz4)",
+				"pkgconfig(libpcsclite)",
+				"pkgconfig(libproxy-1.0)",
+				"pkgconfig(libxml-2.0)",
+				"pkgconfig(p11-kit-1)",
+				"pkgconfig(zlib)"
+			],
+			"files": [
+				"/usr/include/openconnect.h",
+				"/usr/lib/libopenconnect.so",
+				"/usr/lib/pkgconfig/openconnect.pc"
+			],
+			"name": "openconnect-devel",
+			"provides": [
+				"pkgconfig(openconnect)"
+			]
+		}
+	},
+	"source-name": "openconnect",
+	"source-release": "1",
+	"source-version": "9.12"
+}
