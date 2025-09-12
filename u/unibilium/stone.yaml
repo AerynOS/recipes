@@ -1,0 +1,26 @@
+#
+# SPDX-FileCopyrightText: © 2025- AerynOS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : unibilium
+version     : 2.1.2
+release     : 1
+homepage    : https://github.com/neovim/unibilium
+upstreams   :
+    - https://github.com/neovim/unibilium/archive/refs/tags/v2.1.2.tar.gz : 370ecb07fbbc20d91d1b350c55f1c806b06bf86797e164081ccc977fc9b3af7a
+summary     : Unibilium is a very basic terminfo library
+description : |
+    Unibilium is a very basic terminfo library. It can read and write ncurses-style terminfo files, and it can interpret terminfo format strings. It doesn't depend on curses or any other library. It also doesn't use global variables, so it should be thread-safe.
+license     : LGPL-3.0-or-later
+builddeps   :
+    - binary(slibtool)
+setup       : |
+    %reconfigure --disable-static
+build       : |
+    %make LIBTOOL=slibtool CC=${CC} \
+               CFLAGS="${CFLAGS}" \
+               LDFLAGS="${LDFLAGS}"
+install     : |
+    %make_install LIBTOOL=slibtool
+

@@ -1,0 +1,50 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"libluv": {
+			"build-depends": [
+				"cmake(libuv)",
+				"lua-devel",
+				"pkgconfig(luajit)"
+			],
+			"depends": [
+				"soname(libc.so.6(x86_64))",
+				"soname(libuv.so.1(x86_64))"
+			],
+			"files": [
+				"/usr/lib/libluv.so.1",
+				"/usr/lib/libluv.so.1.51.0"
+			],
+			"name": "libluv",
+			"provides": [
+				"soname(libluv.so.1(x86_64))"
+			]
+		},
+		"libluv-devel": {
+			"build-depends": [
+				"cmake(libuv)",
+				"lua-devel",
+				"pkgconfig(luajit)"
+			],
+			"depends": [
+				"libluv"
+			],
+			"files": [
+				"/usr/include/luv/lhandle.h",
+				"/usr/include/luv/lreq.h",
+				"/usr/include/luv/luv.h",
+				"/usr/include/luv/util.h",
+				"/usr/lib/libluv.so",
+				"/usr/lib/pkgconfig/libluv.pc"
+			],
+			"name": "libluv-devel",
+			"provides": [
+				"pkgconfig(libluv)"
+			]
+		}
+	},
+	"source-name": "libluv",
+	"source-release": "1",
+	"source-version": "1.51.0-0"
+}
