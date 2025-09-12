@@ -1,0 +1,28 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"git-lfs": {
+			"build-depends": [
+				"binary(git)",
+				"binary(go)",
+				"binary(tar)"
+			],
+			"depends": [
+				"binary(git)",
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(libc.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/bin/git-lfs"
+			],
+			"name": "git-lfs",
+			"provides": [
+				"binary(git-lfs)"
+			]
+		}
+	},
+	"source-name": "git-lfs",
+	"source-release": "1",
+	"source-version": "v3.7.0"
+}
