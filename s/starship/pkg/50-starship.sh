@@ -13,7 +13,7 @@ esac
 
 # Initialise starship prompt with serpent's default prompt
 [ ! -d ~/.config ] && mkdir ~/.config
-[ ! -e ~/.config/starship.toml ] && starship preset serpent-os -o  ~/.config/starship.toml
+[ ! -e ~/.config/starship.toml ] && starship preset aeryn-os -o  ~/.config/starship.toml
 
 # For bash
 [ -n "$BASH_VERSION" ]  && eval "$(starship init bash)"
