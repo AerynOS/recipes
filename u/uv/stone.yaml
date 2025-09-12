@@ -1,0 +1,25 @@
+#
+# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : uv
+version     : 0.8.17
+release     : 1
+homepage    : https://github.com/astral-sh/uv
+upstreams   :
+    - git|https://github.com/astral-sh/uv.git : 10960bc13a29fdfc70b30e1bded25a23cb970568
+summary     : An extremely fast Python package and project manager, written in Rust.
+description : |
+    An extremely fast Python package and project manager, written in Rust.
+license     : Apache-2.0
+builddeps   :
+    - binary(just)
+    - binary(make)
+networking  : yes
+setup       : |
+    %cargo_fetch
+build       : |
+    %cargo_build
+install     : |
+    %cargo_install
