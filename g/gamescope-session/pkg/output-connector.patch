@@ -1,0 +1,12 @@
+diff -Npur gamescope-session/usr/share/gamescope-session-plus/gamescope-session-plus gamescope-session/usr/share/gamescope-session-plus/gamescope-session-plus
+--- gamescope-session/usr/share/gamescope-session-plus/gamescope-session-plus	2024-03-04 13:54:37.783799532 +0700
++++ gamescope-session/usr/share/gamescope-session-plus/gamescope-session-plus	2024-03-04 13:53:07.546086532 +0700
+@@ -245,7 +245,7 @@ if [ -z "$GAMESCOPECMD" ]; then
+ 		$USE_ROTATION_SHADER_OPTION \
+ 		$BACKEND_OPTION \
+ 		$HDR_OPTIONS \
+-		--prefer-output $OUTPUT_CONNECTOR \
++		--prefer-output '*',"$OUTPUT_CONNECTOR" \
+ 		--xwayland-count $XWAYLAND_COUNT \
+ 		--default-touch-mode $TOUCH_MODE \
+ 		--hide-cursor-delay $HIDE_CURSOR_DELAY_MS \

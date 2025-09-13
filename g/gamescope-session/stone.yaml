@@ -5,7 +5,7 @@
 #
 name        : gamescope-session
 version     : r319.1c14e09
-release     : 1
+release     : 2
 homepage    : https://github.com/ChimeraOS/gamescope-session
 upstreams   :
     - git|https://github.com/ChimeraOS/gamescope-session.git : 1c14e09d2cf75c9716fb8ca808d243ea9f5e9154
@@ -20,6 +20,7 @@ rundeps     :
 setup       : |
     %patch %(pkgdir)/disable-plymouth.patch
     %patch %(pkgdir)/bash.patch
+    %patch %(pkgdir)/output-connector.patch
 install     : |
     %install_dir %(installroot)
     cp -rv %(workdir)/usr %(installroot)
