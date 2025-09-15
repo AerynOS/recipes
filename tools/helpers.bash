@@ -80,10 +80,6 @@ function cpesearch() {
 function gotoaosrepo() {
     cd "$(dirname "$(readlink -m "${BASH_SOURCE[0]}")")/../" || return 1
 }
-# deprecated - use gotoaerynosrepo
-function gotoserpentrepo() {
-    cd "$(dirname "$(readlink -m "${BASH_SOURCE[0]}")")/../" || return 1
-}
 
 # Goes to the root directory of the git repository
 function goroot() {
@@ -91,11 +87,30 @@ function goroot() {
 }
 
 # Push into a package directory
+function gotopkg() {
+    cd "$(git rev-parse --show-toplevel)"/*/"$1" || return 1
+}
+# Deprecated, use gotopkg
 function chpkg() {
     cd "$(git rev-parse --show-toplevel)"/*/"$1" || return 1
 }
 
 # Bash completions
+_gotopkg()
+{
+    # list of package directories we can go into
+    _list=$(ls "$(git rev-parse --show-toplevel)"/*/)
+
+    local cur
+    COMPREPLY=()
+    cur=${COMP_WORDS[COMP_CWORD]}
+
+    if [[ $COMP_CWORD -eq 1 ]] ; then
+        # set up an array with valid package dirname completions
+        readarray -t COMPREPLY < <(compgen -W "${_list}" -- "${cur}")
+        return 0
+    fi
+}
 _chpkg()
 {
     # list of package directories we can go into
@@ -112,4 +127,5 @@ _chpkg()
     fi
 }
 
+complete -F _gotopkg gotopkg
 complete -F _chpkg chpkg

@@ -22,23 +22,22 @@ function gotoaosrepo -d "Go to the root of the AerynOS recipes repository"
     cd (__aos_repo_dir)
 end
 
-# Deprecated, use gotoasorepo
-function gotoserpentrepo -d "Go to the root of the Serpent recipes repository"
-    cd (__aos_repo_dir)
-end
-
 function goroot -d "Go to the root of the current Git repository"
     cd (__aos_toplevel)
 end
 
+function gotopkg -a package -d "Go to a package directory"
+    cd (__aos_toplevel)/*/$package
+end
+
+# Deprecated, use gotopkg
 function chpkg -a package -d "Go to a package directory"
     cd (__aos_toplevel)/*/$package
 end
 
 complete -c gotoaosrepo -f
-# Deprecated, remove later
-complete -c gotoserpentrepo -f
 complete -c goroot -f
+complete -c gotokg -f
+complete -c gotopkg -a "(path basename (__aos_toplevel)/*/*)"
 complete -c chpkg -f
 complete -c chpkg -a "(path basename (__aos_toplevel)/*/*)"
-

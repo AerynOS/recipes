@@ -25,24 +25,37 @@ function gotoaosrepo() {
     cd $(dirname $(readlink -m "${SCRIPT_PATH}"))/../
 }
 
-# Deprecated, use gotoaosrepo
-function gotoserpentrepo() {
-    SCRIPT_PATH=$functions_source[gotoserpentrepo]
-    cd $(dirname $(readlink -m "${SCRIPT_PATH}"))/../
-}
-
 # Goes to the root directory of the git repository
 function goroot() {
     cd $(git rev-parse --show-toplevel)
 }
 
 # Change into a package directory
+function gotopkg() {
+    cd $(git rev-parse --show-toplevel)/*/$1
+}
+# Deprecated, use gotopkg
 function chpkg() {
     cd $(git rev-parse --show-toplevel)/*/$1
 }
 
 
 # Package name completion
+_gotopkg()
+{
+    _list=$(ls $(git rev-parse --show-toplevel)/*/)
+
+    local cur prev
+    COMPREPLY=()
+    cur=${COMP_WORDS[COMP_CWORD]}
+    prev="${COMP_WORDS[COMP_CWORD-1]}"
+
+    if [[ $COMP_CWORD -eq 1 ]] ; then
+        COMPREPLY=( $(compgen -W "${_list}" -- ${cur}) )
+        return 0
+    fi
+}
+
 _chpkg()
 {
     _list=$(ls $(git rev-parse --show-toplevel)/*/)
@@ -58,4 +71,5 @@ _chpkg()
     fi
 }
 
+complete -F _gotopkg gotopkg
 complete -F _chpkg chpkg
