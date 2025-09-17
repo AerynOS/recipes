@@ -1,7 +1,7 @@
-From c9f46c769ef881d9b1902061561757696b93d3bb Mon Sep 17 00:00:00 2001
-From: Reilly Brogan <reilly@reillybrogan.com>
-Date: Tue, 12 Aug 2025 15:49:40 -0500
-Subject: [PATCH] Allow libdisplay-info 0.3
+From 78bc48e26c263377c39bdf5570251fe59a3776c0 Mon Sep 17 00:00:00 2001
+From: Bryan Hyland <bryan.hyland32@gmail.com>
+Date: Wed, 17 Sep 2025 12:17:43 -0700
+Subject: [PATCH] Update libdisplay-info patch
 
 ---
  Cargo.lock | 9 +++------
@@ -9,7 +9,7 @@ Subject: [PATCH] Allow libdisplay-info 0.3
  2 files changed, 4 insertions(+), 6 deletions(-)
 
 diff --git a/Cargo.lock b/Cargo.lock
-index 06498aa..2741a14 100644
+index 664743b..1a82e52 100644
 --- a/Cargo.lock
 +++ b/Cargo.lock
 @@ -2927,8 +2927,7 @@ dependencies = [
@@ -43,11 +43,11 @@ index 06498aa..2741a14 100644
   "semver",
   "system-deps",
 diff --git a/Cargo.toml b/Cargo.toml
-index 30ad630..a37d8c6 100644
+index 259cbc4..582ec83 100644
 --- a/Cargo.toml
 +++ b/Cargo.toml
 @@ -148,3 +148,4 @@ cosmic-client-toolkit = { git = "https://github.com/pop-os//cosmic-protocols", b
  
  [patch.crates-io]
- smithay = { git = "https://github.com/smithay/smithay.git", rev = "20d2dac" }
-+libdisplay-info = { git = 'https://github.com/ReillyBrogan/libdisplay-info-rs.git' }
+ smithay = { git = "https://github.com/smithay/smithay.git", rev = "eb45814" }
++libdisplay-info = { git = "https://github.com/ReillyBrogan/libdisplay-info-rs.git" }

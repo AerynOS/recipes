@@ -4,16 +4,18 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : cosmic-comp
-version     : 1.0.0-alpha.7+git.dfdb375
-release     : 21
+version     : 1.0.0-alpha.7+git.64a9c1b
+release     : 22
 summary     : Cosmic Desktop Compositor
 license     : GPL-3.0
 homepage    : https://github.com/pop-os/cosmic-comp
 upstreams   :
-    - git|https://github.com/pop-os/cosmic-comp.git : dfdb375c0a150682af47db8d8fff46664ca767ac
+    - git|https://github.com/pop-os/cosmic-comp.git : 64a9c1badfd6f9b3af3af6db2b07b3d76d6f5102
 description : |
     Cosmic Desktop Compositor
 builddeps   :
+    - binary(git-lfs)
+    - binary(cargo)
     - binary(just)
     - pkgconfig(gbm)
     - pkgconfig(libdisplay-info)
@@ -28,9 +30,12 @@ rundeps     :
     - shared-mime-info
 networking  : yes
 setup       : |
+    git remote set-url origin https://github.com/pop-os/cosmic-comp.git
+    git lfs install
+    git lfs pull
     %patch %(pkgdir)/0001-Allow-libdisplay-info-0.3.patch
-    %cargo_fetch
+    cargo fetch
 build       : |
-    %cargo_build
+    cargo build --release
 install     : |
-    %make_install prefix=%(prefix) TARGET=%(target_triple)/release
+    %make_install prefix=%(prefix)
