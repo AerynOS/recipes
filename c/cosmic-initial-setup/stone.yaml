@@ -1,0 +1,48 @@
+#
+# SPDX-FileCopyrightText: © 2020-2025 AerynOS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : cosmic-initial-setup
+version     : 1.0.0-alpha.7+git.55c6006
+release     : 22
+summary     : Cosmic Initial Setup
+license     : GPL-3.0
+homepage    : https://github.com/pop-os/cosmic-initial-setup
+upstreams   :
+    - git|https://github.com/pop-os/cosmic-initial-setup.git : 55c6006001d981119cc20c15bb362d36afbfd0ba
+description : |
+    Cosmic Desktop Intial Setup Application
+builddeps   :
+    - binary(cargo)
+    - binary(git-lfs)
+    - binary(just)
+    - pkgconfig(flatpak)
+    - pkgconfig(libinput)
+    - pkgconfig(libudev)
+    - pkgconfig(openssl)
+    - pkgconfig(xkbcommon)
+networking  : yes
+setup       : |
+    git remote set-url origin https://github.com/pop-os/cosmic-initial-setup.git
+    git lfs install
+    git lfs pull
+build       : |
+    # Change Categories=COSMIC to Categories=X-COSMIC. Taken from Fedora COSMIC .spec file.
+    sed -i 's/Categories=COSMIC/Categories=X-COSMIC/g' res/com.system76.CosmicInitialSetup.desktop
+    # Has to use `just build-release` because it thinks it's in offline mode using %cargo_build and fails
+    just build-release
+install     : |
+    %install_exe target/release/cosmic-initial-setup %(installroot)%(bindir)/cosmic-initial-setup
+    %install_file res/20-cosmic-initial-setup.rules %(installroot)%(datadir)/polkit-1/rules.d/20-cosmic-initial-setup.rules
+    %install_file res/com.system76.CosmicInitialSetup.Autostart.desktop %(installroot)%(datadir)/xdg/autostart/com.system76.CosmicInitialSetup.desktop
+    %install_file res/com.system76.CosmicInitialSetup.desktop %(installroot)%(datadir)/applications/com.system76.CosmicInitialSetup.desktop
+    %install_file res/icon.svg %(installroot)%(datadir)/icons/hicolor/scalable/apps/cosmic-initial-setup.svg
+
+    # Create layouts directory
+    mkdir -p %(installroot)%(datadir)/cosmic-layouts
+    cp -r res/layouts/* %(installroot)%(datadir)/cosmic-layouts/
+
+    # Create themes directory and add the themes
+    mkdir -p %(installroot)%(datadir)/cosmic/cosmic-themes
+    cp -r res/themes/* %(installroot)%(datadir)/cosmic/cosmic-themes/
