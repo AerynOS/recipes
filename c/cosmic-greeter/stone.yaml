@@ -1,19 +1,20 @@
 #
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
+# SPDX-FileCopyrightText: © 2020-2025 AerynOS Developers
 #
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : cosmic-greeter
-version     : 1.0.0-alpha.7+git.0db5b79
-release     : 22
+version     : 1.0.0-alpha.7+git.31912af
+release     : 23
 summary     : Cosmic Desktop Greeter
 license     : GPL-3.0
 homepage    : https://github.com/pop-os/cosmic-greeter
 upstreams   :
-    - git|https://github.com/pop-os/cosmic-greeter.git : 0db5b79f0ecb1db392ed4e00faaa654942e43636
+    - git|https://github.com/pop-os/cosmic-greeter.git : 31912afaa1e9e9988ecebefb041bdc3bce34f337
 description : |
     Cosmic Desktop Greeter
 builddeps   :
+    - binary(git-lfs)
     - binary(just)
     - pkgconfig(dbus-1)
     - pkgconfig(libinput)
@@ -29,6 +30,9 @@ rundeps     :
     - linux-pam
 networking  : yes
 setup       : |
+    git lfs install
+    git remote set-url origin https://github.com/pop-os/cosmic-greeter.git
+    git lfs fetch --refetch --all
     %cargo_fetch
     %patch %(pkgdir)/0001-debian-Port-sample-service-pam-to-Serpent-OS.patch
 build       : |
