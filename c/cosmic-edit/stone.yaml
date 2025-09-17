@@ -4,24 +4,29 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : cosmic-edit
-version     : 1.0.0-alpha.7+git.7d279a1
-release     : 17
+version     : 1.0.0-alpha.7+git.140e6aa
+release     : 18
 homepage    : https://github.com/pop-os/cosmic-edit
 upstreams   :
-    - git|https://github.com/pop-os/cosmic-edit : 7d279a1d8bde4e5b3f485cf9969fba13f43a9324
+    - git|https://github.com/pop-os/cosmic-edit : 140e6aab885b7680dc042d86ea62f8fb5c4838c2
 summary     : Cosmic Desktop Text Editor
 description : |
     Cosmic desktop Text Editor
 license     :
     - GPL-3.0
 builddeps   :
+    - binary(cargo)
+    - binary(git-lfs)
     - binary(just)
     - pkgconfig(glib-2.0)
     - pkgconfig(xkbcommon)
 networking  : yes
 setup       : |
-    %cargo_fetch
+    git lfs install
+    git remote set-url origin https://github.com/pop-os/cosmic-edit.git
+    git lfs pull
 build       : |
-    %cargo_build
+    # Has to use `just build-release` because it thinks it's in offline mode using %cargo_build
+    just build-release
 install     : |
-    CARGO_TARGET_DIR="target/%(target_triple)" just rootdir=%(installroot) install
+    just rootdir=%(installroot) prefix=%(prefix) install
