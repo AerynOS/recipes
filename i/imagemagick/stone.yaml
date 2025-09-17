@@ -5,7 +5,7 @@
 #
 name        : imagemagick
 version     : 7.1.2-1
-release     : 1
+release     : 2
 upstreams   :
     - https://github.com/ImageMagick/ImageMagick/archive/refs/tags/7.1.2-1.tar.gz : 9306407381a7bf0ac5d97074eca3ce9dfaac65ced4d44f6a47bc24fbfc693e9a
 homepage    : https://imagemagick.org/
@@ -46,6 +46,7 @@ builddeps   :
     # - libwmf
     # - OpenEXR
     # - raqm
+lastrip     : false
 setup       : |
     %patch %(pkgdir)/Stateless.patch
     %configure \
