@@ -4,44 +4,22 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : cosmic-wallpapers
-version     : 1.0.0-alpha.7+git.189c2c6
-release     : 12
+version     : 1.0.0-beta.1+git.189c2c6
+release     : 13
 summary     : Cosmic Desktop Wallpapers
 license     : CC-BY-4.0
 homepage    : https://github.com/pop-os/cosmic-wallpapers
 upstreams   :
     - git|https://github.com/pop-os/cosmic-wallpapers.git : 189c2c63d31da84ebb161acfd21a503f98a1b4c7
-    - https://media.githubusercontent.com/media/pop-os/cosmic-wallpapers/0f2f16dc39ff1281a56680e37719e98a1bc8cb99/original/A_stormy_stellar_nursery_esa_379309.jpg:
-        unpack: false
-        hash: a76cfb42a0b33e4dee7e977ea97ab892bc0d10e03bc5a7261a5570928cd014aa
-        rename: A_stormy_stellar_nursery_esa_379309.jpg
-    - https://media.githubusercontent.com/media/pop-os/cosmic-wallpapers/0f2f16dc39ff1281a56680e37719e98a1bc8cb99/original/orion_nebula_nasa_heic0601a.jpg:
-        unpack: false
-        hash: 7500f702f0488d4a8df2c5abeb7ca9107a7ca7998e0441727cbaf79465b02388
-        rename: orion_nebula_nasa_heic0601a.jpg
-    - https://media.githubusercontent.com/media/pop-os/cosmic-wallpapers/0f2f16dc39ff1281a56680e37719e98a1bc8cb99/original/otherworldly_earth_nasa_ISS064-E-29444.jpg:
-        unpack: false
-        hash: 6d6c3590b7365c8c5c754edd4a336ab38c8eedc3ba6cc9139572bb11aac059ae
-        rename: otherworldly_earth_nasa_ISS064-E-29444.jpg
-    - https://media.githubusercontent.com/media/pop-os/cosmic-wallpapers/0f2f16dc39ff1281a56680e37719e98a1bc8cb99/original/phytoplankton_bloom_nasa_oli2_20240121.jpg:
-        unpack: false
-        hash: d8cac87b51f60cbd95eaa8b2772f00cf14025c907eaf1ccb72d98902332b399c
-        rename: phytoplankton_bloom_nasa_oli2_20240121.jpg
-    - https://media.githubusercontent.com/media/pop-os/cosmic-wallpapers/0f2f16dc39ff1281a56680e37719e98a1bc8cb99/original/round_moons_nasa.jpg:
-        unpack: false
-        hash: d78bb03c77c04ae5aad0bc29c59e2a59a8df8f5efa1839d3063d465f1459c285
-        rename: round_moons_nasa.jpg
-    - https://media.githubusercontent.com/media/pop-os/cosmic-wallpapers/0f2f16dc39ff1281a56680e37719e98a1bc8cb99/original/tarantula_nebula_nasa_PIA23646.jpg:
-        unpack: false
-        hash: 4f8b878fc2b653e230cf0a45530433a9aaf5cf5e71d0ede02a566e808137a597
-        rename: tarantula_nebula_nasa_PIA23646.jpg
-    - https://media.githubusercontent.com/media/pop-os/cosmic-wallpapers/0f2f16dc39ff1281a56680e37719e98a1bc8cb99/original/webb-inspired-wallpaper-system76.jpg:
-        unpack: false
-        hash: 5e47b83f67c285e9987355f339b139a98f4c1e8e80b064153e9c1b635f992daf
-        rename: webb-inspired-wallpaper-system76.jpg
 description : |
     Cosmic Desktop Wallpaper
+builddeps   :
+    - binary(git-lfs)
+networking  : true
 setup       : |
-    cp -v %(sourcedir)/*.jpg original/.
+    git lfs install
+    git remote set-url origin https://github.com/pop-os/cosmic-wallpapers.git
+    git lfs pull
+    git lfs fetch --refetch --all
 install     : |
     %make_install PREFIX=%(prefix)
