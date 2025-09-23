@@ -5,7 +5,7 @@
 #
 name        : pkgset-aeryn-cosmic
 version     : "2025.08" # I guess let's just match the OS version for now
-release     : 5
+release     : 6
 homepage    : https://aerynos.com/
 # No upstreams!
 summary     : pkgset virtual packages - COSMIC Desktop
@@ -31,6 +31,7 @@ packages    :
             - binary(cosmic-files)
             - binary(cosmic-greeter)
             - binary(cosmic-idle)
+            - binary(cosmic-initial-setup)
             - binary(cosmic-launcher)
             - binary(cosmic-notifications)
             - binary(cosmic-osd)
