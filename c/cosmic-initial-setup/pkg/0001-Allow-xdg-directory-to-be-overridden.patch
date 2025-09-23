@@ -1,0 +1,25 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Reilly Brogan <reilly@reillybrogan.com>
+Date: Tue, 23 Sep 2025 16:20:50 -0500
+Subject: [PATCH] Allow xdg directory to be overridden
+
+---
+ justfile | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/justfile b/justfile
+index c020b14..e4c0656 100644
+--- a/justfile
++++ b/justfile
+@@ -21,9 +21,10 @@ desktop-dst := base-dir / 'share' / 'applications' / desktop-entry
+ icon-src := 'res' / 'icon.svg'
+ icon-dst := icons-dir / APPID + '.svg'
+ 
++xdg-dir := env('XDG_INSTALL_DIR', 'etc' / 'xdg')
+ autostart-entry := APPID + '.Autostart.desktop'
+ autostart-src := 'res' / autostart-entry
+-autostart-dst := rootdir / 'etc' / 'xdg' / 'autostart' / desktop-entry
++autostart-dst := rootdir / xdg-dir / 'autostart' / desktop-entry
+ 
+ layouts-src := 'res' / 'layouts'
+ layouts-dst := base-dir / 'share' / 'cosmic-layouts'
