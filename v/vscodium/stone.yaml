@@ -1,0 +1,56 @@
+#
+# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : vscodium
+version     : 1.105.17075
+release     : 1
+upstreams   :
+    - https://github.com/VSCodium/vscodium/releases/download/1.105.17075/VSCodium-linux-x64-1.105.17075.tar.gz:
+        hash: f9a31c44033598ebb6acb0951ad93280680cffc54d7ad78ceba04e9664022290
+    - https://raw.githubusercontent.com/vscodium/vscodium/1.105.17075/src/stable/resources/linux/code.desktop:
+        hash: 8a6102fddc1a472345589c2eb2e32e9734df9539b421055c8039d82fa0ce5423
+        unpack: false
+        rename: codium.desktop
+    - https://raw.githubusercontent.com/vscodium/vscodium/1.105.17075/src/stable/resources/linux/code-url-handler.desktop:
+        hash: 50cecb7af4e7aaff14fb4d4b1a9caad707367003ee0ebc304ffd31762c4f7e20
+        unpack: false
+        rename: codium-url-handler.desktop
+homepage    : https://vscodium.com/
+license     : MIT
+summary     : VSCodium - Free/Libre Open Source Software Binaries of Visual Studio Code
+description : |
+    Visual Studio Code (vscode) - Free/Libre Open Source Software Binaries of Visual Studio Code
+rundeps     :
+    - binary(git)
+    - ca-certificates
+ # Causes extension signature validation to fail
+debug       : false
+strip       : false
+environment : |
+    function meta_info() {
+        sed 's/@@NAME_LONG@@/VSCodium/g' "$1" |\
+        sed 's/@@NAME_SHORT@@/codium/g' |\
+        sed 's/@@NAME@@/codium/g' |\
+        sed 's#@@EXEC@@#/usr/bin/codium#g' |\
+        sed 's/@@ICON@@/vscodium/g' |\
+        sed 's/@@URLPROTOCOL@@/codium/g'
+    }
+install     : |
+    export vsdir=%(libdir)/vscodium
+    %install_dir %(installroot)/$vsdir
+    cp -R %(workdir)/* %(installroot)/$vsdir/
+
+    %install_exe %(pkgdir)/vscodium.sh %(installroot)%(bindir)/codium
+
+    meta_info %(sourcedir)/codium.desktop \
+        | %install_file /dev/stdin "%(installroot)/usr/share/applications/codium.desktop"
+    meta_info %(sourcedir)/codium-url-handler.desktop \
+        | %install_file /dev/stdin "%(installroot)/usr/share/applications/codium-url-handler.desktop"
+
+    %install_file %(pkgdir)/vscodium.svg %(installroot)/usr/share/icons/hicolor/scalable/apps/vscodium.svg
+
+    %install_dir %(installroot)%(bashcompletionsdir) %(installroot)%(zshcompletionsdir)
+    ln -srv %(installroot)${vsdir}/resources/completions/bash/codium %(installroot)%(bashcompletionsdir)/codium
+    ln -srv %(installroot)${vsdir}/resources/completions/zsh/_codium %(installroot)%(zshcompletionsdir)/_codium
