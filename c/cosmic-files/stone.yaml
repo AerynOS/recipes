@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : cosmic-files
-version     : 1.0.0-alpha.7+git.f06029f
-release     : 18
+version     : 1.0.0-beta1.1+git.3c5216b
+release     : 19
 homepage    : https://github.com/pop-os/cosmic-files
 upstreams   :
-    - git|https://github.com/pop-os/cosmic-files : f06029facec3f2dfe510663e4014074cbb85af94
+    - git|https://github.com/pop-os/cosmic-files : 3c5216b1742881b58cf522c532642e4e9af31a41
 summary     : Cosmic Desktop File Browser
 description : |
     Cosmic desktop File Browser
@@ -22,7 +22,7 @@ builddeps   :
     - pkgconfig(liblzma)
     - pkgconfig(libzstd)
     - pkgconfig(xkbcommon)
-networking  : yes
+networking  : true
 environment : |
     # Force system libs
     export ZSTD_SYS_USE_PKG_CONFIG=1
