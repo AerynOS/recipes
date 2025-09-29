@@ -3,6 +3,9 @@
 	"manifest-version": "0.2",
 	"packages": {
 		"cosmic-wallpapers": {
+			"build-depends": [
+				"binary(git-lfs)"
+			],
 			"files": [
 				"/usr/share/backgrounds/cosmic/A_stormy_stellar_nursery_esa_379309.jpg",
 				"/usr/share/backgrounds/cosmic/orion_nebula_nasa_heic0601a.jpg",
@@ -16,6 +19,6 @@
 		}
 	},
 	"source-name": "cosmic-wallpapers",
-	"source-release": "12",
-	"source-version": "1.0.0-alpha.7+git.189c2c6"
+	"source-release": "13",
+	"source-version": "1.0.0-beta1.1+git.189c2c6"
 }
