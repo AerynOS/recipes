@@ -4,13 +4,13 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : cosmic-applets
-version     : 1.0.0-alpha.7+git.d949f7f
-release     : 19
+version     : 1.0.0-beta1.1+git.2dba07f
+release     : 20
 summary     : Cosmic Panel Applets
 license     : GPL-3.0
 homepage    : https://github.com/pop-os/cosmic-applets
 upstreams   :
-    - git|https://github.com/pop-os/cosmic-applets.git : d949f7f43f8dcd9c87f0d6fdc5c53d7a579874b7
+    - git|https://github.com/pop-os/cosmic-applets.git : 2dba07fcae15ff93ea08afac111655325c1a3eca
 description : |
     Cosmic Panel Applets
 builddeps   :
@@ -23,7 +23,7 @@ builddeps   :
     - pkgconfig(xkbcommon)
 rundeps     :
     - bluez # Bluetooth applet
-networking  : yes
+networking  : true
 setup       : |
     %cargo_fetch
 build       : |
