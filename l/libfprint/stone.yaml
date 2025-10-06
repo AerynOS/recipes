@@ -1,0 +1,42 @@
+#
+# SPDX-FileCopyrightText: © 2025 AerynOS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : libfprint
+version     : '1.94.9'
+release     : 1
+homepage    : https://fprint.freedesktop.org/
+upstreams   :
+    - https://gitlab.freedesktop.org/libfprint/libfprint/-/archive/v1.94.9/libfprint-v1.94.9.tar.gz : 6398e7a28c91b3a16ff17e6a577c7a03692a5de509e8def817396f1120823ecf
+summary     : Fingerprint reader driver library
+description : |
+    libfprint is a library designed to make it easy for applications to add
+    support for consumer fingerprint readers. It provides drivers and APIs to
+    enroll, verify and identify users using fingerprint data.
+license     :
+    - LGPL-2.1-or-later
+builddeps   :
+    - binary(gtkdoc-scan)
+    - binary(xsltproc)
+    - pkgconfig(cairo)
+    - pkgconfig(glib-2.0)
+    - pkgconfig(gobject-introspection-1.0)
+    - pkgconfig(gudev-1.0)
+    - pkgconfig(gusb)
+    - pkgconfig(libusb-1.0)
+    - pkgconfig(pixman-1)
+    - pkgconfig(openssl)
+    - pkgconfig(udev)
+    - docbook-xsl
+environment : |
+    # Without this it errors out about resolving docbook through the network
+    export XML_CATALOG_FILES="file:///usr/share/defaults/docbook/docbook-xsl/catalog"
+setup       : |
+    %meson \
+        -Ddrivers=all \
+        -Dinstalled-tests=false
+build       : |
+    %meson_build
+install     : |
+    %meson_install
