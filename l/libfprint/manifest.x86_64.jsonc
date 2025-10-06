@@ -1,0 +1,119 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"libfprint": {
+			"build-depends": [
+				"binary(gtkdoc-scan)",
+				"binary(xsltproc)",
+				"docbook-xsl",
+				"pkgconfig(glib-2.0)",
+				"pkgconfig(gobject-introspection-1.0)",
+				"pkgconfig(gudev-1.0)",
+				"pkgconfig(gusb)",
+				"pkgconfig(libusb-1.0)",
+				"pkgconfig(openssl)",
+				"pkgconfig(pixman-1)",
+				"pkgconfig(udev)"
+			],
+			"depends": [
+				"soname(libc.so.6(x86_64))",
+				"soname(libcrypto.so.3(x86_64))",
+				"soname(libgio-2.0.so.0(x86_64))",
+				"soname(libglib-2.0.so.0(x86_64))",
+				"soname(libgobject-2.0.so.0(x86_64))",
+				"soname(libgudev-1.0.so.0(x86_64))",
+				"soname(libgusb.so.2(x86_64))",
+				"soname(libm.so.6(x86_64))",
+				"soname(libpixman-1.so.0(x86_64))"
+			],
+			"files": [
+				"/usr/lib/girepository-1.0/FPrint-2.0.typelib",
+				"/usr/lib/libfprint-2.so.2",
+				"/usr/lib/libfprint-2.so.2.0.0",
+				"/usr/lib/udev/rules.d/70-libfprint-2.rules",
+				"/usr/share/metainfo/org.freedesktop.libfprint.metainfo.xml"
+			],
+			"name": "libfprint",
+			"provides": [
+				"soname(libfprint-2.so.2(x86_64))"
+			]
+		},
+		"libfprint-devel": {
+			"build-depends": [
+				"binary(gtkdoc-scan)",
+				"binary(xsltproc)",
+				"docbook-xsl",
+				"pkgconfig(glib-2.0)",
+				"pkgconfig(gobject-introspection-1.0)",
+				"pkgconfig(gudev-1.0)",
+				"pkgconfig(gusb)",
+				"pkgconfig(libusb-1.0)",
+				"pkgconfig(openssl)",
+				"pkgconfig(pixman-1)",
+				"pkgconfig(udev)"
+			],
+			"depends": [
+				"libfprint",
+				"pkgconfig(gio-unix-2.0)",
+				"pkgconfig(gobject-2.0)"
+			],
+			"files": [
+				"/usr/include/libfprint-2/fp-context.h",
+				"/usr/include/libfprint-2/fp-device.h",
+				"/usr/include/libfprint-2/fp-enums.h",
+				"/usr/include/libfprint-2/fp-image-device.h",
+				"/usr/include/libfprint-2/fp-image.h",
+				"/usr/include/libfprint-2/fp-print.h",
+				"/usr/include/libfprint-2/fprint.h",
+				"/usr/lib/libfprint-2.so",
+				"/usr/lib/pkgconfig/libfprint-2.pc",
+				"/usr/share/gir-1.0/FPrint-2.0.gir"
+			],
+			"name": "libfprint-devel",
+			"provides": [
+				"pkgconfig(libfprint-2)"
+			]
+		},
+		"libfprint-docs": {
+			"build-depends": [
+				"binary(gtkdoc-scan)",
+				"binary(xsltproc)",
+				"docbook-xsl",
+				"pkgconfig(glib-2.0)",
+				"pkgconfig(gobject-introspection-1.0)",
+				"pkgconfig(gudev-1.0)",
+				"pkgconfig(gusb)",
+				"pkgconfig(libusb-1.0)",
+				"pkgconfig(openssl)",
+				"pkgconfig(pixman-1)",
+				"pkgconfig(udev)"
+			],
+			"files": [
+				"/usr/share/gtk-doc/html/libfprint-2/api-index.html",
+				"/usr/share/gtk-doc/html/libfprint-2/driver-dev.html",
+				"/usr/share/gtk-doc/html/libfprint-2/driver-helpers.html",
+				"/usr/share/gtk-doc/html/libfprint-2/driver-img.html",
+				"/usr/share/gtk-doc/html/libfprint-2/driver-misc.html",
+				"/usr/share/gtk-doc/html/libfprint-2/driver-print.html",
+				"/usr/share/gtk-doc/html/libfprint-2/home.png",
+				"/usr/share/gtk-doc/html/libfprint-2/index.html",
+				"/usr/share/gtk-doc/html/libfprint-2/left-insensitive.png",
+				"/usr/share/gtk-doc/html/libfprint-2/left.png",
+				"/usr/share/gtk-doc/html/libfprint-2/libfprint-2.devhelp2",
+				"/usr/share/gtk-doc/html/libfprint-2/pt01.html",
+				"/usr/share/gtk-doc/html/libfprint-2/pt02.html",
+				"/usr/share/gtk-doc/html/libfprint-2/pt03.html",
+				"/usr/share/gtk-doc/html/libfprint-2/right-insensitive.png",
+				"/usr/share/gtk-doc/html/libfprint-2/right.png",
+				"/usr/share/gtk-doc/html/libfprint-2/style.css",
+				"/usr/share/gtk-doc/html/libfprint-2/up-insensitive.png",
+				"/usr/share/gtk-doc/html/libfprint-2/up.png"
+			],
+			"name": "libfprint-docs"
+		}
+	},
+	"source-name": "libfprint",
+	"source-release": "1",
+	"source-version": "1.94.9"
+}
