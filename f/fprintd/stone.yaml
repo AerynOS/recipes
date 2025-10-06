@@ -1,0 +1,43 @@
+#
+# SPDX-FileCopyrightText: © 2025 AerynOS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : fprintd
+version     : '1.94.5'
+release     : 1
+homepage    : https://fprint.freedesktop.org/
+upstreams   :
+    - https://gitlab.freedesktop.org/libfprint/fprintd/-/archive/v1.94.5/fprintd-v1.94.5.tar.gz : a026ef34c31b25975275cc29a5e4eba2b54524769672095a5228098a08acd82c
+summary     : D-Bus service to access fingerprint readers
+description : |
+    fprintd is a D-Bus service that provides an interface to fingerprint
+    readers, allowing applications and system services to enroll and verify
+    user fingerprints. It integrates with PAM for system authentication.
+license     :
+    - GPL-2.0-or-later
+builddeps   :
+    - binary(pod2man)
+    - binary(msgfmt)
+    - binary(patch)
+    - pkgconfig(dbus-1)
+    - pkgconfig(gio-2.0)
+    - pkgconfig(glib-2.0)
+    - pkgconfig(gobject-introspection-1.0)
+    - pkgconfig(libfprint-2)
+    - pkgconfig(pam)
+    - pkgconfig(polkit-gobject-1)
+    - pkgconfig(systemd)
+setup       : |
+    %meson \
+        -Dpam=true \
+        -Dpam_modules_dir=%(libdir)/security \
+        -Dman=true
+build       : |
+    %meson_build
+install     : |
+    %meson_install
+
+    # Create runtime storage for enrolled fingerprints in stateless manner
+    %tmpfiles "d /var/lib/fprint 0700 root root -"
+    rm -rfv %(installroot)/usr/share/dbus-1/interfaces
