@@ -1,0 +1,22 @@
+---8<---
+Only dollar single quote should eat the backslash character before
+a quote.  Make the skipping of the backslash conditional on mbchar
+in conv_escape.
+
+Reported-by: Juergen Daubert <j.daubert@posteo.de>
+Fixes: 776424a8f915 ("parser: Add dollar single quote")
+Signed-off-by: Herbert Xu <herbert@gondor.apana.org.au>
+
+diff --git a/src/bltin/printf.c b/src/bltin/printf.c
+index ff576ff..106aecd 100644
+--- a/src/bltin/printf.c
++++ b/src/bltin/printf.c
+@@ -339,7 +339,7 @@ unsigned conv_escape(char *str0, char *out0, bool mbchar)
+ 
+ 	switch (ch) {
+ 	default:
+-		if (ch == '"' || ch == '\'')
++		if (mbchar && (ch == '"' || ch == '\''))
+ 			break;
+ 
+ 		if (ch == 'U') {
