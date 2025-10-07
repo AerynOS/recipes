@@ -1,0 +1,24 @@
+name        : gnucobol
+version     : "3.2"
+release     : 1
+homepage    : https://gnucobol.sourceforge.io/
+upstreams   :
+  - https://ftp.gnu.org/gnu/gnucobol/gnucobol-3.2.tar.xz : 3bb48af46ced4779facf41fdc2ee60e4ccb86eaa99d010b36685315df39c2ee2
+summary     : A free, open source and modern COBOL compiler
+description : |
+    GnuCOBOL produces native executables from COBOL source code.
+license     :
+    - GPL-3.0-only AND LGPL-3.0
+builddeps   :
+  - pkgconfig(ncurses)
+  - gmp-devel
+  - libdb51
+  - ncurses-devel
+setup       : |
+    %configure_with_bash \
+      CFLAGS="$CFLAGS -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types" \
+      --prefix=/usr \
+      --infodir=/usr/share/info \
+      --enable-hardening \
+      --enable-static=no \
+      --without-db
