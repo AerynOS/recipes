@@ -5,7 +5,7 @@
 #
 name        : mesa-clc
 version     : 25.2.4
-release     : 13
+release     : 14
 homepage    : https://mesa3d.org/
 upstreams   :
     - https://mesa.freedesktop.org/archive/mesa-25.2.4.tar.xz : a370b4c549cbfbe646b319e34d73edb50ed883978f5e95133f282f0eae39ab52
@@ -23,8 +23,8 @@ builddeps   :
     - pkgconfig(libclc)
     - pkgconfig(libdrm)
     - pkgconfig(expat)
-    - python-mako
-    - python-pyyaml
+    - python(mako)
+    - python(pyyaml)
 setup       : |
     %meson \
         -Dgallium-drivers="" \
