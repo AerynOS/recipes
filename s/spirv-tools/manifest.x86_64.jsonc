@@ -9,6 +9,7 @@
 			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(libSPIRV-Tools-diff.so(x86_64))",
 				"soname(libSPIRV-Tools-link.so(x86_64))",
 				"soname(libSPIRV-Tools-lint.so(x86_64))",
 				"soname(libSPIRV-Tools-opt.so(x86_64))",
@@ -20,6 +21,7 @@
 			"files": [
 				"/usr/bin/spirv-as",
 				"/usr/bin/spirv-cfg",
+				"/usr/bin/spirv-diff",
 				"/usr/bin/spirv-dis",
 				"/usr/bin/spirv-lesspipe.sh",
 				"/usr/bin/spirv-link",
@@ -33,6 +35,7 @@
 			"provides": [
 				"binary(spirv-as)",
 				"binary(spirv-cfg)",
+				"binary(spirv-diff)",
 				"binary(spirv-dis)",
 				"binary(spirv-lesspipe.sh)",
 				"binary(spirv-link)",
@@ -204,6 +207,6 @@
 		}
 	},
 	"source-name": "spirv-tools",
-	"source-release": "11",
-	"source-version": "2025.3"
+	"source-release": "12",
+	"source-version": "2025.4"
 }
