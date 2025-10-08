@@ -6,6 +6,7 @@ index a4b3dc84f..4d6c11ce0 100644
            arch: getLinuxTargetArch(),
          },
        ],
+       executableName: 'mullvad-vpn',
 -      artifactName: 'MullvadVPN-${version}_${arch}.${ext}',
 +      target: ['dir'],
 +      //artifactName: 'MullvadVPN-${version}_${arch}.${ext}',
