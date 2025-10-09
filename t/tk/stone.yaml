@@ -1,0 +1,66 @@
+#
+# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : tk
+version     : 9.0.2
+release     : 1
+upstreams   :
+    - http://download.sourceforge.net/sourceforge/tcl/tk9.0.2-src.tar.gz : 76fb852b2f167592fe8b41aa6549ce4e486dbf3b259a269646600e3894517c76
+homepage    : https://tcl.sourceforge.net
+license     : TCL AND HPND-Pbmplus AND CC-BY-SA-3.0 AND MIT-open-group AND MIT
+summary     : The graphical toolkit for the Tcl scripting language
+description : |
+    When paired with the Tcl scripting language, Tk provides a fast and powerful
+    way to create cross-platform GUI applications.
+builddeps   :
+    - pkgconfig(cups)
+    - pkgconfig(tcl)
+    - pkgconfig(x11)
+    - pkgconfig(xext)
+    - pkgconfig(xscrnsaver)
+    - pkgconfig(xft)
+environment : |
+    _version_major=$(echo %(version) | cut -d. -f1)
+    _version_major_minor=$(echo %(version) | cut -d. -f1-2)
+setup       : |
+    %patch %(pkgdir)/tk-8.6.12-make.patch
+    %patch %(pkgdir)/tk-8.6.15-conf.patch
+
+    cd unix
+    %configure \
+        --disable-zipfs
+build       : |
+    %make \
+        -C unix \
+        TK_LIBRARY=%(datadir)/tk${_version_major_minor}
+install     : |
+    %make_install \
+        -C unix \
+        TK_LIBRARY=%(datadir)/tk${_version_major_minor}
+
+    ln -srv %(installroot)%(bindir)/wish${_version_major_minor} %(installroot)%(bindir)/wish
+
+    # For linking
+    ln -srv %(installroot)%(libdir)/libtcl${_version_major}tk%{_version_major_minor}.so %(installroot)%(libdir)/libtk.so
+
+    # Install private headers
+    mkdir -p %(installroot)/%(includedir)/tk-private/{generic/ttk,unix}
+    find generic unix -name "*.h" -exec cp -p '{}' %(installroot)/%(includedir)/tk-private/'{}' ';'
+    pushd %(installroot)/%(includedir)
+    for i in *.h ; do
+        [ -f %(installroot)/%(includedir)/tk-private/generic/$i ] && ln -sf ../../$i %(installroot)/%(includedir)/tk-private/generic ;
+    done
+    popd
+
+    # Remove build traces and switch to correct private headers dir
+    sed -i -e "s|$PWD/unix|%(libdir)|; s|$PWD|%(includedir)/tk-private|" %(installroot)/%(libdir)/tkConfig.sh
+packages    :
+    - "%(name)":
+        paths:
+            - /usr/lib/libtcl*.so
+
+    - "%(name)-devel":
+        paths:
+            - /usr/lib/tkConfig.sh
