@@ -4,13 +4,13 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : nvidia-open-gpu-kernel-modules
-version     : "570.190"
-release     : 51
+version     : "580.95.05"
+release     : 52
 homepage    : https://github.com/NVIDIA/open-gpu-kernel-modules
 upstreams   :
-    - https://download.nvidia.com/XFree86/NVIDIA-kernel-module-source/NVIDIA-kernel-module-source-570.190.tar.xz : a3aef1feba4ccbbca236d1824b4799cda8c23da560f375454380ce1a1ecbfd64
-    - https://us.download.nvidia.com/XFree86/Linux-x86_64/570.190/NVIDIA-Linux-x86_64-570.190.run:
-        hash: a86058a7ed203bf769ea05b270fed279445f5d4e833eafefdfa7fa45feaab8fc
+    - https://download.nvidia.com/XFree86/NVIDIA-kernel-module-source/NVIDIA-kernel-module-source-580.95.05.tar.xz : 5aa71eb68d54485780e6f56dd59cbabd1d105b6a374110d38dbbbf14ca6a89fb
+    - https://us.download.nvidia.com/XFree86/Linux-x86_64/580.95.05/NVIDIA-Linux-x86_64-580.95.05.run:
+        hash: 849ef0ef8e842b9806b2cde9f11c1303d54f1a9a769467e4e5d961b2fe1182a7
         unpack: false
         rename: NVIDIA.run
 summary     : NVIDIA open GPU kernel modules
@@ -38,8 +38,9 @@ tuning      :
     - compress-debug: false
 environment : |
     export KERNEL_UNAME=`jq --raw-output .version /usr/lib/kernel/*.desktop/boot.json` || exit 1
-setup       : |
-    %patch %(pkgdir)/fix-hdmi-names.patch
+
+    # TODO: Fix this just rejecting all LDFLAGS
+    unset LDFLAGS
 build       : |
     %make CC=%(cc) LD=%(ld) KERNEL_UNAME=$KERNEL_UNAME NV_VERBOSE=1 modules
 install     : |
