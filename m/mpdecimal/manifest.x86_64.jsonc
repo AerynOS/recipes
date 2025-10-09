@@ -1,0 +1,64 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"mpdecimal": {
+			"depends": [
+				"soname(libc.so.6(x86_64))",
+				"soname(libm.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/lib/libmpdec.so.4",
+				"/usr/lib/libmpdec.so.4.0.1",
+				"/usr/share/doc/mpdecimal/COPYRIGHT.txt"
+			],
+			"name": "mpdecimal",
+			"provides": [
+				"soname(libmpdec.so.4(x86_64))"
+			]
+		},
+		"mpdecimal++": {
+			"depends": [
+				"soname(ld-linux-x86-64.so.2(x86_64))",
+				"soname(libc++.so.1(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libm.so.6(x86_64))",
+				"soname(libmpdec.so.4(x86_64))",
+				"soname(libunwind.so.1(x86_64))"
+			],
+			"files": [
+				"/usr/lib/libmpdec++.so.4",
+				"/usr/lib/libmpdec++.so.4.0.1"
+			],
+			"name": "mpdecimal++",
+			"provides": [
+				"soname(libmpdec++.so.4(x86_64))"
+			]
+		},
+		"mpdecimal-devel": {
+			"depends": [
+				"mpdecimal",
+				"mpdecimal++"
+			],
+			"files": [
+				"/usr/include/decimal.hh",
+				"/usr/include/mpdecimal.h",
+				"/usr/lib/libmpdec++.so",
+				"/usr/lib/libmpdec.so",
+				"/usr/lib/pkgconfig/libmpdec++.pc",
+				"/usr/lib/pkgconfig/libmpdec.pc",
+				"/usr/share/man/man3/libmpdec++.3",
+				"/usr/share/man/man3/libmpdec.3",
+				"/usr/share/man/man3/mpdecimal.3"
+			],
+			"name": "mpdecimal-devel",
+			"provides": [
+				"pkgconfig(libmpdec)",
+				"pkgconfig(libmpdec++)"
+			]
+		}
+	},
+	"source-name": "mpdecimal",
+	"source-release": "1",
+	"source-version": "4.0.1"
+}

@@ -1,0 +1,39 @@
+#
+# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : mpdecimal
+version     : 4.0.1
+release     : 1
+upstreams   :
+    - https://www.bytereef.org/software/mpdecimal/releases/mpdecimal-4.0.1.tar.gz : 96d33abb4bb0070c7be0fed4246cd38416188325f820468214471938545b1ac8
+homepage    : https://www.bytereef.org/mpdecimal/index.html
+license     : BSD-2-Clause
+summary     : Library for general decimal arithmetic
+description : |
+    The package contains a library libmpdec implementing General Decimal
+    Arithmetic Specification. The specification, written by Mike Cowlishaw from
+    IBM, defines a general purpose arbitrary precision data type together with
+    rigorously specified functions and rounding behavior.
+setup       : |
+    %configure \
+        --disable-static
+build       : |
+    %make
+install     : |
+    %make_install
+packages    :
+    - "%(name)++":
+        summary: Library for general decimal arithmetic (C++)
+        description: |
+            The package contains a library libmpdec++ implementing General Decimal
+            Arithmetic Specification. The specification, written by Mike Cowlishaw from
+            IBM, defines a general purpose arbitrary precision data type together with
+            rigorously specified functions and rounding behavior.
+        paths:
+            - /usr/lib/libmpdec++.so.*
+
+    - "%(name)-devel":
+        rundeps:
+            - "%(name)++"
