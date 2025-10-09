@@ -1,0 +1,32 @@
+#
+# SPDX-FileCopyrightText: © 2020-2025 Aeryn OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : python-virtualenv
+version     : 20.35.1
+release     : 1
+homepage    : https://virtualenv.pypa.io/
+upstreams:
+  - https://pypi.debian.net/virtualenv/virtualenv-20.35.1.tar.gz: 041dac43b6899858a91838b616599e80000e545dee01a21172a6a46746472cb2
+license     : MIT
+summary     : Tool to create isolated 'virtual' python environments
+description : |
+  virtualenv is a tool to create isolated python environments, allowing for easier management of versions and dependencies in Python applications.
+builddeps   :
+    - python(hatchling)
+    - python(hatch-vcs)
+rundeps     :
+    - binary(python3)
+    - python-pip-wheel
+    - python-setuptools-wheel
+setup       : |
+    %patch %(pkgdir)/system-wheel.patch
+build       : |
+    %pyproject_build
+install     : |
+    %pyproject_install
+    # Provided by system packages
+    rm -fv %(installroot)%(libdir)/python3.*/site-packages/virtualenv/seed/wheels/embed/*.whl
+#check      : |
+    # TODO
