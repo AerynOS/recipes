@@ -4,10 +4,10 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : openexr
-version     : 3.4.0
-release     : 1
+version     : 3.4.1
+release     : 2
 upstreams   :
-    - https://github.com/AcademySoftwareFoundation/openexr/releases/download/v3.4.0/openexr-3.4.0.tar.gz : 1d4bddda2d22571f63db5f067c5741b50c8d41231f360ab17063176eb710a670
+    - https://github.com/AcademySoftwareFoundation/openexr/releases/download/v3.4.1/openexr-3.4.1.tar.gz : 55de71610ceb134b79c900e6aed3bf8994ec1972382395c1732f1b32da4c7527
 homepage    : https://www.openexr.com/
 license     : BSD-3-Clause
 summary     : A high dynamic-range image file format library
@@ -23,7 +23,6 @@ builddeps   :
     - cmake(libdeflate)
     - cmake(openjph)
 setup       : |
-    %patch %(pkgdir)/0001-ftbfs-openjph-system.patch
     %cmake
 build       : |
     %cmake_build
