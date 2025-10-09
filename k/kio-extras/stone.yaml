@@ -4,10 +4,10 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : kio-extras
-version     : 25.08.1
-release     : 6
+version     : 25.08.2
+release     : 7
 upstreams   :
-    - https://download.kde.org/stable/release-service/25.08.1/src/kio-extras-25.08.1.tar.xz : aac4752f2b7c978fb6e6ae0e688a63a10ca4831b97d9f6947ce7b49c648b6cd8
+    - https://download.kde.org/stable/release-service/25.08.2/src/kio-extras-25.08.2.tar.xz : 868f9f2e0f572725387ea311f199d2fa044acc03656f3751e7ca26400861375f
 homepage    : https://kde.org/
 license     : GPL-2.0-or-later
 summary     : Additional components to increase the functionality of KIO
@@ -53,9 +53,6 @@ builddeps   :
 rundeps     :
     - phonon-backend-mpv-qt6
 setup       : |
-    # Fix build with libxml2 2.15
-    sed -e 's|"extension "|"extension"|' -i po/it/docs/kioworker6/bzip2/index.docbook
-
     %cmake_kf6
 build       : |
     %cmake_build
