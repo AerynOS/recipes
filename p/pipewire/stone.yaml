@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : pipewire
-version     : 1.4.8
-release     : 20
+version     : 1.4.9
+release     : 21
 homepage    : https://pipewire.org/
 upstreams   :
-    - https://gitlab.freedesktop.org/pipewire/pipewire/-/archive/1.4.8/pipewire-1.4.8.tar.gz : b1dc85f701d078adbead5661368cea88a8deae19aa09d15cc7c10660bf76e56d
+    - https://gitlab.freedesktop.org/pipewire/pipewire/-/archive/1.4.9/pipewire-1.4.9.tar.gz : 8066a7b220069e4c6e3b02bd2b6ea303bba66df255023c07c99323449ba8fe3c
 summary     : Linux audio + video multiplexing
 description : |
     PipeWire is a project that aims to greatly improve handling of audio and video under Linux. It provides a low-latency, graph-based processing engine on top of audio and video devices that can be used to support the use cases currently handled by both PulseAudio and JACK. PipeWire was designed with a powerful security model that makes interacting with audio and video devices from containerized applications easy, with support for Flatpak applications being the primary goal.
@@ -59,14 +59,14 @@ setup       : |
     %patch %(pkgdir)/0001-Fix-clang-build-error.patch
 
     %meson \
-           -Dbluez5=enabled \
-           -Dffmpeg=enabled \
-           -Dgstreamer=enabled \
-           -Dman=enabled \
-           -Dsession-managers=[] \
-           -Dudev=enabled \
-           -Dudevrulesdir=%(libdir)/udev/rules.d \
-           -Dvulkan=enabled
+        -Dbluez5=enabled \
+        -Dffmpeg=enabled \
+        -Dgstreamer=enabled \
+        -Dman=enabled \
+        -Dsession-managers=[] \
+        -Dudev=enabled \
+        -Dudevrulesdir=%(libdir)/udev/rules.d \
+        -Dvulkan=enabled
 build       : |
     %meson_build
 install     : |
