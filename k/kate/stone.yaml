@@ -4,10 +4,10 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : kate
-version     : 25.08.1
-release     : 10
+version     : 25.08.2
+release     : 11
 upstreams   :
-    - https://download.kde.org/stable/release-service/25.08.1/src/kate-25.08.1.tar.xz : 6b5f9d240da5a7668e2643e4153ab63bf7842ec0605d5d58b3f5aa3e5f2be8e1
+    - https://download.kde.org/stable/release-service/25.08.2/src/kate-25.08.2.tar.xz : b5eefa519690983ef92be8cc30eaface1fc8c9f225d9d851a5c1819a52634770
 homepage    : https://apps.kde.org/kate
 license     :
     - GPL-2.0-or-later
@@ -37,13 +37,6 @@ builddeps   :
     - cmake(Qt6CorePrivate)
     - cmake(Qt6Keychain)
 setup       : |
-    # Make sure this is removed in a future version
-    # Fix build with libxml2 2.15
-    find -name menus.docbook | xargs sed -e 's|Byte_order_mark "|Byte_order_mark"|g' -i
-    find -name development.docbook | xargs sed -e 's|linkend="config-dialog "|linkend="config-dialog"|g' -i
-    find -name plugins.docbook | xargs sed -e 's|linkend=" |linkend="|g' -i
-    find -name fundamentals.docbook | xargs sed -e 's|linkend="starting-kate "|linkend="starting-kate"|g' -i
-
     %cmake_kf6
 build       : |
     %cmake_build
