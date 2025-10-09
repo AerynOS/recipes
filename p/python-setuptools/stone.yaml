@@ -5,7 +5,7 @@
 #
 name        : python-setuptools
 version     : 80.9.0
-release     : 8
+release     : 9
 homepage    : https://setuptools.pypa.io/
 upstreams   :
     - https://pypi.debian.net/setuptools/setuptools-80.9.0.tar.gz:
@@ -59,18 +59,25 @@ build       : |
         python -m bootstrap.build
     else
         echo "Something to prevent bash syntax errors due to an empty if block"
-        %python_setup
+        %pyproject_build
     fi
 install     : |
     if [[ ${_bootstrap} == "1" ]]; then
         python -m bootstrap.install dist/setuptools-*-py3-none-any.whl -d "%(installroot)"
     else
-        %python_install
+        %pyproject_install
 
         # Delete vendored packages
         # TODO replace with python_version macro
         rm -rfv %(installroot)/%(libdir)/python3.*/site-packages/setuptools/_vendor/
+
+        # Install wheel for virtualenv
+        %install_file dist/*.whl -t %(installroot)%(datadir)/python-wheels
     fi
 
     # Undesired files
     find %(installroot) -type f -name "*.exe" -print -delete
+packages    :
+    - "%(name)-wheel":
+        paths:
+            - /usr/share/python-wheels
