@@ -5,7 +5,7 @@
 #
 name        : gdbm
 version     : "1.26"
-release     : 6
+release     : 7
 summary     : GNU database library
 license     : GPL-3.0-or-later
 homepage    : https://www.gnu.org.ua/software/gdbm/
@@ -22,7 +22,7 @@ emul32      : true
 setup       : |
     %configure \
         --disable-static \
-        --disable-libgdbm-compat
+        --enable-libgdbm-compat
 build       : |
     %make
 install     : |
@@ -33,3 +33,4 @@ packages    :
     - "%(name)-libs":
         paths:
             - /usr/lib/libgdbm.so.*
+            - /usr/lib/libgdbm_compat.so.*

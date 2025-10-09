@@ -55,11 +55,14 @@
 			],
 			"files": [
 				"/usr/lib32/libgdbm.so.6",
-				"/usr/lib32/libgdbm.so.6.0.0"
+				"/usr/lib32/libgdbm.so.6.0.0",
+				"/usr/lib32/libgdbm_compat.so.4",
+				"/usr/lib32/libgdbm_compat.so.4.0.0"
 			],
 			"name": "gdbm-32bit",
 			"provides": [
-				"soname(libgdbm.so.6(386))"
+				"soname(libgdbm.so.6(386))",
+				"soname(libgdbm_compat.so.4(386))"
 			]
 		},
 		"gdbm-32bit-devel": {
@@ -71,7 +74,8 @@
 				"gdbm-devel"
 			],
 			"files": [
-				"/usr/lib32/libgdbm.so"
+				"/usr/lib32/libgdbm.so",
+				"/usr/lib32/libgdbm_compat.so"
 			],
 			"name": "gdbm-32bit-devel"
 		},
@@ -83,8 +87,11 @@
 				"gdbm"
 			],
 			"files": [
+				"/usr/include/dbm.h",
 				"/usr/include/gdbm.h",
+				"/usr/include/ndbm.h",
 				"/usr/lib/libgdbm.so",
+				"/usr/lib/libgdbm_compat.so",
 				"/usr/share/man/man3/gdbm.3"
 			],
 			"name": "gdbm-devel"
@@ -99,15 +106,18 @@
 			],
 			"files": [
 				"/usr/lib/libgdbm.so.6",
-				"/usr/lib/libgdbm.so.6.0.0"
+				"/usr/lib/libgdbm.so.6.0.0",
+				"/usr/lib/libgdbm_compat.so.4",
+				"/usr/lib/libgdbm_compat.so.4.0.0"
 			],
 			"name": "gdbm-libs",
 			"provides": [
-				"soname(libgdbm.so.6(x86_64))"
+				"soname(libgdbm.so.6(x86_64))",
+				"soname(libgdbm_compat.so.4(x86_64))"
 			]
 		}
 	},
 	"source-name": "gdbm",
-	"source-release": "6",
+	"source-release": "7",
 	"source-version": "1.26"
 }
