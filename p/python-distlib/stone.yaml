@@ -1,0 +1,27 @@
+#
+# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : python-distlib
+version     : 0.4.0
+release     : 1
+homepage    : https://github.com/pypa/distlib
+upstreams   :
+  - https://pypi.debian.net/distlib/distlib-0.4.0.tar.gz: feec40075be03a04501a973d81f633735b4b69f98b05450592310c0f401a4e0d
+license     : PSF-2.0
+summary     : Low-level components of distutils2/packaging
+description : |
+    Low-level parts of packaging/distutils2 which implement the relevant PEPs and which could be used by third-party packaging tools to achieve interoperability, enhanced with additional features for dependency resolution, package resource management and more.
+builddeps   :
+    - python(setuptools)
+rundeps     :
+    - python-libs
+setup       : |
+    rm distlib/*.exe
+build       : |
+    %pyproject_build
+install     : |
+    %pyproject_install
+# check     : |
+    # TODO
