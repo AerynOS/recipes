@@ -4,10 +4,10 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : qpwgraph
-version     : 0.9.5
-release     : 2
+version     : 0.9.6
+release     : 3
 upstreams   :
-    - https://gitlab.freedesktop.org/rncbc/qpwgraph/-/archive/v0.9.5/qpwgraph-v0.9.5.tar.gz : dd51dc4373bc86a31d8a3583b792a2b9f18d90c86c8d98cc2d67d93b41c3978c
+    - https://gitlab.freedesktop.org/rncbc/qpwgraph/-/archive/v0.9.6/qpwgraph-v0.9.6.tar.gz : 14faac587e58043f52fb0de20328e7439e3a7ffee898c54109e0557dfe018a12
 homepage    : https://gitlab.freedesktop.org/rncbc/qpwgraph 
 license     : GPL-2.0-or-later 
 summary     : PipeWire Graph Qt GUI Interface
@@ -17,6 +17,8 @@ builddeps   :
     - cmake(Qt6Svg)
     - pkgconfig(alsa)
     - pkgconfig(libpipewire-0.3)
+rundeps     :
+    - qt6-wayland
 setup       : |
     # Why in tarnation do they even override the QPA variable
     %cmake \
