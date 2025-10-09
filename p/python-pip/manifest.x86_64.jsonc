@@ -1305,9 +1305,23 @@
 				"binary(pip3)",
 				"python(pip)"
 			]
+		},
+		"python-pip-wheel": {
+			"build-depends": [
+				"python(myst-parser)",
+				"python(setuptools)",
+				"python(sphinx)",
+				"python(sphinx-copybutton)",
+				"python(sphinx-inline-tabs)",
+				"python(sphinx-issues)"
+			],
+			"files": [
+				"/usr/share/python-wheels/pip-25.2-py3-none-any.whl"
+			],
+			"name": "python-pip-wheel"
 		}
 	},
 	"source-name": "python-pip",
-	"source-release": "4",
+	"source-release": "5",
 	"source-version": "25.2"
 }
