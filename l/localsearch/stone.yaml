@@ -57,8 +57,7 @@ builddeps   :
     - pkgconfig(upower-glib)
     - giflib-devel
 environment : |
-    # Temporary, replace with boulder macro
-    export XML_CATALOG_FILES="file:///usr/share/defaults/docbook/docbook-dtd/catalog file:///usr/share/defaults/docbook/docbook-xsl/catalog"
+    %export_docbook_catalogs
 setup       : |
     # TODO: do an enablement pass on this pkg
     %meson \
