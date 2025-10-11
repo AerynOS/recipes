@@ -33,10 +33,10 @@ builddeps   :
     - pkgconfig(libedataserver-1.2)
     - pkgconfig(libportal-gtk4)
     - pkgconfig(libqrencode)
+    - docbook
     - docbook-xsl
 environment : |
-    # Temporary, replace with boulder macro
-    export XML_CATALOG_FILES="file:///usr/share/defaults/docbook/docbook-xsl/catalog"
+    %export_docbook_catalogs
 setup       : |
     %meson
 build       : |
