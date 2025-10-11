@@ -56,8 +56,7 @@ builddeps   :
 rundeps     :
     - binary(pipewire)
 environment : |
-    # Temporary, replace with boulder macro
-    export XML_CATALOG_FILES="file:///usr/share/defaults/docbook/docbook-dtd/catalog file:///usr/share/defaults/docbook/docbook-xsl/catalog"
+    %export_docbook_catalogs
 setup       : |
     # In file included from ../src/grd-settings.c:28:
     # /usr/lib/pkgconfig/../../include/freerdp3/freerdp/freerdp.h:25:10: fatal error: 'winpr/stream.h' file not found
