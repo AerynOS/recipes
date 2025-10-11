@@ -34,8 +34,7 @@ profiles    :
             # _PROBABLY_ not needed, re-add if that assumption is false
             rm -rfv %(installroot)%(libdir)/security
 environment : |
-    # Temporary, replace with boulder macro
-    export XML_CATALOG_FILES="file:///usr/share/defaults/docbook/docbook5-xml/catalog file:///usr/share/defaults/docbook/docbook-xsl/catalog"
+    %export_docbook_catalogs
 setup       : |
     # version script assignment of 'global' to symbol 'pam_sm_chauthtok' failed: symbol not defined
     export LDFLAGS="${LDFLAGS} -Wl,--undefined-version"
