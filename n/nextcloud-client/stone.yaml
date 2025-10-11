@@ -1,34 +1,34 @@
-name : nextcloud-client
-version : "3.17.2"
-release : 1
-homepage : https://docs.nextcloud.com/desktop
-upstreams :
-  - https://github.com/nextcloud/desktop/archive/refs/tags/v3.17.2.tar.gz : c79c7e05ae3b141e2c4b19da0cde479b63af80eb49164c99af8fa28a38e05aeb
-summary : Nextcloud client for nextcloud server
-description : Nextcloud client enables you to connect to your private Nextcloud Server. With it you can create directories in your home directory, and keep the contents of those directories synced with the server
-license :
+name: nextcloud-client
+version: "3.17.3"
+release: 1
+homepage: https://docs.nextcloud.com/desktop
+upstreams:
+  - https://github.com/nextcloud/desktop/archive/refs/tags/v3.17.3.tar.gz: 1313cbca31e795bb44bfe7f251ebb0688e3df488d0c94dc2cdddf77d2abb929a
+summary: Nextcloud client for nextcloud server
+description: Nextcloud client enables you to connect to your private Nextcloud Server. With it you can create directories in your home directory, and keep the contents of those directories synced with the server
+license:
   - GPL-2.0-or-later
-builddeps :
-    - pkgconfig(KF6CoreAddons)
-    - pkgconfig(Qt6Core)
-    - pkgconfig(Qt6Core5Compat)
-    - pkgconfig(Qt6Gui)
-    - pkgconfig(Qt6QuickControls2)
-    - pkgconfig(Qt6Svg)
-    - pkgconfig(Qt6UiTools)
-    - pkgconfig(Qt6WebEngineCore)
-    - pkgconfig(Qt6WebSockets)
-    - pkgconfig(cloudproviders)
-    - pkgconfig(libp11)
-    - pkgconfig(openssl)
-    - sqlite-devel
-    - qtkeychain-qt6-devel
-    - kf6-karchive-devel
-    - kf6-kio-devel
-    - qt6-base-private-devel
-setup      : |
-    %cmake_kf6
-build      : |
-    %cmake_build
-install    : |
-    %cmake_install    
+builddeps:
+  - pkgconfig(KF6CoreAddons)
+  - pkgconfig(Qt6Core)
+  - pkgconfig(Qt6Core5Compat)
+  - pkgconfig(Qt6Gui)
+  - pkgconfig(Qt6QuickControls2)
+  - pkgconfig(Qt6Svg)
+  - pkgconfig(Qt6UiTools)
+  - pkgconfig(Qt6WebEngineCore)
+  - pkgconfig(Qt6WebSockets)
+  - pkgconfig(cloudproviders)
+  - pkgconfig(libp11)
+  - pkgconfig(openssl)
+  - kf6-karchive-devel
+  - kf6-kio-devel
+  - qt6-base-private-devel
+  - qtkeychain-qt6-devel
+  - sqlite-devel
+setup: |
+  %cmake_kf6
+build: |
+  %cmake_build
+install: |
+  %cmake_install
