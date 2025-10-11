@@ -57,8 +57,7 @@ rundeps     :
     - binary(fusermount3)
     - binary(xdg-dbus-proxy)
 environment : |
-    # Temporary, replace with boulder macro
-    export XML_CATALOG_FILES="file:///usr/share/defaults/docbook/docbook-dtd/catalog file:///usr/share/defaults/docbook/docbook-xsl/catalog"
+    %export_docbook_catalogs
 setup       : |
     %meson \
         -Ddbus_config_dir=/usr/share/dbus-1/system.d \
