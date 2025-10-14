@@ -5,7 +5,7 @@
 #
 name        : gamescope-session-steam
 version     : r10.1a3fdb7
-release     : 2
+release     : 3
 homepage    : https://github.com/ChimeraOS/gamescope-session-steam
 upstreams   :
     - git|https://github.com/ChimeraOS/gamescope-session-steam.git : 1a3fdb7fa15a4bba7204bef69702b7a10a297828
@@ -24,6 +24,9 @@ install     : |
     # font workaround for initial big picture mode startup
     mkdir -p %(installroot)/usr/share/fonts/truetype/ttf-dejavu
     ln -s /usr/share/fonts/TTF/DejaVuSans.ttf %(installroot)/usr/share/fonts/truetype/ttf-dejavu/DejaVuSans.ttf
+
+    # remove flags not suitable
+    sed -i -e 's/ -steamos3//;s/ -steampal//;s/ -steamdeck//' %(installroot)/usr/share/gamescope-session-plus/sessions.d/steam
 
     # We ship our own update file
     rm %(installroot)/usr/bin/steamos-update
