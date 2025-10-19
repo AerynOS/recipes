@@ -8,18 +8,16 @@ Subject: [PATCH] Allow xdg directory to be overridden
  1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/justfile b/justfile
-index c020b14..e4c0656 100644
+index 8fc71d1..7ebd8ba 100644
 --- a/justfile
 +++ b/justfile
-@@ -21,9 +21,10 @@ desktop-dst := base-dir / 'share' / 'applications' / desktop-entry
- icon-src := 'res' / 'icon.svg'
- icon-dst := icons-dir / APPID + '.svg'
- 
-+xdg-dir := env('XDG_INSTALL_DIR', 'etc' / 'xdg')
- autostart-entry := APPID + '.Autostart.desktop'
- autostart-src := 'res' / autostart-entry
+@@ -16,7 +16,8 @@ export DISABLE_IF_EXISTS := disable-if-exists || env('DISABLE_IF_EXISTS', '')
+ base-dir := absolute_path(clean(rootdir / prefix))
+ cargo-target-dir := env('CARGO_TARGET_DIR', 'target')
+ desktop-entry := appid + '.desktop'
 -autostart-dst := rootdir / 'etc' / 'xdg' / 'autostart' / desktop-entry
++xdg-dir := env('XDG_INSTALL_DIR', 'etc' / 'xdg')
 +autostart-dst := rootdir / xdg-dir / 'autostart' / desktop-entry
- 
- layouts-src := 'res' / 'layouts'
- layouts-dst := base-dir / 'share' / 'cosmic-layouts'
+ autostart-entry := appid + '.Autostart.desktop'
+ bin-dst := base-dir / 'bin' / name
+ desktop-dst := base-dir / 'share' / 'applications' / desktop-entry
