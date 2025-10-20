@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : vte
-version     : 0.82.0
-release     : 21
+version     : 0.82.1
+release     : 22
 homepage    : https://gitlab.gnome.org/GNOME/vte
 upstreams   :
-    - https://download.gnome.org/sources/vte/0.82/vte-0.82.0.tar.xz : b0718db3254730701b43bf5e113cbf8cdb2c14715d32ee1e8a707dc6eb70535f
+    - https://download.gnome.org/sources/vte/0.82/vte-0.82.1.tar.xz : 79376d70402d271e2d38424418e1aea72357934d272e321e3906b71706a78e3a
 summary     : GNOME Virtual Terminal Embedding library
 description : |
     GNOME Virtual Terminal Embedding library
@@ -38,7 +38,6 @@ builddeps   :
     - pkgconfig(zlib)
 setup       : |
     %patch %(pkgdir)/0001-app-Make-build-configurable.patch
-    %patch %(pkgdir)/ftbfs-libcxx.patch
 
     %meson \
         -Dapp=false \

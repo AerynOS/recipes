@@ -1,0 +1,24 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Reilly Brogan <reilly@reillybrogan.com>
+Date: Wed, 15 Oct 2025 19:28:24 -0500
+Subject: [PATCH] lldb: Disable man pages
+
+For unknown reasons this just fails. For now let's just disable it
+
+---
+ lldb/docs/CMakeLists.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/lldb/docs/CMakeLists.txt b/lldb/docs/CMakeLists.txt
+index f1664a696533..ea91bb2b3fde 100644
+--- a/lldb/docs/CMakeLists.txt
++++ b/lldb/docs/CMakeLists.txt
+@@ -20,7 +20,7 @@ if (LLVM_ENABLE_SPHINX)
+   include(AddSphinxTarget)
+ endif()
+ 
+-if (LLDB_ENABLE_PYTHON AND SPHINX_FOUND)
++if (false)
+   if (${SPHINX_OUTPUT_HTML})
+     # Pretend that the SWIG generated API is a Python package.
+     file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/lldb)

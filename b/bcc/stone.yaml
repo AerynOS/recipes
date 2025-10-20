@@ -5,7 +5,7 @@
 #
 name        : bcc
 version     : 0.35.0
-release     : 1
+release     : 2
 upstreams   :
     - https://github.com/iovisor/bcc/releases/download/v0.35.0/bcc-src-with-submodule.tar.gz : a77c8dda4d0c0d93b5cad7b9c8539a7a180005b49ecfb0fbc3d902b5adb03ca2
 homepage    : https://github.com/iovisor/bcc
@@ -20,6 +20,7 @@ builddeps   :
     - pkgconfig(libbpf)
     - python(setuptools)
 setup       : |
+    %patch %(pkgdir)/ftbfs-clang-20.patch
     %cmake \
         -DCMAKE_USE_LIBBPF_PACKAGE=ON \
         -DENABLE_LLVM_SHARED=1 \

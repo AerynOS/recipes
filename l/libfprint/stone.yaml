@@ -30,8 +30,7 @@ builddeps   :
     - pkgconfig(udev)
     - docbook-xsl
 environment : |
-    # Without this it errors out about resolving docbook through the network
-    export XML_CATALOG_FILES="file:///usr/share/defaults/docbook/docbook-xsl/catalog"
+    %export_docbook_catalogs
 setup       : |
     %meson \
         -Ddrivers=all \

@@ -16,10 +16,10 @@ description : |
 builddeps   :
     - binary(xsltproc)
     - pkgconfig(glib-2.0)
+    - docbook
     - docbook-xsl
 environment : |
-    # Temporary, replace with boulder macro
-    export XML_CATALOG_FILES="file:///usr/share/defaults/docbook/docbook-xsl/catalog"
+    %export_docbook_catalogs
 setup       : |
     %meson
 build       : |

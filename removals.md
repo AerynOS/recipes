@@ -142,3 +142,9 @@
 ### Deprecated upstream
 - docker-scan
 - docker-scan-dbginfo
+
+### No longer built
+- gst-plugins-rs-devel
+
+### Merged into the mighty llvm omni-package
+- lldb-dbginfo

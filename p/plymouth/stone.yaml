@@ -38,8 +38,7 @@ rundeps    :
     - font-cantarell
     - os-artwork
 environment : |
-    # Temporary, replace with boulder macro
-    export XML_CATALOG_FILES="file:///usr/share/defaults/docbook/docbook-dtd/catalog file:///usr/share/defaults/docbook/docbook-xsl/catalog"
+    %export_docbook_catalogs
 setup       : |
     %patch %(pkgdir)/0001-Set-plymouth-defaults.patch
     %meson -Dlogo=/usr/share/icons/aerynos-logo-dark.png --libexecdir=lib

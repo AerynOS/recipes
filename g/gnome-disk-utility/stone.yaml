@@ -18,8 +18,6 @@ builddeps   :
     - binary(msgfmt)
     - binary(update-desktop-database)
     - binary(xsltproc)
-    - docbook
-    - docbook-xsl
     - pkgconfig(dvdread)
     - pkgconfig(gio-unix-2.0)
     - pkgconfig(gmodule-2.0)
@@ -32,12 +30,17 @@ builddeps   :
     - pkgconfig(libsystemd)
     - pkgconfig(pwquality)
     - pkgconfig(udisks2)
+    - docbook
+    - docbook-xsl
 environment : |
-    # Temporary, replace with boulder macro
-    export XML_CATALOG_FILES="file:///usr/share/defaults/docbook/docbook-dtd/catalog file:///usr/share/defaults/docbook/docbook-xsl/catalog"
+    %export_docbook_catalogs
 setup       : |
     %meson
 build       : |
     %meson_build
 install     : |
     %meson_install
+    # this gets installed to /etc/xdg/autostart by the install script
+    # -- and then it *promptly* gets ignored by boulder analysis
+    %install_dir %(installroot)%(datadir)/xdg/autostart
+    %install_file %(builddir)/src/notify/org.gnome.SettingsDaemon.DiskUtilityNotify.desktop %(installroot)%(datadir)/xdg/autostart/

@@ -17,16 +17,16 @@ builddeps   :
     - binary(msgfmt)
     - binary(perl)
     - binary(xsltproc)
-    - docbook-xsl
     - pkgconfig(duktape)
     - pkgconfig(expat)
     - pkgconfig(gio-2.0)
     - pkgconfig(gobject-introspection-1.0)
     - pkgconfig(libsystemd)
     - pkgconfig(pam)
+    - docbook
+    - docbook-xsl
 environment : |
-    # Temporary, replace with boulder macro
-    export XML_CATALOG_FILES="file:///usr/share/defaults/docbook/docbook-xsl/catalog"
+    %export_docbook_catalogs
 setup       : |
     %patch %(pkgdir)/stateless/0001-pkexec-Support-a-stateless-configuration.patch
     %patch %(pkgdir)/upstream-01.patch

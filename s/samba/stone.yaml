@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : samba
-version     : 4.22.4
-release     : 17
+version     : 4.22.6
+release     : 18
 homepage    : https://www.samba.org/
 upstreams   :
-    - https://download.samba.org/pub/samba/stable/samba-4.22.4.tar.gz : a41a828848abdf5e942c900ca178597e18aab7b61d3c06a9b5ba43661988010b
+    - https://download.samba.org/pub/samba/stable/samba-4.22.6.tar.gz : 8e6beb0cce87fb3c763af94c2dc21fd47b8fd02d46b3cb1deb2a72df9259c425
 summary     : Samba is the standard Windows interoperability suite of programs for Linux and Unix.
 description : |
      Samba is Free Software licensed under the GNU General Public License, the Samba project is a member of the Software Freedom Conservancy. Since 1992, Samba has provided secure, stable and fast file and print services for all clients using the SMB/CIFS protocol, such as all versions of DOS and Windows, OS/2, Linux and many others. Samba is an important component to seamlessly integrate Linux/Unix Servers and Desktops into Active Directory environments. It can function both as a domain controller or as a regular domain member.
@@ -57,14 +57,16 @@ builddeps   :
     - pkgconfig(readline)
     - pkgconfig(tdb)
     - pkgconfig(tevent)
+    - docbook-xsl
     - perl-parse-yapp
 packages    :
     - "%(name)":
         paths:
             - /usr/lib/lib*.so*
+environment : |
+    %export_docbook_catalogs
 setup       : |
-    # error: version script assignment of 'local' to symbol '_end' failed: symbol not defined
-    export LDFLAGS="${LDFLAGS} -Wl,--undefined-version"
+    # TODO: This package desperately needs to be split
 
     %configure \
         --bundled-libraries='!cmocka,!tdb,!talloc,!pytalloc-util,!tevent,!popt,!ldb,!pyldb-util' \

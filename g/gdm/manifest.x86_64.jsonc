@@ -4,11 +4,11 @@
 	"packages": {
 		"gdm": {
 			"build-depends": [
-				"binary(dconf)",
 				"binary(itstool)",
 				"binary(msgmerge)",
 				"pkgconfig(accountsservice)",
 				"pkgconfig(check)",
+				"pkgconfig(dconf)",
 				"pkgconfig(gio-2.0)",
 				"pkgconfig(gio-unix-2.0)",
 				"pkgconfig(glib-2.0)",
@@ -244,11 +244,11 @@
 		},
 		"gdm-devel": {
 			"build-depends": [
-				"binary(dconf)",
 				"binary(itstool)",
 				"binary(msgmerge)",
 				"pkgconfig(accountsservice)",
 				"pkgconfig(check)",
+				"pkgconfig(dconf)",
 				"pkgconfig(gio-2.0)",
 				"pkgconfig(gio-unix-2.0)",
 				"pkgconfig(glib-2.0)",
@@ -293,11 +293,11 @@
 		},
 		"gdm-libs": {
 			"build-depends": [
-				"binary(dconf)",
 				"binary(itstool)",
 				"binary(msgmerge)",
 				"pkgconfig(accountsservice)",
 				"pkgconfig(check)",
+				"pkgconfig(dconf)",
 				"pkgconfig(gio-2.0)",
 				"pkgconfig(gio-unix-2.0)",
 				"pkgconfig(glib-2.0)",
@@ -336,6 +336,6 @@
 		}
 	},
 	"source-name": "gdm",
-	"source-release": "25",
-	"source-version": "49.0.1"
+	"source-release": "26",
+	"source-version": "49.1"
 }

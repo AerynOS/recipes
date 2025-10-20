@@ -4,10 +4,10 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : kio-fuse
-version     : 5.1.0
-release     : 1
+version     : 5.1.1
+release     : 2
 upstreams   :
-    - https://download.kde.org/stable/kio-fuse/kio-fuse-5.1.0.tar.xz : 7d104581227d5a19b424b33f4168d181556b1015d6df2218e01a88d64449e94b
+    - https://download.kde.org/stable/kio-fuse/kio-fuse-5.1.1.tar.xz : adf6aa7ce055c0987e716a93ac01f3c0a97c1280421443cd6b21e0e71d763d14
 homepage    : https://community.kde.org/Frameworks
 license     : GPL-3.0-or-later
 summary     : FUSE interface for KIO
@@ -20,7 +20,6 @@ builddeps   :
     - cmake(KF6KIO)
     - pkgconfig(fuse3)
 setup       : |
-    %patch %(pkgdir)/77.patch
     %cmake_kf6 \
         -DQT_MAJOR_VERSION=6
 build       : |

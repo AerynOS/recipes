@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : gnome-remote-desktop
-version     : "49.0"
-release     : 15
+version     : "49.1"
+release     : 16
 homepage    : https://gitlab.gnome.org/GNOME/gnome-remote-desktop
 upstreams   :
-    - https://download.gnome.org/sources/gnome-remote-desktop/49/gnome-remote-desktop-49.0.tar.xz : d47add9d970f224acc77efe5a216486d40451e2bc21b85bfec5397d420fda18a
+    - https://download.gnome.org/sources/gnome-remote-desktop/49/gnome-remote-desktop-49.1.tar.xz : 7800f388301eeb8147b0be55e8fa7cbd7521066a48a06115cc0ead9f0cea188a
 summary     : Remote desktop daemon for GNOME using pipewire
 description : |
     Remote desktop server which allows you to connect to your machine remotely
@@ -56,8 +56,7 @@ builddeps   :
 rundeps     :
     - binary(pipewire)
 environment : |
-    # Temporary, replace with boulder macro
-    export XML_CATALOG_FILES="file:///usr/share/defaults/docbook/docbook-dtd/catalog file:///usr/share/defaults/docbook/docbook-xsl/catalog"
+    %export_docbook_catalogs
 setup       : |
     # In file included from ../src/grd-settings.c:28:
     # /usr/lib/pkgconfig/../../include/freerdp3/freerdp/freerdp.h:25:10: fatal error: 'winpr/stream.h' file not found

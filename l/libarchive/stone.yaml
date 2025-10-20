@@ -4,16 +4,16 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : libarchive
-version     : 3.8.1
-release     : 13
+version     : 3.8.2
+release     : 14
 summary     : Multi-format archive and compression library
 license     : BSD-2-Clause
 homepage    : https://www.libarchive.org
 description : |
     Multi-format archive and compression library
 upstreams   :
-    - https://www.libarchive.org/downloads/libarchive-3.8.1.tar.gz:
-        hash: bde832a5e3344dc723cfe9cc37f8e54bde04565bfe6f136bc1bd31ab352e9fab
+    - https://www.libarchive.org/downloads/libarchive-3.8.2.tar.gz:
+        hash: 5f2d3c2fde8dc44583a61165549dc50ba8a37c5947c90fc02c8e5ce7f1cfb80d
         unpack: false
         rename: libarchive.tar.gz
 builddeps   :
@@ -38,7 +38,6 @@ setup       : |
     tar -xf %(sourcedir)/libarchive.tar.gz --strip-components=1 -C libarchive-static
 
     function libarchive_configure() {
-        # libstone support disabled until it doesn't break zip files
         %patch %(pkgdir)/0001-Add-stone-read-support.patch
 
         %reconfigure \
@@ -56,7 +55,6 @@ setup       : |
 
     # Statically link in libxml2 and libicu since those are the libraries most likely to change sonames
     pushd libarchive-static
-        # export CXXFLAGS+=" -std=c++17"
         libarchive_configure \
             --enable-bsdcpio=static \
             --enable-static \

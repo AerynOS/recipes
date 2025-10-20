@@ -1,5 +1,6 @@
 #
 # SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
+# SPDX-FileCopyrightText: © 2025-     AerynOS Developers
 #
 # SPDX-License-Identifier: MPL-2.0
 #
@@ -16,8 +17,7 @@ builddeps  :
     - binary(a2x)
     - docbook
 environment : |
-    # Temporary, replace with boulder macro
-    export XML_CATALOG_FILES="file:///usr/share/defaults/docbook/docbook-dtd/catalog file:///usr/share/defaults/docbook/docbook-xsl/catalog"
+    %export_docbook_catalogs
 build       : |
     cp %(pkgdir)/update-ca-trust.8.txt .
     a2x -v -f manpage update-ca-trust.8.txt

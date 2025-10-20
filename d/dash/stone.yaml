@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : dash
-version     : 0.5.13
-release     : 13
+version     : 0.5.13.1
+release     : 14
 homepage    : http://gondor.apana.org.au/~herbert/dash
 upstreams   :
-    - http://gondor.apana.org.au/~herbert/dash/files/dash-0.5.13.tar.gz: fd8da121e306b27f59330613417b182b8844f11e269531cc4720bf523e3e06d7
+    - http://gondor.apana.org.au/~herbert/dash/files/dash-0.5.13.1.tar.gz: d9271bce09c127d9866e25c011582ddc75ab988958a04bc4d8553a3b8f30e370
     # - git|https://git.kernel.org/pub/scm/utils/dash/dash.git : a9012f4078be32012f240c6208c3df53db3b6086
 summary     : Small and fast POSIX-compliant shell
 description : |
@@ -22,9 +22,6 @@ tuning      :
     - nosemantic
 setup       : |
     %patch %(pkgdir)/0001-downstream-Update-default-path.patch
-    %patch %(pkgdir)/upstream-01.patch
-    %patch %(pkgdir)/upstream-02.patch
-    %patch %(pkgdir)/upstream-03.patch
 
     %configure \
         --enable-glob \

@@ -33,8 +33,7 @@ builddeps   :
     # gimp-2.0
     # NOTE: Do not re-enable pixbuf loader. It is now superceded by a glycin plugin
 environment : |
-    # Temporary, replace with boulder macro
-    export XML_CATALOG_FILES="file:///usr/share/defaults/docbook/docbook-dtd/catalog file:///usr/share/defaults/docbook/docbook-xsl/catalog"
+    %export_docbook_catalogs
 setup       : |
     rm -rf third_party/{sjpeg,skcms}
     ln -s ../../sjpeg.git third_party/sjpeg

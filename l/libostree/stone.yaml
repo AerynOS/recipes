@@ -37,15 +37,14 @@ builddeps   :
     - pkgconfig(gpgme-glib)
     - pkgconfig(libarchive)
     - pkgconfig(libcurl)
-    - pkgconfig(libsoup-3.0)
     - pkgconfig(liblzma)
+    - pkgconfig(libsoup-3.0)
     - pkgconfig(libsystemd)
     - pkgconfig(openssl)
     - docbook
     - docbook-xsl
 environment : |
-    # Temporary, replace with boulder macro
-    export XML_CATALOG_FILES="file:///usr/share/defaults/docbook/docbook-dtd/catalog file:///usr/share/defaults/docbook/docbook-xsl/catalog"
+    %export_docbook_catalogs
 setup       : |
     %patch %(pkgdir)/remove-gcc-override.patch
 

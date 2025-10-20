@@ -17,10 +17,10 @@ builddeps   :
     - binary(msgfmt)
     - binary(xsltproc)
     - pkgconfig(systemd)
+    - docbook
     - docbook-xsl
 environment : |
-    # Temporary, replace with boulder macro
-    export XML_CATALOG_FILES="file:///usr/share/defaults/docbook/docbook-xsl/catalog"
+    %export_docbook_catalogs
 setup       : |
     %patch %(pkgdir)/0001-Fallback-to-stateless-directories-ship-files-in-data.patch
 

@@ -9,18 +9,18 @@
 			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
-				"soname(libLLVM.so.20.1(x86_64))",
+				"soname(libLLVM.so.21.1(x86_64))",
 				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/bin/llvm-spirv",
-				"/usr/lib/libLLVMSPIRVLib.so.20.1"
+				"/usr/lib/libLLVMSPIRVLib.so.21.1"
 			],
 			"name": "spirv-llvm-translator",
 			"provides": [
 				"binary(llvm-spirv)",
-				"soname(libLLVMSPIRVLib.so.20.1(x86_64))"
+				"soname(libLLVMSPIRVLib.so.21.1(x86_64))"
 			]
 		},
 		"spirv-llvm-translator-32bit": {
@@ -29,18 +29,18 @@
 				"pkgconfig32(SPIRV-Tools)"
 			],
 			"depends": [
-				"soname(libLLVM.so.20.1(386))",
+				"soname(libLLVM.so.21.1(386))",
 				"soname(libc++.so.1(386))",
 				"soname(libc.so.6(386))",
 				"soname(libm.so.6(386))",
 				"spirv-llvm-translator"
 			],
 			"files": [
-				"/usr/lib32/libLLVMSPIRVLib.so.20.1"
+				"/usr/lib32/libLLVMSPIRVLib.so.21.1"
 			],
 			"name": "spirv-llvm-translator-32bit",
 			"provides": [
-				"soname(libLLVMSPIRVLib.so.20.1(386))"
+				"soname(libLLVMSPIRVLib.so.21.1(386))"
 			]
 		},
 		"spirv-llvm-translator-32bit-devel": {
@@ -83,6 +83,6 @@
 		}
 	},
 	"source-name": "spirv-llvm-translator",
-	"source-release": "8",
-	"source-version": "20.1.7"
+	"source-release": "9",
+	"source-version": "21.1.1"
 }
