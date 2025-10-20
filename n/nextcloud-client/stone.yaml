@@ -21,13 +21,18 @@ builddeps:
   - pkgconfig(cloudproviders)
   - pkgconfig(libp11)
   - pkgconfig(openssl)
+  - extra-cmake-modules
   - kf6-karchive-devel
   - kf6-kio-devel
   - qt6-base-private-devel
   - qtkeychain-qt6-devel
   - sqlite-devel
 setup: |
-  %cmake_kf6
+  %cmake \
+      -DCMAKE_BUILD_TYPE=Release \
+      -DUNIT_TESTING=false \
+      -DBUILD_SHELL_INTEGRATION_DOLPHIN=true \
+      -DBUILD_UPDATER=false
 build: |
   %cmake_build
 install: |

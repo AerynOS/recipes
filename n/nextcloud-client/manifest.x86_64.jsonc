@@ -4,6 +4,7 @@
 	"packages": {
 		"nextcloud-client": {
 			"build-depends": [
+				"extra-cmake-modules",
 				"kf6-karchive-devel",
 				"kf6-kio-devel",
 				"pkgconfig(KF6CoreAddons)",
@@ -62,9 +63,9 @@
 				"/usr/bin/nextcloud",
 				"/usr/bin/nextcloudcmd",
 				"/usr/lib/libnextcloud_csync.so.0",
-				"/usr/lib/libnextcloud_csync.so.3.17.2",
+				"/usr/lib/libnextcloud_csync.so.3.17.3",
 				"/usr/lib/libnextcloudsync.so.0",
-				"/usr/lib/libnextcloudsync.so.3.17.2",
+				"/usr/lib/libnextcloudsync.so.3.17.3",
 				"/usr/lib/nextcloudsync_vfs_suffix.so",
 				"/usr/lib/nextcloudsync_vfs_xattr.so",
 				"/usr/lib/qt6/plugins/kf6/kfileitemaction/nextclouddolphinactionplugin.so",
@@ -218,6 +219,7 @@
 		},
 		"nextcloud-client-devel": {
 			"build-depends": [
+				"extra-cmake-modules",
 				"kf6-karchive-devel",
 				"kf6-kio-devel",
 				"pkgconfig(KF6CoreAddons)",
@@ -265,5 +267,5 @@
 	},
 	"source-name": "nextcloud-client",
 	"source-release": "1",
-	"source-version": "3.17.2"
+	"source-version": "3.17.3"
 }
