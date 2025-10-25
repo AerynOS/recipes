@@ -4,22 +4,22 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : gdm
-version     : "49.0.1"
-release     : 25
+version     : "49.1"
+release     : 26
 homepage    : https://gitlab.gnome.org/GNOME/gdm
 upstreams   :
-    - https://download.gnome.org/sources/gdm/49/gdm-49.0.1.tar.xz : 19ba42f8692a0bf3a52bd597e1a9ab28c9c6a51896a5082304e5fa1a5184d81a
+    - https://download.gnome.org/sources/gdm/49/gdm-49.1.tar.xz : 69da5d1319dc2c68adf5cd394ad59bec99bb2e24f284045a1bb4acd7740044e5
 summary     : GNOME Display Manager
 description : |
     Login/lock and session management with the GNOME Display Manager
 license     :
     - GPL-2.0-or-later
 builddeps   :
-    - binary(dconf)
     - binary(itstool)
     - binary(msgmerge)
     - pkgconfig(accountsservice)
     - pkgconfig(check)
+    - pkgconfig(dconf)
     - pkgconfig(gio-2.0)
     - pkgconfig(gio-unix-2.0)
     - pkgconfig(glib-2.0)

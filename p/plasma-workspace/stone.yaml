@@ -4,10 +4,10 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : plasma-workspace
-version     : 6.4.5
-release     : 18
+version     : 6.5.0
+release     : 19
 upstreams   :
-    - https://download.kde.org/stable/plasma/6.4.5/plasma-workspace-6.4.5.tar.xz : 19999ebf3574f539145ba7074019b88d51f2ca952d121394daf6af2e632910fb
+    - https://download.kde.org/stable/plasma/6.5.0/plasma-workspace-6.5.0.tar.xz : 6491eafbfabc5335c5c7a7b6d6884a11f91075587b4912401cffe830966f2f20
 homepage    : https://kde.org/plasma-desktop/
 license     :
     - GFDL-1.2
@@ -35,6 +35,7 @@ builddeps   :
     - cmake(KF6Holidays)
     - cmake(KF6I18n)
     - cmake(KF6IconThemes)
+    - cmake(KF6IdleTime)
     - cmake(KF6ItemModels)
     - cmake(KF6KCMUtils)
     - cmake(KF6KDED)
@@ -55,10 +56,10 @@ builddeps   :
     - cmake(KF6Svg)
     - cmake(KF6TextEditor)
     - cmake(KF6TextWidgets)
-    - cmake(KF6UnitConversion)
     - cmake(KF6UserFeedback)
     - cmake(KF6Wallet)
     - cmake(KExiv2Qt6)
+    - cmake(KNightTime)
     - cmake(KSysGuard)
     - cmake(KWayland)
     - cmake(KWinDBusInterface)
@@ -99,13 +100,6 @@ setup       : |
     %patch %(pkgdir)/0001-Remove-wayland-from-session-name.patch
     %patch %(pkgdir)/0001-Use-stateless-dir-for-menu.patch
     %patch %(pkgdir)/0001-Use-plasma-keyboard-for-SDDM-input.patch
-    %patch %(pkgdir)/0001-startkde-Drop-ready-stage.patch
-    %patch %(pkgdir)/0001-shell-Set-desktop-ksplash-stage-when-all-desktop-vie.patch
-    %patch %(pkgdir)/0001-Notify-for-changed-monospace-font.patch
-    %patch %(pkgdir)/upstream-01.patch
-
-    # Fix doc build with libxml2 2.15
-    find -name index.docbook | xargs sed -e 's|index.html "|index.html"|g' -i
 
     # Regrettably we can't set WITH_X11=OFF yet because the font KCM relies on it to build. For now we can just cleanup the session bits afterwords
     %cmake_kf6 \
@@ -178,14 +172,13 @@ packages    :
             - phonon-backend-mpv-qt6 # Phonon backend
         paths:
             - /usr/lib/libbatterycontrol.so.*
-            - /usr/lib/libcolorcorrect.so.*
             - /usr/lib/libkfontinst*.so.*
             - /usr/lib/libklipper.so.*
+            - /usr/lib/libklookandfeel.so.*
             - /usr/lib/libkmpris.so.*
             - /usr/lib/libkrdb.so # Why isn't this versioned?
             - /usr/lib/libnotificationmanager.so.*
             - /usr/lib/libtaskmanager.so.*
-            - /usr/lib/libweather_ion.so.*
             - /usr/lib/kconf_update_bin/
             - /usr/lib/kf6/plasma-sourceenv.sh
             - /usr/lib/qt6/plugins/kf6/kded/*.so

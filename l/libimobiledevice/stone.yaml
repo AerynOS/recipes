@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : libimobiledevice
-version     : 1.3.0+git.ba829e6f
-release     : 2
+version     : 1.4.0
+release     : 3
 homepage    : https://github.com/libimobiledevice/libimobiledevice
 upstreams   :
-    - git|https://github.com/libimobiledevice/libimobiledevice.git : ba829e6f1a62bdad7866572d1e2cff1836ced742
+    - https://github.com/libimobiledevice/libimobiledevice/releases/download/1.4.0/libimobiledevice-1.4.0.tar.bz2 : 23cc0077e221c7d991bd0eb02150a0d49199bcca1ddf059edccee9ffd914939d
 summary     : Library for communicating with iPhone and iPod Touch devices
 description : |
     Library for communicating with iPhone and iPod Touch devices
@@ -16,20 +16,25 @@ license     :
     - LGPL-2.1-or-later
     - GPL-2.0-or-later
 builddeps   :
-    - binary(cython)
     - binary(msgfmt)
     - binary(which)
     - pkgconfig(libtatsu-1.0)
     - pkgconfig(libusb-1.0)
     - pkgconfig(libusbmuxd-2.0)
     - pkgconfig(openssl)
-    - pkgconfig(python3)
 setup       : |
-    %patch %(pkgdir)/1616.patch
-    %patch %(pkgdir)/ftbfs-cython-31.patch
-
-    %reconfigure
+    # No current need for Python bindings
+    %configure \
+        --disable-static \
+        --without-cython
 build       : |
     %make
 install     : |
     %make_install
+packages    :
+    - "%(name)-utils":
+        summary: Utilities for use with libimobiledevice
+        description: Utilities for use with libimobiledevice
+        paths:
+            - /usr/bin/
+            - /usr/share/man/man1/

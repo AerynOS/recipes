@@ -5,7 +5,7 @@
 #
 name        : ldc
 version     : 1.40.1
-release     : 19
+release     : 20
 summary     : The LLVM-based D Compiler
 license     :
     - Apache-2.0
@@ -24,9 +24,9 @@ upstreams   :
     #     unpackdir: "ldc/bootstrap/"
 builddeps   :
     - binary(ldc2)
-    - binary(llvm-config)
+    - binary(llvm-config-20)
     - binary(make)
-    - cmake(LLD)
+    - lld-20-devel
     - pkgconfig(zlib)
     # - libgcc # ldc2 upstream linked against libgcc_c.so
     - ldc-static
@@ -62,6 +62,7 @@ setup       : |
            -DLDC_DYNAMIC_COMPILE=OFF \
            -DLDC_INSTALL_LTOPLUGIN=ON \
            -DLDC_WITH_LLD=ON \
+           -DLLVM_CONFIG=%(bindir)/llvm-config-20 \
            -DPHOBOS_SYSTEM_ZLIB=ON \
            -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
            "$@"

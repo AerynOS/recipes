@@ -1,0 +1,60 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Reilly Brogan <reilly@reillybrogan.com>
+Date: Fri, 17 Jan 2025 00:33:40 -0600
+Subject: [PATCH] bolt: Set version string
+
+Signed-off-by: Reilly Brogan <reilly@reillybrogan.com>
+---
+ bolt/CMakeLists.txt                                          | 2 ++
+ bolt/include/bolt/RuntimeLibs/RuntimeLibraryVariables.inc.in | 2 ++
+ bolt/include/bolt/Utils/CommandLineOpts.h                    | 1 +
+ bolt/lib/Utils/CommandLineOpts.cpp                           | 2 +-
+ 4 files changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/bolt/CMakeLists.txt b/bolt/CMakeLists.txt
+index 74907ad118d1..b86bb9eed39c 100644
+--- a/bolt/CMakeLists.txt
++++ b/bolt/CMakeLists.txt
+@@ -148,5 +148,7 @@ if (BOLT_INCLUDE_DOCS)
+   add_subdirectory(docs)
+ endif()
+ 
++set(BOLT_VERSION "${BOLT_PACKAGE_VERSION}")
++
+ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/include/bolt/RuntimeLibs/RuntimeLibraryVariables.inc.in
+                ${CMAKE_CURRENT_BINARY_DIR}/include/bolt/RuntimeLibs/RuntimeLibraryVariables.inc @ONLY)
+diff --git a/bolt/include/bolt/RuntimeLibs/RuntimeLibraryVariables.inc.in b/bolt/include/bolt/RuntimeLibs/RuntimeLibraryVariables.inc.in
+index bbade297d210..aab123bcc666 100644
+--- a/bolt/include/bolt/RuntimeLibs/RuntimeLibraryVariables.inc.in
++++ b/bolt/include/bolt/RuntimeLibs/RuntimeLibraryVariables.inc.in
+@@ -15,3 +15,5 @@
+ //===----------------------------------------------------------------------===//
+ 
+ #define LLVM_LIBDIR_SUFFIX "@LLVM_LIBDIR_SUFFIX@"
++
++#define BOLT_VERSION_STRING "@BOLT_VERSION@"
+diff --git a/bolt/include/bolt/Utils/CommandLineOpts.h b/bolt/include/bolt/Utils/CommandLineOpts.h
+index baabeab577fb..1558fa8ca730 100644
+--- a/bolt/include/bolt/Utils/CommandLineOpts.h
++++ b/bolt/include/bolt/Utils/CommandLineOpts.h
+@@ -14,6 +14,7 @@
+ #define BOLT_UTILS_COMMAND_LINE_OPTS_H
+ 
+ #include "llvm/Support/CommandLine.h"
++#include "bolt/RuntimeLibs/RuntimeLibraryVariables.inc"
+ 
+ namespace opts {
+ 
+diff --git a/bolt/lib/Utils/CommandLineOpts.cpp b/bolt/lib/Utils/CommandLineOpts.cpp
+index 47375abb2ad3..4b054a3da8c5 100644
+--- a/bolt/lib/Utils/CommandLineOpts.cpp
++++ b/bolt/lib/Utils/CommandLineOpts.cpp
+@@ -21,7 +21,7 @@ const char *BoltRevision =
+ #ifdef LLVM_REVISION
+     LLVM_REVISION;
+ #else
+-    "<unknown>";
++    BOLT_VERSION_STRING;
+ #endif
+ }
+ }

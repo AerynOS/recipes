@@ -4,10 +4,10 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : kpipewire
-version     : 6.4.5
-release     : 7
+version     : 6.5.0
+release     : 8
 upstreams   :
-    - https://download.kde.org/stable/plasma/6.4.5/kpipewire-6.4.5.tar.xz : d0a704a6a030edb5b4f5d6b99c32bc4e46e1a6ab527dfde9089e11094b6b1a92
+    - https://download.kde.org/stable/plasma/6.5.0/kpipewire-6.5.0.tar.xz : 0651b8ea3862ffe3ea4f08a24431ab46725740221f052c4328033362be220ba7
 homepage    : https://kde.org/plasma-desktop/
 license     : LGPL-2.1-or-later
 summary     : Components relating to pipewire use in Plasma
@@ -32,7 +32,6 @@ tuning      :
     - lto: full
     - optimize: speed
 setup       : |
-    %patch %(pkgdir)/ftbfs-ffmpeg-8.0.patch
     %cmake_kf6
 build       : |
     %cmake_build

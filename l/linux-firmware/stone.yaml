@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : linux-firmware
-version     : "20250917"
-release     : 30
+version     : "20251011"
+release     : 31
 homepage    : https://kernel.org
 upstreams   :
-    - git|https://gitlab.com/kernel-firmware/linux-firmware.git : add225168d0d1ba4c174d5eb15272b53de01ad5a
+    - git|https://gitlab.com/kernel-firmware/linux-firmware.git : 49fafa182b23577825976524a3aef8e1bc8878bf
 summary     : Firmware to allow devices to function correctly
 description : |
     Firmware to allow devices to function correctly
@@ -136,6 +136,8 @@ packages    :
             - /usr/lib/firmware/intel/ice
             - /usr/lib/firmware/intel/ish
             - /usr/lib/firmware/intel/vpu
+            - /usr/lib/firmware/dell/ish/
+            - /usr/lib/firmware/HP/ish/
             - /usr/lib/firmware/LENOVO/ish/
 
     - "%(name)-intel-sound":

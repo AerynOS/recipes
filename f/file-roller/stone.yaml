@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : file-roller
-version     : 44.5
-release     : 6
+version     : 44.6
+release     : 7
 homepage    : https://gitlab.gnome.org/GNOME/file-roller
 upstreams   :
-    - https://download.gnome.org/sources/file-roller/44/file-roller-44.5.tar.xz : dfaf4bb989c0b8986be8bdae9fffeab8d0f30669ae3a627e8c3df94f23888339
+    - https://download.gnome.org/sources/file-roller/44/file-roller-44.6.tar.xz : 9e873b5005bc425799a8cd4b237e1fff430ec8d6b34a992c6033f1dfc6e3764e
 summary     : An archive manager utility for the GNOME Environment.
 description : |
   File Roller is an archive manager for the GNOME environment.  This means that you can create and modify archives; view the content of an archive; view and modify a file contained in the archive; extract files from the archive.
@@ -30,7 +30,8 @@ builddeps   :
     - pkgconfig(libportal-gtk4)
 setup       : |
     %patch %(pkgdir)/0001-stone-mime.patch
-    %meson -Duse_native_appchooser=true
+    %meson \
+        -Duse_native_appchooser=true
 build       : |
     %meson_build
 install     : |

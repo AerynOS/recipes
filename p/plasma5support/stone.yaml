@@ -4,10 +4,10 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : plasma5support
-version     : 6.4.5
-release     : 6
+version     : 6.5.0
+release     : 7
 upstreams   :
-    - https://download.kde.org/stable/plasma/6.4.5/plasma5support-6.4.5.tar.xz : acfdfbc82f8e3af7bd35d514b1e3cbb5daba8da7ba790cecb68f925a0f4df942
+    - https://download.kde.org/stable/plasma/6.5.0/plasma5support-6.5.0.tar.xz : 972a7756e8e21f49a42479d4e0f5beb644f8ffae15da5237764d24dbc509e3da
 homepage    : https://kde.org/plasma-desktop/
 license     :
     - GPL-2.0-or-later
@@ -21,6 +21,7 @@ builddeps   :
     - cmake(KF6Config)
     - cmake(KF6CoreAddons)
     - cmake(KF6GuiAddons)
+    - cmake(KF6Holidays)
     - cmake(KF6I18n)
     - cmake(KF6IdleTime)
     - cmake(KF6KIO)
@@ -28,6 +29,7 @@ builddeps   :
     - cmake(KF6Notifications)
     - cmake(KF6Service)
     - cmake(KF6Solid)
+    - cmake(KF6UnitConversion)
     - cmake(KSysGuard)
     - cmake(PlasmaActivities)
     - cmake(Qt6CorePrivate)

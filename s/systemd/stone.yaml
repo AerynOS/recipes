@@ -4,8 +4,8 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : systemd
-version     : "257.9"
-release     : 68
+version     : "257.10"
+release     : 69
 summary     : A System and Service Manager
 license     :
     - GPL-2.0-or-later
@@ -15,7 +15,7 @@ homepage    : http://www.freedesktop.org/wiki/Software/systemd
 description : |
     A System and Service Manager
 upstreams   :
-    - https://github.com/systemd/systemd/archive/refs/tags/v257.9.tar.gz: b27dcc100a738b4b5b81f7c5174c1239a6495f5bdf3d3caa94a17b8373e6a1ca
+    - https://github.com/systemd/systemd/archive/refs/tags/v257.10.tar.gz: 5a2f477e6268630f6e2829c7bb3e442017549798a4122635817934eaa0c6ac10
 builddeps   :
     - binary(bpftool)
     - binary(gcc) # Used in meson.build to query the multiarch triplet. TODO: patch that out
@@ -86,6 +86,9 @@ setup       : |
 
     # Upstream patches
     %patch %(pkgdir)/patches/upstream/0001-boot-only-link-libgcc-when-compiler-is-gcc.patch
+
+    # ERROR: File fuzz-unit-file/dm-back-slash.swap does not exist.
+    mv "test/fuzz/fuzz-unit-file/dm-back\x2dslash.swap" "test/fuzz/fuzz-unit-file/dm-back-slash.swap"
 
     _IS_64BIT_BOOL="true"
     _IS_64BIT_FEAT="enabled"

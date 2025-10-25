@@ -5,7 +5,7 @@
 #
 name        : openblas
 version     : 0.3.30
-release     : 6
+release     : 7
 homepage    : https://github.com/OpenMathLib/OpenBLAS
 upstreams   :
     - https://github.com/OpenMathLib/OpenBLAS/archive/refs/tags/v0.3.30.tar.gz : 27342cff518646afb4c2b976d809102e368957974c250a25ccc965e53063c95d
@@ -19,11 +19,11 @@ setup       : |
     %patch %(pkgdir)/openmp_link.patch
 
     %cmake \
-           -DCMAKE_Fortran_COMPILER=flang \
-           -DBUILD_SHARED_LIBS=ON \
-           -DDYNAMIC_ARCH=ON \
-           -DTARGET=GENERIC \
-           -DUSE_OPENMP=1 \
+        -DCMAKE_Fortran_COMPILER=flang \
+        -DBUILD_SHARED_LIBS=ON \
+        -DDYNAMIC_ARCH=ON \
+        -DTARGET=GENERIC \
+        -DUSE_OPENMP=1 \
 build       : |
     %cmake_build
 install     : |

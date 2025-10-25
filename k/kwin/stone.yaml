@@ -4,15 +4,17 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : kwin
-version     : 6.4.5
-release     : 10
+version     : 6.5.0
+release     : 11
 upstreams   :
-    - https://download.kde.org/stable/plasma/6.4.5/kwin-6.4.5.tar.xz : decf1cb79127c285c7eda768e7ff4f97c72f314735c82685758f0b956ac151f7
+    - https://download.kde.org/stable/plasma/6.5.0/kwin-6.5.0.tar.xz : e0eaa67980266fe27fe32d15c9f18f8206776919f81d4e1a889d34c5f65cf982
 homepage    : https://kde.org/plasma-desktop/
-license     : GPL-2.0-or-later
-summary     : Config module for SDDM
+license     :
+    - GFDL-1.2-only
+    - GPL-2.0-only
+summary     : KDE window manager
 description : |
-    Hosts the KCM module for SDDM. This module allows for configuring SDDM in Plasma System Settings.
+    KWin is the window manager for the KDE Plasma Desktop. It gives you complete control over your windows, making sure they're not in the way but aid you in your task. It paints the window decoration, the bar on top of every window with (configurable) buttons like close, maximize and minimize. It also handles placing of windows and switching between them.
 builddeps   :
     - binary(Xwayland)
     - cmake(Aurorae)
@@ -43,6 +45,7 @@ builddeps   :
     - cmake(KF6WindowSystem)
     - cmake(KF6XmlGui)
     - cmake(KGlobalAccelD)
+    - cmake(KNightTime)
     - cmake(KScreenLocker)
     - cmake(KWayland)
     - cmake(Plasma)
@@ -55,7 +58,10 @@ builddeps   :
     - cmake(Qt6Sensors)
     - cmake(Qt6Svg)
     - cmake(Qt6WaylandClient)
+    - pkgconfig(egl)
     - pkgconfig(epoxy)
+    - pkgconfig(fontconfig)
+    - pkgconfig(freetype2)
     - pkgconfig(gbm)
     - pkgconfig(hwdata)
     - pkgconfig(lcms2)
@@ -65,17 +71,16 @@ builddeps   :
     - pkgconfig(libeis-1.0)
     - pkgconfig(libinput)
     - pkgconfig(libpipewire-0.3)
+    - pkgconfig(libsystemd)
     - pkgconfig(libxcvt)
+    - pkgconfig(udev)
+    - pkgconfig(xkbcommon)
     - pkgconfig(xkbcommon-x11)
     - pkgconfig(wayland-protocols)
 tuning      :
     - lto: full
     - optimize: speed
 setup       : |
-    # Fix doc build with libxml2 2.15
-    # Remove with Plasma 6.5
-    find -name index.docbook | xargs sed -e 's|url=" |url="|g' -i
-
     %cmake_kf6
 build       : |
     %cmake_build

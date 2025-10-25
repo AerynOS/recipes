@@ -14,10 +14,10 @@ Last-Update: 2025-03-31
  2 files changed, 8 insertions(+), 1 deletion(-)
 
 diff --git a/polly/CMakeLists.txt b/polly/CMakeLists.txt
-index b4cfc77d0f21..893938dda530 100644
+index 52d1be6fe295..abc3f7a6b012 100644
 --- a/polly/CMakeLists.txt
 +++ b/polly/CMakeLists.txt
-@@ -104,16 +104,20 @@ include_directories(
+@@ -105,16 +105,20 @@ include_directories(
  if (NOT LLVM_INSTALL_TOOLCHAIN_ONLY)
    install(DIRECTORY include/
      DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
@@ -37,7 +37,7 @@ index b4cfc77d0f21..893938dda530 100644
 +    COMPONENT polly-headers)
  endif()
  
- add_definitions( -D_GNU_SOURCE )
+ # add_llvm_pass_plugin() already declares the option, but we need access to
 diff --git a/polly/cmake/CMakeLists.txt b/polly/cmake/CMakeLists.txt
 index cd1f5db842d9..99d60c15de8d 100644
 --- a/polly/cmake/CMakeLists.txt

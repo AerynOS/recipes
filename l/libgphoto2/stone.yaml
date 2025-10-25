@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : libgphoto2
-version     : 2.5.32
-release     : 1
+version     : 2.5.33
+release     : 2
 homepage    : http://www.gphoto.org/proj/libgphoto2/
 upstreams   :
-    - https://sourceforge.net/projects/gphoto/files/libgphoto/2.5.32/libgphoto2-2.5.32.tar.bz2 : 02b29ab0bcfceda1c7f81c75ec7cb5e64d329cf4b8fd0fcd5bc5a89ff09561bc
+    - https://sourceforge.net/projects/gphoto/files/libgphoto/2.5.33/libgphoto2-2.5.33.tar.bz2 : c55504e725cf44b6ca67e1cd7504ad36dc98d7a0469a9e8d627fd0fb3848aa1d
 summary     : libgphoto2 is the core library designed to allow access to digital camera by external programs
 description : |
     libgphoto2 is the core library designed to allow access to digital camera by external programs
@@ -20,8 +20,6 @@ builddeps   :
     - pkgconfig(libusb-1.0)
     - pkgconfig(libxml-2.0)
     - libtool-ltldl-devel
-# environment : |
-#     export LDFLAGS="${LDFLAGS} -Wl,--undefined-version"
 setup       : |
     %configure
 build       : |

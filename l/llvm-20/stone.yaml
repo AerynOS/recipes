@@ -1,0 +1,587 @@
+#
+# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : llvm-20
+version     : 20.1.8
+release     : 1
+summary     : Low Level Virtual Machine
+license     :
+    - Apache-2.0 WITH LLVM-exception
+    - NCSA
+homepage    : https://www.llvm.org
+description : |
+    Low Level Virtual Machine
+upstreams   :
+    - https://github.com/llvm/llvm-project/releases/download/llvmorg-20.1.8/llvm-project-20.1.8.src.tar.xz : 6898f963c8e938981e6c4a302e83ec5beb4630147c7311183cf61069af16333d
+builddeps   :
+    - binary(perl)
+    - binary(python3)
+    - binary(sed)
+    - pkgconfig(hwloc)
+    - pkgconfig(libedit)
+    - pkgconfig(libffi)
+    - pkgconfig(libxcrypt)
+    - pkgconfig(libxml-2.0)
+    - pkgconfig(libzstd)
+    - pkgconfig(mimalloc)
+    - pkgconfig(zlib)
+    - python(myst-parser)
+    - binutils-devel
+    - libatomic
+    - libcxx-devel-static
+    - mimalloc-static # TODO: Figure out if we can actually split mimalloc-static, or if it needs to go back in.
+tuning      :
+    - fortify: false
+    - frame-pointer: false
+    - harden: false
+    - icf: all
+    - lto: false # LTO needs to be set in LLVM cmake flags so it adds -fno-lto where needed
+    - nosemantic
+    - optimize: speed
+    - symbolic
+environment : |
+    # Full-fat (in the milk sense) build suitable for cross-compilation
+    _BUILD_TARGETS="AArch64;AMDGPU;ARM;BPF;RISCV;SPIRV;WebAssembly;X86"
+    _PROJECTS="clang;lld;llvm"
+    _RUNTIMES="compiler-rt"
+
+    if [[ " ${PATH[*]} " =~ "ccache" ]]; then
+        EXTRA_LLVM_FLAGS="-DLLVM_CCACHE_BUILD=ON"
+    fi
+
+    function apply_llvm_patches() {
+        # Build-related patches, achieving adjustments/fixes to the build that cannot be done via cmake flags
+        %patch %(pkgdir)/patches/build/0001-Build-lld-libraries-shared.patch
+        %patch %(pkgdir)/patches/build/0001-Build-polly-libraries-shared.patch
+        %patch %(pkgdir)/patches/build/0001-Emit-relocations-for-BOLT.patch
+        %patch %(pkgdir)/patches/build/0003-PATCH-clang-Don-t-install-static-libraries.patch
+        %patch %(pkgdir)/patches/build/0001-downstream-Suppress-runpath-in-openmp.patch
+        %patch %(pkgdir)/patches/build/0001-compiler-rt-Force-libc.patch
+        %patch %(pkgdir)/patches/build/0001-bolt-Set-version-string.patch
+        %patch %(pkgdir)/patches/build/0001-openmp-Don-t-install-static-libarcher.patch
+        %patch %(pkgdir)/patches/build/0001-flang-Add-install-targets-for-mod-header.patch
+        %patch %(pkgdir)/patches/build/0001-polly-Create-targets-for-headers-cmake.patch
+        %patch %(pkgdir)/patches/build/0001-lld-Create-target-for-header.patch
+
+        # Runtime config changes. These often duplicate settings set by our CFLAGS/LDFLAGS and are intended as sane
+        # defaults when a build either doesn't respect our flags or when a user is building a project outside of
+        # our build system
+        %patch %(pkgdir)/patches/config/0001-Make-gnuhash-the-default-when-not-specified.patch
+        %patch %(pkgdir)/patches/config/0001-lld-Use-zstd-compression-for-debug-symbols-by-defaul.patch
+        %patch %(pkgdir)/patches/config/0001-lld-Always-enable-build-id-and-use-20-byte-hashes.patch
+
+        # Aeryn-specific patches
+        %patch %(pkgdir)/patches/aerynos/0001-Support-serpent-aeryn-as-a-distro.patch
+        %patch %(pkgdir)/patches/aerynos/0001-Use-correct-Serpent-OS-multilib-paths-for-ld.patch
+        %patch %(pkgdir)/patches/aerynos/0001-Update-binutils-version-to-match-Serpent-OS.patch
+        %patch %(pkgdir)/patches/aerynos/0001-clang-lib-Ignore-Werror-if-CLANG_IGNORE_WERROR-is-se.patch
+
+        # Performance-related patches
+        %patch %(pkgdir)/patches/perf/0001-Reduce-GCC-startup-searches.patch
+        %patch %(pkgdir)/patches/perf/0001-Use-mimalloc-for-clang-lld-llvm.patch
+
+        ## Upstream backports
+        # RISC-V generic target support:
+        %patch %(pkgdir)/patches/upstream/0001-RISCV-Add-a-generic-OOO-CPU.patch
+        %patch %(pkgdir)/patches/upstream/0002-Adjust-latency-and-remove-all-stats.patch
+        %patch %(pkgdir)/patches/upstream/0003-Adjust-branch-mul-div-units.patch
+        %patch %(pkgdir)/patches/upstream/0004-Add-more-comments-and-adjust-Zfh.patch
+        %patch %(pkgdir)/patches/upstream/0005-Remove-vector-and-address-comments.patch
+        %patch %(pkgdir)/patches/upstream/0006-Fix-errors-after-rebasing-and-add-a-release-note.patch
+        # Fixes for Flang man page generation
+        %patch %(pkgdir)/patches/upstream/0001-flang-NFC-Create-required-Source-dir-for-flang-doc.-.patch
+        %patch %(pkgdir)/patches/upstream/0002-Flang-Add-Sphinx-man-page-and-html-support-for-Flang.patch
+        # Fixes a build failure with Firefox 142.0
+        %patch %(pkgdir)/patches/upstream/0001-libc-Fix-padding-calculation-for-function-reference-.patch
+    }
+
+    # 2025-03-25: Add LIBCXX_TYPEINFO_COMPARISON_IMPLEMENTATION=2 for https://bugs.kde.org/show_bug.cgi?id=479679
+    #  See also https://github.com/llvm/llvm-project/issues/36746
+    function cmake_llvm_configure() {
+        %cmake \
+            -DCMAKE_INSTALL_PREFIX=%(libdir)/%(name) \
+            -DCMAKE_SKIP_INSTALL_RPATH=ON \
+            -DBOLT_PACKAGE_VERSION=%(version) \
+            -DCLANG_DEFAULT_CXX_STDLIB=libc++ \
+            -DCLANG_DEFAULT_LINKER=lld \
+            -DCLANG_DEFAULT_OBJCOPY=llvm-objcopy \
+            -DCLANG_DEFAULT_PIE_ON_LINUX=ON \
+            -DCLANG_DEFAULT_RTLIB=compiler-rt \
+            -DCLANG_DEFAULT_UNWINDLIB=libunwind \
+            -DCLANG_LINK_CLANG_DYLIB=ON \
+            -DCLANG_PLUGIN_SUPPORT=ON \
+            -DCLANG_REPOSITORY_STRING="AerynOS" \
+            -DCOMPILER_RT_USE_BUILTINS_LIBRARY=ON \
+            -DCOMPILER_RT_USE_LIBCXX=ON \
+            -DENABLE_LINKER_BUILD_ID=ON \
+            -DLIBCXX_ENABLE_ASSERTIONS=OFF \
+            -DLIBCXX_ENABLE_SHARED=ON \
+            -DLIBCXX_ENABLE_STATIC=ON \
+            -DLIBCXX_ENABLE_STATIC_ABI_LIBRARY=ON \
+            -DLIBCXX_HAS_ATOMIC_LIB=ON \
+            -DLIBCXX_STATICALLY_LINK_ABI_IN_SHARED_LIBRARY=ON \
+            -DLIBCXX_STATICALLY_LINK_ABI_IN_STATIC_LIBRARY=ON \
+            -DLIBCXX_TYPEINFO_COMPARISON_IMPLEMENTATION=2 \
+            -DLIBCXX_USE_COMPILER_RT=ON \
+            -DLIBCXXABI_ENABLE_SHARED=OFF \
+            -DLIBCXXABI_ENABLE_STATIC_UNWINDER=ON \
+            -DLIBCXXABI_USE_COMPILER_RT=ON \
+            -DLIBCXXABI_USE_LLVM_UNWINDER=ON \
+            -DLIBCXXABI_STATICALLY_LINK_UNWINDER_IN_SHARED_LIBRARY=OFF \
+            -DLIBCXXABI_STATICALLY_LINK_UNWINDER_IN_STATIC_LIBRARY=OFF \
+            -DLIBOMP_INSTALL_ALIASES=OFF \
+            -DLIBOMP_USE_HWLOC=ON \
+            -DLIBUNWIND_ENABLE_SHARED=ON \
+            -DLIBUNWIND_ENABLE_STATIC=ON \
+            -DLIBUNWIND_INSTALL_HEADERS=OFF \
+            -DLIBUNWIND_INSTALL_LIBRARY=OFF \
+            -DLIBUNWIND_USE_COMPILER_RT=ON \
+            -DLLVM_APPEND_VC_REV=OFF \
+            -DLLVM_BINUTILS_INCDIR=/usr/include \
+            -DLLVM_BUILD_DOCS=OFF \
+            -DLLVM_BUILD_LLVM_DYLIB=ON \
+            -DLLVM_BUILD_TOOLS=ON \
+            -DLLVM_DEFAULT_TARGET_TRIPLE=%(build_platform) \
+            -DLLVM_DYLIB_COMPONENTS="all" \
+            -DLLVM_ENABLE_DOXYGEN=OFF \
+            -DLLVM_ENABLE_FFI=ON \
+            -DLLVM_ENABLE_LIBCXX=ON \
+            -DLLVM_ENABLE_LIBXML2=ON \
+            -DLLVM_ENABLE_LTO=Thin \
+            -DLLVM_ENABLE_MIMALLOC=ON \
+            -DLLVM_ENABLE_MODULES=OFF \
+            -DLLVM_ENABLE_PER_TARGET_RUNTIME_DIR=OFF \
+            -DLLVM_ENABLE_PLUGINS=ON \
+            -DLLVM_ENABLE_PROJECTS=$_PROJECTS \
+            -DLLVM_ENABLE_RTTI=ON \
+            -DLLVM_ENABLE_RUNTIMES=$_RUNTIMES \
+            -DLLVM_ENABLE_SPHINX=ON \
+            -DLLVM_ENABLE_ZLIB=ON \
+            -DLLVM_ENABLE_ZSTD=ON \
+            -DLLVM_INCLUDE_BENCHMARKS=OFF \
+            -DLLVM_INCLUDE_DOCS=ON \
+            -DLLVM_INCLUDE_EXAMPLES=OFF \
+            -DLLVM_INCLUDE_TESTS=OFF \
+            -DLLVM_INCLUDE_UTILS=ON \
+            -DLLVM_INSTALL_UTILS=ON \
+            -DLLVM_LIBDIR_SUFFIX=%(libsuffix) \
+            -DLLVM_LINK_LLVM_DYLIB=ON \
+            -DLLVM_PARALLEL_LINK_JOBS=1 \
+            -DLLVM_POLLY_LINK_INTO_TOOLS=OFF \
+            -DLLVM_TARGET_ARCH=x86_64 \
+            -DLLVM_TARGETS_TO_BUILD=$_BUILD_TARGETS \
+            -DLLVM_TOOL_OPENMP_BUILD=ON \
+            -DLLVM_USE_PERF=ON \
+            -DLLVM_USE_SANITIZER=OFF \
+            -DOPENMP_INSTALL_LIBDIR="%(libdir)" \
+            -DSPHINX_OUTPUT_MAN=ON \
+            -DSPHINX_OUTPUT_HTML=OFF \
+            $EXTRA_LLVM_FLAGS \
+            "$@"
+    }
+
+    # "Inspired by"/"Gratuitously copied from" Gentoo, use LLVM_DISTRIBUTION_COMPONENTS to avoid installing static libs
+    # and other unnecessary things. This works by extracting the target list from ninja and
+    # filtering it to only have the things we really need. This way when cmake target files
+    # are generated it results in the components we didn't include not being added to the
+    # searched for objects.
+    ## NOTE: New versions of LLVM should be built without this in order to see what's been
+    ## added/removed and this list updated correspondingly.
+    function get_distribution_components() {
+        # This generates a lot of output that we don't need to see
+        set +x
+        local target
+        ninja -C "%(builddir)" -t targets | grep -Po 'install-\K.*(?=-stripped:)' | while read -r target; do
+            case $target in
+                distribution)
+                    continue
+                    ;;
+
+                ### LLVM
+                llvm-libraries)
+                    continue
+                    ;;
+                # shared libraries
+                LLVM|LLVMgold|LTO|Remarks)
+                    ;;
+                # Used by LDC
+                LLVMTableGen|LLVMSupport|LLVMDemangle)
+                    ;;
+                # Devel
+                llvm-headers|cmake-exports)
+                    ;;
+                # Bins
+                FileCheck|UnicodeNameMappingGenerator|bugpoint|dsymutil|llc|lli|obj2yaml|opt|opt-viewer|reduce-chunk-list|sancov|sanstats|split-file|verify-uselistorder|yaml2obj)
+                    ;;
+                # Devel bins
+                count|lli-child-target|not|yaml-bench)
+                    ;;
+                # Various binaries (everything we don't want has already been excluded)
+                llvm-*)
+                    ;;
+
+                ### Clang
+                clang-libraries)
+                    continue
+                    ;;
+                clang-tidy-headers)
+                    continue
+                    ;;
+                # Libs
+                libclang|clang-cpp)
+                    ;;
+                clang|clangd|clang-*|bash-autocomplete)
+                    ;;
+                # Other clang tools
+                amdgpu-arch|c-index-test|diagtool|find-all-symbols|hmaptool|modularize|nvptx-arch|pp-trace|scan-view|scan-build*)
+                    ;;
+                clang*|findAllSymbols)
+                    continue
+                    ;;
+
+                ### LLD
+                # Shared libraries
+                lld*)
+                    ;;
+                # Devel
+                lld-headers|lld-cmake-exports)
+                    ;;
+
+                ### built-ins, Runtimes
+                builtins|runtimes)
+                    ;;
+
+                ### Deny everything else
+                *)
+                    continue
+                    ;;
+            esac
+            echo $target
+        done
+        set -x
+    }
+setup:   |
+    apply_llvm_patches
+
+    # cmake_llvm_configure -S llvm \
+    #     -C clang/cmake/caches/PGO.cmake \
+    #     -DPGO_INSTRUMENT_LTO=Thin \
+    #     -B pgo-training
+
+    # cmake_build -C pgo-training stage2-instrumented-generate-profdata
+
+    # find pgo-training -name "clang.profdata" -exec mv {} %(workdir) \;
+
+    cmake_llvm_configure llvm
+
+    distribution_components=$(get_distribution_components | paste -sd\;)
+    test -n "$distribution_components"
+    cmake_llvm_configure llvm \
+        -DLLVM_DISTRIBUTION_COMPONENTS="$distribution_components"
+build:   |
+    %ccache_zero
+    %cmake_build --target distribution
+    %ccache_stats
+install: |
+    DESTDIR="%(installroot)" cmake --build "%(builddir)" --verbose --target install-distribution
+
+    # Versioned bins
+    %install_dir %(installroot)%(bindir)
+    pushd %(installroot)%(libdir)/llvm-20/bin/
+    for i in *; do
+        ln -srv ${i} %(installroot)%(bindir)/${i}-20
+    done
+    popd
+    # Double versioned
+    rm -v %(installroot)%(bindir)/clang-20-20
+
+    ### LLVM (begin)
+    pushd %(installroot)%(libdir)/llvm-20/lib/
+    for i in libLLVM.so.* libLTO.so.* libRemarks.so.*; do
+        ln -Pv ${i} %(installroot)%(libdir)/${i}
+    done
+
+    ln -Srv libLLVM-20.so %(installroot)%(libdir)/libLLVM-20.so
+    popd
+    # LLVM (end)
+
+    ### Clang (begin)
+    pushd %(installroot)%(libdir)/llvm-20/lib/
+    for i in libclang.so.* libclang-cpp.so.*; do
+        ln -Pv ${i} %(installroot)%(libdir)/${i}
+    done
+    popd
+    ### Clang (end)
+
+    ### lld (begin)
+    pushd %(installroot)%(libdir)/llvm-20/lib/
+    for i in liblld*.so.*; do
+        ln -Pv ${i} %(installroot)%(libdir)/${i}
+    done
+    popd
+    ### lld (end)
+packages    :
+    - "%(name)-libs":
+        summary: "Library files for %(name)"
+        description: |
+            Library files for %(name), typically pulled in as a dependency of another package.
+        paths:
+            - /usr/lib/libLLVM.so.*
+            - /usr/lib/libLTO.so.*
+            - /usr/lib/libRemarks.so.*
+            - /usr/lib/llvm-20/lib/libLLVM.so.*
+            - /usr/lib/llvm-20/lib/libLTO.so.*
+            - /usr/lib/llvm-20/lib/libRemarks.so.*
+            - /usr/lib/llvm-20/lib/LLVMgold.so
+
+    - "%(name)":
+        paths:
+            - /usr/bin/FileCheck-20
+            - /usr/bin/UnicodeNameMappingGenerator-20
+            - /usr/bin/bugpoint-20
+            - /usr/bin/dsymutil-20
+            - /usr/bin/llc-20
+            - /usr/bin/lli-20
+            - /usr/bin/llvm-*-20
+            - /usr/bin/obj2yaml-20
+            - /usr/bin/opt-20
+            - /usr/bin/reduce-chunk-list-20
+            - /usr/bin/sancov-20
+            - /usr/bin/sanstats-20
+            - /usr/bin/split-file-20
+            - /usr/bin/verify-uselistorder-20
+            - /usr/bin/yaml2obj-20
+            - /usr/lib/llvm-20/bin/FileCheck
+            - /usr/lib/llvm-20/bin/UnicodeNameMappingGenerator
+            - /usr/lib/llvm-20/bin/bugpoint
+            - /usr/lib/llvm-20/bin/dsymutil
+            - /usr/lib/llvm-20/bin/llc
+            - /usr/lib/llvm-20/bin/lli
+            - /usr/lib/llvm-20/bin/llvm-*
+            - /usr/lib/llvm-20/bin/obj2yaml
+            - /usr/lib/llvm-20/bin/opt
+            - /usr/lib/llvm-20/bin/reduce-chunk-list
+            - /usr/lib/llvm-20/bin/sancov
+            - /usr/lib/llvm-20/bin/sanstats
+            - /usr/lib/llvm-20/bin/split-file
+            - /usr/lib/llvm-20/bin/verify-uselistorder
+            - /usr/lib/llvm-20/bin/yaml2obj
+            - /usr/lib/llvm-20/share/opt-viewer
+
+    # We can't split out the static libraries from this because the cmake files reference them
+    - "%(name)-devel":
+        paths:
+            - /usr/bin/count-20
+            - /usr/bin/lli-child-target-20
+            - /usr/bin/llvm-config-20
+            - /usr/bin/not-20
+            - /usr/bin/yaml-bench-20
+            - /usr/lib/llvm-20/bin/count
+            - /usr/lib/llvm-20/bin/lli-child-target
+            - /usr/lib/llvm-20/bin/llvm-config
+            - /usr/lib/llvm-20/bin/not
+            - /usr/lib/llvm-20/bin/yaml-bench
+            - /usr/lib/llvm-20/include/llvm*
+            - /usr/lib/llvm-20/lib/cmake/llvm
+            - /usr/lib/llvm-20/lib/libLLVM.so
+            - /usr/lib/llvm-20/lib/libLLVM-*.so
+            - /usr/lib/llvm-20/lib/libLLVM*.a
+            - /usr/lib/llvm-20/lib/libLTO.so
+            - /usr/lib/llvm-20/lib/libRemarks.so
+        rundeps:
+            - pkgconfig(libedit)
+            - pkgconfig(libzstd)
+
+    - "clang-20-libs":
+        summary: "Library files for clang"
+        description: |
+            Library files for clang, typically pulled in as a dependency of another package.
+
+            This package contains the core clang libraries as well as the intrinsics compiler headers.
+        paths:
+            - /usr/lib/libclang.so.*
+            - /usr/lib/libclang-cpp.so.*
+            - /usr/lib/llvm-20/lib/libclang.so.*
+            - /usr/lib/llvm-20/lib/libclang-cpp.so.*
+            - /usr/lib/llvm-20/lib/clang/*/include/*
+
+    - "clang-20":
+        summary: "Clang compiler front-end (LLVM)"
+        description: |
+            Clang compiler front-end built as part of the LLVM compiler infrastructure project.
+
+            This package contains the clang compiler, the compiler-rt object files for building
+            64bit applications, and the 64bit compiler-rt sanitizer libraries.
+        rundeps:
+            # GNU bits and bobs
+            - binary(gcc) # This is used to locate the compiler built-ins and libstdc++ headers
+            - libatomic
+            - libgcc
+            - libstdc++-devel
+            - glibc-devel
+
+            # LLVM toolchain
+            - compiler-rt-20
+            - libcxx-devel
+            - libunwind-devel
+            - lld-20
+            - llvm-20
+            - openmp-devel
+        paths:
+            - /usr/bin/*clang*-20
+            - /usr/lib/llvm-20/bin/*clang*
+            - /usr/lib/llvm-20/lib/clang/*/bin/*
+            - /usr/lib/llvm-20/lib/clang/*/lib/linux/*x86_64*
+            - /usr/lib/llvm-20/lib/clang/*/share/*
+            - /usr/lib/llvm-20/share/clang/bash-autocomplete.sh
+
+    - "clang-tools-20":
+        summary: "Additional Clang tools"
+        description: |
+            A set of extra tools built using Clang's tooling API
+        rundeps:
+            - clang-20
+        paths:
+            - /usr/bin/amdgpu-arch-20
+            - /usr/bin/analyze-build-20
+            - /usr/bin/c-index-test-20
+            - /usr/bin/clang-apply-replacements-20
+            - /usr/bin/clang-change-namespace-20
+            - /usr/bin/clang-check-20
+            - /usr/bin/clang-doc-20
+            - /usr/bin/clang-extdef-mapping-20
+            - /usr/bin/clang-format-20
+            - /usr/bin/clang-include-*-20
+            - /usr/bin/clang-installapi-20
+            - /usr/bin/clang-linker-wrapper-20
+            - /usr/bin/clang-move-20
+            - /usr/bin/clang-nvlink-wrapper-20
+            - /usr/bin/clang-offload-*-20
+            - /usr/bin/clang-query-20
+            - /usr/bin/clang-refactor-20
+            - /usr/bin/clang-reorder-fields-20
+            - /usr/bin/clang-repl-20
+            - /usr/bin/clang-sycl-linker-20
+            - /usr/bin/clang-tidy-20
+            - /usr/bin/clangd-20
+            - /usr/bin/diagtool-20
+            - /usr/bin/find-all-symbols-20
+            - /usr/bin/git-clang-format-20
+            - /usr/bin/hmaptool-20
+            - /usr/bin/intercept-build-20
+            - /usr/bin/modularize-20
+            - /usr/bin/nvptx-arch-20
+            - /usr/bin/pp-trace-20
+            - /usr/bin/run-clang-tidy-20
+            - /usr/bin/scan-*-20
+            - /usr/lib/llvm-20/bin/amdgpu-arch
+            - /usr/lib/llvm-20/bin/analyze-build
+            - /usr/lib/llvm-20/bin/c-index-test
+            - /usr/lib/llvm-20/bin/clang-apply-replacements
+            - /usr/lib/llvm-20/bin/clang-change-namespace
+            - /usr/lib/llvm-20/bin/clang-check
+            - /usr/lib/llvm-20/bin/clang-doc
+            - /usr/lib/llvm-20/bin/clang-extdef-mapping
+            - /usr/lib/llvm-20/bin/clang-format
+            - /usr/lib/llvm-20/bin/clang-include-*
+            - /usr/lib/llvm-20/bin/clang-installapi
+            - /usr/lib/llvm-20/bin/clang-linker-wrapper
+            - /usr/lib/llvm-20/bin/clang-move
+            - /usr/lib/llvm-20/bin/clang-nvlink-wrapper
+            - /usr/lib/llvm-20/bin/clang-offload-*
+            - /usr/lib/llvm-20/bin/clang-query
+            - /usr/lib/llvm-20/bin/clang-refactor
+            - /usr/lib/llvm-20/bin/clang-reorder-fields
+            - /usr/lib/llvm-20/bin/clang-repl
+            - /usr/lib/llvm-20/bin/clang-sycl-linker
+            - /usr/lib/llvm-20/bin/clang-tidy
+            - /usr/lib/llvm-20/bin/clangd
+            - /usr/lib/llvm-20/bin/diagtool
+            - /usr/lib/llvm-20/bin/find-all-symbols
+            - /usr/lib/llvm-20/bin/git-clang-format
+            - /usr/lib/llvm-20/bin/hmaptool
+            - /usr/lib/llvm-20/bin/intercept-build
+            - /usr/lib/llvm-20/bin/modularize
+            - /usr/lib/llvm-20/bin/nvptx-arch
+            - /usr/lib/llvm-20/bin/pp-trace
+            - /usr/lib/llvm-20/bin/run-clang-tidy
+            - /usr/lib/llvm-20/bin/scan-*
+            - /usr/lib/llvm-20/lib/libear
+            - /usr/lib/llvm-20/lib/libscanbuild
+            - /usr/lib/llvm-20/*-analyzer
+            - /usr/lib/llvm-20/intercept-*
+            - /usr/lib/llvm-20/share/clang/clang-format*
+            - /usr/lib/llvm-20/share/clang/clang-include-fixer*
+            - /usr/lib/llvm-20/share/clang/clang-tidy-diff*
+            - /usr/lib/llvm-20/share/clang/run-find-all-symbols*
+            - /usr/lib/llvm-20/share/clang-doc
+            - /usr/lib/llvm-20/share/scan-*
+            - /usr/lib/llvm-20/share/man/man1/scan-build*
+
+    - "clang-20-devel":
+        summary: "Development files for clang"
+        description: |
+            Install this package if you intend to build software against
+            the clang package.
+        rundeps:
+            - "%(name)-devel"
+            - clang-20
+            - clang-tools-20
+        paths:
+            - /usr/bin/clang-tblgen-20
+            - /usr/lib/llvm-20/bin/clang-tblgen
+            - /usr/lib/llvm-20/lib/cmake/clang
+            - /usr/lib/llvm-20/lib/libclang*.so
+            - /usr/lib/llvm-20/include/clang*
+
+    - "compiler-rt-20":
+        summary: LLVM "compiler-rt" runtime libraries
+        description: |
+            The compiler-rt project is a part of the LLVM project. It provides
+            implementation of the low-level target-specific hooks required by
+            code generation, sanitizer runtimes and profiling library for code
+            instrumentation, and Blocks C language extension.
+        paths:
+            - /usr/lib/llvm-20/lib/clang/*/bin/hwasan_symbolize
+            - /usr/lib/llvm-20/lib/clang/*/include/fuzzer/
+            - /usr/lib/llvm-20/lib/clang/*/include/orc/
+            - /usr/lib/llvm-20/lib/clang/*/include/profile/
+            - /usr/lib/llvm-20/lib/clang/*/include/sanitizer/
+            - /usr/lib/llvm-20/lib/clang/*/include/xray/
+            - /usr/lib/llvm-20/lib/clang/*/share/*.txt
+            - /usr/lib/llvm-20/lib/clang/*/lib/linux/clang_rt.*
+            - /usr/lib/llvm-20/lib/clang/*/lib/linux/libclang_rt.*
+            - /usr/lib/llvm-20/lib/clang/*/lib/linux/liborc_rt*
+
+    - "lld-20-libs":
+        summary: "Library files for lld"
+        description: |
+            Library files for lld, typically pulled in as a dependency of another package.
+        paths:
+            - /usr/lib/liblld*.so.*
+            - /usr/lib/llvm-20/lib/liblld*.so.*
+
+    - "lld-20":
+        summary: "LLVM-based linker"
+        description: |
+            A high-performance linker
+        paths:
+            - /usr/bin/*lld*
+            - /usr/bin/wasm-ld-20
+            - /usr/lib/llvm-20/bin/*lld*
+            - /usr/lib/llvm-20/bin/wasm-ld
+
+    - "lld-20-devel":
+        summary: "Development files for lld"
+        description: |
+            Install this package if you intend to build software against
+            the lld package.
+        paths:
+            - /usr/lib/llvm-20/lib/cmake/lld
+            - /usr/lib/llvm-20/lib/liblld*.so
+            - /usr/lib/llvm-20/include/lld/*
+        rundeps:
+            - "%(name)-devel"
+            - lld-20

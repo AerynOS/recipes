@@ -1,0 +1,31 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Reilly Brogan <reilly@reillybrogan.com>
+Date: Wed, 15 Oct 2025 20:21:01 -0500
+Subject: [PATCH] offload: Fix build failure with --icf=all
+
+---
+ offload/DeviceRTL/CMakeLists.txt | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/offload/DeviceRTL/CMakeLists.txt b/offload/DeviceRTL/CMakeLists.txt
+index e4916f4d4975..025eb4419aaa 100644
+--- a/offload/DeviceRTL/CMakeLists.txt
++++ b/offload/DeviceRTL/CMakeLists.txt
+@@ -136,7 +136,7 @@ function(compileDeviceRTLLibrary target_name target_triple)
+     "--target=${target_triple}" "-fuse-ld=lld" "-march=" "-mcpu="
+     "-Wno-unused-command-line-argument")
+   target_link_options(libomptarget-${target_name} PRIVATE "--target=${target_triple}"
+-                      "-r" "-nostdlib" "-flto" "-Wl,--lto-emit-llvm"
++                      "-r" "-Wl,--icf=none" "-nostdlib" "-flto" "-Wl,--lto-emit-llvm"
+                       "-fuse-ld=lld" "-march=" "-mcpu=")
+   install(TARGETS libomptarget-${target_name}
+           PERMISSIONS OWNER_WRITE OWNER_READ GROUP_READ WORLD_READ
+@@ -156,7 +156,7 @@ function(compileDeviceRTLLibrary target_name target_triple)
+   )
+   target_link_libraries(omptarget.${target_name} PRIVATE omptarget.${target_name}.all_objs)
+   target_link_options(omptarget.${target_name} PRIVATE "--target=${target_triple}"
+-                      "-Wno-unused-command-line-argument" "-r" "-nostdlib" "-flto"
++                      "-Wno-unused-command-line-argument" "-r" "-Wl,--icf=none" "-nostdlib" "-flto"
+                        "-Wl,--lto-emit-llvm" "-fuse-ld=lld" "-march=" "-mcpu=")
+ 
+   install(TARGETS omptarget.${target_name}

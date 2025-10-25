@@ -4,16 +4,16 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : libxml2
-version     : 2.15.0
-release     : 16
+version     : 2.15.1
+release     : 17
 summary     : XML parsing library
 license     : MIT
 homepage    : http://www.xmlsoft.org/
 description : |
     XML parsing library
 upstreams   :
-    - https://download.gnome.org/sources/libxml2/2.15/libxml2-2.15.0.tar.xz:
-        hash: 5abc766497c5b1d6d99231f662e30c99402a90d03b06c67b62d6c1179dedd561
+    - https://download.gnome.org/sources/libxml2/2.15/libxml2-2.15.1.tar.xz:
+        hash: c008bac08fd5c7b4a87f7b8a71f283fa581d80d80ff8d2efd3b26224c39bc54c
         unpackdir: current
 
     # Don't delete this section, just comment it out if it's not needed. The build recipe accounts for it possibly not existing
@@ -61,8 +61,6 @@ setup       : |
            -Dpython=false
         popd
     fi
-
-    %patch %(pkgdir)/0001-fix-mandir.patch
 
     # Build the static library so that we can build a static version of bsdtar
     %meson \

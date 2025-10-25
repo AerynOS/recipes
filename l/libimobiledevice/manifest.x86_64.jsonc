@@ -4,23 +4,98 @@
 	"packages": {
 		"libimobiledevice": {
 			"build-depends": [
-				"binary(cython)",
 				"binary(msgfmt)",
 				"binary(which)",
 				"pkgconfig(libtatsu-1.0)",
 				"pkgconfig(libusb-1.0)",
 				"pkgconfig(libusbmuxd-2.0)",
-				"pkgconfig(openssl)",
-				"pkgconfig(python3)"
+				"pkgconfig(openssl)"
 			],
 			"depends": [
-				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libcrypto.so.3(x86_64))",
 				"soname(libimobiledevice-glue-1.0.so.0(x86_64))",
 				"soname(libplist-2.0.so.4(x86_64))",
-				"soname(libpython3.11.so.1.0(x86_64))",
 				"soname(libssl.so.3(x86_64))",
+				"soname(libusbmuxd-2.0.so.7(x86_64))"
+			],
+			"files": [
+				"/usr/lib/libimobiledevice-1.0.so.6",
+				"/usr/lib/libimobiledevice-1.0.so.6.1.0"
+			],
+			"name": "libimobiledevice",
+			"provides": [
+				"soname(libimobiledevice-1.0.so.6(x86_64))"
+			]
+		},
+		"libimobiledevice-devel": {
+			"build-depends": [
+				"binary(msgfmt)",
+				"binary(which)",
+				"pkgconfig(libtatsu-1.0)",
+				"pkgconfig(libusb-1.0)",
+				"pkgconfig(libusbmuxd-2.0)",
+				"pkgconfig(openssl)"
+			],
+			"depends": [
+				"libimobiledevice",
+				"pkgconfig(libimobiledevice-glue-1.0)",
+				"pkgconfig(libplist-2.0)",
+				"pkgconfig(libusbmuxd-2.0)",
+				"pkgconfig(openssl)"
+			],
+			"files": [
+				"/usr/include/libimobiledevice/afc.h",
+				"/usr/include/libimobiledevice/bt_packet_logger.h",
+				"/usr/include/libimobiledevice/companion_proxy.h",
+				"/usr/include/libimobiledevice/debugserver.h",
+				"/usr/include/libimobiledevice/diagnostics_relay.h",
+				"/usr/include/libimobiledevice/file_relay.h",
+				"/usr/include/libimobiledevice/heartbeat.h",
+				"/usr/include/libimobiledevice/house_arrest.h",
+				"/usr/include/libimobiledevice/installation_proxy.h",
+				"/usr/include/libimobiledevice/libimobiledevice.h",
+				"/usr/include/libimobiledevice/lockdown.h",
+				"/usr/include/libimobiledevice/misagent.h",
+				"/usr/include/libimobiledevice/mobile_image_mounter.h",
+				"/usr/include/libimobiledevice/mobileactivation.h",
+				"/usr/include/libimobiledevice/mobilebackup.h",
+				"/usr/include/libimobiledevice/mobilebackup2.h",
+				"/usr/include/libimobiledevice/mobilesync.h",
+				"/usr/include/libimobiledevice/notification_proxy.h",
+				"/usr/include/libimobiledevice/ostrace.h",
+				"/usr/include/libimobiledevice/preboard.h",
+				"/usr/include/libimobiledevice/property_list_service.h",
+				"/usr/include/libimobiledevice/restore.h",
+				"/usr/include/libimobiledevice/reverse_proxy.h",
+				"/usr/include/libimobiledevice/sbservices.h",
+				"/usr/include/libimobiledevice/screenshotr.h",
+				"/usr/include/libimobiledevice/service.h",
+				"/usr/include/libimobiledevice/syslog_relay.h",
+				"/usr/include/libimobiledevice/webinspector.h",
+				"/usr/lib/libimobiledevice-1.0.so",
+				"/usr/lib/pkgconfig/libimobiledevice-1.0.pc"
+			],
+			"name": "libimobiledevice-devel",
+			"provides": [
+				"pkgconfig(libimobiledevice-1.0)"
+			]
+		},
+		"libimobiledevice-utils": {
+			"build-depends": [
+				"binary(msgfmt)",
+				"binary(which)",
+				"pkgconfig(libtatsu-1.0)",
+				"pkgconfig(libusb-1.0)",
+				"pkgconfig(libusbmuxd-2.0)",
+				"pkgconfig(openssl)"
+			],
+			"depends": [
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libimobiledevice-1.0.so.6(x86_64))",
+				"soname(libimobiledevice-glue-1.0.so.0(x86_64))",
+				"soname(libplist-2.0.so.4(x86_64))",
 				"soname(libtatsu.so.0(x86_64))",
 				"soname(libusbmuxd-2.0.so.7(x86_64))"
 			],
@@ -46,9 +121,6 @@
 				"/usr/bin/idevicescreenshot",
 				"/usr/bin/idevicesetlocation",
 				"/usr/bin/idevicesyslog",
-				"/usr/lib/libimobiledevice-1.0.so.6",
-				"/usr/lib/libimobiledevice-1.0.so.6.0.0",
-				"/usr/lib/python3.11/site-packages/imobiledevice.so",
 				"/usr/share/man/man1/afcclient.1",
 				"/usr/share/man/man1/idevice_id.1",
 				"/usr/share/man/man1/idevicebackup.1",
@@ -71,7 +143,7 @@
 				"/usr/share/man/man1/idevicesetlocation.1",
 				"/usr/share/man/man1/idevicesyslog.1"
 			],
-			"name": "libimobiledevice",
+			"name": "libimobiledevice-utils",
 			"provides": [
 				"binary(afcclient)",
 				"binary(idevice_id)",
@@ -93,68 +165,11 @@
 				"binary(ideviceprovision)",
 				"binary(idevicescreenshot)",
 				"binary(idevicesetlocation)",
-				"binary(idevicesyslog)",
-				"soname(libimobiledevice-1.0.so.6(x86_64))",
-				"soname(python3.11/site-packages/imobiledevice.so(x86_64))"
-			]
-		},
-		"libimobiledevice-devel": {
-			"build-depends": [
-				"binary(cython)",
-				"binary(msgfmt)",
-				"binary(which)",
-				"pkgconfig(libtatsu-1.0)",
-				"pkgconfig(libusb-1.0)",
-				"pkgconfig(libusbmuxd-2.0)",
-				"pkgconfig(openssl)",
-				"pkgconfig(python3)"
-			],
-			"depends": [
-				"libimobiledevice",
-				"pkgconfig(libimobiledevice-glue-1.0)",
-				"pkgconfig(libplist-2.0)",
-				"pkgconfig(libusbmuxd-2.0)",
-				"pkgconfig(openssl)"
-			],
-			"files": [
-				"/usr/include/libimobiledevice/afc.h",
-				"/usr/include/libimobiledevice/companion_proxy.h",
-				"/usr/include/libimobiledevice/debugserver.h",
-				"/usr/include/libimobiledevice/diagnostics_relay.h",
-				"/usr/include/libimobiledevice/file_relay.h",
-				"/usr/include/libimobiledevice/heartbeat.h",
-				"/usr/include/libimobiledevice/house_arrest.h",
-				"/usr/include/libimobiledevice/installation_proxy.h",
-				"/usr/include/libimobiledevice/libimobiledevice.h",
-				"/usr/include/libimobiledevice/lockdown.h",
-				"/usr/include/libimobiledevice/misagent.h",
-				"/usr/include/libimobiledevice/mobile_image_mounter.h",
-				"/usr/include/libimobiledevice/mobileactivation.h",
-				"/usr/include/libimobiledevice/mobilebackup.h",
-				"/usr/include/libimobiledevice/mobilebackup2.h",
-				"/usr/include/libimobiledevice/mobilesync.h",
-				"/usr/include/libimobiledevice/notification_proxy.h",
-				"/usr/include/libimobiledevice/preboard.h",
-				"/usr/include/libimobiledevice/property_list_service.h",
-				"/usr/include/libimobiledevice/restore.h",
-				"/usr/include/libimobiledevice/reverse_proxy.h",
-				"/usr/include/libimobiledevice/sbservices.h",
-				"/usr/include/libimobiledevice/screenshotr.h",
-				"/usr/include/libimobiledevice/service.h",
-				"/usr/include/libimobiledevice/syslog_relay.h",
-				"/usr/include/libimobiledevice/webinspector.h",
-				"/usr/lib/libimobiledevice-1.0.a",
-				"/usr/lib/libimobiledevice-1.0.so",
-				"/usr/lib/pkgconfig/libimobiledevice-1.0.pc",
-				"/usr/lib/python3.11/site-packages/imobiledevice.a"
-			],
-			"name": "libimobiledevice-devel",
-			"provides": [
-				"pkgconfig(libimobiledevice-1.0)"
+				"binary(idevicesyslog)"
 			]
 		}
 	},
 	"source-name": "libimobiledevice",
-	"source-release": "2",
-	"source-version": "1.3.0+git.ba829e6f"
+	"source-release": "3",
+	"source-version": "1.4.0"
 }

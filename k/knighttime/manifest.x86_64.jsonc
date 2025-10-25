@@ -1,0 +1,77 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"knighttime": {
+			"build-depends": [
+				"cmake(ECM)",
+				"cmake(KF6Config)",
+				"cmake(KF6CoreAddons)",
+				"cmake(KF6DBusAddons)",
+				"cmake(KF6Holidays)",
+				"cmake(KF6I18n)",
+				"cmake(Qt6Positioning)"
+			],
+			"depends": [
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(libKF6ConfigCore.so.6(x86_64))",
+				"soname(libKF6ConfigGui.so.6(x86_64))",
+				"soname(libKF6CoreAddons.so.6(x86_64))",
+				"soname(libKF6DBusAddons.so.6(x86_64))",
+				"soname(libKF6Holidays.so.6(x86_64))",
+				"soname(libQt6Core.so.6(x86_64))",
+				"soname(libQt6DBus.so.6(x86_64))",
+				"soname(libQt6Positioning.so.6(x86_64))",
+				"soname(libc++.so.1(x86_64))",
+				"soname(libc.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/lib/kf6/knighttimed",
+				"/usr/lib/libKNightTime.so.0",
+				"/usr/lib/libKNightTime.so.6.5.0",
+				"/usr/lib/systemd/user/plasma-knighttimed.service",
+				"/usr/share/applications/org.kde.knighttimed.desktop",
+				"/usr/share/dbus-1/services/org.kde.NightTime.service",
+				"/usr/share/qlogging-categories6/knighttime.categories"
+			],
+			"name": "knighttime",
+			"provides": [
+				"soname(libKNightTime.so.0(x86_64))"
+			]
+		},
+		"knighttime-devel": {
+			"build-depends": [
+				"cmake(ECM)",
+				"cmake(KF6Config)",
+				"cmake(KF6CoreAddons)",
+				"cmake(KF6DBusAddons)",
+				"cmake(KF6Holidays)",
+				"cmake(KF6I18n)",
+				"cmake(Qt6Positioning)"
+			],
+			"depends": [
+				"knighttime"
+			],
+			"files": [
+				"/usr/include/KNightTime/KDarkLightSchedule",
+				"/usr/include/KNightTime/KDarkLightScheduleProvider",
+				"/usr/include/KNightTime/kdarklightschedule.h",
+				"/usr/include/KNightTime/kdarklightscheduleprovider.h",
+				"/usr/include/KNightTime/knighttime_export.h",
+				"/usr/lib/cmake/KNightTime/KNightTimeConfig.cmake",
+				"/usr/lib/cmake/KNightTime/KNightTimeConfigVersion.cmake",
+				"/usr/lib/cmake/KNightTime/KNightTimeTargets-release.cmake",
+				"/usr/lib/cmake/KNightTime/KNightTimeTargets.cmake",
+				"/usr/lib/libKNightTime.so",
+				"/usr/share/dbus-1/interfaces/org.kde.NightTime.xml"
+			],
+			"name": "knighttime-devel",
+			"provides": [
+				"cmake(KNightTime)"
+			]
+		}
+	},
+	"source-name": "knighttime",
+	"source-release": "1",
+	"source-version": "6.5.0"
+}

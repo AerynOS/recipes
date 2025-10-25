@@ -9,6 +9,7 @@
 				"cmake(KF6Crash)",
 				"cmake(KF6DBusAddons)",
 				"cmake(KF6I18n)",
+				"cmake(KF6ImageFormats)",
 				"cmake(KF6KCMUtils)",
 				"cmake(KF6Screen)",
 				"cmake(KF6Svg)",
@@ -16,13 +17,13 @@
 				"cmake(LayerShellQt)",
 				"cmake(Plasma)",
 				"cmake(Qt6CorePrivate)",
-				"cmake(Qt6Sensors)",
 				"cmake(Qt6WaylandClient)",
 				"pkgconfig(wayland-protocols)",
 				"pkgconfig(xi)"
 			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"kf6-kimageformats",
 				"soname(libKF6ConfigCore.so.6(x86_64))",
 				"soname(libKF6ConfigGui.so.6(x86_64))",
 				"soname(libKF6CoreAddons.so.6(x86_64))",
@@ -41,7 +42,6 @@
 				"soname(libQt6Gui.so.6(x86_64))",
 				"soname(libQt6Qml.so.6(x86_64))",
 				"soname(libQt6Quick.so.6(x86_64))",
-				"soname(libQt6Sensors.so.6(x86_64))",
 				"soname(libQt6WaylandClient.so.6(x86_64))",
 				"soname(libX11.so.6(x86_64))",
 				"soname(libXi.so.6(x86_64))",
@@ -62,7 +62,6 @@
 				"/usr/share/applications/kcm_kscreen.desktop",
 				"/usr/share/dbus-1/services/org.kde.kscreen.osdService.service",
 				"/usr/share/kglobalaccel/org.kde.kscreen.desktop",
-				"/usr/share/kscreen/graz.png",
 				"/usr/share/locale/ar/LC_MESSAGES/hdrcalibrator.mo",
 				"/usr/share/locale/ar/LC_MESSAGES/kcm_kscreen.mo",
 				"/usr/share/locale/ar/LC_MESSAGES/kscreen_common.mo",
@@ -167,9 +166,11 @@
 				"/usr/share/locale/ko/LC_MESSAGES/kcm_kscreen.mo",
 				"/usr/share/locale/ko/LC_MESSAGES/kscreen_common.mo",
 				"/usr/share/locale/ko/LC_MESSAGES/plasma_applet_org.kde.kscreen.mo",
+				"/usr/share/locale/lt/LC_MESSAGES/hdrcalibrator.mo",
 				"/usr/share/locale/lt/LC_MESSAGES/kcm_kscreen.mo",
 				"/usr/share/locale/lt/LC_MESSAGES/kscreen_common.mo",
 				"/usr/share/locale/lt/LC_MESSAGES/plasma_applet_org.kde.kscreen.mo",
+				"/usr/share/locale/lv/LC_MESSAGES/hdrcalibrator.mo",
 				"/usr/share/locale/lv/LC_MESSAGES/kcm_kscreen.mo",
 				"/usr/share/locale/lv/LC_MESSAGES/kscreen_common.mo",
 				"/usr/share/locale/lv/LC_MESSAGES/plasma_applet_org.kde.kscreen.mo",
@@ -263,6 +264,6 @@
 		}
 	},
 	"source-name": "kscreen",
-	"source-release": "7",
-	"source-version": "6.4.5"
+	"source-release": "8",
+	"source-version": "6.5.0"
 }

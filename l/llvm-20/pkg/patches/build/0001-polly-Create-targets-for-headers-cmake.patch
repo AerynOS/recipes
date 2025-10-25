@@ -1,0 +1,54 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Reilly Brogan <reilly@reillybrogan.com>
+Date: Mon, 31 Mar 2025 18:08:06 -0500
+Subject: [PATCH] polly: Create targets for headers/cmake
+
+Create targets for the polly headers and cmake files
+
+Origin: vendor
+Forwarded: not-needed
+Last-Update: 2025-03-31
+---
+ polly/CMakeLists.txt       | 4 ++++
+ polly/cmake/CMakeLists.txt | 5 ++++-
+ 2 files changed, 8 insertions(+), 1 deletion(-)
+
+diff --git a/polly/CMakeLists.txt b/polly/CMakeLists.txt
+index b4cfc77d0f21..893938dda530 100644
+--- a/polly/CMakeLists.txt
++++ b/polly/CMakeLists.txt
+@@ -104,16 +104,20 @@ include_directories(
+ if (NOT LLVM_INSTALL_TOOLCHAIN_ONLY)
+   install(DIRECTORY include/
+     DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
++    COMPONENT polly-headers
+     FILES_MATCHING
+     PATTERN "*.h"
+     )
+ 
+   install(DIRECTORY ${POLLY_BINARY_DIR}/include/
+     DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
++    COMPONENT polly-headers
+     FILES_MATCHING
+     PATTERN "*.h"
+     PATTERN "CMakeFiles" EXCLUDE
+     )
++  add_llvm_install_targets(install-polly-headers
++    COMPONENT polly-headers)
+ endif()
+ 
+ add_definitions( -D_GNU_SOURCE )
+diff --git a/polly/cmake/CMakeLists.txt b/polly/cmake/CMakeLists.txt
+index cd1f5db842d9..99d60c15de8d 100644
+--- a/polly/cmake/CMakeLists.txt
++++ b/polly/cmake/CMakeLists.txt
+@@ -154,5 +154,8 @@ if (NOT LLVM_INSTALL_TOOLCHAIN_ONLY)
+     "${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/PollyConfig.cmake"
+     "${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/PollyConfigVersion.cmake"
+     "${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/${POLLY_EXPORTS_FILE_NAME}"
+-    DESTINATION "${POLLY_INSTALL_PACKAGE_DIR}")
++    DESTINATION "${POLLY_INSTALL_PACKAGE_DIR}"
++    COMPONENT polly-cmake-exports)
++  add_llvm_install_targets(install-polly-cmake-exports
++                          COMPONENT polly-cmake-exports)
+ endif ()

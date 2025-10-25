@@ -5,10 +5,10 @@
 		"ldc": {
 			"build-depends": [
 				"binary(ldc2)",
-				"binary(llvm-config)",
+				"binary(llvm-config-20)",
 				"binary(make)",
-				"cmake(LLD)",
 				"ldc-static",
+				"lld-20-devel",
 				"pkgconfig(zlib)"
 			],
 			"depends": [
@@ -771,10 +771,10 @@
 		"ldc-devel": {
 			"build-depends": [
 				"binary(ldc2)",
-				"binary(llvm-config)",
+				"binary(llvm-config-20)",
 				"binary(make)",
-				"cmake(LLD)",
 				"ldc-static",
+				"lld-20-devel",
 				"pkgconfig(zlib)"
 			],
 			"depends": [
@@ -788,10 +788,10 @@
 		"ldc-libs": {
 			"build-depends": [
 				"binary(ldc2)",
-				"binary(llvm-config)",
+				"binary(llvm-config-20)",
 				"binary(make)",
-				"cmake(LLD)",
 				"ldc-static",
+				"lld-20-devel",
 				"pkgconfig(zlib)"
 			],
 			"depends": [
@@ -816,10 +816,10 @@
 		"ldc-libs-debug": {
 			"build-depends": [
 				"binary(ldc2)",
-				"binary(llvm-config)",
+				"binary(llvm-config-20)",
 				"binary(make)",
-				"cmake(LLD)",
 				"ldc-static",
+				"lld-20-devel",
 				"pkgconfig(zlib)"
 			],
 			"depends": [
@@ -844,10 +844,10 @@
 		"ldc-static": {
 			"build-depends": [
 				"binary(ldc2)",
-				"binary(llvm-config)",
+				"binary(llvm-config-20)",
 				"binary(make)",
-				"cmake(LLD)",
 				"ldc-static",
+				"lld-20-devel",
 				"pkgconfig(zlib)"
 			],
 			"depends": [
@@ -866,6 +866,6 @@
 		}
 	},
 	"source-name": "ldc",
-	"source-release": "19",
+	"source-release": "20",
 	"source-version": "1.40.1"
 }

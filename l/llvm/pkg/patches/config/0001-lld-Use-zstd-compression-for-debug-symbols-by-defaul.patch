@@ -21,10 +21,10 @@ Last-Update: 2025-03-29
  7 files changed, 14 insertions(+), 14 deletions(-)
 
 diff --git a/clang/include/clang/Driver/Options.td b/clang/include/clang/Driver/Options.td
-index 9309ceee5531..a7fb6a152da1 100644
+index 958d0d05ade2..b21d40b6dd68 100644
 --- a/clang/include/clang/Driver/Options.td
 +++ b/clang/include/clang/Driver/Options.td
-@@ -7350,9 +7350,9 @@ def dwarf_debug_flags : Separate<["-"], "dwarf-debug-flags">,
+@@ -7597,9 +7597,9 @@ def dwarf_debug_flags : Separate<["-"], "dwarf-debug-flags">,
  def compress_debug_sections_EQ : Joined<["-", "--"], "compress-debug-sections=">,
      HelpText<"DWARF debug sections compression type">, Values<"none,zlib,zstd">,
      NormalizedValuesScope<"llvm::DebugCompressionType">, NormalizedValues<["None", "Zlib", "Zstd"]>,
@@ -37,10 +37,10 @@ index 9309ceee5531..a7fb6a152da1 100644
    HelpText<"Mark the file as not needing an executable stack">,
    MarshallingInfoFlag<CodeGenOpts<"NoExecStack">>;
 diff --git a/clang/tools/driver/cc1as_main.cpp b/clang/tools/driver/cc1as_main.cpp
-index 7fe97cc6e6ac..ab6e7999a01f 100644
+index f938e7e4041e..65150b17d6c7 100644
 --- a/clang/tools/driver/cc1as_main.cpp
 +++ b/clang/tools/driver/cc1as_main.cpp
-@@ -103,7 +103,7 @@ struct AssemblerInvocation {
+@@ -104,7 +104,7 @@ struct AssemblerInvocation {
    std::string DebugCompilationDir;
    llvm::SmallVector<std::pair<std::string, std::string>, 0> DebugPrefixMap;
    llvm::DebugCompressionType CompressDebugSections =
@@ -49,7 +49,7 @@ index 7fe97cc6e6ac..ab6e7999a01f 100644
    std::string MainFileName;
    std::string SplitDwarfOutput;
  
-@@ -292,7 +292,7 @@ bool AssemblerInvocation::CreateFromArgs(AssemblerInvocation &Opts,
+@@ -293,7 +293,7 @@ bool AssemblerInvocation::CreateFromArgs(AssemblerInvocation &Opts,
              .Case("none", llvm::DebugCompressionType::None)
              .Case("zlib", llvm::DebugCompressionType::Zlib)
              .Case("zstd", llvm::DebugCompressionType::Zstd)
@@ -59,11 +59,11 @@ index 7fe97cc6e6ac..ab6e7999a01f 100644
  
    if (auto *DwarfFormatArg = Args.getLastArg(OPT_gdwarf64, OPT_gdwarf32))
 diff --git a/lld/ELF/Config.h b/lld/ELF/Config.h
-index ddf64a94eeab..721a2673423b 100644
+index 602ffb4f5e0d..569422c12990 100644
 --- a/lld/ELF/Config.h
 +++ b/lld/ELF/Config.h
-@@ -266,7 +266,7 @@ struct Config {
-   CGProfileSortKind callGraphProfileSort;
+@@ -309,7 +309,7 @@ struct Config {
+   bool branchToBranch = false;
    bool checkSections;
    bool checkDynamicRelocs;
 -  std::optional<llvm::DebugCompressionType> compressDebugSections;
@@ -72,10 +72,10 @@ index ddf64a94eeab..721a2673423b 100644
        std::tuple<llvm::GlobPattern, llvm::DebugCompressionType, unsigned>, 0>
        compressSections;
 diff --git a/lld/ELF/Driver.cpp b/lld/ELF/Driver.cpp
-index bf1d2f03488d..412705bf0cba 100644
+index 37037d8d90a6..205596159b01 100644
 --- a/lld/ELF/Driver.cpp
 +++ b/lld/ELF/Driver.cpp
-@@ -1142,10 +1142,10 @@ static DebugCompressionType getCompressionType(Ctx &ctx, StringRef s,
+@@ -1246,10 +1246,10 @@ static DebugCompressionType getCompressionType(Ctx &ctx, StringRef s,
                                                 StringRef option) {
    DebugCompressionType type = StringSwitch<DebugCompressionType>(s)
                                    .Case("zlib", DebugCompressionType::Zlib)
@@ -91,10 +91,10 @@ index bf1d2f03488d..412705bf0cba 100644
    } else if (const char *reason = compression::getReasonIfUnsupported(
                   compression::formatFor(type))) {
 diff --git a/lld/ELF/Options.td b/lld/ELF/Options.td
-index b7300ba0efa0..cf98726fa005 100644
+index cc91680550b4..0d3a1a35e407 100644
 --- a/lld/ELF/Options.td
 +++ b/lld/ELF/Options.td
-@@ -64,7 +64,7 @@ defm check_sections: B<"check-sections",
+@@ -68,7 +68,7 @@ defm check_sections: B<"check-sections",
      "Do not check section addresses for overlaps">;
  
  defm compress_debug_sections:
@@ -104,10 +104,10 @@ index b7300ba0efa0..cf98726fa005 100644
  
  defm compress_sections: EEq<"compress-sections",
 diff --git a/lld/ELF/OutputSections.cpp b/lld/ELF/OutputSections.cpp
-index a2da5543d586..d9b265299cfd 100644
+index 1020dd9f2569..2c9f631acb12 100644
 --- a/lld/ELF/OutputSections.cpp
 +++ b/lld/ELF/OutputSections.cpp
-@@ -368,9 +368,9 @@ template <class ELFT> void OutputSection::maybeCompress(Ctx &ctx) {
+@@ -374,9 +374,9 @@ template <class ELFT> void OutputSection::maybeCompress(Ctx &ctx) {
    DebugCompressionType ctype = DebugCompressionType::None;
    size_t compressedSize = sizeof(Elf_Chdr);
    unsigned level = 0; // default compression level

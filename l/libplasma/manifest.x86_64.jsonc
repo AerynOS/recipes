@@ -50,7 +50,7 @@
 				"soname(libKF6WindowSystem.so.6(x86_64))",
 				"soname(libKirigamiPlatform.so.6(x86_64))",
 				"soname(libOpenGL.so.0(x86_64))",
-				"soname(libPlasmaActivities.so.6(x86_64))",
+				"soname(libPlasmaActivities.so.7(x86_64))",
 				"soname(libQt6Core.so.6(x86_64))",
 				"soname(libQt6Gui.so.6(x86_64))",
 				"soname(libQt6Qml.so.6(x86_64))",
@@ -69,9 +69,9 @@
 			],
 			"files": [
 				"/usr/lib/libPlasma.so.6",
-				"/usr/lib/libPlasma.so.6.4.5",
+				"/usr/lib/libPlasma.so.6.5.0",
 				"/usr/lib/libPlasmaQuick.so.6",
-				"/usr/lib/libPlasmaQuick.so.6.4.5",
+				"/usr/lib/libPlasmaQuick.so.6.5.0",
 				"/usr/lib/qt6/plugins/kf6/kirigami/platform/KirigamiPlasmaStyle.so",
 				"/usr/lib/qt6/plugins/kf6/packagestructure/plasma_applet.so",
 				"/usr/lib/qt6/plugins/kf6/packagestructure/plasma_containmentactions.so",
@@ -145,6 +145,10 @@
 				"/usr/lib/qt6/qml/org/kde/plasma/components/private/RoundShadow.qml",
 				"/usr/lib/qt6/qml/org/kde/plasma/components/private/TextFieldFocus.qml",
 				"/usr/lib/qt6/qml/org/kde/plasma/components/qmldir",
+				"/usr/lib/qt6/qml/org/kde/plasma/configuration/kde-qmlmodule.version",
+				"/usr/lib/qt6/qml/org/kde/plasma/configuration/libplasmaconfigplugin.so",
+				"/usr/lib/qt6/qml/org/kde/plasma/configuration/plasmaconfigplugin.qmltypes",
+				"/usr/lib/qt6/qml/org/kde/plasma/configuration/qmldir",
 				"/usr/lib/qt6/qml/org/kde/plasma/core/DefaultToolTip.qml",
 				"/usr/lib/qt6/qml/org/kde/plasma/core/DialogBackground.qml",
 				"/usr/lib/qt6/qml/org/kde/plasma/core/corebindingsplugin.qmltypes",
@@ -176,6 +180,10 @@
 				"/usr/lib/qt6/qml/org/kde/plasma/extras/plasmaextracomponentsplugin.qmltypes",
 				"/usr/lib/qt6/qml/org/kde/plasma/extras/private/BackgroundMetrics.qml",
 				"/usr/lib/qt6/qml/org/kde/plasma/extras/qmldir",
+				"/usr/lib/qt6/qml/org/kde/plasma/plasmoid/kde-qmlmodule.version",
+				"/usr/lib/qt6/qml/org/kde/plasma/plasmoid/libplasmoidplugin.so",
+				"/usr/lib/qt6/qml/org/kde/plasma/plasmoid/plasmoidplugin.qmltypes",
+				"/usr/lib/qt6/qml/org/kde/plasma/plasmoid/qmldir",
 				"/usr/share/locale/ar/LC_MESSAGES/libplasma6.mo",
 				"/usr/share/locale/ast/LC_MESSAGES/libplasma6.mo",
 				"/usr/share/locale/az/LC_MESSAGES/libplasma6.mo",
@@ -380,8 +388,10 @@
 				"soname(qt6/plugins/kf6/packagestructure/plasma_theme.so(x86_64))",
 				"soname(qt6/plugins/kf6/packagestructure/plasma_wallpaper.so(x86_64))",
 				"soname(qt6/qml/org/kde/plasma/components/liborg_kde_plasmacomponents3.so(x86_64))",
+				"soname(qt6/qml/org/kde/plasma/configuration/libplasmaconfigplugin.so(x86_64))",
 				"soname(qt6/qml/org/kde/plasma/core/libcorebindingsplugin.so(x86_64))",
-				"soname(qt6/qml/org/kde/plasma/extras/libplasmaextracomponentsplugin.so(x86_64))"
+				"soname(qt6/qml/org/kde/plasma/extras/libplasmaextracomponentsplugin.so(x86_64))",
+				"soname(qt6/qml/org/kde/plasma/plasmoid/libplasmoidplugin.so(x86_64))"
 			]
 		},
 		"libplasma-devel": {
@@ -473,7 +483,6 @@
 				"/usr/share/kdevappwizard/templates/cpp-plasmoid6.tar.bz2",
 				"/usr/share/kdevappwizard/templates/plasma6-wallpaper-with-qml-extension.tar.bz2",
 				"/usr/share/kdevappwizard/templates/plasma6-wallpaper.tar.bz2",
-				"/usr/share/kdevappwizard/templates/qml-plasmoid6-with-qml-extension.tar.bz2",
 				"/usr/share/kdevappwizard/templates/qml-plasmoid6.tar.bz2"
 			],
 			"name": "libplasma-devel",
@@ -484,6 +493,6 @@
 		}
 	},
 	"source-name": "libplasma",
-	"source-release": "9",
-	"source-version": "6.4.5"
+	"source-release": "10",
+	"source-version": "6.5.0"
 }

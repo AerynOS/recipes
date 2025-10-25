@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : less
-version     : "679"
-release     : 12
+version     : "685"
+release     : 13
 homepage    : https://www.greenwoodsoftware.com/less
 upstreams   :
-    - https://github.com/gwsw/less/archive/refs/tags/v679.tar.gz : 39d3f4f716d2889a7118f23e5ab561b50c8122ef51042dd114a40eda235716e1
+    - https://github.com/gwsw/less/archive/refs/tags/v685.tar.gz : 507699ab586a420600bbbb21266ea4ddce6953af4ed3442eba9c5f36ea362c91
 summary     : Text file browser and pager
 description : |
     Text file browser and pager
@@ -21,7 +21,8 @@ builddeps   :
     - pkgconfig(ncursesw)
 setup       : |
     make -f Makefile.aut distfiles
-    %configure --with-regex=pcre2
+    %configure \
+        --with-regex=pcre2
 build       : |
     %make
 install     : |

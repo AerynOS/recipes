@@ -1,0 +1,40 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Reilly Brogan <reilly@reillybrogan.com>
+Date: Fri, 2 Aug 2024 15:55:23 -0500
+Subject: [PATCH] Build lld libraries shared
+
+We don't want to enable `ENABLE_SHARED` since it causes every LLVM library to be built shared even if they're intended to be private.
+
+Origin: vendor
+Forwarded: not-needed
+Last-Update: 2025-03-31
+---
+ lld/cmake/modules/AddLLD.cmake | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
+
+diff --git a/lld/cmake/modules/AddLLD.cmake b/lld/cmake/modules/AddLLD.cmake
+index 9f2684b6f933..8cd5b6344e16 100644
+--- a/lld/cmake/modules/AddLLD.cmake
++++ b/lld/cmake/modules/AddLLD.cmake
+@@ -7,10 +7,8 @@ macro(add_lld_library name)
+     ""
+     ""
+     ${ARGN})
+-  if(ARG_SHARED)
+-    set(ARG_ENABLE_SHARED SHARED)
+-  endif()
+-  llvm_add_library(${name} ${ARG_ENABLE_SHARED} ${ARG_UNPARSED_ARGUMENTS})
++  set(ARG_ENABLE_SHARED SHARED)
++  llvm_add_library(${name} SHARED ${ARG_UNPARSED_ARGUMENTS})
+ 
+   if (NOT LLVM_INSTALL_TOOLCHAIN_ONLY)
+     get_target_export_arg(${name} LLD export_to_lldtargets)
+@@ -21,7 +19,7 @@ macro(add_lld_library name)
+       ARCHIVE DESTINATION lib${LLVM_LIBDIR_SUFFIX}
+       RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}")
+ 
+-    if (${ARG_SHARED} AND NOT CMAKE_CONFIGURATION_TYPES)
++    if (NOT CMAKE_CONFIGURATION_TYPES)
+       add_llvm_install_targets(install-${name}
+         DEPENDS ${name}
+         COMPONENT ${name})

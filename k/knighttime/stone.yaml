@@ -1,0 +1,37 @@
+#
+# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : knighttime
+version     : 6.5.0
+release     : 1
+upstreams   :
+    - https://download.kde.org/stable/plasma/6.5.0/knighttime-6.5.0.tar.xz : ac7af168a01ca19bfc71c849d758723dd81c1f1cfe4c7b3c8a36021ad5d1baaf
+homepage    : https://kde.org/plasma-desktop/
+license     : LGPL-2.0-or-later
+summary     : Helpers for scheduling the dark-light cycle
+description : |
+    Helpers for scheduling the dark-light cycle
+builddeps   :
+    # Temporary, boulder doesn't handle build ordering resolution correctly when builddeps are added by macros, so add ECM manually
+    - cmake(ECM)
+    - cmake(KF6Config)
+    - cmake(KF6CoreAddons)
+    - cmake(KF6DBusAddons)
+    - cmake(KF6Holidays)
+    - cmake(KF6I18n)
+    - cmake(Qt6Positioning)
+tuning      :
+    - lto: full
+    - optimize: speed
+setup       : |
+    %cmake_kf6
+build       : |
+    %cmake_build
+install     : |
+    %cmake_install
+packages    :
+    - "%(name)-devel":
+        paths:
+            - /usr/share/dbus-1/interfaces/
