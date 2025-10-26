@@ -8,7 +8,6 @@
 				"binary(cargo-cbuild)",
 				"binary(curl)",
 				"binary(nasm)",
-				"libstdc++-devel",
 				"pkgconfig(dav1d)",
 				"pkgconfig(glib-2.0)",
 				"pkgconfig(gstreamer-allocators-1.0)",
@@ -24,6 +23,7 @@
 				"soname(libc.so.6(x86_64))",
 				"soname(libcairo.so.2(x86_64))",
 				"soname(libdav1d.so.7(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libgio-2.0.so.0(x86_64))",
 				"soname(libglib-2.0.so.0(x86_64))",
 				"soname(libgobject-2.0.so.0(x86_64))",
@@ -44,7 +44,6 @@
 				"soname(libpangocairo-1.0.so.0(x86_64))",
 				"soname(libsodium.so.26(x86_64))",
 				"soname(libstdc++.so.6(x86_64))",
-				"soname(libunwind.so.1(x86_64))",
 				"soname(libwebpdemux.so.2(x86_64))"
 			],
 			"files": [
@@ -161,7 +160,6 @@
 				"binary(cargo-cbuild)",
 				"binary(curl)",
 				"binary(nasm)",
-				"libstdc++-devel",
 				"pkgconfig(dav1d)",
 				"pkgconfig(glib-2.0)",
 				"pkgconfig(gstreamer-allocators-1.0)",
@@ -174,6 +172,7 @@
 			"depends": [
 				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libgio-2.0.so.0(x86_64))",
 				"soname(libglib-2.0.so.0(x86_64))",
 				"soname(libgobject-2.0.so.0(x86_64))",
@@ -182,8 +181,7 @@
 				"soname(libgstgl-1.0.so.0(x86_64))",
 				"soname(libgstreamer-1.0.so.0(x86_64))",
 				"soname(libgstvideo-1.0.so.0(x86_64))",
-				"soname(libgtk-4.so.1(x86_64))",
-				"soname(libunwind.so.1(x86_64))"
+				"soname(libgtk-4.so.1(x86_64))"
 			],
 			"files": [
 				"/usr/lib/gstreamer-1.0/libgstgtk4.so"
@@ -195,6 +193,6 @@
 		}
 	},
 	"source-name": "gst-plugins-rs",
-	"source-release": "11",
+	"source-release": "12",
 	"source-version": "1.26.7"
 }

@@ -17,17 +17,17 @@
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"soname(ld-linux-x86-64.so.2(x86_64))",
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libgmp.so.10(x86_64))",
 				"soname(libhogweed.so.6(x86_64))",
 				"soname(libidn2.so.0(x86_64))",
 				"soname(libm.so.6(x86_64))",
 				"soname(libnettle.so.8(x86_64))",
 				"soname(libp11-kit.so.0(x86_64))",
+				"soname(libstdc++.so.6(x86_64))",
 				"soname(libtasn1.so.6(x86_64))",
-				"soname(libunistring.so.5(x86_64))",
-				"soname(libunwind.so.1(x86_64))"
+				"soname(libunistring.so.5(x86_64))"
 			],
 			"files": [
 				"/usr/bin/certtool",
@@ -1356,6 +1356,6 @@
 		}
 	},
 	"source-name": "gnutls",
-	"source-release": "8",
+	"source-release": "9",
 	"source-version": "3.8.10"
 }

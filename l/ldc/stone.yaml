@@ -4,8 +4,8 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : ldc
-version     : 1.40.1
-release     : 20
+version     : 1.41.0
+release     : 21
 summary     : The LLVM-based D Compiler
 license     :
     - Apache-2.0
@@ -15,39 +15,27 @@ homepage    : https://github.com/ldc-developers/ldc
 description : |
     The LLVM-based D Compiler
 upstreams   :
-    - https://github.com/ldc-developers/ldc/releases/download/v1.40.1/ldc-1.40.1-src.tar.gz:
-        hash: b643bee2ee6f9819084ef7468cf739257974a99f3980364d20201bc806a4a454
+    - https://github.com/ldc-developers/ldc/releases/download/v1.41.0/ldc-1.41.0-src.tar.gz:
+        hash: af52818b60706106fb8bca2024685c54eddce929edccae718ad9fbcf689f222f
         unpackdir: "ldc"
-    # - https://github.com/ldc-developers/ldc/releases/download/v1.40.1/ldc2-1.40.1-linux-x86_64.tar.xz:
-    #     hash: 085a593dba4b1385ec03e7521aa97356e5a7d9f6194303eccb3c1e35935c69d8
-    #     stripdirs: 1
-    #     unpackdir: "ldc/bootstrap/"
+    - https://github.com/ldc-developers/ldc/releases/download/v1.41.0/ldc2-1.41.0-linux-x86_64.tar.xz:
+        hash: 4a439457f0fe59e69d02fd6b57549fc3c87ad0f55ad9fb9e42507b6f8e327c8f
+        stripdirs: 1
+        unpackdir: "ldc/bootstrap/"
 builddeps   :
     - binary(ldc2)
     - binary(llvm-config-20)
-    - binary(make)
-    - lld-20-devel
     - pkgconfig(zlib)
-    # - libgcc # ldc2 upstream linked against libgcc_c.so
+    - binary(make)
+    - compiler-rt-20
+    - lld-20-devel
     - ldc-static
 setup       : |
     # Set to 1 to rebootstrap, make sure you uncomment the dmd compiler from the upstreams
-    _bootstrap=0
+    _bootstrap=1
 
     %patch %(pkgdir)/stateless/0001-Fixups-for-packaging-and-stateless-config.patch
-    %patch %(pkgdir)/0001-downstream-Default-to-libcxx-for-cpp.patch
     %patch %(pkgdir)/0001-Link-against-libLLVM.so-for-LLVMSymbolize-symbols.patch
-
-    # LLVM 20 support
-    %patch %(pkgdir)/upstream/0001-tree-wide-replace-pointerTo-with-LLPointerType-get.patch
-    %patch %(pkgdir)/upstream/0002-tree-wide-shuffle-headers-around.patch
-    %patch %(pkgdir)/upstream/0003-gen-llvm.h-adapt-GET_INTRINSIC_DECL-macro-to-LLVM-20.patch
-    %patch %(pkgdir)/upstream/0004-utils-gen_gccbuiltins.cpp-mark-most-variables-as-con.patch
-    %patch %(pkgdir)/upstream/0005-gen-classes.cpp-suppress-unused-variable-warning.patch
-    %patch %(pkgdir)/upstream/0006-gen-optimizer.cpp-add-the-new-LTO-parameter-everywhe.patch
-    %patch %(pkgdir)/upstream/0007-gen-dibuilder.cpp-adapt-to-API-changes.patch
-    %patch %(pkgdir)/upstream/0008-jit-rt-adapt-to-LLVM-20-header-changes.patch
-    %patch %(pkgdir)/upstream/0009-druntime-Support-LLVM-v20.1-in-ldc.intrinsics.patch
 
     # We use CMAKE_SKIP_INSTALL_RPATH instead of CMAKE_SKIP_RPATH because the former makes it so that we use rpath
     # during building and linking but strip it when installing. This means we can link ldc against the runtime we just built.
@@ -64,7 +52,6 @@ setup       : |
            -DLDC_WITH_LLD=ON \
            -DLLVM_CONFIG=%(bindir)/llvm-config-20 \
            -DPHOBOS_SYSTEM_ZLIB=ON \
-           -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
            "$@"
     }
 
@@ -101,6 +88,7 @@ packages    :
         rundeps:
             - "%(name)-libs"
             - "%(name)-libs-debug"
+            - compiler-rt-20
 
     - "%(name)-libs":
         summary: Runtime libs for ldc

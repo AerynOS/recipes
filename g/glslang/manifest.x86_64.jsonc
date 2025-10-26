@@ -9,10 +9,10 @@
 			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libglslang-default-resource-limits.so.16(x86_64))",
-				"soname(libglslang.so.16(x86_64))"
+				"soname(libglslang.so.16(x86_64))",
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/bin/glslang",
@@ -70,9 +70,9 @@
 				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libSPIRV-Tools-opt.so(x86_64))",
 				"soname(libSPIRV-Tools.so(x86_64))",
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
-				"soname(libm.so.6(x86_64))"
+				"soname(libm.so.6(x86_64))",
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/lib/libSPIRV.so.16",
@@ -91,6 +91,6 @@
 		}
 	},
 	"source-name": "glslang",
-	"source-release": "10",
+	"source-release": "11",
 	"source-version": "16.0.0"
 }

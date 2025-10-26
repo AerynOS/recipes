@@ -8,10 +8,10 @@
 			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libpcre2-8.so.0(x86_64))",
-				"soname(libunwind.so.1(x86_64))"
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/bin/ccache-swig",
@@ -861,6 +861,6 @@
 		}
 	},
 	"source-name": "swig",
-	"source-release": "5",
+	"source-release": "6",
 	"source-version": "4.3.1"
 }

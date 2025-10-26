@@ -5,7 +5,7 @@
 #
 name        : zstd
 version     : 1.5.7
-release     : 10
+release     : 12
 summary     : Fast real-time compression algorithm
 license     :
     - BSD-3-Clause
@@ -27,13 +27,13 @@ environment : |
 setup       : |
     # Need to build static lib for tests, but we can delete it after
     %cmake -S build/cmake \
-           -DZSTD_ZLIB_SUPPORT=ON \
-           -DZSTD_LZMA_SUPPORT=ON \
-           -DZSTD_LZ4_SUPPORT=ON \
-           -DZSTD_BUILD_CONTRIB=ON \
-           -DZSTD_BUILD_STATIC=OFF \
-           -DZSTD_BUILD_TESTS=OFF \
-           -DZSTD_PROGRAMS_LINK_SHARED=ON
+        -DZSTD_ZLIB_SUPPORT=ON \
+        -DZSTD_LZMA_SUPPORT=ON \
+        -DZSTD_LZ4_SUPPORT=ON \
+        -DZSTD_BUILD_CONTRIB=ON \
+        -DZSTD_BUILD_STATIC=OFF \
+        -DZSTD_BUILD_TESTS=OFF \
+        -DZSTD_PROGRAMS_LINK_SHARED=ON
 build       : |
     %cmake_build
 install     : |

@@ -5,10 +5,10 @@
 #
 name        : libbs2b
 version     : 3.1.0
-release     : 2
+release     : 3
 homepage    : https://bs2b.sourceforge.net/
 upstreams   :
-    - https://sourceforge.net/projects/bs2b/files/libbs2b/3.1.0/libbs2b-3.1.0.tar.gz/download : 6aaafd81aae3898ee40148dd1349aab348db9bfae9767d0e66e0b07ddd4b2528
+    - https://sourceforge.net/projects/bs2b/files/libbs2b/3.1.0/libbs2b-3.1.0.tar.gz : 6aaafd81aae3898ee40148dd1349aab348db9bfae9767d0e66e0b07ddd4b2528
 summary     : Bauer stereophonic-to-binaural DSP.
 description : |
     Bauer stereophonic-to-binaural DSP.
@@ -16,7 +16,8 @@ license     : ISC
 builddeps   : 
     - pkgconfig(sndfile)
 setup       : |
-    %configure --disable-static
+    %configure \
+        --disable-static
 build       : |
     %make
 install     : |

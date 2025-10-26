@@ -13,15 +13,15 @@
 			],
 			"depends": [
 				"soname(ld-linux-x86-64.so.2(x86_64))",
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libcoeurl.so.0.3(x86_64))",
 				"soname(libcrypto.so.3(x86_64))",
 				"soname(libfmt.so.12(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libolm.so.3(x86_64))",
 				"soname(libre2.so.11(x86_64))",
 				"soname(libspdlog.so.1.16(x86_64))",
-				"soname(libunwind.so.1(x86_64))"
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/lib/libmatrix_client.so.0.10.1"
@@ -144,6 +144,6 @@
 		}
 	},
 	"source-name": "mtxclient",
-	"source-release": "7",
+	"source-release": "8",
 	"source-version": "0.10.1"
 }

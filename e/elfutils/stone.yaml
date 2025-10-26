@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : elfutils
-version     : "0.193"
-release     : 8
+version     : "0.194"
+release     : 10
 homepage    : https://sourceware.org/elfutils
 upstreams   :
-    - https://sourceware.org/elfutils/ftp/0.193/elfutils-0.193.tar.bz2 : 7857f44b624f4d8d421df851aaae7b1402cfe6bcdd2d8049f15fc07d3dde7635
+    - https://sourceware.org/elfutils/ftp/0.194/elfutils-0.194.tar.bz2 : 09e2ff033d39baa8b388a2d7fbc5390bfde99ae3b7c67c7daaf7433fbcf0f01e
 summary     : Collection of utilities and libraries to read, create and modify ELF binary files
 description : |
     elfutils is a collection of utilities and libraries to read, create and modify ELF binary files, find and handle DWARF debug data, symbols, thread state and stacktraces for processes and core files on GNU/Linux.
@@ -26,13 +26,14 @@ emul32      : true
 setup: |
     %patch %(pkgdir)/rename-stack.patch
 
-    %configure --disable-static \
-                --disable-debuginfod \
-                --disable-libdebuginfod \
-                --with-zlib \
-                --with-bzlib \
-                --with-lzma \
-                --with-zstd
+    %configure \
+        --disable-static \
+        --disable-debuginfod \
+        --disable-libdebuginfod \
+        --with-zlib \
+        --with-bzlib \
+        --with-lzma \
+        --with-zstd
 build       : |
     %make VERBOSE=1
 install     : |

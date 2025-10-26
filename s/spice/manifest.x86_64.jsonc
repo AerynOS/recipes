@@ -20,7 +20,6 @@
 				"python-six"
 			],
 			"depends": [
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libcrypto.so.3(x86_64))",
 				"soname(libglib-2.0.so.0(x86_64))",
@@ -37,6 +36,7 @@
 				"soname(libpixman-1.so.0(x86_64))",
 				"soname(libsasl2.so.3(x86_64))",
 				"soname(libssl.so.3(x86_64))",
+				"soname(libstdc++.so.6(x86_64))",
 				"soname(libudev.so.1(x86_64))",
 				"soname(libz.so.1(x86_64))"
 			],
@@ -106,6 +106,6 @@
 		}
 	},
 	"source-name": "spice",
-	"source-release": "3",
+	"source-release": "4",
 	"source-version": "0.16.0"
 }

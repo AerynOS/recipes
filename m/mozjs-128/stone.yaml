@@ -5,7 +5,7 @@
 #
 name        : mozjs-128
 version     : 128.14.0
-release     : 10
+release     : 11
 homepage    : https://mozilla.org
 upstreams   :
     - https://archive.mozilla.org/pub/firefox/releases/128.14.0esr/source/firefox-128.14.0esr.source.tar.xz : 93b9ef6229f41cb22ff109b95bbf61a78395a0fe4b870192eeca22947cb09a53
@@ -35,12 +35,13 @@ environment : |
     unset RUSTFLAGS
 setup       : |
     mkdir obj && cd obj
-    ../js/src/configure --prefix=%(prefix) \
-                --libdir=%(libdir) \
-                --disable-jemalloc \
-                --with-intl-api \
-                --without-system-icu \
-                --with-system-zlib
+    ../js/src/configure \
+        --prefix=%(prefix) \
+        --libdir=%(libdir) \
+        --disable-jemalloc \
+        --with-intl-api \
+        --without-system-icu \
+        --with-system-zlib
 build       : |
     cd obj
     %make

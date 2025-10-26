@@ -5,7 +5,7 @@
 #
 name        : easyeffects
 version     : 7.2.5
-release     : 6
+release     : 7
 homepage    : https://github.com/wwmm/easyeffects
 upstreams   :
     - https://github.com/wwmm/easyeffects/archive/refs/tags/v7.2.5.tar.gz : d86877b12648a24b3b21a56d16d5680ee2585d575878ecdcea1b9bd9bb428191
@@ -38,7 +38,6 @@ builddeps   :
     - pkgconfig(tbb)
     - desktop-file-utils
     - ladspa-devel
-    - libcxx-devel-static # For experimental flag below
     - zita-convolver-devel
     # appstream-util
 rundeps     :
@@ -48,14 +47,8 @@ rundeps     :
     - libportal-gtk4
     - lsp-plugins-lv2
 setup       : |
-    # https://github.com/llvm/llvm-project/issues/65125
-    # error: no member named 'par_unseq' in namespace 'std::execution'
-    export CXXFLAGS="${CXXFLAGS} -fexperimental-library"
-
-    %meson \
-        -Denable-libcpp-workarounds=true
+    %meson
 build       : |
     %meson_build
 install     : |
     %meson_install
-

@@ -5,7 +5,7 @@
 #
 name        : qca
 version     : 2.3.10
-release     : 3
+release     : 4
 upstreams   :
     - https://download.kde.org/stable/qca/2.3.10/qca-2.3.10.tar.xz : 1c5b722da93d559365719226bb121c726ec3c0dc4c67dea34f1e50e4e0d14a02
 homepage    : https://userbase.kde.org/QCA
@@ -16,12 +16,14 @@ description : |
 builddeps   :
     - cmake(Qt6)
     - cmake(Qt6Core5Compat)
+    - pkgconfig(openssl)
     - pkgconfig(nss)
     # Maybe build with botan3 support at some point? NSS/libcrypto/gnupg is probably sufficient for now
 setup       : |
-    %cmake -DQT6=ON \
-           -DQCA_INSTALL_IN_QT_PREFIX=ON \
-           -DQCA_MAN_INSTALL_DIR=/usr/share/man
+    %cmake \
+        -DQT6=ON \
+        -DQCA_INSTALL_IN_QT_PREFIX=ON \
+        -DQCA_MAN_INSTALL_DIR=/usr/share/man
 build       : |
     %cmake_build
 install     : |

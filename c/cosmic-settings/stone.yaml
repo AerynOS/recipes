@@ -4,13 +4,13 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : cosmic-settings
-version     : 1.0.0-beta.1+git.886220f
-release     : 23
+version     : 1.0.0-beta2+git.5ee239d
+release     : 24
 summary     : Cosmic Desktop Settings
 license     : GPL-3.0
 homepage    : https://github.com/pop-os/cosmic-settings
 upstreams   :
-    - git|https://github.com/pop-os/cosmic-settings.git : 886220fc9f373c9a2dedb52224f24c1efdfefa6e
+    - git|https://github.com/pop-os/cosmic-settings.git : 5ee239de68e6e053f1a5a286197502cdec75dc37
 description : |
     Cosmic Desktop Settings
 builddeps   :
@@ -24,7 +24,6 @@ rundeps     :
     - binary(pipewire-pulse)
 networking  : yes
 setup       : |
-    %patch %(pkgdir)/wheel.patch
     %cargo_fetch
 build       : |
     %cargo_build

@@ -41,6 +41,7 @@
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"phonon-backend-mpv-qt6",
+				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libKDSoapWSDiscoveryClient.so.0(x86_64))",
 				"soname(libKExiv2Qt6.so.0(x86_64))",
 				"soname(libKF6Archive.so.6(x86_64))",
@@ -72,8 +73,8 @@
 				"soname(libQt6Sql.so.6(x86_64))",
 				"soname(libQt6Svg.so.6(x86_64))",
 				"soname(libQt6Widgets.so.6(x86_64))",
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libimobiledevice-1.0.so.6(x86_64))",
 				"soname(libkdsoap-qt6.so.2(x86_64))",
 				"soname(libmtp.so.9(x86_64))",
@@ -82,9 +83,9 @@
 				"soname(libproxy.so.1(x86_64))",
 				"soname(libsmbclient.so.0(x86_64))",
 				"soname(libssh.so.4(x86_64))",
+				"soname(libstdc++.so.6(x86_64))",
 				"soname(libtag.so.2(x86_64))",
-				"soname(libtirpc.so.3(x86_64))",
-				"soname(libunwind.so.1(x86_64))"
+				"soname(libtirpc.so.3(x86_64))"
 			],
 			"files": [
 				"/usr/lib/kf6/smbnotifier",
@@ -1989,6 +1990,6 @@
 		}
 	},
 	"source-name": "kio-extras",
-	"source-release": "8",
+	"source-release": "9",
 	"source-version": "25.08.2"
 }

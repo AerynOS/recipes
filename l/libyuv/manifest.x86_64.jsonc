@@ -8,11 +8,11 @@
 				"pkgconfig(libjpeg)"
 			],
 			"depends": [
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libjpeg.so.8(x86_64))",
 				"soname(libm.so.6(x86_64))",
-				"soname(libunwind.so.1(x86_64))"
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/lib/libyuv.so.0",
@@ -64,6 +64,6 @@
 		}
 	},
 	"source-name": "libyuv",
-	"source-release": "2",
+	"source-release": "3",
 	"source-version": "0.0.1910+git.7e5863ae"
 }

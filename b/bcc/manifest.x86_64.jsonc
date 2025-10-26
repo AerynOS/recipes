@@ -13,12 +13,12 @@
 			"depends": [
 				"soname(libLLVM.so.21.1(x86_64))",
 				"soname(libbpf.so.1(x86_64))",
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libclang-cpp.so.21.1(x86_64))",
 				"soname(libelf.so.1(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libm.so.6(x86_64))",
-				"soname(libunwind.so.1(x86_64))"
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/lib/libbcc.so.0",
@@ -1130,6 +1130,6 @@
 		}
 	},
 	"source-name": "bcc",
-	"source-release": "2",
+	"source-release": "3",
 	"source-version": "0.35.0"
 }

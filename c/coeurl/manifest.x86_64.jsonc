@@ -9,14 +9,15 @@
 				"pkgconfig(spdlog)"
 			],
 			"depends": [
-				"soname(libc++.so.1(x86_64))",
+				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libcurl.so.4(x86_64))",
 				"soname(libevent_core-2.1.so.7(x86_64))",
 				"soname(libevent_pthreads-2.1.so.7(x86_64))",
 				"soname(libfmt.so.12(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libspdlog.so.1.16(x86_64))",
-				"soname(libunwind.so.1(x86_64))"
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/lib/libcoeurl.so.0.3"
@@ -54,6 +55,6 @@
 		}
 	},
 	"source-name": "coeurl",
-	"source-release": "5",
+	"source-release": "6",
 	"source-version": "0.3.1"
 }

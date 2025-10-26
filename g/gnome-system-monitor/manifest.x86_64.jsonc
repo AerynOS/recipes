@@ -23,9 +23,9 @@
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"soname(libadwaita-1.so.0(x86_64))",
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libcairo.so.2(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libgdk_pixbuf-2.0.so.0(x86_64))",
 				"soname(libgio-2.0.so.0(x86_64))",
 				"soname(libgiomm-2.68.so.1(x86_64))",
@@ -42,8 +42,8 @@
 				"soname(libpangocairo-1.0.so.0(x86_64))",
 				"soname(librsvg-2.so.2(x86_64))",
 				"soname(libsigc-3.0.so.0(x86_64))",
-				"soname(libsystemd.so.0(x86_64))",
-				"soname(libunwind.so.1(x86_64))"
+				"soname(libstdc++.so.6(x86_64))",
+				"soname(libsystemd.so.0(x86_64))"
 			],
 			"files": [
 				"/usr/bin/gnome-system-monitor",
@@ -811,6 +811,6 @@
 		}
 	},
 	"source-name": "gnome-system-monitor",
-	"source-release": "7",
+	"source-release": "8",
 	"source-version": "49.1"
 }

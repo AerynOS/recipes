@@ -5,7 +5,7 @@
 #
 name        : mozjs-140
 version     : 140.4.0
-release     : 4
+release     : 5
 homepage    : https://mozilla.org
 upstreams   :
     - https://archive.mozilla.org/pub/firefox/releases/140.4.0esr/source/firefox-140.4.0esr.source.tar.xz : 49f20673171046bc7b64f4caa340c46e1e105b9107f0ef68b7a94f379bcea4f7
@@ -38,7 +38,8 @@ setup       : |
     %patch %(pkgdir)/upstream-02.patch
 
     mkdir obj && cd obj
-    ../js/src/configure --prefix=%(prefix) \
+    ../js/src/configure \
+        --prefix=%(prefix) \
         --libdir=%(libdir) \
         --disable-jemalloc \
         --with-intl-api \

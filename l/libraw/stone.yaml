@@ -5,7 +5,7 @@
 #
 name        : libraw
 version     : 0.21.4
-release     : 3
+release     : 4
 upstreams   :
     - https://www.libraw.org/data/LibRaw-0.21.4.tar.gz : 6be43f19397e43214ff56aab056bf3ff4925ca14012ce5a1538a172406a09e63
 homepage    : https://www.libraw.org/
@@ -21,8 +21,6 @@ builddeps   :
     - pkgconfig(libjpeg)
     - pkgconfig(zlib)
 setup       : |
-    %patch %(pkgdir)/0001-Use-libc.patch
-
     %configure \
         --disable-static
 build       : |

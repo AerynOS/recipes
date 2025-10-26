@@ -1,0 +1,45 @@
+#
+# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : klassy
+version     : 6.4.breeze6.4.0
+release     : 1
+upstreams   :
+    - https://github.com/paulmcauley/klassy/archive/refs/tags/6.4.breeze6.4.0.tar.gz : 77c757b5edef9808a84fe50f9277369ecafc38fba8d7cda11eb448c0c170a3ff
+homepage    : https://github.com/paulmcauley/klassy
+license     :
+    - BSD-3-Clause
+    - GPL-2.0-only
+    - GPL-2.0-or-later
+    - MIT
+summary     : Artwork, styles and assets for the Klassy visual style for the Plasma Desktop
+description : |
+    Highly customizable binary Window Decoration, Application Style and Global Theme plugin for recent versions of the KDE Plasma desktop.
+builddeps   :
+    # Temporary, boulder doesn't handle build ordering resolution correctly when builddeps are added by macros, so add ECM manually
+    - cmake(ECM)
+    - cmake(KDecoration3)
+    - cmake(KF6ColorScheme)
+    - cmake(KF6Config)
+    - cmake(KF6CoreAddons)
+    - cmake(KF6FrameworkIntegration)
+    - cmake(KF6GuiAddons)
+    - cmake(KF6I18n)
+    - cmake(KF6IconThemes)
+    - cmake(KF6KCMUtils)
+    - cmake(KF6KirigamiPlatform)
+    - cmake(KF6WindowSystem)
+    - cmake(Qt6Svg)
+tuning      :
+    - lto: full
+    - optimize: speed
+setup       : |
+    %cmake_kf6 \
+        -DBUILD_QT5=OFF \
+        -DBUILD_QT6=ON
+build       : |
+    %cmake_build
+install     : |
+    %cmake_install

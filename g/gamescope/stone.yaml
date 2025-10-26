@@ -5,7 +5,7 @@
 #
 name        : gamescope
 version     : 3.16.17
-release     : 2
+release     : 3
 homepage    : https://github.com/ValveSoftware/gamescope
 upstreams   :
     - git|https://github.com/ValveSoftware/gamescope.git : cf288b95fa376a15f30fe8d1a9f750cad54742df
@@ -57,7 +57,6 @@ rundeps     :
     - binary(Xwayland)
 setup       : |
     # Build fixes
-    %patch %(pkgdir)/ftbfs-libc++.patch
     %patch %(pkgdir)/ftbfs-libdisplay-info-0.3.patch
     %patch %(pkgdir)/openvr-system-cpp.patch -d subprojects/openvr
 

@@ -16,7 +16,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Run detection script
-        uses: serpent-os/check-for-file-conflicts@main
+        uses: AerynOS/check-for-file-conflicts@main
         id: conflicts
       - uses: mshick/add-pr-comment@v2
         if: failure() && github.event_name == 'pull_request'

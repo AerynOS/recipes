@@ -16,9 +16,9 @@
 			],
 			"depends": [
 				"soname(libatkmm-1.6.so.1(x86_64))",
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libcairomm-1.0.so.1(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libgdk-3.so.0(x86_64))",
 				"soname(libgdk_pixbuf-2.0.so.0(x86_64))",
 				"soname(libgiomm-2.4.so.1(x86_64))",
@@ -29,7 +29,7 @@
 				"soname(libm.so.6(x86_64))",
 				"soname(libpangomm-1.4.so.1(x86_64))",
 				"soname(libsigc-2.0.so.0(x86_64))",
-				"soname(libunwind.so.1(x86_64))"
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/lib/libgdkmm-3.0.so.1",
@@ -632,6 +632,6 @@
 		}
 	},
 	"source-name": "gtkmm",
-	"source-release": "3",
+	"source-release": "4",
 	"source-version": "3.24.10"
 }

@@ -22,12 +22,12 @@
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"soname(ld-linux-x86-64.so.2(x86_64))",
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libfmt.so.12(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libm.so.6(x86_64))",
 				"soname(libpipewire-0.3.so.0(x86_64))",
-				"soname(libunwind.so.1(x86_64))"
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/bin/openal-info",
@@ -106,19 +106,20 @@
 			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libSDL3.so.0(x86_64))",
 				"soname(libavcodec.so.62(x86_64))",
 				"soname(libavformat.so.62(x86_64))",
 				"soname(libavutil.so.60(x86_64))",
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libfmt.so.12(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libm.so.6(x86_64))",
 				"soname(libopenal.so.1(x86_64))",
 				"soname(libsndfile.so.1(x86_64))",
+				"soname(libstdc++.so.6(x86_64))",
 				"soname(libswresample.so.6(x86_64))",
-				"soname(libswscale.so.9(x86_64))",
-				"soname(libunwind.so.1(x86_64))"
+				"soname(libswscale.so.9(x86_64))"
 			],
 			"files": [
 				"/usr/bin/aldebug",
@@ -154,6 +155,6 @@
 		}
 	},
 	"source-name": "openal",
-	"source-release": "3",
+	"source-release": "4",
 	"source-version": "1.24.3"
 }

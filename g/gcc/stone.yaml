@@ -4,8 +4,8 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : gcc
-version     : 15.2.0+git.8ef56e12
-release     : 17
+version     : 15.2.0+git.e4ee38ae
+release     : 18
 summary     : GNU C++ standard library and compiler
 license     : GPL-3.0-or-later
 homepage    : https://gcc.gnu.org/
@@ -15,7 +15,7 @@ upstreams   :
     # Use the github mirror since the official git hosting is unreliable and slow
     - git|https://github.com/gcc-mirror/gcc:
         # Should be the latest commit on the releases/gcc-15 branch that isn't a bump to the date
-        ref: 8ef56e12464ac3ae9b4df08d652e60874d886689
+        ref: e4ee38ae7ad69dd6bea96665a2f7bc6887cd3145
 builddeps   :
     - binary(bison)
     - binary(cargo)
@@ -511,7 +511,6 @@ packages    :
             - /usr/share/man/*/g++*
         rundeps:
             - binary(gcc)
-            - libcxx-devel
             - libstdc++-devel
 
     - "gccrs":

@@ -11,9 +11,9 @@
 			"depends": [
 				"soname(libQt6Core.so.6(x86_64))",
 				"soname(libQt6Qml.so.6(x86_64))",
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
-				"soname(libm.so.6(x86_64))"
+				"soname(libm.so.6(x86_64))",
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/lib/libKF6Holidays.so.6",
@@ -145,6 +145,6 @@
 		}
 	},
 	"source-name": "kf6-kholidays",
-	"source-release": "7",
+	"source-release": "8",
 	"source-version": "6.19.0"
 }

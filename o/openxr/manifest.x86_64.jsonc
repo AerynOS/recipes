@@ -19,11 +19,11 @@
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"soname(libX11.so.6(x86_64))",
 				"soname(libXxf86vm.so.1(x86_64))",
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libm.so.6(x86_64))",
 				"soname(libopenxr_loader.so.1(x86_64))",
-				"soname(libunwind.so.1(x86_64))",
+				"soname(libstdc++.so.6(x86_64))",
 				"soname(libvulkan.so.1(x86_64))"
 			],
 			"files": [
@@ -102,10 +102,10 @@
 				"pkgconfig(xxf86vm)"
 			],
 			"depends": [
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libjsoncpp.so.26(x86_64))",
-				"soname(libunwind.so.1(x86_64))"
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/lib/libopenxr_loader.so.1",
@@ -118,6 +118,6 @@
 		}
 	},
 	"source-name": "openxr",
-	"source-release": "3",
+	"source-release": "4",
 	"source-version": "1.1.53"
 }

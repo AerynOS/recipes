@@ -16,14 +16,13 @@
 				"pkgconfig(zlib)"
 			],
 			"depends": [
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libdeflate.so.0(x86_64))",
 				"soname(libjbig.so.2.1(x86_64))",
 				"soname(libjpeg.so.8(x86_64))",
 				"soname(liblzma.so.5(x86_64))",
 				"soname(libm.so.6(x86_64))",
-				"soname(libunwind.so.1(x86_64))",
+				"soname(libstdc++.so.6(x86_64))",
 				"soname(libwebp.so.7(x86_64))",
 				"soname(libz.so.1(x86_64))",
 				"soname(libzstd.so.1(x86_64))"
@@ -611,6 +610,6 @@
 		}
 	},
 	"source-name": "libtiff",
-	"source-release": "8",
+	"source-release": "10",
 	"source-version": "4.7.1"
 }

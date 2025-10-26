@@ -10,6 +10,7 @@
 				"pkgconfig(gthread-2.0)",
 				"pkgconfig(gtkmm-3.0)",
 				"pkgconfig(libparted)",
+				"pkgconfig(polkit-agent-1)",
 				"pkgconfig(uuid)"
 			],
 			"depends": [
@@ -17,9 +18,9 @@
 				"binary(xhost)",
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"soname(libatkmm-1.6.so.1(x86_64))",
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libcairomm-1.0.so.1(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libgdk-3.so.0(x86_64))",
 				"soname(libgdkmm-3.0.so.1(x86_64))",
 				"soname(libglib-2.0.so.0(x86_64))",
@@ -30,7 +31,7 @@
 				"soname(libparted-fs-resize.so.0(x86_64))",
 				"soname(libparted.so.2(x86_64))",
 				"soname(libsigc-2.0.so.0(x86_64))",
-				"soname(libunwind.so.1(x86_64))",
+				"soname(libstdc++.so.6(x86_64))",
 				"soname(libuuid.so.1(x86_64))",
 				"sysbinary(mkfs.bcachefs)",
 				"sysbinary(mkfs.exfat)",
@@ -165,6 +166,6 @@
 		}
 	},
 	"source-name": "gparted",
-	"source-release": "7",
+	"source-release": "8",
 	"source-version": "1.7.0"
 }

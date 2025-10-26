@@ -5,7 +5,7 @@
 #
 name        : qt5-base
 version     : 5.15.17+kde.c5b9db06
-release     : 11
+release     : 13
 homepage    : https://www.qt.io
 upstreams   :
     - git|https://invent.kde.org/qt/qt/qtbase.git:
@@ -45,6 +45,7 @@ builddeps   :
     - pkgconfig(md4c)
     - pkgconfig(shared-mime-info)
     - pkgconfig(sqlite3)
+    - pkgconfig(tslib)
     - pkgconfig(x11)
     - pkgconfig(xcb)
     - pkgconfig(xcb-icccm)
@@ -53,6 +54,7 @@ builddeps   :
     - pkgconfig(xcb-randr)
     - pkgconfig(xcb-renderutil)
     - pkgconfig(xkbcommon)
+    - pkgconfig(xkbcommon-x11)
     - pkgconfig(zlib)
     - vulkan-headers
 setup       : |

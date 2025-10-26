@@ -8,8 +8,6 @@
 				"binary(python3)",
 				"binary(sed)",
 				"binutils-devel",
-				"libatomic",
-				"libcxx-devel-static",
 				"mimalloc-static",
 				"pkgconfig(hwloc)",
 				"pkgconfig(libedit)",
@@ -27,18 +25,17 @@
 				"glibc-devel",
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"libatomic",
-				"libcxx-devel",
-				"libgcc",
+				"libgcc-static",
 				"libstdc++-devel",
-				"libunwind-devel",
 				"lld-20",
 				"llvm-20",
 				"openmp-devel",
+				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libLLVM.so.20.1(x86_64))",
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libclang-cpp.so.20.1(x86_64))",
-				"soname(libmimalloc.so.2(x86_64))"
+				"soname(libmimalloc.so.2(x86_64))",
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/bin/clang++-20",
@@ -69,8 +66,6 @@
 				"binary(python3)",
 				"binary(sed)",
 				"binutils-devel",
-				"libatomic",
-				"libcxx-devel-static",
 				"mimalloc-static",
 				"pkgconfig(hwloc)",
 				"pkgconfig(libedit)",
@@ -88,10 +83,10 @@
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"llvm-20-devel",
 				"soname(ld-linux-x86-64.so.2(x86_64))",
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libm.so.6(x86_64))",
-				"soname(libunwind.so.1(x86_64))"
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/bin/clang-tblgen-20",
@@ -956,8 +951,6 @@
 				"binary(python3)",
 				"binary(sed)",
 				"binutils-devel",
-				"libatomic",
-				"libcxx-devel-static",
 				"mimalloc-static",
 				"pkgconfig(hwloc)",
 				"pkgconfig(libedit)",
@@ -972,9 +965,9 @@
 			"depends": [
 				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libLLVM.so.20.1(x86_64))",
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libm.so.6(x86_64))",
+				"soname(libstdc++.so.6(x86_64))",
 				"soname(llvm-20/lib/libLLVM.so.20.1(x86_64))"
 			],
 			"files": [
@@ -1268,8 +1261,6 @@
 				"binary(python3)",
 				"binary(sed)",
 				"binutils-devel",
-				"libatomic",
-				"libcxx-devel-static",
 				"mimalloc-static",
 				"pkgconfig(hwloc)",
 				"pkgconfig(libedit)",
@@ -1286,10 +1277,10 @@
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libLLVM.so.20.1(x86_64))",
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libclang-cpp.so.20.1(x86_64))",
 				"soname(libclang.so.20.1(x86_64))",
+				"soname(libstdc++.so.6(x86_64))",
 				"soname(libxml2.so.16(x86_64))"
 			],
 			"files": [
@@ -1401,8 +1392,6 @@
 				"binary(python3)",
 				"binary(sed)",
 				"binutils-devel",
-				"libatomic",
-				"libcxx-devel-static",
 				"mimalloc-static",
 				"pkgconfig(hwloc)",
 				"pkgconfig(libedit)",
@@ -1416,9 +1405,10 @@
 			],
 			"depends": [
 				"soname(ld-linux-x86-64.so.2(x86_64))",
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
-				"soname(libm.so.6(x86_64))"
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libm.so.6(x86_64))",
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/lib/llvm-20/lib/clang/20/bin/hwasan_symbolize",
@@ -1547,8 +1537,6 @@
 				"binary(python3)",
 				"binary(sed)",
 				"binutils-devel",
-				"libatomic",
-				"libcxx-devel-static",
 				"mimalloc-static",
 				"pkgconfig(hwloc)",
 				"pkgconfig(libedit)",
@@ -1563,7 +1551,6 @@
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"soname(libLLVM.so.20.1(x86_64))",
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(liblldCOFF.so.20.1(x86_64))",
 				"soname(liblldCommon.so.20.1(x86_64))",
@@ -1571,7 +1558,8 @@
 				"soname(liblldMachO.so.20.1(x86_64))",
 				"soname(liblldMinGW.so.20.1(x86_64))",
 				"soname(liblldWasm.so.20.1(x86_64))",
-				"soname(libmimalloc.so.2(x86_64))"
+				"soname(libmimalloc.so.2(x86_64))",
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/bin/ld.lld-20",
@@ -1600,8 +1588,6 @@
 				"binary(python3)",
 				"binary(sed)",
 				"binutils-devel",
-				"libatomic",
-				"libcxx-devel-static",
 				"mimalloc-static",
 				"pkgconfig(hwloc)",
 				"pkgconfig(libedit)",
@@ -1654,8 +1640,6 @@
 				"binary(python3)",
 				"binary(sed)",
 				"binutils-devel",
-				"libatomic",
-				"libcxx-devel-static",
 				"mimalloc-static",
 				"pkgconfig(hwloc)",
 				"pkgconfig(libedit)",
@@ -1670,8 +1654,8 @@
 			"depends": [
 				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libLLVM.so.20.1(x86_64))",
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
+				"soname(libstdc++.so.6(x86_64))",
 				"soname(libz.so.1(x86_64))",
 				"soname(libzstd.so.1(x86_64))",
 				"soname(llvm-20/lib/libLLVM.so.20.1(x86_64))"
@@ -1712,8 +1696,6 @@
 				"binary(python3)",
 				"binary(sed)",
 				"binutils-devel",
-				"libatomic",
-				"libcxx-devel-static",
 				"mimalloc-static",
 				"pkgconfig(hwloc)",
 				"pkgconfig(libedit)",
@@ -1729,11 +1711,11 @@
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libLLVM.so.20.1(x86_64))",
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libm.so.6(x86_64))",
 				"soname(libmimalloc.so.2(x86_64))",
-				"soname(libunwind.so.1(x86_64))",
+				"soname(libstdc++.so.6(x86_64))",
 				"soname(libz.so.1(x86_64))",
 				"soname(libzstd.so.1(x86_64))"
 			],
@@ -2011,8 +1993,6 @@
 				"binary(python3)",
 				"binary(sed)",
 				"binutils-devel",
-				"libatomic",
-				"libcxx-devel-static",
 				"mimalloc-static",
 				"pkgconfig(hwloc)",
 				"pkgconfig(libedit)",
@@ -2030,10 +2010,10 @@
 				"pkgconfig(libedit)",
 				"pkgconfig(libzstd)",
 				"soname(ld-linux-x86-64.so.2(x86_64))",
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libm.so.6(x86_64))",
-				"soname(libunwind.so.1(x86_64))"
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/bin/count-20",
@@ -4193,6 +4173,7 @@
 				"/usr/lib/llvm-20/lib/cmake/llvm/llvm-driver-template.cpp.in",
 				"/usr/lib/llvm-20/lib/libLLVM-20.so",
 				"/usr/lib/llvm-20/lib/libLLVM.so",
+				"/usr/lib/llvm-20/lib/libLLVMDebuginfod.a",
 				"/usr/lib/llvm-20/lib/libLLVMDemangle.a",
 				"/usr/lib/llvm-20/lib/libLLVMSupport.a",
 				"/usr/lib/llvm-20/lib/libLLVMTableGen.a",
@@ -4215,8 +4196,6 @@
 				"binary(python3)",
 				"binary(sed)",
 				"binutils-devel",
-				"libatomic",
-				"libcxx-devel-static",
 				"mimalloc-static",
 				"pkgconfig(hwloc)",
 				"pkgconfig(libedit)",
@@ -4230,12 +4209,12 @@
 			],
 			"depends": [
 				"soname(ld-linux-x86-64.so.2(x86_64))",
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libedit.so.0(x86_64))",
 				"soname(libffi.so.8(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libm.so.6(x86_64))",
-				"soname(libunwind.so.1(x86_64))",
+				"soname(libstdc++.so.6(x86_64))",
 				"soname(libxml2.so.16(x86_64))",
 				"soname(libz.so.1(x86_64))",
 				"soname(libzstd.so.1(x86_64))"
@@ -4262,6 +4241,6 @@
 		}
 	},
 	"source-name": "llvm-20",
-	"source-release": "1",
+	"source-release": "4",
 	"source-version": "20.1.8"
 }

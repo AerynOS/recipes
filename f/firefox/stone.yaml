@@ -5,7 +5,7 @@
 #
 name        : firefox
 version     : "144.0"
-release     : 41
+release     : 43
 homepage    : https://www.mozilla.org/
 upstreams   :
     - https://ftp.mozilla.org/pub/firefox/releases/144.0/source/firefox-144.0.source.tar.xz:
@@ -45,9 +45,7 @@ builddeps   :
     - pkgconfig(pixman-1)
     - pkgconfig(vpx)
     - pkgconfig(xkbcommon)
-    - libstdc++-devel
 rundeps     :
-    - soname(libgcc_s.so.1(x86_64)) # dlopened for widevine
     - soname(libavcodec.so.61(x86_64)) # dlopened, check dom/media/platforms/ffmpeg/FFmpegRuntimeLinker.cpp for latest supported
     - firefox-langpacks
     - xdg-desktop-portal
@@ -65,8 +63,6 @@ setup       : |
     # Looks like this causes build hangs because it disables the watchdog...
     # %%patch %(pkgdir)/patches/pgo.patch
     %patch %(pkgdir)/patches/0001-Fix-Firefox-Thunderbird-envvar-conflicts.patch
-    %patch %(pkgdir)/patches/libcxx18.patch
-    %patch %(pkgdir)/patches/fix-widevine.patch
     %patch %(pkgdir)/patches/0001-Allow-installing-addons-from-user-scope.patch
 
     # TODO: Figure out if we still need to enable unsigned addon loading considering we switched back to unmodified langpacks

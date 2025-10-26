@@ -107,7 +107,6 @@
 				"soname(libQt6UiTools.so.6(x86_64))",
 				"soname(libQt6WaylandClient.so.6(x86_64))",
 				"soname(libQt6Widgets.so.6(x86_64))",
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libcanberra.so.0(x86_64))",
 				"soname(libeis.so.1(x86_64))",
@@ -119,6 +118,7 @@
 				"soname(libm.so.6(x86_64))",
 				"soname(libpipewire-0.3.so.0(x86_64))",
 				"soname(libqaccessibilityclient-qt6.so.0(x86_64))",
+				"soname(libstdc++.so.6(x86_64))",
 				"soname(libsystemd.so.0(x86_64))",
 				"soname(libwayland-client.so.0(x86_64))",
 				"soname(libxcb-composite.so.0(x86_64))",
@@ -1693,6 +1693,7 @@
 				"pkgconfig(xkbcommon-x11)"
 			],
 			"depends": [
+				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libKF6ColorScheme.so.6(x86_64))",
 				"soname(libKF6ConfigCore.so.6(x86_64))",
 				"soname(libKF6ConfigGui.so.6(x86_64))",
@@ -1720,7 +1721,6 @@
 				"soname(libQt6Sensors.so.6(x86_64))",
 				"soname(libQt6Svg.so.6(x86_64))",
 				"soname(libQt6Widgets.so.6(x86_64))",
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libdisplay-info.so.3(x86_64))",
 				"soname(libdrm.so.2(x86_64))",
@@ -1731,6 +1731,7 @@
 				"soname(libkdecorations3private.so.2(x86_64))",
 				"soname(liblcms2.so.2(x86_64))",
 				"soname(libm.so.6(x86_64))",
+				"soname(libstdc++.so.6(x86_64))",
 				"soname(libudev.so.1(x86_64))",
 				"soname(libwayland-client.so.0(x86_64))",
 				"soname(libwayland-server.so.0(x86_64))",
@@ -1766,6 +1767,6 @@
 		}
 	},
 	"source-name": "kwin",
-	"source-release": "11",
+	"source-release": "12",
 	"source-version": "6.5.0"
 }

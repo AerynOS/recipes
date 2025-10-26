@@ -4,10 +4,10 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : krdp
-version     : 6.4.5
-release     : 6
+version     : 6.5.0
+release     : 8
 upstreams   :
-    - https://download.kde.org/stable/plasma/6.4.5/krdp-6.4.5.tar.xz : 381c2c025db6b62d2d71655582c4c9272ae04d4225aea5f8a0307619bf990a45
+    - https://download.kde.org/stable/plasma/6.5.0/krdp-6.5.0.tar.xz : 71065cb742aeadd36ae24e29c5bf1e883cd084d30fb2394215c589274012b58b
 homepage    : https://kde.org/plasma-desktop/
 license     : LGPL-2.1-or-later
 summary     : Library and examples for creating an RDP server
@@ -23,6 +23,7 @@ builddeps   :
     - cmake(KF6CoreAddons)
     - cmake(KF6Crash)
     - cmake(KF6DBusAddons)
+    - cmake(KF6GuiAddons)
     - cmake(KF6I18n)
     - cmake(KF6KCMUtils)
     - cmake(KF6StatusNotifierItem)
@@ -30,6 +31,7 @@ builddeps   :
     - cmake(PlasmaWaylandProtocols)
     - cmake(Qt6CorePrivate)
     - cmake(Qt6Keychain)
+    - pkgconfig(pam)
 rundeps     :
     - binary(openssl)
 tuning      :

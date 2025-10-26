@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : uutils-coreutils
-version     : 0.2.2
-release     : 25
+version     : 0.3.0
+release     : 27
 homepage    : https://uutils.github.io/coreutils/
 upstreams   :
-    - https://github.com/uutils/coreutils/archive/refs/tags/0.2.2.tar.gz : 4a847a3aaf241d11f07fdc04ef36d73c722759675858665bc17e94f56c4fbfb3
+    - https://github.com/uutils/coreutils/archive/refs/tags/0.3.0.tar.gz : 422b4bab88d6a4da9eabcc947b4e8e0c7fbd123c88700f8750da45910bfb03b6
 summary     : Cross-platform Rust rewrite of the GNU coreutils
 description : |
     Cross-platform Rust rewrite of the GNU coreutils
@@ -17,12 +17,11 @@ networking  : true
 builddeps   :
     - pkgconfig(libacl)
     - pkgconfig(systemd)
-    - libstdc++-devel
 tuning      :
     - optimize: size
-    - lto: full
+    - lto: thin
 environment : |
-    export UUTILS_FEATURES="feat_acl,feat_systemd_logind,unix"
+    export UUTILS_FEATURES="feat_acl,feat_systemd_logind,unix,uudoc"
     export RUSTFLAGS="$RUSTFLAGS -C codegen-units=1"
 setup       : |
     # broken / needs rebasing
@@ -47,12 +46,12 @@ install     : |
                 # Install binaries
                 ln -v %(installroot)%(bindir)/coreutils %(installroot)%(bindir)/${item}
                 # Install completions
-                ./%(cargo_target_dir)/coreutils completion ${item} bash > %(installroot)%(datadir)/bash-completion/completions/${item} && [ -s %(installroot)%(datadir)/bash-completion/completions/${item} ] || rm -f %(installroot)%(datadir)/bash-completion/completions/${item}
-                ./%(cargo_target_dir)/coreutils completion ${item} zsh > %(installroot)%(datadir)/zsh/site-functions/_${item} && [ -s %(installroot)%(datadir)/zsh/site-functions/_${item} ] || rm -f %(installroot)%(datadir)/zsh/site-functions/_${item}
-                ./%(cargo_target_dir)/coreutils completion ${item} fish > %(installroot)%(datadir)/fish/vendor_completions.d/${item}.fish && [ -s %(installroot)%(datadir)/fish/vendor_completions.d/${item}.fish ] || rm -f %(installroot)%(datadir)/fish/vendor_completions.d/${item}.fish
+                ./%(cargo_target_dir)/uudoc completion ${item} bash > %(installroot)%(datadir)/bash-completion/completions/${item} && [ -s %(installroot)%(datadir)/bash-completion/completions/${item} ] || rm -f %(installroot)%(datadir)/bash-completion/completions/${item}
+                ./%(cargo_target_dir)/uudoc completion ${item} zsh > %(installroot)%(datadir)/zsh/site-functions/_${item} && [ -s %(installroot)%(datadir)/zsh/site-functions/_${item} ] || rm -f %(installroot)%(datadir)/zsh/site-functions/_${item}
+                ./%(cargo_target_dir)/uudoc completion ${item} fish > %(installroot)%(datadir)/fish/vendor_completions.d/${item}.fish && [ -s %(installroot)%(datadir)/fish/vendor_completions.d/${item}.fish ] || rm -f %(installroot)%(datadir)/fish/vendor_completions.d/${item}.fish
 
                 # Now install manpages
-                ./%(cargo_target_dir)/coreutils manpage ${item} > %(installroot)%(mandir)/man1/${item}.1 && [ -s %(installroot)%(mandir)/man1/${item}.1 ] || rm -f %(installroot)%(mandir)/man1/${item}.1
+                ./%(cargo_target_dir)/uudoc manpage ${item} > %(installroot)%(mandir)/man1/${item}.1 && [ -s %(installroot)%(mandir)/man1/${item}.1 ] || rm -f %(installroot)%(mandir)/man1/${item}.1
                 ;;
         esac
     done

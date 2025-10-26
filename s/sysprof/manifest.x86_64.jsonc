@@ -20,7 +20,6 @@
 			],
 			"depends": [
 				"soname(ld-linux-x86-64.so.2(x86_64))",
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libdex-1.so.1(x86_64))",
 				"soname(libgio-2.0.so.0(x86_64))",
@@ -28,6 +27,7 @@
 				"soname(libgobject-2.0.so.0(x86_64))",
 				"soname(libjson-glib-1.0.so.0(x86_64))",
 				"soname(libpolkit-gobject-1.so.0(x86_64))",
+				"soname(libstdc++.so.6(x86_64))",
 				"soname(libsystemd.so.0(x86_64))",
 				"soname(libunwind-nongnu.so.8(x86_64))"
 			],
@@ -65,7 +65,6 @@
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"soname(libadwaita-1.so.0(x86_64))",
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libcairo.so.2(x86_64))",
 				"soname(libdex-1.so.1(x86_64))",
@@ -78,6 +77,7 @@
 				"soname(libpanel-1.so.1(x86_64))",
 				"soname(libpango-1.0.so.0(x86_64))",
 				"soname(libpolkit-gobject-1.so.0(x86_64))",
+				"soname(libstdc++.so.6(x86_64))",
 				"soname(libsystemd.so.0(x86_64))",
 				"sysprof-cli"
 			],
@@ -168,7 +168,6 @@
 				"binary(turbostat)",
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"libsysprof",
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libdex-1.so.1(x86_64))",
 				"soname(libgio-2.0.so.0(x86_64))",
@@ -176,6 +175,7 @@
 				"soname(libgobject-2.0.so.0(x86_64))",
 				"soname(libjson-glib-1.0.so.0(x86_64))",
 				"soname(libpolkit-gobject-1.so.0(x86_64))",
+				"soname(libstdc++.so.6(x86_64))",
 				"soname(libsystemd.so.0(x86_64))"
 			],
 			"files": [
@@ -242,7 +242,6 @@
 			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libdex-1.so.1(x86_64))",
 				"soname(libdw.so.1(x86_64))",
@@ -253,6 +252,7 @@
 				"soname(libjson-glib-1.0.so.0(x86_64))",
 				"soname(libpolkit-agent-1.so.0(x86_64))",
 				"soname(libpolkit-gobject-1.so.0(x86_64))",
+				"soname(libstdc++.so.6(x86_64))",
 				"soname(libsystemd.so.0(x86_64))"
 			],
 			"files": [
@@ -481,6 +481,6 @@
 		}
 	},
 	"source-name": "sysprof",
-	"source-release": "3",
+	"source-release": "4",
 	"source-version": "49.0"
 }

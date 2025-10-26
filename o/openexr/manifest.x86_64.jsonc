@@ -16,10 +16,10 @@
 				"soname(libImath-3_2.so.30(x86_64))",
 				"soname(libOpenEXR-3_4.so.33(x86_64))",
 				"soname(libOpenEXRCore-3_4.so.33(x86_64))",
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libm.so.6(x86_64))",
-				"soname(libunwind.so.1(x86_64))"
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/bin/exr2aces",
@@ -275,12 +275,12 @@
 			],
 			"depends": [
 				"soname(libImath-3_2.so.30(x86_64))",
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libdeflate.so.0(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libm.so.6(x86_64))",
 				"soname(libopenjph.so.0.24(x86_64))",
-				"soname(libunwind.so.1(x86_64))"
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/lib/libIex-3_4.so.33",
@@ -305,6 +305,6 @@
 		}
 	},
 	"source-name": "openexr",
-	"source-release": "3",
+	"source-release": "4",
 	"source-version": "3.4.2"
 }

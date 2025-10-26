@@ -15,7 +15,8 @@
 				"python(pygobject)",
 				"python(python-xlib)",
 				"python(pyudev)",
-				"python(pyyaml)"
+				"python(pyyaml)",
+				"python(typing-extensions)"
 			],
 			"files": [
 				"/usr/bin/solaar",
@@ -88,6 +89,8 @@
 				"/usr/lib/python3.11/site-packages/logitech_receiver/__pycache__/settings.cpython-311.pyc",
 				"/usr/lib/python3.11/site-packages/logitech_receiver/__pycache__/settings_templates.cpython-311.opt-1.pyc",
 				"/usr/lib/python3.11/site-packages/logitech_receiver/__pycache__/settings_templates.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/logitech_receiver/__pycache__/settings_validator.cpython-311.opt-1.pyc",
+				"/usr/lib/python3.11/site-packages/logitech_receiver/__pycache__/settings_validator.cpython-311.pyc",
 				"/usr/lib/python3.11/site-packages/logitech_receiver/__pycache__/special_keys.cpython-311.opt-1.pyc",
 				"/usr/lib/python3.11/site-packages/logitech_receiver/__pycache__/special_keys.cpython-311.pyc",
 				"/usr/lib/python3.11/site-packages/logitech_receiver/base.py",
@@ -108,17 +111,20 @@
 				"/usr/lib/python3.11/site-packages/logitech_receiver/receiver.py",
 				"/usr/lib/python3.11/site-packages/logitech_receiver/settings.py",
 				"/usr/lib/python3.11/site-packages/logitech_receiver/settings_templates.py",
+				"/usr/lib/python3.11/site-packages/logitech_receiver/settings_validator.py",
 				"/usr/lib/python3.11/site-packages/logitech_receiver/special_keys.py",
-				"/usr/lib/python3.11/site-packages/solaar-1.1.14.dist-info/METADATA",
-				"/usr/lib/python3.11/site-packages/solaar-1.1.14.dist-info/RECORD",
-				"/usr/lib/python3.11/site-packages/solaar-1.1.14.dist-info/WHEEL",
-				"/usr/lib/python3.11/site-packages/solaar-1.1.14.dist-info/licenses/LICENSE.txt",
-				"/usr/lib/python3.11/site-packages/solaar-1.1.14.dist-info/top_level.txt",
+				"/usr/lib/python3.11/site-packages/solaar-1.1.16.dist-info/METADATA",
+				"/usr/lib/python3.11/site-packages/solaar-1.1.16.dist-info/RECORD",
+				"/usr/lib/python3.11/site-packages/solaar-1.1.16.dist-info/WHEEL",
+				"/usr/lib/python3.11/site-packages/solaar-1.1.16.dist-info/licenses/LICENSE.txt",
+				"/usr/lib/python3.11/site-packages/solaar-1.1.16.dist-info/top_level.txt",
 				"/usr/lib/python3.11/site-packages/solaar/__init__.py",
 				"/usr/lib/python3.11/site-packages/solaar/__pycache__/__init__.cpython-311.opt-1.pyc",
 				"/usr/lib/python3.11/site-packages/solaar/__pycache__/__init__.cpython-311.pyc",
 				"/usr/lib/python3.11/site-packages/solaar/__pycache__/configuration.cpython-311.opt-1.pyc",
 				"/usr/lib/python3.11/site-packages/solaar/__pycache__/configuration.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/solaar/__pycache__/custom_logger.cpython-311.opt-1.pyc",
+				"/usr/lib/python3.11/site-packages/solaar/__pycache__/custom_logger.cpython-311.pyc",
 				"/usr/lib/python3.11/site-packages/solaar/__pycache__/dbus.cpython-311.opt-1.pyc",
 				"/usr/lib/python3.11/site-packages/solaar/__pycache__/dbus.cpython-311.pyc",
 				"/usr/lib/python3.11/site-packages/solaar/__pycache__/gtk.cpython-311.opt-1.pyc",
@@ -151,6 +157,7 @@
 				"/usr/lib/python3.11/site-packages/solaar/cli/show.py",
 				"/usr/lib/python3.11/site-packages/solaar/cli/unpair.py",
 				"/usr/lib/python3.11/site-packages/solaar/configuration.py",
+				"/usr/lib/python3.11/site-packages/solaar/custom_logger.py",
 				"/usr/lib/python3.11/site-packages/solaar/dbus.py",
 				"/usr/lib/python3.11/site-packages/solaar/gtk.py",
 				"/usr/lib/python3.11/site-packages/solaar/i18n.py",
@@ -234,6 +241,6 @@
 		}
 	},
 	"source-name": "solaar",
-	"source-release": "1",
-	"source-version": "1.1.14"
+	"source-release": "2",
+	"source-version": "1.1.16"
 }

@@ -8,7 +8,6 @@
 				"binary(msgfmt)",
 				"desktop-file-utils",
 				"ladspa-devel",
-				"libcxx-devel-static",
 				"pkgconfig(fftw3)",
 				"pkgconfig(fftw3f)",
 				"pkgconfig(fmt)",
@@ -39,13 +38,13 @@
 				"soname(libSoundTouch.so.2(x86_64))",
 				"soname(libadwaita-1.so.0(x86_64))",
 				"soname(libbs2b.so.0(x86_64))",
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libcairo.so.2(x86_64))",
 				"soname(libebur128.so.1(x86_64))",
 				"soname(libfftw3.so.3(x86_64))",
 				"soname(libfftw3f.so.3(x86_64))",
 				"soname(libfmt.so.12(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libgio-2.0.so.0(x86_64))",
 				"soname(libglib-2.0.so.0(x86_64))",
 				"soname(libgobject-2.0.so.0(x86_64))",
@@ -60,7 +59,7 @@
 				"soname(libsigc-3.0.so.0(x86_64))",
 				"soname(libsndfile.so.1(x86_64))",
 				"soname(libspeexdsp.so.1(x86_64))",
-				"soname(libunwind.so.1(x86_64))",
+				"soname(libstdc++.so.6(x86_64))",
 				"soname(libzita-convolver.so.4(x86_64))"
 			],
 			"files": [
@@ -215,6 +214,6 @@
 		}
 	},
 	"source-name": "easyeffects",
-	"source-release": "6",
+	"source-release": "7",
 	"source-version": "7.2.5"
 }

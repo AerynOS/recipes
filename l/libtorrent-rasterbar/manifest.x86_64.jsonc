@@ -11,11 +11,11 @@
 			],
 			"depends": [
 				"soname(ld-linux-x86-64.so.2(x86_64))",
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libcrypto.so.3(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libssl.so.3(x86_64))",
-				"soname(libunwind.so.1(x86_64))"
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/lib/libtorrent-rasterbar.so.2.0",
@@ -333,11 +333,11 @@
 			],
 			"depends": [
 				"soname(libboost_python311.so.1.89.0(x86_64))",
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libcrypto.so.3(x86_64))",
-				"soname(libtorrent-rasterbar.so.2.0(x86_64))",
-				"soname(libunwind.so.1(x86_64))"
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libstdc++.so.6(x86_64))",
+				"soname(libtorrent-rasterbar.so.2.0(x86_64))"
 			],
 			"files": [
 				"/usr/lib/python3.11/site-packages/libtorrent.cpython-311-x86_64-linux-gnu.so",
@@ -354,6 +354,6 @@
 		}
 	},
 	"source-name": "libtorrent-rasterbar",
-	"source-release": "2",
+	"source-release": "3",
 	"source-version": "2.0.11"
 }

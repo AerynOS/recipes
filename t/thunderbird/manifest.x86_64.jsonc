@@ -16,7 +16,6 @@
 				"binary(unzip)",
 				"binary(weston)",
 				"binary(wlheadless-run)",
-				"libstdc++-devel",
 				"pkgconfig(alsa)",
 				"pkgconfig(gbm)",
 				"pkgconfig(gtk+-3.0)",
@@ -41,7 +40,6 @@
 				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libasound.so.2(x86_64))",
 				"soname(libatk-1.0.so.0(x86_64))",
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libcairo-gobject.so.2(x86_64))",
 				"soname(libcairo.so.2(x86_64))",
@@ -52,6 +50,7 @@
 				"soname(libfontconfig.so.1(x86_64))",
 				"soname(libfreetype.so.6(x86_64))",
 				"soname(libgbm.so.1(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libgdk-3.so.0(x86_64))",
 				"soname(libgdk_pixbuf-2.0.so.0(x86_64))",
 				"soname(libgio-2.0.so.0(x86_64))",
@@ -72,7 +71,7 @@
 				"soname(libplds4.so(x86_64))",
 				"soname(libsmime3.so(x86_64))",
 				"soname(libssl3.so(x86_64))",
-				"soname(libunwind.so.1(x86_64))",
+				"soname(libstdc++.so.6(x86_64))",
 				"soname(libvpx.so.11(x86_64))",
 				"soname(libwebp.so.7(x86_64))",
 				"soname(libwebpdemux.so.2(x86_64))",
@@ -155,6 +154,6 @@
 		}
 	},
 	"source-name": "thunderbird",
-	"source-release": "28",
-	"source-version": "140.3.0esr"
+	"source-release": "29",
+	"source-version": "140.4.0esr"
 }

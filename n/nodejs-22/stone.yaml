@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : nodejs-22
-version     : 22.20.0
-release     : 5
+version     : 22.21.0
+release     : 6
 homepage    : https://nodejs.org/
 upstreams   :
-    - https://nodejs.org/dist/v22.20.0/node-v22.20.0.tar.gz : 79a087c1e23fc97d173ad6676df5b1a4e1a02daf1acca05ee25662747c5d492c
+    - https://nodejs.org/dist/v22.21.0/node-v22.21.0.tar.gz : 3ada9d465cd6557b7b0ccea5f785278931a2a319bc941f68b2e742c6883f18ad
 summary     : A JavaScript runtime environment.
 description : |
     Node.js is an open-source, cross-platform JavaScript runtime environment.
@@ -33,8 +33,6 @@ environment : |
     NODEJS_SONAME=127
     NODEJS_PRIVATE_SITELIB=%(libdir)/node_modules_$NODEJS_MAJOR
 setup       : |
-    %patch %(pkgdir)/0001-Don-t-try-to-link-libatomic.patch
-
     python configure.py \
         --ninja \
         --enable-lto \

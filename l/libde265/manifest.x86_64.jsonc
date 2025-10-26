@@ -9,10 +9,10 @@
 				"pkgconfig(sdl2-compat)"
 			],
 			"depends": [
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libm.so.6(x86_64))",
-				"soname(libunwind.so.1(x86_64))"
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/lib/libde265.so.0",
@@ -55,12 +55,12 @@
 				"soname(libQt5Gui.so.5(x86_64))",
 				"soname(libQt5Widgets.so.5(x86_64))",
 				"soname(libSDL2-2.0.so.0(x86_64))",
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libde265.so.0(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libm.so.6(x86_64))",
-				"soname(libswscale.so.9(x86_64))",
-				"soname(libunwind.so.1(x86_64))"
+				"soname(libstdc++.so.6(x86_64))",
+				"soname(libswscale.so.9(x86_64))"
 			],
 			"files": [
 				"/usr/bin/de265-bjoentegaard",
@@ -88,6 +88,6 @@
 		}
 	},
 	"source-name": "libde265",
-	"source-release": "2",
+	"source-release": "3",
 	"source-version": "1.0.16"
 }

@@ -109,6 +109,7 @@
 				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libdw.so.1(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libgio-2.0.so.0(x86_64))",
 				"soname(libglib-2.0.so.0(x86_64))",
 				"soname(libgmodule-2.0.so.0(x86_64))",
@@ -959,8 +960,8 @@
 			"depends": [
 				"gstreamer",
 				"gstreamer-plugins-base",
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libglib-2.0.so.0(x86_64))",
 				"soname(libgobject-2.0.so.0(x86_64))",
 				"soname(libgstbase-1.0.so.0(x86_64))",
@@ -976,7 +977,7 @@
 				"soname(libopencv_objdetect.so.412(x86_64))",
 				"soname(libopencv_tracking.so.412(x86_64))",
 				"soname(libopencv_video.so.412(x86_64))",
-				"soname(libunwind.so.1(x86_64))"
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/lib/gstreamer-1.0/libgstopencv.so",
@@ -1211,15 +1212,15 @@
 				"soname(libQt6Gui.so.6(x86_64))",
 				"soname(libQt6Qml.so.6(x86_64))",
 				"soname(libQt6Quick.so.6(x86_64))",
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libglib-2.0.so.0(x86_64))",
 				"soname(libgobject-2.0.so.0(x86_64))",
 				"soname(libgstbase-1.0.so.0(x86_64))",
 				"soname(libgstgl-1.0.so.0(x86_64))",
 				"soname(libgstreamer-1.0.so.0(x86_64))",
 				"soname(libgstvideo-1.0.so.0(x86_64))",
-				"soname(libunwind.so.1(x86_64))"
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/lib/gstreamer-1.0/libgstqml6.so"
@@ -1336,11 +1337,11 @@
 				"gstreamer-plugins-bad-libs",
 				"gstreamer-plugins-base",
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libSoundTouch.so.2(x86_64))",
 				"soname(libSvtAv1Enc.so.3(x86_64))",
 				"soname(libX11.so.6(x86_64))",
 				"soname(libbz2.so.1.0(x86_64))",
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libcairo.so.2(x86_64))",
 				"soname(libcrypto.so.3(x86_64))",
@@ -1350,6 +1351,7 @@
 				"soname(libdvdread.so.8(x86_64))",
 				"soname(libfdk-aac.so.2(x86_64))",
 				"soname(libfreeaptx.so.0(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libgio-2.0.so.0(x86_64))",
 				"soname(libglib-2.0.so.0(x86_64))",
 				"soname(libgmodule-2.0.so.0(x86_64))",
@@ -1406,7 +1408,7 @@
 				"soname(libsndfile.so.1(x86_64))",
 				"soname(libsrtp2.so.1(x86_64))",
 				"soname(libssl.so.3(x86_64))",
-				"soname(libunwind.so.1(x86_64))",
+				"soname(libstdc++.so.6(x86_64))",
 				"soname(libusb-1.0.so.0(x86_64))",
 				"soname(libva.so.2(x86_64))",
 				"soname(libvpl.so.2(x86_64))",
@@ -2231,9 +2233,9 @@
 				"soname(libaom.so.3(x86_64))",
 				"soname(libass.so.9(x86_64))",
 				"soname(libbs2b.so.0(x86_64))",
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libcurl.so.4(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libglib-2.0.so.0(x86_64))",
 				"soname(libgmodule-2.0.so.0(x86_64))",
 				"soname(libgobject-2.0.so.0(x86_64))",
@@ -2246,7 +2248,7 @@
 				"soname(libm.so.6(x86_64))",
 				"soname(libopenjp2.so.7(x86_64))",
 				"soname(libqrencode.so.4(x86_64))",
-				"soname(libunwind.so.1(x86_64))"
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/lib/gstreamer-1.0/libgstaom.so",
@@ -2379,9 +2381,10 @@
 			"depends": [
 				"gstreamer",
 				"gstreamer-plugins-base",
-				"soname(libc++.so.1(x86_64))",
+				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libdrm.so.2(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libgio-2.0.so.0(x86_64))",
 				"soname(libglib-2.0.so.0(x86_64))",
 				"soname(libgmodule-2.0.so.0(x86_64))",
@@ -2398,7 +2401,7 @@
 				"soname(libgstvideo-1.0.so.0(x86_64))",
 				"soname(libm.so.6(x86_64))",
 				"soname(libnice.so.10(x86_64))",
-				"soname(libunwind.so.1(x86_64))",
+				"soname(libstdc++.so.6(x86_64))",
 				"soname(libva-drm.so.2(x86_64))",
 				"soname(libva.so.2(x86_64))",
 				"soname(libvulkan.so.1(x86_64))",
@@ -3437,10 +3440,10 @@
 				"soname(libXfixes.so.3(x86_64))",
 				"soname(libXtst.so.6(x86_64))",
 				"soname(libbz2.so.1.0(x86_64))",
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libcairo-gobject.so.2(x86_64))",
 				"soname(libcairo.so.2(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libgdk_pixbuf-2.0.so.0(x86_64))",
 				"soname(libgio-2.0.so.0(x86_64))",
 				"soname(libglib-2.0.so.0(x86_64))",
@@ -3468,8 +3471,8 @@
 				"soname(libpng16.so.16(x86_64))",
 				"soname(libpulse.so.0(x86_64))",
 				"soname(libspeex.so.1(x86_64))",
+				"soname(libstdc++.so.6(x86_64))",
 				"soname(libtag.so.2(x86_64))",
-				"soname(libunwind.so.1(x86_64))",
 				"soname(libvpx.so.11(x86_64))",
 				"soname(libxml2.so.16(x86_64))",
 				"soname(libz.so.1(x86_64))"
@@ -3981,6 +3984,6 @@
 		}
 	},
 	"source-name": "gstreamer",
-	"source-release": "32",
+	"source-release": "33",
 	"source-version": "1.26.7"
 }

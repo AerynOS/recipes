@@ -39,9 +39,9 @@
 		},
 		"jemalloc-libs": {
 			"depends": [
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
-				"soname(libunwind.so.1(x86_64))"
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/lib/libjemalloc.so.2"
@@ -53,6 +53,6 @@
 		}
 	},
 	"source-name": "jemalloc",
-	"source-release": "3",
+	"source-release": "4",
 	"source-version": "5.3.0"
 }

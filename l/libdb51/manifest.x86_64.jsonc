@@ -5,10 +5,10 @@
 		"libdb51": {
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libm.so.6(x86_64))",
-				"soname(libunwind.so.1(x86_64))"
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/bin/db_archive",
@@ -49,10 +49,10 @@
 		"libdb51-32bit": {
 			"depends": [
 				"libdb51",
-				"soname(libc++.so.1(386))",
 				"soname(libc.so.6(386))",
+				"soname(libgcc_s.so.1(386))",
 				"soname(libm.so.6(386))",
-				"soname(libunwind.so.1(386))"
+				"soname(libstdc++.so.6(386))"
 			],
 			"files": [
 				"/usr/lib32/libdb-5.1.so",
@@ -61,13 +61,11 @@
 			"name": "libdb51-32bit",
 			"provides": [
 				"soname(libdb-5.1.so(386))",
-				"soname(libdb-5.1.so(x86))",
-				"soname(libdb_cxx-5.1.so(386))",
-				"soname(libdb_cxx-5.1.so(x86))"
+				"soname(libdb_cxx-5.1.so(386))"
 			]
 		}
 	},
 	"source-name": "libdb51",
-	"source-release": "4",
+	"source-release": "5",
 	"source-version": "5.1.29"
 }

@@ -17,6 +17,7 @@
 				"binary(weston)",
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"qt6-wayland",
+				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libQt6Core.so.6(x86_64))",
 				"soname(libQt6DBus.so.6(x86_64))",
 				"soname(libQt6Gui.so.6(x86_64))",
@@ -24,11 +25,11 @@
 				"soname(libQt6Qml.so.6(x86_64))",
 				"soname(libQt6Quick.so.6(x86_64))",
 				"soname(libXau.so.6(x86_64))",
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libpam.so.0(x86_64))",
+				"soname(libstdc++.so.6(x86_64))",
 				"soname(libsystemd.so.0(x86_64))",
-				"soname(libunwind.so.1(x86_64))",
 				"soname(libxcb-xkb.so.1(x86_64))",
 				"soname(libxcb.so.1(x86_64))"
 			],
@@ -242,6 +243,6 @@
 		}
 	},
 	"source-name": "sddm",
-	"source-release": "12",
+	"source-release": "13",
 	"source-version": "0.21.0"
 }

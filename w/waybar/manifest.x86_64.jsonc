@@ -37,13 +37,12 @@
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"soname(libatkmm-1.6.so.1(x86_64))",
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libcairomm-1.0.so.1(x86_64))",
-				"soname(libcava.so(x86_64))",
 				"soname(libdbusmenu-gtk3.so.4(x86_64))",
 				"soname(libevdev.so.2(x86_64))",
 				"soname(libfmt.so.12(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libgdk-3.so.0(x86_64))",
 				"soname(libgdkmm-3.0.so.1(x86_64))",
 				"soname(libgio-2.0.so.0(x86_64))",
@@ -64,8 +63,8 @@
 				"soname(libsigc-2.0.so.0(x86_64))",
 				"soname(libsndio.so.7(x86_64))",
 				"soname(libspdlog.so.1.16(x86_64))",
+				"soname(libstdc++.so.6(x86_64))",
 				"soname(libudev.so.1(x86_64))",
-				"soname(libunwind.so.1(x86_64))",
 				"soname(libupower-glib.so.3(x86_64))",
 				"soname(libwayland-client.so.0(x86_64))",
 				"soname(libwireplumber-0.5.so.0(x86_64))",
@@ -78,7 +77,6 @@
 				"/usr/share/man/man5/waybar-backlight.5",
 				"/usr/share/man/man5/waybar-battery.5",
 				"/usr/share/man/man5/waybar-bluetooth.5",
-				"/usr/share/man/man5/waybar-cava.5",
 				"/usr/share/man/man5/waybar-cffi.5",
 				"/usr/share/man/man5/waybar-clock.5",
 				"/usr/share/man/man5/waybar-cpu.5",
@@ -133,6 +131,6 @@
 		}
 	},
 	"source-name": "waybar",
-	"source-release": "4",
+	"source-release": "5",
 	"source-version": "0.14.0"
 }

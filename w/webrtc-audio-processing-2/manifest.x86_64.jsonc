@@ -9,10 +9,10 @@
 			"depends": [
 				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libabsl_strings.so.2508.0.0(x86_64))",
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libm.so.6(x86_64))",
-				"soname(libunwind.so.1(x86_64))"
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/lib/libwebrtc-audio-processing-2.so.1"
@@ -74,6 +74,6 @@
 		}
 	},
 	"source-name": "webrtc-audio-processing-2",
-	"source-release": "2",
+	"source-release": "3",
 	"source-version": "2.1"
 }

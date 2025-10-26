@@ -12,9 +12,9 @@
 				"soname(libQt6Core.so.6(x86_64))",
 				"soname(libQt6DBus.so.6(x86_64))",
 				"soname(libQt6Qml.so.6(x86_64))",
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
-				"soname(libm.so.6(x86_64))"
+				"soname(libm.so.6(x86_64))",
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/lib/libQt6Sensors.so.6",
@@ -48,9 +48,9 @@
 				"soname(libQt6Gui.so.6(x86_64))",
 				"soname(libQt6Qml.so.6(x86_64))",
 				"soname(libQt6Sensors.so.6(x86_64))",
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
-				"soname(libunwind.so.1(x86_64))"
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/lib/qt6/examples/sensors/sensorsshowcase/sensorsshowcase"
@@ -283,6 +283,6 @@
 		}
 	},
 	"source-name": "qt6-sensors",
-	"source-release": "3",
+	"source-release": "4",
 	"source-version": "6.9.3"
 }

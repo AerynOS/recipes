@@ -4,9 +4,9 @@
 	"packages": {
 		"double-conversion": {
 			"depends": [
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
-				"soname(libunwind.so.1(x86_64))"
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/lib/libdouble-conversion.so.3",
@@ -47,6 +47,6 @@
 		}
 	},
 	"source-name": "double-conversion",
-	"source-release": "2",
+	"source-release": "3",
 	"source-version": "3.3.1"
 }

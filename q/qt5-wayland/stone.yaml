@@ -5,7 +5,7 @@
 #
 name        : qt5-wayland
 version     : 5.15.17+kde.c1ac089f
-release     : 5
+release     : 6
 homepage    : https://www.qt.io
 upstreams   :
     - git|https://invent.kde.org/qt/qt/qtwayland.git:
@@ -26,6 +26,7 @@ builddeps   :
     - pkgconfig(wayland-egl-backend)
     - pkgconfig(wayland-server)
     - pkgconfig(xcomposite)
+    - pkgconfig(xext)
 setup       : |
     %patch %(pkgdir)/qtwayland-decoration-support-backports-from-qt6.patch
 

@@ -5,7 +5,7 @@
 #
 name        : rnp
 version     : 0.18.0
-release     : 4
+release     : 5
 homepage    : https://github.com/rnpgp/rnp
 upstreams   :
     - https://github.com/rnpgp/rnp/releases/download/v0.18.0/rnp-v0.18.0.tar.gz : a90e3ac5b185a149665147f9284c0201a78431e81924883899244522fd3f9240
@@ -23,9 +23,10 @@ builddeps   :
     - pkgconfig(json-c)
     - pkgconfig(zlib)
 setup       : |
-    %cmake -DBUILD_SHARED_LIBS=ON \
-           -DBUILD_TESTING=OFF \
-           -DDOWNLOAD_GTEST=OFF
+    %cmake \
+        -DBUILD_SHARED_LIBS=ON \
+        -DBUILD_TESTING=OFF \
+        -DDOWNLOAD_GTEST=OFF
 build       : |
     %cmake_build
 install     : |

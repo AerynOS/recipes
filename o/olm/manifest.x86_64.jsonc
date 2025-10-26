@@ -4,8 +4,8 @@
 	"packages": {
 		"olm": {
 			"depends": [
-				"soname(libc++.so.1(x86_64))",
-				"soname(libc.so.6(x86_64))"
+				"soname(libc.so.6(x86_64))",
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/lib/libolm.so.3",
@@ -43,6 +43,6 @@
 		}
 	},
 	"source-name": "olm",
-	"source-release": "2",
+	"source-release": "3",
 	"source-version": "3.2.16"
 }

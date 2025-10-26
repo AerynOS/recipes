@@ -73,14 +73,14 @@
 				"soname(libQt6QuickControls2.so.6(x86_64))",
 				"soname(libQt6WebView.so.6(x86_64))",
 				"soname(libQt6Widgets.so.6(x86_64))",
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libflatpak.so.0(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libgio-2.0.so.0(x86_64))",
 				"soname(libglib-2.0.so.0(x86_64))",
 				"soname(libgobject-2.0.so.0(x86_64))",
 				"soname(libm.so.6(x86_64))",
-				"soname(libunwind.so.1(x86_64))"
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/bin/plasma-discover",
@@ -92,8 +92,8 @@
 				"/usr/lib/qt6/plugins/discover/kns-backend.so",
 				"/usr/lib/qt6/plugins/plasma/kcms/systemsettings/kcm_updates.so",
 				"/usr/share/applications/kcm_updates.desktop",
-				"/usr/share/applications/org.kde.discover-flatpak.desktop",
 				"/usr/share/applications/org.kde.discover.desktop",
+				"/usr/share/applications/org.kde.discover.flatpak.desktop",
 				"/usr/share/applications/org.kde.discover.notifier.desktop",
 				"/usr/share/applications/org.kde.discover.snap.desktop",
 				"/usr/share/applications/org.kde.discover.urlhandler.desktop",
@@ -361,6 +361,6 @@
 		}
 	},
 	"source-name": "discover",
-	"source-release": "6",
-	"source-version": "6.4.5"
+	"source-release": "8",
+	"source-version": "6.5.0"
 }

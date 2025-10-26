@@ -5,7 +5,7 @@
 		"mangohud": {
 			"build-depends": [
 				"binary(glslang)",
-				"libcxx-devel-static",
+				"libstdc++-static",
 				"pkgconfig(cmocka)",
 				"pkgconfig(dbus-1)",
 				"pkgconfig(glew)",
@@ -26,10 +26,10 @@
 				"soname(libX11.so.6(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libfmt.so.12(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libglfw.so.3(x86_64))",
 				"soname(libm.so.6(x86_64))",
 				"soname(libspdlog.so.1.16(x86_64))",
-				"soname(libunwind.so.1(x86_64))",
 				"soname(libwayland-client.so.0(x86_64))",
 				"soname(libxkbcommon.so.0(x86_64))"
 			],
@@ -61,7 +61,7 @@
 		"mangoplot": {
 			"build-depends": [
 				"binary(glslang)",
-				"libcxx-devel-static",
+				"libstdc++-static",
 				"pkgconfig(cmocka)",
 				"pkgconfig(dbus-1)",
 				"pkgconfig(glew)",
@@ -84,6 +84,6 @@
 		}
 	},
 	"source-name": "mangohud",
-	"source-release": "9",
+	"source-release": "10",
 	"source-version": "0.8.1"
 }

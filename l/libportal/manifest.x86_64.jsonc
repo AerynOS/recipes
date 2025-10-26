@@ -202,13 +202,13 @@
 			"depends": [
 				"soname(libQt6Core.so.6(x86_64))",
 				"soname(libQt6Gui.so.6(x86_64))",
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libgio-2.0.so.0(x86_64))",
 				"soname(libglib-2.0.so.0(x86_64))",
 				"soname(libgobject-2.0.so.0(x86_64))",
 				"soname(libportal.so.1(x86_64))",
-				"soname(libunwind.so.1(x86_64))"
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/lib/libportal-qt6.so.1",
@@ -249,6 +249,6 @@
 		}
 	},
 	"source-name": "libportal",
-	"source-release": "9",
+	"source-release": "10",
 	"source-version": "0.9.1"
 }

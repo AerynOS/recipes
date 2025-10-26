@@ -5,7 +5,7 @@
 #
 name        : libksysguard
 version     : 6.5.0
-release     : 9
+release     : 10
 upstreams   :
     - https://download.kde.org/stable/plasma/6.5.0/libksysguard-6.5.0.tar.xz : 2f1c93246cdb0578651b708d00fe2b6c0c6411f4a1f2c8464e5aeac816971c85
 homepage    : https://kde.org/plasma-desktop/
@@ -20,13 +20,13 @@ builddeps   :
     - cmake(ECM)
     - cmake(Qt6CorePrivate)
     - cmake(Qt6Qml)
+    - cmake(KF6Auth)
     - cmake(KF6CoreAddons)
     - cmake(KF6Config)
     - cmake(KF6I18n)
-    - cmake(KF6Auth)
-    - cmake(KF6Service)
-    - cmake(KF6Package)
     - cmake(KF6NewStuff)
+    - cmake(KF6Package)
+    - cmake(KF6Service)
     - cmake(KF6Solid)
     - pkgconfig(libcap)
     - pkgconfig(libdrm)

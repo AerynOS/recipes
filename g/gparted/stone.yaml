@@ -5,7 +5,7 @@
 #
 name        : gparted
 version     : 1.7.0
-release     : 7
+release     : 8
 homepage    : https://gparted.org/
 upstreams   :
     - https://sourceforge.net/projects/gparted/files/gparted/gparted-1.7.0/gparted-1.7.0.tar.gz : 84ae3b9973e443a2175f07aa0dc2aceeadb1501e0f8953cec83b0ec3347b7d52
@@ -20,6 +20,7 @@ builddeps   :
     - pkgconfig(gthread-2.0)
     - pkgconfig(gtkmm-3.0)
     - pkgconfig(libparted)
+    - pkgconfig(polkit-agent-1) # Gettext ITS rules
     - pkgconfig(uuid)
 rundeps     :
     - binary(mkfs.btrfs)
@@ -31,7 +32,8 @@ rundeps     :
     - sysbinary(mkfs.vfat)
     - sysbinary(mkfs.xfs)
 setup       : |
-    %configure --enable-xhost-root
+    %configure \
+        --enable-xhost-root
 build       : |
     %make
 install     : |

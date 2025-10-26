@@ -12,27 +12,23 @@
 			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libm.so.6(x86_64))",
-				"soname(libunwind.so.1(x86_64))"
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/bin/vpxdec",
 				"/usr/bin/vpxenc",
 				"/usr/lib/libvpx.so.11",
 				"/usr/lib/libvpx.so.11.0",
-				"/usr/lib/libvpx.so.11.0.1",
-				"/usr/lib/libvpx.so.9",
-				"/usr/lib/libvpx.so.9.0",
-				"/usr/lib/libvpx.so.9.0.1"
+				"/usr/lib/libvpx.so.11.0.1"
 			],
 			"name": "libvpx",
 			"provides": [
 				"binary(vpxdec)",
 				"binary(vpxenc)",
-				"soname(libvpx.so.11(x86_64))",
-				"soname(libvpx.so.9(x86_64))"
+				"soname(libvpx.so.11(x86_64))"
 			]
 		},
 		"libvpx-devel": {
@@ -68,6 +64,6 @@
 		}
 	},
 	"source-name": "libvpx",
-	"source-release": "4",
+	"source-release": "5",
 	"source-version": "1.15.2"
 }

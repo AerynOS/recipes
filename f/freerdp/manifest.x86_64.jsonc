@@ -45,7 +45,6 @@
 				"soname(libXinerama.so.1(x86_64))",
 				"soname(libXrandr.so.2(x86_64))",
 				"soname(libXrender.so.1(x86_64))",
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libfreerdp-client3.so.3(x86_64))",
 				"soname(libfreerdp-server-proxy3.so.3(x86_64))",
@@ -53,8 +52,9 @@
 				"soname(libfreerdp-shadow-subsystem3.so.3(x86_64))",
 				"soname(libfreerdp-shadow3.so.3(x86_64))",
 				"soname(libfreerdp3.so.3(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libm.so.6(x86_64))",
-				"soname(libunwind.so.1(x86_64))",
+				"soname(libstdc++.so.6(x86_64))",
 				"soname(libuwac0.so.0(x86_64))",
 				"soname(libwinpr-tools3.so.3(x86_64))",
 				"soname(libwinpr3.so.3(x86_64))"
@@ -426,18 +426,18 @@
 				"soname(libasound.so.2(x86_64))",
 				"soname(libavcodec.so.62(x86_64))",
 				"soname(libavutil.so.60(x86_64))",
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libcrypto.so.3(x86_64))",
 				"soname(libcups.so.2(x86_64))",
 				"soname(libfdk-aac.so.2(x86_64))",
 				"soname(libfuse3.so.4(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libm.so.6(x86_64))",
 				"soname(libpulse.so.0(x86_64))",
 				"soname(libssl.so.3(x86_64))",
+				"soname(libstdc++.so.6(x86_64))",
 				"soname(libswresample.so.6(x86_64))",
 				"soname(libswscale.so.9(x86_64))",
-				"soname(libunwind.so.1(x86_64))",
 				"soname(libusb-1.0.so.0(x86_64))",
 				"soname(libwayland-client.so.0(x86_64))",
 				"soname(libwayland-cursor.so.0(x86_64))",
@@ -522,12 +522,12 @@
 			"depends": [
 				"soname(libc.so.6(x86_64))",
 				"soname(libcrypto.so.3(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libicuuc.so.77(x86_64))",
 				"soname(libjson-c.so.5(x86_64))",
 				"soname(libk5crypto.so.3(x86_64))",
 				"soname(libkrb5.so.3(x86_64))",
-				"soname(libssl.so.3(x86_64))",
-				"soname(libunwind.so.1(x86_64))"
+				"soname(libssl.so.3(x86_64))"
 			],
 			"files": [
 				"/usr/lib/libwinpr-tools3.so.3",
@@ -671,6 +671,6 @@
 		}
 	},
 	"source-name": "freerdp",
-	"source-release": "13",
+	"source-release": "14",
 	"source-version": "3.17.2"
 }

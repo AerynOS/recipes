@@ -1,25 +1,46 @@
-From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From a6f15fbfaa51a3bfad24d3d8a3f1f493863e60bd Mon Sep 17 00:00:00 2001
 From: Reilly Brogan <reilly@reillybrogan.com>
 Date: Tue, 23 Sep 2025 16:20:50 -0500
 Subject: [PATCH] Allow xdg directory to be overridden
 
 ---
- justfile | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ justfile | 23 ++++++++++++++++++-----
+ 1 file changed, 18 insertions(+), 5 deletions(-)
 
 diff --git a/justfile b/justfile
-index c020b14..e4c0656 100644
+index 8fc71d1..4b438e6 100644
 --- a/justfile
 +++ b/justfile
-@@ -21,9 +21,10 @@ desktop-dst := base-dir / 'share' / 'applications' / desktop-entry
- icon-src := 'res' / 'icon.svg'
- icon-dst := icons-dir / APPID + '.svg'
- 
-+xdg-dir := env('XDG_INSTALL_DIR', 'etc' / 'xdg')
- autostart-entry := APPID + '.Autostart.desktop'
- autostart-src := 'res' / autostart-entry
+@@ -15,14 +15,27 @@ export DISABLE_IF_EXISTS := disable-if-exists || env('DISABLE_IF_EXISTS', '')
+ # Installation paths
+ base-dir := absolute_path(clean(rootdir / prefix))
+ cargo-target-dir := env('CARGO_TARGET_DIR', 'target')
+-desktop-entry := appid + '.desktop'
 -autostart-dst := rootdir / 'etc' / 'xdg' / 'autostart' / desktop-entry
+-autostart-entry := appid + '.Autostart.desktop'
++bin-src := cargo-target-dir / 'release' / name
+ bin-dst := base-dir / 'bin' / name
++icons-dir := base-dir / 'share' / 'icons' / 'hicolor' / 'scalable' / 'apps'
++
++polkit-rules-src := 'res' / '20-cosmic-initial-setup.rules'
++polkit-rules-dst := base-dir / 'share' / 'polkit-1' / 'rules.d' / '20-cosmic-initial-setup.rules'
++
++desktop-entry := appid + '.desktop'
++desktop-src := 'res' / desktop-entry
+ desktop-dst := base-dir / 'share' / 'applications' / desktop-entry
+-icon-dst := base-dir / 'share' / 'icons' / 'hicolor' / 'scalable' / 'apps' / appid + '.svg'
++
++icon-src := 'res' / 'icon.svg'
++icon-dst := icons-dir / appid + '.svg'
++
++xdg-dir := env('XDG_INSTALL_DIR', 'etc' / 'xdg')
++autostart-entry := appid + '.Autostart.desktop'
++autostart-src := 'res' / autostart-entry
 +autostart-dst := rootdir / xdg-dir / 'autostart' / desktop-entry
- 
- layouts-src := 'res' / 'layouts'
++
++layouts-src := 'res' / 'layouts'
  layouts-dst := base-dir / 'share' / 'cosmic-layouts'
+-polkit-rules-dst := base-dir / 'share' / 'polkit-1' / 'rules.d' / '20-cosmic-initial-setup.rules'
+ themes-dst := base-dir / 'share' / 'cosmic-themes'
+ 
+ # Default recipe which runs `just cargo build-release`

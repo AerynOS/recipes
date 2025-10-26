@@ -5,7 +5,7 @@
 #
 name        : scdoc
 version     : 1.11.3
-release     : 4
+release     : 5
 homepage    : https://git.sr.ht/~sircmpwn/scdoc
 upstreams   :
     - https://git.sr.ht/~sircmpwn/scdoc/archive/1.11.3.tar.gz : 4c5c6136540384e5455b250f768e7ca11b03fdba1a8efc2341ee0f1111e57612
@@ -14,14 +14,11 @@ description : |
     scdoc is a simple man page generator for POSIX systems written in C99.
 license     :
     - MIT
-builddeps   :
-    # libunwind.a
-    - libcxx-devel-static
-packages    :
-    - "%(name)":
-        paths:
-            - /usr/share/pkgconfig/scdoc.pc
 build       : |
     %make PREFIX=/usr
 install     : |
     %make_install PREFIX=/usr
+packages    :
+    - "%(name)":
+        paths:
+            - /usr/share/pkgconfig/scdoc.pc

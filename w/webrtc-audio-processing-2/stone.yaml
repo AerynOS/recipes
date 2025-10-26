@@ -5,7 +5,7 @@
 #
 name        : webrtc-audio-processing-2
 version     : "2.1"
-release     : 2
+release     : 3
 upstreams   :
     - http://freedesktop.org/software/pulseaudio/webrtc-audio-processing/webrtc-audio-processing-2.1.tar.xz : ae9302824b2038d394f10213cab05312c564a038434269f11dbf68f511f9f9fe
 homepage    : https://freedesktop.org/software/pulseaudio/webrtc-audio-processing
@@ -17,6 +17,8 @@ builddeps   :
     - pkgconfig(absl_base)
 setup       : |
     %patch %(pkgdir)/0001-Fix-build-with-abseil-cpp-202508.patch
+    %patch %(pkgdir)/ftbfs-libstdc-15.patch
+
     %meson
 build       : |
     %meson_build

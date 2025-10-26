@@ -7,10 +7,10 @@
 				"pkgconfig(fftw3f)"
 			],
 			"depends": [
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libfftw3f.so.3(x86_64))",
-				"soname(libunwind.so.1(x86_64))"
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/lib/libzita-convolver.so.4",
@@ -36,6 +36,6 @@
 		}
 	},
 	"source-name": "zita-convolver",
-	"source-release": "2",
+	"source-release": "3",
 	"source-version": "4.0.3"
 }

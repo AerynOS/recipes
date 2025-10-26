@@ -5,7 +5,7 @@
 #
 name        : qt5-declarative
 version     : 5.15.17+kde.11ea94fc
-release     : 7
+release     : 8
 homepage    : https://www.qt.io
 upstreams   :
     - git|https://invent.kde.org/qt/qt/qtdeclarative.git:
@@ -22,6 +22,7 @@ license     :
     - GPL-3.0-or-later
 setup       : |
     %patch %(pkgdir)/qtdeclarative-5.15.0-FixMaxXMaxYExtent.patch
+    %patch %(pkgdir)/ftbfs-clang-21.patch
 
     %qmake_qt5
 build       : |

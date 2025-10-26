@@ -5,7 +5,7 @@
 #
 name        : x265
 version     : 4.1+git.32e25ff
-release     : 1
+release     : 2
 upstreams   :
     # Latest from Release_4.1 branch
     - git|https://bitbucket.org/multicoreware/x265_git.git : 32e25ffcf810c5fe284901859b369270824c4596
@@ -20,6 +20,7 @@ setup       : |
     %patch %(pkgdir)/0001-Fix-CMake-build-error-with-latest-CMake-4.0-release.patch
     %patch %(pkgdir)/0002-Fix-for-CMake-Build-Errors-in-MacOS.patch
     %patch %(pkgdir)/0003-Bump-CMake-Version-for-dynamicHDR10.patch
+    %patch %(pkgdir)/ftbfs-libstdc-15.patch
 
     function x265_common() {
         %cmake \

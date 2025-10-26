@@ -5,7 +5,7 @@
 #
 name        : libarchive
 version     : 3.8.2
-release     : 14
+release     : 15
 summary     : Multi-format archive and compression library
 license     : BSD-2-Clause
 homepage    : https://www.libarchive.org
@@ -62,7 +62,7 @@ setup       : |
             --disable-bsdcpio \
             --disable-bsdunzip \
             --disable-shared \
-            LIBXML2_PC_LIBS="$(pkg-config --variable=libdir libxml-2.0)/libxml2.a $(pkg-config --variable=libdir icu-uc)/libicuuc.a $(pkg-config --variable=libdir icu-uc)/libicudata.a -lc++ -lm" \
+            LIBXML2_PC_LIBS="$(pkg-config --variable=libdir libxml-2.0)/libxml2.a $(pkg-config --variable=libdir icu-uc)/libicuuc.a $(pkg-config --variable=libdir icu-uc)/libicudata.a -lstdc++ -lm" \
             ac_cv_lib_xml2_xmlInitParser=yes
     popd
 build       : |

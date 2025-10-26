@@ -15,8 +15,8 @@
 				"soname(libSPIRV-Tools-opt.so(x86_64))",
 				"soname(libSPIRV-Tools-reduce.so(x86_64))",
 				"soname(libSPIRV-Tools.so(x86_64))",
-				"soname(libc++.so.1(x86_64))",
-				"soname(libc.so.6(x86_64))"
+				"soname(libc.so.6(x86_64))",
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/bin/spirv-as",
@@ -52,9 +52,10 @@
 				"pkgconfig(python3)"
 			],
 			"depends": [
-				"soname(libc++.so.1(386))",
 				"soname(libc.so.6(386))",
+				"soname(libgcc_s.so.1(386))",
 				"soname(libm.so.6(386))",
+				"soname(libstdc++.so.6(386))",
 				"spirv-tools"
 			],
 			"files": [
@@ -181,9 +182,9 @@
 				"pkgconfig(python3)"
 			],
 			"depends": [
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
-				"soname(libm.so.6(x86_64))"
+				"soname(libm.so.6(x86_64))",
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/lib/libSPIRV-Tools-diff.so",
@@ -207,6 +208,6 @@
 		}
 	},
 	"source-name": "spirv-tools",
-	"source-release": "12",
+	"source-release": "13",
 	"source-version": "2025.4"
 }

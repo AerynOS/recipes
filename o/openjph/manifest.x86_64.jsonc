@@ -7,10 +7,10 @@
 				"pkgconfig(libtiff-4)"
 			],
 			"depends": [
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libm.so.6(x86_64))",
-				"soname(libunwind.so.1(x86_64))"
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/lib/libopenjph.so.0.24",
@@ -27,11 +27,11 @@
 			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libopenjph.so.0.24(x86_64))",
-				"soname(libtiff.so.6(x86_64))",
-				"soname(libunwind.so.1(x86_64))"
+				"soname(libstdc++.so.6(x86_64))",
+				"soname(libtiff.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/bin/ojph_compress",
@@ -76,6 +76,6 @@
 		}
 	},
 	"source-name": "openjph",
-	"source-release": "2",
+	"source-release": "3",
 	"source-version": "0.24.2"
 }

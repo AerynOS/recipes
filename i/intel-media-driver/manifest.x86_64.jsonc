@@ -10,10 +10,10 @@
 			],
 			"depends": [
 				"libva-intel-media-driver",
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libm.so.6(x86_64))",
-				"soname(libunwind.so.1(x86_64))",
+				"soname(libstdc++.so.6(x86_64))",
 				"soname(libva.so.2(x86_64))"
 			],
 			"files": [
@@ -61,11 +61,11 @@
 				"pkgconfig(x11)"
 			],
 			"depends": [
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libigdgmm.so.12(x86_64))",
 				"soname(libm.so.6(x86_64))",
-				"soname(libunwind.so.1(x86_64))"
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/lib/dri/iHD_drv_video.so"
@@ -77,6 +77,6 @@
 		}
 	},
 	"source-name": "intel-media-driver",
-	"source-release": "3",
+	"source-release": "4",
 	"source-version": "25.3.4"
 }

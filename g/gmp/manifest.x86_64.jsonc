@@ -3,11 +3,16 @@
 	"manifest-version": "0.2",
 	"packages": {
 		"gmp": {
+			"build-depends": [
+				"binary(bison)",
+				"binary(flex)",
+				"pkgconfig(readline)"
+			],
 			"depends": [
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libm.so.6(x86_64))",
-				"soname(libunwind.so.1(x86_64))"
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/lib/libgmp.so.10",
@@ -25,15 +30,18 @@
 			]
 		},
 		"gmp-devel": {
+			"build-depends": [
+				"binary(bison)",
+				"binary(flex)",
+				"pkgconfig(readline)"
+			],
 			"depends": [
 				"gmp"
 			],
 			"files": [
 				"/usr/include/gmp.h",
 				"/usr/include/gmpxx.h",
-				"/usr/lib/libgmp.a",
 				"/usr/lib/libgmp.so",
-				"/usr/lib/libgmpxx.a",
 				"/usr/lib/libgmpxx.so",
 				"/usr/lib/pkgconfig/gmp.pc",
 				"/usr/lib/pkgconfig/gmpxx.pc"
@@ -43,9 +51,24 @@
 				"pkgconfig(gmp)",
 				"pkgconfig(gmpxx)"
 			]
+		},
+		"gmp-static": {
+			"build-depends": [
+				"binary(bison)",
+				"binary(flex)",
+				"pkgconfig(readline)"
+			],
+			"depends": [
+				"gmp-devel"
+			],
+			"files": [
+				"/usr/lib/libgmp.a",
+				"/usr/lib/libgmpxx.a"
+			],
+			"name": "gmp-static"
 		}
 	},
 	"source-name": "gmp",
-	"source-release": "4",
+	"source-release": "5",
 	"source-version": "6.3.0"
 }

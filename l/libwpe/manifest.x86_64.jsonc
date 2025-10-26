@@ -8,8 +8,8 @@
 				"pkgconfig(xkbcommon)"
 			],
 			"depends": [
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
+				"soname(libstdc++.so.6(x86_64))",
 				"soname(libxkbcommon.so.0(x86_64))"
 			],
 			"files": [
@@ -58,6 +58,6 @@
 		}
 	},
 	"source-name": "libwpe",
-	"source-release": "4",
+	"source-release": "5",
 	"source-version": "1.16.3"
 }

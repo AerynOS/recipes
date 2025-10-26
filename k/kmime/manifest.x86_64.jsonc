@@ -10,9 +10,9 @@
 			"depends": [
 				"soname(libKF6Codecs.so.6(x86_64))",
 				"soname(libQt6Core.so.6(x86_64))",
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
-				"soname(libunwind.so.1(x86_64))"
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/lib/libKPim6Mime.so.6",
@@ -139,6 +139,6 @@
 		}
 	},
 	"source-name": "kmime",
-	"source-release": "6",
+	"source-release": "7",
 	"source-version": "25.08.2"
 }

@@ -5,7 +5,7 @@
 #
 name        : sysprof
 version     : "49.0"
-release     : 3
+release     : 4
 upstreams   :
     - https://download.gnome.org/sources/sysprof/49/sysprof-49.0.tar.xz : ff04139637785c841948862087a4323b981680d942296409321b574fcb282878
 homepage    : https://apps.gnome.org/Sysprof/
@@ -29,8 +29,6 @@ builddeps   :
     - pkgconfig(polkit-gobject-1)
     # libdebuginfod (whenever that's packaged)
 setup       : |
-    %patch %(pkgdir)/152.patch
-
     %meson
 build       : |
     %meson_build

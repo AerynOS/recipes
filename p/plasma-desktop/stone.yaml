@@ -4,10 +4,10 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : plasma-desktop
-version     : 6.4.5
-release     : 13
+version     : 6.5.0
+release     : 15
 upstreams   :
-    - https://download.kde.org/stable/plasma/6.4.5/plasma-desktop-6.4.5.tar.xz : 7552e4c7c7ccbf5b7756726bb9aaabd344630977aaf13f5f305b4477caa17bb7
+    - https://download.kde.org/stable/plasma/6.5.0/plasma-desktop-6.5.0.tar.xz : c27dc2c12795483a77a21bcc70029b9834474ed423dcdb93dc0e8857d4dede42
 homepage    : https://kde.org/plasma-desktop/
 license     :
     - GPL-2.0-only
@@ -63,6 +63,7 @@ builddeps   :
     - cmake(PlasmaActivitiesStats)
     - cmake(Qt6Core5Compat)
     - cmake(Qt6CorePrivate)
+    - cmake(Qt6ShaderTools)
     - cmake(Qt6Svg)
     - cmake(Qt6WaylandClient)
     - cmake(ScreenSaverDBusInterface)
@@ -70,6 +71,7 @@ builddeps   :
     - pkgconfig(libcanberra)
     - pkgconfig(libwacom)
     - pkgconfig(sdl2-compat)
+    - pkgconfig(udev)
     - pkgconfig(wayland-protocols)
     - pkgconfig(xkbfile)
     - pkgconfig(xkbregistry)

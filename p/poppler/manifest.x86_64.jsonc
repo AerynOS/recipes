@@ -24,7 +24,6 @@
 			"depends": [
 				"poppler-data",
 				"soname(ld-linux-x86-64.so.2(x86_64))",
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libcurl.so.4(x86_64))",
 				"soname(libfontconfig.so.1(x86_64))",
@@ -39,6 +38,7 @@
 				"soname(libplc4.so(x86_64))",
 				"soname(libpng16.so.16(x86_64))",
 				"soname(libsmime3.so(x86_64))",
+				"soname(libstdc++.so.6(x86_64))",
 				"soname(libtiff.so.6(x86_64))",
 				"soname(libz.so.1(x86_64))"
 			],
@@ -72,9 +72,9 @@
 				"poppler-data"
 			],
 			"depends": [
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
-				"soname(libpoppler.so.154(x86_64))"
+				"soname(libpoppler.so.154(x86_64))",
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/lib/libpoppler-cpp.so.2",
@@ -291,7 +291,7 @@
 				"poppler-data"
 			],
 			"depends": [
-				"soname(libc++.so.1(x86_64))",
+				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libcairo.so.2(x86_64))",
 				"soname(libfreetype.so.6(x86_64))",
@@ -299,7 +299,8 @@
 				"soname(libglib-2.0.so.0(x86_64))",
 				"soname(libgobject-2.0.so.0(x86_64))",
 				"soname(libm.so.6(x86_64))",
-				"soname(libpoppler.so.154(x86_64))"
+				"soname(libpoppler.so.154(x86_64))",
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/lib/girepository-1.0/Poppler-0.18.typelib",
@@ -386,11 +387,11 @@
 			"depends": [
 				"soname(libQt6Core.so.6(x86_64))",
 				"soname(libQt6Gui.so.6(x86_64))",
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libfreetype.so.6(x86_64))",
 				"soname(liblcms2.so.2(x86_64))",
-				"soname(libpoppler.so.154(x86_64))"
+				"soname(libpoppler.so.154(x86_64))",
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/lib/libpoppler-qt6.so.3",
@@ -466,13 +467,14 @@
 			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
-				"soname(libc++.so.1(x86_64))",
+				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libcairo.so.2(x86_64))",
 				"soname(libfreetype.so.6(x86_64))",
 				"soname(liblcms2.so.2(x86_64))",
 				"soname(libm.so.6(x86_64))",
-				"soname(libpoppler.so.154(x86_64))"
+				"soname(libpoppler.so.154(x86_64))",
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/bin/pdfattach",
@@ -521,6 +523,6 @@
 		}
 	},
 	"source-name": "poppler",
-	"source-release": "11",
+	"source-release": "13",
 	"source-version": "25.10.0"
 }

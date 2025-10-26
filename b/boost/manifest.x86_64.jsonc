@@ -62,8 +62,8 @@
 				"pkgconfig(zlib)"
 			],
 			"depends": [
-				"soname(libc++.so.1(x86_64))",
-				"soname(libc.so.6(x86_64))"
+				"soname(libc.so.6(x86_64))",
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/lib/libboost_atomic.so.1.89.0"
@@ -85,8 +85,9 @@
 				"pkgconfig(zlib)"
 			],
 			"depends": [
-				"soname(libc++.so.1(x86_64))",
-				"soname(libc.so.6(x86_64))"
+				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/lib/libboost_charconv.so.1.89.0"
@@ -108,9 +109,9 @@
 				"pkgconfig(zlib)"
 			],
 			"depends": [
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
-				"soname(libunwind.so.1(x86_64))"
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/lib/libboost_chrono.so.1.89.0"
@@ -132,9 +133,9 @@
 				"pkgconfig(zlib)"
 			],
 			"depends": [
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
-				"soname(libunwind.so.1(x86_64))"
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/lib/libboost_container.so.1.89.0"
@@ -156,8 +157,8 @@
 				"pkgconfig(zlib)"
 			],
 			"depends": [
-				"soname(libc++.so.1(x86_64))",
-				"soname(libc.so.6(x86_64))"
+				"soname(libc.so.6(x86_64))",
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/lib/libboost_context.so.1.89.0"
@@ -184,9 +185,9 @@
 				"soname(libboost_container.so.1.89.0(x86_64))",
 				"soname(libboost_date_time.so.1.89.0(x86_64))",
 				"soname(libboost_thread.so.1.89.0(x86_64))",
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
-				"soname(libunwind.so.1(x86_64))"
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/lib/libboost_contract.so.1.89.0"
@@ -209,8 +210,8 @@
 			],
 			"depends": [
 				"soname(libboost_context.so.1.89.0(x86_64))",
-				"soname(libc++.so.1(x86_64))",
-				"soname(libc.so.6(x86_64))"
+				"soname(libc.so.6(x86_64))",
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/lib/libboost_coroutine.so.1.89.0"
@@ -230,9 +231,6 @@
 				"pkgconfig(libzstd)",
 				"pkgconfig(python3)",
 				"pkgconfig(zlib)"
-			],
-			"depends": [
-				"soname(libc.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/lib/libboost_date_time.so.1.89.0"
@@ -16512,9 +16510,9 @@
 				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libboost_context.so.1.89.0(x86_64))",
 				"soname(libboost_filesystem.so.1.89.0(x86_64))",
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
-				"soname(libunwind.so.1(x86_64))"
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/lib/libboost_fiber.so.1.89.0"
@@ -16537,9 +16535,9 @@
 			],
 			"depends": [
 				"soname(libboost_atomic.so.1.89.0(x86_64))",
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
-				"soname(libunwind.so.1(x86_64))"
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/lib/libboost_filesystem.so.1.89.0"
@@ -16561,9 +16559,9 @@
 				"pkgconfig(zlib)"
 			],
 			"depends": [
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
-				"soname(libunwind.so.1(x86_64))"
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/lib/libboost_graph.so.1.89.0"
@@ -16588,13 +16586,13 @@
 				"soname(libboost_random.so.1.89.0(x86_64))",
 				"soname(libboost_regex.so.1.89.0(x86_64))",
 				"soname(libbz2.so.1.0(x86_64))",
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libicudata.so.77(x86_64))",
 				"soname(libicui18n.so.77(x86_64))",
 				"soname(libicuuc.so.77(x86_64))",
 				"soname(liblzma.so.5(x86_64))",
-				"soname(libunwind.so.1(x86_64))",
+				"soname(libstdc++.so.6(x86_64))",
 				"soname(libz.so.1(x86_64))",
 				"soname(libzstd.so.1(x86_64))"
 			],
@@ -16619,9 +16617,9 @@
 			],
 			"depends": [
 				"soname(libboost_container.so.1.89.0(x86_64))",
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
-				"soname(libunwind.so.1(x86_64))"
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/lib/libboost_json.so.1.89.0"
@@ -16649,13 +16647,13 @@
 				"soname(libboost_container.so.1.89.0(x86_64))",
 				"soname(libboost_date_time.so.1.89.0(x86_64))",
 				"soname(libboost_thread.so.1.89.0(x86_64))",
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libicudata.so.77(x86_64))",
 				"soname(libicui18n.so.77(x86_64))",
 				"soname(libicuuc.so.77(x86_64))",
 				"soname(libm.so.6(x86_64))",
-				"soname(libunwind.so.1(x86_64))"
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/lib/libboost_locale.so.1.89.0"
@@ -16686,12 +16684,12 @@
 				"soname(libboost_regex.so.1.89.0(x86_64))",
 				"soname(libboost_serialization.so.1.89.0(x86_64))",
 				"soname(libboost_thread.so.1.89.0(x86_64))",
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libicudata.so.77(x86_64))",
 				"soname(libicui18n.so.77(x86_64))",
 				"soname(libicuuc.so.77(x86_64))",
-				"soname(libunwind.so.1(x86_64))"
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/lib/libboost_log.so.1.89.0",
@@ -16717,10 +16715,10 @@
 			"depends": [
 				"soname(libboost_container.so.1.89.0(x86_64))",
 				"soname(libboost_random.so.1.89.0(x86_64))",
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libm.so.6(x86_64))",
-				"soname(libunwind.so.1(x86_64))"
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/lib/libboost_math_c99.so.1.89.0",
@@ -16752,9 +16750,9 @@
 				"pkgconfig(zlib)"
 			],
 			"depends": [
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
-				"soname(libunwind.so.1(x86_64))"
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/lib/libboost_nowide.so.1.89.0"
@@ -16779,9 +16777,9 @@
 				"soname(libboost_context.so.1.89.0(x86_64))",
 				"soname(libboost_date_time.so.1.89.0(x86_64))",
 				"soname(libboost_filesystem.so.1.89.0(x86_64))",
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
-				"soname(libunwind.so.1(x86_64))"
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/lib/libboost_process.so.1.89.0"
@@ -16803,9 +16801,9 @@
 				"pkgconfig(zlib)"
 			],
 			"depends": [
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
-				"soname(libunwind.so.1(x86_64))"
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/lib/libboost_program_options.so.1.89.0"
@@ -16830,9 +16828,9 @@
 				"python-libs",
 				"soname(libboost_container.so.1.89.0(x86_64))",
 				"soname(libboost_graph.so.1.89.0(x86_64))",
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
-				"soname(libunwind.so.1(x86_64))"
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/lib/libboost_python311.so.1.89.0"
@@ -16854,9 +16852,9 @@
 				"pkgconfig(zlib)"
 			],
 			"depends": [
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
-				"soname(libunwind.so.1(x86_64))"
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/lib/libboost_random.so.1.89.0"
@@ -16878,12 +16876,12 @@
 				"pkgconfig(zlib)"
 			],
 			"depends": [
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libicudata.so.77(x86_64))",
 				"soname(libicui18n.so.77(x86_64))",
 				"soname(libicuuc.so.77(x86_64))",
-				"soname(libunwind.so.1(x86_64))"
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/lib/libboost_regex.so.1.89.0"
@@ -16905,9 +16903,9 @@
 				"pkgconfig(zlib)"
 			],
 			"depends": [
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
-				"soname(libunwind.so.1(x86_64))"
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/lib/libboost_serialization.so.1.89.0",
@@ -16932,9 +16930,9 @@
 			],
 			"depends": [
 				"soname(ld-linux-x86-64.so.2(x86_64))",
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
-				"soname(libunwind.so.1(x86_64))"
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/lib/libboost_stacktrace_addr2line.so.1.89.0",
@@ -17039,9 +17037,9 @@
 				"pkgconfig(zlib)"
 			],
 			"depends": [
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
-				"soname(libunwind.so.1(x86_64))"
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/lib/libboost_prg_exec_monitor.so.1.89.0",
@@ -17069,9 +17067,9 @@
 				"soname(libboost_chrono.so.1.89.0(x86_64))",
 				"soname(libboost_container.so.1.89.0(x86_64))",
 				"soname(libboost_date_time.so.1.89.0(x86_64))",
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
-				"soname(libunwind.so.1(x86_64))"
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/lib/libboost_thread.so.1.89.0"
@@ -17093,9 +17091,9 @@
 				"pkgconfig(zlib)"
 			],
 			"depends": [
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
-				"soname(libunwind.so.1(x86_64))"
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/lib/libboost_timer.so.1.89.0"
@@ -17122,9 +17120,9 @@
 				"soname(libboost_container.so.1.89.0(x86_64))",
 				"soname(libboost_date_time.so.1.89.0(x86_64))",
 				"soname(libboost_thread.so.1.89.0(x86_64))",
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
-				"soname(libunwind.so.1(x86_64))"
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/lib/libboost_type_erasure.so.1.89.0"
@@ -17146,9 +17144,9 @@
 				"pkgconfig(zlib)"
 			],
 			"depends": [
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
-				"soname(libunwind.so.1(x86_64))"
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/lib/libboost_url.so.1.89.0"
@@ -17178,12 +17176,12 @@
 				"soname(libboost_regex.so.1.89.0(x86_64))",
 				"soname(libboost_serialization.so.1.89.0(x86_64))",
 				"soname(libboost_thread.so.1.89.0(x86_64))",
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libicudata.so.77(x86_64))",
 				"soname(libicui18n.so.77(x86_64))",
 				"soname(libicuuc.so.77(x86_64))",
-				"soname(libunwind.so.1(x86_64))"
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/lib/libboost_wave.so.1.89.0"
@@ -17195,6 +17193,6 @@
 		}
 	},
 	"source-name": "boost",
-	"source-release": "6",
+	"source-release": "7",
 	"source-version": "1.89.0"
 }

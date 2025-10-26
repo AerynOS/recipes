@@ -5,7 +5,7 @@
 #
 name        : iproute2
 version     : 6.17.0
-release     : 9
+release     : 10
 homepage    : https://wiki.linuxfoundation.org/networking/iproute2
 upstreams   :
     - https://mirrors.edge.kernel.org/pub/linux/utils/net/iproute2/iproute2-6.17.0.tar.xz : 9781e59410ab7dea8e9f79bb10ff1488e63d10fcbb70503b94426ba27a8e2dec
@@ -23,8 +23,7 @@ builddeps   :
 setup       : |
     %patch %(pkgdir)/fhs.patch
 
-    # Seems to fail with dash 0.5.13
-    %configure_with_bash \
+    %configure \
         --color=auto
 build       : |
     %make HOSTCC=${CC}

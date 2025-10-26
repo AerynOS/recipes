@@ -4,9 +4,9 @@
 	"packages": {
 		"fmt": {
 			"depends": [
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
-				"soname(libunwind.so.1(x86_64))"
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/lib/libfmt.so.12",
@@ -51,6 +51,6 @@
 		}
 	},
 	"source-name": "fmt",
-	"source-release": "7",
+	"source-release": "8",
 	"source-version": "12.0.0"
 }

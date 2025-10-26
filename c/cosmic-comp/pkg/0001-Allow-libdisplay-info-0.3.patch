@@ -1,18 +1,18 @@
-From 11397eb254fddd7ed5a88a02cb19da84c1cc46ff Mon Sep 17 00:00:00 2001
+From 2f002efc600186166ee1578ff8753a7495f5a6ea Mon Sep 17 00:00:00 2001
 From: Bryan Hyland <bryan.hyland32@gmail.com>
 Date: Wed, 17 Sep 2025 12:17:43 -0700
 Subject: [PATCH] Update libdisplay-info patch
 
 ---
- Cargo.lock | 9 +++------
- Cargo.toml | 1 +
- 2 files changed, 4 insertions(+), 6 deletions(-)
+ Cargo.lock | 11 ++++-------
+ Cargo.toml |  1 +
+ 2 files changed, 5 insertions(+), 7 deletions(-)
 
 diff --git a/Cargo.lock b/Cargo.lock
-index 4f78b95..439e611 100644
+index 2982a85..e2ba1a5 100644
 --- a/Cargo.lock
 +++ b/Cargo.lock
-@@ -2925,8 +2925,7 @@ dependencies = [
+@@ -3006,8 +3006,7 @@ dependencies = [
  [[package]]
  name = "libdisplay-info"
  version = "0.2.2"
@@ -20,19 +20,21 @@ index 4f78b95..439e611 100644
 -checksum = "4210cfe93a0dc37228e08105e3c13171e5af816f7bd39e00e3d3adcf2b487a2b"
 +source = "git+https://github.com/ReillyBrogan/libdisplay-info-rs.git#8ea9def6dcf831ee2f441d70a4398e348396a96c"
  dependencies = [
-  "bitflags 2.9.1",
+  "bitflags 2.9.4",
   "libc",
-@@ -2938,8 +2937,7 @@ dependencies = [
+@@ -3018,9 +3017,8 @@ dependencies = [
+ 
  [[package]]
  name = "libdisplay-info-derive"
- version = "0.1.0"
+-version = "0.1.1"
 -source = "registry+https://github.com/rust-lang/crates.io-index"
--checksum = "ea1cd31036b732a546d845f9485c56b1b606b5e476b0821c680dd66c8cd6fcee"
+-checksum = "8dc2c710cf5819e91220a446d9e64acc6814386cc22c509c3f0df83c0b874a98"
++version = "0.1.0"
 +source = "git+https://github.com/ReillyBrogan/libdisplay-info-rs.git#8ea9def6dcf831ee2f441d70a4398e348396a96c"
  dependencies = [
   "proc-macro2",
   "quote",
-@@ -2949,8 +2947,7 @@ dependencies = [
+@@ -3030,8 +3028,7 @@ dependencies = [
  [[package]]
  name = "libdisplay-info-sys"
  version = "0.2.2"
@@ -43,7 +45,7 @@ index 4f78b95..439e611 100644
   "semver",
   "system-deps",
 diff --git a/Cargo.toml b/Cargo.toml
-index 259cbc4..582ec83 100644
+index e087793..dcd1186 100644
 --- a/Cargo.toml
 +++ b/Cargo.toml
 @@ -148,3 +148,4 @@ cosmic-client-toolkit = { git = "https://github.com/pop-os//cosmic-protocols", b

@@ -5,7 +5,7 @@
 #
 name        : lzip
 version     : '1.25'
-release     : 2
+release     : 4
 upstreams   :
     - https://download.savannah.gnu.org/releases/lzip/lzip-1.25.tar.gz : 09418a6d8fb83f5113f5bd856e09703df5d37bae0308c668d0f346e3d3f0a56f
 homepage    : https://www.nongnu.org/lzip/lzip.html
@@ -15,9 +15,9 @@ description : |
     LZMA compressor with integrity checking
 setup       : |
     %configure \
-              CXXFLAGS="${CXXFLAGS}" \
-              LDFLAGS="${LDFLAGS}" \
-              CXX="${CXX}"
+        CXXFLAGS="${CXXFLAGS}" \
+        LDFLAGS="${LDFLAGS}" \
+        CXX="${CXX}"
 build       : |
     %make
 install     : |

@@ -75,14 +75,15 @@
 			],
 			"depends": [
 				"soname(ld-linux-x86-64.so.2(x86_64))",
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libgio-2.0.so.0(x86_64))",
 				"soname(libglib-2.0.so.0(x86_64))",
 				"soname(libgobject-2.0.so.0(x86_64))",
 				"soname(libicui18n.so.77(x86_64))",
 				"soname(libicuuc.so.77(x86_64))",
 				"soname(libm.so.6(x86_64))",
+				"soname(libstdc++.so.6(x86_64))",
 				"soname(libsystemd.so.0(x86_64))"
 			],
 			"files": [
@@ -171,10 +172,10 @@
 				"javascriptcoregtk41",
 				"pkgconfig(glib-2.0)",
 				"pkgconfig(gobject-2.0)",
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libjavascriptcoregtk-4.1.so.0(x86_64))",
-				"soname(libm.so.6(x86_64))"
+				"soname(libm.so.6(x86_64))",
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/include/webkitgtk-4.1/JavaScriptCore/JSBase.h",
@@ -279,14 +280,15 @@
 			],
 			"depends": [
 				"soname(ld-linux-x86-64.so.2(x86_64))",
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libgio-2.0.so.0(x86_64))",
 				"soname(libglib-2.0.so.0(x86_64))",
 				"soname(libgobject-2.0.so.0(x86_64))",
 				"soname(libicui18n.so.77(x86_64))",
 				"soname(libicuuc.so.77(x86_64))",
 				"soname(libm.so.6(x86_64))",
+				"soname(libstdc++.so.6(x86_64))",
 				"soname(libsystemd.so.0(x86_64))"
 			],
 			"files": [
@@ -375,10 +377,10 @@
 				"javascriptcoregtk60",
 				"pkgconfig(glib-2.0)",
 				"pkgconfig(gobject-2.0)",
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libjavascriptcoregtk-6.0.so.1(x86_64))",
-				"soname(libm.so.6(x86_64))"
+				"soname(libm.so.6(x86_64))",
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/include/webkitgtk-6.0/jsc/JSCClass.h",
@@ -481,7 +483,6 @@
 				"soname(libX11.so.6(x86_64))",
 				"soname(libatk-1.0.so.0(x86_64))",
 				"soname(libavif.so.16(x86_64))",
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libcairo.so.2(x86_64))",
 				"soname(libdrm.so.2(x86_64))",
@@ -491,6 +492,7 @@
 				"soname(libfontconfig.so.1(x86_64))",
 				"soname(libfreetype.so.6(x86_64))",
 				"soname(libgbm.so.1(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libgcrypt.so.20(x86_64))",
 				"soname(libgdk-3.so.0(x86_64))",
 				"soname(libgio-2.0.so.0(x86_64))",
@@ -525,6 +527,7 @@
 				"soname(libsecret-1.so.0(x86_64))",
 				"soname(libsoup-3.0.so.0(x86_64))",
 				"soname(libsqlite3.so.0(x86_64))",
+				"soname(libstdc++.so.6(x86_64))",
 				"soname(libsystemd.so.0(x86_64))",
 				"soname(libtasn1.so.6(x86_64))",
 				"soname(libwayland-client.so.0(x86_64))",
@@ -4946,7 +4949,6 @@
 				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libX11.so.6(x86_64))",
 				"soname(libavif.so.16(x86_64))",
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libcairo.so.2(x86_64))",
 				"soname(libdrm.so.2(x86_64))",
@@ -4956,6 +4958,7 @@
 				"soname(libfontconfig.so.1(x86_64))",
 				"soname(libfreetype.so.6(x86_64))",
 				"soname(libgbm.so.1(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libgcrypt.so.20(x86_64))",
 				"soname(libgdk_pixbuf-2.0.so.0(x86_64))",
 				"soname(libgio-2.0.so.0(x86_64))",
@@ -4990,6 +4993,7 @@
 				"soname(libsecret-1.so.0(x86_64))",
 				"soname(libsoup-3.0.so.0(x86_64))",
 				"soname(libsqlite3.so.0(x86_64))",
+				"soname(libstdc++.so.6(x86_64))",
 				"soname(libsystemd.so.0(x86_64))",
 				"soname(libtasn1.so.6(x86_64))",
 				"soname(libwayland-client.so.0(x86_64))",
@@ -6879,6 +6883,6 @@
 		}
 	},
 	"source-name": "webkitgtk",
-	"source-release": "1",
+	"source-release": "2",
 	"source-version": "2.50.1"
 }

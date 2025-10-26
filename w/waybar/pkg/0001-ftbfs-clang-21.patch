@@ -1,0 +1,22 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Reilly Brogan <reilly@reillybrogan.com>
+Date: Fri, 24 Oct 2025 12:39:05 -0500
+Subject: [PATCH] ftbfs clang 21
+
+---
+ src/modules/cava.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/modules/cava.cpp b/src/modules/cava.cpp
+index 405a351a..8be13bee 100644
+--- a/src/modules/cava.cpp
++++ b/src/modules/cava.cpp
+@@ -12,7 +12,7 @@ waybar::modules::Cava::Cava(const std::string& id, const Json::Value& config)
+   // Load cava config
+   error_.length = 0;
+ 
+-  if (!load_config(cfgPath, &prm_, false, &error_)) {
++  if (!load_config(cfgPath, &prm_, false, &error_, 0)) {
+     spdlog::error("Error loading config. {0}", error_.message);
+     exit(EXIT_FAILURE);
+   }

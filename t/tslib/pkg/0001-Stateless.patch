@@ -1,0 +1,114 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Reilly Brogan <reilly@reillybrogan.com>
+Date: Sat, 25 Oct 2025 21:25:10 -0500
+Subject: [PATCH] Stateless
+
+---
+ configure.ac    |  3 +++
+ etc/Makefile.am |  5 +++--
+ src/Makefile.am |  2 +-
+ src/ts_config.c | 38 +++++++++++++++++++++++++++++++++-----
+ 4 files changed, 40 insertions(+), 8 deletions(-)
+
+diff --git a/configure.ac b/configure.ac
+index 8efe988..7d0377f 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -160,6 +160,9 @@ AC_SUBST(LIBFLAGS)
+ TS_CONF='${sysconfdir}/ts.conf'
+ AC_SUBST(TS_CONF)
+ 
++DEFAULT_TS_CONF='${datadir}/defaults/ts.conf'
++AC_SUBST(DEFAULT_TS_CONF)
++
+ TS_POINTERCAL='${sysconfdir}/pointercal'
+ AC_SUBST(TS_POINTERCAL)
+ 
+diff --git a/etc/Makefile.am b/etc/Makefile.am
+index f2c39ad..07d92df 100644
+--- a/etc/Makefile.am
++++ b/etc/Makefile.am
+@@ -8,6 +8,7 @@
+ #
+ #
+ 
+-sysconf_DATA		= ts.conf
++vendordir = $(datadir)/defaults
++vendor_DATA		= ts.conf
+ 
+-EXTRA_DIST		= $(sysconf_DATA) CMakeLists.txt
++EXTRA_DIST		= $(vendor_DATA)
+diff --git a/src/Makefile.am b/src/Makefile.am
+index 7050603..ed8e71a 100644
+--- a/src/Makefile.am
++++ b/src/Makefile.am
+@@ -10,7 +10,7 @@
+ 
+ EXTRA_DIST	 = CMakeLists.txt
+ 
+-AM_CFLAGS	 = -DPLUGIN_DIR=\"@PLUGIN_DIR@\" -DTS_CONF=\"@TS_CONF@\" \
++AM_CFLAGS	 = -DPLUGIN_DIR=\"@PLUGIN_DIR@\" -DTS_CONF=\"@TS_CONF@\" -DDEFAULT_TS_CONF=\"@DEFAULT_TS_CONF@\"\
+ 		   -DTS_POINTERCAL=\"@TS_POINTERCAL@\" \
+ 		   $(DEBUGFLAGS) $(LIBFLAGS) $(VIS_CFLAGS) \
+ 		   $(LIBEVDEV_CFLAGS)
+diff --git a/src/ts_config.c b/src/ts_config.c
+index c0cb313..437beeb 100644
+--- a/src/ts_config.c
++++ b/src/ts_config.c
+@@ -58,6 +58,7 @@ static int __ts_config(struct tsdev *ts, char **conffile_modules,
+ 	FILE *f;
+ 	int line = 0;
+ 	int ret = 0;
++	int conf_set = 0;
+ 	short strdup_allocated = 0;
+ 
+ 	char *conffile;
+@@ -71,16 +72,43 @@ static int __ts_config(struct tsdev *ts, char **conffile_modules,
+ 				 strerror(errno));
+ 			return -1;
+ 		}
++	} else {
++		conf_set = 1;
+ 	}
+ 
+ 	f = fopen(conffile, "r");
+ 	if (!f) {
+-		if (strdup_allocated) {
+-			ts_error("Couldn't open tslib config file %s: %s\n",
+-				 conffile, strerror(errno));
+-			free(conffile);
++		if (!conf_set) {
++			if (strdup_allocated) {
++				free(conffile);
++				strdup_allocated = 0;
++			}
++			conffile = strdup(DEFAULT_TS_CONF);
++			if (conffile) {
++				strdup_allocated = 1;
++			} else {
++				ts_error("Couldn't find tslib config file: %s\n",
++					strerror(errno));
++				return -1;
++			}
++
++			f = fopen(conffile, "r");
++			if (!f) {
++				if (strdup_allocated) {
++					ts_error("Couldn't open tslib config file %s: %s\n",
++						conffile, strerror(errno));
++					free(conffile);
++				}
++				return -1;
++			}
++		} else {
++			if (strdup_allocated) {
++				ts_error("Couldn't open tslib config file %s: %s\n",
++					conffile, strerror(errno));
++				free(conffile);
++			}
++			return -1;
+ 		}
+-		return -1;
+ 	}
+ 
+ 	buf[BUF_SIZE - 2] = '\0';

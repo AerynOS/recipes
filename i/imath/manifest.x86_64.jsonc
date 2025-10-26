@@ -4,10 +4,8 @@
 	"packages": {
 		"imath": {
 			"depends": [
-				"soname(libc++.so.1(x86_64))",
-				"soname(libc.so.6(x86_64))",
 				"soname(libm.so.6(x86_64))",
-				"soname(libunwind.so.1(x86_64))"
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/lib/libImath-3_2.so.30",
@@ -74,6 +72,6 @@
 		}
 	},
 	"source-name": "imath",
-	"source-release": "2",
+	"source-release": "3",
 	"source-version": "3.2.2"
 }

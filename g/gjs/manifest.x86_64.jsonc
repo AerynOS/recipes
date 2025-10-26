@@ -25,7 +25,6 @@
 				"gobject-introspection-runtime",
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"soname(libX11.so.6(x86_64))",
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libcairo-gobject.so.2(x86_64))",
 				"soname(libcairo.so.2(x86_64))",
@@ -35,7 +34,8 @@
 				"soname(libglib-2.0.so.0(x86_64))",
 				"soname(libgobject-2.0.so.0(x86_64))",
 				"soname(libmozjs-140.so(x86_64))",
-				"soname(libreadline.so.8(x86_64))"
+				"soname(libreadline.so.8(x86_64))",
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/bin/gjs",
@@ -149,6 +149,6 @@
 		}
 	},
 	"source-name": "gjs",
-	"source-release": "11",
+	"source-release": "12",
 	"source-version": "1.86.0"
 }

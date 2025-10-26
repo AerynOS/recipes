@@ -38,25 +38,27 @@
 				"soname(libKF6Notifications.so.6(x86_64))",
 				"soname(libKF6WidgetsAddons.so.6(x86_64))",
 				"soname(libKF6WindowSystem.so.6(x86_64))",
+				"soname(libPlasma.so.6(x86_64))",
 				"soname(libQt6Core.so.6(x86_64))",
 				"soname(libQt6DBus.so.6(x86_64))",
 				"soname(libQt6Gui.so.6(x86_64))",
 				"soname(libQt6Network.so.6(x86_64))",
 				"soname(libQt6Qml.so.6(x86_64))",
 				"soname(libQt6Widgets.so.6(x86_64))",
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
-				"soname(libcups.so.2(x86_64))"
+				"soname(libcups.so.2(x86_64))",
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/bin/configure-printer",
 				"/usr/bin/kde-print-queue",
-				"/usr/lib/libkcupslib.so.6.4.5",
+				"/usr/lib/libkcups.so",
 				"/usr/lib/qt6/plugins/kf6/kded/printmanager.so",
+				"/usr/lib/qt6/plugins/plasma/applets/org.kde.plasma.printmanager.so",
 				"/usr/lib/qt6/plugins/plasma/kcms/systemsettings/kcm_printer_manager.so",
-				"/usr/lib/qt6/qml/org/kde/plasma/printmanager/kcupslib.qmltypes",
+				"/usr/lib/qt6/qml/org/kde/plasma/printmanager/kcups.qmltypes",
 				"/usr/lib/qt6/qml/org/kde/plasma/printmanager/kde-qmlmodule.version",
-				"/usr/lib/qt6/qml/org/kde/plasma/printmanager/libkcupslibplugin.so",
+				"/usr/lib/qt6/qml/org/kde/plasma/printmanager/libkcupsplugin.so",
 				"/usr/lib/qt6/qml/org/kde/plasma/printmanager/qmldir",
 				"/usr/share/applications/kcm_printer_manager.desktop",
 				"/usr/share/applications/org.kde.ConfigurePrinter.desktop",
@@ -158,6 +160,9 @@
 				"/usr/share/locale/lt/LC_MESSAGES/kcm_printer_manager.mo",
 				"/usr/share/locale/lt/LC_MESSAGES/plasma_applet_org.kde.plasma.printmanager.mo",
 				"/usr/share/locale/lt/LC_MESSAGES/print-manager.mo",
+				"/usr/share/locale/lv/LC_MESSAGES/kcm_printer_manager.mo",
+				"/usr/share/locale/lv/LC_MESSAGES/plasma_applet_org.kde.plasma.printmanager.mo",
+				"/usr/share/locale/lv/LC_MESSAGES/print-manager.mo",
 				"/usr/share/locale/mr/LC_MESSAGES/plasma_applet_org.kde.plasma.printmanager.mo",
 				"/usr/share/locale/mr/LC_MESSAGES/print-manager.mo",
 				"/usr/share/locale/nb/LC_MESSAGES/kcm_printer_manager.mo",
@@ -227,25 +232,21 @@
 				"/usr/share/locale/zh_TW/LC_MESSAGES/plasma_applet_org.kde.plasma.printmanager.mo",
 				"/usr/share/locale/zh_TW/LC_MESSAGES/print-manager.mo",
 				"/usr/share/metainfo/org.kde.print-manager.metainfo.xml",
-				"/usr/share/plasma/plasmoids/org.kde.plasma.printmanager/contents/config/main.xml",
-				"/usr/share/plasma/plasmoids/org.kde.plasma.printmanager/contents/ui/FullRepresentation.qml",
-				"/usr/share/plasma/plasmoids/org.kde.plasma.printmanager/contents/ui/PrinterDelegate.qml",
-				"/usr/share/plasma/plasmoids/org.kde.plasma.printmanager/contents/ui/main.qml",
-				"/usr/share/plasma/plasmoids/org.kde.plasma.printmanager/metadata.json",
 				"/usr/share/qlogging-categories6/pmlogs.categories"
 			],
 			"name": "print-manager",
 			"provides": [
 				"binary(configure-printer)",
 				"binary(kde-print-queue)",
-				"soname(libkcupslib.so.6.4.5(x86_64))",
+				"soname(libkcups.so(x86_64))",
 				"soname(qt6/plugins/kf6/kded/printmanager.so(x86_64))",
+				"soname(qt6/plugins/plasma/applets/org.kde.plasma.printmanager.so(x86_64))",
 				"soname(qt6/plugins/plasma/kcms/systemsettings/kcm_printer_manager.so(x86_64))",
-				"soname(qt6/qml/org/kde/plasma/printmanager/libkcupslibplugin.so(x86_64))"
+				"soname(qt6/qml/org/kde/plasma/printmanager/libkcupsplugin.so(x86_64))"
 			]
 		}
 	},
 	"source-name": "print-manager",
-	"source-release": "7",
-	"source-version": "6.4.5"
+	"source-release": "9",
+	"source-version": "6.5.0"
 }

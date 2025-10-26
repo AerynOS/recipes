@@ -10,11 +10,11 @@
 			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(liblz4.so.1(x86_64))",
 				"soname(liblzma.so.5(x86_64))",
-				"soname(libunwind.so.1(x86_64))",
+				"soname(libstdc++.so.6(x86_64))",
 				"soname(libz.so.1(x86_64))",
 				"soname(libzstd.so.1(x86_64))",
 				"zstd-libs"
@@ -53,6 +53,7 @@
 			],
 			"depends": [
 				"soname(libc.so.6(386))",
+				"soname(libgcc_s.so.1(386))",
 				"zstd"
 			],
 			"files": [
@@ -61,8 +62,7 @@
 			],
 			"name": "zstd-32bit",
 			"provides": [
-				"soname(libzstd.so.1(386))",
-				"soname(libzstd.so.1(x86))"
+				"soname(libzstd.so.1(386))"
 			]
 		},
 		"zstd-32bit-devel": {
@@ -135,6 +135,6 @@
 		}
 	},
 	"source-name": "zstd",
-	"source-release": "10",
+	"source-release": "12",
 	"source-version": "1.5.7"
 }

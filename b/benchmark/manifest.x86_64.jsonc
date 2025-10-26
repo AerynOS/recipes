@@ -3,11 +3,14 @@
 	"manifest-version": "0.2",
 	"packages": {
 		"benchmark": {
+			"build-depends": [
+				"binary(python3)"
+			],
 			"depends": [
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libm.so.6(x86_64))",
-				"soname(libunwind.so.1(x86_64))"
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/lib/libbenchmark.so.1",
@@ -22,6 +25,9 @@
 			]
 		},
 		"benchmark-devel": {
+			"build-depends": [
+				"binary(python3)"
+			],
 			"depends": [
 				"benchmark"
 			],
@@ -46,6 +52,6 @@
 		}
 	},
 	"source-name": "benchmark",
-	"source-release": "1",
+	"source-release": "2",
 	"source-version": "1.9.4"
 }

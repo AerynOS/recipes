@@ -5,7 +5,7 @@
 #
 name        : gmp
 version     : 6.3.0
-release     : 4
+release     : 5
 summary     : Library for arbitrary precision arithmetic
 license     :
     - GPL-2.0-or-later
@@ -15,8 +15,19 @@ description : |
     Library for arbitrary precision arithmetic.
 upstreams   :
     - https://ftp.gnu.org/gnu/gmp/gmp-6.3.0.tar.xz: a3c2b80201b89e68616f4ad30bc66aee4927c3ce50e33929ca819d5c43538898
+builddeps   :
+    - binary(bison)
+    - binary(flex)
+    - pkgconfig(readline)
 setup       : |
-    %configure --enable-cxx
+    ## Bash required due to following dash 0.5.13 failure
+    # │S│ checking that generated files are newer than configure... done
+    # │S│ configure: creating ./config.status
+    # │S│ malloc(): invalid size (unsorted)
+    # │S│ Aborted (core dumped)
+
+    %configure_with_bash \
+        --enable-cxx
 build       : |
     %make
 install     : |
@@ -26,3 +37,9 @@ check       : |
 tuning      :
     - lto: full
     - optimize: speed
+packages    :
+    - "%(name)-static":
+        paths:
+            - /usr/lib/lib*.a
+        rundeps:
+            - "%(name)-devel"

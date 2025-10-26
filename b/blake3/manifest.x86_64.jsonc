@@ -7,8 +7,8 @@
 				"cmake(TBB)"
 			],
 			"depends": [
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
+				"soname(libstdc++.so.6(x86_64))",
 				"soname(libtbb.so.12(x86_64))"
 			],
 			"files": [
@@ -45,6 +45,6 @@
 		}
 	},
 	"source-name": "blake3",
-	"source-release": "4",
+	"source-release": "5",
 	"source-version": "1.8.2"
 }

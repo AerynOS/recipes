@@ -4,9 +4,9 @@
 	"packages": {
 		"libvpl": {
 			"depends": [
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
-				"soname(libunwind.so.1(x86_64))"
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/etc/vpl/vars.sh",
@@ -61,6 +61,6 @@
 		}
 	},
 	"source-name": "libvpl",
-	"source-release": "1",
+	"source-release": "2",
 	"source-version": "2.15.0"
 }

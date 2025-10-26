@@ -17,12 +17,12 @@
 			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libjansson.so.4(x86_64))",
 				"soname(libjemalloc.so.2(x86_64))",
 				"soname(libnghttp2.so.14(x86_64))",
-				"soname(libunwind.so.1(x86_64))"
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/bin/deflatehd",
@@ -58,7 +58,7 @@
 			],
 			"files": [
 				"/usr/lib32/libnghttp2.so.14",
-				"/usr/lib32/libnghttp2.so.14.29.1"
+				"/usr/lib32/libnghttp2.so.14.29.2"
 			],
 			"name": "nghttp2-32bit",
 			"provides": [
@@ -141,7 +141,7 @@
 			],
 			"files": [
 				"/usr/lib/libnghttp2.so.14",
-				"/usr/lib/libnghttp2.so.14.29.1"
+				"/usr/lib/libnghttp2.so.14.29.2"
 			],
 			"name": "nghttp2-libs",
 			"provides": [
@@ -150,6 +150,6 @@
 		}
 	},
 	"source-name": "nghttp2",
-	"source-release": "11",
-	"source-version": "1.67.1"
+	"source-release": "13",
+	"source-version": "1.68.0"
 }

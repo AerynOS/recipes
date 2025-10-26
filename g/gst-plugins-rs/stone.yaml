@@ -5,7 +5,7 @@
 #
 name        : gst-plugins-rs
 version     : 1.26.7
-release     : 11
+release     : 12
 homepage    : https://gitlab.freedesktop.org/gstreamer/gst-plugins-rs
 upstreams   :
     - https://gitlab.freedesktop.org/gstreamer/gst-plugins-rs/-/archive/gstreamer-1.26.7/gst-plugins-rs-gstreamer-1.26.7.tar.gz : de2a9b0b667872a44dc60dc018c940a6986be30fe237f7e3eefe9bb4607a153c
@@ -31,7 +31,6 @@ builddeps   :
     - pkgconfig(libsodium)
     - pkgconfig(libwebp)
     - pkgconfig(openssl)
-    - libstdc++-devel
 # Missing libraries:
 # - libvvdec
 environment: |

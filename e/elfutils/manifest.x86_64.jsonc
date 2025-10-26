@@ -14,12 +14,13 @@
 			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libasm.so.1(x86_64))",
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libdw.so.1(x86_64))",
 				"soname(libelf.so.1(x86_64))",
-				"soname(libunwind.so.1(x86_64))"
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/bin/eu-addr2line",
@@ -93,14 +94,15 @@
 				"soname(libbz2.so.1.0(386))",
 				"soname(libc.so.6(386))",
 				"soname(libelf.so.1(386))",
+				"soname(libgcc_s.so.1(386))",
 				"soname(liblzma.so.5(386))",
 				"soname(libz.so.1(386))",
 				"soname(libzstd.so.1(386))"
 			],
 			"files": [
-				"/usr/lib32/libasm-0.193.so",
+				"/usr/lib32/libasm-0.194.so",
 				"/usr/lib32/libasm.so.1",
-				"/usr/lib32/libdw-0.193.so",
+				"/usr/lib32/libdw-0.194.so",
 				"/usr/lib32/libdw.so.1"
 			],
 			"name": "elfutils-32bit",
@@ -205,9 +207,9 @@
 				"soname(libzstd.so.1(x86_64))"
 			],
 			"files": [
-				"/usr/lib/libasm-0.193.so",
+				"/usr/lib/libasm-0.194.so",
 				"/usr/lib/libasm.so.1",
-				"/usr/lib/libdw-0.193.so",
+				"/usr/lib/libdw-0.194.so",
 				"/usr/lib/libdw.so.1"
 			],
 			"name": "elfutils-libs",
@@ -233,7 +235,7 @@
 				"soname(libzstd.so.1(x86_64))"
 			],
 			"files": [
-				"/usr/lib/libelf-0.193.so",
+				"/usr/lib/libelf-0.194.so",
 				"/usr/lib/libelf.so.1"
 			],
 			"name": "libelf",
@@ -254,11 +256,12 @@
 			"depends": [
 				"soname(ld-linux.so.2(386))",
 				"soname(libc.so.6(386))",
+				"soname(libgcc_s.so.1(386))",
 				"soname(libz.so.1(386))",
 				"soname(libzstd.so.1(386))"
 			],
 			"files": [
-				"/usr/lib32/libelf-0.193.so",
+				"/usr/lib32/libelf-0.194.so",
 				"/usr/lib32/libelf.so.1"
 			],
 			"name": "libelf-32bit",
@@ -336,13 +339,48 @@
 				"/usr/share/man/man3/elf64_xlatetom.3",
 				"/usr/share/man/man3/elf_begin.3",
 				"/usr/share/man/man3/elf_clone.3",
+				"/usr/share/man/man3/elf_cntl.3",
+				"/usr/share/man/man3/elf_end.3",
 				"/usr/share/man/man3/elf_errmsg.3",
 				"/usr/share/man/man3/elf_errno.3",
+				"/usr/share/man/man3/elf_fill.3",
+				"/usr/share/man/man3/elf_flagdata.3",
+				"/usr/share/man/man3/elf_flagehdr.3",
+				"/usr/share/man/man3/elf_flagelf.3",
+				"/usr/share/man/man3/elf_flagphdr.3",
+				"/usr/share/man/man3/elf_flagscn.3",
+				"/usr/share/man/man3/elf_flagshdr.3",
+				"/usr/share/man/man3/elf_getarhdr.3",
+				"/usr/share/man/man3/elf_getaroff.3",
+				"/usr/share/man/man3/elf_getarsym.3",
+				"/usr/share/man/man3/elf_getbase.3",
 				"/usr/share/man/man3/elf_getdata.3",
+				"/usr/share/man/man3/elf_getdata_rawchunk.3",
+				"/usr/share/man/man3/elf_getident.3",
+				"/usr/share/man/man3/elf_getphdrnum.3",
 				"/usr/share/man/man3/elf_getscn.3",
+				"/usr/share/man/man3/elf_getshdrnum.3",
+				"/usr/share/man/man3/elf_getshdrstrndx.3",
+				"/usr/share/man/man3/elf_getshnum.3",
+				"/usr/share/man/man3/elf_getshstrndx.3",
+				"/usr/share/man/man3/elf_gnu_hash.3",
+				"/usr/share/man/man3/elf_hash.3",
+				"/usr/share/man/man3/elf_kind.3",
+				"/usr/share/man/man3/elf_memory.3",
 				"/usr/share/man/man3/elf_ndxscn.3",
+				"/usr/share/man/man3/elf_newdata.3",
+				"/usr/share/man/man3/elf_newscn.3",
+				"/usr/share/man/man3/elf_next.3",
+				"/usr/share/man/man3/elf_nextscn.3",
+				"/usr/share/man/man3/elf_rand.3",
+				"/usr/share/man/man3/elf_rawdata.3",
+				"/usr/share/man/man3/elf_rawfile.3",
+				"/usr/share/man/man3/elf_scnshndx.3",
+				"/usr/share/man/man3/elf_strptr.3",
 				"/usr/share/man/man3/elf_update.3",
 				"/usr/share/man/man3/elf_version.3",
+				"/usr/share/man/man3/gelf_getclass.3",
+				"/usr/share/man/man3/gelf_getehdr.3",
 				"/usr/share/man/man3/libelf.3"
 			],
 			"name": "libelf-devel",
@@ -352,6 +390,6 @@
 		}
 	},
 	"source-name": "elfutils",
-	"source-release": "8",
-	"source-version": "0.193"
+	"source-release": "10",
+	"source-version": "0.194"
 }

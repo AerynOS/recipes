@@ -4,7 +4,6 @@
 	"packages": {
 		"coreutils": {
 			"build-depends": [
-				"libstdc++-devel",
 				"pkgconfig(libacl)",
 				"pkgconfig(systemd)"
 			],
@@ -18,17 +17,17 @@
 		},
 		"uutils-coreutils": {
 			"build-depends": [
-				"libstdc++-devel",
 				"pkgconfig(libacl)",
 				"pkgconfig(systemd)"
 			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libacl.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libm.so.6(x86_64))",
-				"soname(libsystemd.so.0(x86_64))",
-				"soname(libunwind.so.1(x86_64))"
+				"soname(libsystemd.so.0(x86_64))"
 			],
 			"files": [
 				"/usr/bin/[",
@@ -706,6 +705,6 @@
 		}
 	},
 	"source-name": "uutils-coreutils",
-	"source-release": "25",
-	"source-version": "0.2.2"
+	"source-release": "27",
+	"source-version": "0.3.0"
 }

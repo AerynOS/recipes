@@ -19,7 +19,6 @@
 				"cmake(Qt6Svg)",
 				"cmake(Qt6WebChannel)",
 				"cmake(Qt6WebSockets)",
-				"libatomic",
 				"pkgconfig(alsa)",
 				"pkgconfig(epoxy)",
 				"pkgconfig(expat)",
@@ -66,13 +65,14 @@
 				"soname(libQt6Qml.so.6(x86_64))",
 				"soname(libQt6Quick.so.6(x86_64))",
 				"soname(libQt6Widgets.so.6(x86_64))",
-				"soname(libc++.so.1(x86_64))",
+				"soname(libatomic.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libicui18n.so.77(x86_64))",
 				"soname(libicuuc.so.77(x86_64))",
 				"soname(libm.so.6(x86_64))",
 				"soname(libopenjp2.so.7(x86_64))",
 				"soname(libpng16.so.16(x86_64))",
+				"soname(libstdc++.so.6(x86_64))",
 				"soname(libz.so.1(x86_64))"
 			],
 			"files": [
@@ -120,7 +120,6 @@
 				"cmake(Qt6Svg)",
 				"cmake(Qt6WebChannel)",
 				"cmake(Qt6WebSockets)",
-				"libatomic",
 				"pkgconfig(alsa)",
 				"pkgconfig(epoxy)",
 				"pkgconfig(expat)",
@@ -167,9 +166,9 @@
 				"soname(libQt6PdfWidgets.so.6(x86_64))",
 				"soname(libQt6Qml.so.6(x86_64))",
 				"soname(libQt6Widgets.so.6(x86_64))",
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
-				"soname(libunwind.so.1(x86_64))"
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/lib/qt6/examples/pdf/multipage/multipage",
@@ -195,7 +194,6 @@
 				"cmake(Qt6Svg)",
 				"cmake(Qt6WebChannel)",
 				"cmake(Qt6WebSockets)",
-				"libatomic",
 				"pkgconfig(alsa)",
 				"pkgconfig(epoxy)",
 				"pkgconfig(expat)",
@@ -417,7 +415,6 @@
 				"cmake(Qt6Svg)",
 				"cmake(Qt6WebChannel)",
 				"cmake(Qt6WebSockets)",
-				"libatomic",
 				"pkgconfig(alsa)",
 				"pkgconfig(epoxy)",
 				"pkgconfig(expat)",
@@ -478,10 +475,10 @@
 				"soname(libXfixes.so.3(x86_64))",
 				"soname(libXrandr.so.2(x86_64))",
 				"soname(libasound.so.2(x86_64))",
+				"soname(libatomic.so.1(x86_64))",
 				"soname(libavcodec.so.62(x86_64))",
 				"soname(libavformat.so.62(x86_64))",
 				"soname(libavutil.so.60(x86_64))",
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libdbus-1.so.3(x86_64))",
 				"soname(libdrm.so.2(x86_64))",
@@ -490,6 +487,7 @@
 				"soname(libfontconfig.so.1(x86_64))",
 				"soname(libfreetype.so.6(x86_64))",
 				"soname(libgbm.so.1(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libgio-2.0.so.0(x86_64))",
 				"soname(libglib-2.0.so.0(x86_64))",
 				"soname(libgobject-2.0.so.0(x86_64))",
@@ -510,6 +508,7 @@
 				"soname(libpng16.so.16(x86_64))",
 				"soname(libre2.so.11(x86_64))",
 				"soname(libsnappy.so.1(x86_64))",
+				"soname(libstdc++.so.6(x86_64))",
 				"soname(libtiff.so.6(x86_64))",
 				"soname(libudev.so.1(x86_64))",
 				"soname(libwebp.so.7(x86_64))",
@@ -640,7 +639,6 @@
 				"cmake(Qt6Svg)",
 				"cmake(Qt6WebChannel)",
 				"cmake(Qt6WebSockets)",
-				"libatomic",
 				"pkgconfig(alsa)",
 				"pkgconfig(epoxy)",
 				"pkgconfig(expat)",
@@ -691,9 +689,9 @@
 				"soname(libQt6WebEngineQuick.so.6(x86_64))",
 				"soname(libQt6WebEngineWidgets.so.6(x86_64))",
 				"soname(libQt6Widgets.so.6(x86_64))",
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
-				"soname(libunwind.so.1(x86_64))"
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/lib/qt6/examples/webenginequick/lifecycle/lifecycle",
@@ -731,7 +729,6 @@
 				"cmake(Qt6Svg)",
 				"cmake(Qt6WebChannel)",
 				"cmake(Qt6WebSockets)",
-				"libatomic",
 				"pkgconfig(alsa)",
 				"pkgconfig(epoxy)",
 				"pkgconfig(expat)",
@@ -786,8 +783,8 @@
 				"soname(libQt6Gui.so.6(x86_64))",
 				"soname(libQt6WebEngineWidgets.so.6(x86_64))",
 				"soname(libQt6Widgets.so.6(x86_64))",
-				"soname(libc++.so.1(x86_64))",
-				"soname(libc.so.6(x86_64))"
+				"soname(libc.so.6(x86_64))",
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/include/qt6/QtWebEngineCore/6.9.3/QtWebEngineCore/private/qtwebenginecore-config_p.h",
@@ -1103,7 +1100,6 @@
 				"cmake(Qt6Svg)",
 				"cmake(Qt6WebChannel)",
 				"cmake(Qt6WebSockets)",
-				"libatomic",
 				"pkgconfig(alsa)",
 				"pkgconfig(epoxy)",
 				"pkgconfig(expat)",
@@ -1152,6 +1148,6 @@
 		}
 	},
 	"source-name": "qt6-webengine",
-	"source-release": "9",
+	"source-release": "11",
 	"source-version": "6.9.3"
 }

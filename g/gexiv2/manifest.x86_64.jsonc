@@ -14,14 +14,14 @@
 				"python-pygobject"
 			],
 			"depends": [
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libexiv2.so.28(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libgio-2.0.so.0(x86_64))",
 				"soname(libglib-2.0.so.0(x86_64))",
 				"soname(libgobject-2.0.so.0(x86_64))",
 				"soname(libm.so.6(x86_64))",
-				"soname(libunwind.so.1(x86_64))"
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/lib/girepository-1.0/GExiv2-0.10.typelib",
@@ -94,6 +94,6 @@
 		}
 	},
 	"source-name": "gexiv2",
-	"source-release": "8",
+	"source-release": "9",
 	"source-version": "0.14.6"
 }

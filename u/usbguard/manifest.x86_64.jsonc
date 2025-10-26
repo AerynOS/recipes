@@ -22,20 +22,22 @@
 			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libabsl_log_internal_check_op.so.2508.0.0(x86_64))",
 				"soname(libabsl_log_internal_message.so.2508.0.0(x86_64))",
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libcap-ng.so.0(x86_64))",
 				"soname(libcrypto.so.3(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libgio-2.0.so.0(x86_64))",
 				"soname(libglib-2.0.so.0(x86_64))",
 				"soname(libgobject-2.0.so.0(x86_64))",
+				"soname(libm.so.6(x86_64))",
 				"soname(libpolkit-gobject-1.so.0(x86_64))",
 				"soname(libprotobuf.so.31.0.0(x86_64))",
 				"soname(libqb.so.100(x86_64))",
 				"soname(libseccomp.so.2(x86_64))",
-				"soname(libunwind.so.1(x86_64))"
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/bin/usbguard",
@@ -122,6 +124,6 @@
 		}
 	},
 	"source-name": "usbguard",
-	"source-release": "8",
+	"source-release": "9",
 	"source-version": "1.1.4"
 }

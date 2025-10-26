@@ -7,10 +7,10 @@
 				"binary(nasm)"
 			],
 			"depends": [
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libm.so.6(x86_64))",
-				"soname(libunwind.so.1(x86_64))"
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/lib/libopenh264.so.2.6.0",
@@ -43,6 +43,6 @@
 		}
 	},
 	"source-name": "openh264",
-	"source-release": "1",
+	"source-release": "2",
 	"source-version": "2.6.0"
 }

@@ -5,16 +5,16 @@
 #
 name        : libvpx
 version     : 1.15.2
-release     : 4
+release     : 5
 homepage    : https://www.webmproject.org/code/
 upstreams   :
     - https://github.com/webmproject/libvpx/archive/refs/tags/v1.15.2.tar.gz:
         hash: 26fcd3db88045dee380e581862a6ef106f49b74b6396ee95c2993a260b4636aa
         unpackdir: current
 
-    - https://github.com/webmproject/libvpx/archive/refs/tags/v1.14.1.tar.gz:
-        hash: 901747254d80a7937c933d03bd7c5d41e8e6c883e0665fadcb172542167c7977
-        unpackdir: compat
+    # - https://github.com/webmproject/libvpx/archive/refs/tags/v1.14.1.tar.gz:
+    #     hash: 901747254d80a7937c933d03bd7c5d41e8e6c883e0665fadcb172542167c7977
+    #     unpackdir: compat
 summary     : WebM VP8/VP9 Codec SDK
 description : |
     WebM VP8/VP9 Codec SDK

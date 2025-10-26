@@ -5,7 +5,7 @@
 #
 name        : qt6-webengine
 version     : 6.9.3
-release     : 9
+release     : 11
 homepage    : https://www.qt.io
 upstreams   :
     - https://download.qt.io/official_releases/qt/6.9/6.9.3/submodules/qtwebengine-everywhere-src-6.9.3.tar.xz: d50b3b11d51dd876418cc36b4d6c96b4721e0aab773a3dd6beda606d46da8966
@@ -78,7 +78,6 @@ builddeps   :
     - pkgconfig(xshmfence)
     - pkgconfig(xtst)
     - python(html5lib)
-    - libatomic # It builds NASM which requires this, not expressed in final ABI at least
 setup       : |
     # Use the version of Chromium we downloaded
     rm -rf src/3rdparty/{chromium,gn}
@@ -91,6 +90,9 @@ setup       : |
 
     # 3rdparty patches
     %patch %(pkgdir)/qtwebengine-link-pipewire.patch -d src/3rdparty
+
+    # enable building with clang-21
+    %patch %(pkgdir)/ftbfs-clang-21.patch -d src/3rdparty/chromium
 
     %cmake_qt6 \
         -DQT_FEATURE_webengine_system_ffmpeg=ON \

@@ -9,9 +9,9 @@
 			"depends": [
 				"soname(libbrotlidec.so.1(x86_64))",
 				"soname(libbrotlienc.so.1(x86_64))",
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
-				"soname(libunwind.so.1(x86_64))"
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/lib/libwoff2common.so.1.0.2",
@@ -58,9 +58,9 @@
 			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
-				"soname(libunwind.so.1(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libstdc++.so.6(x86_64))",
 				"soname(libwoff2common.so.1.0.2(x86_64))",
 				"soname(libwoff2dec.so.1.0.2(x86_64))",
 				"soname(libwoff2enc.so.1.0.2(x86_64))"
@@ -79,6 +79,6 @@
 		}
 	},
 	"source-name": "woff2",
-	"source-release": "1",
+	"source-release": "2",
 	"source-version": "1.0.2"
 }

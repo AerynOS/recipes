@@ -13,14 +13,14 @@
 			],
 			"depends": [
 				"soname(ld-linux-x86-64.so.2(x86_64))",
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libglib-2.0.so.0(x86_64))",
 				"soname(libgobject-2.0.so.0(x86_64))",
 				"soname(libgstaudio-1.0.so.0(x86_64))",
 				"soname(libgstreamer-1.0.so.0(x86_64))",
 				"soname(libm.so.6(x86_64))",
-				"soname(libsndfile.so.1(x86_64))"
+				"soname(libsndfile.so.1(x86_64))",
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/lib/gstreamer-1.0/libgstlsp-plugins-ab-tester-x2-mono.so",
@@ -413,11 +413,11 @@
 			],
 			"depends": [
 				"soname(ld-linux-x86-64.so.2(x86_64))",
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libcairo.so.2(x86_64))",
 				"soname(libm.so.6(x86_64))",
-				"soname(libsndfile.so.1(x86_64))"
+				"soname(libsndfile.so.1(x86_64))",
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/lib/lv2/lsp-plugins.lv2/ab_tester_x2_mono.ttl",
@@ -616,6 +616,6 @@
 		}
 	},
 	"source-name": "lsp-plugins",
-	"source-release": "5",
+	"source-release": "6",
 	"source-version": "1.2.23"
 }

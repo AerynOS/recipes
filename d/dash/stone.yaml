@@ -5,7 +5,7 @@
 #
 name        : dash
 version     : 0.5.13.1
-release     : 14
+release     : 15
 homepage    : http://gondor.apana.org.au/~herbert/dash
 upstreams   :
     - http://gondor.apana.org.au/~herbert/dash/files/dash-0.5.13.1.tar.gz: d9271bce09c127d9866e25c011582ddc75ab988958a04bc4d8553a3b8f30e370
@@ -22,6 +22,7 @@ tuning      :
     - nosemantic
 setup       : |
     %patch %(pkgdir)/0001-downstream-Update-default-path.patch
+    %patch %(pkgdir)/upstream-01.patch
 
     %configure \
         --enable-glob \

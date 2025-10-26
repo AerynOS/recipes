@@ -5,7 +5,7 @@
 #
 name        : benchmark
 version     : 1.9.4
-release     : 1
+release     : 2
 upstreams   :
     - https://github.com/google/benchmark/archive/refs/tags/v1.9.4.tar.gz : b334658edd35efcf06a99d9be21e4e93e092bd5f95074c1673d5c8705d95c104
 homepage    : https://github.com/google/benchmark
@@ -13,6 +13,8 @@ license     : Apache-2.0
 summary     : A microbenchmark support library
 description : |
     A library that benchmarks code snippets, similar to unit tests.
+builddeps   :
+    - binary(python3)
 setup       : |
     # clang++: error: argument unused during compilation: '-c' [-Werror,-Wunused-command-line-argument]
     export CXXFLAGS+=" -Wno-error=unused-command-line-argument"

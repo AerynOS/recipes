@@ -8,10 +8,10 @@
 				"pkgconfig(gpgme)"
 			],
 			"depends": [
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libgpgme.so.45(x86_64))",
-				"soname(libunwind.so.1(x86_64))"
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/lib/libgpgmepp.so.7",
@@ -92,6 +92,6 @@
 		}
 	},
 	"source-name": "gpgmepp",
-	"source-release": "3",
+	"source-release": "4",
 	"source-version": "2.0.0"
 }

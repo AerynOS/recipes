@@ -5,7 +5,7 @@
 #
 name        : aom
 version     : 3.13.1
-release     : 5
+release     : 6
 homepage    : https://aomedia.googlesource.com/aom/
 upstreams   :
     - git|https://aomedia.googlesource.com/aom.git : 3837fd0a1f709e99417adf1ebe9b9ffd606ea1ff # v3.13.1
@@ -29,7 +29,8 @@ builddeps   :
 tuning      :
     - lto: full
 setup       : |
-    %cmake -DBUILD_SHARED_LIBS=1
+    %cmake \
+        -DBUILD_SHARED_LIBS=1
 build       : |
     %cmake_build
 install     : |

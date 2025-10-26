@@ -1,0 +1,123 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"tslib": {
+			"build-depends": [
+				"pkgconfig(sdl2)"
+			],
+			"depends": [
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(libSDL2-2.0.so.0(x86_64))",
+				"soname(libc.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/bin/ts_calibrate",
+				"/usr/bin/ts_conf",
+				"/usr/bin/ts_finddev",
+				"/usr/bin/ts_print",
+				"/usr/bin/ts_print_mt",
+				"/usr/bin/ts_print_raw",
+				"/usr/bin/ts_test_mt",
+				"/usr/bin/ts_uinput",
+				"/usr/bin/ts_verify",
+				"/usr/lib/libts.so.0",
+				"/usr/lib/libts.so.0.10.5",
+				"/usr/lib/ts/crop.so",
+				"/usr/lib/ts/debounce.so",
+				"/usr/lib/ts/dejitter.so",
+				"/usr/lib/ts/evthres.so",
+				"/usr/lib/ts/iir.so",
+				"/usr/lib/ts/input.so",
+				"/usr/lib/ts/invert.so",
+				"/usr/lib/ts/linear.so",
+				"/usr/lib/ts/lowpass.so",
+				"/usr/lib/ts/median.so",
+				"/usr/lib/ts/pthres.so",
+				"/usr/lib/ts/skip.so",
+				"/usr/lib/ts/touchkit.so",
+				"/usr/lib/ts/variance.so",
+				"/usr/lib/ts/waveshare.so",
+				"/usr/share/defaults/ts.conf",
+				"/usr/share/man/man1/ts_calibrate.1",
+				"/usr/share/man/man1/ts_conf.1",
+				"/usr/share/man/man1/ts_finddev.1",
+				"/usr/share/man/man1/ts_harvest.1",
+				"/usr/share/man/man1/ts_print.1",
+				"/usr/share/man/man1/ts_print_mt.1",
+				"/usr/share/man/man1/ts_print_raw.1",
+				"/usr/share/man/man1/ts_test.1",
+				"/usr/share/man/man1/ts_test_mt.1",
+				"/usr/share/man/man1/ts_uinput.1",
+				"/usr/share/man/man1/ts_verify.1",
+				"/usr/share/man/man5/ts.conf.5"
+			],
+			"name": "tslib",
+			"provides": [
+				"binary(ts_calibrate)",
+				"binary(ts_conf)",
+				"binary(ts_finddev)",
+				"binary(ts_print)",
+				"binary(ts_print_mt)",
+				"binary(ts_print_raw)",
+				"binary(ts_test_mt)",
+				"binary(ts_uinput)",
+				"binary(ts_verify)",
+				"soname(libts.so.0(x86_64))",
+				"soname(ts/crop.so(x86_64))",
+				"soname(ts/debounce.so(x86_64))",
+				"soname(ts/dejitter.so(x86_64))",
+				"soname(ts/evthres.so(x86_64))",
+				"soname(ts/iir.so(x86_64))",
+				"soname(ts/input.so(x86_64))",
+				"soname(ts/invert.so(x86_64))",
+				"soname(ts/linear.so(x86_64))",
+				"soname(ts/lowpass.so(x86_64))",
+				"soname(ts/median.so(x86_64))",
+				"soname(ts/pthres.so(x86_64))",
+				"soname(ts/skip.so(x86_64))",
+				"soname(ts/touchkit.so(x86_64))",
+				"soname(ts/variance.so(x86_64))",
+				"soname(ts/waveshare.so(x86_64))"
+			]
+		},
+		"tslib-devel": {
+			"build-depends": [
+				"pkgconfig(sdl2)"
+			],
+			"depends": [
+				"tslib"
+			],
+			"files": [
+				"/usr/include/tslib.h",
+				"/usr/lib/libts.so",
+				"/usr/lib/pkgconfig/tslib.pc",
+				"/usr/share/man/man3/ts_close.3",
+				"/usr/share/man/man3/ts_close_restricted.3",
+				"/usr/share/man/man3/ts_conf_get.3",
+				"/usr/share/man/man3/ts_conf_set.3",
+				"/usr/share/man/man3/ts_config.3",
+				"/usr/share/man/man3/ts_error_fn.3",
+				"/usr/share/man/man3/ts_fd.3",
+				"/usr/share/man/man3/ts_get_eventpath.3",
+				"/usr/share/man/man3/ts_libversion.3",
+				"/usr/share/man/man3/ts_open.3",
+				"/usr/share/man/man3/ts_open_restricted.3",
+				"/usr/share/man/man3/ts_print_ascii_logo.3",
+				"/usr/share/man/man3/ts_read.3",
+				"/usr/share/man/man3/ts_read_mt.3",
+				"/usr/share/man/man3/ts_read_raw.3",
+				"/usr/share/man/man3/ts_read_raw_mt.3",
+				"/usr/share/man/man3/ts_setup.3",
+				"/usr/share/man/man3/tslib_version.3"
+			],
+			"name": "tslib-devel",
+			"provides": [
+				"pkgconfig(tslib)"
+			]
+		}
+	},
+	"source-name": "tslib",
+	"source-release": "1",
+	"source-version": "1.23"
+}

@@ -10,9 +10,9 @@
 				"binary(xsltproc)"
 			],
 			"depends": [
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
-				"soname(libunwind.so.1(x86_64))"
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/lib/libsigc-3.0.so.0",
@@ -86,6 +86,6 @@
 		}
 	},
 	"source-name": "libsigc++",
-	"source-release": "3",
+	"source-release": "4",
 	"source-version": "3.6.0"
 }

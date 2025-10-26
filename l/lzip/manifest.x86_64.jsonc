@@ -5,9 +5,9 @@
 		"lzip": {
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
-				"soname(libunwind.so.1(x86_64))"
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/bin/lzip",
@@ -21,6 +21,6 @@
 		}
 	},
 	"source-name": "lzip",
-	"source-release": "2",
+	"source-release": "4",
 	"source-version": "1.25"
 }

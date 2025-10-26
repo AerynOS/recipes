@@ -5,7 +5,7 @@
 #
 name        : llvm
 version     : 21.1.4
-release     : 37
+release     : 40
 summary     : Low Level Virtual Machine
 license     :
     - Apache-2.0 WITH LLVM-exception
@@ -34,12 +34,6 @@ builddeps   :
     - python(myst-parser)
     - python(sphinx)
     - binutils-devel
-    - clang-32bit
-    - gcc-32bit
-    - libatomic
-    - libatomic-32bit
-    - libcxx-devel-static
-    - libunwind-devel-static
     - libquadmath-devel
     - mimalloc-static # TODO: Figure out if we can actually split mimalloc-static, or if it needs to go back in.
 tuning      :
@@ -85,7 +79,6 @@ environment : |
         %patch %(pkgdir)/patches/build/0001-Emit-relocations-for-BOLT.patch
         %patch %(pkgdir)/patches/build/0001-PATCH-clang-Don-t-install-static-libraries.patch
         %patch %(pkgdir)/patches/build/0001-downstream-Suppress-runpath-in-openmp.patch
-        %patch %(pkgdir)/patches/build/0001-compiler-rt-Force-libc.patch
         %patch %(pkgdir)/patches/build/0001-bolt-Set-version-string.patch
         %patch %(pkgdir)/patches/build/0001-openmp-Don-t-install-static-libarcher.patch
         %patch %(pkgdir)/patches/build/0001-polly-Create-targets-for-headers-cmake.patch
@@ -123,42 +116,21 @@ environment : |
         %cmake \
             -DCMAKE_SKIP_INSTALL_RPATH=ON \
             -DBOLT_PACKAGE_VERSION=%(version) \
-            -DCLANG_DEFAULT_CXX_STDLIB=libc++ \
             -DCLANG_DEFAULT_LINKER=lld \
             -DCLANG_DEFAULT_OBJCOPY=llvm-objcopy \
             -DCLANG_DEFAULT_PIE_ON_LINUX=ON \
-            -DCLANG_DEFAULT_RTLIB=compiler-rt \
-            -DCLANG_DEFAULT_UNWINDLIB=libunwind \
             -DCLANG_LINK_CLANG_DYLIB=ON \
             -DCLANG_PLUGIN_SUPPORT=ON \
             -DCLANG_REPOSITORY_STRING="AerynOS" \
-            -DCOMPILER_RT_USE_BUILTINS_LIBRARY=ON \
-            -DCOMPILER_RT_USE_LIBCXX=ON \
             -DENABLE_LINKER_BUILD_ID=ON \
             -DFLANG_RT_ENABLE_SHARED=OFF \
-            -DLIBCXX_ENABLE_ASSERTIONS=OFF \
-            -DLIBCXX_ENABLE_SHARED=ON \
-            -DLIBCXX_ENABLE_STATIC=ON \
-            -DLIBCXX_ENABLE_STATIC_ABI_LIBRARY=ON \
-            -DLIBCXX_HAS_ATOMIC_LIB=ON \
-            -DLIBCXX_STATICALLY_LINK_ABI_IN_SHARED_LIBRARY=ON \
+            -DLIBCXX_ENABLE_ABI_LINKER_SCRIPT=ON \
             -DLIBCXX_STATICALLY_LINK_ABI_IN_STATIC_LIBRARY=ON \
-            -DLIBCXX_TYPEINFO_COMPARISON_IMPLEMENTATION=2 \
-            -DLIBCXX_USE_COMPILER_RT=ON \
-            -DLIBCXXABI_ENABLE_SHARED=OFF \
-            -DLIBCXXABI_ENABLE_STATIC_UNWINDER=ON \
-            -DLIBCXXABI_USE_COMPILER_RT=ON \
-            -DLIBCXXABI_USE_LLVM_UNWINDER=ON \
-            -DLIBCXXABI_STATICALLY_LINK_UNWINDER_IN_SHARED_LIBRARY=OFF \
-            -DLIBCXXABI_STATICALLY_LINK_UNWINDER_IN_STATIC_LIBRARY=OFF \
+            -DLIBCXXABI_USE_LLVM_UNWINDER=OFF \
             -DLIBOMP_INSTALL_ALIASES=OFF \
             -DLIBOMP_USE_HWLOC=ON \
-            -DLIBUNWIND_ENABLE_SHARED=ON \
-            -DLIBUNWIND_ENABLE_STATIC=ON \
             -DLIBUNWIND_INSTALL_HEADERS=ON \
             -DLIBUNWIND_INSTALL_LIBRARY=ON \
-            -DLIBUNWIND_INSTALL_LIBRARY=ON \
-            -DLIBUNWIND_USE_COMPILER_RT=ON \
             -DLLDB_ENABLE_LIBEDIT=ON \
             -DLLDB_ENABLE_CURSES=ON \
             -DLLDB_ENABLE_LZMA=ON \
@@ -176,7 +148,6 @@ environment : |
             -DLLVM_DYLIB_COMPONENTS="all" \
             -DLLVM_ENABLE_DOXYGEN=OFF \
             -DLLVM_ENABLE_FFI=ON \
-            -DLLVM_ENABLE_LIBCXX=ON \
             -DLLVM_ENABLE_LIBXML2=ON \
             -DLLVM_ENABLE_LTO=Thin \
             -DLLVM_ENABLE_MIMALLOC=$_IS_64BIT_BUILD \
@@ -492,7 +463,7 @@ profiles    :
             # libcxx/libunwind (end)
 
             %python_compile
-architectures: [emul32, native]
+emul32      : true
 packages    :
     - "%(name)-libs":
         summary: "Library files for %(name)"
@@ -611,14 +582,12 @@ packages    :
             # GNU bits and bobs
             - binary(gcc) # This is used to locate the compiler built-ins and libstdc++ headers
             - libatomic
-            - libgcc
+            - libgcc-static
             - libstdc++-devel
             - glibc-devel
 
-            # LLVM toolchain
-            - compiler-rt
-            - libcxx-devel
-            - libunwind-devel
+            # LLVM toolchain bits
+            - compiler-rt # This is generally not used since we default to GCC built-ins but it is used for PGO
             - lld
             - llvm
             - openmp-devel
@@ -715,14 +684,12 @@ packages    :
             # GNU bits
             - gcc-32bit
             - libatomic-32bit
-            - libgcc-32bit
+            - libgcc-32bit-static
             - libstdc++-32bit-devel
             - glibc-32bit-devel
 
-            # LLVM bits
-            - compiler-rt-32bit
-            - libcxx-32bit-devel
-            - libunwind-32bit-devel
+            # LLVM toolchain bits
+            - compiler-rt-32bit # This is generally not used since we default to GCC built-ins but it is used for PGO
         paths:
             - /usr/share/doc/clang-32bit/README
 

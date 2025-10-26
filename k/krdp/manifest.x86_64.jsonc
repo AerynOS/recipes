@@ -10,6 +10,7 @@
 				"cmake(KF6CoreAddons)",
 				"cmake(KF6Crash)",
 				"cmake(KF6DBusAddons)",
+				"cmake(KF6GuiAddons)",
 				"cmake(KF6I18n)",
 				"cmake(KF6KCMUtils)",
 				"cmake(KF6StatusNotifierItem)",
@@ -18,15 +19,18 @@
 				"cmake(Qt6CorePrivate)",
 				"cmake(Qt6Keychain)",
 				"cmake(Qt6Quick)",
-				"cmake(Qt6WaylandClient)"
+				"cmake(Qt6WaylandClient)",
+				"pkgconfig(pam)"
 			],
 			"depends": [
 				"binary(openssl)",
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libKF6ConfigCore.so.6(x86_64))",
 				"soname(libKF6ConfigGui.so.6(x86_64))",
 				"soname(libKF6CoreAddons.so.6(x86_64))",
 				"soname(libKF6Crash.so.6(x86_64))",
+				"soname(libKF6GuiAddons.so.6(x86_64))",
 				"soname(libKF6I18n.so.6(x86_64))",
 				"soname(libKF6KCMUtilsCore.so.6(x86_64))",
 				"soname(libKF6KCMUtilsQuick.so.6(x86_64))",
@@ -38,11 +42,12 @@
 				"soname(libQt6Network.so.6(x86_64))",
 				"soname(libQt6WaylandClient.so.6(x86_64))",
 				"soname(libQt6Widgets.so.6(x86_64))",
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libfreerdp-server3.so.3(x86_64))",
 				"soname(libfreerdp3.so.3(x86_64))",
+				"soname(libpam.so.0(x86_64))",
 				"soname(libqt6keychain.so.1(x86_64))",
+				"soname(libstdc++.so.6(x86_64))",
 				"soname(libwayland-client.so.0(x86_64))",
 				"soname(libwinpr3.so.3(x86_64))",
 				"soname(libxkbcommon.so.0(x86_64))"
@@ -50,13 +55,16 @@
 			"files": [
 				"/usr/bin/krdpserver",
 				"/usr/lib/libKRdp.so.6",
-				"/usr/lib/libKRdp.so.6.4.5",
+				"/usr/lib/libKRdp.so.6.5.0",
 				"/usr/lib/qt6/plugins/plasma/kcms/systemsettings/kcm_krdpserver.so",
+				"/usr/lib/systemd/user-preset/00-krdp.preset",
 				"/usr/lib/systemd/user/app-org.kde.krdpserver.service",
 				"/usr/share/applications/kcm_krdpserver.desktop",
 				"/usr/share/applications/org.kde.krdpserver.desktop",
 				"/usr/share/locale/ar/LC_MESSAGES/kcm_krdpserver.mo",
 				"/usr/share/locale/ar/LC_MESSAGES/krdpserver.mo",
+				"/usr/share/locale/az/LC_MESSAGES/kcm_krdpserver.mo",
+				"/usr/share/locale/az/LC_MESSAGES/krdpserver.mo",
 				"/usr/share/locale/bg/LC_MESSAGES/kcm_krdpserver.mo",
 				"/usr/share/locale/bg/LC_MESSAGES/krdpserver.mo",
 				"/usr/share/locale/ca/LC_MESSAGES/kcm_krdpserver.mo",
@@ -95,6 +103,8 @@
 				"/usr/share/locale/ka/LC_MESSAGES/krdpserver.mo",
 				"/usr/share/locale/ko/LC_MESSAGES/kcm_krdpserver.mo",
 				"/usr/share/locale/ko/LC_MESSAGES/krdpserver.mo",
+				"/usr/share/locale/lt/LC_MESSAGES/kcm_krdpserver.mo",
+				"/usr/share/locale/lt/LC_MESSAGES/krdpserver.mo",
 				"/usr/share/locale/lv/LC_MESSAGES/kcm_krdpserver.mo",
 				"/usr/share/locale/lv/LC_MESSAGES/krdpserver.mo",
 				"/usr/share/locale/nl/LC_MESSAGES/kcm_krdpserver.mo",
@@ -143,6 +153,7 @@
 				"cmake(KF6CoreAddons)",
 				"cmake(KF6Crash)",
 				"cmake(KF6DBusAddons)",
+				"cmake(KF6GuiAddons)",
 				"cmake(KF6I18n)",
 				"cmake(KF6KCMUtils)",
 				"cmake(KF6StatusNotifierItem)",
@@ -151,7 +162,8 @@
 				"cmake(Qt6CorePrivate)",
 				"cmake(Qt6Keychain)",
 				"cmake(Qt6Quick)",
-				"cmake(Qt6WaylandClient)"
+				"cmake(Qt6WaylandClient)",
+				"pkgconfig(pam)"
 			],
 			"depends": [
 				"krdp"
@@ -168,6 +180,6 @@
 		}
 	},
 	"source-name": "krdp",
-	"source-release": "6",
-	"source-version": "6.4.5"
+	"source-release": "8",
+	"source-version": "6.5.0"
 }

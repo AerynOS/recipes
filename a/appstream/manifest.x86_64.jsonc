@@ -210,12 +210,12 @@
 			"depends": [
 				"soname(libQt6Core.so.6(x86_64))",
 				"soname(libappstream.so.5(x86_64))",
-				"soname(libc++.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libgio-2.0.so.0(x86_64))",
 				"soname(libglib-2.0.so.0(x86_64))",
 				"soname(libgobject-2.0.so.0(x86_64))",
-				"soname(libunwind.so.1(x86_64))"
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/lib/libAppStreamQt.so.1.1.1",
@@ -290,6 +290,6 @@
 		}
 	},
 	"source-name": "appstream",
-	"source-release": "12",
+	"source-release": "13",
 	"source-version": "1.1.1"
 }
