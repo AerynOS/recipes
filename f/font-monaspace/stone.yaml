@@ -1,0 +1,44 @@
+#
+# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : font-monaspace
+version     : "1.301"
+release     : 0
+homepage    : https://monaspace.githubnext.com/
+upstreams   :
+    - https://github.com/githubnext/monaspace/releases/download/v1.301/monaspace-static-v1.301.zip   :
+        hash      : e201697c8ef3cfd4559fbfb4b5f60bf7425113729bca28e33b0a9112db1ca579
+        stripdirs : 1
+        unpackdir : static
+    - https://github.com/githubnext/monaspace/releases/download/v1.301/monaspace-frozen-v1.301.zip   :
+        hash      : e82c1a0dc52f88f935b3b46ce4b4e50f811517186c86e183e05b1f1d396797d7
+        stripdirs : 1
+        unpackdir : frozen
+    - https://github.com/githubnext/monaspace/releases/download/v1.301/monaspace-variable-v1.301.zip :
+        hash      : 255d7101e6fefc9d4bb7df844c79b7f4e11c61e62387a13c4bd0a5970c3f6674
+        stripdirs : 1
+        unpackdir : variable
+summary     : An innovative superfamily of fonts for code
+description : |
+    The Monaspace type system is a monospaced type superfamily with some modern tricks up its sleeve. It consists of five typefaces with distinct voices
+license     : OFL-1.1
+install     : |
+    %install_file %(workdir)/../static/*/Monaspace*.otf -t %(installroot)%(datadir)/fonts/monaspace/static/
+    %install_file %(workdir)/../frozen/*/Monaspace*.ttf -t %(installroot)%(datadir)/fonts/monaspace/frozen/
+    %install_file %(workdir)/../variable/*/Monaspace*.ttf -t %(installroot)%(datadir)/fonts/monaspace/variable/
+
+packages    :
+    - "%(name)-otf":
+        summary : An innovative superfamily of fonts for code (OTF fonts)
+        paths   :
+            - /usr/share/fonts/monaspace/static/
+    - "%(name)-ttf-frozen":
+        summary : An innovative superfamily of fonts for code (static TTF fonts)
+        paths   :
+            - /usr/share/fonts/monaspace/frozen/
+    - "%(name)-ttf-vf":
+        summary : An innovative superfamily of fonts for code (variable TTF fonts)
+        paths   :
+            - /usr/share/fonts/monaspace/variable/
