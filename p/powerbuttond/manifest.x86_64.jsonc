@@ -1,0 +1,35 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"powerbuttond": {
+			"build-depends": [
+				"pkgconfig(libevdev)",
+				"pkgconfig(libudev)"
+			],
+			"depends": [
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libevdev.so.2(x86_64))",
+				"soname(libudev.so.1(x86_64))"
+			],
+			"files": [
+				"/usr/bin/powerbuttond",
+				"/usr/lib/hwsupport/steamos-powerbuttond",
+				"/usr/lib/systemd/user/gamescope-session-plus@steam-plus.service.wants/steamos-powerbuttond.service",
+				"/usr/lib/systemd/user/gamescope-session-plus@steam.service.wants/steamos-powerbuttond.service",
+				"/usr/lib/systemd/user/steamos-powerbuttond.service",
+				"/usr/lib/udev/hwdb.d/70-steamos-power-button.hwdb",
+				"/usr/lib/udev/rules.d/70-steamos-power-button.rules",
+				"/usr/share/licenses/steamos-powerbuttond/LICENSE"
+			],
+			"name": "powerbuttond",
+			"provides": [
+				"binary(powerbuttond)"
+			]
+		}
+	},
+	"source-name": "powerbuttond",
+	"source-release": "1",
+	"source-version": "3.4"
+}

@@ -1,0 +1,35 @@
+#
+# SPDX-FileCopyrightText: © 2025 Aeryn OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : powerbuttond
+version     : 3.4
+release     : 1
+homepage    : https://gitlab.steamos.cloud/holo/powerbuttond
+upstreams   :
+    - https://gitlab.steamos.cloud/holo/powerbuttond/-/archive/v3.4/powerbuttond-v3.4.tar.gz : 6d20e0c75b00a476171cae6395178ea6ed9b1f33662449d9c4c8ec84bf00165e
+summary     : Power button daemon
+description : |
+    Power button daemon for SteamOS
+license     : BSD-2-Clause
+networking  : true
+builddeps   :
+    - pkgconfig(libevdev)
+    - pkgconfig(libudev)
+setup       : |
+    %patch %(pkgdir)/support-gamescope-session-plus.patch
+build       : |
+    %make
+install     : |
+    %install_exe steamos-powerbuttond %(installroot)%(libdir)/hwsupport/steamos-powerbuttond
+    %install_file LICENSE %(installroot)%(datadir)/licenses/steamos-powerbuttond/LICENSE
+    %install_file steamos-powerbuttond.service %(installroot)%(libdir)/systemd/user/steamos-powerbuttond.service
+    %install_file steamos-power-button.rules %(installroot)%(libdir)/udev/rules.d/70-steamos-power-button.rules
+    %install_file steamos-power-button.hwdb %(installroot)%(libdir)/udev/hwdb.d/70-steamos-power-button.hwdb
+    %install_dir  %(installroot)%(libdir)/systemd/user/gamescope-session-plus@steam.service.wants
+    ln -s ../steamos-powerbuttond.service %(installroot)%(libdir)/systemd/user/gamescope-session-plus@steam.service.wants/
+    %install_dir  %(installroot)%(libdir)/systemd/user/gamescope-session-plus@steam-plus.service.wants
+    ln -s ../steamos-powerbuttond.service %(installroot)%(libdir)/systemd/user/gamescope-session-plus@steam-plus.service.wants/
+    %install_dir %(installroot)%(bindir)
+    ln -s %(libdir)/hwsupport/steamos-powerbuttond %(installroot)%(bindir)/powerbuttond
