@@ -1,0 +1,18 @@
+name : libp11
+version : "0.4.16"
+release : 1
+homepage : https://github.com/OpenSC/libp11
+upstreams :
+- https://github.com/OpenSC/libp11/releases/download/libp11-0.4.16/libp11-0.4.16.tar.gz : 97777640492fa9e5831497e5892e291dfbf39a7b119d9cb6abb3ec8c56d17553
+summary : PKCS#11 wrapper library
+license :
+- LGPL-2.1-or-later
+builddeps :
+- pkgconfig(libssl)
+- pkgconfig(p11-kit-1)
+setup : |
+ %configure --enable-static=no
+build : |
+ %make
+install : |
+ %make_install

@@ -1,0 +1,53 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"libp11": {
+			"build-depends": [
+				"pkgconfig(libssl)",
+				"pkgconfig(p11-kit-1)"
+			],
+			"depends": [
+				"soname(libc.so.6(x86_64))",
+				"soname(libcrypto.so.3(x86_64))"
+			],
+			"files": [
+				"/usr/lib/engines-3/libpkcs11.so",
+				"/usr/lib/engines-3/pkcs11.so",
+				"/usr/lib/libp11.so.3",
+				"/usr/lib/libp11.so.3.7.2",
+				"/usr/lib/ossl-modules/libpkcs11.so",
+				"/usr/lib/ossl-modules/pkcs11prov.so",
+				"/usr/share/doc/libp11/NEWS"
+			],
+			"name": "libp11",
+			"provides": [
+				"soname(engines-3/pkcs11.so(x86_64))",
+				"soname(libp11.so.3(x86_64))",
+				"soname(ossl-modules/pkcs11prov.so(x86_64))"
+			]
+		},
+		"libp11-devel": {
+			"build-depends": [
+				"pkgconfig(libssl)",
+				"pkgconfig(p11-kit-1)"
+			],
+			"depends": [
+				"libp11"
+			],
+			"files": [
+				"/usr/include/libp11.h",
+				"/usr/include/p11_err.h",
+				"/usr/lib/libp11.so",
+				"/usr/lib/pkgconfig/libp11.pc"
+			],
+			"name": "libp11-devel",
+			"provides": [
+				"pkgconfig(libp11)"
+			]
+		}
+	},
+	"source-name": "libp11",
+	"source-release": "1",
+	"source-version": "0.4.16"
+}
