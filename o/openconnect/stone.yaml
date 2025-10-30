@@ -18,7 +18,6 @@ license     :
     - LGPL-2.1-or-later
     - GPL-2.0-or-later # vpnc-script
 builddeps   :
-    - intltool
     - binary(msgfmt)
     - binary(python3)
     - pkgconfig(gnutls)
@@ -28,6 +27,7 @@ builddeps   :
     - pkgconfig(libproxy-1.0)
     - pkgconfig(libxml-2.0)
     - pkgconfig(p11-kit-1)
+    - intltool
 setup       : |
     %configure \
         --sbindir=%(bindir) \
