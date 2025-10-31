@@ -14,10 +14,10 @@
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libiio.so.0(x86_64))",
 				"soname(libm.so.6(x86_64))",
-				"soname(libudev.so.1(x86_64))",
-				"soname(libunwind.so.1(x86_64))"
+				"soname(libudev.so.1(x86_64))"
 			],
 			"files": [
 				"/usr/bin/inputplumber",
@@ -96,6 +96,8 @@
 				"/usr/share/inputplumber/devices/50-rog_ally.yaml",
 				"/usr/share/inputplumber/devices/50-rog_ally_x.yaml",
 				"/usr/share/inputplumber/devices/50-rog_flow_z13.yaml",
+				"/usr/share/inputplumber/devices/50-rog_xbox_ally.yaml",
+				"/usr/share/inputplumber/devices/50-rog_xbox_ally_x.yaml",
 				"/usr/share/inputplumber/devices/50-steam_deck.yaml",
 				"/usr/share/inputplumber/devices/50-zotac-zone.yaml",
 				"/usr/share/inputplumber/devices/60-8bit_do_pro_2.yaml",
@@ -130,6 +132,6 @@
 		}
 	},
 	"source-name": "inputplumber",
-	"source-release": "38",
-	"source-version": "0.66.0"
+	"source-release": "39",
+	"source-version": "0.67.0"
 }
