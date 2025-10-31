@@ -1,39 +1,40 @@
-name: nextcloud-client
-version: "4.0.1"
-release: 1
-homepage: https://docs.nextcloud.com/desktop
-upstreams:
-  - https://github.com/nextcloud/desktop/archive/refs/tags/v4.0.1.tar.gz: 4be3efd3aab3ab7ff410f67b69ca7173aba2dd4797ee77cefe0d427bb0011b59
-summary: Nextcloud client for nextcloud server
+name       : nextcloud-client
+version    : 4.0.1
+release    : 2
+homepage   : https://docs.nextcloud.com/desktop
+upstreams  :
+    - https://github.com/nextcloud/desktop/archive/refs/tags/v4.0.1.tar.gz : 4be3efd3aab3ab7ff410f67b69ca7173aba2dd4797ee77cefe0d427bb0011b59
+summary    : Nextcloud client for nextcloud server
 description: Nextcloud client enables you to connect to your private Nextcloud Server. With it you can create directories in your home directory, and keep the contents of those directories synced with the server
-license:
-  - GPL-2.0-or-later
-builddeps:
-  - cmake(ECM)
-  - cmake(KF6Archive)
-  - cmake(KF6KIO)
-  - cmake(Qt6Keychain)
-  - cmake(Qt6CorePrivate)
-  - pkgconfig(KF6CoreAddons)
-  - pkgconfig(Qt6Core)
-  - pkgconfig(Qt6Core5Compat)
-  - pkgconfig(Qt6Gui)
-  - pkgconfig(Qt6QuickControls2)
-  - pkgconfig(Qt6Svg)
-  - pkgconfig(Qt6UiTools)
-  - pkgconfig(Qt6WebEngineCore)
-  - pkgconfig(Qt6WebSockets)
-  - pkgconfig(cloudproviders)
-  - pkgconfig(libp11)
-  - pkgconfig(openssl)
-  - pkgconfig(sqlite3)
-setup: |
-  %cmake \
-      -DCMAKE_BUILD_TYPE=Release \
-      -DUNIT_TESTING=false \
-      -DBUILD_SHELL_INTEGRATION_DOLPHIN=true \
-      -DBUILD_UPDATER=false
-build: |
-  %cmake_build
-install: |
-  %cmake_install
+license    : GPL-2.0-or-later
+builddeps  :
+    - cmake(ECM)
+    - cmake(KF6Archive)
+    - cmake(KF6CoreAddons)
+    - cmake(KF6GuiAddons)
+    - cmake(KF6KIO)
+    - cmake(Qt6Core)
+    - cmake(Qt6Core5Compat)
+    - cmake(Qt6CorePrivate)
+    - cmake(Qt6Gui)
+    - cmake(Qt6Keychain)
+    - cmake(Qt6QuickControls2)
+    - cmake(Qt6Svg)
+    - cmake(Qt6UiTools)
+    - cmake(Qt6WebEngineCore)
+    - cmake(Qt6WebSockets)
+    - pkgconfig(cloudproviders)
+    - pkgconfig(cmocka)
+    - pkgconfig(libp11)
+    - pkgconfig(openssl)
+    - pkgconfig(sqlite3)
+setup      : |
+    %cmake \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DUNIT_TESTING=false \
+        -DBUILD_SHELL_INTEGRATION_DOLPHIN=true \
+        -DBUILD_UPDATER=false
+build      : |
+    %cmake_build
+install    : |
+    %cmake_install
