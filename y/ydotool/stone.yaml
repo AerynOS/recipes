@@ -1,0 +1,24 @@
+#
+# SPDX-FileCopyrightText: © 2025 Aeryn OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : ydotool
+version     : 1.0.4
+release     : 1
+upstreams   :
+    - https://github.com/ReimuNotMoe/ydotool/archive/refs/tags/v1.0.4.tar.gz : ba075a43aa6ead51940e892ecffa4d0b8b40c241e4e2bc4bd9bd26b61fde23bd
+homepage    : https://github.com/ReimuNotMoe/ydotool
+license     : AGPL-3.0-or-later
+summary     : Generic command-line automation tool (no X!)
+description : |
+    Command-line automation tool like xdotool, but not only for X
+builddeps   :
+    - binary(scdoc)
+    - linux-headers
+setup       : |
+    %cmake -DCMAKE_POLICY_VERSION_MINIMUM=3.5
+build       : |
+    %cmake_build
+install     : |
+    %cmake_install
