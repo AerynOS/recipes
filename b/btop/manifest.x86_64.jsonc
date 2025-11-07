@@ -1,0 +1,63 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"btop": {
+			"depends": [
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(ld-linux-x86-64.so.2(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libstdc++.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/bin/btop",
+				"/usr/share/applications/btop.desktop",
+				"/usr/share/btop/themes/HotPurpleTrafficLight.theme",
+				"/usr/share/btop/themes/adapta.theme",
+				"/usr/share/btop/themes/adwaita-dark.theme",
+				"/usr/share/btop/themes/adwaita.theme",
+				"/usr/share/btop/themes/ayu.theme",
+				"/usr/share/btop/themes/dracula.theme",
+				"/usr/share/btop/themes/dusklight.theme",
+				"/usr/share/btop/themes/elementarish.theme",
+				"/usr/share/btop/themes/everforest-dark-hard.theme",
+				"/usr/share/btop/themes/everforest-dark-medium.theme",
+				"/usr/share/btop/themes/everforest-light-medium.theme",
+				"/usr/share/btop/themes/flat-remix-light.theme",
+				"/usr/share/btop/themes/flat-remix.theme",
+				"/usr/share/btop/themes/greyscale.theme",
+				"/usr/share/btop/themes/gruvbox_dark.theme",
+				"/usr/share/btop/themes/gruvbox_dark_v2.theme",
+				"/usr/share/btop/themes/gruvbox_light.theme",
+				"/usr/share/btop/themes/gruvbox_material_dark.theme",
+				"/usr/share/btop/themes/horizon.theme",
+				"/usr/share/btop/themes/kanagawa-lotus.theme",
+				"/usr/share/btop/themes/kanagawa-wave.theme",
+				"/usr/share/btop/themes/kyli0x.theme",
+				"/usr/share/btop/themes/matcha-dark-sea.theme",
+				"/usr/share/btop/themes/monokai.theme",
+				"/usr/share/btop/themes/night-owl.theme",
+				"/usr/share/btop/themes/nord.theme",
+				"/usr/share/btop/themes/onedark.theme",
+				"/usr/share/btop/themes/paper.theme",
+				"/usr/share/btop/themes/phoenix-night.theme",
+				"/usr/share/btop/themes/solarized_dark.theme",
+				"/usr/share/btop/themes/solarized_light.theme",
+				"/usr/share/btop/themes/tokyo-night.theme",
+				"/usr/share/btop/themes/tokyo-storm.theme",
+				"/usr/share/btop/themes/tomorrow-night.theme",
+				"/usr/share/btop/themes/whiteout.theme",
+				"/usr/share/icons/hicolor/48x48/apps/btop.png",
+				"/usr/share/icons/hicolor/scalable/apps/btop.svg"
+			],
+			"name": "btop",
+			"provides": [
+				"binary(btop)"
+			]
+		}
+	},
+	"source-name": "btop",
+	"source-release": "1",
+	"source-version": "v1.4.5"
+}
