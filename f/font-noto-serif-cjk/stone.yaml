@@ -1,0 +1,19 @@
+#
+# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : font-noto-serif-cjk
+version     : 2.003
+release     : 1
+homepage    : https://notofonts.github.io/
+upstreams   :
+    - https://github.com/notofonts/noto-cjk/releases/download/Serif2.003/02_NotoSerifCJK-OTF-VF.zip : 7898cfb54156cc0d8a2f2c00d5645c573ff367d03d29085bb495966d99d2529e
+summary     : Collection of high-quality fonts for Asian languages (serif fonts)
+description : |
+    Noto-CJK is a collection of high-quality fonts for the following Asian languages: Japanese, Korean, Simplified Chinese, Traditional Chinese, Hong Kong Chinese
+license     :
+    - OFL-1.1
+install     : |
+    %install_file OTC/NotoSerifCJK-VF.otf.ttc -t %(installroot)%(datadir)/fonts/opentype/noto-serif-cjk
+    %install_file %(pkgdir)/70-noto-serif-cjk.conf -t %(installroot)%(datadir)/fontconfig/conf.avail

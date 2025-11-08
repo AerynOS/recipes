@@ -4,16 +4,17 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : font-noto-cjk
-version     : 2.003
-release     : 2
+version     : 2.004
+release     : 3
 homepage    : https://notofonts.github.io/
-upstreams   :
-    - https://github.com/notofonts/noto-cjk/releases/download/Serif2.003/03_NotoSerifCJK-TTF-VF.zip : ad58364bca7c70a15b40e941df0ce0da85b1e4a882ab176f14e661cf1a0af05e
 summary     : Collection of high-quality fonts for Asian languages
 description : |
     Noto-CJK is a collection of high-quality fonts for the following Asian languages: Japanese, Korean, Simplified Chinese, Traditional Chinese, Hong Kong Chinese
 license     :
     - OFL-1.1
+rundeps     :
+            - font-noto-sans-cjk
+            - font-noto-serif-cjk
 install     : |
-    # Packager Note: We may want to slim this package down more, e.g. split off serif fonts
-    %install_file Variable/*/*.tt[fc] -t %(installroot)%(datadir)/fonts/truetype/noto-cjk
+    %install_dir %(installroot)%(docdir)/%(name)/
+    %install_file %(pkgdir)/README -t %(installroot)%(docdir)/%(name)/

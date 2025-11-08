@@ -3,18 +3,17 @@
 	"manifest-version": "0.2",
 	"packages": {
 		"font-noto-cjk": {
+			"depends": [
+				"font-noto-sans-cjk",
+				"font-noto-serif-cjk"
+			],
 			"files": [
-				"/usr/share/fonts/truetype/noto-cjk/NotoSerifCJK-VF.ttf.ttc",
-				"/usr/share/fonts/truetype/noto-cjk/NotoSerifCJKhk-VF.ttf",
-				"/usr/share/fonts/truetype/noto-cjk/NotoSerifCJKjp-VF.ttf",
-				"/usr/share/fonts/truetype/noto-cjk/NotoSerifCJKkr-VF.ttf",
-				"/usr/share/fonts/truetype/noto-cjk/NotoSerifCJKsc-VF.ttf",
-				"/usr/share/fonts/truetype/noto-cjk/NotoSerifCJKtc-VF.ttf"
+				"/usr/share/doc/font-noto-cjk/README"
 			],
 			"name": "font-noto-cjk"
 		}
 	},
 	"source-name": "font-noto-cjk",
-	"source-release": "2",
-	"source-version": "2.003"
+	"source-release": "3",
+	"source-version": "2.004"
 }
