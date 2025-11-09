@@ -1,0 +1,44 @@
+#
+# SPDX-FileCopyrightText: © 2025- AerynOS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : fcitx5
+version     : 5.1.12
+release     : 1
+homepage    : https://github.com/fcitx/fcitx5
+upstreams   :
+    - https://github.com/fcitx/fcitx5/archive/refs/tags/5.1.12.tar.gz : 04fabc12cb8702f06aeb1399f30d41dd9c17a997ccac9a53352ba21a8aef16e7
+summary     : Generic input method framework
+description : |
+    Generic input method framework
+license     : 
+    - LGPL-2.1-or-later
+    - Unicode-DFS-2016
+builddeps   :
+    - binary(doxygen)
+    - binary(msgmerge)
+    - cmake(ECM)
+    - pkgconfig(cairo-xcb)
+    - pkgconfig(dbus-1)
+    - pkgconfig(expat)
+    - pkgconfig(enchant-2)
+    - pkgconfig(fmt)
+    - pkgconfig(gdk-pixbuf-2.0)
+    - pkgconfig(iso-codes)
+    - pkgconfig(json-c)
+    - pkgconfig(pango)
+    - pkgconfig(uuid)
+    - pkgconfig(wayland-cursor)
+    - pkgconfig(wayland-protocols)
+    - pkgconfig(xcb-imdkit)
+    - pkgconfig(xkbfile)
+    - pkgconfig(xkbcommon-x11)
+    - pkgconfig(xkeyboard-config)
+setup       : |
+    %patch %(pkgdir)/fmt-deprec.patch
+    %cmake
+build       : |
+    %cmake_build
+install     : |
+    %cmake_install
