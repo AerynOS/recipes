@@ -1,0 +1,57 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"xcb-imdkit": {
+			"build-depends": [
+				"cmake(ECM)"
+			],
+			"depends": [
+				"soname(libc.so.6(x86_64))",
+				"soname(libxcb-util.so.1(x86_64))",
+				"soname(libxcb.so.1(x86_64))"
+			],
+			"files": [
+				"/usr/lib/libxcb-imdkit.so.1",
+				"/usr/lib/libxcb-imdkit.so.1.0.9"
+			],
+			"name": "xcb-imdkit",
+			"provides": [
+				"soname(libxcb-imdkit.so.1(x86_64))"
+			]
+		},
+		"xcb-imdkit-devel": {
+			"build-depends": [
+				"cmake(ECM)"
+			],
+			"depends": [
+				"pkgconfig(xcb)",
+				"pkgconfig(xcb-util)",
+				"xcb-imdkit"
+			],
+			"files": [
+				"/usr/include/xcb-imdkit/encoding.h",
+				"/usr/include/xcb-imdkit/imclient.h",
+				"/usr/include/xcb-imdkit/imdkit.h",
+				"/usr/include/xcb-imdkit/xcbimdkit_export.h",
+				"/usr/include/xcb-imdkit/ximcommon.h",
+				"/usr/include/xcb-imdkit/ximproto-gen.h",
+				"/usr/include/xcb-imdkit/ximproto.h",
+				"/usr/lib/cmake/XCBImdkit/XCBImdkitConfig.cmake",
+				"/usr/lib/cmake/XCBImdkit/XCBImdkitConfigVersion.cmake",
+				"/usr/lib/cmake/XCBImdkit/XCBImdkitLibraryTargets-release.cmake",
+				"/usr/lib/cmake/XCBImdkit/XCBImdkitLibraryTargets.cmake",
+				"/usr/lib/libxcb-imdkit.so",
+				"/usr/lib/pkgconfig/xcb-imdkit.pc"
+			],
+			"name": "xcb-imdkit-devel",
+			"provides": [
+				"cmake(XCBImdkit)",
+				"pkgconfig(xcb-imdkit)"
+			]
+		}
+	},
+	"source-name": "xcb-imdkit",
+	"source-release": "1",
+	"source-version": "1.0.9"
+}

@@ -1,0 +1,25 @@
+#
+# SPDX-FileCopyrightText: © 2025- AerynOS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : xcb-imdkit
+version     : 1.0.9
+release     : 1
+homepage    : https://github.com/fcitx/xcb-imdkit
+upstreams   :
+    - https://github.com/fcitx/xcb-imdkit/archive/refs/tags/1.0.9.tar.gz : c2f0bbad8a335a64cdc7c19ac7b6ea1f0887dd6300ca9a4fa2e2fec6b9d3f695
+summary     : input method development support for xcb
+description : |
+    An implementation of xim protocol in xcb, comparing with the implementation of IMDkit with Xlib,
+    and xim inside Xlib, it has less memory foot print, better performance, and safer on malformed client
+license     : 
+    - LGPL-2.1-only
+builddeps   :
+    - cmake(ECM)
+setup       : |
+    %cmake
+build       : |
+    %cmake_build
+install     : |
+    %cmake_install
