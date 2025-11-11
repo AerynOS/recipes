@@ -1,0 +1,122 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"lttng-ust2.12": {
+			"build-depends": [
+				"liburcu-devel",
+				"numactl-devel"
+			],
+			"depends": [
+				"soname(ld-linux-x86-64.so.2(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libnuma.so.1(x86_64))",
+				"soname(liburcu-bp.so.8(x86_64))",
+				"soname(liburcu-cds.so.8(x86_64))"
+			],
+			"files": [
+				"/usr/bin/lttng-gen-tp",
+				"/usr/lib/liblttng-ust-ctl.so.4",
+				"/usr/lib/liblttng-ust-ctl.so.4.0.0",
+				"/usr/lib/liblttng-ust-cyg-profile-fast.so.0",
+				"/usr/lib/liblttng-ust-cyg-profile-fast.so.0.0.0",
+				"/usr/lib/liblttng-ust-cyg-profile.so.0",
+				"/usr/lib/liblttng-ust-cyg-profile.so.0.0.0",
+				"/usr/lib/liblttng-ust-dl.so.0",
+				"/usr/lib/liblttng-ust-dl.so.0.0.0",
+				"/usr/lib/liblttng-ust-fd.so.0",
+				"/usr/lib/liblttng-ust-fd.so.0.0.0",
+				"/usr/lib/liblttng-ust-fork.so.0",
+				"/usr/lib/liblttng-ust-fork.so.0.0.0",
+				"/usr/lib/liblttng-ust-libc-wrapper.so.0",
+				"/usr/lib/liblttng-ust-libc-wrapper.so.0.0.0",
+				"/usr/lib/liblttng-ust-pthread-wrapper.so.0",
+				"/usr/lib/liblttng-ust-pthread-wrapper.so.0.0.0",
+				"/usr/lib/liblttng-ust-tracepoint.so.0",
+				"/usr/lib/liblttng-ust-tracepoint.so.0.0.0",
+				"/usr/lib/liblttng-ust.so.0",
+				"/usr/lib/liblttng-ust.so.0.0.0",
+				"/usr/share/doc/lttng-ust/COPYING",
+				"/usr/share/doc/lttng-ust/ChangeLog",
+				"/usr/share/doc/lttng-ust/LICENSE",
+				"/usr/share/doc/lttng-ust/README.md",
+				"/usr/share/doc/lttng-ust/java-agent.txt"
+			],
+			"name": "lttng-ust2.12",
+			"provides": [
+				"binary(lttng-gen-tp)",
+				"soname(liblttng-ust-ctl.so.4(x86_64))",
+				"soname(liblttng-ust-cyg-profile-fast.so.0(x86_64))",
+				"soname(liblttng-ust-cyg-profile.so.0(x86_64))",
+				"soname(liblttng-ust-dl.so.0(x86_64))",
+				"soname(liblttng-ust-fd.so.0(x86_64))",
+				"soname(liblttng-ust-fork.so.0(x86_64))",
+				"soname(liblttng-ust-libc-wrapper.so.0(x86_64))",
+				"soname(liblttng-ust-pthread-wrapper.so.0(x86_64))",
+				"soname(liblttng-ust-tracepoint.so.0(x86_64))",
+				"soname(liblttng-ust.so.0(x86_64))"
+			]
+		},
+		"lttng-ust2.12-devel": {
+			"build-depends": [
+				"liburcu-devel",
+				"numactl-devel"
+			],
+			"depends": [
+				"lttng-ust2.12",
+				"pkgconfig(liburcu-bp)"
+			],
+			"files": [
+				"/usr/include/lttng/align.h",
+				"/usr/include/lttng/bug.h",
+				"/usr/include/lttng/lttng-ust-tracef.h",
+				"/usr/include/lttng/lttng-ust-tracelog.h",
+				"/usr/include/lttng/ringbuffer-abi.h",
+				"/usr/include/lttng/ringbuffer-config.h",
+				"/usr/include/lttng/tracef.h",
+				"/usr/include/lttng/tracelog.h",
+				"/usr/include/lttng/tracepoint-event.h",
+				"/usr/include/lttng/tracepoint-rcu.h",
+				"/usr/include/lttng/tracepoint-types.h",
+				"/usr/include/lttng/tracepoint.h",
+				"/usr/include/lttng/ust-abi.h",
+				"/usr/include/lttng/ust-clock.h",
+				"/usr/include/lttng/ust-compiler.h",
+				"/usr/include/lttng/ust-config.h",
+				"/usr/include/lttng/ust-ctl.h",
+				"/usr/include/lttng/ust-elf.h",
+				"/usr/include/lttng/ust-endian.h",
+				"/usr/include/lttng/ust-error.h",
+				"/usr/include/lttng/ust-events.h",
+				"/usr/include/lttng/ust-getcpu.h",
+				"/usr/include/lttng/ust-tracepoint-event-nowrite.h",
+				"/usr/include/lttng/ust-tracepoint-event-reset.h",
+				"/usr/include/lttng/ust-tracepoint-event-write.h",
+				"/usr/include/lttng/ust-tracepoint-event.h",
+				"/usr/include/lttng/ust-tracer.h",
+				"/usr/include/lttng/ust-version.h",
+				"/usr/include/lttng/ust.h",
+				"/usr/lib/liblttng-ust-ctl.so",
+				"/usr/lib/liblttng-ust-cyg-profile-fast.so",
+				"/usr/lib/liblttng-ust-cyg-profile.so",
+				"/usr/lib/liblttng-ust-dl.so",
+				"/usr/lib/liblttng-ust-fd.so",
+				"/usr/lib/liblttng-ust-fork.so",
+				"/usr/lib/liblttng-ust-libc-wrapper.so",
+				"/usr/lib/liblttng-ust-pthread-wrapper.so",
+				"/usr/lib/liblttng-ust-tracepoint.so",
+				"/usr/lib/liblttng-ust.so",
+				"/usr/lib/pkgconfig/lttng-ust-ctl.pc",
+				"/usr/lib/pkgconfig/lttng-ust.pc"
+			],
+			"name": "lttng-ust2.12-devel",
+			"provides": [
+				"pkgconfig(lttng-ust)",
+				"pkgconfig(lttng-ust-ctl)"
+			]
+		}
+	},
+	"source-name": "lttng-ust2.12",
+	"source-release": "1",
+	"source-version": "2.12.10"
+}
