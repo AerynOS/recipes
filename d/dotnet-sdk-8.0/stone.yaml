@@ -1,0 +1,25 @@
+#
+# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : dotnet-sdk-8.0
+version     : 8.0.415
+release     : 1
+summary     : The .NET Core SDK
+license     : MIT
+homepage    : https://dotnet.microsoft.com
+upstreams   :
+    - https://builds.dotnet.microsoft.com/dotnet/Sdk/8.0.415/dotnet-sdk-8.0.415-linux-x64.tar.gz:
+          hash: a18944685e180887e32b9662f31521012a2c11851e63cbb7907f5f12f4a2461e
+          unpack: false
+description : |
+    The .NET Core SDK
+builddeps   :
+    - binary(tar)
+install     : |
+    _discord_root=%(libdir)/discord
+    _dotnet_install=%(installroot)/usr/share/dotnet
+
+    %install_dir $_dotnet_install
+    tar zxfv %(sourcedir)/dotnet-sdk-8.0.415-linux-x64.tar.gz -C %(installroot)/usr/share/dotnet
