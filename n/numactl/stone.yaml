@@ -1,0 +1,24 @@
+#
+# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : numactl
+version     : 2.0.19
+release     : 1
+homepage    : https://github.com/numactl/numactl
+upstreams   :
+    - https://github.com/numactl/numactl/archive/refs/tags/v2.0.19.tar.gz : 8b84ffdebfa0d730fb2fc71bb7ec96bb2d38bf76fb67246fde416a68e04125e4
+summary     : Simple NUMA policy support
+description : |
+    Simple NUMA policy support
+license     : |
+    - GPL-2.0-only
+    - LGPL-2.1-only
+setup       : |
+    autoreconf -fiv
+    %configure
+build       : |
+    %make
+install     : |
+    %make_install
