@@ -1,0 +1,26 @@
+#
+# SPDX-FileCopyrightText: © 2025 AerynOS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : gamescope-dbus
+version     : 1.10.4
+release     : 1
+homepage    : https://github.com/ShadowBlip/gamescope-dbus
+upstreams   :
+    - https://github.com/ShadowBlip/gamescope-dbus/archive/refs/tags/v1.10.4.tar.gz : 944c24de58ad1fffa060e18a155f504679af2e413241b0cf472b0dd3d0e8cffa
+summary     : Daemon for interacting with Gamescope over DBus
+description : |
+    Daemon for interacting with Gamescope over DBus
+license     : GPL-3.0-or-later
+networking  : yes
+builddeps   :
+    - binary(cargo)
+environment : |
+    export PATH="/usr/bin:/usr/sbin"
+setup       : |
+    %cargo_fetch
+build       : |
+    %make
+install     : |
+    %make_install PREFIX=%(installroot)/usr
