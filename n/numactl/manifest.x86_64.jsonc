@@ -1,0 +1,60 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"numactl": {
+			"depends": [
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(ld-linux-x86-64.so.2(x86_64))",
+				"soname(libc.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/bin/memhog",
+				"/usr/bin/migratepages",
+				"/usr/bin/migspeed",
+				"/usr/bin/numactl",
+				"/usr/bin/numademo",
+				"/usr/bin/numastat",
+				"/usr/lib/libnuma.so.1",
+				"/usr/lib/libnuma.so.1.0.0",
+				"/usr/share/man/man8/memhog.8",
+				"/usr/share/man/man8/migratepages.8",
+				"/usr/share/man/man8/migspeed.8",
+				"/usr/share/man/man8/numactl.8",
+				"/usr/share/man/man8/numastat.8"
+			],
+			"name": "numactl",
+			"provides": [
+				"binary(memhog)",
+				"binary(migratepages)",
+				"binary(migspeed)",
+				"binary(numactl)",
+				"binary(numademo)",
+				"binary(numastat)",
+				"soname(libnuma.so.1(x86_64))"
+			]
+		},
+		"numactl-devel": {
+			"depends": [
+				"numactl"
+			],
+			"files": [
+				"/usr/include/numa.h",
+				"/usr/include/numacompat1.h",
+				"/usr/include/numaif.h",
+				"/usr/lib/libnuma.a",
+				"/usr/lib/libnuma.so",
+				"/usr/lib/pkgconfig/numa.pc",
+				"/usr/share/man/man2/move_pages.2",
+				"/usr/share/man/man3/numa.3"
+			],
+			"name": "numactl-devel",
+			"provides": [
+				"pkgconfig(numa)"
+			]
+		}
+	},
+	"source-name": "numactl",
+	"source-release": "1",
+	"source-version": "2.0.19"
+}

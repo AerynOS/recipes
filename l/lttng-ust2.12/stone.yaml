@@ -1,0 +1,28 @@
+#
+# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : lttng-ust2.12
+version     : '2.12.10'
+release     : 1
+upstreams   :
+    - git|https://github.com/lttng/lttng-ust.git : 6de183f5ea81ed551546ee955a86caf7e966e400
+homepage    : https://lttng.org/
+license     : MIT
+summary     : LTTng user space tracing libraries for LTTng
+description : |
+    LTTng user space tracing libraries for LTTng
+builddeps   :
+    - liburcu-devel
+    - numactl-devel
+setup       : |
+    autoreconf -fiv
+    %configure \
+       --prefix=/usr \
+       --disable-examples \
+       --disable-man-pages
+build       : |
+    %make
+install     : |
+    %make_install
