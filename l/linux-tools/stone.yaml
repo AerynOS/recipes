@@ -4,15 +4,15 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : linux-tools
-version     : '6.17.6'
-release     : 22
+version     : '6.17.7'
+release     : 23
 summary     : Tools included with the Linux source code
 license     : GPL-2.0-only
 homepage    : https://perf.wiki.kernel.org/
 description : |
     Tools included with the Linux source code
 upstreams   :
-    - https://www.kernel.org/pub/linux/kernel/v6.x/linux-6.17.6.tar.xz: 8ecfbc6b693448abb46144a8d04d1e1631639c7661c1088425a2e5406f13c69c
+    - https://www.kernel.org/pub/linux/kernel/v6.x/linux-6.17.7.tar.xz: ddf2ea0d4439e1d57136be3623102af9458f601f5b1cb77e83246e88aea09d0e
 builddeps   :
     - binary(a2x)
     - binary(bison)
@@ -29,6 +29,7 @@ builddeps   :
     - pkgconfig(libelf)
     - pkgconfig(libpci)
     - pkgconfig(libtraceevent)
+    - pkgconfig(numa)
     - pkgconfig(python3)
     - pkgconfig(slang)
     - python(setuptools)
@@ -36,7 +37,7 @@ builddeps   :
     - linux-headers
     - perl-devel
     # NOTE: Don't add binutils-devel, it's redundant with building against LLVM
-    # libbabeltrace, libnuma, libcapstone
+    # libbabeltrace, libcapstone, systemtap
 environment : |
     %export_docbook_catalogs
 

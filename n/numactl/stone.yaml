@@ -1,0 +1,33 @@
+#
+# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : numactl
+version     : 2.0.19
+release     : 2
+homepage    : https://github.com/numactl/numactl
+upstreams   :
+    - https://github.com/numactl/numactl/releases/download/v2.0.19/numactl-2.0.19.tar.gz : f2672a0381cb59196e9c246bf8bcc43d5568bc457700a697f1a1df762b9af884
+summary     : Library for tuning for Non Uniform Memory Access machines
+description : |
+    Simple NUMA policy support. It consists of a numactl program to run
+    other programs with a specific NUMA policy.
+license     : |
+    - GPL-2.0-only
+    - LGPL-2.1-only
+setup       : |
+    %configure \
+        --disable-static
+build       : |
+    %make
+install     : |
+    %make_install
+packages    :
+    - "%(name)-libs":
+        summary: libnuma libraries
+        description: |
+            %(name)-libs provides libnuma, a library to do allocations with
+            NUMA policy in applications.
+        paths:
+            - /usr/lib/libnuma.so.*
