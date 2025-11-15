@@ -1,0 +1,32 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"python-gnupg": {
+			"build-depends": [
+				"pkgconfig(python3)",
+				"python(build)",
+				"python(installer)",
+				"python(setuptools)",
+				"python(wheel)"
+			],
+			"files": [
+				"/usr/lib/python3.11/site-packages/__pycache__/gnupg.cpython-311.opt-1.pyc",
+				"/usr/lib/python3.11/site-packages/__pycache__/gnupg.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/gnupg.py",
+				"/usr/lib/python3.11/site-packages/python_gnupg-0.5.5.dist-info/METADATA",
+				"/usr/lib/python3.11/site-packages/python_gnupg-0.5.5.dist-info/RECORD",
+				"/usr/lib/python3.11/site-packages/python_gnupg-0.5.5.dist-info/WHEEL",
+				"/usr/lib/python3.11/site-packages/python_gnupg-0.5.5.dist-info/licenses/LICENSE.txt",
+				"/usr/lib/python3.11/site-packages/python_gnupg-0.5.5.dist-info/top_level.txt"
+			],
+			"name": "python-gnupg",
+			"provides": [
+				"python(python-gnupg)"
+			]
+		}
+	},
+	"source-name": "python-gnupg",
+	"source-release": "1",
+	"source-version": "0.5.5"
+}

@@ -1,0 +1,26 @@
+#
+# SPDX-FileCopyrightText: © 2025- AerynOS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : python-gnupg
+version     : 0.5.5
+release     : 1
+homepage    : https://pypi.debian.net/python-gnupg
+upstreams   :
+    - https://pypi.debian.net/python-gnupg/python-gnupg-0.5.5.tar.gz : 3fdcaf76f60a1b948ff8e37dc398d03cf9ce7427065d583082b92da7a4ff5a63
+summary     : A wrapper for the Gnu Privacy Guard (GPG or GnuPG)
+description : |
+    A wrapper for the Gnu Privacy Guard (GPG or GnuPG)
+license     : 
+    - BSD-3-Clause
+builddeps   :
+    - pkgconfig(python3)
+    - python(build)
+    - python(installer)
+    - python(setuptools)
+    - python(wheel)
+build       : |
+    %pyproject_build
+install     : |
+    %pyproject_install
