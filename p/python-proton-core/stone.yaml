@@ -1,0 +1,26 @@
+#
+# SPDX-FileCopyrightText: © 2025- AerynOS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : python-proton-core
+version     : 0.7.0
+release     : 1
+homepage    : https://github.com/ProtonVPN/python-proton-core
+upstreams   :
+    - https://github.com/ProtonVPN/python-proton-core/archive/refs/tags/v0.7.0.tar.gz : 7b917102785e85ed3960afc1813fb7e87de6742db3eb77153cc6b3dafa68cca7
+summary     : The proton-core component
+description : |
+    The proton-core component contains core logic used by the other Proton components.
+license     : 
+    - GPL-3.0-or-later
+builddeps   :
+    - pkgconfig(python3)
+    - python(build)
+    - python(installer)
+    - python(setuptools)
+    - python(wheel)
+build       : |
+    %python_setup
+install     : |
+    %python_install
