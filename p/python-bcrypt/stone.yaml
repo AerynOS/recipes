@@ -1,0 +1,28 @@
+#
+# SPDX-FileCopyrightText: © 2025- AerynOS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : python-bcrypt
+version     : 4.3.0
+release     : 1
+homepage    : https://github.com/pyca/bcrypt
+upstreams   :
+    - https://github.com/pyca/bcrypt/archive/refs/tags/4.3.0.tar.gz : 5cf3964765a9e2ed592ceb721948592f6227abcf22dd7314c897363ddd49ac3e
+summary     : Modern password hashing for your software and your servers
+description : |
+    Modern password hashing for your software and your servers
+license     : 
+    - Apache-2.0
+builddeps   :
+    - pkgconfig(python3)
+    - python(build)
+    - python(installer)
+    - python(setuptools)
+    - python(setuptools-rust)
+    - python(wheel)
+networking  : true # Rust deps
+build       : |
+    %pyproject_build
+install     : |
+    %pyproject_install
