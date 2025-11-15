@@ -1,0 +1,77 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"hugo": {
+			"build-depends": [
+				"binary(git)",
+				"binary(go)"
+			],
+			"depends": [
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libm.so.6(x86_64))",
+				"soname(libstdc++.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/bin/hugo",
+				"/usr/share/bash-completion/completions/hugo",
+				"/usr/share/fish/vendor_completions.d/hugo.fish",
+				"/usr/share/licenses/hugo/LICENSE",
+				"/usr/share/man/man1/hugo-build.1",
+				"/usr/share/man/man1/hugo-completion-bash.1",
+				"/usr/share/man/man1/hugo-completion-fish.1",
+				"/usr/share/man/man1/hugo-completion-powershell.1",
+				"/usr/share/man/man1/hugo-completion-zsh.1",
+				"/usr/share/man/man1/hugo-completion.1",
+				"/usr/share/man/man1/hugo-config-mounts.1",
+				"/usr/share/man/man1/hugo-config.1",
+				"/usr/share/man/man1/hugo-convert-toJSON.1",
+				"/usr/share/man/man1/hugo-convert-toTOML.1",
+				"/usr/share/man/man1/hugo-convert-toYAML.1",
+				"/usr/share/man/man1/hugo-convert.1",
+				"/usr/share/man/man1/hugo-deploy.1",
+				"/usr/share/man/man1/hugo-env.1",
+				"/usr/share/man/man1/hugo-gen-chromastyles.1",
+				"/usr/share/man/man1/hugo-gen-doc.1",
+				"/usr/share/man/man1/hugo-gen-man.1",
+				"/usr/share/man/man1/hugo-gen.1",
+				"/usr/share/man/man1/hugo-import-jekyll.1",
+				"/usr/share/man/man1/hugo-import.1",
+				"/usr/share/man/man1/hugo-list-all.1",
+				"/usr/share/man/man1/hugo-list-drafts.1",
+				"/usr/share/man/man1/hugo-list-expired.1",
+				"/usr/share/man/man1/hugo-list-future.1",
+				"/usr/share/man/man1/hugo-list-published.1",
+				"/usr/share/man/man1/hugo-list.1",
+				"/usr/share/man/man1/hugo-mod-clean.1",
+				"/usr/share/man/man1/hugo-mod-get.1",
+				"/usr/share/man/man1/hugo-mod-graph.1",
+				"/usr/share/man/man1/hugo-mod-init.1",
+				"/usr/share/man/man1/hugo-mod-npm-pack.1",
+				"/usr/share/man/man1/hugo-mod-npm.1",
+				"/usr/share/man/man1/hugo-mod-tidy.1",
+				"/usr/share/man/man1/hugo-mod-vendor.1",
+				"/usr/share/man/man1/hugo-mod-verify.1",
+				"/usr/share/man/man1/hugo-mod.1",
+				"/usr/share/man/man1/hugo-new-content.1",
+				"/usr/share/man/man1/hugo-new-site.1",
+				"/usr/share/man/man1/hugo-new-theme.1",
+				"/usr/share/man/man1/hugo-new.1",
+				"/usr/share/man/man1/hugo-server-trust.1",
+				"/usr/share/man/man1/hugo-server.1",
+				"/usr/share/man/man1/hugo-version.1",
+				"/usr/share/man/man1/hugo.1",
+				"/usr/share/zsh/site-functions/_hugo"
+			],
+			"name": "hugo",
+			"provides": [
+				"binary(hugo)"
+			]
+		}
+	},
+	"source-name": "hugo",
+	"source-release": "1",
+	"source-version": "0.152.2"
+}
