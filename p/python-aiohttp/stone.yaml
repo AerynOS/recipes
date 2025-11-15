@@ -1,0 +1,27 @@
+#
+# SPDX-FileCopyrightText: © 2025- AerynOS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : python-aiohttp
+version     : 3.13.2
+release     : 1
+homepage    : https://files.pythonhosted.org/packages/source/a/aiohttp
+upstreams   :
+    - https://files.pythonhosted.org/packages/source/a/aiohttp/aiohttp-3.13.2.tar.gz : 40176a52c186aefef6eb3cad2cdd30cd06e3afbe88fe8ab2af9c0b90f228daca
+summary     : Asynchronous HTTP client/server framework for asyncio and Python
+description : |
+    Asynchronous HTTP client/server framework for asyncio and Python
+license     : Apache-2.0
+builddeps   :
+    - binary(cython)
+    - pkgconfig(python3)
+    - python(build)
+    - python(installer)
+    - python(packaging)
+    - python(pkgconfig)
+    - python(setuptools)
+build       : |
+    %pyproject_build
+install     : |
+    %pyproject_install
