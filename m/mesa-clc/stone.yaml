@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : mesa-clc
-version     : 25.2.6
-release     : 18
+version     : 25.3.0
+release     : 20
 homepage    : https://mesa3d.org/
 upstreams   :
-    - https://mesa.freedesktop.org/archive/mesa-25.2.6.tar.xz : 361c97e8afa5fe20141c5362c5b489040751e12861c186a16c621a2fb182fc42
+    - https://mesa.freedesktop.org/archive/mesa-25.3.0.tar.xz : 0fd54fea7dbbddb154df05ac752b18621f26d97e27863db3be951417c6abe8ae
 summary     : Tool used for building OpenCL C to SPIR-V
 description : |
     %(name) tool used for building OpenCL C to SPIR-V
@@ -17,6 +17,7 @@ license     :
     - MIT
 builddeps   :
     - cmake(Clang)
+    - binary(glslangValidator)
     - binary(llvm-config)
     - pkgconfig(LLVMSPIRVLib)
     - pkgconfig(SPIRV-Tools)

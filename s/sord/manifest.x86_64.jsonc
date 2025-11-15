@@ -4,6 +4,7 @@
 	"packages": {
 		"sord": {
 			"build-depends": [
+				"binary(doxygen)",
 				"pkgconfig(libpcre2-8)",
 				"pkgconfig(serd-0)",
 				"pkgconfig(zix-0)"
@@ -19,7 +20,7 @@
 				"/usr/bin/sord_validate",
 				"/usr/bin/sordi",
 				"/usr/lib/libsord-0.so.0",
-				"/usr/lib/libsord-0.so.0.16.18",
+				"/usr/lib/libsord-0.so.0.16.20",
 				"/usr/share/man/man1/sord_validate.1",
 				"/usr/share/man/man1/sordi.1"
 			],
@@ -32,6 +33,7 @@
 		},
 		"sord-devel": {
 			"build-depends": [
+				"binary(doxygen)",
 				"pkgconfig(libpcre2-8)",
 				"pkgconfig(serd-0)",
 				"pkgconfig(zix-0)"
@@ -45,7 +47,19 @@
 				"/usr/include/sord-0/sord/sord.h",
 				"/usr/include/sord-0/sord/sordmm.hpp",
 				"/usr/lib/libsord-0.so",
-				"/usr/lib/pkgconfig/sord-0.pc"
+				"/usr/lib/pkgconfig/sord-0.pc",
+				"/usr/share/doc/sord-0/html/clipboard.js",
+				"/usr/share/doc/sord-0/html/dir_d44c64559bbebec7f509842c48db8b23.html",
+				"/usr/share/doc/sord-0/html/dir_dd1cc79072a984915465250a6dd95f79.html",
+				"/usr/share/doc/sord-0/html/doxygen.svg",
+				"/usr/share/doc/sord-0/html/doxygen_crawl.html",
+				"/usr/share/doc/sord-0/html/dynsections.js",
+				"/usr/share/doc/sord-0/html/group__sord.html",
+				"/usr/share/doc/sord-0/html/index.html",
+				"/usr/share/doc/sord-0/html/jquery.js",
+				"/usr/share/doc/sord-0/html/navtree.css",
+				"/usr/share/doc/sord-0/html/style.css",
+				"/usr/share/doc/sord-0/html/tabs.css"
 			],
 			"name": "sord-devel",
 			"provides": [
@@ -54,6 +68,6 @@
 		}
 	},
 	"source-name": "sord",
-	"source-release": "2",
-	"source-version": "0.16.18"
+	"source-release": "3",
+	"source-version": "0.16.20"
 }

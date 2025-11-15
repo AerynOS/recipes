@@ -3,6 +3,10 @@
 	"manifest-version": "0.2",
 	"packages": {
 		"serd": {
+			"build-depends": [
+				"binary(doxygen)",
+				"python(sphinx)"
+			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))",
@@ -11,7 +15,7 @@
 			"files": [
 				"/usr/bin/serdi",
 				"/usr/lib/libserd-0.so.0",
-				"/usr/lib/libserd-0.so.0.32.4",
+				"/usr/lib/libserd-0.so.0.32.6",
 				"/usr/share/man/man1/serdi.1"
 			],
 			"name": "serd",
@@ -21,6 +25,10 @@
 			]
 		},
 		"serd-devel": {
+			"build-depends": [
+				"binary(doxygen)",
+				"python(sphinx)"
+			],
 			"depends": [
 				"serd"
 			],
@@ -36,6 +44,6 @@
 		}
 	},
 	"source-name": "serd",
-	"source-release": "2",
-	"source-version": "0.32.4"
+	"source-release": "3",
+	"source-version": "0.32.6"
 }

@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : maturin
-version     : 1.9.6
-release     : 10
+version     : 1.10.1
+release     : 11
 homepage    : https://www.maturin.rs
 upstreams   :
-    - https://pypi.debian.net/maturin/maturin-1.9.6.tar.gz : 2c2ae37144811d365509889ed7220b0598487f1278c2441829c3abf56cc6324a
+    - https://pypi.debian.net/maturin/maturin-1.10.1.tar.gz : 69543e8bad4221c3c7ae7d7f31f275757bff8a66936368e013fa0256f8d6b512
 summary     : Build and publish crates with pyo3, rust-cpython and cffi bindings
 description : |
     Build and publish crates with pyo3, rust-cpython and cffi bindings
@@ -17,7 +17,6 @@ license     :
     - MIT
 networking  : true
 builddeps   :
-    - pkgconfig(bzip2)
     - pkgconfig(liblzma)
     - pkgconfig(openssl)
     - python(setuptools)
@@ -27,7 +26,7 @@ setup       : |
 
     %cargo_fetch
 build       : |
-    export MATURIN_SETUP_ARGS="--frozen --all-features"
+    export MATURIN_SETUP_ARGS="--frozen --features full,password-storage,native-tls"
     %pyproject_build
 install     : |
     %pyproject_install

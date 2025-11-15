@@ -5,37 +5,59 @@
 		"kquickimageeditor": {
 			"build-depends": [
 				"cmake(ECM)",
+				"cmake(KF6Config)",
+				"cmake(OpenCV)",
 				"cmake(Qt6CorePrivate)",
 				"cmake(Qt6Qml)"
 			],
 			"depends": [
+				"soname(libKF6ConfigCore.so.6(x86_64))",
+				"soname(libKF6ConfigGui.so.6(x86_64))",
 				"soname(libQt6Core.so.6(x86_64))",
 				"soname(libQt6Gui.so.6(x86_64))",
 				"soname(libQt6Qml.so.6(x86_64))",
 				"soname(libQt6Quick.so.6(x86_64))",
 				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libm.so.6(x86_64))",
+				"soname(libopencv_core.so.412(x86_64))",
+				"soname(libopencv_imgproc.so.412(x86_64))",
 				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
+				"/usr/lib/libKQuickImageEditor.so.0.6.0",
+				"/usr/lib/libKQuickImageEditor.so.1",
+				"/usr/lib/qt6/qml/org/kde/kquickimageeditor/AnnotationSelectionTool.qml",
 				"/usr/lib/qt6/qml/org/kde/kquickimageeditor/BasicResizeHandle.qml",
 				"/usr/lib/qt6/qml/org/kde/kquickimageeditor/CropBackground.qml",
+				"/usr/lib/qt6/qml/org/kde/kquickimageeditor/CropTool.qml",
+				"/usr/lib/qt6/qml/org/kde/kquickimageeditor/HoverOutline.qml",
+				"/usr/lib/qt6/qml/org/kde/kquickimageeditor/KQuickImageEditor.qmltypes",
 				"/usr/lib/qt6/qml/org/kde/kquickimageeditor/RectangleCutout.qml",
 				"/usr/lib/qt6/qml/org/kde/kquickimageeditor/SelectionBackground.qml",
 				"/usr/lib/qt6/qml/org/kde/kquickimageeditor/SelectionHandle.qml",
 				"/usr/lib/qt6/qml/org/kde/kquickimageeditor/SelectionTool.qml",
+				"/usr/lib/qt6/qml/org/kde/kquickimageeditor/TextTool.qml",
 				"/usr/lib/qt6/qml/org/kde/kquickimageeditor/kde-qmlmodule.version",
-				"/usr/lib/qt6/qml/org/kde/kquickimageeditor/kquickimageeditorplugin.qmltypes",
-				"/usr/lib/qt6/qml/org/kde/kquickimageeditor/libkquickimageeditorplugin.so",
+				"/usr/lib/qt6/qml/org/kde/kquickimageeditor/libKQuickImageEditorplugin.so",
+				"/usr/lib/qt6/qml/org/kde/kquickimageeditor/private/AnimatedLoader.qml",
+				"/usr/lib/qt6/qml/org/kde/kquickimageeditor/private/DashedOutline.qml",
+				"/usr/lib/qt6/qml/org/kde/kquickimageeditor/private/Handle.qml",
+				"/usr/lib/qt6/qml/org/kde/kquickimageeditor/private/Outline.qml",
+				"/usr/lib/qt6/qml/org/kde/kquickimageeditor/private/TextContextMenu.qml",
 				"/usr/lib/qt6/qml/org/kde/kquickimageeditor/qmldir"
 			],
 			"name": "kquickimageeditor",
 			"provides": [
-				"soname(qt6/qml/org/kde/kquickimageeditor/libkquickimageeditorplugin.so(x86_64))"
+				"soname(libKQuickImageEditor.so.1(x86_64))",
+				"soname(qt6/qml/org/kde/kquickimageeditor/libKQuickImageEditorplugin.so(x86_64))"
 			]
 		},
 		"kquickimageeditor-devel": {
 			"build-depends": [
 				"cmake(ECM)",
+				"cmake(KF6Config)",
+				"cmake(OpenCV)",
 				"cmake(Qt6CorePrivate)",
 				"cmake(Qt6Qml)"
 			],
@@ -43,8 +65,19 @@
 				"kquickimageeditor"
 			],
 			"files": [
+				"/usr/include/KQuickImageEditor/AnnotationDocument",
+				"/usr/include/KQuickImageEditor/AnnotationTool",
+				"/usr/include/KQuickImageEditor/AnnotationViewport",
+				"/usr/include/KQuickImageEditor/kquickimageeditor_version.h",
+				"/usr/include/kquickimageeditor/annotationdocument.h",
+				"/usr/include/kquickimageeditor/annotationtool.h",
+				"/usr/include/kquickimageeditor/annotationviewport.h",
+				"/usr/include/kquickimageeditor/kquickimageeditor_export.h",
 				"/usr/lib/cmake/KQuickImageEditor/KQuickImageEditorConfig.cmake",
 				"/usr/lib/cmake/KQuickImageEditor/KQuickImageEditorConfigVersion.cmake",
+				"/usr/lib/cmake/KQuickImageEditor/KQuickImageEditorTargets-release.cmake",
+				"/usr/lib/cmake/KQuickImageEditor/KQuickImageEditorTargets.cmake",
+				"/usr/lib/libKQuickImageEditor.so",
 				"/usr/lib/qt6/mkspecs/modules/qt_KQuickImageEditor.pri"
 			],
 			"name": "kquickimageeditor-devel",
@@ -54,6 +87,6 @@
 		}
 	},
 	"source-name": "kquickimageeditor",
-	"source-release": "5",
-	"source-version": "0.5.1"
+	"source-release": "6",
+	"source-version": "0.6.0"
 }

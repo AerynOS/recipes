@@ -1,0 +1,51 @@
+#
+# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : kubectl
+version     : 1.34.2
+release     : 1
+homepage    : https://kubernetes.io/
+upstreams   :
+    - https://github.com/kubernetes/kubernetes/archive/refs/tags/v1.34.2.tar.gz : b0dec1be2119c27b6e37a9e08d4848b7c5d05174bb631ad6c5e25c449da0eb6c
+summary     : Command line interface for running commands against Kubernetes clusters
+description : |
+    kubectl is a command line interface for running commands against Kubernetes clusters
+license     : Apache-2.0
+networking  : yes
+builddeps   :
+    - binary(go)
+    - binary(rsync)
+environment: |
+    export CGO_CPPFLAGS="${CPPFLAGS}"
+    export CGO_CFLAGS="${CFLAGS}"
+    export CGO_CXXFLAGS="${CXXFLAGS}"
+    export CGO_LDFLAGS="${LDFLAGS}"
+
+    # NOTE: -mod=readonly in GOFLAGS breaks the build
+    export GOFLAGS="-buildmode=pie -ldflags=-linkmode=external -ldflags=-compressdwarf=false -modcacherw"
+    # NOTE: this also ensures the binaries have full RELRO
+    export GOLDFLAGS="-linkmode=external -compressdwarf=false"
+
+    # Otherwise this will try to download the upstream golang toolchain
+    export GOTOOLCHAIN=local
+setup      : |
+    %patch %(pkgdir)/kubernetes-1.24.0-static_cgo_enabled.patch
+    %patch %(pkgdir)/0001-Fix-builds-with-uutils-date.patch
+build      : |
+    hack/update-generated-docs.sh
+    %make kubectl
+
+    # Build completions
+    _output/bin/kubectl completion bash > kubectl-bash-completion
+    _output/bin/kubectl completion fish > kubectl-fish-completion
+    _output/bin/kubectl completion zsh > kubectl-zsh-completion
+install    : |
+    %install_file docs/man/man1/kubectl* -t %(installroot)%(mandir)/man1
+    %install_exe _output/bin/kubectl %(installroot)%(bindir)/kubectl
+
+    # Install completion scripts
+    %install_file kubectl-bash-completion %(installroot)%(bashcompletionsdir)/kubectl
+    %install_file kubectl-fish-completion %(installroot)%(fishcompletionsdir)/kubectl.fish
+    %install_file kubectl-zsh-completion %(installroot)%(zshcompletionsdir)/_kubectl

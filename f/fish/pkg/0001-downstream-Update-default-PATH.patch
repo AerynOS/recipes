@@ -8,19 +8,19 @@ Subject: [PATCH] downstream: Update default PATH
  1 file changed, 3 insertions(+), 2 deletions(-)
 
 diff --git a/src/env/environment.rs b/src/env/environment.rs
-index 699d463d6..eefe46d7f 100644
+index b818ab846..9d948aa01 100644
 --- a/src/env/environment.rs
 +++ b/src/env/environment.rs
-@@ -582,9 +582,10 @@ fn setup_user(vars: &EnvStack) {
-             colon_split(&[str2wcstring(cstr.to_bytes())])
-         } else {
-             vec![
--                WString::from_str(env!("PREFIX")) + L!("/bin"),
-+                L!("/usr/local/bin").to_owned(),
-+                L!("/usr/local/sbin").to_owned(),
-                 L!("/usr/bin").to_owned(),
--                L!("/bin").to_owned(),
-+                L!("/usr/sbin").to_owned(),
-             ]
-         })
-         .into_boxed_slice(),
+@@ -570,9 +570,10 @@ fn setup_user(vars: &EnvStack) {
+         colon_split(&[bytes2wcstring(cstr.to_bytes())])
+     } else {
+         vec![
+-            WString::from_str(env!("PREFIX")) + L!("/bin"),
++            WString::from_str("/usr/local/bin"),
++            WString::from_str("/usr/local/sbin"),
+             WString::from_str("/usr/bin"),
+-            WString::from_str("/bin"),
++            WString::from_str("/usr/sbin"),
+         ]
+     };
+     Box::leak(paths.into_boxed_slice())

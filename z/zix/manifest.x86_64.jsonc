@@ -3,12 +3,17 @@
 	"manifest-version": "0.2",
 	"packages": {
 		"zix": {
+			"build-depends": [
+				"binary(doxygen)",
+				"pkgconfig(glib-2.0)",
+				"python(sphinx)"
+			],
 			"depends": [
 				"soname(libc.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/lib/libzix-0.so.0",
-				"/usr/lib/libzix-0.so.0.6.2"
+				"/usr/lib/libzix-0.so.0.8.0"
 			],
 			"name": "zix",
 			"provides": [
@@ -16,6 +21,11 @@
 			]
 		},
 		"zix-devel": {
+			"build-depends": [
+				"binary(doxygen)",
+				"pkgconfig(glib-2.0)",
+				"python(sphinx)"
+			],
 			"depends": [
 				"zix"
 			],
@@ -35,6 +45,7 @@
 				"/usr/include/zix-0/zix/string_view.h",
 				"/usr/include/zix-0/zix/thread.h",
 				"/usr/include/zix-0/zix/tree.h",
+				"/usr/include/zix-0/zix/warnings.h",
 				"/usr/include/zix-0/zix/zix.h",
 				"/usr/lib/libzix-0.so",
 				"/usr/lib/pkgconfig/zix-0.pc"
@@ -46,6 +57,6 @@
 		}
 	},
 	"source-name": "zix",
-	"source-release": "2",
-	"source-version": "0.6.2"
+	"source-release": "3",
+	"source-version": "0.8.0"
 }

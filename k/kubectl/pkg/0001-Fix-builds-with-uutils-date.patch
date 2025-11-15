@@ -1,0 +1,31 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Reilly Brogan <reilly@reillybrogan.com>
+Date: Thu, 13 Nov 2025 14:47:00 -0600
+Subject: [PATCH] Fix builds with uutils date
+
+Signed-off-by: Reilly Brogan <reilly@reillybrogan.com>
+---
+ hack/lib/util.sh | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
+
+diff --git a/hack/lib/util.sh b/hack/lib/util.sh
+index cae8a499204..1c9e35bbfe9 100755
+--- a/hack/lib/util.sh
++++ b/hack/lib/util.sh
+@@ -735,8 +735,14 @@ function kube::util::ensure-gnu-date {
+   elif command -v gdate &>/dev/null; then
+     DATE="gdate"
+   else
+-    kube::log::error "Failed to find GNU date as date or gdate. If you are on Mac: brew install coreutils." >&2
+-    return 1
++    # date from uutils-coreutils doesn't report that it's uutils in the --help output, so check --version instead
++    date_version="$(LANG=C date --version 2>&1 || true)"
++    if echo "${date_version}" | grep -q "uutils"; then
++      DATE="date"
++    else
++      kube::log::error "Failed to find GNU date as date or gdate. If you are on Mac: brew install coreutils." >&2
++      return 1
++    fi
+   fi
+   kube::util::sourced_variable "${DATE}"
+ }

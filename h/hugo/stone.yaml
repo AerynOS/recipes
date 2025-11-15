@@ -1,0 +1,49 @@
+#
+# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : hugo
+version     : 0.152.2
+release     : 1
+homepage    : https://gohugo.io/
+upstreams   :
+    - https://github.com/gohugoio/hugo/archive/refs/tags/v0.152.2.tar.gz : 45ffd018ad8a15d91f8689e76a3b2cb8ce73e82b3a7ae2ce632212c36e77665d
+summary     : Fast and flexible static site generator written in Go
+description : |
+    Hugo is a fast and flexible static site generator written in Go
+    with support for Markdown, content management, and site theming.
+license     : Apache-2.0
+networking  : yes
+builddeps   :
+    - binary(git)
+    - binary(go)
+setup       : |
+    go mod download
+build       : |
+    export CGO_CPPFLAGS="${CPPFLAGS}"
+    export CGO_CFLAGS="${CFLAGS}"
+    export CGO_CXXFLAGS="${CXXFLAGS}"
+    export CGO_LDFLAGS="${LDFLAGS}"
+    go build -v \
+        -trimpath \
+        -mod=readonly \
+        -modcacherw \
+        -buildmode=pie \
+        -tags extended,withdeploy \
+        -ldflags "-s -w -linkmode=external -buildid=''"
+
+    ./hugo gen man
+    ./hugo completion bash > hugo.bash
+    ./hugo completion fish > hugo.fish
+    ./hugo completion zsh > hugo.zsh
+install     : |
+    %install_bin hugo
+    %install_file LICENSE %(installroot)%(datadir)/licenses/hugo/LICENSE
+
+    %install_dir %(installroot)%(mandir)/man1
+    %install_file man/*.1 -t %(installroot)%(mandir)/man1
+
+    %install_file hugo.bash %(installroot)%(bashcompletionsdir)/hugo
+    %install_file hugo.fish %(installroot)%(fishcompletionsdir)/hugo.fish
+    %install_file hugo.zsh %(installroot)%(zshcompletionsdir)/_hugo

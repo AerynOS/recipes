@@ -4,6 +4,7 @@
 	"packages": {
 		"mesa-clc": {
 			"build-depends": [
+				"binary(glslangValidator)",
 				"binary(llvm-config)",
 				"cmake(Clang)",
 				"pkgconfig(LLVMSPIRVLib)",
@@ -39,6 +40,6 @@
 		}
 	},
 	"source-name": "mesa-clc",
-	"source-release": "18",
-	"source-version": "25.2.6"
+	"source-release": "20",
+	"source-version": "25.3.0"
 }

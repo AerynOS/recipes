@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : sord
-version     : 0.16.18
-release     : 2
+version     : 0.16.20
+release     : 3
 homepage    : https://gitlab.com/drobilla/sord
 upstreams   :
-    - https://gitlab.com/drobilla/sord/-/archive/v0.16.18/sord-v0.16.18.tar.gz : cc006e6474875a26ff2caf8c4bb90c083a7abffb542408b28bd7b6e91791af5b
+    - https://gitlab.com/drobilla/sord/-/archive/v0.16.20/sord-v0.16.20.tar.gz : 00f5b551ce93e5c0696b96b8d284af13190a15d7d04fb6fa2e9c4964f626e675
 summary     : Lightweight C library for storing RDF statements in memory
 description : |
     Lightweight C library for storing RDF statements in memory
@@ -17,6 +17,7 @@ license     :
     - BSD-3-Clause
     - ISC
 builddeps   :
+    - binary(doxygen)
     - pkgconfig(libpcre2-8)
     - pkgconfig(serd-0)
     - pkgconfig(zix-0)
@@ -26,4 +27,7 @@ build       : |
     %meson_build
 install     : |
     %meson_install
-
+packages    :
+    - "%(name)-devel":
+        paths:
+            - /usr/share/doc/

@@ -4,12 +4,12 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : mesa
-version     : 25.2.6
+version     : 25.3.0
 # Note: keep mesa-clc in-sync with this package version-wise
-release     : 54
+release     : 56
 homepage    : https://mesa3d.org/
 upstreams   :
-    - https://mesa.freedesktop.org/archive/mesa-25.2.6.tar.xz : 361c97e8afa5fe20141c5362c5b489040751e12861c186a16c621a2fb182fc42
+    - https://mesa.freedesktop.org/archive/mesa-25.3.0.tar.xz : 0fd54fea7dbbddb154df05ac752b18621f26d97e27863db3be951417c6abe8ae
 summary     : Mesa 3D graphics library
 description : |
     The Mesa project began as an open-source implementation of the OpenGL specification - a system for rendering interactive 3D graphics. Over the years the project has grown to implement more graphics APIs, including OpenGL ES, OpenCL, OpenMAX, VDPAU, VA-API, Vulkan and EGL. A variety of device drivers allows the Mesa libraries to be used in many different environments ranging from software emulation to complete hardware acceleration for modern GPUs. Mesa ties into several other open-source projects: the Direct Rendering Infrastructure, X.org, and Wayland to provide OpenGL support on Linux, FreeBSD, and other operating systems.
@@ -33,7 +33,8 @@ builddeps   :
     - gcc-32bit-devel
     - lm_sensors-devel
     - pkgconfig(libclc)
-    # - pkgconfig(sysprof-capture-4)
+    - pkgconfig(libdisplay-info)
+    - pkgconfig(sysprof-capture-4)
     - pkgconfig(wayland-protocols)
     - pkgconfig32(LLVMSPIRVLib)
     - pkgconfig32(SPIRV-Tools)
@@ -69,6 +70,9 @@ emul32      : true
 profiles    :
     - emul32:
         environment: |
+            _IS_64BIT_BOOL="false"
+            _IS_64BIT_FEAT="disabled"
+
             export LLVM_CONFIG="llvm-config32"
             export RUSTC="rustc --target=%(target_triple)"
             export BINDGEN_EXTRA_CLANG_ARGS="--target=%(target_triple)"
@@ -77,36 +81,29 @@ profiles    :
             %meson_install
             ln -sv libGLX_mesa.so.0 %(installroot)%(libdir)/libGLX_indirect.so.0
 environment : |
-    EXTRA_VK_DRIVERS=",gfxstream,nouveau"
-    _extra_args="-Dgallium-rusticl=true"
-setup       : |
-    # Include package release in version string so Chromium invalidates
-    # its GPU cache; otherwise it can cause pages to render incorrectly.
-    # https://issues.chromium.org/issues/40267041
-    # Note that this was fixed in upstream Chromium in Mar 2024 and backported
-    # to supported Electron releases shortly thereafter. This workaround can
-    # probably be removed around the end of 2025 as the only affect apps will
-    # those using old versions of Electron.
-    echo "%(version)-aeryn.%(release)" >VERSION
+    _IS_64BIT_BOOL="true"
+    _IS_64BIT_FEAT="enabled"
 
+    EXTRA_VK_DRIVERS=",gfxstream,nouveau"
+setup       : |
     %patch %(pkgdir)/0001-Install-opencl-ICD-to-datadir.patch
 
     # Fix build with Sphinx 8.2
     %patch %(pkgdir)/0001-docs-Fix-build-with-Sphinx-8.2.patch
 
-    # TODO: Do we want to enable sysprof (-dsysprof=true)?
-    # sysprof causes segfaults in mpv: https://gitlab.freedesktop.org/mesa/mesa/-/issues/13571
     %meson \
+        -Ddisplay-info=${_IS_64BIT_FEAT} \
         -Degl=enabled \
         -Dgallium-drivers=crocus,i915,iris,llvmpipe,nouveau,r300,r600,radeonsi,softpipe,svga,virgl,zink \
         -Dgallium-extra-hud=true \
+        -Dgallium-rusticl=${_IS_64BIT_BOOL} \
         -Dgallium-va=enabled \
-        -Dgallium-vdpau=enabled \
         -Dgbm=enabled \
         -Dgles1=disabled \
         -Dglvnd=enabled \
         -Dllvm=enabled \
         -Dmesa-clc=system \
+        -Dsysprof=${_IS_64BIT_BOOL} \
         -Dzstd=enabled \
         -Dplatforms=x11,wayland \
         -Dshared-llvm=enabled \
@@ -114,8 +111,7 @@ setup       : |
         -Dmicrosoft-clc=disabled \
         -Dvulkan-drivers=amd,intel,intel_hasvk,swrast,virtio$EXTRA_VK_DRIVERS \
         -Dvulkan-layers=device-select,overlay,screenshot,vram-report-limit \
-        --wrap-mode=default \
-        $_extra_args
+        --wrap-mode=default
 build       : |
     %meson_build
 install     : |
@@ -207,7 +203,6 @@ packages    :
             - /usr/lib/dri/*drv_video.so
             - /usr/lib/gbm/dri_gbm.so
             - /usr/lib/libgallium-*.so
-            - /usr/lib/vdpau/
             - /usr/share/drirc.d/00-mesa-defaults.conf
 
     - "%(name)-vulkan-drivers":
