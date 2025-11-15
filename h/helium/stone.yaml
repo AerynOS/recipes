@@ -1,0 +1,56 @@
+#
+# SPDX-FileCopyrightText: © 2025- AerynOS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name: helium-linux
+version: 0.6.5.1
+release: 1
+homepage: https://github.com/imputnet/helium-linux
+upstreams:
+  - https://github.com/imputnet/helium-linux/releases/download/0.6.5.1/helium-0.6.5.1-x86_64_linux.tar.xz: 8696f599768c2765d3371af8f6d1b3993a29c2e054badd4e95d26c42453cfb59
+summary: Private, fast, and honest web browser
+description: |
+  The Chromium-based web browser made for people, with love.
+  Best privacy by default, unbiased ad-blocking, no bloat and no noise.
+  Created by the imputnet team.
+license: BSD-3-Clause
+networking: yes
+setup: |
+build: |
+install: |
+  # Create directory structure
+  install -dm0755 %(installroot)/usr/lib/helium
+  install -dm0755 %(installroot)/usr/bin
+  install -dm0755 %(installroot)/usr/share/applications
+  install -dm0755 %(installroot)/usr/share/icons/hicolor/256x256/apps
+  install -dm0755 %(installroot)/usr/share/pixmaps
+
+  # Install main application files
+  cp -a chrome* chrome-wrapper* chromedriver* xdg-* *.pak *.dat *.bin *.json lib*.so* locales/ resources.pak \
+      %(installroot)/usr/lib/helium/
+
+  # Fix desktop file (replace chromium with helium)
+  sed -e 's/Exec=chromium/Exec=helium/g' helium.desktop > helium.desktop.fixed
+  install -Dm0644 helium.desktop.fixed %(installroot)/usr/share/applications/helium.desktop
+  rm helium.desktop.fixed
+
+  # Install icons
+  install -Dm0644 product_logo_256.png %(installroot)/usr/share/icons/hicolor/256x256/apps/helium.png
+  ln -sf ../../../../icons/hicolor/256x256/apps/helium.png %(installroot)/usr/share/pixmaps/helium.png
+
+  # Create wrapper script
+  cat > %(installroot)/usr/bin/helium << 'EOF'
+  #!/bin/sh
+  export HEIMDALL_SKIP_UPDATE_CHECK=1
+  exec "/usr/lib/helium/chrome-wrapper" "$@"
+  EOF
+  chmod 755 %(installroot)/usr/bin/helium
+
+  # Set executable permissions on key binaries
+  chmod 755 %(installroot)/usr/lib/helium/chrome
+  chmod 755 %(installroot)/usr/lib/helium/chrome-wrapper
+  chmod 755 %(installroot)/usr/lib/helium/chromedriver
+  chmod 755 %(installroot)/usr/lib/helium/xdg-*
+patterns:
+  - "helium"
