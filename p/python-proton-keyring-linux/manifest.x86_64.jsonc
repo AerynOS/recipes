@@ -1,0 +1,42 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"python-proton-keyring-linux": {
+			"build-depends": [
+				"pkgconfig(python3)",
+				"python(build)",
+				"python(installer)",
+				"python(setuptools)",
+				"python(wheel)"
+			],
+			"depends": [
+				"python(keyring)",
+				"python(proton-core)"
+			],
+			"files": [
+				"/usr/lib/python3.11/site-packages/proton/keyring_linux/core/__init__.py",
+				"/usr/lib/python3.11/site-packages/proton/keyring_linux/core/__pycache__/__init__.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/proton/keyring_linux/core/__pycache__/keyring_linux.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/proton/keyring_linux/core/keyring_linux.py",
+				"/usr/lib/python3.11/site-packages/proton/keyring_linux/secretservice/__init__.py",
+				"/usr/lib/python3.11/site-packages/proton/keyring_linux/secretservice/__pycache__/__init__.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/proton/keyring_linux/secretservice/__pycache__/secretservice_backend.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/proton/keyring_linux/secretservice/secretservice_backend.py",
+				"/usr/lib/python3.11/site-packages/proton_keyring_linux-0.2.1-py3.11.egg-info/PKG-INFO",
+				"/usr/lib/python3.11/site-packages/proton_keyring_linux-0.2.1-py3.11.egg-info/SOURCES.txt",
+				"/usr/lib/python3.11/site-packages/proton_keyring_linux-0.2.1-py3.11.egg-info/dependency_links.txt",
+				"/usr/lib/python3.11/site-packages/proton_keyring_linux-0.2.1-py3.11.egg-info/entry_points.txt",
+				"/usr/lib/python3.11/site-packages/proton_keyring_linux-0.2.1-py3.11.egg-info/requires.txt",
+				"/usr/lib/python3.11/site-packages/proton_keyring_linux-0.2.1-py3.11.egg-info/top_level.txt"
+			],
+			"name": "python-proton-keyring-linux",
+			"provides": [
+				"python(proton-keyring-linux)"
+			]
+		}
+	},
+	"source-name": "python-proton-keyring-linux",
+	"source-release": "1",
+	"source-version": "0.2.1"
+}

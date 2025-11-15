@@ -1,0 +1,26 @@
+#
+# SPDX-FileCopyrightText: © 2025- AerynOS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : python-proton-keyring-linux
+version     : 0.2.1
+release     : 1
+homepage    : https://github.com/ProtonVPN/python-proton-keyring-linux
+upstreams   :
+    - https://github.com/ProtonVPN/python-proton-keyring-linux/archive/refs/tags/v0.2.1.tar.gz : 8c86a02c1f68e33ba9629c6b9b3c7bb7724716be18620ac6e6c3acb7edaa97c0
+summary     : The python-proton-keyring-linux component
+description : |
+    The python-proton-keyring-linux component
+builddeps   :
+    - pkgconfig(python3)
+    - python(build)
+    - python(installer)
+    - python(setuptools)
+    - python(wheel)
+license     : 
+    - GPL-3.0-or-later
+build       : |
+    %python_setup
+install     : |
+    %python_install
