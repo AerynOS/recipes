@@ -1,0 +1,35 @@
+#
+# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : zola
+version     : 0.21.0
+release     : 1
+homepage    : https://www.getzola.org/
+upstreams   :
+    - https://github.com/getzola/zola/archive/refs/tags/v0.21.0.tar.gz : bbfbc0496cf6612b6030c6d97b0fd2567f5ec41e251f8874b6c9ccda4c8149d4
+summary     : An opinionated static site generator
+description : |
+    Zola is a fast, opinionated static site generator written in Rust.
+license     : MIT
+networking  : yes
+builddeps   :
+    - binary(cargo)
+setup       : |
+    %cargo_fetch
+build       : |
+    %cargo_build
+install     : |
+    %cargo_install
+
+    target/*/release/zola completion bash > zola.bash
+    %install_file zola.bash %(installroot)%(bashcompletionsdir)/zola
+
+    target/*/release/zola completion fish > zola.fish
+    %install_file zola.fish %(installroot)%(fishcompletionsdir)/zola.fish
+
+    target/*/release/zola completion zsh > zola.zsh
+    %install_file zola.zsh %(installroot)%(zshcompletionsdir)/_zola
+check       : |
+    %cargo_test
