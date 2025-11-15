@@ -1,0 +1,26 @@
+#
+# SPDX-FileCopyrightText: © 2025- AerynOS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : python-proton-vpn-api-core
+version     : 4.13.1
+release     : 1
+homepage    : https://github.com/ProtonVPN/python-proton-vpn-api-core
+upstreams   :
+    - https://github.com/ProtonVPN/python-proton-vpn-api-core/archive/refs/tags/v4.13.1.tar.gz : 7bf3629821b1cd289875c06514baa7ac334b5f8533f9530ce5be78c5bef036ff
+summary     : The proton-vpn-core-api component
+description : |
+    The proton-vpn-core-api acts as a facade to the other Proton VPN components, exposing a uniform API to the available Proton VPN services.
+license     : 
+    - GPL-3.0-or-later
+builddeps   :
+    - pkgconfig(python3)
+    - python(build)
+    - python(installer)
+    - python(setuptools)
+    - python(wheel)
+build       : |
+    %python_setup
+install     : |
+    %python_install
