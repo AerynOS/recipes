@@ -1,0 +1,29 @@
+#
+# SPDX-FileCopyrightText: © 2025- AerynOS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : python-pynacl
+version     : 1.5.0
+release     : 1
+homepage    : https://pypi.io/packages/source/P/PyNaCl
+upstreams   :
+    - https://pypi.io/packages/source/P/PyNaCl/PyNaCl-1.5.0.tar.gz : 8ac7448f09ab85811607bdd21ec2464495ac8b7c66d146bf545b0f08fb9220ba
+summary     : Python binding to the Networking and Cryptography (NaCl) library
+description : |
+    PyNaCl is a Python binding to libsodium, which is a fork of the Networking and Cryptography library. These libraries have a stated goal of improving usability, security and speed.
+license     : 
+    - Apache-2.0
+builddeps   :
+    - binary(make)
+    - pkgconfig(libsodium)
+    - pkgconfig(python3)
+    - python(build)
+    - python(cffi)
+    - python(installer)
+    - python(setuptools)
+    - python(wheel)
+build       : |
+    %pyproject_build
+install     : |
+    %pyproject_install
