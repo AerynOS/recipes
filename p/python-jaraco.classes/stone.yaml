@@ -1,0 +1,27 @@
+#
+# SPDX-FileCopyrightText: © 2025- AerynOS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : python-jaraco.classes
+version     : 3.4.0
+release     : 1
+homepage    : https://github.com/jaraco/jaraco.classes
+upstreams   :
+    - https://files.pythonhosted.org/packages/source/j/jaraco.classes/jaraco.classes-3.4.0.tar.gz : 47a024b51d0239c0dd8c8540c6c7f484be3b8fcf0b2d85c13825780d3b3f3acd
+summary     : Utility functions for Python class constructs
+description : |
+    Utility functions for Python class constructs
+license     : 
+    - MIT
+builddeps   :
+    - pkgconfig(python3)
+    - python(build)
+    - python(installer)
+    - python(packaging)
+    - python(setuptools-scm)
+    - python(wheel)
+build       : |
+    %pyproject_build
+install     : |
+    %pyproject_install
