@@ -1,0 +1,26 @@
+#
+# SPDX-FileCopyrightText: © 2025- AerynOS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : python-proton-vpn-network-manager
+version     : 0.13.4
+release     : 1
+homepage    : https://github.com/ProtonVPN/python-proton-vpn-network-manager
+upstreams   :
+    - https://github.com/ProtonVPN/python-proton-vpn-network-manager/archive/refs/tags/v0.13.4.tar.gz : cd0c2c21b4f7cf28aa25c3167ca28bf6820a0603526d70935ce86ee5e8fd7dfb
+summary     : The proton-vpn-network-manager component
+description : |
+    The proton-vpn-network-manager component provides the necessary functionality for other components to interact with NetworkManager.
+license     : 
+    - GPL-3.0-or-later
+builddeps   :
+    - pkgconfig(python3)
+    - python(build)
+    - python(installer)
+    - python(setuptools)
+    - python(wheel)
+build       : |
+    %python_setup
+install     : |
+    %python_install

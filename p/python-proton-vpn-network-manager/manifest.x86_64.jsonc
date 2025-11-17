@@ -1,0 +1,83 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"python-proton-vpn-network-manager": {
+			"build-depends": [
+				"pkgconfig(python3)",
+				"python(build)",
+				"python(installer)",
+				"python(setuptools)",
+				"python(wheel)"
+			],
+			"depends": [
+				"python(jinja2)",
+				"python(packaging)",
+				"python(proton-core)",
+				"python(proton-vpn-api-core)",
+				"python(proton-vpn-local-agent)",
+				"python(pycairo)",
+				"python(pygobject)"
+			],
+			"files": [
+				"/usr/lib/python3.11/site-packages/proton/vpn/backend/linux/networkmanager/core/__init__.py",
+				"/usr/lib/python3.11/site-packages/proton/vpn/backend/linux/networkmanager/core/__pycache__/__init__.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/proton/vpn/backend/linux/networkmanager/core/__pycache__/localagent_mixin.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/proton/vpn/backend/linux/networkmanager/core/__pycache__/networkmanager.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/proton/vpn/backend/linux/networkmanager/core/__pycache__/nmclient.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/proton/vpn/backend/linux/networkmanager/core/__pycache__/tcpcheck.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/proton/vpn/backend/linux/networkmanager/core/local_agent/__init__.py",
+				"/usr/lib/python3.11/site-packages/proton/vpn/backend/linux/networkmanager/core/local_agent/__pycache__/__init__.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/proton/vpn/backend/linux/networkmanager/core/local_agent/__pycache__/listener.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/proton/vpn/backend/linux/networkmanager/core/local_agent/listener.py",
+				"/usr/lib/python3.11/site-packages/proton/vpn/backend/linux/networkmanager/core/localagent_mixin.py",
+				"/usr/lib/python3.11/site-packages/proton/vpn/backend/linux/networkmanager/core/networkmanager.py",
+				"/usr/lib/python3.11/site-packages/proton/vpn/backend/linux/networkmanager/core/nmclient.py",
+				"/usr/lib/python3.11/site-packages/proton/vpn/backend/linux/networkmanager/core/tcpcheck.py",
+				"/usr/lib/python3.11/site-packages/proton/vpn/backend/linux/networkmanager/killswitch/default/__init__.py",
+				"/usr/lib/python3.11/site-packages/proton/vpn/backend/linux/networkmanager/killswitch/default/__pycache__/__init__.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/proton/vpn/backend/linux/networkmanager/killswitch/default/__pycache__/killswitch_connection.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/proton/vpn/backend/linux/networkmanager/killswitch/default/__pycache__/killswitch_connection_handler.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/proton/vpn/backend/linux/networkmanager/killswitch/default/__pycache__/nmclient.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/proton/vpn/backend/linux/networkmanager/killswitch/default/__pycache__/nmkillswitch.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/proton/vpn/backend/linux/networkmanager/killswitch/default/killswitch_connection.py",
+				"/usr/lib/python3.11/site-packages/proton/vpn/backend/linux/networkmanager/killswitch/default/killswitch_connection_handler.py",
+				"/usr/lib/python3.11/site-packages/proton/vpn/backend/linux/networkmanager/killswitch/default/nmclient.py",
+				"/usr/lib/python3.11/site-packages/proton/vpn/backend/linux/networkmanager/killswitch/default/nmkillswitch.py",
+				"/usr/lib/python3.11/site-packages/proton/vpn/backend/linux/networkmanager/killswitch/wireguard/__init__.py",
+				"/usr/lib/python3.11/site-packages/proton/vpn/backend/linux/networkmanager/killswitch/wireguard/__pycache__/__init__.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/proton/vpn/backend/linux/networkmanager/killswitch/wireguard/__pycache__/killswitch_connection.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/proton/vpn/backend/linux/networkmanager/killswitch/wireguard/__pycache__/killswitch_connection_handler.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/proton/vpn/backend/linux/networkmanager/killswitch/wireguard/__pycache__/nmclient.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/proton/vpn/backend/linux/networkmanager/killswitch/wireguard/__pycache__/util.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/proton/vpn/backend/linux/networkmanager/killswitch/wireguard/__pycache__/wgkillswitch.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/proton/vpn/backend/linux/networkmanager/killswitch/wireguard/killswitch_connection.py",
+				"/usr/lib/python3.11/site-packages/proton/vpn/backend/linux/networkmanager/killswitch/wireguard/killswitch_connection_handler.py",
+				"/usr/lib/python3.11/site-packages/proton/vpn/backend/linux/networkmanager/killswitch/wireguard/nmclient.py",
+				"/usr/lib/python3.11/site-packages/proton/vpn/backend/linux/networkmanager/killswitch/wireguard/util.py",
+				"/usr/lib/python3.11/site-packages/proton/vpn/backend/linux/networkmanager/killswitch/wireguard/wgkillswitch.py",
+				"/usr/lib/python3.11/site-packages/proton/vpn/backend/linux/networkmanager/protocol/openvpn/__init__.py",
+				"/usr/lib/python3.11/site-packages/proton/vpn/backend/linux/networkmanager/protocol/openvpn/__pycache__/__init__.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/proton/vpn/backend/linux/networkmanager/protocol/openvpn/__pycache__/openvpn.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/proton/vpn/backend/linux/networkmanager/protocol/openvpn/openvpn.py",
+				"/usr/lib/python3.11/site-packages/proton/vpn/backend/linux/networkmanager/protocol/wireguard/__init__.py",
+				"/usr/lib/python3.11/site-packages/proton/vpn/backend/linux/networkmanager/protocol/wireguard/__pycache__/__init__.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/proton/vpn/backend/linux/networkmanager/protocol/wireguard/__pycache__/wireguard.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/proton/vpn/backend/linux/networkmanager/protocol/wireguard/wireguard.py",
+				"/usr/lib/python3.11/site-packages/proton_vpn_network_manager-0.13.4-py3.11.egg-info/PKG-INFO",
+				"/usr/lib/python3.11/site-packages/proton_vpn_network_manager-0.13.4-py3.11.egg-info/SOURCES.txt",
+				"/usr/lib/python3.11/site-packages/proton_vpn_network_manager-0.13.4-py3.11.egg-info/dependency_links.txt",
+				"/usr/lib/python3.11/site-packages/proton_vpn_network_manager-0.13.4-py3.11.egg-info/entry_points.txt",
+				"/usr/lib/python3.11/site-packages/proton_vpn_network_manager-0.13.4-py3.11.egg-info/requires.txt",
+				"/usr/lib/python3.11/site-packages/proton_vpn_network_manager-0.13.4-py3.11.egg-info/top_level.txt"
+			],
+			"name": "python-proton-vpn-network-manager",
+			"provides": [
+				"python(proton-vpn-network-manager)"
+			]
+		}
+	},
+	"source-name": "python-proton-vpn-network-manager",
+	"source-release": "1",
+	"source-version": "0.13.4"
+}
