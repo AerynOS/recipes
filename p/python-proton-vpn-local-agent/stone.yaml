@@ -1,0 +1,30 @@
+#
+# SPDX-FileCopyrightText: © 2025- AerynOS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : python-proton-vpn-local-agent
+version     : 1.6.0
+release     : 1
+homepage    : https://github.com/ProtonVPN/local-agent-rs
+upstreams   :
+    - https://github.com/ProtonVPN/local-agent-rs/archive/refs/tags/1.6.0.tar.gz : 52b62ee267ef09d004f6bbfd10ad7ce28a5c32136200b4492c7e681be18d1676
+summary     : Proton VPN local agent written in Rust
+description : |
+    Proton VPN local agent written in Rust
+license     : GPL-3.0-or-later
+builddeps   :
+    - binary(rustc)
+    - pkgconfig(python3)
+networking  : true
+setup       : |
+    pushd %(workdir)/python-proton-vpn-local-agent
+    %cargo_fetch
+    popd
+build       : |
+    pushd %(workdir)/python-proton-vpn-local-agent
+    %cargo_build
+    popd
+install     : |
+    python_version=$(python -c 'import sys; print(".".join(map(str, sys.version_info[:2])))')
+    %install_exe %(workdir)/python-proton-vpn-local-agent/%(cargo_target_dir)/libpython_proton_vpn_local_agent.so %(installroot)%(libdir)/python${python_version}/site-packages/proton/vpn/local_agent.abi3.so

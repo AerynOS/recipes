@@ -1,0 +1,28 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"python-proton-vpn-local-agent": {
+			"build-depends": [
+				"binary(rustc)",
+				"pkgconfig(python3)"
+			],
+			"depends": [
+				"soname(ld-linux-x86-64.so.2(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libm.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/lib/python3.11/site-packages/proton/vpn/local_agent.abi3.so"
+			],
+			"name": "python-proton-vpn-local-agent",
+			"provides": [
+				"soname(python3.11/site-packages/proton/vpn/local_agent.abi3.so(x86_64))"
+			]
+		}
+	},
+	"source-name": "python-proton-vpn-local-agent",
+	"source-release": "1",
+	"source-version": "1.6.0"
+}
