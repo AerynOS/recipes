@@ -5,11 +5,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : linux-desktop
-version     : 6.17.7
-release     : 115
+version     : 6.17.8
+release     : 116
 homepage    : https://kernel.org/
 upstreams   :
-    - https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.17.7.tar.xz : ddf2ea0d4439e1d57136be3623102af9458f601f5b1cb77e83246e88aea09d0e
+    - https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.17.8.tar.xz : 5a8de64a75fca706c01c6c0a77cf75a74618439db195e25f1f0268af6b2fb1da
 summary     : The Linux Kernel for desktop systems
 description : |
     The Linux Kernel for desktop systems
@@ -56,8 +56,8 @@ builddeps   :
     - font-cantarell
     - intel-microcode
     - libgcc # libgcc_s.so.1 - needed until we get llvm-libgcc
-    - linux-firmware-amd64-microcode
     - linux-firmware-amd-graphics
+    - linux-firmware-amd64-microcode
     - linux-firmware-intel-graphics
     - linux-firmware-nvidia-graphics
     - rust-devel # Needs Rust source

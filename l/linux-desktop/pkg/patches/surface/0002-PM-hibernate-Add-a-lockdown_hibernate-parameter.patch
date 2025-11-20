@@ -32,7 +32,7 @@ index e92c0056e4e0..02f765f275ca 100644
  			Set the time limit in jiffies for a lock
  			acquisition.  Acquisitions exceeding this limit
 diff --git a/kernel/power/hibernate.c b/kernel/power/hibernate.c
-index 728328c51b64..1fa3ae6c36f9 100644
+index 53166ef86ba4..5b33262b17b5 100644
 --- a/kernel/power/hibernate.c
 +++ b/kernel/power/hibernate.c
 @@ -38,6 +38,7 @@
@@ -52,7 +52,7 @@ index 728328c51b64..1fa3ae6c36f9 100644
  		!secretmem_active() && !cxl_mem_active();
  }
  
-@@ -1500,6 +1501,12 @@ static int __init nohibernate_setup(char *str)
+@@ -1492,6 +1493,12 @@ static int __init nohibernate_setup(char *str)
  	return 1;
  }
  
@@ -65,7 +65,7 @@ index 728328c51b64..1fa3ae6c36f9 100644
  static const char * const comp_alg_enabled[] = {
  #if IS_ENABLED(CONFIG_CRYPTO_LZO)
  	COMPRESSION_ALGO_LZO,
-@@ -1557,3 +1564,4 @@ __setup("hibernate=", hibernate_setup);
+@@ -1549,3 +1556,4 @@ __setup("hibernate=", hibernate_setup);
  __setup("resumewait", resumewait_setup);
  __setup("resumedelay=", resumedelay_setup);
  __setup("nohibernate", nohibernate_setup);
