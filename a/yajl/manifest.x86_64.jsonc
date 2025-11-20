@@ -1,0 +1,50 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"yajl": {
+			"depends": [
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(libc.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/bin/json_reformat",
+				"/usr/bin/json_verify",
+				"/usr/lib/libyajl.so.2",
+				"/usr/lib/libyajl.so.2.1.0",
+				"/usr/share/docyajl/ChangeLog",
+				"/usr/share/docyajl/README",
+				"/usr/share/docyajl/TODO",
+				"/usr/share/licenses/yajl/COPYING"
+			],
+			"name": "yajl",
+			"provides": [
+				"binary(json_reformat)",
+				"binary(json_verify)",
+				"soname(libyajl.so.2(x86_64))"
+			]
+		},
+		"yajl-devel": {
+			"depends": [
+				"yajl"
+			],
+			"files": [
+				"/usr/include/yajl/yajl_common.h",
+				"/usr/include/yajl/yajl_gen.h",
+				"/usr/include/yajl/yajl_parse.h",
+				"/usr/include/yajl/yajl_tree.h",
+				"/usr/include/yajl/yajl_version.h",
+				"/usr/lib/libyajl.so",
+				"/usr/lib/libyajl_s.a",
+				"/usr/share/pkgconfig/yajl.pc"
+			],
+			"name": "yajl-devel",
+			"provides": [
+				"pkgconfig(yajl)"
+			]
+		}
+	},
+	"source-name": "yajl",
+	"source-release": "1",
+	"source-version": "2.1.0"
+}

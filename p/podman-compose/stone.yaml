@@ -1,0 +1,22 @@
+#
+# SPDX-FileCopyrightText: © 2025- AerynOS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : podman-compose
+version     : 1.4.0
+release     : 1
+homepage    : https://github.com/containers/podman-compose
+upstreams   :
+    - https://github.com/containers/podman-compose/archive/refs/tags/v1.4.0.tar.gz : 167860361357f32e09660342756442ac6f9adf182f00ade1309b550de48ed494
+summary     : A script to run docker-compose.yml using podman 
+description : |
+    An implementation of Compose Spec with Podman backend.
+license     : GPL-2.0-only
+rundeps     :
+    - binary(podman)
+build       : |
+    %pyproject_build
+install     : |
+    %pyproject_install
+    %install_file {README.md,docs/*} -t %(installroot)%(docdir)/%(name)
