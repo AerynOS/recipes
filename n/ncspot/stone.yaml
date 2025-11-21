@@ -1,0 +1,28 @@
+#
+# SPDX-FileCopyrightText: © 2025- AerynOS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : ncspot
+version     : v1.3.2
+release     : 1
+homepage    : https://github.com/hrkfdn/ncspot
+upstreams   :
+    - https://github.com/hrkfdn/ncspot/archive/refs/tags/v1.3.2.tar.gz : d60c04c027dddbc57cbd9bcb23ec4967b4ae7330a280a7a5f6b77c1ea2cf8c99
+summary     : ncurse Spotify client in Rust
+description : |
+    Cross-platform ncurses Spotify client written in Rust, inspired by ncmpc and the likes. 
+license     : 
+    - BSD-2-Clause
+builddeps   :
+    - pkgconfig(openssl)
+    - pkgconfig(libpulse)
+networking  : true
+setup       : |
+    %cargo_fetch
+build       : |
+    %cargo_build
+install     : |
+    %cargo_install
+check       : |
+    %cargo_test
