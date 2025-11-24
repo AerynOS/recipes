@@ -1,0 +1,66 @@
+From a3ae3384be7704fcf41279f13190bd8a11204bea Mon Sep 17 00:00:00 2001
+From: Antheas Kapenekakis <lkml@antheas.dev>
+Date: Fri, 29 Aug 2025 16:55:41 +0200
+Subject: drm: panel-backlight-quirks: Log applied panel brightness quirks
+
+Currently, when a panel brightness quirk is applied, there is no log
+indicating that a quirk was applied. Unwrap the drm device on its own
+and use drm_info() to log when a quirk is applied.
+
+Suggested-by: Mario Limonciello <mario.limonciello@amd.com>
+Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
+Link: https://lore.kernel.org/r/20250829145541.512671-7-lkml@antheas.dev
+Acked-by: Alex Deucher <alexander.deucher@amd.com>
+Reviewed-by: Mario Limonciello <mario.limonciello@amd.com>
+(Correct a missing -1 in the message math)
+Signed-off-by: Mario Limonciello (AMD) <superm1@kernel.org>
+---
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 16 +++++++++++++---
+ 1 file changed, 13 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index 156f2aae6828..18f0e0912ea6 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -3617,13 +3617,15 @@ static void update_connector_ext_caps(struct amdgpu_dm_connector *aconnector)
+ 	struct drm_connector *conn_base;
+ 	struct amdgpu_device *adev;
+ 	struct drm_luminance_range_info *luminance_range;
++	struct drm_device *drm;
+ 
+ 	if (aconnector->bl_idx == -1 ||
+ 	    aconnector->dc_link->connector_signal != SIGNAL_TYPE_EDP)
+ 		return;
+ 
+ 	conn_base = &aconnector->base;
+-	adev = drm_to_adev(conn_base->dev);
++	drm = conn_base->dev;
++	adev = drm_to_adev(drm);
+ 
+ 	caps = &adev->dm.backlight_caps[aconnector->bl_idx];
+ 	caps->ext_caps = &aconnector->dc_link->dpcd_sink_ext_caps;
+@@ -3659,12 +3661,20 @@ static void update_connector_ext_caps(struct amdgpu_dm_connector *aconnector)
+ 	panel_backlight_quirk =
+ 		drm_get_panel_backlight_quirk(aconnector->drm_edid);
+ 	if (!IS_ERR_OR_NULL(panel_backlight_quirk)) {
+-		if (panel_backlight_quirk->min_brightness)
++		if (panel_backlight_quirk->min_brightness) {
+ 			caps->min_input_signal =
+ 				panel_backlight_quirk->min_brightness - 1;
+-		if (panel_backlight_quirk->brightness_mask)
++			drm_info(drm,
++				 "Applying panel backlight quirk, min_brightness: %d\n",
++				 caps->min_input_signal);
++		}
++		if (panel_backlight_quirk->brightness_mask) {
++			drm_info(drm,
++				 "Applying panel backlight quirk, brightness_mask: 0x%X\n",
++				 panel_backlight_quirk->brightness_mask);
+ 			caps->brightness_mask =
+ 				panel_backlight_quirk->brightness_mask;
++		}
+ 	}
+ }
+ 
+-- 
+cgit v1.2.3
