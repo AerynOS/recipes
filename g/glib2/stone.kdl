@@ -1,0 +1,102 @@
+//
+// SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
+//
+// SPDX-License-Identifier: MPL-2.0
+//
+name        glib2
+version     "2.84.0"
+release     24
+homepage    "https://gitlab.gnome.org/GNOME/glib"
+summary     "Low-level core library that forms the basis for projects such as GTK+ and GNOME"
+description """
+    GLib is the low-level core library that forms the basis for projects such
+    as GTK and GNOME. It provides data structure handling for C, portability
+    wrappers, and interfaces for such runtime functionality as an event loop,
+    threads, dynamic loading, and an object system.
+    """
+
+upstream {
+    url "https://download.gnome.org/sources/glib/2.84/glib-2.84.0.tar.xz"
+    hash f8823600cb85425e2815cfad82ea20fdaa538482ab74e7293d58b3f64a5aff6a
+}
+
+license {
+    Apache-2.0
+    CC0-1.0
+    GPL-2.0-or-later
+    LGPL-2.1-or-later
+    LLVM-exception
+    MIT
+}
+
+builddeps {
+    "binary(xgettext)"
+    "pkgconfig(bash-completion)"
+    "pkgconfig(gobject-introspection-1.0)"
+    "pkgconfig32(libelf)"
+    "pkgconfig32(libffi)"
+    "pkgconfig32(libpcre2-8)"
+    "pkgconfig32(mount)"
+    "pkgconfig32(zlib)"
+    "python-packaging"
+}
+
+packages {
+    "%(name)-32bit-devel" {
+        paths {
+            "/usr/share/gdb/auto-load/usr/lib32"
+            "/usr/lib32/glib-2.0/include"
+        }
+    }
+    "%(name)-devel" {
+        paths {
+            "/usr/share/gdb/auto-load/usr/lib"
+            "/usr/lib/glib-2.0/include"
+        }
+    }
+}
+
+emul32 #true
+
+rundeps {
+    "binary(python3)"
+    "elfutils-libs"
+    "python-packaging"
+}
+
+environment """
+    export CFLAGS="${CFLAGS} -Wno-error=missing-include-dirs"
+    """
+
+profiles {
+    emul32 {
+        setup """
+            %patch %(pkgdir)/0001-glib-gutils-Support-stateless-fallback-XDG_CONFIG_DI.patch
+            %patch %(pkgdir)/0001-gdesktopappinfo-Support-ptyxis-for-executing-.deskto.patch
+            %meson -Dtests=false -Dinstalled_tests=false -Dintrospection=disabled
+            """
+        build """
+            %meson_build
+            """
+        install """
+            %meson_install
+            """
+    }
+}
+
+setup """
+    %patch %(pkgdir)/0001-glib-gutils-Support-stateless-fallback-XDG_CONFIG_DI.patch
+    %patch %(pkgdir)/0001-gdesktopappinfo-Support-ptyxis-for-executing-.deskto.patch
+    %meson -Dtests=false -Dinstalled_tests=false
+    """
+
+build """
+    %meson_build
+    """
+
+install """
+    %meson_install
+    %python_compile
+    %install_file %(pkgdir)/trigger.yaml %(installroot)/usr/share/moss/triggers/tx.d/glib2.yaml
+    %install_file %(pkgdir)/glibconfig.h %(installroot)%(includedir)/glib-2.0/glibconfig.h
+    """
