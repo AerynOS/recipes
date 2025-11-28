@@ -1,0 +1,32 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Reilly Brogan <reilly@reillybrogan.com>
+Date: Fri, 14 Feb 2025 16:40:03 -0600
+Subject: [PATCH] Force gnu mode for date
+
+uutils date doesn't report itself as GNU or busybox, but supports the same flags
+
+---
+ make/autoconf/basic_tools.m4 | 10 +---------
+ 1 file changed, 1 insertion(+), 9 deletions(-)
+
+diff --git a/make/autoconf/basic_tools.m4 b/make/autoconf/basic_tools.m4
+index 8c518d05d4..c4f7d732e0 100644
+--- a/make/autoconf/basic_tools.m4
++++ b/make/autoconf/basic_tools.m4
+@@ -372,15 +372,7 @@ AC_DEFUN_ONCE([BASIC_SETUP_COMPLEX_TOOLS],
+   AC_SUBST(IS_GNU_TIME)
+ 
+   # Check if it's a GNU date compatible version
+-  AC_MSG_CHECKING([if date is a GNU compatible version])
+-  check_date=`$DATE --version 2>&1 | $GREP "GNU\|BusyBox"`
+-  if test "x$check_date" != x; then
+-    AC_MSG_RESULT([yes])
+-    IS_GNU_DATE=yes
+-  else
+-    AC_MSG_RESULT([no])
+-    IS_GNU_DATE=no
+-  fi
++  IS_GNU_DATE=yes
+   AC_SUBST(IS_GNU_DATE)
+ 
+   if test "x$OPENJDK_TARGET_OS" = "xmacosx"; then

@@ -1,0 +1,163 @@
+#
+# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : openjdk-17
+version     : 17.0.17
+release     : 1
+upstreams   :
+    - https://github.com/openjdk/jdk17u/archive/refs/tags/jdk-17.0.17-ga.tar.gz:
+        hash: e2d1d92a4a593d9a87054ea54f76fcb6119f782c57945506a2ec4adff6ddc123
+        unpackdir: "jdk"
+    # BOOTSTRAPPIN
+    - https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.17%2B10/OpenJDK17U-jdk_x64_linux_hotspot_17.0.17_10.tar.gz:
+        hash: 992f96e7995075ac7636bb1a8de52b0c61d71ed3137fafc979ab96b4ab78dd75
+        unpackdir: "jdk/bootstrap-jdk"
+    # Detection seems broken, we can't use system gtest (TODO fix this)
+    - https://github.com/google/googletest/archive/refs/tags/v1.14.0.tar.gz:
+        hash: 8ad598c73ad796e0d8280b082cebd82a630d73e73cd3c70057938a6501bba5d7
+        unpackdir: "jdk/gtest-local"
+homepage    : https://openjdk.java.net/
+summary     : Open implementation of Oracle's Java Development Kit, major version 17
+description : |
+    Open implementation of Oracle's Java Development Kit, major version 17. This package includes the JDK, the JRE is not separately provided.
+license     :
+    - GPL-2.0-or-later
+builddeps   :
+    - binary(c++filt)
+    - binary(gnu-sort)
+    - binary(make)
+    # - binary(patchelf)
+    - binary(tar)
+    - binary(unzip)
+    - binary(zip)
+    - pkgconfig(alsa)
+    - pkgconfig(cups)
+    - pkgconfig(fontconfig)
+    - pkgconfig(harfbuzz)
+    - pkgconfig(ice)
+    - pkgconfig(lcms2)
+    - pkgconfig(libjpeg)
+    - pkgconfig(x11)
+    - pkgconfig(xext)
+    - pkgconfig(xrandr)
+    - pkgconfig(xrender)
+    - pkgconfig(xt)
+    - pkgconfig(xtst)
+rundeps-exclude:
+    - 'soname\(libjvm\.so\(.*\)\)'
+setup       : |
+    # TODO package jtreg so we can run tests (post bootstrapping)
+    # TODO build with system giflib
+    # TODO at some point when we have conflicts it should be feasible to package the JRE
+
+    %patch %(pkgdir)/0001-Force-gnu-mode-for-date.patch
+
+    # ccache needs to be enabled via conf option, not by setting the path
+    if [[ " ${PATH[*]} " =~ "ccache" ]]; then
+        export PATH="${PATH//\/usr\/lib\/ccache\/bin:/}"
+        export extra_conf_opts="--enable-ccache"
+    fi
+
+    # # clang 16/17 changes
+    # export LDFLAGS="${LDFLAGS} -Wl,--undefined-version"
+
+    chmod +x configure
+    %configure \
+               --prefix="%(installroot)/usr" \
+               --disable-warnings-as-errors \
+               --disable-absolute-paths-in-output \
+               --with-boot-jdk="%(workdir)/bootstrap-jdk" \
+               --with-jvm-features=link-time-opt \
+               --with-native-debug-symbols=internal \
+               --with-stdc++lib=dynamic \
+               --with-toolchain-type=clang \
+               --with-version-build="10" \
+               --with-version-pre="" \
+               --with-version-opt="aeryn" \
+               --with-vendor-name=AerynOS \
+               --with-vendor-url=https://AerynOS.com/ \
+               --with-vendor-bug-url=https://github.com/serpent-os/recipes/issues \
+               --with-vendor-vm-bug-url=https://github.com/serpent-os/recipes/issues \
+               --with-freetype=system \
+               --with-harfbuzz=system \
+               --with-lcms=system \
+               --with-libjpeg=system \
+               --with-libpng=system \
+               --with-zlib=system \
+               --with-extra-cflags="${CFLAGS}" \
+               --with-extra-cxxflags="${CXXFLAGS}" \
+               --with-extra-ldflags="${LDFLAGS}" \
+               --with-jobs=%(jobs) \
+               AR="${AR}" \
+               NM="${NM}" \
+               OBJCOPY="${OBJCOPY}" \
+               OBJDUMP="llvm-objdump" \
+               SORT="/usr/bin/gnu-sort" \
+               STRIP="${STRIP}" \
+               $extra_conf_opts
+build       : |
+    %ccache_zero
+
+    make images test-image
+
+    %ccache_stats
+install     : |
+    make install
+
+    jvm_dir="%(libdir)/openjdk-17"
+    %install_dir %(installroot)/%(libdir)
+    mv %(installroot)/%(prefix)/jvm/openjdk-* %(installroot)/${jvm_dir}
+    rmdir %(installroot)/%(prefix)/jvm
+
+    # Remove license files and demo files
+    rm -rfv %(installroot)/${jvm_dir}/{legal,demo}/
+
+    # System headers
+    %install_dir %(installroot)/%(includedir)/openjdk-17
+    mv %(installroot)/${jvm_dir}/include/* %(installroot)/%(includedir)/openjdk-17
+    ln -srvf %(installroot)/%(includedir)/openjdk-17 %(installroot)/${jvm_dir}/include
+
+    # Man pages
+    %install_dir %(installroot)/%(datadir)
+    mv %(installroot)/${jvm_dir}/man %(installroot)/%(datadir)
+    find %(installroot)/%(mandir) -type f -print -exec rename -- ".1" "-17.1" {} \;
+
+    # System JVM symlinks for applications that check for this path
+    %install_dir %(installroot)/%(libdir)/jvm
+    ln -srv %(installroot)/${jvm_dir} %(installroot)/%(libdir)/jvm/openjdk-17
+
+    # Fix binary symlinks
+    pushd %(installroot)/%(bindir)
+    for bin in *; do
+        rm -v ${bin}
+        if test -f %(installroot)/${jvm_dir}/bin/${bin}; then
+            ln -srv %(installroot)/${jvm_dir}/bin/${bin} ${bin}-17
+        fi
+    done
+    popd
+
+    # Fix RPATH to work with Boulder
+    # pushd %(installroot)/${jvm_dir}
+    # file_list=()
+    # while IFS=  read -r -d $'\0'; do
+    #     file_list+=("$REPLY")
+    # done < <(find . -type f -print0)
+    # for file in "${file_list[@]}"; do
+    #     path="${jvm_dir}/${file}"
+    #     patchelf --replace-needed libjvm.so "openjdk-17/lib/server/libjvm.so" "${file}" || true
+    #     rpath=$(patchelf --print-rpath ${file} || true)
+    #     if [ "${rpath}" != "" ] ; then
+    #         if [ "${rpath}" == "\$ORIGIN" ] ; then
+    #             new_rpath="${jvm_dir}/lib"
+    #         elif [ "${rpath}" == "\$ORIGIN:\$ORIGIN/../lib" ] ; then
+    #             dir=$(dirname "${path}")
+    #             new_rpath="${dir}:${jvm_dir}/lib"
+    #         fi
+    #         patchelf --force-rpath --set-rpath "${new_rpath}" "${file}"
+    #     fi
+    # done
+    # popd
+tuning      :
+    - lto: false # Enabled by argument instead
