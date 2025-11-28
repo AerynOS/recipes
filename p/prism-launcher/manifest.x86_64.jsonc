@@ -1,0 +1,54 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"prismlauncher": {
+			"build-depends": [
+				"binary(scdoc)",
+				"cmake(ECM)",
+				"cmake(Qt6Core)",
+				"cmake(Qt6Core5Compat)",
+				"cmake(Qt6NetworkAuth)",
+				"openjdk-17",
+				"pkgconfig(libcmark)"
+			],
+			"depends": [
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"openjdk-21",
+				"soname(libQt6Core.so.6(x86_64))",
+				"soname(libQt6Core5Compat.so.6(x86_64))",
+				"soname(libQt6Gui.so.6(x86_64))",
+				"soname(libQt6Network.so.6(x86_64))",
+				"soname(libQt6NetworkAuth.so.6(x86_64))",
+				"soname(libQt6Widgets.so.6(x86_64))",
+				"soname(libQt6Xml.so.6(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libcmark.so.0.31.1(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libm.so.6(x86_64))",
+				"soname(libstdc++.so.6(x86_64))",
+				"soname(libz.so.1(x86_64))"
+			],
+			"files": [
+				"/usr/bin/prismlauncher",
+				"/usr/share/PrismLauncher/JavaCheck.jar",
+				"/usr/share/PrismLauncher/NewLaunch.jar",
+				"/usr/share/PrismLauncher/NewLaunchLegacy.jar",
+				"/usr/share/PrismLauncher/qtlogging.ini",
+				"/usr/share/applications/org.prismlauncher.PrismLauncher.desktop",
+				"/usr/share/icons/hicolor/scalable/apps/org.prismlauncher.PrismLauncher.svg",
+				"/usr/share/man/man6/prismlauncher.6",
+				"/usr/share/metainfo/org.prismlauncher.PrismLauncher.metainfo.xml",
+				"/usr/share/mime/packages/modrinth-mrpack-mime.xml",
+				"/usr/share/qlogging-categories6/prismlauncher.categories"
+			],
+			"name": "prismlauncher",
+			"provides": [
+				"binary(prismlauncher)"
+			]
+		}
+	},
+	"source-name": "prismlauncher",
+	"source-release": "1",
+	"source-version": "9.4"
+}

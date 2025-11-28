@@ -1,0 +1,36 @@
+#
+# SPDX-FileCopyrightText: © 2025- AerynOS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : prismlauncher
+version     : 9.4
+release     : 1
+homepage    : https://prismlauncher.org/
+upstreams   :
+    - https://github.com/PrismLauncher/PrismLauncher/releases/download/9.4/PrismLauncher-9.4.tar.gz : 77ab52239c2a2a9f77d7c4607e1d9cf40970f9240d2f5061b116a7b1b8fd0277
+summary     : Minecraft launcher with ability to manage multiple instances.
+description : |
+    Minecraft launcher with ability to manage multiple instances.
+license     : GPL-3.0-only
+builddeps   :
+    - binary(scdoc)
+    - cmake(ECM)
+    - cmake(Qt6Core)
+    - cmake(Qt6Core5Compat)
+    - cmake(Qt6NetworkAuth)
+    - pkgconfig(libcmark)
+    - openjdk-17
+rundeps     :
+    - openjdk-21
+environment : |
+    export JAVA_HOME=/usr/lib64/openjdk-17
+    export PATH=$JAVA_HOME/bin:$PATH
+setup       : |
+    %cmake \
+            -DLauncher_BUILD_PLATFORM="aerynos" \
+            -DLauncher_QT_VERSION_MAJOR="6"
+build       : |
+    %cmake_build
+install     : |
+    %cmake_install
