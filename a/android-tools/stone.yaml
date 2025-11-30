@@ -1,0 +1,34 @@
+#
+# SPDX-FileCopyrightText: © 2025- AerynOS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : android-tools
+version     : 35.0.2-rc1
+release     : 1
+homepage    : https://github.com/meator/android-tools-static
+upstreams   :
+    - https://github.com/meator/android-tools-static/releases/download/35.0.2-rc.1/android-tools-static-35.0.2-rc.1-src.tar.gz : 294311d6942a5109565b8e7eccc4e54d650d1e9829165782404b5a1a38659dfa
+summary     : Android SDK Platform-Tools
+description : |
+    Android SDK Platform-Tools is a component for the Android SDK.
+    It includes tools that interface with the Android platform, primarily adb and fastboot. 
+license     : 
+    - Apache-2.0
+builddeps   :
+    - pkgconfig(absl_log)
+    - pkgconfig(fmt)
+    - pkgconfig(gtest)
+    - pkgconfig(libbrotlicommon)
+    - pkgconfig(liblz4)
+    - pkgconfig(libpcre2-8)
+    - pkgconfig(libusb-1.0)
+    - pkgconfig(libzstd)
+    - pkgconfig(protobuf)
+    - pkgconfig(zlib)
+setup       : |
+    %meson
+build       : |
+    %meson_build
+install     : |
+    %meson_install

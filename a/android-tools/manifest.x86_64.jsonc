@@ -1,0 +1,68 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"android-tools": {
+			"build-depends": [
+				"pkgconfig(absl_log)",
+				"pkgconfig(fmt)",
+				"pkgconfig(gtest)",
+				"pkgconfig(libbrotlicommon)",
+				"pkgconfig(liblz4)",
+				"pkgconfig(libpcre2-8)",
+				"pkgconfig(libusb-1.0)",
+				"pkgconfig(libzstd)",
+				"pkgconfig(protobuf)",
+				"pkgconfig(zlib)"
+			],
+			"depends": [
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(ld-linux-x86-64.so.2(x86_64))",
+				"soname(libabsl_log_internal_check_op.so.2508.0.0(x86_64))",
+				"soname(libabsl_log_internal_message.so.2508.0.0(x86_64))",
+				"soname(libabsl_status.so.2508.0.0(x86_64))",
+				"soname(libbrotlidec.so.1(x86_64))",
+				"soname(libbrotlienc.so.1(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libfmt.so.12(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(liblz4.so.1(x86_64))",
+				"soname(libprotobuf.so.31.0.0(x86_64))",
+				"soname(libstdc++.so.6(x86_64))",
+				"soname(libusb-1.0.so.0(x86_64))",
+				"soname(libz.so.1(x86_64))",
+				"soname(libzstd.so.1(x86_64))"
+			],
+			"files": [
+				"/usr/bin/adb",
+				"/usr/bin/append2simg",
+				"/usr/bin/fastboot",
+				"/usr/bin/img2simg",
+				"/usr/bin/lpadd",
+				"/usr/bin/lpdump",
+				"/usr/bin/lpflash",
+				"/usr/bin/lpmake",
+				"/usr/bin/lpunpack",
+				"/usr/bin/simg2img",
+				"/usr/share/bash-completion/completions/adb",
+				"/usr/share/bash-completion/completions/fastboot"
+			],
+			"name": "android-tools",
+			"provides": [
+				"binary(adb)",
+				"binary(append2simg)",
+				"binary(fastboot)",
+				"binary(img2simg)",
+				"binary(lpadd)",
+				"binary(lpdump)",
+				"binary(lpflash)",
+				"binary(lpmake)",
+				"binary(lpunpack)",
+				"binary(simg2img)"
+			]
+		}
+	},
+	"source-name": "android-tools",
+	"source-release": "1",
+	"source-version": "35.0.2-rc1"
+}
