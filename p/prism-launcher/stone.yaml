@@ -20,16 +20,17 @@ builddeps   :
     - binary(java-17)
     - binary(scdoc)
     - cmake(ECM)
-    - cmake(cmark)
     - cmake(Qt6)
     - cmake(Qt6Core5Compat)
     - cmake(Qt6NetworkAuth)
+    - cmake(cmark)
     - cmake(tomlplusplus)
     - cmake(zlib)
     - pkgconfig(bzip2)
     - pkgconfig(gamemode)
 rundeps     :
     - binary(gamemoderun)
+    - binary(java-17)
     - binary(java-21)
     - qt6-wayland
 setup       : |
