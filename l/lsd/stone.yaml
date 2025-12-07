@@ -1,0 +1,25 @@
+#
+# SPDX-FileCopyrightText: © 2025- AerynOS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : lsd
+version     : 1.2.0
+release     : 1
+homepage    : https://github.com/lsd-rs/lsd
+upstreams   :
+    - https://github.com/lsd-rs/lsd/archive/refs/tags/v1.2.0.tar.gz : dae8d43087686a4a1de0584922608e9cbab00727d0f72e4aa487860a9cbfeefa
+summary     :  The next gen ls command 
+description : |
+     The next gen ls command 
+license     : 
+    - Apache-2.0
+networking  : true
+rundeps     :
+    - font-awesome-ttf
+setup       : |
+    %cargo_fetch
+build       : |
+    %cargo_build
+install     : |
+    %cargo_install
