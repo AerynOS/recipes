@@ -5,7 +5,7 @@
 #
 name        : cups
 version     : 2.4.16
-release     : 19
+release     : 20
 homepage    : https://openprinting.github.io/cups/
 upstreams   :
     - https://github.com/OpenPrinting/cups/releases/download/v2.4.16/cups-2.4.16-source.tar.gz : 0339587204b4f9428dd0592eb301dec0bf9ea6ea8dce5d9690d56be585aba92d
@@ -24,6 +24,8 @@ builddeps   :
     - pkgconfig(libusb-1.0)
     - pkgconfig(pam)
     - libpaper-devel
+rundeps     :
+    - cups-filters
 tuning      :
     - lto: full
     - optimize: size # This doesn't need to be fast, so we might as well make it small
