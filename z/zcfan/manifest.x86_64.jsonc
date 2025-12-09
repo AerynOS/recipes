@@ -1,0 +1,24 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"zcfan": {
+			"depends": [
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(libc.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/bin/zcfan",
+				"/usr/lib/systemd/system/zcfan.service",
+				"/usr/share/man/man1/zcfan.1"
+			],
+			"name": "zcfan",
+			"provides": [
+				"binary(zcfan)"
+			]
+		}
+	},
+	"source-name": "zcfan",
+	"source-release": "1",
+	"source-version": "1.4.0"
+}

@@ -1,0 +1,21 @@
+#
+# SPDX-FileCopyrightText: © 2025 Hadi Chokr
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : zcfan
+version     : 1.4.0
+release     : 1
+summary     : Zero-configuration fan control for ThinkPad
+license     : MIT
+homepage    : https://github.com/cdown/zcfan
+description : |
+    Zero-configuration fan control daemon for ThinkPads.
+upstreams   :
+    - https://github.com/cdown/zcfan/archive/refs/tags/1.4.0.tar.gz: 33e4944303c778581b6471c79e1273a5668917542e412c8125f028133b684718
+environment : |
+    export MAKE_ARGS="prefix=%(prefix)"
+build       : |
+    %make $MAKE_ARGS
+install     : |
+    %make_install $MAKE_ARGS
