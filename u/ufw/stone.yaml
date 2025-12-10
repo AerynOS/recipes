@@ -1,0 +1,29 @@
+name        : ufw
+version     : 0.36.2
+release     : 1
+summary     : Uncomplicated Firewall
+license     : GPL-3.0-only
+homepage    : https://launchpad.net/ufw
+description : |
+    Ufw stands for Uncomplicated Firewall, and is a program for managing a netfilter firewall. It provides a command line interface and aims to be uncomplicated and easy to use.
+
+upstreams:
+  - https://git.launchpad.net/ufw.git: c2b36d70d003050e54310b55a6bf6a7d17c649a8f056eba09b6a24f3500ed8c5
+
+rundeps     :
+    - binary(python3)
+    - iptables
+
+setup       : |
+    # move from /lib to /usr/lib
+    sed -i -e 's|/lib|/usr/lib|' setup.py
+
+    # don't force-enable tcp selective acks
+    sed -i -e '/net\/ipv4\/tcp_sack/s/^/#/g' conf/sysctl.conf
+
+install     : |
+    %python_install
+    install -Dm644 shell-completion/bash %(installroot)/usr/share/bash-completion/completions/ufw
+    install -Dm644 %(pkgdir)/ufw.service %(installroot)/usr/lib/systemd/system/ufw.service
+    chmod 644 %(installroot)/etc/ufw/*.rules
+    rm -rf %(installroot)/usr/share/ufw/messages
