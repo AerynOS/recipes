@@ -1,0 +1,58 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"ufw": {
+			"build-depends": [
+				"iptables"
+			],
+			"depends": [
+				"binary(python3)",
+				"iptables"
+			],
+			"files": [
+				"/usr/lib/python3.11/site-packages/ufw-0.36.2-py3.11.egg-info/PKG-INFO",
+				"/usr/lib/python3.11/site-packages/ufw-0.36.2-py3.11.egg-info/SOURCES.txt",
+				"/usr/lib/python3.11/site-packages/ufw-0.36.2-py3.11.egg-info/dependency_links.txt",
+				"/usr/lib/python3.11/site-packages/ufw-0.36.2-py3.11.egg-info/top_level.txt",
+				"/usr/lib/python3.11/site-packages/ufw/__init__.py",
+				"/usr/lib/python3.11/site-packages/ufw/__pycache__/__init__.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/ufw/__pycache__/applications.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/ufw/__pycache__/backend.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/ufw/__pycache__/backend_iptables.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/ufw/__pycache__/common.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/ufw/__pycache__/frontend.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/ufw/__pycache__/parser.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/ufw/__pycache__/util.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/ufw/applications.py",
+				"/usr/lib/python3.11/site-packages/ufw/backend.py",
+				"/usr/lib/python3.11/site-packages/ufw/backend_iptables.py",
+				"/usr/lib/python3.11/site-packages/ufw/common.py",
+				"/usr/lib/python3.11/site-packages/ufw/frontend.py",
+				"/usr/lib/python3.11/site-packages/ufw/parser.py",
+				"/usr/lib/python3.11/site-packages/ufw/util.py",
+				"/usr/lib/systemd/system/ufw.service",
+				"/usr/lib/ufw/ufw-init",
+				"/usr/lib/ufw/ufw-init-functions",
+				"/usr/sbin/ufw",
+				"/usr/share/bash-completion/completions/ufw",
+				"/usr/share/man/man8/ufw-framework.8",
+				"/usr/share/man/man8/ufw.8",
+				"/usr/share/ufw/iptables/after.rules",
+				"/usr/share/ufw/iptables/after6.rules",
+				"/usr/share/ufw/iptables/before.rules",
+				"/usr/share/ufw/iptables/before6.rules",
+				"/usr/share/ufw/iptables/user.rules",
+				"/usr/share/ufw/iptables/user6.rules"
+			],
+			"name": "ufw",
+			"provides": [
+				"python(ufw)",
+				"sysbinary(ufw)"
+			]
+		}
+	},
+	"source-name": "ufw",
+	"source-release": "1",
+	"source-version": "0.36.2"
+}

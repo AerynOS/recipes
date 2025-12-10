@@ -8,8 +8,9 @@ description : |
     Ufw stands for Uncomplicated Firewall, and is a program for managing a netfilter firewall. It provides a command line interface and aims to be uncomplicated and easy to use.
 
 upstreams:
-  - https://git.launchpad.net/ufw.git: c2b36d70d003050e54310b55a6bf6a7d17c649a8f056eba09b6a24f3500ed8c5
-
+  - git|https://git.launchpad.net/ufw: 83f8c4f1618550f7773d8bf019433a387e4f16a3 # 0.36.2
+builddeps   :
+    - iptables
 rundeps     :
     - binary(python3)
     - iptables
