@@ -28,7 +28,7 @@ install     : |
     %cargo_install tldr
 
     %install_file completions/tldr.bash %(installroot)/%(completionsdir)/tldr.bash
-    %install_file completions/_tldr %(installroot)/%(completionsdir)/_tldr
-    %install_file completions/tldr.fish %(installroot)/%(completionsdir)/tldr.fish
+    %install_file completions/_tldr %(installroot)/%(zshcompletionsdir)/_tldr
+    %install_file completions/tldr.fish %(installroot)/%(fishcompletionsdir)/tldr.fish
 
     %install_file tldr.1 %(installroot)/%(mandir)/man1/tldr.1
