@@ -1,0 +1,24 @@
+#
+# SPDX-FileCopyrightText: © 2025- AerynOS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : lua51-lpeg
+version     : 1.1.0-2
+release     : 1
+homepage    : https://www.inf.puc-rio.br/~roberto/lpeg
+upstreams   :
+    - https://luarocks.org/manifests/gvvaughan/lpeg-1.1.0-2.src.rock : 
+        hash: 836d315b920a5cdd62e21786c6c9fad547c4faa131d5583ebca64f0b6595ee76
+        unpack: false
+summary     : Parsing Expression Grammars For Lua
+description : |
+    LPeg is a new pattern-matching library for Lua, based on Parsing Expression Grammars (PEGs).
+license     : MIT/X11
+builddeps   :
+    - binary(unzip)
+    - pkgconfig(luajit)
+    - lua51-luarocks
+install     : |
+    luarocks --lua-version 5.1 --tree %(installroot)%(prefix) install --deps-mode none --no-manifest -- %(sourcedir)/lpeg-*.src.rock
+

@@ -1,0 +1,26 @@
+#
+# SPDX-FileCopyrightText: © 2025- AerynOS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : libluv
+version     : 1.51.0-0
+release     : 1
+homepage    : https://github.com/luvit/luv
+upstreams   :
+    - https://github.com/luvit/luv/releases/download/1.51.0-0/luv-1.51.0-0.tar.gz : eb121ca0a26a417330eacf590f87ab30c426ab287e38a79a779e7e8708dc9aa3
+summary     : Bare libuv bindings for lua 
+description : |
+    This library makes libuv available to lua scripts.
+license     : Apache-2.0
+builddeps   :
+    - cmake(libuv)
+    - pkgconfig(luajit)
+    - lua-devel
+setup       : |
+    %cmake -DWITH_SHARED_LIBUV=ON -DLUA_BUILD_TYPE=System -DBUILD_MODULE=OFF -DBUILD_SHARED_LIBS=ON
+build       : |
+    %cmake_build
+install     : |
+    %cmake_install
+

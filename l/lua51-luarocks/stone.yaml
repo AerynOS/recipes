@@ -1,0 +1,25 @@
+#
+# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : lua51-luarocks
+version     : 3.11.1
+release     : 1
+homepage    : https://luarocks.github.io/luarocks/releases
+upstreams   :
+    - https://luarocks.github.io/luarocks/releases/luarocks-3.11.1.tar.gz : c3fb3d960dffb2b2fe9de7e3cb004dc4d0b34bb3d342578af84f84325c669102
+summary     : LuaRocks is the package manager for the Lua programming language
+description : |
+    It allows you to install Lua modules as self-contained packages called rocks. LuaRocks supports both local and remote repositories, and multiple local rocks trees
+license     : custom
+builddeps   :
+    - pkgconfig(luajit)
+    - binary(unzip)
+setup       : |
+    ./configure --prefix=/usr --sysconfdir=/etc
+build       : |
+    %make
+install     : |
+    %make_install
+
