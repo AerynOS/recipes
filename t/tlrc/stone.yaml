@@ -1,0 +1,34 @@
+#
+# SPDX-FileCopyrightText: © 2025- AerynOS Developers
+# 
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : tlrc
+version     : 1.12.0
+release     : 1
+homepage    : https://tldr.sh/tlrc/
+upstreams   :
+    - https://github.com/tldr-pages/tlrc/archive/refs/tags/v1.12.0.tar.gz : 402942f1bc37301da9dd1870294d7edd8e81989a178c6439cfbd866d9a9bf67a
+summary     : Official tldr client written in Rust.
+description : |
+    A tldr client written in Rust to view tldr-pages.
+    The tldr-pages project is a collection of community-maintained
+    help pages for command-line tools, that aims to be a simpler,
+    more approachable complement to traditional man pages. 
+license     :
+    - MIT
+networking  : true
+builddeps   :
+    - binary(cargo)
+setup       : |
+    %cargo_fetch
+build       : |
+    %cargo_build
+install     : |
+    %cargo_install tldr
+
+    %install_file completions/tldr.bash %(installroot)/%(completionsdir)/tldr.bash
+    %install_file completions/_tldr %(installroot)/%(completionsdir)/_tldr
+    %install_file completions/tldr.fish %(installroot)/%(completionsdir)/tldr.fish
+
+    %install_file tldr.1 %(installroot)/%(mandir)/man1/tldr.1
