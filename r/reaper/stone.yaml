@@ -1,0 +1,22 @@
+#
+# SPDX-FileCopyrightText: © 2025 AerynOS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : reaper
+version     : 0.1.0
+release     : 1
+homepage    : https://github.com/playtron-os/reaper
+upstreams   :
+    - https://github.com/playtron-os/reaper/archive/refs/tags/0.1.0.tar.gz : 4581859aaa5c6f01ec3ef27d4beaa7769bda26ca64a4e8b038c7082ae75b98ff
+summary     : A command to monitor and annotate a process tree
+description : |
+    A command to monitor and annotate a process tree
+license     : MIT
+networking  : yes
+builddeps   :
+    - binary(meson)
+build       : |
+    %make build
+install     : |
+    %install_exe build/reaper %(installroot)/usr/bin/reaper
