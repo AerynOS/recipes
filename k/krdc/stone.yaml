@@ -4,10 +4,10 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : krdc
-version     : 25.08.3
-release     : 6
+version     : 25.12.0
+release     : 7
 upstreams   :
-    - https://download.kde.org/stable/release-service/25.08.3/src/krdc-25.08.3.tar.xz : aa317b8a21c0362b6ddd69f122ca17f444edfeeba2f422b75ce51c666950906a
+    - https://download.kde.org/stable/release-service/25.12.0/src/krdc-25.12.0.tar.xz : 920cc0c0503d151b00c6b5a78c7e110e1b598d775288c9bfd2e6111800b59645
 homepage    : https://apps.kde.org/krdc/
 license     :
     - GFDL-1.2-or-later
@@ -26,6 +26,7 @@ builddeps   :
     - cmake(KF6Crash)
     - cmake(KF6DNSSD)
     - cmake(KF6DocTools)
+    - cmake(KF6GuiAddons)
     - cmake(KF6I18n)
     - cmake(KF6IconThemes)
     - cmake(KF6KCMUtils)
@@ -37,7 +38,6 @@ builddeps   :
     - cmake(KF6WidgetsAddons)
     - cmake(KF6WindowSystem)
     - cmake(KF6XmlGui)
-    - cmake(PlasmaActivities)
     - cmake(Qt6CorePrivate)
     - cmake(Qt6WaylandClient)
     - pkgconfig(libssh)

@@ -5,30 +5,39 @@
 		"kpkpass": {
 			"build-depends": [
 				"cmake(ECM)",
-				"cmake(KF6Archive)"
+				"cmake(KF6Archive)",
+				"cmake(Qt6Qml)"
 			],
 			"depends": [
 				"soname(libKF6Archive.so.6(x86_64))",
 				"soname(libQt6Core.so.6(x86_64))",
 				"soname(libQt6Gui.so.6(x86_64))",
+				"soname(libQt6Qml.so.6(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libm.so.6(x86_64))",
 				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/lib/libKPim6PkPass.so.6",
-				"/usr/lib/libKPim6PkPass.so.6.5.3",
+				"/usr/lib/libKPim6PkPass.so.6.6.0",
+				"/usr/lib/qt6/qml/org/kde/pkpass/kde-qmlmodule.version",
+				"/usr/lib/qt6/qml/org/kde/pkpass/kpkpassqmlplugin.qmltypes",
+				"/usr/lib/qt6/qml/org/kde/pkpass/libkpkpassqmlplugin.so",
+				"/usr/lib/qt6/qml/org/kde/pkpass/qmldir",
+				"/usr/share/mime/packages/application-vnd-apple-pkpasses.xml",
 				"/usr/share/qlogging-categories6/org_kde_kpkpass.categories"
 			],
 			"name": "kpkpass",
 			"provides": [
-				"soname(libKPim6PkPass.so.6(x86_64))"
+				"soname(libKPim6PkPass.so.6(x86_64))",
+				"soname(qt6/qml/org/kde/pkpass/libkpkpassqmlplugin.so(x86_64))"
 			]
 		},
 		"kpkpass-devel": {
 			"build-depends": [
 				"cmake(ECM)",
-				"cmake(KF6Archive)"
+				"cmake(KF6Archive)",
+				"cmake(Qt6Qml)"
 			],
 			"depends": [
 				"cmake(KF6Archive)",
@@ -40,6 +49,7 @@
 				"/usr/include/KPim6/KPkPass/Field",
 				"/usr/include/KPim6/KPkPass/Location",
 				"/usr/include/KPim6/KPkPass/Pass",
+				"/usr/include/KPim6/KPkPass/Passes",
 				"/usr/include/KPim6/KPkPass/barcode.h",
 				"/usr/include/KPim6/KPkPass/boardingpass.h",
 				"/usr/include/KPim6/KPkPass/field.h",
@@ -47,6 +57,7 @@
 				"/usr/include/KPim6/KPkPass/kpkpass_version.h",
 				"/usr/include/KPim6/KPkPass/location.h",
 				"/usr/include/KPim6/KPkPass/pass.h",
+				"/usr/include/KPim6/KPkPass/passes.h",
 				"/usr/lib/cmake/KPim6PkPass/KPim6PkPassConfig.cmake",
 				"/usr/lib/cmake/KPim6PkPass/KPim6PkPassConfigVersion.cmake",
 				"/usr/lib/cmake/KPim6PkPass/KPim6PkPassQchTargets.cmake",
@@ -63,6 +74,6 @@
 		}
 	},
 	"source-name": "kpkpass",
-	"source-release": "10",
-	"source-version": "25.08.3"
+	"source-release": "11",
+	"source-version": "25.12.0"
 }

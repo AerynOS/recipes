@@ -92,7 +92,6 @@
 				"/usr/lib/systemd/user/plasma-dolphin.service",
 				"/usr/share/applications/org.kde.dolphin.desktop",
 				"/usr/share/config.kcfg/dolphin_compactmodesettings.kcfg",
-				"/usr/share/config.kcfg/dolphin_contentdisplaysettings.kcfg",
 				"/usr/share/config.kcfg/dolphin_contextmenusettings.kcfg",
 				"/usr/share/config.kcfg/dolphin_detailsmodesettings.kcfg",
 				"/usr/share/config.kcfg/dolphin_directoryviewpropertysettings.kcfg",
@@ -564,6 +563,7 @@
 				"soname(libKF6ConfigWidgets.so.6(x86_64))",
 				"soname(libKF6CoreAddons.so.6(x86_64))",
 				"soname(libKF6FileMetaData.so.3(x86_64))",
+				"soname(libKF6GuiAddons.so.6(x86_64))",
 				"soname(libKF6I18n.so.6(x86_64))",
 				"soname(libKF6IconThemes.so.6(x86_64))",
 				"soname(libKF6JobWidgets.so.6(x86_64))",
@@ -586,12 +586,13 @@
 				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
-				"/usr/lib/libdolphinprivate.so.25.08.3",
+				"/usr/lib/libdolphinprivate.so.25.12.0",
 				"/usr/lib/libdolphinprivate.so.6",
-				"/usr/lib/libdolphinvcs.so.25.08.3",
+				"/usr/lib/libdolphinvcs.so.25.12.0",
 				"/usr/lib/libdolphinvcs.so.6",
 				"/usr/lib/qt6/plugins/dolphin/kcms/kcm_dolphingeneral.so",
 				"/usr/lib/qt6/plugins/dolphin/kcms/kcm_dolphinviewmodes.so",
+				"/usr/lib/qt6/plugins/kf6/kfileitemaction/hidefileitemaction.so",
 				"/usr/lib/qt6/plugins/kf6/kfileitemaction/movetonewfolderitemaction.so",
 				"/usr/lib/qt6/plugins/kf6/kfileitemaction/setfoldericonitemaction.so",
 				"/usr/lib/qt6/plugins/kf6/parts/dolphinpart.so"
@@ -602,6 +603,7 @@
 				"soname(libdolphinvcs.so.6(x86_64))",
 				"soname(qt6/plugins/dolphin/kcms/kcm_dolphingeneral.so(x86_64))",
 				"soname(qt6/plugins/dolphin/kcms/kcm_dolphinviewmodes.so(x86_64))",
+				"soname(qt6/plugins/kf6/kfileitemaction/hidefileitemaction.so(x86_64))",
 				"soname(qt6/plugins/kf6/kfileitemaction/movetonewfolderitemaction.so(x86_64))",
 				"soname(qt6/plugins/kf6/kfileitemaction/setfoldericonitemaction.so(x86_64))",
 				"soname(qt6/plugins/kf6/parts/dolphinpart.so(x86_64))"
@@ -609,6 +611,6 @@
 		}
 	},
 	"source-name": "dolphin",
-	"source-release": "16",
-	"source-version": "25.08.3"
+	"source-release": "17",
+	"source-version": "25.12.0"
 }
