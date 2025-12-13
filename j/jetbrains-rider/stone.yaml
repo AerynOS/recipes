@@ -1,0 +1,36 @@
+#
+# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : jetbrains-rider
+version     : 2025.1.2
+release     : 1
+homepage    : https://www.jetbrains.com/rider/
+upstreams   :
+    - https://download.jetbrains.com/rider/JetBrains.Rider-2025.1.2.tar.gz : cdf8a824c7daa3247b09d76a29acb31cfa623b90643d3d2a814982cb0a32879d
+summary     : An IDE for the .NET technology stack, as well as game development.
+description : |
+    An IDE for the .NET technology stack, as well as game development.
+license     : Proprietary
+setup: |
+    tar xf %(sourcedir)/*.tar.gz
+install: |
+    # Define target locations
+    _rider_root=%(libdir)/jetbrains-rider
+    _rider_install=%(installroot)/$_rider_root
+  
+    # Move app contents to libdir
+    %install_dir $_rider_install
+    cp -R ./JetBrains*/* $_rider_install
+  
+    # Install binary to bindir
+    %install_exe $_rider_install/bin/rider %(installroot)/%(bindir)/jetbrains-rider
+  
+    # Install desktop file
+    %install_file %(pkgdir)/jetbrains-rider.desktop %(installroot)/%(datadir)/applications/jetbrains-rider.desktop
+  
+    # Install icon
+    %install_dir %(installroot)/%(datadir)/icons/hicolor/128x128/apps
+    ln -srv $_rider_install/bin/studio.png %(installroot)%(datadir)/icons/hicolor/128x128/apps/jetbrains-rider.png
+
