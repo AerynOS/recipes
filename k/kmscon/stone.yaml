@@ -1,0 +1,53 @@
+#
+# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : kmscon
+version     : 9.2.1
+release     : 1
+upstreams   :
+    - https://github.com/kmscon/kmscon/archive/refs/tags/v9.2.1.tar.gz : d801a3f0bbfff6940eb249ade41c28307ef846132b4e10a499abe76d535e24e8
+homepage    : https://www.freedesktop.org/wiki/Software/kmscon
+license     :
+    - MIT
+    - LGPL-2.1-or-later # external/htable.* external/dbus-loop.*
+summary     : KMS/DRM based virtual Console Emulator
+description : |
+    kmscon is a system console for linux. It does not depend on any graphics-server on your system (like X.org), but instead provides a raw console layer that can be used independently. It can replace the linux kernel console entirely but was designed to work well side-by-side, too. Even though initially targeted at providing internationalization to the system-console, it has grown into a fully modularized console layer including features like multi-head support, internationalized font rendering, XKB-compatible keyboard handling, hardware-accelerated graphics access and more.
+builddeps   :
+    - binary(xsltproc)
+    - pkgconfig(egl)
+    - pkgconfig(gbm)
+    - pkgconfig(glesv2)
+    - pkgconfig(libdrm)
+    - pkgconfig(libtsm)
+    - pkgconfig(pangoft2)
+    - pkgconfig(systemd)
+    - pkgconfig(xkbcommon)
+checkdeps   :
+    - pkgconfig(check)
+setup       : |
+    %patch %(pkgdir)/upstream-01.patch
+
+    %meson
+build       : |
+    %meson_build
+install     : |
+    %meson_install
+
+    %install_file %(pkgdir)/kmscon.preset %(installroot)%(libdir)/systemd/system-preset/kmscon.preset
+
+    # Make it the default
+    ln -sv kmsconvt@.service %(installroot)%(libdir)/systemd/system/autovt@.service
+check       : |
+    %meson_test
+packages    :
+    - "%(name)-gl":
+        summary: Adds OpenGL/DRM support to kmscon
+        description: Adds OpenGL/DRM support to kmscon
+        rundeps:
+            - "%(name)"
+        paths:
+            - /usr/lib/kmscon/mod-drm3d.so
+            - /usr/lib/kmscon/mod-gltex.so

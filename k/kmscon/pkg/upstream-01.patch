@@ -1,0 +1,40 @@
+From 4336f6798293b1810751541c2a6c7a8c6a3fe9b3 Mon Sep 17 00:00:00 2001
+From: Anthony Ruhier <aruhier@mailbox.org>
+Date: Fri, 5 Dec 2025 01:01:30 +0100
+Subject: [PATCH] Remove bashism in kmscon-launch-gui.sh
+
+\x1B] is not recognized by sh or dash, but should be \033] instead.
+It makes this script to fail to run a GUI with dash or sh.
+
+Example:
+    > sh
+    $ printf "\x1B]setBackground\a"
+    \x1B]setBackground$
+    $ printf "\033]setBackground\a"
+    $
+---
+ scripts/kmscon-launch-gui.sh | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/scripts/kmscon-launch-gui.sh b/scripts/kmscon-launch-gui.sh
+index 19c2d026..ac3cb8c5 100644
+--- a/scripts/kmscon-launch-gui.sh
++++ b/scripts/kmscon-launch-gui.sh
+@@ -11,7 +11,7 @@ if [ -d /sys/class/tty/tty0 ]; then
+ fi
+ 
+ if [ "${TERM_PROGRAM}" != "tmux" ]; then
+-    printf "\x1B]setBackground\a"
++    printf "\033]setBackground\a"
+ else
+     printf "\033Ptmux;\033\033]setBackground\a\033\\"
+ fi
+@@ -26,7 +26,7 @@ if [ -n "${kms_tty}" ]; then
+ fi
+ 
+ if [ "${TERM_PROGRAM}" != "tmux" ]; then
+-    printf "\x1B]setForeground\a"
++    printf "\033]setForeground\a"
+ else
+     printf "\033Ptmux;\033\033]setForeground\a\033\\"
+ fi

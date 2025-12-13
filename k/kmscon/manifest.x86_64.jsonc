@@ -1,0 +1,84 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"kmscon": {
+			"build-depends": [
+				"binary(xsltproc)",
+				"pkgconfig(check)",
+				"pkgconfig(egl)",
+				"pkgconfig(gbm)",
+				"pkgconfig(glesv2)",
+				"pkgconfig(libdrm)",
+				"pkgconfig(libtsm)",
+				"pkgconfig(pangoft2)",
+				"pkgconfig(systemd)",
+				"pkgconfig(xkbcommon)"
+			],
+			"depends": [
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libdrm.so.2(x86_64))",
+				"soname(libgobject-2.0.so.0(x86_64))",
+				"soname(libpango-1.0.so.0(x86_64))",
+				"soname(libpangoft2-1.0.so.0(x86_64))",
+				"soname(libsystemd.so.0(x86_64))",
+				"soname(libtsm.so.4(x86_64))",
+				"soname(libudev.so.1(x86_64))",
+				"soname(libxkbcommon.so.0(x86_64))"
+			],
+			"files": [
+				"/usr/bin/kmscon",
+				"/usr/bin/kmscon-launch-gui",
+				"/usr/lib/kmscon/kmscon/kmscon",
+				"/usr/lib/kmscon/mod-pango.so",
+				"/usr/lib/kmscon/mod-unifont.so",
+				"/usr/lib/systemd/system-preset/kmscon.preset",
+				"/usr/lib/systemd/system/autovt@.service",
+				"/usr/lib/systemd/system/kmscon.service",
+				"/usr/lib/systemd/system/kmsconvt@.service"
+			],
+			"name": "kmscon",
+			"provides": [
+				"binary(kmscon)",
+				"binary(kmscon-launch-gui)",
+				"soname(kmscon/mod-pango.so(x86_64))",
+				"soname(kmscon/mod-unifont.so(x86_64))"
+			]
+		},
+		"kmscon-gl": {
+			"build-depends": [
+				"binary(xsltproc)",
+				"pkgconfig(check)",
+				"pkgconfig(egl)",
+				"pkgconfig(gbm)",
+				"pkgconfig(glesv2)",
+				"pkgconfig(libdrm)",
+				"pkgconfig(libtsm)",
+				"pkgconfig(pangoft2)",
+				"pkgconfig(systemd)",
+				"pkgconfig(xkbcommon)"
+			],
+			"depends": [
+				"kmscon",
+				"soname(libEGL.so.1(x86_64))",
+				"soname(libGLESv2.so.2(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libdrm.so.2(x86_64))",
+				"soname(libgbm.so.1(x86_64))"
+			],
+			"files": [
+				"/usr/lib/kmscon/mod-drm3d.so",
+				"/usr/lib/kmscon/mod-gltex.so"
+			],
+			"name": "kmscon-gl",
+			"provides": [
+				"soname(kmscon/mod-drm3d.so(x86_64))",
+				"soname(kmscon/mod-gltex.so(x86_64))"
+			]
+		}
+	},
+	"source-name": "kmscon",
+	"source-release": "1",
+	"source-version": "9.2.1"
+}
