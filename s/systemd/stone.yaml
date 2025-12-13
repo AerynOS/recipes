@@ -5,7 +5,7 @@
 #
 name        : systemd
 version     : "257.10"
-release     : 71
+release     : 72
 summary     : A System and Service Manager
 license     :
     - GPL-2.0-or-later
@@ -81,7 +81,6 @@ setup       : |
     %patch %(pkgdir)/patches/downstream/0001-tmpfiles-Allow-nsswitch-clobber-at-non-boot-interval.patch
     %patch %(pkgdir)/patches/downstream/0001-gpt-auto-generate-Stop-automounting-xbootldr-and-esp.patch
     %patch %(pkgdir)/patches/downstream/0001-path-lookup-Include-stateless-xdg-path-by-default.patch
-    %patch %(pkgdir)/patches/downstream/0001-downstream-Allow-default-font-to-be-set.patch
     %patch %(pkgdir)/patches/downstream/0001-Don-t-build-32bit-EFI-stub.patch
 
     # Upstream patches

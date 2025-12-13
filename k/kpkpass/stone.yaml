@@ -4,10 +4,10 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : kpkpass
-version     : 25.08.3
-release     : 10
+version     : 25.12.0
+release     : 11
 upstreams   :
-    - https://download.kde.org/stable/release-service/25.08.3/src/kpkpass-25.08.3.tar.xz : 3802a6f23edd901be975c03b3eb63e478e9384386d883b2289fb598edf3e758b
+    - https://download.kde.org/stable/release-service/25.12.0/src/kpkpass-25.12.0.tar.xz : 592cfa16e8f7c7ab69c7498c0facde972c5d98e9cf3e199d9f5d3da99b3f53f6
 homepage    : https://invent.kde.org/pim/kpkpass
 license     : LGPL-2.1-or-later
 summary     : Apple Wallet Pass reader
@@ -17,6 +17,7 @@ builddeps   :
     # Temporary, boulder doesn't handle build ordering resolution correctly when builddeps are added by macros, so add ECM manually
     - cmake(ECM)
     - cmake(KF6Archive)
+    - cmake(Qt6Qml)
 setup       : |
     %cmake_kf6
 build       : |

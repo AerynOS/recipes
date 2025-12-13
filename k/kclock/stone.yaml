@@ -4,10 +4,10 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : kclock
-version     : 25.08.3
-release     : 12
+version     : 25.12.0
+release     : 13
 upstreams   :
-    - https://download.kde.org/stable/release-service/25.08.3/src/kclock-25.08.3.tar.xz : d8acfcaa36ff8dd424de82ae1636badd9aa2f50a6c4e3e35788ed5cc396276e2
+    - https://download.kde.org/stable/release-service/25.12.0/src/kclock-25.12.0.tar.xz : 8947a4a9510e2d9fae49238cc267c015cc1b1c91e02cd072f02da7f02052af23
 homepage    : https://apps.kde.org/kclock/
 license     : GPL-2.0-or-later
 summary     : Clock app for KDE Plasma
@@ -38,6 +38,7 @@ builddeps   :
     - cmake(Qt6Svg)
     - cmake(Qt6QuickControls2)
     - cmake(Qt6Multimedia)
+    - pkgconfig(wayland-protocols)
 rundeps     :
     - kf6-kirigami-addons
     - qt6-wayland

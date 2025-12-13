@@ -4,10 +4,10 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : akonadi
-version     : 25.08.3
-release     : 15
+version     : 25.12.0
+release     : 17
 upstreams   :
-    - https://download.kde.org/stable/release-service/25.08.3/src/akonadi-25.08.3.tar.xz : f867fd1e16d9d637a92dab334dc4170f20f58be13367392094ec539e3eee017a
+    - https://download.kde.org/stable/release-service/25.12.0/src/akonadi-25.12.0.tar.xz : 89d0ffc9e6f065857e5d6ffb085f352c998ae2f31c9ddf812f5696d3d16660dc
 homepage    : https://kde.org
 license     : LGPL-2.1-or-later
 summary     : KDE centralized database to store, index and retrieve the user's personal information
@@ -29,6 +29,8 @@ builddeps   :
     - cmake(Qt6CorePrivate)
     - pkgconfig(liblzma)
 setup       : |
+    %patch %(pkgdir)/upstream-01.patch
+
     # TODO: Build with postgresql support maybe
     %cmake_kf6 \
         -DDATABASE_BACKEND=SQLITE \

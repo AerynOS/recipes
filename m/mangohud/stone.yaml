@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : mangohud
-version     : 0.8.1
-release     : 10
+version     : 0.8.2
+release     : 11
 homepage    : https://github.com/flightlessmango/MangoHud
 upstreams   :
-    - https://github.com/flightlessmango/MangoHud/releases/download/v0.8.1/MangoHud-v0.8.1-Source.tar.xz : 4c8d8098f5deff7737978d792eef909b7469933f456a47132dccc06804825482
+    - https://github.com/flightlessmango/MangoHud/releases/download/v0.8.2/MangoHud-v0.8.2-Source.tar.xz : 9fe98da24f790f4489efc1e0c8e3ad0291c80efd882a406797d54dab82f8765b
 summary     : A Vulkan and OpenGL overlay for monitoring FPS, temperatures, CPU/GPU load and more
 description : |
     A Vulkan and OpenGL overlay for monitoring FPS, temperatures, CPU/GPU load and more.
@@ -17,9 +17,8 @@ builddeps   :
     - binary(glslang)
     - pkgconfig(cmocka)
     - pkgconfig(dbus-1)
-    - pkgconfig(glew)
+    - pkgconfig(gl)
     - pkgconfig(glfw3)
-    - pkgconfig(nlohmann_json)
     - pkgconfig(spdlog)
     - pkgconfig(wayland-client)
     - pkgconfig(x11)

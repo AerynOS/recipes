@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : glslang
-version     : 16.0.0
-release     : 11
+version     : 16.1.0
+release     : 12
 homepage    : https://github.com/KhronosGroup/glslang
 upstreams   :
-    - git|https://github.com/KhronosGroup/glslang.git : a57276bf558f5cf94d3a9854ebdf5a2236849a5a # Tag: vulkan-sdk-1.4.328.0
+    - git|https://github.com/KhronosGroup/glslang.git : b5782e52ee2f7b3e40bb9c80d15b47016e008bc9 # vulkan-sdk-1.4.335.0
 summary     : Khronos-reference front end for GLSL/ESSL, partial front end for HLSL, and a SPIR-V generator.
 description : |
     Khronos-reference front end for GLSL/ESSL, partial front end for HLSL, and a SPIR-V generator.
@@ -23,8 +23,8 @@ builddeps   :
     - cmake(SPIRV-Tools)
 setup       : |
     %cmake \
-           -DBUILD_SHARED_LIBS=ON \
-           -DALLOW_EXTERNAL_SPIRV_TOOLS=ON
+        -DBUILD_SHARED_LIBS=ON \
+        -DALLOW_EXTERNAL_SPIRV_TOOLS=ON
 build       : |
     %cmake_build
 install     : |

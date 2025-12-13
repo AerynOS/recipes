@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : rust
-version     : 1.91.0
-release     : 29
+version     : 1.92.0
+release     : 30
 homepage    : https://www.rust-lang.org/
 upstreams   :
-    - https://static.rust-lang.org/dist/rustc-1.91.0-src.tar.xz : 9b94161dba3aa32192e0e75f7891912d98095ffb86087b07a05af35a0265a938
+    - https://static.rust-lang.org/dist/rustc-1.92.0-src.tar.xz : ebee170bfe4c4dfc59521a101de651e5534f4dae889756a5c97ca9ea40d0c307
 summary     : Rust programming language compiler + tools
 description : |
     Rust programming language compiler + tools
@@ -77,16 +77,6 @@ setup       : |
     # Fix bootstrap checking checksums for all the files we just deleted
     find vendor -name .cargo-checksum.json -print \
         -exec sed -i.uncheck -e 's/"files":{[^}]*}/"files":{ }/' '{}' '+'
-
-    # Force the libdir resolution to use lib which fixes a build failure introduced by 1.89.0
-    # │B│ error[E0463]: can't find crate for `core`
-    # │B│   |
-    # │B│   = note: the `x86_64-unknown-linux-gnu` target may not be installed
-    # │B│   = help: consider downloading the target with `rustup target add x86_64-unknown-linux-gnu`
-    # │B│   = help: consider building the standard library from source with `cargo build -Zbuild-std`
-    # Issue introduced by https://github.com/rust-lang/rust/pull/141729
-    # `rustc --print target-libdir` should be `/usr/lib/rustlib/x86_64-unknown-linux-gnu/lib`
-    %patch %(pkgdir)/0001-downstream-Hardcode-libdir-path.patch
 
     %patch %(pkgdir)/ldd-default.patch
 build       : |

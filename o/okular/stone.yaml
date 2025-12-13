@@ -4,10 +4,10 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : okular
-version     : 25.08.3
-release     : 13
+version     : 25.12.0
+release     : 15
 upstreams   :
-    - https://download.kde.org/stable/release-service/25.08.3/src/okular-25.08.3.tar.xz : 032e3de8fc546796141859691188e6f802c6de498b65cccbce60aa60d865714f
+    - https://download.kde.org/stable/release-service/25.12.0/src/okular-25.12.0.tar.xz : cf05a515bba78ee5e7fb5aa09e67ac42fe796f3f645a4353c6b6e555e61c8490
 homepage    : https://apps.kde.org/okular/
 license     :
     - GFDL-1.2-or-later
@@ -21,6 +21,7 @@ builddeps   :
     - cmake(KExiv2Qt6)
     - cmake(KF6Archive)
     - cmake(KF6Bookmarks)
+    - cmake(KF6ColorScheme)
     - cmake(KF6Completion)
     - cmake(KF6Config)
     - cmake(KF6ConfigWidgets)
@@ -31,7 +32,6 @@ builddeps   :
     - cmake(KF6IconThemes)
     - cmake(KF6KIO)
     - cmake(KF6Parts)
-    - cmake(KF6Pty)
     - cmake(KF6Purpose)
     - cmake(KF6TextWidgets)
     - cmake(KF6ThreadWeaver)
@@ -39,7 +39,6 @@ builddeps   :
     - cmake(KF6WindowSystem)
     - cmake(KF6XmlGui)
     - cmake(Phonon4Qt6)
-    - cmake(PlasmaActivities)
     - cmake(QMobipocket6)
     - cmake(Qt6CorePrivate)
     - cmake(Qt6Svg)
@@ -82,5 +81,4 @@ packages    :
     - "%(name)":
         rundeps     :
             - "%(name)-part"
-            - phonon-backend-mpv-qt6
             - qt6-wayland

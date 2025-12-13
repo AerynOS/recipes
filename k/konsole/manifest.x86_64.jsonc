@@ -40,13 +40,15 @@
 				"soname(libKF6DBusAddons.so.6(x86_64))",
 				"soname(libKF6I18n.so.6(x86_64))",
 				"soname(libKF6IconThemes.so.6(x86_64))",
+				"soname(libKF6WindowSystem.so.6(x86_64))",
 				"soname(libKF6XmlGui.so.6(x86_64))",
 				"soname(libQt6Core.so.6(x86_64))",
+				"soname(libQt6DBus.so.6(x86_64))",
 				"soname(libQt6Gui.so.6(x86_64))",
 				"soname(libQt6Widgets.so.6(x86_64))",
 				"soname(libc.so.6(x86_64))",
-				"soname(libkonsoleapp.so.25.08.3(x86_64))",
-				"soname(libkonsoleprivate.so.25.08.3(x86_64))",
+				"soname(libkonsoleapp.so.25.12.0(x86_64))",
+				"soname(libkonsoleprivate.so.25.12.0(x86_64))",
 				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
@@ -230,16 +232,16 @@
 				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
-				"/usr/lib/libkonsoleapp.so.25.08.3",
-				"/usr/lib/libkonsoleprivate.so.25.08.3",
+				"/usr/lib/libkonsoleapp.so.25.12.0",
+				"/usr/lib/libkonsoleprivate.so.25.12.0",
 				"/usr/lib/qt6/plugins/kf6/parts/konsolepart.so",
 				"/usr/lib/qt6/plugins/konsoleplugins/konsole_quickcommandsplugin.so",
 				"/usr/lib/qt6/plugins/konsoleplugins/konsole_sshmanagerplugin.so"
 			],
 			"name": "konsole-part",
 			"provides": [
-				"soname(libkonsoleapp.so.25.08.3(x86_64))",
-				"soname(libkonsoleprivate.so.25.08.3(x86_64))",
+				"soname(libkonsoleapp.so.25.12.0(x86_64))",
+				"soname(libkonsoleprivate.so.25.12.0(x86_64))",
 				"soname(qt6/plugins/kf6/parts/konsolepart.so(x86_64))",
 				"soname(qt6/plugins/konsoleplugins/konsole_quickcommandsplugin.so(x86_64))",
 				"soname(qt6/plugins/konsoleplugins/konsole_sshmanagerplugin.so(x86_64))"
@@ -247,6 +249,6 @@
 		}
 	},
 	"source-name": "konsole",
-	"source-release": "15",
-	"source-version": "25.08.3"
+	"source-release": "16",
+	"source-version": "25.12.0"
 }

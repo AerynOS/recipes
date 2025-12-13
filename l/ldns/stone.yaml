@@ -4,23 +4,24 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : ldns
-version     : 1.8.4
-release     : 4
+version     : 1.9.0
+release     : 5
 summary     : Fast DNS library supporting recent RFCs
 license     : BSD-3-Clause
 homepage    : https://www.nlnetlabs.nl/projects/ldns/
 description : |
     Fast DNS library supporting recent RFCs
 upstreams   :
-    - https://www.nlnetlabs.nl/downloads/ldns/ldns-1.8.4.tar.gz: 838b907594baaff1cd767e95466a7745998ae64bc74be038dccc62e2de2e4247
+    - https://www.nlnetlabs.nl/downloads/ldns/ldns-1.9.0.tar.gz: abaeed2858fbea84a4eb9833e19e7d23380cc0f3d9b6548b962be42276ffdcb3
 builddeps   :
       - binary(ar)
       - pkgconfig(libpcap)
       - pkgconfig(openssl)
 setup       : |
-    %configure --disable-static \
-               --with-drill \
-               --with-examples
+    %configure \
+        --disable-static \
+        --with-drill \
+        --with-examples
 build       : |
     %make
 install     : |
@@ -32,6 +33,7 @@ packages    :
         paths:
             - /usr/bin/ldns-config
             - /usr/share/man/man1/ldns-config.1
+
     - "%(name)-libs":
         description: |
             ldns libraries

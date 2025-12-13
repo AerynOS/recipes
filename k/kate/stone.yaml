@@ -4,10 +4,10 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : kate
-version     : 25.08.3
-release     : 14
+version     : 25.12.0
+release     : 15
 upstreams   :
-    - https://download.kde.org/stable/release-service/25.08.3/src/kate-25.08.3.tar.xz : c92eb8b5b81c9b5dc91b5c46d20b4f3ae0b7811114779fd8f92f153233fca90b
+    - https://download.kde.org/stable/release-service/25.12.0/src/kate-25.12.0.tar.xz : ea4142c40eeb392aed53354855a00e3c816c457dfe255b407c5d30c869377f56
 homepage    : https://apps.kde.org/kate
 license     :
     - GPL-2.0-or-later
@@ -53,10 +53,8 @@ packages    :
         paths:
             - /usr/lib/libkateprivate.so.*
 
-    # Moss upgrade issue
     - "%(name)":
         rundeps:
-            - "%(name)-libs"
             - qt6-wayland
 
     - "kwrite":

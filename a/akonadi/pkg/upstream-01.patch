@@ -1,0 +1,79 @@
+From c5348896222207e1dcd888d95a4d22a749ff2718 Mon Sep 17 00:00:00 2001
+From: Carl Schwan <carl@carlschwan.eu>
+Date: Sun, 16 Nov 2025 17:35:39 +0100
+Subject: [PATCH] Optimize StorageJanitor::findOrphanedItems
+
+Use subqueries to optimize the find orphaned items.
+---
+ src/server/storagejanitor.cpp | 46 +++++++++++++++--------------------
+ 1 file changed, 19 insertions(+), 27 deletions(-)
+
+diff --git a/src/server/storagejanitor.cpp b/src/server/storagejanitor.cpp
+index 4b8469411..1606b83b3 100644
+--- a/src/server/storagejanitor.cpp
++++ b/src/server/storagejanitor.cpp
+@@ -38,6 +38,7 @@
+ using namespace Akonadi;
+ using namespace Akonadi::Server;
+ using namespace AkRanges;
++using namespace Qt::StringLiterals;
+ 
+ class StorageJanitorDataStore : public DataStore
+ {
+@@ -299,35 +300,26 @@ void StorageJanitor::checkPathToRoot(const Collection &col)
+ 
+ void StorageJanitor::findOrphanedItems()
+ {
+-    SelectQueryBuilder<PimItem> qb(m_dataStore.get());
+-    qb.addJoin(QueryBuilder::LeftJoin, Collection::tableName(), PimItem::collectionIdFullColumnName(), Collection::idFullColumnName());
+-    qb.addValueCondition(Collection::idFullColumnName(), Query::Is, QVariant());
+-    if (!qb.exec()) {
+-        inform("Failed to query orphaned items, skipping test");
++    qint64 col = lostAndFoundCollection();
++    if (col == -1) {
+         return;
+     }
+-    const PimItem::List orphans = qb.result();
+-    if (!orphans.isEmpty()) {
+-        inform(QLatin1StringView("Found ") + QString::number(orphans.size()) + QLatin1StringView(" orphan items."));
+-        // Attach to lost+found collection
+-        Transaction transaction(m_dataStore.get(), QStringLiteral("JANITOR ORPHANS"));
+-        QueryBuilder qb(m_dataStore.get(), PimItem::tableName(), QueryBuilder::Update);
+-        qint64 col = lostAndFoundCollection();
+-        if (col == -1) {
+-            return;
+-        }
+-        qb.setColumnValue(PimItem::collectionIdColumn(), col);
+-        qb.addValueCondition(PimItem::idFullColumnName(),
+-                             Query::In,
+-                             orphans | Views::transform([](const auto &item) {
+-                                 return item.id();
+-                             }) | Actions::toQList);
+-        if (qb.exec() && transaction.commit()) {
+-            inform(QLatin1StringView("Moved orphan items to collection ") + QString::number(col));
+-        } else {
+-            inform(QLatin1StringView("Error moving orphan items to collection ") + QString::number(col) + QLatin1StringView(" : ")
+-                   + qb.query().lastError().text());
+-        }
++
++    // Attach to lost+found collection
++    QSqlQuery query(m_dataStore->database());
++    query.prepare(u"UPDATE %1 SET %2 = :col WHERE %3 NOT IN (SELECT DISTINCT %4 from %5)"_s.arg(PimItem::tableName(),
++                                                                                                PimItem::collectionIdColumn(),
++                                                                                                PimItem::collectionIdColumn(),
++                                                                                                Collection::idColumn(),
++                                                                                                Collection::tableName()));
++    query.bindValue(u":col"_s, QVariant::fromValue(col));
++
++    Transaction transaction(m_dataStore.get(), QStringLiteral("JANITOR ORPHANS"));
++
++    if (query.exec() && transaction.commit()) {
++        inform(QLatin1StringView("Moved orphan items to collection ") + QString::number(col));
++    } else {
++        inform(QLatin1StringView("Error moving orphan items to collection ") + QString::number(col) + QLatin1StringView(" : ") + query.lastError().text());
+     }
+ }
+ 
+-- 
+GitLab
+
