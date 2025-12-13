@@ -4,11 +4,12 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : alsa-lib
-version     : 1.2.15
-release     : 12
+version     : 1.2.15+git.f30c3552
+release     : 13
 homepage    : https://www.alsa-project.org/wiki/Main_Page
 upstreams   :
-    - https://www.alsa-project.org/files/pub/lib/alsa-lib-1.2.15.tar.bz2 : 83770841585e766a60c99fd23f8c574c22643ae0cb1f2d20b793c3d84eb95a8d
+    # - https://www.alsa-project.org/files/pub/lib/alsa-lib-1.2.15.tar.bz2 : 83770841585e766a60c99fd23f8c574c22643ae0cb1f2d20b793c3d84eb95a8d
+    - git|https://github.com/alsa-project/alsa-lib.git : f30c355278cf9c86420b49ab9efc7eee890b658c # https://github.com/alsa-project/alsa-lib/issues/488
 summary     : ALSA Libraries
 description : |
     Advanced Linux Sound Architecture client libraries
@@ -17,7 +18,7 @@ license     :
 builddeps   :
     - binary(ar)
 setup       : |
-    %configure_with_bash \
+    %reconfigure_with_bash \
         --disable-old-symbols \
         --disable-static \
         --with-versioned=yes
