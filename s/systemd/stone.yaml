@@ -5,7 +5,7 @@
 #
 name        : systemd
 version     : "257.10"
-release     : 72
+release     : 73
 summary     : A System and Service Manager
 license     :
     - GPL-2.0-or-later
@@ -245,6 +245,9 @@ install     : |
 
     # Default to BFQ scheduler for rotational drives, and kyber for sata/nvme SSDs
     %install_file %(pkgdir)/configs/60-block-scheduler.rules -t %(installroot)%(udevrulesdir)
+
+    # Allow kmscon to take over
+    rm -v %(installroot)%(libdir)/systemd/system/autovt@.service
 
     # Helper script for use by other triggers
     %install_exe %(pkgdir)/systemd-hook.sh %(installroot)/usr/share/moss/helpers/systemd-hook.sh
