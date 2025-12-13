@@ -1,0 +1,44 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"libtsm": {
+			"build-depends": [
+				"pkgconfig(check)",
+				"pkgconfig(xkbcommon)"
+			],
+			"depends": [
+				"soname(libc.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/lib/libtsm.so.4",
+				"/usr/lib/libtsm.so.4.3.0"
+			],
+			"name": "libtsm",
+			"provides": [
+				"soname(libtsm.so.4(x86_64))"
+			]
+		},
+		"libtsm-devel": {
+			"build-depends": [
+				"pkgconfig(check)",
+				"pkgconfig(xkbcommon)"
+			],
+			"depends": [
+				"libtsm"
+			],
+			"files": [
+				"/usr/include/libtsm.h",
+				"/usr/lib/libtsm.so",
+				"/usr/lib/pkgconfig/libtsm.pc"
+			],
+			"name": "libtsm-devel",
+			"provides": [
+				"pkgconfig(libtsm)"
+			]
+		}
+	},
+	"source-name": "libtsm",
+	"source-release": "1",
+	"source-version": "4.3.0"
+}
