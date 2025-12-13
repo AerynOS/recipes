@@ -1,0 +1,40 @@
+#
+# SPDX-FileCopyrightText: © 2025- AerynOS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : nfs-utils
+version     : 2.4.8
+release     : 1
+homepage    : https://nfs.sourceforge.net/
+upstreams   :
+    - https://sourceforge.net/projects/nfs/files/nfs-utils/2.8.4/nfs-utils-2.8.4.tar.gz/download : 403c6aed9b8a7cc365df13cbc1358c0b8ed3a14326d1f84a117c42da6dabcd1c
+summary     : nfs-client capability bundle
+description : |
+    Network File-System client utilities
+license     : 
+    - GPL-2.0-or-later
+    - GPL-2.0-only
+builddeps   :
+    - pkgconfig(mount)
+    - pkgconfig(readline)
+    - pkgconfig(libcap)
+    - pkgconfig(libtirpc)
+    - pkgconfig(libevent)
+    - pkgconfig(krb5)
+    - pkgconfig(sqlite3)
+    - device-mapper-devel
+    - e2fsprogs-devel
+    - libnl-devel
+    - keyutils-devel
+    - libxml2-devel
+    - bsdtar-static
+    - rpcsvc-proto-devel
+rundeps:
+    - device-mapper
+setup       : |
+    %configure
+build       : |
+    %make
+install     : |
+    %make_install
