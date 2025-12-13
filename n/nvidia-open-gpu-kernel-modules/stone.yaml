@@ -4,13 +4,13 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : nvidia-open-gpu-kernel-modules
-version     : "580.105.08"
-release     : 59
+version     : "580.119.02"
+release     : 60
 homepage    : https://github.com/NVIDIA/open-gpu-kernel-modules
 upstreams   :
-    - https://download.nvidia.com/XFree86/NVIDIA-kernel-module-source/NVIDIA-kernel-module-source-580.105.08.tar.xz : 59c518a2014f83efaf2a9f539b3097c55e74e8878aca01aedb59e92e3116080d
-    - https://us.download.nvidia.com/XFree86/Linux-x86_64/580.105.08/NVIDIA-Linux-x86_64-580.105.08.run:
-        hash: d9c6e8188672f3eb74dd04cfa69dd58479fa1d0162c8c28c8d17625763293475
+    - https://download.nvidia.com/XFree86/NVIDIA-kernel-module-source/NVIDIA-kernel-module-source-580.119.02.tar.xz : ea06941cf2b095c2a9a6f1d0640a447d1c33baefbff9d95fd9726955dd210692
+    - https://us.download.nvidia.com/XFree86/Linux-x86_64/580.119.02/NVIDIA-Linux-x86_64-580.119.02.run:
+        hash: 8020f5dfd3ee88aee7a38990d0c3d2afe54751e9a170ba9eadd7ea670138ecd7
         unpack: false
         rename: NVIDIA.run
 summary     : NVIDIA open GPU kernel modules
