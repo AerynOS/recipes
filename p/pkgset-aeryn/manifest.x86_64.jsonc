@@ -11,6 +11,7 @@
 				"binary(sudo)",
 				"dbus-broker",
 				"kmod",
+				"kmscon",
 				"linux-pam",
 				"lvm2",
 				"shadow",
@@ -26,6 +27,7 @@
 		},
 		"pkgset-aeryn-base-desktop": {
 			"depends": [
+				"kmscon-gl",
 				"libva-intel-hybrid-driver",
 				"libva-intel-media-driver",
 				"mesa-dri-drivers",
@@ -84,6 +86,6 @@
 		}
 	},
 	"source-name": "pkgset-aeryn",
-	"source-release": "19",
+	"source-release": "20",
 	"source-version": "2025.12"
 }
