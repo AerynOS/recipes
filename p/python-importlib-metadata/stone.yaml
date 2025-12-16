@@ -1,0 +1,21 @@
+#
+# SPDX-FileCopyrightText: © 2025- AerynOS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : python-importlib_metadata
+version     : 8.7.0
+release     : 1
+homepage    : https://pypi.org/project/importlib_metadata
+upstreams   :
+    - https://files.pythonhosted.org/packages/source/i/importlib_metadata/importlib_metadata-8.7.0.tar.gz : d13b81ad223b890aa16c5471f2ac3056cf76c5f10f82d6f9292f0b415f389000
+summary     : Read metadata from Python packages
+description : |
+    Library to access the metadata for a Python package.
+license     : Apache-2.0
+builddeps   :
+    - python(setuptools-scm)
+build       : |
+    %pyproject_build
+install     : |
+    %pyproject_install
