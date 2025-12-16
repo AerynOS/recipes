@@ -1,0 +1,32 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"ccid": {
+			"build-depends": [
+				"binary(flex)",
+				"binary(perl)",
+				"pkgconfig(libpcsclite)",
+				"pkgconfig(libusb-1.0)",
+				"pkgconfig(udev)",
+				"pkgconfig(zlib)"
+			],
+			"depends": [
+				"soname(libc.so.6(x86_64))",
+				"soname(libusb-1.0.so.0(x86_64))"
+			],
+			"files": [
+				"/usr/lib/pcsc/drivers/ifd-ccid.bundle/Contents/Info.plist",
+				"/usr/lib/pcsc/drivers/ifd-ccid.bundle/Contents/Linux/libccid.so",
+				"/usr/lib/udev/rules.d/92_pcscd_ccid.rules"
+			],
+			"name": "ccid",
+			"provides": [
+				"soname(pcsc/drivers/ifd-ccid.bundle/Contents/Linux/libccid.so(x86_64))"
+			]
+		}
+	},
+	"source-name": "ccid",
+	"source-release": "1",
+	"source-version": "1.7.0"
+}
