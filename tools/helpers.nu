@@ -2,12 +2,28 @@ const release_monitoring_url = "https://release-monitoring.org/api/v2/versions/"
 export const AOS_REPO_PATH = path self | path dirname | path dirname
 const YAML_REQUIREMENTS = [ monitoring.yaml stone.yaml ]
 
-# Check AerynOS package is latest in recipes repo.
-export def checkupdate [] {
+use std/dirs
 
+# Check AerynOS package is latest in recipes repo.
+export def checkupdate [
+  package?: string@package_list
+] {
+  try {
+    dirs add (
+      if ($package | is-not-empty) {
+        $AOS_REPO_PATH
+        | path join ($package | split chars | first) $package
+      } else {
+        pwd
+      }
+    )
+  } catch {
+    error make -u {msg: $"Couldn't find recipe for package ($package)" help: "There is autocomplete for existing packages you know..."}
+  }
+  
   $YAML_REQUIREMENTS | each {|yaml_req|
     if not ($yaml_req | path exists) {
-      error make -u {msg: $"($yaml_req) file doesn't exist" help: "Are you in the correct directory?"}
+      error make -u {msg: $"($yaml_req) file doesn't exist" help: "You must be either in a package recipe directory, or supply a package name"}
     }
   }
 
@@ -15,6 +31,7 @@ export def checkupdate [] {
   | select name version
   | str trim -c "'" | str trim -c '"'
   | rename -c {version: current_version}
+  | update current_version {into string}
   | merge {
     new_version: (
       http get (
