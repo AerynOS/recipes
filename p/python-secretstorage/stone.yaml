@@ -1,0 +1,23 @@
+#
+# SPDX-FileCopyrightText: © 2025- AerynOS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : python-secretstorage
+version     : 3.5.0
+release     : 1
+homepage    : https://pypi.org/project/secretstorage
+upstreams   :
+    - https://files.pythonhosted.org/packages/source/s/secretstorage/secretstorage-3.5.0.tar.gz : f04b8e4689cbce351744d5537bf6b1329c6fc68f91fa666f60a380edddcd11be
+summary     : Python bindings to FreeDesktop.org Secret Service API
+description : |
+    This module provides a way for securely storing passwords and other secrets.
+
+    It uses D-Bus Secret Service API that is supported by GNOME Keyring, KWallet (since version 5.97) and KeePassXC.
+license     : BSD-3-Clause
+builddeps   :
+    - python(setuptools)
+build       : |
+    %pyproject_build
+install     : |
+    %pyproject_install
