@@ -1,0 +1,28 @@
+#
+# SPDX-FileCopyrightText: © 2025- AerynOS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : swayidle
+version     : v1.9.0
+release     : 1
+homepage    : https://github.com/swaywm/swayidle
+upstreams   :
+    - https://github.com/swaywm/swayidle/releases/download/v1.9.0/swayidle-1.9.0.tar.gz : 6c1b769038b60250c88e47380cbb021cfa57a65f872bf4d6c340b5e3057096ac
+summary     : Sway idle management daemon
+description : |
+    Sway idle management daemon    
+license     : 
+    - MIT
+builddeps   :
+    - binary(scdoc)
+    - pkgconfig(wayland-client)
+    - pkgconfig(wayland-protocols)
+    - pkgconfig(wayland-scanner)
+    - pkgconfig(wayland-server)
+setup       : |
+    %meson
+build       : |
+    %meson_build
+install     : |
+    %meson_install
