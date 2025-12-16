@@ -1,0 +1,22 @@
+#
+# SPDX-FileCopyrightText: © 2025- AerynOS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : python-zipp
+version     : 3.23.0
+release     : 1
+homepage    : https://pypi.org/project/zipp
+upstreams   :
+    - https://files.pythonhosted.org/packages/source/z/zipp/zipp-3.23.0.tar.gz : a07157588a12518c9d4034df3fbbee09c814741a33ff63c05fa29d26a2404166
+summary     : Backport of pathlib-compatible object wrapper for zip files
+description : |
+    A pathlib-compatible Zipfile object wrapper. Official backport of the standard library Path object.
+license     : MIT
+builddeps   :
+    - python(setuptools-scm)
+    - python-coherent-licensed
+build       : |
+    %pyproject_build
+install     : |
+    %pyproject_install
