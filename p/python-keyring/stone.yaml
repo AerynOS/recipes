@@ -1,0 +1,22 @@
+#
+# SPDX-FileCopyrightText: © 2025- AerynOS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : python-keyring
+version     : 25.7.0
+release     : 1
+homepage    : https://pypi.org/project/keyring
+upstreams   :
+    - https://files.pythonhosted.org/packages/source/k/keyring/keyring-25.7.0.tar.gz : fe01bd85eb3f8fb3dd0405defdeac9a5b4f6f0439edbb3149577f244a2e8245b
+summary     : Store and access your passwords safely
+description : |
+    The Python keyring library provides an easy way to access the system keyring service from python. It can be used in any application that needs safe password storage.
+license     : MIT
+builddeps   :
+    - python(setuptools-scm)
+    - python-coherent-licensed
+build       : |
+    %pyproject_build
+install     : |
+    %pyproject_install
