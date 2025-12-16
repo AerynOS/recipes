@@ -5,7 +5,7 @@
 #
 name        : pcsclite
 version     : 2.4.0
-release     : 4
+release     : 5
 homepage    : https://pcsclite.apdu.fr
 upstreams   :
     - https://github.com/LudovicRousseau/PCSC/archive/refs/tags/2.4.0.tar.gz : 3d20f3d23c29260fed9195529d30ec3e9f1db60a8a835b4be68716d97751f2e7
@@ -27,7 +27,8 @@ builddeps   :
     - pkgconfig(polkit-gobject-1)
     - pkgconfig(systemd)
 setup       : |
-    %meson
+    %meson \
+        -Dsystemdunit=system
 build       : |
     %meson_build
 install     : |
