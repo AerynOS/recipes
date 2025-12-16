@@ -1,0 +1,47 @@
+#
+# SPDX-FileCopyrightText: © 2025- AerynOS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : yubikey-manager
+version     : 5.8.0
+release     : 1
+homepage    : https://developers.yubico.com/yubikey-manager/
+upstreams   :
+    - https://github.com/Yubico/yubikey-manager/releases/download/5.8.0/yubikey_manager-5.8.0.tar.gz : 3af0da65e1fdd46763c94ee74e2da55a4b6e7771da776c197f5f4b4581738560
+summary     : Command line utility for configuring your YubiKey
+description : |
+    Python library and command line tool for configuring any YubiKey over all USB transports.
+license     : BSD-2-Clause
+builddeps   :
+    - pkgconfig(libpcsclite)
+    - python(click)
+    - python(cryptography)
+    - python(fido2)
+    - python(installer)
+    - python(keyring)
+    - python(poetry-core)
+    - python(pyscard)
+rundeps     :
+    - ccid
+    - pcsclite
+    - python(click)
+    - python(cryptography)
+    - python(fido2)
+    - python(keyring)
+    - python(pyscard)
+build       : |
+    %pyproject_build
+install     : |
+    %pyproject_install
+
+    %install_file %(workdir)/man/ykman.1 -t %(installroot)%(mandir)/man1/
+
+    %install_file COPYING -t %(installroot)/usr/share/licenses/%(name)/
+
+    export PYTHONPATH=/usr/lib/python3.11/site-packages:%(installroot)%(libdir)/python3.11/site-packages
+
+    _YKMAN_COMPLETE=bash_source %(installroot)/usr/bin/ykman | %install_file /dev/stdin %(installroot)%(bashcompletionsdir)/ykman
+    _YKMAN_COMPLETE=zsh_source %(installroot)/usr/bin/ykman | %install_file /dev/stdin %(installroot)%(zshcompletionsdir)/_ykman
+    _YKMAN_COMPLETE=fish_source %(installroot)/usr/bin/ykman | %install_file /dev/stdin %(installroot)%(fishcompletionsdir)/ykman.fish
+
