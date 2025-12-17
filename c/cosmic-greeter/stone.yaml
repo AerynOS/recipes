@@ -5,7 +5,7 @@
 #
 name        : cosmic-greeter
 version     : 1.0.0-git+d5c4746
-release     : 32
+release     : 33
 summary     : Cosmic Desktop Greeter
 license     : GPL-3.0
 homepage    : https://github.com/pop-os/cosmic-greeter
@@ -22,6 +22,8 @@ builddeps   :
     - pkgconfig(pam)
     - pkgconfig(xkbcommon)
     - clang-devel
+    # Override fallback wallpaper
+    - os-artwork
 rundeps     :
     - binary(greetd)
     - cosmic-wallpapers
@@ -29,6 +31,9 @@ rundeps     :
     - linux-pam
 networking  : yes
 setup       : |
+    # Override fallback background
+    cp /usr/share/backgrounds/aerynos/marc-markstein-0kD1eHgyuPI-unsplash.jpg res/background.jpg
+
     %cargo_fetch
     %patch %(pkgdir)/0001-debian-Port-sample-service-pam-to-Serpent-OS.patch
 build       : |
