@@ -4,21 +4,17 @@ const CPE_COMMON_PREFIX = "cpe:2.3:a:"
 export const AOS_REPO_PATH = path self | path dirname | path dirname
 const YAML_REQUIREMENTS = [ monitoring.yaml stone.yaml ]
 
-use std/dirs
-
 # Check AerynOS package is latest in recipes repo.
 export def checkupdate [
   package?: string@package_list
 ]: nothing -> table {
   try {
-    dirs add (
-      if ($package | is-not-empty) {
+    if ($package | is-not-empty) {
+      cd (
         $AOS_REPO_PATH
         | path join ($package | split chars | first) $package
-      } else {
-        pwd
-      }
-    )
+      )
+    }
   } catch {
     error make -u {msg: $"Couldn't find recipe for package ($package)" help: "There is autocomplete for existing packages you know..."}
   }
