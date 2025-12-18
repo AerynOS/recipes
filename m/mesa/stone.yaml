@@ -4,12 +4,12 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : mesa
-version     : 25.3.1
+version     : 25.3.2
 # Note: keep mesa-clc in-sync with this package version-wise
-release     : 58
+release     : 59
 homepage    : https://mesa3d.org/
 upstreams   :
-    - https://mesa.freedesktop.org/archive/mesa-25.3.1.tar.xz : 059d0d985622f49588f01aa29152804f4da8ffe6add046e00a52923379c2d8da
+    - https://mesa.freedesktop.org/archive/mesa-25.3.2.tar.xz : e69dab0d0ea03e3e8cb141b032f58ea9fcf3b9c1f61b31f6592cb4bbd8d0185d
 summary     : Mesa 3D graphics library
 description : |
     The Mesa project began as an open-source implementation of the OpenGL specification - a system for rendering interactive 3D graphics. Over the years the project has grown to implement more graphics APIs, including OpenGL ES, OpenCL, OpenMAX, VDPAU, VA-API, Vulkan and EGL. A variety of device drivers allows the Mesa libraries to be used in many different environments ranging from software emulation to complete hardware acceleration for modern GPUs. Mesa ties into several other open-source projects: the Direct Rendering Infrastructure, X.org, and Wayland to provide OpenGL support on Linux, FreeBSD, and other operating systems.
@@ -26,12 +26,8 @@ builddeps   :
     - binary(mesa_clc)
     - binary(python3)
     - binary(rustc)
-    - clang-32bit
-    - clang-devel
     - cmake(Clang)
     - cmake(glslang)
-    - gcc-32bit-devel
-    - lm_sensors-devel
     - pkgconfig(libclc)
     - pkgconfig(libdisplay-info)
     - pkgconfig(sysprof-capture-4)
@@ -57,10 +53,14 @@ builddeps   :
     - pkgconfig32(xshmfence)
     - pkgconfig32(xxf86vm)
     - pkgconfig32(zlib)
+    - clang-32bit
+    - clang-devel
+    - gcc-32bit-devel
+    - libatomic-32bit
+    - lm_sensors-devel
     - python(mako)
     - python(ply)
     - python(pyyaml)
-    - libatomic-32bit
     - rust-32bit
 tuning      :
     - lto: false
