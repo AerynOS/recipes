@@ -5,11 +5,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : linux-desktop
-version     : 6.17.12
-release     : 120
+version     : 6.17.13
+release     : 121
 homepage    : https://kernel.org/
 upstreams   :
-    - https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.17.12.tar.xz : 42780496f99194e9d66b21f13dc2bded952624d5c7bd83eade7f74ff658e98d6
+    - https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.17.13.tar.xz : 116802dc3ad1646163cc6ffe9bddba24a8069b569135ec0523cd799064f2edb9
 summary     : The Linux Kernel for desktop systems
 description : |
     The Linux Kernel for desktop systems
@@ -19,6 +19,7 @@ description : |
 license     :
     - GPL-2.0-only
 builddeps   :
+    - binary(as) # for 'make menuconfig' in chroot
     - binary(bc)
     - binary(bindgen)
     - binary(bison)
@@ -47,6 +48,7 @@ builddeps   :
     - pkgconfig(libssl)
     - pkgconfig(libzstd)
     - pkgconfig(mpfr)
+    - pkgconfig(ncursesw) # for 'make menuconfig' in chroot
     - pkgconfig(ply-boot-client)
     - sysbinary(cryptsetup)
     - sysbinary(fsck.ext4)
