@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : sudo-rs
-version     : 0.2.10
-release     : 17
+version     : 0.2.11
+release     : 18
 homepage    : https://github.com/trifectatechfoundation/sudo-rs
 upstreams   :
-    - https://github.com/trifectatechfoundation/sudo-rs/archive/refs/tags/v0.2.10.tar.gz : c0f65665145da9aebc664013c426bff4eb55a1eb893ed0416e65de312b4a71e9
+    - https://github.com/trifectatechfoundation/sudo-rs/archive/refs/tags/v0.2.11.tar.gz : 86b839e1e4d73d44cedc8d38038c482852c12201fc1a415341d5f8ec3e10f7ae
 summary     : A memory safe implementation of sudo and su
 description : |
     A safety oriented and memory safe implementation of sudo and su written in Rust.
@@ -23,7 +23,7 @@ tuning      :
     - lto: thin
 setup       : |
     %patch %(pkgdir)/0001-vi-sudo-Support-stateless-default-paths.patch
-    %patch %(pkgdir)/0001-downstream-Update-default-PATH.patch
+
     %cargo_fetch
 build       : |
     %cargo_build --features pam-login

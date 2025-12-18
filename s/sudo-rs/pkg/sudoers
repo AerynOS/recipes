@@ -3,6 +3,9 @@
 ## Please only use `visudo` to make changes, via snippets in
 ## `/etc/sudoers.d/*`
 
+# Add the default secure path -- fixes #1083 according to @bhh32 and is used in Pop_OS!
+Defaults secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin"
+
 root ALL=(ALL:ALL) ALL
 
 # Permit "wheel" group to run any command
