@@ -5,7 +5,7 @@
 #
 name        : systemd
 version     : "257.10"
-release     : 73
+release     : 74
 summary     : A System and Service Manager
 license     :
     - GPL-2.0-or-later
@@ -81,6 +81,8 @@ setup       : |
     %patch %(pkgdir)/patches/downstream/0001-tmpfiles-Allow-nsswitch-clobber-at-non-boot-interval.patch
     %patch %(pkgdir)/patches/downstream/0001-gpt-auto-generate-Stop-automounting-xbootldr-and-esp.patch
     %patch %(pkgdir)/patches/downstream/0001-path-lookup-Include-stateless-xdg-path-by-default.patch
+    # Needed because we conservatively enable getty on tty1 for troubleshooting and rescue.target
+    %patch %(pkgdir)/patches/downstream/0001-downstream-Allow-default-font-to-be-set.patch
     %patch %(pkgdir)/patches/downstream/0001-Don-t-build-32bit-EFI-stub.patch
 
     # Upstream patches
@@ -248,6 +250,10 @@ install     : |
 
     # Allow kmscon to take over
     rm -v %(installroot)%(libdir)/systemd/system/autovt@.service
+
+    # ... but conservatively enable getty on tty1 for rescue.target and troubleshooting
+    # This also enables users to start e.g. sway from tty1 (sway et al. don't work with kmscon)
+    ln -srv %(installroot)%(libdir)/systemd/system/getty@.service %(installroot)%(libdir)/systemd/system/getty@tty1.service
 
     # Helper script for use by other triggers
     %install_exe %(pkgdir)/systemd-hook.sh %(installroot)/usr/share/moss/helpers/systemd-hook.sh
