@@ -1,0 +1,55 @@
+#
+# SPDX-FileCopyrightText: © 2025- AerynOS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : yazi
+version     : v25.5.31
+release     : 1
+homepage    : https://github.com/sxyazi/yazi
+upstreams   :
+    - https://github.com/sxyazi/yazi/archive/refs/tags/v25.5.31.tar.gz : 4d005e7c3f32b5574d51ab105597f3da3a4be2f7b5cd1bcb284143ad38253ed4
+summary     : Terminal file manager
+description : |
+    Blazing fast terminal file manager written in Rust, based on async I/O.
+license     : MIT
+networking  : true
+builddeps   :
+    - binary(make)
+rundeps     :
+    - binary(chafa)
+    - binary(fd)
+    - binary(ffmpeg)
+    - binary(file)
+    - binary(fzf)
+    - binary(rg)
+    - binary(zoxide)
+    - imagemagick
+    - poppler
+setup       : |
+    %cargo_fetch
+build       : |
+    # set var to general completions
+    export YAZI_GEN_COMPLETIONS=1
+
+    %cargo_build
+install     : |
+    %cargo_install
+
+    # install ya binary
+    %install_bin %(cargo_target_dir)/ya
+
+    # generate shell completions
+    %install_file yazi-boot/completions/yazi.bash %(installroot)%(bashcompletionsdir)/yazi
+    %install_file yazi-cli/completions/ya.bash %(installroot)%(bashcompletionsdir)/ya
+
+    %install_file yazi-boot/completions/yazi.fish %(installroot)%(fishcompletionsdir)/yazi.fish
+    %install_file yazi-cli/completions/ya.fish %(installroot)%(fishcompletionsdir)/ya.fish
+
+    %install_file yazi-boot/completions/_yazi %(installroot)%(zshcompletionsdir)/_yazi
+    %install_file yazi-cli/completions/_ya %(installroot)%(zshcompletionsdir)/_ya
+
+    %install_file assets/logo.png %(installroot)%(datadir)/icons/hicolor/512x512/apps/yazi.png
+    %install_file assets/yazi.desktop -t %(installroot)%(datadir)/applications/
+check       : |
+    %cargo_test
