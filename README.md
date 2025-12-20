@@ -1,13 +1,65 @@
-## Recipes
+# Recipes
 
-This repository contains all of the recipes required to build AerynOS
-from source.
+This repository contains all of the recipes required to build AerynOS from source.
 
 [![Repository status](https://repology.org/badge/repository-big/serpentos.svg)](https://repology.org/repository/serpentos)
 
-## Onboarding for people using an AerynOS host system
+
+## Keeping the repository small while we develop our infra and tooling
+
+We are currently working on technology that will allow us to scale the repo out without having to worry as much about ABI mismatched packages.
+
+Until that technology is ready, we are having to be quite strict in terms of which packages we accept for the repository, in order to avoid exploding the amount of manual rebuilds we need to do.
+
+Please understand and accept that this is a conscious choice driven by necessity.
+
+
+### Current packaging focus
+
+AerynOS should be considered an in-development, Alpha quality, tech preview Linux distribution, which primarily exists to prove out our tooling approach at the moment. This will obviously change as and when the tooling and infrastructure capabilities mature.
+
+The focus for now is squarely on maintaining our currently supported Desktop stacks + development tooling.
+
+The aim right now is to ship the following:
+
+ - The desktop environment (COSMIC, GNOME and KDE are considered stable)
+ - Any "lightweight" compositors with associated stack (such Sway and Niri)
+ - Flatpak w/ preconfigured flathub
+ - GNOME Software / KDE Discover (pending moss integration, which is being worked on)
+ - Firefox
+ - Thunderbird
+ - The development tools for packaging and developing the distribution.
+
+Other areas of focus:
+
+ - Stateless enabling (+ hermetic usr)
+ - Kernel enabling
+ - Metrics-based performance improvements
+ - Package updates and bug fixes
+
+
+## Packaging onboarding for people using an AerynOS host system
 
 See https://aerynos.dev/packaging/
+
+
+### Git summary requirements
+
+To keep git summaries readable, AerynOS requires the following git summary format
+
+- `name: Add at v<version>`
+- `name: Update to v<version>`
+- `name: Fix <...>`
+- `[NFC] name: <description of no functional change commit>`
+
+
+### Using `jq` to parse `manifest.*.jsonc` files
+
+We provide `.jsonc` (JSON with comments) manifest files, however, the popular `jq` tool doesn't currently support `.jsonc` files.
+
+That said, you can use the C preprocessor to strip any comments before passing to `jq` as follows:
+
+`cpp -P -E manifest.x86_64.jsonc | jq .packages`
 
 
 ### Specifying `just` default variables in the `.env` file
@@ -40,62 +92,6 @@ _Example:_
     BOULDER_ARGS="--data-dir=${HOME}/.local/share/boulder" just build
 
 
-### Do a test build
-
-Try invoking `pushd m/m4/ && just build` or `pushd n/nano && just build` for a quick and easy confirmation that everything works OK.
-
-
-## Git summary requirements
-
-To keep git summaries readable, AerynOS requires the following git summary format
-
-- `name: Add at v<version>`
-- `name: Update to v<version>`
-- `name: Fix <...>`
-- `[NFC] name: <description of no functional change commit>`
-
-The use of the `Initial inclusion` verbiage is _strongly discouraged_.
-
-
-## Using `jq` to parse `manifest.*.jsonc` files
-
-We provide `.jsonc` (JSON with comments) manifest files, however, the popular `jq` tool doesn't currently support `.jsonc` files.
-
-That said, you can use the C preprocessor to strip any comments before passing to `jq` as follows:
-
-`cpp -P -E manifest.x86_64.jsonc | jq .packages`
-
-
-## Current focus
-
-Packaging focus should be on maintaining our currently supported Desktop stacks + development tooling.
-
-Other areas of focus:
-
- - Stateless enabling (+ hermetic usr)
- - Kernel enabling
- - Metrics-based performance improvements
- - Package updates and bug fixes
-
-The aim right now is to ship the following:
-
- - The desktop environment (GNOME and KDE are considered stable, COSMIC is considered a preview)
- - Flatpak w/ preconfigured flathub
- - GNOME Software / KDE Discover (pending moss integration -- see https://github.com/AerynOS/recipes/pull/968)
- - Firefox
- - Thunderbird
- - The development tools for packaging and developing the distribution.
-
-
-### Keeping the repo small while we develop our infra
-
-We are currently working on technology that will allow us to scale the repo out without having to worry as much about ABI mismatched packages.
-
-Until that technology is ready, we are having to be quite strict in terms of which packages we accept for the repository, in order to avoid exploding the amount of manual rebuilds we need to do.
-
-Please understand and accept that this is a conscious choice driven by necessity.
-
-
 ## License
 
 Unless otherwise specified, all packaging recipes are available under
@@ -107,4 +103,4 @@ a software package is under the relevant license for each upstream.
 
 Copyright © 2020-2025 Serpent OS Developers.
 
-Copyright © 2025 AerynOS Developers.
+Copyright © 2025- AerynOS Developers.
