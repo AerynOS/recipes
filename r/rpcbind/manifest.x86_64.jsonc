@@ -1,0 +1,34 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"rpcbind": {
+			"build-depends": [
+				"pkgconfig(libtirpc)",
+				"pkgconfig(systemd)"
+			],
+			"depends": [
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libsystemd.so.0(x86_64))",
+				"soname(libtirpc.so.3(x86_64))"
+			],
+			"files": [
+				"/usr/bin/rpcinfo",
+				"/usr/lib/systemd/system/rpcbind.service",
+				"/usr/lib/systemd/system/rpcbind.socket",
+				"/usr/sbin/rpcbind",
+				"/usr/share/man/man8/rpcbind.8",
+				"/usr/share/man/man8/rpcinfo.8"
+			],
+			"name": "rpcbind",
+			"provides": [
+				"binary(rpcinfo)",
+				"sysbinary(rpcbind)"
+			]
+		}
+	},
+	"source-name": "rpcbind",
+	"source-release": "1",
+	"source-version": "1.2.7"
+}
