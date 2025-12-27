@@ -4,11 +4,12 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : ryzenadj
-version     : 0.16.0
-release     : 2
+version     : "0.18.0+git.4559447"
+release     : 3
 homepage    : https://github.com/FlyGoat/RyzenAdj
 upstreams   :
-    - https://github.com/FlyGoat/RyzenAdj/archive/refs/tags/v0.16.0.tar.gz : 7bef7dbde006afbe316091d8da8c8c551d5d7d43185d9e62281671959b7a3ca2
+    - git|https://github.com/FlyGoat/RyzenAdj.git :
+        ref : 455944714f239e98fc600b308db100ddb599ed42
 summary     : Adjust power management settings for Ryzen APUs
 description : |
     Adjust power management settings for Ryzen Mobile Processors.
@@ -21,4 +22,3 @@ build       : |
     %cmake_build
 install     : |
     %cmake_install
-
