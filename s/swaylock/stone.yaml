@@ -1,0 +1,31 @@
+#
+# SPDX-FileCopyrightText: © 2025- AerynOS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : swaylock
+version     : 1.8.4
+release     : 1
+homepage    : https://github.com/swaywm/swaylock
+upstreams   :
+    - https://github.com/swaywm/swaylock/releases/download/v1.8.4/swaylock-1.8.4.tar.gz : aa251d5a8f335fe2ac9ec3cc2a6ac8772aa4dba2ec710ccd415956c6e89b11d3
+summary     : Screen locking utility for wayland compositors
+description : |
+    Screen locking utility for wayland compositors
+license     : 
+    - MIT
+builddeps   :
+    - binary(scdoc)
+    - pkgconfig(cairo)
+    - pkgconfig(gdk-pixbuf-2.0)
+    - pkgconfig(pam)
+    - pkgconfig(wayland-client)
+    - pkgconfig(wayland-protocols)
+    - pkgconfig(wayland-scanner)
+    - pkgconfig(xkbcommon)
+setup       : |
+    %meson
+build       : |
+    %meson_build
+install     : |
+    %meson_install
