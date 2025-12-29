@@ -1,0 +1,48 @@
+#
+# SPDX-FileCopyrightText: © 2025- AerynOS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : signal-desktop
+version     : 7.84.0
+release     : 1
+homepage    : https://signal.org
+upstreams   :
+    - https://updates.signal.org/desktop/apt/pool/s/signal-desktop/signal-desktop_7.84.0_amd64.deb : 
+        hash: 8bd783ced8f3b4edba064586f46f52892687d8d2f36b6cdd4cedb98dfffc8eed
+        rename: signal.deb
+summary     : A private messenger for Windows, macOS, and Linux
+description : |
+    Signal Desktop links with Signal on Android or iOS and lets you message from your Windows, macOS, and Linux computers.
+license     : AGPL-3.0-or-later
+builddeps  :
+    - binary(bsdtar-static)
+    - binary(tar)
+    - pkgconfig(alsa)
+    - pkgconfig(cups)
+    - pkgconfig(gbm)
+    - pkgconfig(gtk+-3.0)
+    - pkgconfig(libdrm)
+    - pkgconfig(libpulse)
+    - pkgconfig(xscrnsaver)
+debug       : false
+strip       : false
+setup      : |
+    ar xf %(sourcedir)/signal.deb
+    bsdtar-static xf data.tar.*
+install     : |
+    _signal_root=%(libdir)/signal
+    _signal_install=%(installroot)/$_signal_root
+
+    %install_dir $_signal_install
+    cp -R opt/Signal/* $_signal_install
+
+    %install_dir %(installroot)%(bindir)
+    ln -svf $_signal_root/signal-desktop %(installroot)%(bindir)/signal-desktop
+
+    # Desktop file, icon
+    %install_file %(pkgdir)/signal-desktop.desktop %(installroot)/%(datadir)/applications/signal-desktop.desktop
+    
+    for i in 32 64 128 256 512; do
+        %install_file usr/share/icons/hicolor/${i}x${i}/apps/signal-desktop.png %(installroot)%(datadir)/icons/hicolor/${i}x${i}/apps/signal-desktop.png
+    done
