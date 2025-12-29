@@ -1,0 +1,25 @@
+From 6325083e3fcd0718a59b79ebb20abf614fd3f8a5 Mon Sep 17 00:00:00 2001
+From: Cory Forsstrom <cforsstrom18@gmail.com>
+Date: Mon, 29 Dec 2025 13:47:08 -0800
+Subject: [PATCH 4/4] remove Q_DECL_UNUSED
+
+---
+ src/analyze/gui/gui.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/analyze/gui/gui.cpp b/src/analyze/gui/gui.cpp
+index 7197ea1..8d0f620 100644
+--- a/src/analyze/gui/gui.cpp
++++ b/src/analyze/gui/gui.cpp
+@@ -23,7 +23,7 @@
+ #include <QResource>
+ 
+ // FIXME: patch KIconTheme so that this isn't needed here
+-void Q_DECL_UNUSED initRCCIconTheme()
++void initRCCIconTheme()
+ {
+     const QString iconThemeRcc = qApp->applicationDirPath() + QStringLiteral("/../share/icons/breeze/breeze-icons.rcc");
+     if (!QFile::exists(iconThemeRcc)) {
+-- 
+2.52.0
+

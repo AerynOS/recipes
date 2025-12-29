@@ -1,0 +1,62 @@
+#
+# SPDX-FileCopyrightText: © 2025- AerynOS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : heaptrack
+version     : 1.5.0
+release     : 1
+homepage    : https://invent.kde.org/sdk/heaptrack/-/archive/v1.5.0
+upstreams   :
+    - https://invent.kde.org/sdk/heaptrack/-/archive/v1.5.0/heaptrack-v1.5.0.tar.gz : bd8e75238d871020cbe36038d6646b348f85e8b3fa25e6ef1a2400ee7d3d0315
+summary     : A heap memory profiler for Linux
+description : |
+    Heaptrack traces all memory allocations and annotates these events with stack traces.
+    Dedicated analysis tools then allow you to interpret the heap memory profile to:
+
+    - find hotspots that need to be optimized to reduce the memory footprint of your application
+    - find memory leaks, i.e. locations that allocate memory which is never deallocated
+    - find allocation hotspots, i.e. code locations that trigger a lot of memory allocation calls
+    - find temporary allocations, which are allocations that are directly followed by their deallocation
+license     : 
+    - Apache-2.0
+    - BSD-3-Clause
+    - BSL-1.0
+    - GPL-2.0-or-later
+    - LGPL-2.1-or-later
+    - MIT
+    - LGPL-2.1-only
+builddeps   :
+    - cmake(Boost)
+    - cmake(ECM)
+    - cmake(KChart6)
+    - cmake(KF6ConfigWidgets)
+    - cmake(KF6CoreAddons)
+    - cmake(KF6CoreAddons)
+    - cmake(KF6I18n)
+    - cmake(KF6IconThemes)
+    - cmake(KF6ItemModels)
+    - cmake(KF6KIO)
+    - cmake(KF6ThreadWeaver)
+    - cmake(Qt6Core)
+    - cmake(Qt6Svg)
+    - cmake(Qt6Widgets)
+    - pkgconfig(libdw)
+    - pkgconfig(libunwind-generic)
+    - pkgconfig(libzstd)
+    - pkgconfig(zlib)
+setup       : |
+    %patch %(pkgdir)/0001-Support-KChart6-for-KF6.patch
+    %patch %(pkgdir)/0002-Use-QString-for-KConfigGroup-names.patch
+    %patch %(pkgdir)/0003-Fix-build-with-boost-1.89.patch
+    %patch %(pkgdir)/0004-remove-Q_DECL_UNUSED.patch
+
+    %cmake_kf6 \
+        -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
+        -DHEAPTRACK_USE_QT6=ON \
+        -DLIBUNWIND_INCLUDE_DIR=%(includedir)/libunwind-nongnu/ \
+        -DLIBUNWIND_LIBRARY=%(libdir)/libunwind-nongnu.so
+build       : |
+    %cmake_build
+install     : |
+    %cmake_install
