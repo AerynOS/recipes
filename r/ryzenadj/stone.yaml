@@ -5,7 +5,7 @@
 #
 name        : ryzenadj
 version     : "0.18.0+git.4559447"
-release     : 3
+release     : 4
 homepage    : https://github.com/FlyGoat/RyzenAdj
 upstreams   :
     - git|https://github.com/FlyGoat/RyzenAdj.git :
@@ -22,3 +22,6 @@ build       : |
     %cmake_build
 install     : |
     %cmake_install
+
+    # Ensure that ryzenadj is allowed to change SMU settings
+    %install_file %(pkgdir)/20-ryzenadj-iomem-relaxed.cmdline -t %(installroot)%(libdir)/kernel/cmdline.d/
