@@ -4,13 +4,13 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : cosmic-session
-version     : 1.0.0-git+f409307
-release     : 36
+version     : 1.0.1-git+1dee7d1
+release     : 37
 summary     : Cosmic Session Management
 license     : GPL-3.0
 homepage    : https://github.com/pop-os/cosmic-session
 upstreams   :
-    - git|https://github.com/pop-os/cosmic-session.git : f4093070be2813787fbfd1a1ff43b213c1396343
+    - git|https://github.com/pop-os/cosmic-session.git : 1dee7d1a943f640e72597ee1decc4aad54007d9c
 description : |
     Cosmic Session Management
 builddeps   :
@@ -47,8 +47,8 @@ networking  : yes
 setup       : |
     %cargo_fetch
 build       : |
-    just build
+    %cargo_build
 install     : |
-    just rootdir=%(installroot) install
+    CARGO_TARGET_DIR="target/%(target_triple)" just rootdir=%(installroot) install
     %install_file %(pkgdir)/60-cosmic.preset %(installroot)%(libdir)/systemd/system-preset/60-cosmic.preset
     %install_file data/dconf/profile/cosmic %(installroot)%(datadir)/dconf/profile/cosmic
