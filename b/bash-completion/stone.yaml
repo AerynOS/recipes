@@ -5,7 +5,7 @@
 #
 name        : bash-completion
 version     : 2.17.0
-release     : 11
+release     : 12
 homepage    : https://github.com/scop/bash-completion
 upstreams   :
     - https://github.com/scop/bash-completion/releases/download/2.17.0/bash-completion-2.17.0.tar.xz : dd9d825e496435fb3beba3ae7bea9f77e821e894667d07431d1d4c8c570b9e58
@@ -32,13 +32,16 @@ install     : |
                 continue
                 ;;
             *)
-                rm -vf %(installroot)%(datadir)/bash-completion/completions/$i
+                rm -vf %(installroot)%(bashcompletionsdir)/$i
                 ;;
         esac
     done
 
     # provided by libsecret
-    rm -fv %(installroot)/usr/share/bash-completion/completions/secret-tool
+    rm -fv %(installroot)%(bashcompletionsdir)/secret-tool
+
+    # provided by tmux
+    rm -fv %(installroot)%(bashcompletionsdir)/tmux
 packages    :
     - "%(name)-devel":
         paths:
