@@ -5,11 +5,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : linux-handheld
-version     : 6.17.9
-release     : 40
+version     : 6.17.13
+release     : 41
 homepage    : https://kernel.org/
 upstreams   :
-    - https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.17.9.tar.xz : 6d08803b953c509df48d44d3281ed392524321d8bb353eb21c0555790c8f8e06
+    - https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.17.13.tar.xz : 116802dc3ad1646163cc6ffe9bddba24a8069b569135ec0523cd799064f2edb9
 summary     : The Linux Kernel for handheld systems
 description : |
     The Linux Kernel for handheld systems
@@ -56,8 +56,8 @@ builddeps   :
     - font-cantarell
     - intel-microcode
     - libgcc # libgcc_s.so.1 - needed until we get llvm-libgcc
-    - linux-firmware-amd64-microcode
     - linux-firmware-amd-graphics
+    - linux-firmware-amd64-microcode
     - linux-firmware-intel-graphics
     - linux-firmware-nvidia-graphics
     - rust-devel # Needs Rust source
