@@ -5,7 +5,7 @@
 #
 name        : tcl
 version     : 9.0.3
-release     : 3
+release     : 4
 upstreams   :
     - https://sourceforge.net/projects/tcl/files/Tcl/9.0.3/tcl9.0.3-src.tar.gz : 2537ba0c86112c8c953f7c09d33f134dd45c0fb3a71f2d7f7691fd301d2c33a6
 homepage    : https://www.tcl.tk
@@ -34,6 +34,7 @@ build       : |
 install     : |
     %make_install \
         install-libraries install-msgs \
+        MANN_INSTALL_DIR=%(mandir)/man3 \
         TCL_LIBRARY=%(datadir)/tcl${_version_major_minor}
     
     cd ../
@@ -53,6 +54,34 @@ install     : |
 
     # Remove build traces and switch to correct private headers dir
     sed -i -e "s|$PWD/unix|%(libdir)|; s|$PWD|%(includedir)/tcl-private|" %(installroot)/%(libdir)/tclConfig.sh
+
+    # Fix man pages (copied verbatim from the debian rules file for tcl9.0)
+    cd %(installroot)%(mandir)/man1 && \
+    cat tclsh.1 | sed -e 's/(n)/(3tcl)/g' > tclsh${_version_major_minor}.1 && \
+    rm tclsh.1
+
+    cd %(installroot)%(mandir)/man3 && \
+    for f in *.[3n] ; do
+        f2="$(echo $f | sed -e 's/\.[3n]/.3tcl/')"
+        if [ -L "${f}" ]; then
+            l=$(readlink -n "${f}" | sed -e 's/\.[3n]/.3tcl/')
+            rm "${f}"
+            ln -sf "${l}" "${f2}"
+        else
+            cat "${f}" | sed -e 's/^\.TH \([^ ]\+\|"[^"]\+"\) [3n]/.TH \1 3tcl/' \
+            -e 's/\(Tk_[0-9A-Za-z]*\)(3)/\1(3tk)/g' \
+            -e 's/\([A-Z][0-9A-Za-z_]*\)(3)/\1(3tcl)/g' \
+            -e 's/send(n)/send(3tk)/g' \
+            -e 's/text(n)/text(3tk)/g' \
+            -e 's/tk(n)/tk(3tk)/g' \
+            -e 's/winfo(n)/winfo(3tk)/g' \
+            -e 's/(n)/(3tcl)/g' \
+            -e "s/\\N'244'/\\[^o]/g" \
+            >"${f2}"
+            rm "${f}"
+        fi
+    done
+
 packages    :
     - "%(name)":
         paths:
