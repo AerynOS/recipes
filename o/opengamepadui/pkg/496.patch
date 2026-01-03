@@ -636,15 +636,18 @@ index dcf729d18..360a621ad 100644
  		logger.debug("Mute!")
  		audio_manager.call_deferred("toggle_mute")
 
-From e99c9b3334a3c04f881f95e9f2697e95a69171d4 Mon Sep 17 00:00:00 2001
+From 57ff9cc8690ac974990344e6c47e7415a2a20689 Mon Sep 17 00:00:00 2001
 From: "Derek J. Clark" <derekjohn.clark@gmail.com>
 Date: Wed, 31 Dec 2025 16:51:43 -0800
 Subject: [PATCH 3/3] feat(InputPlumber): Get target device type, keep device
  default target on first boot
 
 ---
+ core/global/launch_manager.gd                 |  82 ++++++------
  core/systems/input/input_plumber_profile.gd   |   2 +
- core/ui/card_ui/gamepad/gamepad_settings.gd   |  42 +++++--
+ core/ui/card_ui/card_ui.tscn                  |   4 +-
+ core/ui/card_ui/gamepad/gamepad_settings.gd   |  58 ++++++---
+ .../card_ui_overlay_mode.tscn                 |   4 +-
  extensions/core/src/dbus/inputplumber.rs      |   2 +
  .../core/src/dbus/inputplumber/target.rs      |  36 ++++++
  extensions/core/src/input/inputplumber.rs     |   1 +
@@ -652,10 +655,128 @@ Subject: [PATCH 3/3] feat(InputPlumber): Get target device type, keep device
  .../src/input/inputplumber/gamepad_device.rs  | 119 ++++++++++++++++++
  .../src/input/inputplumber/keyboard_device.rs |  43 +++++--
  .../src/input/inputplumber/mouse_device.rs    |  45 +++++--
- 9 files changed, 269 insertions(+), 25 deletions(-)
+ 12 files changed, 325 insertions(+), 75 deletions(-)
  create mode 100644 extensions/core/src/dbus/inputplumber/target.rs
  create mode 100644 extensions/core/src/input/inputplumber/gamepad_device.rs
 
+diff --git a/core/global/launch_manager.gd b/core/global/launch_manager.gd
+index 0cd6bb232..38db55a82 100644
+--- a/core/global/launch_manager.gd
++++ b/core/global/launch_manager.gd
+@@ -185,7 +185,6 @@ func _init() -> void:
+ 
+ 	in_game_state.state_entered.connect(on_game_state_entered)
+ 	in_game_state.state_exited.connect(on_game_state_exited)
+-	set_gamepad_profile("")
+ 
+ 
+ # Loads persistent data like recent games launched, etc.
+@@ -217,8 +216,12 @@ func setup(input_manager: InputManager):
+ 	if not input_manager:
+ 		logger.error("No input manager found.")
+ 		return
++	if not is_instance_valid(input_manager):
++		logger.error("Input Manager instance is not valid")
++		return
+ 
+ 	_input_manager = input_manager
++	set_gamepad_profile("")
+ 
+ 
+ ## Launches the given application and switches to the in-game state. Returns a
+@@ -491,43 +494,48 @@ func set_app_gamepad_profile(app: RunningApp) -> void:
+ 
+ 
+ ## Sets the gamepad profile for the running app with the given profile
+-func set_gamepad_profile(path: String, target_gamepad: String = "") -> void:
+-	# Discover the currently set gamepad to properly add additional capabilities based on that gamepad
+-	var profile_modifier := target_gamepad
+-	if target_gamepad.is_empty():
+-		profile_modifier = settings_manager.get_value("input", "gamepad_profile_target", "gamepad") as String
+-
+-	# If no profile was specified, unset the gamepad profiles
+-	if path == "":
+-		# Get the input manager default path
+-		var default_path = ""
+-		if _input_manager:
+-			default_path =  _input_manager.get_default_global_profile_path()
+-
+-		# Try check to see if there is a global gamepad setting
+-		path = settings_manager.get_value("input", "gamepad_profile", default_path) as String
+-
+-		# Verify can load a valid profile, or fallback.
+-		if not path.ends_with(".json") or not FileAccess.file_exists(path):
+-			if default_path == "":
+-				logger.warn("Unable to set default gamepad profile path from input manager.")
++func set_gamepad_profile(profile_path: String, target_gamepad: String = "") -> void:
++	# Discover the currently set target for each gamepad to properly add additional
++	# capabilities based on that target
++	for device: CompositeDevice in input_plumber.get_composite_devices():
++		if target_gamepad.is_empty():
++			# First, find the currently set gamepad on the composite device
++			var targets = device.get_target_devices()
++			for target in targets:
++				var target_dbus_path: String = target.get("dbus_path")
++				if not target_dbus_path.contains("target/gamepad"):
++					continue
++				target_gamepad = target.get("device_type")
++				break
++			if not target_gamepad.is_empty():
++				break
++			# Then, if overriden by settings, use that instead
++			#TODO: This is a global setting, refactor settings to permit individual gamepads to have different targets
++			target_gamepad = settings_manager.get_value("input", "gamepad_profile_target", target_gamepad) as String
++
++		# If no profile was specified, unset the gamepad profiles
++		if profile_path == "":
++			# Get the input manager default path
++			if is_instance_valid(_input_manager):
++				profile_path = _input_manager.get_default_global_profile_path()
++
++			# Try check to see if there is a global gamepad setting
++			#TODO: This is a global setting, refactor settings to permit individual gamepads to have different profiles
++			profile_path = settings_manager.get_value("input", "gamepad_profile", profile_path) as String
++
++			# Verify can load a valid profile, or fallback.
++			if not profile_path.ends_with(".json") or not FileAccess.file_exists(profile_path):
++					logger.warn("Profile path is not valid: \"" + profile_path + "\"")
++					return
++
++			# Load the profile to get its name
++			logger.info("Loading gamepad profile: " + profile_path)
++			var profile := InputPlumberProfile.load(profile_path)
++			if not profile:
++				logger.warn("Failed to load gamepad profile: " + profile_path)
+ 				return
+-			path = default_path
+-
+-	logger.info("Loading gamepad profile: " + path)
+-	if not FileAccess.file_exists(path):
+-		logger.warn("Gamepad profile not found: " + path)
+-		return
+-
+-	# Load the profile to get its name
+-	var profile := InputPlumberProfile.load(path)
+-	if not profile:
+-		logger.warn("Failed to load gamepad profile: " + path)
+-		return
+ 
+-	# TODO: Save profiles for individual controllers?
+-	for gamepad in input_plumber.get_composite_devices():
+-		InputPlumber.load_target_modified_profile(gamepad, path, profile_modifier)
++		InputPlumber.load_target_modified_profile(device, profile_path, target_gamepad)
+ 
+ 		# Set the target gamepad if one was specified
+ 		if not target_gamepad.is_empty():
+@@ -538,7 +546,7 @@ func set_gamepad_profile(path: String, target_gamepad: String = "") -> void:
+ 				_:
+ 					logger.debug(target_gamepad, "needs no additional target devices.")
+ 			logger.info("Setting target devices to: ", target_devices)
+-			gamepad.set_target_devices(target_devices)
++			device.set_target_devices(target_devices)
+ 
+ 	#var notify := Notification.new("Using gamepad profile: " + profile.name)
+ 	#notification_manager.show(notify)
 diff --git a/core/systems/input/input_plumber_profile.gd b/core/systems/input/input_plumber_profile.gd
 index 6237f3116..7ac5eb378 100644
 --- a/core/systems/input/input_plumber_profile.gd
@@ -669,31 +790,70 @@ index 6237f3116..7ac5eb378 100644
  		"deck-uhid":
  			target_device = TargetDevice.SteamDeck
  		"hori-steam":
+diff --git a/core/ui/card_ui/card_ui.tscn b/core/ui/card_ui/card_ui.tscn
+index 5842207ae..2de27463d 100644
+--- a/core/ui/card_ui/card_ui.tscn
++++ b/core/ui/card_ui/card_ui.tscn
+@@ -94,6 +94,8 @@ grow_horizontal = 2
+ grow_vertical = 2
+ script = ExtResource("1_f8851")
+ 
++[node name="InputManager" parent="." instance=ExtResource("1_34t85")]
++
+ [node name="InputIconProcessor" type="Node" parent="."]
+ script = ExtResource("3_y116l")
+ 
+@@ -369,8 +371,6 @@ grow_vertical = 2
+ stream = ExtResource("21_s3peg")
+ autoplay = true
+ 
+-[node name="InputManager" parent="." instance=ExtResource("1_34t85")]
+-
+ [node name="PowerSaver" parent="." instance=ExtResource("8_hyc1j")]
+ 
+ [editable path="AlwaysVisibleContent/OnScreenKeyboard"]
 diff --git a/core/ui/card_ui/gamepad/gamepad_settings.gd b/core/ui/card_ui/gamepad/gamepad_settings.gd
-index b0e486ff3..31313e692 100644
+index b0e486ff3..39af8d7e5 100644
 --- a/core/ui/card_ui/gamepad/gamepad_settings.gd
 +++ b/core/ui/card_ui/gamepad/gamepad_settings.gd
-@@ -74,8 +74,17 @@ func _ready() -> void:
- 	# Load the default profile
+@@ -2,7 +2,6 @@ extends Control
+ 
+ const USER_TEMPLATES := "user://data/gamepad/templates"
+ const USER_PROFILES := "user://data/gamepad/profiles"
+-const GLOBAL_PROFILE_PATH := "user://data/gamepad/profiles/global.json"
+ 
+ var change_input_state := preload("res://assets/state/states/gamepad_change_input.tres") as State
+ var gamepad_state := load("res://assets/state/states/gamepad_settings.tres") as State
+@@ -60,6 +59,7 @@ func _ready() -> void:
+ 	gamepad_type_dropdown.clear()
+ 	for gamepad_type: String in self.gamepad_types:
+ 		gamepad_type_dropdown.add_item(gamepad_type)
++
+ 	var on_gamepad_selected := func(item_selected: int):
+ 		self.gamepad_type_selected = item_selected
+ 		if self.profile:
+@@ -71,11 +71,18 @@ func _ready() -> void:
+ 		self._update_mapping_elements()
+ 	gamepad_type_dropdown.item_selected.connect(on_gamepad_selected)
+ 
+-	# Load the default profile
++	# Load the default profile for every attached gamepad
  	var profile_path = settings_manager.get_value("input", "gamepad_profile", "")
- 	self.profile_gamepad = settings_manager.get_value("input", "gamepad_profile_target", "")
--	for composite_device in input_plumber.get_composite_devices():
--			_set_gamepad_profile(composite_device, profile_path)
-+	for device: CompositeDevice in input_plumber.get_composite_devices():
-+			if not self.profile_gamepad:
-+				# Set the current profile_gamepad type to the currently configured CompositeDevice target gamepad
-+				var targets = gamepad.get_target_devices()
-+				for target in targets:
-+					var target_dbus_path: String = target.get("dbus_path")
-+					if not target_dbus_path.contains("target/gamepad"):
-+						continue
-+					self.profile_gamepad = target.get("device_type")
-+					break
-+			_set_gamepad_profile(device, profile_path)
+-	self.profile_gamepad = settings_manager.get_value("input", "gamepad_profile_target", "")
+ 	for composite_device in input_plumber.get_composite_devices():
++		# Set the current profile_gamepad type to the currently configured CompositeDevice target gamepad
++		var targets = composite_device.get_target_devices()
++		for target in targets:
++			var target_dbus_path: String = target.get("dbus_path")
++			if not target_dbus_path.contains("target/gamepad"):
++				continue
++			self.profile_gamepad = target.get("device_type")
+ 			_set_gamepad_profile(composite_device, profile_path)
++			break
  
  	# Grab focus when the mapper exits
  	var on_state_changed := func(_from: State, to: State):
-@@ -131,7 +140,7 @@ func _on_state_entered(_from: State) -> void:
+@@ -131,7 +138,7 @@ func _on_state_entered(_from: State) -> void:
  	
  	# Set the gamepad name label
  	gamepad_label.text = self.gamepad.name
@@ -702,12 +862,12 @@ index b0e486ff3..31313e692 100644
  	# Populate the menu with the source inputs for the given gamepad
  	populate_mappings_for(self.gamepad)
  
-@@ -146,17 +155,31 @@ func _on_state_entered(_from: State) -> void:
+@@ -146,17 +153,31 @@ func _on_state_entered(_from: State) -> void:
  	if not self.library_item:
  		self.library_item = launch_manager.get_current_app_library_item()
  
-+	# Set the current profile_gamepad type to the currently configured CompositeDevice target gamepad
-+	var targets = gamepad.get_target_devices()
++	# Set the current profile_gamepad type to the current CompositeDevice target gamepad
++	var targets = self.gamepad.get_target_devices()
 +	for target in targets:
 +		var target_dbus_path: String = target.get("dbus_path")
 +		if not target_dbus_path.contains("target/gamepad"):
@@ -735,7 +895,17 @@ index b0e486ff3..31313e692 100644
  	_update_mapping_elements()
  
  	# Clear focus
-@@ -196,7 +219,7 @@ func populate_mappings_for(gamepad: CompositeDevice) -> void:
+@@ -189,14 +210,14 @@ func _on_state_exited(_to: State) -> void:
+ 
+ 
+ ## Populates the button mappings for the given gamepad
+-func populate_mappings_for(gamepad: CompositeDevice) -> void:
+-	var gamepad_name := gamepad.name
+-	var capabilities := gamepad.capabilities
++func populate_mappings_for(device: CompositeDevice) -> void:
++	var gamepad_name := device.name
++	var capabilities := device.capabilities
+ 	
  	# Sort the capabilities
  	capabilities = InputPlumberEvent.sort_capabilities(capabilities)
  	capabilities.reverse()
@@ -744,7 +914,7 @@ index b0e486ff3..31313e692 100644
  
  	# Delete any old UI elements
  	for child in container.get_children():
-@@ -390,9 +413,10 @@ func _add_group_for_capability(gamepad_name: String, capability: String, parent:
+@@ -390,9 +411,10 @@ func _add_group_for_capability(gamepad_name: String, capability: String, parent:
  
  ## Syncs the UI to the given profile
  func _update_mapping_elements() -> void:
@@ -757,17 +927,74 @@ index b0e486ff3..31313e692 100644
  
  	# Update the dropdown based on the profile's target gamepad type
  	if not self.profile_gamepad.is_empty():
-@@ -646,8 +670,8 @@ func _save_profile() -> void:
+@@ -592,7 +614,7 @@ func get_target_gamepad_text(gamepad_type: InputPlumberProfile.TargetDevice) ->
+ 
+ 
+ #  Set the given profile for the given composte device.
+-func _set_gamepad_profile(gamepad: CompositeDevice, profile_path: String = "") -> void:
++func _set_gamepad_profile(device: CompositeDevice, profile_path: String = "") -> void:
+ 	if profile_path == "":
+ 		if gamepad_state.has_meta("item"):
+ 			library_item = gamepad_state.get_meta("item") as LibraryItem
+@@ -608,8 +630,8 @@ func _set_gamepad_profile(gamepad: CompositeDevice, profile_path: String = "") -
+ 		else:
+ 			profile_path = settings_manager.get_library_value(library_item, "gamepad_profile", "")
+ 
+-	logger.debug("Setting " + gamepad.name + " to profile: " + profile_path)
+-	InputPlumber.load_target_modified_profile(gamepad, profile_path, self.profile_gamepad)
++	logger.debug("Setting " + device.name + " to profile: " + profile_path)
++	InputPlumber.load_target_modified_profile(device, profile_path, self.profile_gamepad)
+ 
+ 	# Set the target gamepad if one was specified
+ 	if not self.profile_gamepad.is_empty():
+@@ -620,7 +642,7 @@ func _set_gamepad_profile(gamepad: CompositeDevice, profile_path: String = "") -
+ 			_:
+ 				logger.debug(self.profile_gamepad, "needs no additional target devices.")
+ 		logger.debug("Setting target devices to: ", target_devices)
+-		gamepad.set_target_devices(target_devices)
++		device.set_target_devices(target_devices)
+ 
+ # Save the current profile to a file
+ func _save_profile() -> void:
+@@ -634,7 +656,7 @@ func _save_profile() -> void:
+ 		logger.debug("No library item loaded to associate profile with")
+ 		# Save the profile
+ 		@warning_ignore("confusable_local_declaration")
+-		var path := GLOBAL_PROFILE_PATH
++		var path := input_manager.get_default_global_profile_path()
+ 		if profile.save(path) != OK:
+ 			logger.error("Failed to save global gamepad profile to: " + path)
+ 			notify.text = "Failed to save global gamepad profile"
+@@ -646,8 +668,8 @@ func _save_profile() -> void:
  		settings_manager.set_value("input", "gamepad_profile", path)
  		settings_manager.set_value("input", "gamepad_profile_target", self.profile_gamepad)
  
 -		for gamepad in input_plumber.get_composite_devices():
 -			_set_gamepad_profile(gamepad, path)
-+		for device: CompositeDevice in input_plumber.get_composite_devices():
-+			_set_gamepad_profile(device, path)
++		# Set the profile for the current gamepad
++		_set_gamepad_profile(self.gamepad, path)
  
  		logger.debug("Saved global gamepad profile to: " + path)
  		notify.text = "Global gamepad profile saved"
+diff --git a/core/ui/card_ui_overlay_mode/card_ui_overlay_mode.tscn b/core/ui/card_ui_overlay_mode/card_ui_overlay_mode.tscn
+index 27bd8f3ab..6f0e783a7 100644
+--- a/core/ui/card_ui_overlay_mode/card_ui_overlay_mode.tscn
++++ b/core/ui/card_ui_overlay_mode/card_ui_overlay_mode.tscn
+@@ -27,6 +27,8 @@ grow_vertical = 2
+ theme = ExtResource("1_0qmlq")
+ script = ExtResource("2_3ptao")
+ 
++[node name="InputManager" parent="." instance=ExtResource("3_klhmb")]
++
+ [node name="InputIconProcessor" type="Node" parent="."]
+ script = ExtResource("4_6rltg")
+ 
+@@ -94,5 +96,3 @@ anchor_right = 0.5
+ anchor_bottom = 0.5
+ grow_horizontal = 2
+ grow_vertical = 2
+-
+-[node name="InputManager" parent="." instance=ExtResource("3_klhmb")]
 diff --git a/extensions/core/src/dbus/inputplumber.rs b/extensions/core/src/dbus/inputplumber.rs
 index e722fce81..c4647b77f 100644
 --- a/extensions/core/src/dbus/inputplumber.rs
