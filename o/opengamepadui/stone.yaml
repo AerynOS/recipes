@@ -33,7 +33,6 @@ environment : |
 setup       : |
     %patch %(pkgdir)/use-chimeraos-defaults.patch
     %patch %(pkgdir)/fix-prefix.patch
-    %patch %(pkgdir)/496.patch
 
     cd extensions
     %cargo_fetch
