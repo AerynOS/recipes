@@ -1,0 +1,52 @@
+#
+# SPDX-FileCopyrightText: © 2025- AerynOS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : nfs-utils
+version     : 2.4.8
+release     : 1
+homepage    : https://nfs.sourceforge.net/
+lastrip     : false
+upstreams   :
+    - https://sourceforge.net/projects/nfs/files/nfs-utils/2.8.4/nfs-utils-2.8.4.tar.gz : 403c6aed9b8a7cc365df13cbc1358c0b8ed3a14326d1f84a117c42da6dabcd1c
+summary     : nfs-client capability bundle
+description : |
+    Network File-System client utilities
+license     : 
+    - GPL-2.0-or-later
+    - GPL-2.0-only
+environment: |
+    export CFLAGS+=' -Wno-strict-prototypes' 
+builddeps   :
+    - pkgconfig(krb5)
+    - pkgconfig(libcap)
+    - pkgconfig(libevent)
+    - pkgconfig(libtirpc)
+    - pkgconfig(mount)
+    - pkgconfig(readline)
+    - pkgconfig(sqlite3)
+    - e2fsprogs-devel
+    - keyutils-devel
+    - libnl-devel
+    - libxml2-devel
+    - rpcsvc-proto-devel
+rundeps     :
+    - rpcbind
+setup       : |
+    sed -i "s|sbindir = /sbin|sbindir = /usr/bin|g" utils/*/Makefile.am
+    sed -i "s|sbin|bin|" utils/nfsidmap/id_resolver.conf
+    sed -i "s|libexec|bin|" tools/nfsrahead/99-nfs.rules
+    %configure \
+        --sbindir=/usr/sbin \
+        --enable-libmount-mount \
+        --without-tcp-wrappers \
+        --enable-mountconfig \
+        --enable-ipv6 \
+        --with-systemd \
+        --enable-junction
+build       : |
+    %make
+install     : |
+    %make_install
+    mv %(installroot)/sbin/* %(installroot)/usr/sbin/
