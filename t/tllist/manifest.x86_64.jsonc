@@ -1,0 +1,29 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"tllist": {
+			"files": [
+				"/usr/share/doc/tllist/LICENSE",
+				"/usr/share/doc/tllist/README.md"
+			],
+			"name": "tllist"
+		},
+		"tllist-devel": {
+			"depends": [
+				"tllist"
+			],
+			"files": [
+				"/usr/include/tllist.h",
+				"/usr/lib/pkgconfig/tllist.pc"
+			],
+			"name": "tllist-devel",
+			"provides": [
+				"pkgconfig(tllist)"
+			]
+		}
+	},
+	"source-name": "tllist",
+	"source-release": "1",
+	"source-version": "1.1.0"
+}
