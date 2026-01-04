@@ -3,6 +3,9 @@
 	"manifest-version": "0.2",
 	"packages": {
 		"btop": {
+			"build-depends": [
+				"pkgconfig(gtest)"
+			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"soname(ld-linux-x86-64.so.2(x86_64))",
@@ -26,6 +29,7 @@
 				"/usr/share/btop/themes/everforest-light-medium.theme",
 				"/usr/share/btop/themes/flat-remix-light.theme",
 				"/usr/share/btop/themes/flat-remix.theme",
+				"/usr/share/btop/themes/gotham.theme",
 				"/usr/share/btop/themes/greyscale.theme",
 				"/usr/share/btop/themes/gruvbox_dark.theme",
 				"/usr/share/btop/themes/gruvbox_dark_v2.theme",
@@ -58,6 +62,6 @@
 		}
 	},
 	"source-name": "btop",
-	"source-release": "2",
-	"source-version": "1.4.5"
+	"source-release": "3",
+	"source-version": "1.4.6"
 }
