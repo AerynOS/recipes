@@ -1,0 +1,25 @@
+#
+# SPDX-FileCopyrightText: © 2025- AerynOS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : rpcbind
+version     : 1.2.7
+release     : 1
+homepage    : https://sourceforge.net/projects/rpcbind/files/rpcbind/1.2.7
+upstreams   :
+    - https://sourceforge.net/projects/rpcbind/files/rpcbind/1.2.7/rpcbind-1.2.7.tar.bz2 : f6edf8cdf562aedd5d53b8bf93962d61623292bfc4d47eedd3f427d84d06f37e
+summary     : The rpcbind utility is a server that converts RPC program numbers into universal addresses.
+description : |
+    The rpcbind utility is a server that converts RPC program numbers into universal addresses.
+license     :
+    - BSD-3-Clause
+builddeps   :
+    - pkgconfig(libtirpc)
+    - pkgconfig(systemd)
+setup       : |
+    %configure
+build       : |
+    %make
+install     : |
+    %make_install
