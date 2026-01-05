@@ -1,0 +1,32 @@
+#
+# SPDX-FileCopyrightText: © 2025- AerynOS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : fcft
+version     : 3.3.3
+release     : 1
+homepage    : https://codeberg.org/dnkl/fcft/releases/download/3.3.3
+upstreams   :
+    - https://codeberg.org/dnkl/fcft/releases/download/3.3.3/fcft-3.3.3.tar.gz : bb298772d625e7d917373d541456f34f1957a9e22b16f17f64158b2c3816563c
+summary     : A simple library for font loading and glyph rasterization using FontConfig, FreeType and pixman.
+description : |
+    A simple library for font loading and glyph rasterization using FontConfig, FreeType and pixman.
+license     : 
+    - MIT
+builddeps   :
+    - pkgconfig(cairo)
+    - pkgconfig(check)
+    - pkgconfig(fontconfig)
+    - pkgconfig(freetype2)
+    - pkgconfig(harfbuzz)
+    - pkgconfig(librsvg-2.0)
+    - pkgconfig(pixman-1)
+    - pkgconfig(scdoc)
+    - pkgconfig(tllist)
+setup       : |
+    %meson
+build       : |
+    %meson_build
+install     : |
+    %meson_install
