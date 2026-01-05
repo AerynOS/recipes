@@ -1,0 +1,90 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"fcft": {
+			"build-depends": [
+				"pkgconfig(cairo)",
+				"pkgconfig(check)",
+				"pkgconfig(fontconfig)",
+				"pkgconfig(freetype2)",
+				"pkgconfig(harfbuzz)",
+				"pkgconfig(librsvg-2.0)",
+				"pkgconfig(pixman-1)",
+				"pkgconfig(scdoc)",
+				"pkgconfig(tllist)"
+			],
+			"depends": [
+				"soname(libc.so.6(x86_64))",
+				"soname(libfontconfig.so.1(x86_64))",
+				"soname(libfreetype.so.6(x86_64))",
+				"soname(libharfbuzz.so.0(x86_64))",
+				"soname(libm.so.6(x86_64))",
+				"soname(libpixman-1.so.0(x86_64))"
+			],
+			"files": [
+				"/usr/lib/libfcft.so.4",
+				"/usr/lib/libfcft.so.4.3.3",
+				"/usr/share/doc/fcft/CHANGELOG.md",
+				"/usr/share/doc/fcft/LICENSE",
+				"/usr/share/doc/fcft/README.md"
+			],
+			"name": "fcft",
+			"provides": [
+				"soname(libfcft.so.4(x86_64))"
+			]
+		},
+		"fcft-devel": {
+			"build-depends": [
+				"pkgconfig(cairo)",
+				"pkgconfig(check)",
+				"pkgconfig(fontconfig)",
+				"pkgconfig(freetype2)",
+				"pkgconfig(harfbuzz)",
+				"pkgconfig(librsvg-2.0)",
+				"pkgconfig(pixman-1)",
+				"pkgconfig(scdoc)",
+				"pkgconfig(tllist)"
+			],
+			"depends": [
+				"fcft",
+				"pkgconfig(fontconfig)",
+				"pkgconfig(freetype2)",
+				"pkgconfig(harfbuzz)",
+				"pkgconfig(pixman-1)",
+				"pkgconfig(tllist)"
+			],
+			"files": [
+				"/usr/include/fcft/fcft.h",
+				"/usr/include/fcft/stride.h",
+				"/usr/lib/libfcft.so",
+				"/usr/lib/pkgconfig/fcft.pc",
+				"/usr/share/man/man3/fcft_capabilities.3",
+				"/usr/share/man/man3/fcft_clone.3",
+				"/usr/share/man/man3/fcft_destroy.3",
+				"/usr/share/man/man3/fcft_fini.3",
+				"/usr/share/man/man3/fcft_font_options_create.3",
+				"/usr/share/man/man3/fcft_font_options_destroy.3",
+				"/usr/share/man/man3/fcft_from_name.3",
+				"/usr/share/man/man3/fcft_from_name2.3",
+				"/usr/share/man/man3/fcft_init.3",
+				"/usr/share/man/man3/fcft_kerning.3",
+				"/usr/share/man/man3/fcft_log_init.3",
+				"/usr/share/man/man3/fcft_precompose.3",
+				"/usr/share/man/man3/fcft_rasterize_char_utf32.3",
+				"/usr/share/man/man3/fcft_rasterize_grapheme_utf32.3",
+				"/usr/share/man/man3/fcft_rasterize_text_run_utf32.3",
+				"/usr/share/man/man3/fcft_set_emoji_presentation.3",
+				"/usr/share/man/man3/fcft_set_scaling_filter.3",
+				"/usr/share/man/man3/fcft_text_run_destroy.3"
+			],
+			"name": "fcft-devel",
+			"provides": [
+				"pkgconfig(fcft)"
+			]
+		}
+	},
+	"source-name": "fcft",
+	"source-release": "1",
+	"source-version": "3.3.3"
+}
