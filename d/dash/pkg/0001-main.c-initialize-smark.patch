@@ -1,0 +1,27 @@
+From 4dffa98f1db2b53f4ec10303f586e020f360d548 Mon Sep 17 00:00:00 2001
+From: Fabian Rast <fabian.rast@tum.de>
+Date: Tue, 6 Jan 2026 15:05:52 +0100
+Subject: [PATCH] main.c: initialize smark
+
+Otherwise clang will assume an undefined value is used in the
+popstackmark call in the setjmp handler.
+---
+ src/main.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/main.c b/src/main.c
+index 5d25b8d..f93003d 100644
+--- a/src/main.c
++++ b/src/main.c
+@@ -93,7 +93,7 @@ main(int argc, char **argv)
+ {
+ 	char *shinit;
+ 	volatile int state;
+-	struct stackmark smark;
++	struct stackmark smark = {0};
+ 	int login;
+ 
+ #ifdef __GLIBC__
+-- 
+2.52.0
+

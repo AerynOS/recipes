@@ -23,6 +23,7 @@ tuning      :
 setup       : |
     %patch %(pkgdir)/0001-downstream-Update-default-path.patch
     %patch %(pkgdir)/upstream-01.patch
+    %patch %(pkgdir)/0001-main.c-initialize-smark.patch
 
     %configure \
         --enable-glob \
