@@ -7,6 +7,7 @@ const YAML_REQUIREMENTS = [ monitoring.yaml stone.yaml ]
 # Check AerynOS package is latest in recipes repo.
 export def checkupdate [
   package?: string@package_list
+  --no-color (-C) # Don't color the status ouptut
 ]: nothing -> table {
   try {
     if ($package | is-not-empty) {
@@ -45,9 +46,9 @@ export def checkupdate [
   )
   | insert status {
     |row| if ($row.current_version == $row.available_version) {
-      $"(ansi green)Already using the latest version(ansi reset)"
+      $"(if (not $no_color) {ansi green})Already using the latest version(ansi reset)"
     } else {
-      $"(ansi red_bold)Update available(ansi reset)"
+      $"(if (not $no_color) {ansi red_bold})Update available(ansi reset)"
     }
   }
 }
