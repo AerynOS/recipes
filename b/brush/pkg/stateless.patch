@@ -1,0 +1,34 @@
+diff --git a/brush-core/src/shell.rs b/brush-core/src/shell.rs
+index ae26e85..d7b35d0 100644
+--- a/brush-core/src/shell.rs
++++ b/brush-core/src/shell.rs
+@@ -895,14 +895,14 @@ impl Shell {
+             }
+ 
+             //
+-            // Source /etc/profile if it exists.
++            // Source /usr/share/defaults/profile if it exists.
+             //
+             // Next source the first of these that exists and is readable (if any):
+             //     * ~/.bash_profile
+             //     * ~/.bash_login
+             //     * ~/.profile
+             //
+-            self.source_if_exists(Path::new("/etc/profile"), &params)
++            self.source_if_exists(Path::new("/usr/share/defaults/profile"), &params)
+                 .await?;
+             if let Some(home_path) = self.home_dir() {
+                 if self.options.sh_mode {
+@@ -936,10 +936,10 @@ impl Shell {
+                         //
+                         // Otherwise, for non-login interactive shells, load in this order:
+                         //
+-                        //     /etc/bash.bashrc
++                        //     /usr/share/defaults/bashrc
+                         //     ~/.bashrc
+                         //
+-                        self.source_if_exists(Path::new("/etc/bash.bashrc"), &params)
++                        self.source_if_exists(Path::new("/usr/share/defaults/bashrc"), &params)
+                             .await?;
+                         if let Some(home_path) = self.home_dir() {
+                             self.source_if_exists(home_path.join(".bashrc").as_path(), &params)

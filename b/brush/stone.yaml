@@ -1,0 +1,33 @@
+#
+# SPDX-FileCopyrightText: © 2025- AerynOS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : brush
+version     : 0.3.0+git.afff563
+release     : 1
+homepage    : https://brush.sh
+upstreams   :
+    - git|https://github.com/reubeno/brush.git : afff563c4895651c05ea15d336ffe2ff5b553f4b
+summary     : bash/POSIX-compatible shell implemented in Rust
+description : |
+    brush (Bo(u)rn(e) RUsty SHell) is a POSIX- and bash-compatible shell, implemented in Rust. At its core is an embeddable shell interpreter published for reuse in other Rust projects.
+license     : 
+    - JSON
+    - MIT
+    - X11-distribute-modifications-variant
+    - Xnet
+rundeps:
+    - binary(bash)
+networking  : true
+setup       : |
+    # make brush load same files at startup as our stateless bash
+    %patch %(pkgdir)/stateless.patch
+
+    %cargo_fetch
+build       : |
+    %cargo_build
+install     : |
+    %cargo_install
+check       : |
+    %cargo_test || exit 0
