@@ -4,10 +4,10 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : zulip-desktop
-version     : 5.12.2
-release     : 1
+version     : 5.12.3
+release     : 2
 upstreams   :
-    - https://github.com/zulip/zulip-desktop/archive/v5.12.2.tar.gz : ffd0473910889797ba8f0944c7819f38c4210c44e2e886ff8cb63a2a2f2b75e5
+    - https://github.com/zulip/zulip-desktop/archive/v5.12.3.tar.gz : f9da4a31973ca8efb53ddb3dc3ab94b70238c0bc7a922e830279daaf90c3676f
 homepage    : https://zulipchat.com
 license     : Apache-2.0
 summary     : Desktop client for Zulip
@@ -15,13 +15,13 @@ description : |
     Real-time team chat based on the email threading model
 networking  : yes
 builddeps   :
-    - binary(npm)
+    - binary(pnpm)
 setup       : |
     %patch %(pkgdir)/0001-Disable-auto-update.patch
 
-    npm install
+    pnpm install --frozen-lockfile
 build       : |
-    npm run pack
+    pnpm --run pack
 install     : |
     zulipdir=%(libdir)/%(name)
 
