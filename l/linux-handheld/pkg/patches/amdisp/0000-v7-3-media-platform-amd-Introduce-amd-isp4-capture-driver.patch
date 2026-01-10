@@ -1,47 +1,58 @@
-From mboxrd@z Thu Jan  1 00:00:00 1970
-Received: from CH5PR02CU005.outbound.protection.outlook.com (mail-northcentralusazon11012017.outbound.protection.outlook.com [40.107.200.17])
+From nobody Sat Jan 10 17:13:01 2026
+Received: from PH8PR06CU001.outbound.protection.outlook.com
+ (mail-westus3azon11012048.outbound.protection.outlook.com [40.107.209.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B55BF30275C;
-	Fri, 28 Nov 2025 09:20:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.200.17
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764321619; cv=fail; b=k5h7aWMJNqUC7lA1NW9bt/dkAZuyG5fiOG5xA2DW9VGUiL7bJA/p3YJVc6Mrnvo0VAAknBD9FE9CM+hGL9OcAzJ1cipCCdsEZJr09uK65XgVtl7Zyx5p0+z8mbkkVZhagMA6uaVA2zlOxTKDNAjcYl4Hg2l9RjEPy8/0extT2bg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764321619; c=relaxed/simple;
-	bh=dYKqVOcBUt5+3GdbbVp1T+KZIBMbG8ZXW6Ogbp1C7zY=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=T5PE9vFwi5ZTmiE9L1f58YAJVfaxv/3Okh8Y0H69knfEgDQEKOu3RsrB8tJBgaevueesTW/xjbWFTbyRwsFJgDUVCqKYgnVn4Glej4iydSiKtsX0D5oMtY7sor3TXN1n5zhM5Q9BaG4a5JtpCInA8Da60OS9Z89ivgZKTBxOOMc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=Dx8YIKeU; arc=fail smtp.client-ip=40.107.200.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A79D033A707;
+	Tue, 16 Dec 2025 09:14:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="Dx8YIKeU"
+ arc=fail smtp.client-ip=40.107.209.48
+ARC-Seal: i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1765876455; cv=fail;
+ b=FVd+J1Y6BCzL8Q6sjx3z2xGJAlA1M0fP26mxkBE4glOXpju7Q1JiYIWV3NIkCQYb6u0u7mogCfoKSj2gg6lh+HKyaIPhDh+P1Q/Tabo8nwHXcU9QRZg/rSd94Ke7uGPqNhGKKdWafie5bxJjuHyIKcICTZCwVmugoSfMeL1wE48=
+ARC-Message-Signature: i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1765876455; c=relaxed/simple;
+	bh=FYmDQFVUnNG0/J61rLrJBD2XpMPc8bwyt8PSTNMi7fA=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type;
+ b=ETcJ8k52uhZ6+RDNORXIf2uvNSh8VrnAgegprJZVdT+bac3YjlbeC7e8ZOiC0rQ4fcw2Z/uRwJTfQxzFrUYist83aKfZFFc4wJSGjr5M7KhfQowsQ5ls40jD/bbb1jTRFMHsABwJgJxE+l+WjRGAdubZeyv0ADxMaYnRz1tILMQ=
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org;
+ dmarc=pass (p=quarantine dis=none) header.from=amd.com;
+ spf=fail smtp.mailfrom=amd.com;
+ dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com
+ header.b=WLeLgUS0; arc=fail smtp.client-ip=40.107.209.48
+Authentication-Results: smtp.subspace.kernel.org;
+ dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org;
+ spf=fail smtp.mailfrom=amd.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com
+ header.b="WLeLgUS0"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=qkP0AtUUCb1m8GIDA+hOXGJKwvn5fC+4pFzXN6nDF1NMti7HbbEM7mzfqh1d0uc28cqNtXSFgzb7CbWqw8JTX4rWoY66WqOdmRXON4qluEmGRYChzMUx+QOLM5q0gjOGsGqIoi6KUFCqDNSBRFQNY1b/0bQXZgGDEJocBKWDpccHIkbFikJkyAFWFTj4ewNKGp+jAP1sYn9QOCfdg+YntuH6EkYWND2I8O73rjHLR9KmygkcSz+f0+JJxklq8y4tl5CVP4out//yIneGel/4r/ZcdkE/JdzbTgFQp22SP9CiFqckyzkD/biyPcWthAxNFYgA9993KxDIcDHXSHCVIA==
+ b=ql5oYPgqHHM/qTremhQj1GFvdYRkpebxZK5KqYHYryss83HbcTnX7P2wesXSLC44dC07IQr8jRuIiFYvcHFbPiNlS7ezlGjip0rVqvvMbXjnUyeMvX8j51R6ahJquNJySU7R5d/wRmH7k123L4k0dTvhWZh4+jQnRbzArmi/p/PaWppJoiGPv1G5b3I2r/m5kyVmuD4c+91Ov68if3ueu4Lk8PxM/7zdzQofOVtkPTqyKvftY2cgST0tzKteJNTaeDrHNIPDk2DgoWuJ4FUcUruz5UaCnZ78apdE+BOzDM3TLLkV6DYrPBpf6PRprnrgMb23d8hN8d8GC3l+w+M7Mg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ty2WCJbopvlnKbklBWJgCHapP5YNYng8ayexU4i6f/I=;
- b=g6RPiged7dz1wWNiRvWTHD37vp88fz4BjKlaRaGtj0k4j5sIV9es7iIPK7MoCiFLKOAIkIDCuBIU577IQj3DYh2rDx4KV4Kh/HVJzLjo4rI54ChvhPSOI+ajUK49hB71F0xF3k7ExoNBCkXJGgjoEwK9vWDkMA1lrYfEMMDbwzkXIqMpzThfo/RfJYa+cUUt9bi33czpulVNtm0Y3Dy3sqdbI+3cE8ULQILK659u+R+oCVQxa48BVFJAc1m7gPPzBC3lEG7wu0P29+o8I2bN3vbT8QdipLVi22OJp+88BaApgaE54xhrzj+heeIZ0w5xHekIWWnXI8iwiucJ3p+UqQ==
+ bh=GDBM5SLYRTvE/3ZjnflCmag0SaMRMlpuo30jAbm6H2Q=;
+ b=GKuEBgFDLhv660WBuE2zo6pNhAIMt2pR8c3lTY/En2IIyNXF0uj3ZRT2S9LOQ8QtkRU30nBB+GibMhuQZIIlIHrbvJ9gEy88j8LQ6PnJHpmXU6ksk/Gy65E4la9UBIZQRLxBpUcrzhAPnshEV/clpouZf2p+cVc+adT+EWkYYHII10wbDaEJGJG70IQgLFnTUFRxWVlf6tLUccUZTU1AHTYB+cUYH1wag6JrLxUkmS6oZFNCE5kpSprRTRwI35a+Icpa7d22rGzANFXAakwD7l1/asfjtJkJg/EcNFzqdSc1c0FKHJeluTB9O2WRR+2roeghnvX05LFiYV2Xg446pg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ty2WCJbopvlnKbklBWJgCHapP5YNYng8ayexU4i6f/I=;
- b=Dx8YIKeUEIVnEf459UwsuWYvXXk54DdwAIe4AcrkpquC5o9Wf8IrYrUZ1u8Einv+v/ikpPpo3xHmmwoKR5dyuSVCMO47XKF8OYJpXLdQEe4l1iGjUHP4tPRNkPmx0SqYXXYJcCPWw/PKAluKVta8AGya05IQJtKvwadF7k8TL0Y=
-Received: from SJ0PR03CA0380.namprd03.prod.outlook.com (2603:10b6:a03:3a1::25)
- by LV8PR12MB9262.namprd12.prod.outlook.com (2603:10b6:408:1e7::16) with
+ bh=GDBM5SLYRTvE/3ZjnflCmag0SaMRMlpuo30jAbm6H2Q=;
+ b=WLeLgUS0MzFNXJN51e0XHJSL4selCXI8Amd7+H9Ecn0EvC9rMaW+cLMh6KgwASJ0ehnaM6Rot/VYY6uD6HvttIwo0LOUeuD0P1pEYEWUJVMjNW9px+Gqoere3AXgr2gLkvfAftmSnql26hHw2uIKbkpA5teJVYnXDDPsNKxCJ6s=
+Received: from SN7P222CA0024.NAMP222.PROD.OUTLOOK.COM (2603:10b6:806:124::20)
+ by MN6PR12MB8492.namprd12.prod.outlook.com (2603:10b6:208:472::22) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9366.14; Fri, 28 Nov
- 2025 09:20:10 +0000
-Received: from SJ5PEPF000001F0.namprd05.prod.outlook.com
- (2603:10b6:a03:3a1:cafe::f8) by SJ0PR03CA0380.outlook.office365.com
- (2603:10b6:a03:3a1::25) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9366.16 via Frontend Transport; Fri,
- 28 Nov 2025 09:19:55 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9412.13; Tue, 16 Dec
+ 2025 09:14:06 +0000
+Received: from SA2PEPF00003AEA.namprd02.prod.outlook.com
+ (2603:10b6:806:124:cafe::18) by SN7P222CA0024.outlook.office365.com
+ (2603:10b6:806:124::20) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9412.13 via Frontend Transport; Tue,
+ 16 Dec 2025 09:13:29 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -49,13 +60,13 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
 Received: from satlexmb07.amd.com (165.204.84.17) by
- SJ5PEPF000001F0.mail.protection.outlook.com (10.167.242.68) with Microsoft
+ SA2PEPF00003AEA.mail.protection.outlook.com (10.167.248.10) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9366.7 via Frontend Transport; Fri, 28 Nov 2025 09:20:09 +0000
+ 15.20.9434.6 via Frontend Transport; Tue, 16 Dec 2025 09:14:06 +0000
 Received: from 555e2b870847.amd.com (10.180.168.240) by satlexmb07.amd.com
  (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Fri, 28 Nov
- 2025 03:19:59 -0600
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Tue, 16 Dec
+ 2025 03:14:00 -0600
 From: Bin Du <Bin.Du@amd.com>
 To: <mchehab@kernel.org>, <hverkuil@xs4all.nl>,
 	<laurent.pinchart+renesas@ideasonboard.com>, <bryan.odonoghue@linaro.org>,
@@ -68,71 +79,73 @@ CC: <pratap.nirujogi@amd.com>, <benjamin.chan@amd.com>, <king.li@amd.com>,
 	<richard.gong@amd.com>, <anson.tsao@amd.com>, <bin.du@amd.com>, Bin Du
 	<Bin.Du@amd.com>, Svetoslav Stoilov <Svetoslav.Stoilov@amd.com>, "Alexey
  Zagorodnikov" <xglooom@gmail.com>
-Subject: [PATCH v6 3/7] media: platform: amd: Add isp4 fw and hw interface
-Date: Fri, 28 Nov 2025 17:19:25 +0800
-Message-ID: <20251128091929.165272-4-Bin.Du@amd.com>
+Subject: [PATCH v7 3/7] media: platform: amd: Add isp4 fw and hw interface
+Date: Tue, 16 Dec 2025 17:13:22 +0800
+Message-ID: <20251216091326.111977-4-Bin.Du@amd.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20251128091929.165272-1-Bin.Du@amd.com>
-References: <20251128091929.165272-1-Bin.Du@amd.com>
+In-Reply-To: <20251216091326.111977-1-Bin.Du@amd.com>
+References: <20251216091326.111977-1-Bin.Du@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel@vger.kernel.org
 List-Id: <linux-kernel.vger.kernel.org>
 List-Subscribe: <mailto:linux-kernel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kernel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
 X-ClientProxiedBy: satlexmb08.amd.com (10.181.42.217) To satlexmb07.amd.com
  (10.181.42.216)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ5PEPF000001F0:EE_|LV8PR12MB9262:EE_
-X-MS-Office365-Filtering-Correlation-Id: c004faf9-814a-4266-f652-08de2e5f53a5
+X-MS-TrafficTypeDiagnostic: SA2PEPF00003AEA:EE_|MN6PR12MB8492:EE_
+X-MS-Office365-Filtering-Correlation-Id: 776d677a-5a49-493f-0304-08de3c8376cf
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|82310400026|36860700013|376014|7416014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?Ai6TFNh93F+JtDJ0Kx8h0dGm5sSAp93UIZRP+Qm/sl/pGvy+YOszJzZlrxV3?=
- =?us-ascii?Q?QNhcOtSIhVie6PNsjtYHslQFDRwqbO8JIfHkYGZBuGGD3Xeh61xpZmvxmyo1?=
- =?us-ascii?Q?+O/NnHkFAiyyTWUHK826K37b+RJBwGQuK+5wOwRyDnz5kV0/CYwvgM+MoqEj?=
- =?us-ascii?Q?AAzqiZGfDW1ba+qLnQvLT5r0UM+/Pb/FF4plLgMyXkUm7UONYGqfOofW3SeE?=
- =?us-ascii?Q?wRjG0lGzNPf2te9KU1Qp2lkMrVJn3vTJ5ZJ02tlFSwhmUUXib54fbUr3xS+1?=
- =?us-ascii?Q?f4NUSMfNuZs5UuiC6R0FKLkGmrxHabLqaNpvImvr5XGFeSS7WwEMOnhUpT5N?=
- =?us-ascii?Q?tB6AZ4LdxY6Qp1CL/nf7oGvwootVOeMiBjGsdOSwUe9CIfI/pfcPvUQ0Ao7t?=
- =?us-ascii?Q?f9IYuY2Dc2/KWVk1OM3euNDIUN2o9T2cilX8CbYQSmmtL7+XqT7st5CJglE0?=
- =?us-ascii?Q?dsQ6LaID+lnyc0ht9s4QLkLAODyINIPISHMaDaSlxBdMnxlDIPOqEfT1H+DO?=
- =?us-ascii?Q?E0tHJYD6ReV/l9jxanZOi87WVIuWreVZ1W3LvnXnncA3Mr1fAhe2ddnhZtgk?=
- =?us-ascii?Q?GZe7D/mMfbb4Xcm/Lh4LKOTfQf16NifcwonVqWCk8+9p1sNwgSewJ28XB6un?=
- =?us-ascii?Q?UT49s0hFkiEDAQfoaRhAJ4ZXKbudykBvrJgAyHcCeaxl3QRG9tGiAutREhcF?=
- =?us-ascii?Q?ufwtOOXn6xN5kLC8IwIzhXBCjDqJlWbbFMbS5xcDsG71YlDPtkUqoBnwFrqU?=
- =?us-ascii?Q?YvNwNvI8aqsOvLxix7MwkkMXYgg/zxh+JgyVspTU/C/pS00B0+Q+iXMKUjCN?=
- =?us-ascii?Q?KR09PF31TIESj4/8qaHuaNhxHGOKyaR+gVjgnFgTrbgKZELXXskJCZvsNAXu?=
- =?us-ascii?Q?aFwhAdkCtrPysrOc14ZErkGgbYIC5U9CTj/bMJTOc+w+scp83Q/z9dOSLneg?=
- =?us-ascii?Q?sMUzyw1jY53Q1Ni6/0BenHLkD25taFGxo+lgpncn+2vinRVWI6Eq9DT5nuZs?=
- =?us-ascii?Q?0M0N1aTqIxrJelZ9oQc56QZfvBMFwki1NTyK1vtPHv4typ9xURz4Fkk5I1Wv?=
- =?us-ascii?Q?L3xCdIx/GPicXbTyXZUEqI4kXQ6Y+JhRcln05Dgfk64MmmEhrwHj94SZJHKr?=
- =?us-ascii?Q?GNV4JGWYV7Y6tGVIMoxhn8WiwK5NaDISFukbq5lWgxXW5pPVD5LSX3ExHspi?=
- =?us-ascii?Q?JaaMYUjhzi7eK1SvjDWMoGn3cKwa38bUZoJev72NuLFCcfHb7hBo6iee8bED?=
- =?us-ascii?Q?6HGLuB8Ph/R/zjlAgKNGv3vnLenniGi8yRooledmL1qOobzuWGoZC0OO6VJX?=
- =?us-ascii?Q?+Hq475vIO88mSxX5PNEIy0sQZ/cuMcNBSuVyeEwsKkR2Zg8gF6Z4V2+WDlfM?=
- =?us-ascii?Q?3f3Bsm6m/xZCHgUcn7uXK5OczVqkHC8xPUMTofUEvO9u59aD4TOk1uCYk302?=
- =?us-ascii?Q?zxSH2AaFtUD2eein2SyFatqZyqxeSbryWD3fzGwLsRuHcNAZZ+zEvHuV1sJj?=
- =?us-ascii?Q?CvtKcPWODerNvq+vg8g8rnjk+msuizJuRWCN1M2lY1CJk+DL6Kis+aRNvFGl?=
- =?us-ascii?Q?iZZT9kqd+jmah8u0yvY=3D?=
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(82310400026)(36860700013)(376014)(7416014);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|36860700013|1800799024|376014|7416014|82310400026;
+X-Microsoft-Antispam-Message-Info: 
+	=?us-ascii?Q?ooIqdNAYUtIvD0/qejOhTAyNsQT70LfySdqV12aEEHhyuzPuyQZ33zBbLnRe?=
+ =?us-ascii?Q?Ttu3c4k4P4Syhm82eFfIQXwKlbM30zsFNtW/BfumlDTYCYTKuCpL1ttVCLJk?=
+ =?us-ascii?Q?6+SzWCKKrAOYQFA7FYtYW8wdmN4bj83NeorLCKv2+0BdMUUj3tP7UeCvgImg?=
+ =?us-ascii?Q?Efdc0ipYd7I8y3zF8tAq9eisGSBEWxHj8a2S+B2DK3mohvX1skiTeBoS1kXQ?=
+ =?us-ascii?Q?GJQReUarC0miyCv0rrjAY1nE1KAI85YKpMkRhUKqB79PlB6F0KpUyBxyAkZM?=
+ =?us-ascii?Q?TZe5ZDQ46wamFRofvpusiQWtfIRV7Qirqwml7LHrKhwmfOaYqZzgy4We6yAr?=
+ =?us-ascii?Q?g238x8u8zFwv8A5XmJa+PQLj6WGT8doF0Lik5A3Ms4IiPK4Z+HwGzLVp97FF?=
+ =?us-ascii?Q?KJ9UyZWc9L58z57enaDrSzS44qa4HlbMt1nBK9We3Kcgbtg0sny60f++R7BK?=
+ =?us-ascii?Q?uE+AslGzjmxe4nJkfLi1qv8+UPdzj7lzBGl7sv6WWr5YS0ELLxM1n3wcJZ0T?=
+ =?us-ascii?Q?LERx0o6b3g0xmUMFZ0nhoYPfa64bz0EC/QwEnLIgFoR52JmI04ElEfG+4Q0F?=
+ =?us-ascii?Q?+jKEiw5pkTuClt2V9w7Bx3ouSZe3o0LMWs2ViwJ5dN4CCUY7fAXIBpESUggr?=
+ =?us-ascii?Q?bTJm5BleZlIUL6KZmkRfkbYkBBQbqHyCikWMcVvIIn2CNfdtrxVvUo/h5odl?=
+ =?us-ascii?Q?A9Cr4xdRSQbuWSoXQAO9O6zYZ25NB7h7c6KdV6fOVHGvCoyQ+5AlMWhtNprd?=
+ =?us-ascii?Q?x0iSeXtyujLSm3DclTnxRR3S9FThyqOcOVNLi/Hd7zLaSC/dlzkgeX9Rz0+X?=
+ =?us-ascii?Q?TRwyd76w77M6AYHi7gTI2Q3Xvx4PmQUDfS+WBUuAu1Cuxx3VN17qWOzm9vzM?=
+ =?us-ascii?Q?cmUl45i70Rf05G3A4WpztFd9GS4G3SVVHaW+RYJhum0HA/Mz51Px27DlT76U?=
+ =?us-ascii?Q?++rYmlqjuQNEmKSJ2PCcuAyovdRF2ET5kOYBdjYTg3XiH9VYwlsoCfJb4K/z?=
+ =?us-ascii?Q?F972v9e/QLxwN7xdKXQ6bQ7QvKlgiaXUijT3YMRtPilmm7S2p1e/plcjYtvk?=
+ =?us-ascii?Q?1YpNDapGpHV4O1wpo2RJidicfwFVdpfWzs9kKIHmc1vmUw8JVlxKn+NILam9?=
+ =?us-ascii?Q?B4YYamU9DWd4wDG+9MOeQYK0DogQre3YsIEN0Chd7fd3s+voCmGHNMReSWtC?=
+ =?us-ascii?Q?7VvuVBiM4SuNoUE9DGFNicMnLEBjFD+0mTzwCHHi2kt5mFwx2gxKC0KQle9R?=
+ =?us-ascii?Q?qY+jbx74pOPUt51ULgbsoTAYbdlIRXJ/Xx7rSCUt+W31M2Ny1CxSkNj26PlS?=
+ =?us-ascii?Q?PSgFEl6VJYjhWxOYWkDta4n242iELvN1eAAgjFwVEEz2Bt1JriC3XuVTTI+r?=
+ =?us-ascii?Q?fgNsN8AouzE3B7feKAu4TpTI+vag9HrKYIcR7SgbhrcAVwPqOjXiqW1YJzrM?=
+ =?us-ascii?Q?Fllqbq/EdAmX+2GqVTEiK3D6xjALhxD0kU29k/P2P7zbANvJrE2xnLKcW7hS?=
+ =?us-ascii?Q?Ig8OxziF1C220ChmLB1e0O3qDMf4EwxF0AwvN7URHSfWpm2yiwnsskZw/twq?=
+ =?us-ascii?Q?UC0GAp9vHpxX/DA6+M0=3D?=
+X-Forefront-Antispam-Report: 
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(1800799024)(376014)(7416014)(82310400026);DIR:OUT;SFP:1101;
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Nov 2025 09:20:09.2262
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Dec 2025 09:14:06.4124
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: c004faf9-814a-4266-f652-08de2e5f53a5
+X-MS-Exchange-CrossTenant-Network-Message-Id: 
+ 776d677a-5a49-493f-0304-08de3c8376cf
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SJ5PEPF000001F0.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: 
+ TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	SA2PEPF00003AEA.namprd02.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV8PR12MB9262
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN6PR12MB8492
+Content-Type: text/plain; charset="utf-8"
 
 ISP firmware controls ISP HW pipeline using dedicated embedded processor
 called ccpu. The communication between ISP FW and driver is using commands
@@ -156,9 +169,9 @@ Tested-by: Alexey Zagorodnikov <xglooom@gmail.com>
  MAINTAINERS                                   |   3 +
  drivers/media/platform/amd/isp4/Makefile      |   3 +-
  .../platform/amd/isp4/isp4_fw_cmd_resp.h      | 314 +++++++
- .../media/platform/amd/isp4/isp4_interface.c  | 784 ++++++++++++++++++
- .../media/platform/amd/isp4/isp4_interface.h  | 140 ++++
- 5 files changed, 1243 insertions(+), 1 deletion(-)
+ .../media/platform/amd/isp4/isp4_interface.c  | 786 ++++++++++++++++++
+ .../media/platform/amd/isp4/isp4_interface.h  | 141 ++++
+ 5 files changed, 1246 insertions(+), 1 deletion(-)
  create mode 100644 drivers/media/platform/amd/isp4/isp4_fw_cmd_resp.h
  create mode 100644 drivers/media/platform/amd/isp4/isp4_interface.c
  create mode 100644 drivers/media/platform/amd/isp4/isp4_interface.h
@@ -175,21 +188,23 @@ index 7aa17c7e71d6..cccae369c876 100644
  F:	drivers/media/platform/amd/isp4/isp4_hw_reg.h
 +F:	drivers/media/platform/amd/isp4/isp4_interface.c
 +F:	drivers/media/platform/amd/isp4/isp4_interface.h
- 
+=20
  AMD KFD
  M:	Felix Kuehling <Felix.Kuehling@amd.com>
-diff --git a/drivers/media/platform/amd/isp4/Makefile b/drivers/media/platform/amd/isp4/Makefile
+diff --git a/drivers/media/platform/amd/isp4/Makefile b/drivers/media/platf=
+orm/amd/isp4/Makefile
 index de0092dad26f..a2a5bf98e912 100644
 --- a/drivers/media/platform/amd/isp4/Makefile
 +++ b/drivers/media/platform/amd/isp4/Makefile
 @@ -3,4 +3,5 @@
  # Copyright (C) 2025 Advanced Micro Devices, Inc.
- 
- obj-$(CONFIG_AMD_ISP4) += amd_capture.o
--amd_capture-objs := isp4.o
-+amd_capture-objs := isp4.o \
+=20
+ obj-$(CONFIG_AMD_ISP4) +=3D amd_capture.o
+-amd_capture-objs :=3D isp4.o
++amd_capture-objs :=3D isp4.o \
 +		    isp4_interface.o
-diff --git a/drivers/media/platform/amd/isp4/isp4_fw_cmd_resp.h b/drivers/media/platform/amd/isp4/isp4_fw_cmd_resp.h
+diff --git a/drivers/media/platform/amd/isp4/isp4_fw_cmd_resp.h b/drivers/m=
+edia/platform/amd/isp4/isp4_fw_cmd_resp.h
 new file mode 100644
 index 000000000000..d571b3873edb
 --- /dev/null
@@ -254,14 +269,20 @@ index 000000000000..d571b3873edb
 +#define CMD_GROUP_STREAM_BUFFER         (0x4U << CMD_GROUP_SHIFT)
 +
 +/* Stream  Command */
-+#define CMD_ID_SET_STREAM_CONFIG        (CMD_TYPE_STREAM_CTRL | CMD_GROUP_STREAM_CTRL | 0x1)
-+#define CMD_ID_SET_OUT_CHAN_PROP        (CMD_TYPE_STREAM_CTRL | CMD_GROUP_STREAM_CTRL | 0x3)
-+#define CMD_ID_ENABLE_OUT_CHAN          (CMD_TYPE_STREAM_CTRL | CMD_GROUP_STREAM_CTRL | 0x5)
-+#define CMD_ID_START_STREAM             (CMD_TYPE_STREAM_CTRL | CMD_GROUP_STREAM_CTRL | 0x7)
-+#define CMD_ID_STOP_STREAM              (CMD_TYPE_STREAM_CTRL | CMD_GROUP_STREAM_CTRL | 0x8)
++#define CMD_ID_SET_STREAM_CONFIG        (CMD_TYPE_STREAM_CTRL | CMD_GROUP_=
+STREAM_CTRL | 0x1)
++#define CMD_ID_SET_OUT_CHAN_PROP        (CMD_TYPE_STREAM_CTRL | CMD_GROUP_=
+STREAM_CTRL | 0x3)
++#define CMD_ID_ENABLE_OUT_CHAN          (CMD_TYPE_STREAM_CTRL | CMD_GROUP_=
+STREAM_CTRL | 0x5)
++#define CMD_ID_START_STREAM             (CMD_TYPE_STREAM_CTRL | CMD_GROUP_=
+STREAM_CTRL | 0x7)
++#define CMD_ID_STOP_STREAM              (CMD_TYPE_STREAM_CTRL | CMD_GROUP_=
+STREAM_CTRL | 0x8)
 +
 +/* Stream Buffer Command */
-+#define CMD_ID_SEND_BUFFER              (CMD_TYPE_STREAM_CTRL | CMD_GROUP_STREAM_BUFFER | 0x1)
++#define CMD_ID_SEND_BUFFER              (CMD_TYPE_STREAM_CTRL | CMD_GROUP_=
+STREAM_BUFFER | 0x1)
 +
 +/*
 + * @brief response ID format
@@ -276,7 +297,8 @@ index 000000000000..d571b3873edb
 +#define RESP_GROUP_SHIFT                16
 +#define RESP_GROUP_MASK                 (0xff << RESP_GROUP_SHIFT)
 +
-+#define GET_RESP_GROUP_VALUE(resp_id)   (((resp_id) & RESP_GROUP_MASK) >> RESP_GROUP_SHIFT)
++#define GET_RESP_GROUP_VALUE(resp_id)   (((resp_id) & RESP_GROUP_MASK) >> =
+RESP_GROUP_SHIFT)
 +#define GET_RESP_ID_VALUE(resp_id)      ((resp_id) & 0xffff)
 +
 +#define RESP_GROUP_GENERAL              (0x1 << RESP_GROUP_SHIFT)
@@ -297,41 +319,41 @@ index 000000000000..d571b3873edb
 +#define FW_MEMORY_POOL_SIZE             (100 * 1024 * 1024)
 +
 +/*
-+ * standard ISP mipicsi=>isp
++ * standard ISP mipicsi=3D>isp
 + */
 +#define MIPI0_ISP_PIPELINE_ID           0x5f91
 +
 +enum isp4fw_sensor_id {
-+	SENSOR_ID_ON_MIPI0  = 0,  /* Sensor id for ISP input from MIPI port 0 */
++	SENSOR_ID_ON_MIPI0  =3D 0,  /* Sensor id for ISP input from MIPI port 0 */
 +};
 +
 +enum isp4fw_stream_id {
-+	STREAM_ID_INVALID = -1, /* STREAM_ID_INVALID. */
-+	STREAM_ID_1 = 0,        /* STREAM_ID_1. */
-+	STREAM_ID_2 = 1,        /* STREAM_ID_2. */
-+	STREAM_ID_3 = 2,        /* STREAM_ID_3. */
++	STREAM_ID_INVALID =3D -1, /* STREAM_ID_INVALID. */
++	STREAM_ID_1 =3D 0,        /* STREAM_ID_1. */
++	STREAM_ID_2 =3D 1,        /* STREAM_ID_2. */
++	STREAM_ID_3 =3D 2,        /* STREAM_ID_3. */
 +	STREAM_ID_MAXIMUM       /* STREAM_ID_MAXIMUM. */
 +};
 +
 +enum isp4fw_image_format {
-+	IMAGE_FORMAT_NV12 = 1,              /* 4:2:0,semi-planar, 8-bit */
-+	IMAGE_FORMAT_YUV422INTERLEAVED = 7, /* interleave, 4:2:2, 8-bit */
++	IMAGE_FORMAT_NV12 =3D 1,              /* 4:2:0,semi-planar, 8-bit */
++	IMAGE_FORMAT_YUV422INTERLEAVED =3D 7, /* interleave, 4:2:2, 8-bit */
 +};
 +
 +enum isp4fw_pipe_out_ch {
-+	ISP_PIPE_OUT_CH_PREVIEW = 0,
++	ISP_PIPE_OUT_CH_PREVIEW =3D 0,
 +};
 +
 +enum isp4fw_yuv_range {
-+	ISP_YUV_RANGE_FULL = 0,     /* YUV value range in 0~255 */
-+	ISP_YUV_RANGE_NARROW = 1,   /* YUV value range in 16~235 */
++	ISP_YUV_RANGE_FULL =3D 0,     /* YUV value range in 0~255 */
++	ISP_YUV_RANGE_NARROW =3D 1,   /* YUV value range in 16~235 */
 +	ISP_YUV_RANGE_MAX
 +};
 +
 +enum isp4fw_buffer_type {
-+	BUFFER_TYPE_PREVIEW = 8,
-+	BUFFER_TYPE_META_INFO = 10,
-+	BUFFER_TYPE_MEM_POOL = 15,
++	BUFFER_TYPE_PREVIEW =3D 8,
++	BUFFER_TYPE_META_INFO =3D 10,
++	BUFFER_TYPE_MEM_POOL =3D 15,
 +};
 +
 +enum isp4fw_buffer_status {
@@ -509,12 +531,13 @@ index 000000000000..d571b3873edb
 +};
 +
 +#endif /* _ISP4_CMD_RESP_H_ */
-diff --git a/drivers/media/platform/amd/isp4/isp4_interface.c b/drivers/media/platform/amd/isp4/isp4_interface.c
+diff --git a/drivers/media/platform/amd/isp4/isp4_interface.c b/drivers/med=
+ia/platform/amd/isp4/isp4_interface.c
 new file mode 100644
-index 000000000000..2ab5029d39a9
+index 000000000000..914a93f9652e
 --- /dev/null
 +++ b/drivers/media/platform/amd/isp4/isp4_interface.c
-@@ -0,0 +1,784 @@
+@@ -0,0 +1,786 @@
 +// SPDX-License-Identifier: GPL-2.0+
 +/*
 + * Copyright (C) 2025 Advanced Micro Devices, Inc.
@@ -547,109 +570,111 @@ index 000000000000..2ab5029d39a9
 +
 +/* FW cmd ring buffer configuration */
 +static struct isp4if_rb_config
-+	isp4if_cmd_rb_config[ISP4IF_STREAM_ID_MAX] = {
++	isp4if_cmd_rb_config[ISP4IF_STREAM_ID_MAX] =3D {
 +	{
-+		.name = "CMD_RB_GBL0",
-+		.index = 3,
-+		.reg_rptr = ISP_RB_RPTR4,
-+		.reg_wptr = ISP_RB_WPTR4,
-+		.reg_base_lo = ISP_RB_BASE_LO4,
-+		.reg_base_hi = ISP_RB_BASE_HI4,
-+		.reg_size = ISP_RB_SIZE4,
++		.name =3D "CMD_RB_GBL0",
++		.index =3D 3,
++		.reg_rptr =3D ISP_RB_RPTR4,
++		.reg_wptr =3D ISP_RB_WPTR4,
++		.reg_base_lo =3D ISP_RB_BASE_LO4,
++		.reg_base_hi =3D ISP_RB_BASE_HI4,
++		.reg_size =3D ISP_RB_SIZE4,
 +	},
 +	{
-+		.name = "CMD_RB_STR1",
-+		.index = 0,
-+		.reg_rptr = ISP_RB_RPTR1,
-+		.reg_wptr = ISP_RB_WPTR1,
-+		.reg_base_lo = ISP_RB_BASE_LO1,
-+		.reg_base_hi = ISP_RB_BASE_HI1,
-+		.reg_size = ISP_RB_SIZE1,
++		.name =3D "CMD_RB_STR1",
++		.index =3D 0,
++		.reg_rptr =3D ISP_RB_RPTR1,
++		.reg_wptr =3D ISP_RB_WPTR1,
++		.reg_base_lo =3D ISP_RB_BASE_LO1,
++		.reg_base_hi =3D ISP_RB_BASE_HI1,
++		.reg_size =3D ISP_RB_SIZE1,
 +	},
 +	{
-+		.name = "CMD_RB_STR2",
-+		.index = 1,
-+		.reg_rptr = ISP_RB_RPTR2,
-+		.reg_wptr = ISP_RB_WPTR2,
-+		.reg_base_lo = ISP_RB_BASE_LO2,
-+		.reg_base_hi = ISP_RB_BASE_HI2,
-+		.reg_size = ISP_RB_SIZE2,
++		.name =3D "CMD_RB_STR2",
++		.index =3D 1,
++		.reg_rptr =3D ISP_RB_RPTR2,
++		.reg_wptr =3D ISP_RB_WPTR2,
++		.reg_base_lo =3D ISP_RB_BASE_LO2,
++		.reg_base_hi =3D ISP_RB_BASE_HI2,
++		.reg_size =3D ISP_RB_SIZE2,
 +	},
 +	{
-+		.name = "CMD_RB_STR3",
-+		.index = 2,
-+		.reg_rptr = ISP_RB_RPTR3,
-+		.reg_wptr = ISP_RB_WPTR3,
-+		.reg_base_lo = ISP_RB_BASE_LO3,
-+		.reg_base_hi = ISP_RB_BASE_HI3,
-+		.reg_size = ISP_RB_SIZE3,
++		.name =3D "CMD_RB_STR3",
++		.index =3D 2,
++		.reg_rptr =3D ISP_RB_RPTR3,
++		.reg_wptr =3D ISP_RB_WPTR3,
++		.reg_base_lo =3D ISP_RB_BASE_LO3,
++		.reg_base_hi =3D ISP_RB_BASE_HI3,
++		.reg_size =3D ISP_RB_SIZE3,
 +	},
 +};
 +
 +/* FW resp ring buffer configuration */
 +static struct isp4if_rb_config
-+	isp4if_resp_rb_config[ISP4IF_STREAM_ID_MAX] = {
++	isp4if_resp_rb_config[ISP4IF_STREAM_ID_MAX] =3D {
 +	{
-+		.name = "RES_RB_GBL0",
-+		.index = 3,
-+		.reg_rptr = ISP_RB_RPTR12,
-+		.reg_wptr = ISP_RB_WPTR12,
-+		.reg_base_lo = ISP_RB_BASE_LO12,
-+		.reg_base_hi = ISP_RB_BASE_HI12,
-+		.reg_size = ISP_RB_SIZE12,
++		.name =3D "RES_RB_GBL0",
++		.index =3D 3,
++		.reg_rptr =3D ISP_RB_RPTR12,
++		.reg_wptr =3D ISP_RB_WPTR12,
++		.reg_base_lo =3D ISP_RB_BASE_LO12,
++		.reg_base_hi =3D ISP_RB_BASE_HI12,
++		.reg_size =3D ISP_RB_SIZE12,
 +	},
 +	{
-+		.name = "RES_RB_STR1",
-+		.index = 0,
-+		.reg_rptr = ISP_RB_RPTR9,
-+		.reg_wptr = ISP_RB_WPTR9,
-+		.reg_base_lo = ISP_RB_BASE_LO9,
-+		.reg_base_hi = ISP_RB_BASE_HI9,
-+		.reg_size = ISP_RB_SIZE9,
++		.name =3D "RES_RB_STR1",
++		.index =3D 0,
++		.reg_rptr =3D ISP_RB_RPTR9,
++		.reg_wptr =3D ISP_RB_WPTR9,
++		.reg_base_lo =3D ISP_RB_BASE_LO9,
++		.reg_base_hi =3D ISP_RB_BASE_HI9,
++		.reg_size =3D ISP_RB_SIZE9,
 +	},
 +	{
-+		.name = "RES_RB_STR2",
-+		.index = 1,
-+		.reg_rptr = ISP_RB_RPTR10,
-+		.reg_wptr = ISP_RB_WPTR10,
-+		.reg_base_lo = ISP_RB_BASE_LO10,
-+		.reg_base_hi = ISP_RB_BASE_HI10,
-+		.reg_size = ISP_RB_SIZE10,
++		.name =3D "RES_RB_STR2",
++		.index =3D 1,
++		.reg_rptr =3D ISP_RB_RPTR10,
++		.reg_wptr =3D ISP_RB_WPTR10,
++		.reg_base_lo =3D ISP_RB_BASE_LO10,
++		.reg_base_hi =3D ISP_RB_BASE_HI10,
++		.reg_size =3D ISP_RB_SIZE10,
 +	},
 +	{
-+		.name = "RES_RB_STR3",
-+		.index = 2,
-+		.reg_rptr = ISP_RB_RPTR11,
-+		.reg_wptr = ISP_RB_WPTR11,
-+		.reg_base_lo = ISP_RB_BASE_LO11,
-+		.reg_base_hi = ISP_RB_BASE_HI11,
-+		.reg_size = ISP_RB_SIZE11,
++		.name =3D "RES_RB_STR3",
++		.index =3D 2,
++		.reg_rptr =3D ISP_RB_RPTR11,
++		.reg_wptr =3D ISP_RB_WPTR11,
++		.reg_base_lo =3D ISP_RB_BASE_LO11,
++		.reg_base_hi =3D ISP_RB_BASE_HI11,
++		.reg_size =3D ISP_RB_SIZE11,
 +	},
 +};
 +
 +/* FW log ring buffer configuration */
-+static struct isp4if_rb_config isp4if_log_rb_config = {
-+	.name = "LOG_RB",
-+	.index = 0,
-+	.reg_rptr = ISP_LOG_RB_RPTR0,
-+	.reg_wptr = ISP_LOG_RB_WPTR0,
-+	.reg_base_lo = ISP_LOG_RB_BASE_LO0,
-+	.reg_base_hi = ISP_LOG_RB_BASE_HI0,
-+	.reg_size = ISP_LOG_RB_SIZE0,
++static struct isp4if_rb_config isp4if_log_rb_config =3D {
++	.name =3D "LOG_RB",
++	.index =3D 0,
++	.reg_rptr =3D ISP_LOG_RB_RPTR0,
++	.reg_wptr =3D ISP_LOG_RB_WPTR0,
++	.reg_base_lo =3D ISP_LOG_RB_BASE_LO0,
++	.reg_base_hi =3D ISP_LOG_RB_BASE_HI0,
++	.reg_size =3D ISP_LOG_RB_SIZE0,
 +};
 +
-+static struct isp4if_gpu_mem_info *isp4if_gpu_mem_alloc(struct isp4_interface *ispif, u32 mem_size)
++static struct isp4if_gpu_mem_info *isp4if_gpu_mem_alloc(struct isp4_interf=
+ace *ispif, u32 mem_size)
 +{
 +	struct isp4if_gpu_mem_info *mem_info;
-+	struct device *dev = ispif->dev;
++	struct device *dev =3D ispif->dev;
 +	int ret;
 +
-+	mem_info = kmalloc(sizeof(*mem_info), GFP_KERNEL);
++	mem_info =3D kmalloc(sizeof(*mem_info), GFP_KERNEL);
 +	if (!mem_info)
 +		return NULL;
 +
-+	mem_info->mem_size = mem_size;
-+	ret = isp_kernel_buffer_alloc(dev, mem_info->mem_size, &mem_info->mem_handle,
++	mem_info->mem_size =3D mem_size;
++	ret =3D isp_kernel_buffer_alloc(dev, mem_info->mem_size, &mem_info->mem_h=
+andle,
 +				      &mem_info->gpu_mc_addr, &mem_info->sys_addr);
 +	if (ret) {
 +		kfree(mem_info);
@@ -662,16 +687,17 @@ index 000000000000..2ab5029d39a9
 +static void isp4if_gpu_mem_free(struct isp4_interface *ispif,
 +				struct isp4if_gpu_mem_info **mem_info_ptr)
 +{
-+	struct isp4if_gpu_mem_info *mem_info = *mem_info_ptr;
-+	struct device *dev = ispif->dev;
++	struct isp4if_gpu_mem_info *mem_info =3D *mem_info_ptr;
++	struct device *dev =3D ispif->dev;
 +
 +	if (!mem_info) {
 +		dev_err(dev, "invalid mem_info\n");
 +		return;
 +	}
 +
-+	*mem_info_ptr = NULL;
-+	isp_kernel_buffer_free(&mem_info->mem_handle, &mem_info->gpu_mc_addr, &mem_info->sys_addr);
++	*mem_info_ptr =3D NULL;
++	isp_kernel_buffer_free(&mem_info->mem_handle, &mem_info->gpu_mc_addr, &me=
+m_info->sys_addr);
 +	kfree(mem_info);
 +}
 +
@@ -683,31 +709,31 @@ index 000000000000..2ab5029d39a9
 +	isp4if_gpu_mem_free(ispif, &ispif->fw_cmd_resp_buf);
 +	isp4if_gpu_mem_free(ispif, &ispif->fw_log_buf);
 +
-+	for (i = 0; i < ISP4IF_MAX_STREAM_BUF_COUNT; i++)
++	for (i =3D 0; i < ISP4IF_MAX_STREAM_BUF_COUNT; i++)
 +		isp4if_gpu_mem_free(ispif, &ispif->meta_info_buf[i]);
 +}
 +
 +static int isp4if_alloc_fw_gpumem(struct isp4_interface *ispif)
 +{
-+	struct device *dev = ispif->dev;
++	struct device *dev =3D ispif->dev;
 +	int i;
 +
-+	ispif->fw_mem_pool = isp4if_gpu_mem_alloc(ispif, FW_MEMORY_POOL_SIZE);
++	ispif->fw_mem_pool =3D isp4if_gpu_mem_alloc(ispif, FW_MEMORY_POOL_SIZE);
 +	if (!ispif->fw_mem_pool)
 +		goto error_no_memory;
 +
-+	ispif->fw_cmd_resp_buf =
++	ispif->fw_cmd_resp_buf =3D
 +		isp4if_gpu_mem_alloc(ispif, ISP4IF_RB_PMBMAP_MEM_SIZE);
 +	if (!ispif->fw_cmd_resp_buf)
 +		goto error_no_memory;
 +
-+	ispif->fw_log_buf =
++	ispif->fw_log_buf =3D
 +		isp4if_gpu_mem_alloc(ispif, ISP4IF_FW_LOG_RINGBUF_SIZE);
 +	if (!ispif->fw_log_buf)
 +		goto error_no_memory;
 +
-+	for (i = 0; i < ISP4IF_MAX_STREAM_BUF_COUNT; i++) {
-+		ispif->meta_info_buf[i] =
++	for (i =3D 0; i < ISP4IF_MAX_STREAM_BUF_COUNT; i++) {
++		ispif->meta_info_buf[i] =3D
 +			isp4if_gpu_mem_alloc(ispif, ISP4IF_META_INFO_BUF_SIZE);
 +		if (!ispif->meta_info_buf[i])
 +			goto error_no_memory;
@@ -724,17 +750,17 @@ index 000000000000..2ab5029d39a9
 +{
 +	const u8 *surplus_ptr;
 +	const u32 *buffer;
-+	u32 checksum = 0;
++	u32 checksum =3D 0;
 +	size_t i;
 +
-+	buffer = (const u32 *)buf;
-+	for (i = 0; i < buf_size / sizeof(u32); i++)
-+		checksum += buffer[i];
++	buffer =3D (const u32 *)buf;
++	for (i =3D 0; i < buf_size / sizeof(u32); i++)
++		checksum +=3D buffer[i];
 +
-+	surplus_ptr = (const u8 *)&buffer[i];
++	surplus_ptr =3D (const u8 *)&buffer[i];
 +	/* add surplus data crc checksum */
-+	for (i = 0; i < buf_size % sizeof(u32); i++)
-+		checksum += surplus_ptr[i];
++	for (i =3D 0; i < buf_size % sizeof(u32); i++)
++		checksum +=3D surplus_ptr[i];
 +
 +	return checksum;
 +}
@@ -751,35 +777,38 @@ index 000000000000..2ab5029d39a9
 +		kfree(buf_node);
 +}
 +
-+static bool isp4if_is_cmdq_rb_full(struct isp4_interface *ispif, enum isp4if_stream_id stream)
++static bool isp4if_is_cmdq_rb_full(struct isp4_interface *ispif, enum isp4=
+if_stream_id stream)
 +{
-+	struct isp4if_rb_config *rb_config = &isp4if_cmd_rb_config[stream];
-+	u32 rreg = rb_config->reg_rptr, wreg = rb_config->reg_wptr;
-+	u32 len = rb_config->val_size;
++	struct isp4if_rb_config *rb_config =3D &isp4if_cmd_rb_config[stream];
++	u32 rreg =3D rb_config->reg_rptr, wreg =3D rb_config->reg_wptr;
++	u32 len =3D rb_config->val_size;
 +	u32 rd_ptr, wr_ptr;
 +	u32 bytes_free;
 +
-+	rd_ptr = isp4hw_rreg(ispif->mmio, rreg);
-+	wr_ptr = isp4hw_rreg(ispif->mmio, wreg);
++	rd_ptr =3D isp4hw_rreg(ispif->mmio, rreg);
++	wr_ptr =3D isp4hw_rreg(ispif->mmio, wreg);
 +
 +	/* Read and write pointers are equal, indicating the ringbuf is empty */
-+	if (wr_ptr == rd_ptr)
++	if (wr_ptr =3D=3D rd_ptr)
 +		return false;
 +
 +	if (wr_ptr > rd_ptr)
-+		bytes_free = len - (wr_ptr - rd_ptr);
++		bytes_free =3D len - (wr_ptr - rd_ptr);
 +	else
-+		bytes_free = rd_ptr - wr_ptr;
++		bytes_free =3D rd_ptr - wr_ptr;
 +
 +	/*
 +	 * Ignore one byte from the bytes free to prevent rd_ptr from equaling
-+	 * wr_ptr when the ringbuf is full, because rd_ptr == wr_ptr is supposed
++	 * wr_ptr when the ringbuf is full, because rd_ptr =3D=3D wr_ptr is suppo=
+sed
 +	 * to indicate that the ringbuf is empty.
 +	 */
-+	return bytes_free <= sizeof(struct isp4fw_cmd);
++	return bytes_free <=3D sizeof(struct isp4fw_cmd);
 +}
 +
-+struct isp4if_cmd_element *isp4if_rm_cmd_from_cmdq(struct isp4_interface *ispif, u32 seq_num,
++struct isp4if_cmd_element *isp4if_rm_cmd_from_cmdq(struct isp4_interface *=
+ispif, u32 seq_num,
 +						   u32 cmd_id)
 +{
 +	struct isp4if_cmd_element *buf_node;
@@ -787,8 +816,7 @@ index 000000000000..2ab5029d39a9
 +	guard(spinlock)(&ispif->cmdq_lock);
 +
 +	list_for_each_entry(buf_node, &ispif->cmdq, list) {
-+		if (buf_node->seq_num == seq_num &&
-+		    buf_node->cmd_id == cmd_id) {
++		if (buf_node->seq_num =3D=3D seq_num && buf_node->cmd_id =3D=3D cmd_id) {
 +			list_del(&buf_node->list);
 +			return buf_node;
 +		}
@@ -797,30 +825,32 @@ index 000000000000..2ab5029d39a9
 +	return NULL;
 +}
 +
-+/* Must check that isp4if_is_cmdq_rb_full() == false before calling */
-+static int isp4if_insert_isp_fw_cmd(struct isp4_interface *ispif, enum isp4if_stream_id stream,
++/* Must check that isp4if_is_cmdq_rb_full() =3D=3D false before calling */
++static int isp4if_insert_isp_fw_cmd(struct isp4_interface *ispif, enum isp=
+4if_stream_id stream,
 +				    const struct isp4fw_cmd *cmd)
 +{
-+	struct isp4if_rb_config *rb_config = &isp4if_cmd_rb_config[stream];
-+	u32 rreg = rb_config->reg_rptr, wreg = rb_config->reg_wptr;
-+	void *mem_sys = rb_config->base_sys_addr;
-+	const u32 cmd_sz = sizeof(*cmd);
-+	struct device *dev = ispif->dev;
-+	u32 len = rb_config->val_size;
-+	const void *src = cmd;
++	struct isp4if_rb_config *rb_config =3D &isp4if_cmd_rb_config[stream];
++	u32 rreg =3D rb_config->reg_rptr, wreg =3D rb_config->reg_wptr;
++	void *mem_sys =3D rb_config->base_sys_addr;
++	const u32 cmd_sz =3D sizeof(*cmd);
++	struct device *dev =3D ispif->dev;
++	u32 len =3D rb_config->val_size;
++	const void *src =3D cmd;
 +	u32 rd_ptr, wr_ptr;
 +	u32 bytes_to_end;
 +
-+	rd_ptr = isp4hw_rreg(ispif->mmio, rreg);
-+	wr_ptr = isp4hw_rreg(ispif->mmio, wreg);
-+	if (rd_ptr >= len || wr_ptr >= len) {
-+		dev_err(dev, "rb invalid: stream=%u, rd=%u, wr=%u, len=%u, cmd_sz=%u\n",
++	rd_ptr =3D isp4hw_rreg(ispif->mmio, rreg);
++	wr_ptr =3D isp4hw_rreg(ispif->mmio, wreg);
++	if (rd_ptr >=3D len || wr_ptr >=3D len) {
++		dev_err(dev, "rb invalid: stream=3D%u, rd=3D%u, wr=3D%u, len=3D%u, cmd_s=
+z=3D%u\n",
 +			stream, rd_ptr, wr_ptr, len, cmd_sz);
 +		return -EINVAL;
 +	}
 +
-+	bytes_to_end = len - wr_ptr;
-+	if (bytes_to_end >= cmd_sz) {
++	bytes_to_end =3D len - wr_ptr;
++	if (bytes_to_end >=3D cmd_sz) {
 +		/* FW cmd is just a straight copy to the write pointer */
 +		memcpy(mem_sys + wr_ptr, src, cmd_sz);
 +		isp4hw_wreg(ispif->mmio, wreg, (wr_ptr + cmd_sz) % len);
@@ -839,12 +869,13 @@ index 000000000000..2ab5029d39a9
 +	return ISP4IF_STREAM_ID_1;
 +}
 +
-+static int isp4if_send_fw_cmd(struct isp4_interface *ispif, u32 cmd_id, const void *package,
++static int isp4if_send_fw_cmd(struct isp4_interface *ispif, u32 cmd_id, co=
+nst void *package,
 +			      u32 package_size, bool sync)
 +{
-+	enum isp4if_stream_id stream = isp4if_get_fw_stream(cmd_id);
-+	struct isp4if_cmd_element *ele = NULL;
-+	struct device *dev = ispif->dev;
++	enum isp4if_stream_id stream =3D isp4if_get_fw_stream(cmd_id);
++	struct isp4if_cmd_element *ele =3D NULL;
++	struct device *dev =3D ispif->dev;
 +	struct isp4fw_cmd cmd;
 +	u32 seq_num;
 +	int ret;
@@ -856,17 +887,18 @@ index 000000000000..2ab5029d39a9
 +	}
 +
 +	/*
-+	 * The struct will be shared with ISP FW, use memset() to guarantee padding bits are
++	 * The struct will be shared with ISP FW, use memset() to guarantee paddi=
+ng bits are
 +	 * zeroed, since this is not guaranteed on all compilers.
 +	 */
 +	memset(&cmd, 0, sizeof(cmd));
-+	cmd.cmd_id = cmd_id;
++	cmd.cmd_id =3D cmd_id;
 +	switch (stream) {
 +	case ISP4IF_STREAM_ID_GLOBAL:
-+		cmd.cmd_stream_id = STREAM_ID_INVALID;
++		cmd.cmd_stream_id =3D STREAM_ID_INVALID;
 +		break;
 +	case ISP4IF_STREAM_ID_1:
-+		cmd.cmd_stream_id = STREAM_ID_1;
++		cmd.cmd_stream_id =3D STREAM_ID_1;
 +		break;
 +	default:
 +		dev_err(dev, "fail bad stream id %d\n", stream);
@@ -875,7 +907,7 @@ index 000000000000..2ab5029d39a9
 +
 +	/* Allocate the sync command object early and outside of the lock */
 +	if (sync) {
-+		ele = kmalloc(sizeof(*ele), GFP_KERNEL);
++		ele =3D kmalloc(sizeof(*ele), GFP_KERNEL);
 +		if (!ele)
 +			return -ENOMEM;
 +
@@ -888,37 +920,41 @@ index 000000000000..2ab5029d39a9
 +		memcpy(cmd.cmd_param, package, package_size);
 +
 +	scoped_guard(mutex, &ispif->isp4if_mutex) {
-+		ret = read_poll_timeout(isp4if_is_cmdq_rb_full, ret, !ret, ISP4IF_RB_FULL_SLEEP_US,
++		ret =3D read_poll_timeout(isp4if_is_cmdq_rb_full, ret, !ret, ISP4IF_RB_F=
+ULL_SLEEP_US,
 +					ISP4IF_RB_FULL_TIMEOUT_US, false, ispif, stream);
 +		if (ret) {
-+			struct isp4if_rb_config *rb_config = &isp4if_resp_rb_config[stream];
-+			u32 rd_ptr = isp4hw_rreg(ispif->mmio, rb_config->reg_rptr);
-+			u32 wr_ptr = isp4hw_rreg(ispif->mmio, rb_config->reg_wptr);
++			struct isp4if_rb_config *rb_config =3D &isp4if_resp_rb_config[stream];
++			u32 rd_ptr =3D isp4hw_rreg(ispif->mmio, rb_config->reg_rptr);
++			u32 wr_ptr =3D isp4hw_rreg(ispif->mmio, rb_config->reg_wptr);
 +
 +			dev_err(dev,
 +				"failed to get free cmdq slot, stream (%d),rd %u, wr %u\n",
 +				stream, rd_ptr, wr_ptr);
-+			ret = -ETIMEDOUT;
++			ret =3D -ETIMEDOUT;
 +			goto free_ele;
 +		}
 +
-+		seq_num = ispif->host2fw_seq_num++;
-+		cmd.cmd_seq_num = seq_num;
-+		cmd.cmd_check_sum = isp4if_compute_check_sum(&cmd, sizeof(cmd) - sizeof(u32));
++		seq_num =3D ispif->host2fw_seq_num++;
++		cmd.cmd_seq_num =3D seq_num;
++		cmd.cmd_check_sum =3D isp4if_compute_check_sum(&cmd, sizeof(cmd) - sizeo=
+f(u32));
 +
 +		/*
-+		 * only append the fw cmd to queue when its response needs to be waited for,
-+		 * currently there are only two such commands, disable channel and stop stream
++		 * only append the fw cmd to queue when its response needs to be waited =
+for,
++		 * currently there are only two such commands, disable channel and stop =
+stream
 +		 * which are only sent after close camera
 +		 */
 +		if (ele) {
-+			ele->seq_num = seq_num;
-+			ele->cmd_id = cmd_id;
++			ele->seq_num =3D seq_num;
++			ele->cmd_id =3D cmd_id;
 +			scoped_guard(spinlock, &ispif->cmdq_lock)
 +				list_add_tail(&ele->list, &ispif->cmdq);
 +		}
 +
-+		ret = isp4if_insert_isp_fw_cmd(ispif, stream, &cmd);
++		ret =3D isp4if_insert_isp_fw_cmd(ispif, stream, &cmd);
 +		if (ret) {
 +			dev_err(dev, "fail for insert_isp_fw_cmd cmd_id (0x%08x)\n", cmd_id);
 +			goto err_dequeue_ele;
@@ -926,12 +962,14 @@ index 000000000000..2ab5029d39a9
 +	}
 +
 +	if (ele) {
-+		ret = wait_for_completion_timeout(&ele->cmd_done, ISP4IF_FW_CMD_TIMEOUT);
++		ret =3D wait_for_completion_timeout(&ele->cmd_done, ISP4IF_FW_CMD_TIMEOU=
+T);
 +		if (!ret) {
-+			ret = -ETIMEDOUT;
++			ret =3D -ETIMEDOUT;
 +			goto err_dequeue_ele;
 +		}
-+		ret = 0;
++
++		ret =3D 0;
 +		goto put_ele_ref;
 +	}
 +
@@ -945,109 +983,118 @@ index 000000000000..2ab5029d39a9
 +	 */
 +	if (ele && isp4if_rm_cmd_from_cmdq(ispif, seq_num, cmd_id))
 +		goto free_ele;
++
 +put_ele_ref:
 +	/* Don't free the command if we didn't put the last reference */
 +	if (ele && atomic_dec_return(&ele->refcnt))
-+		ele = NULL;
++		ele =3D NULL;
++
 +free_ele:
 +	kfree(ele);
 +	return ret;
 +}
 +
-+static int isp4if_send_buffer(struct isp4_interface *ispif, struct isp4if_img_buf_info *buf_info)
++static int isp4if_send_buffer(struct isp4_interface *ispif, struct isp4if_=
+img_buf_info *buf_info)
 +{
 +	struct isp4fw_cmd_send_buffer cmd;
 +
 +	/*
-+	 * The struct will be shared with ISP FW, use memset() to guarantee padding bits are
++	 * The struct will be shared with ISP FW, use memset() to guarantee paddi=
+ng bits are
 +	 * zeroed, since this is not guaranteed on all compilers.
 +	 */
 +	memset(&cmd, 0, sizeof(cmd));
-+	cmd.buffer_type = BUFFER_TYPE_PREVIEW;
-+	cmd.buffer.vmid_space.bit.space = ADDR_SPACE_TYPE_GPU_VA;
++	cmd.buffer_type =3D BUFFER_TYPE_PREVIEW;
++	cmd.buffer.vmid_space.bit.space =3D ADDR_SPACE_TYPE_GPU_VA;
 +	isp4if_split_addr64(buf_info->planes[0].mc_addr,
 +			    &cmd.buffer.buf_base_a_lo,
 +			    &cmd.buffer.buf_base_a_hi);
-+	cmd.buffer.buf_size_a = buf_info->planes[0].len;
++	cmd.buffer.buf_size_a =3D buf_info->planes[0].len;
 +
 +	isp4if_split_addr64(buf_info->planes[1].mc_addr,
 +			    &cmd.buffer.buf_base_b_lo,
 +			    &cmd.buffer.buf_base_b_hi);
-+	cmd.buffer.buf_size_b = buf_info->planes[1].len;
++	cmd.buffer.buf_size_b =3D buf_info->planes[1].len;
 +
 +	isp4if_split_addr64(buf_info->planes[2].mc_addr,
 +			    &cmd.buffer.buf_base_c_lo,
 +			    &cmd.buffer.buf_base_c_hi);
-+	cmd.buffer.buf_size_c = buf_info->planes[2].len;
++	cmd.buffer.buf_size_c =3D buf_info->planes[2].len;
 +
-+	return isp4if_send_fw_cmd(ispif, CMD_ID_SEND_BUFFER, &cmd, sizeof(cmd), false);
++	return isp4if_send_fw_cmd(ispif, CMD_ID_SEND_BUFFER, &cmd, sizeof(cmd), f=
+alse);
 +}
 +
-+static void isp4if_init_rb_config(struct isp4_interface *ispif, struct isp4if_rb_config *rb_config)
++static void isp4if_init_rb_config(struct isp4_interface *ispif, struct isp=
+4if_rb_config *rb_config)
 +{
 +	isp4hw_wreg(ispif->mmio, rb_config->reg_rptr, 0x0);
 +	isp4hw_wreg(ispif->mmio, rb_config->reg_wptr, 0x0);
 +	isp4hw_wreg(ispif->mmio, rb_config->reg_base_lo, rb_config->base_mc_addr);
-+	isp4hw_wreg(ispif->mmio, rb_config->reg_base_hi, rb_config->base_mc_addr >> 32);
++	isp4hw_wreg(ispif->mmio, rb_config->reg_base_hi, rb_config->base_mc_addr =
+>> 32);
 +	isp4hw_wreg(ispif->mmio, rb_config->reg_size, rb_config->val_size);
 +}
 +
 +static int isp4if_fw_init(struct isp4_interface *ispif)
 +{
-+	u32 aligned_rb_chunk_size = ISP4IF_RB_PMBMAP_MEM_CHUNK & 0xffffffc0;
++	u32 aligned_rb_chunk_size =3D ISP4IF_RB_PMBMAP_MEM_CHUNK & 0xffffffc0;
 +	struct isp4if_rb_config *rb_config;
 +	u32 offset;
 +	int i;
 +
 +	/* initialize CMD_RB streams */
-+	for (i = 0; i < ISP4IF_STREAM_ID_MAX; i++) {
-+		rb_config = (isp4if_cmd_rb_config + i);
-+		offset = aligned_rb_chunk_size * rb_config->index;
++	for (i =3D 0; i < ISP4IF_STREAM_ID_MAX; i++) {
++		rb_config =3D (isp4if_cmd_rb_config + i);
++		offset =3D aligned_rb_chunk_size * rb_config->index;
 +
-+		rb_config->val_size = ISP4IF_FW_CMD_BUF_SIZE;
-+		rb_config->base_sys_addr =
++		rb_config->val_size =3D ISP4IF_FW_CMD_BUF_SIZE;
++		rb_config->base_sys_addr =3D
 +			ispif->fw_cmd_resp_buf->sys_addr + offset;
-+		rb_config->base_mc_addr =
++		rb_config->base_mc_addr =3D
 +			ispif->fw_cmd_resp_buf->gpu_mc_addr + offset;
 +
 +		isp4if_init_rb_config(ispif, rb_config);
 +	}
 +
 +	/* initialize RESP_RB streams */
-+	for (i = 0; i < ISP4IF_STREAM_ID_MAX; i++) {
-+		rb_config = (isp4if_resp_rb_config + i);
-+		offset = aligned_rb_chunk_size *
++	for (i =3D 0; i < ISP4IF_STREAM_ID_MAX; i++) {
++		rb_config =3D (isp4if_resp_rb_config + i);
++		offset =3D aligned_rb_chunk_size *
 +			 (rb_config->index + ISP4IF_RESP_CHAN_TO_RB_OFFSET - 1);
 +
-+		rb_config->val_size = ISP4IF_FW_CMD_BUF_SIZE;
-+		rb_config->base_sys_addr =
++		rb_config->val_size =3D ISP4IF_FW_CMD_BUF_SIZE;
++		rb_config->base_sys_addr =3D
 +			ispif->fw_cmd_resp_buf->sys_addr + offset;
-+		rb_config->base_mc_addr =
++		rb_config->base_mc_addr =3D
 +			ispif->fw_cmd_resp_buf->gpu_mc_addr + offset;
 +
 +		isp4if_init_rb_config(ispif, rb_config);
 +	}
 +
 +	/* initialize LOG_RB stream */
-+	rb_config = &isp4if_log_rb_config;
-+	rb_config->val_size = ISP4IF_FW_LOG_RINGBUF_SIZE;
-+	rb_config->base_mc_addr = ispif->fw_log_buf->gpu_mc_addr;
-+	rb_config->base_sys_addr = ispif->fw_log_buf->sys_addr;
++	rb_config =3D &isp4if_log_rb_config;
++	rb_config->val_size =3D ISP4IF_FW_LOG_RINGBUF_SIZE;
++	rb_config->base_mc_addr =3D ispif->fw_log_buf->gpu_mc_addr;
++	rb_config->base_sys_addr =3D ispif->fw_log_buf->sys_addr;
 +
 +	isp4if_init_rb_config(ispif, rb_config);
 +
 +	return 0;
 +}
 +
-+static int isp4if_wait_fw_ready(struct isp4_interface *ispif, u32 isp_status_addr)
++static int isp4if_wait_fw_ready(struct isp4_interface *ispif, u32 isp_stat=
+us_addr)
 +{
-+	struct device *dev = ispif->dev;
-+	u32 timeout_ms = 100;
-+	u32 interval_ms = 1;
++	struct device *dev =3D ispif->dev;
++	u32 timeout_ms =3D 100;
++	u32 interval_ms =3D 1;
 +	u32 reg_val;
 +
 +	/* wait for FW initialize done! */
-+	if (!read_poll_timeout(isp4hw_rreg, reg_val, reg_val & ISP_STATUS__CCPU_REPORT_MASK,
++	if (!read_poll_timeout(isp4hw_rreg, reg_val, reg_val & ISP_STATUS__CCPU_R=
+EPORT_MASK,
 +			       interval_ms * 1000, timeout_ms * 1000, false,
 +			       ispif->mmio, isp_status_addr))
 +		return 0;
@@ -1061,14 +1108,14 @@ index 000000000000..2ab5029d39a9
 +{
 +	u32 reg_val;
 +
-+	reg_val = isp4hw_rreg(ispif->mmio, ISP_SOFT_RESET);
-+	reg_val &= (~ISP_SOFT_RESET__CCPU_SOFT_RESET_MASK);
++	reg_val =3D isp4hw_rreg(ispif->mmio, ISP_SOFT_RESET);
++	reg_val &=3D (~ISP_SOFT_RESET__CCPU_SOFT_RESET_MASK);
 +	isp4hw_wreg(ispif->mmio, ISP_SOFT_RESET, reg_val);
 +
 +	usleep_range(100, 150);
 +
-+	reg_val = isp4hw_rreg(ispif->mmio, ISP_CCPU_CNTL);
-+	reg_val &= (~ISP_CCPU_CNTL__CCPU_HOST_SOFT_RST_MASK);
++	reg_val =3D isp4hw_rreg(ispif->mmio, ISP_CCPU_CNTL);
++	reg_val &=3D (~ISP_CCPU_CNTL__CCPU_HOST_SOFT_RST_MASK);
 +	isp4hw_wreg(ispif->mmio, ISP_CCPU_CNTL, reg_val);
 +}
 +
@@ -1076,22 +1123,22 @@ index 000000000000..2ab5029d39a9
 +{
 +	u32 reg_val;
 +
-+	reg_val = isp4hw_rreg(ispif->mmio, ISP_CCPU_CNTL);
-+	reg_val |= ISP_CCPU_CNTL__CCPU_HOST_SOFT_RST_MASK;
++	reg_val =3D isp4hw_rreg(ispif->mmio, ISP_CCPU_CNTL);
++	reg_val |=3D ISP_CCPU_CNTL__CCPU_HOST_SOFT_RST_MASK;
 +	isp4hw_wreg(ispif->mmio, ISP_CCPU_CNTL, reg_val);
 +
 +	usleep_range(100, 150);
 +
-+	reg_val = isp4hw_rreg(ispif->mmio, ISP_SOFT_RESET);
-+	reg_val |= ISP_SOFT_RESET__CCPU_SOFT_RESET_MASK;
++	reg_val =3D isp4hw_rreg(ispif->mmio, ISP_SOFT_RESET);
++	reg_val |=3D ISP_SOFT_RESET__CCPU_SOFT_RESET_MASK;
 +	isp4hw_wreg(ispif->mmio, ISP_SOFT_RESET, reg_val);
 +}
 +
 +static int isp4if_fw_boot(struct isp4_interface *ispif)
 +{
-+	struct device *dev = ispif->dev;
++	struct device *dev =3D ispif->dev;
 +
-+	if (ispif->status != ISP4IF_STATUS_PWR_ON) {
++	if (ispif->status !=3D ISP4IF_STATUS_PWR_ON) {
 +		dev_err(dev, "invalid isp power status %d\n", ispif->status);
 +		return -EINVAL;
 +	}
@@ -1113,38 +1160,39 @@ index 000000000000..2ab5029d39a9
 +	/* enable interrupts */
 +	isp4hw_wreg(ispif->mmio, ISP_SYS_INT0_EN, ISP4IF_FW_RESP_RB_IRQ_EN_MASK);
 +
-+	ispif->status = ISP4IF_STATUS_FW_RUNNING;
++	ispif->status =3D ISP4IF_STATUS_FW_RUNNING;
 +
 +	dev_dbg(dev, "ISP CCPU FW boot success\n");
 +
 +	return 0;
 +}
 +
-+int isp4if_f2h_resp(struct isp4_interface *ispif, enum isp4if_stream_id stream,
++int isp4if_f2h_resp(struct isp4_interface *ispif, enum isp4if_stream_id st=
+ream,
 +		    struct isp4fw_resp *resp)
 +{
-+	struct isp4if_rb_config *rb_config = &isp4if_resp_rb_config[stream];
-+	u32 rreg = rb_config->reg_rptr, wreg = rb_config->reg_wptr;
-+	void *mem_sys = rb_config->base_sys_addr;
-+	const u32 resp_sz = sizeof(*resp);
-+	struct device *dev = ispif->dev;
-+	u32 len = rb_config->val_size;
++	struct isp4if_rb_config *rb_config =3D &isp4if_resp_rb_config[stream];
++	u32 rreg =3D rb_config->reg_rptr, wreg =3D rb_config->reg_wptr;
++	void *mem_sys =3D rb_config->base_sys_addr;
++	const u32 resp_sz =3D sizeof(*resp);
++	struct device *dev =3D ispif->dev;
++	u32 len =3D rb_config->val_size;
 +	u32 rd_ptr, wr_ptr;
 +	u32 bytes_to_end;
-+	void *dst = resp;
++	void *dst =3D resp;
 +	u32 checksum;
 +
-+	rd_ptr = isp4hw_rreg(ispif->mmio, rreg);
-+	wr_ptr = isp4hw_rreg(ispif->mmio, wreg);
-+	if (rd_ptr >= len || wr_ptr >= len)
++	rd_ptr =3D isp4hw_rreg(ispif->mmio, rreg);
++	wr_ptr =3D isp4hw_rreg(ispif->mmio, wreg);
++	if (rd_ptr >=3D len || wr_ptr >=3D len)
 +		goto err_rb_invalid;
 +
 +	/* Read and write pointers are equal, indicating the ringbuf is empty */
-+	if (rd_ptr == wr_ptr)
++	if (rd_ptr =3D=3D wr_ptr)
 +		return -ENODATA;
 +
-+	bytes_to_end = len - rd_ptr;
-+	if (bytes_to_end >= resp_sz) {
++	bytes_to_end =3D len - rd_ptr;
++	if (bytes_to_end >=3D resp_sz) {
 +		/* FW response is just a straight copy from the read pointer */
 +		if (wr_ptr > rd_ptr && wr_ptr - rd_ptr < resp_sz)
 +			goto err_rb_invalid;
@@ -1161,8 +1209,8 @@ index 000000000000..2ab5029d39a9
 +		isp4hw_wreg(ispif->mmio, rreg, resp_sz - bytes_to_end);
 +	}
 +
-+	checksum = isp4if_compute_check_sum(resp, resp_sz - sizeof(u32));
-+	if (checksum != resp->resp_check_sum) {
++	checksum =3D isp4if_compute_check_sum(resp, resp_sz - sizeof(u32));
++	if (checksum !=3D resp->resp_check_sum) {
 +		dev_err(dev, "resp checksum 0x%x,should 0x%x,rptr %u,wptr %u\n",
 +			checksum, resp->resp_check_sum, rd_ptr, wr_ptr);
 +		dev_err(dev, "(%u), seqNo %u, resp_id (0x%x)\n",
@@ -1174,18 +1222,21 @@ index 000000000000..2ab5029d39a9
 +	return 0;
 +
 +err_rb_invalid:
-+	dev_err(dev, "rb invalid: stream=%u, rd=%u, wr=%u, len=%u, resp_sz=%u\n",
++	dev_err(dev, "rb invalid: stream=3D%u, rd=3D%u, wr=3D%u, len=3D%u, resp_s=
+z=3D%u\n",
 +		stream, rd_ptr, wr_ptr, len, resp_sz);
 +	return -EINVAL;
 +}
 +
-+int isp4if_send_command(struct isp4_interface *ispif, u32 cmd_id, const void *package,
++int isp4if_send_command(struct isp4_interface *ispif, u32 cmd_id, const vo=
+id *package,
 +			u32 package_size)
 +{
 +	return isp4if_send_fw_cmd(ispif, cmd_id, package, package_size, false);
 +}
 +
-+int isp4if_send_command_sync(struct isp4_interface *ispif, u32 cmd_id, const void *package,
++int isp4if_send_command_sync(struct isp4_interface *ispif, u32 cmd_id, con=
+st void *package,
 +			     u32 package_size)
 +{
 +	return isp4if_send_fw_cmd(ispif, cmd_id, package, package_size, true);
@@ -1208,35 +1259,39 @@ index 000000000000..2ab5029d39a9
 +	kfree(buf_node);
 +}
 +
-+struct isp4if_img_buf_node *isp4if_alloc_buffer_node(struct isp4if_img_buf_info *buf_info)
++struct isp4if_img_buf_node *isp4if_alloc_buffer_node(struct isp4if_img_buf=
+_info *buf_info)
 +{
 +	struct isp4if_img_buf_node *node;
 +
-+	node = kmalloc(sizeof(*node), GFP_KERNEL);
++	node =3D kmalloc(sizeof(*node), GFP_KERNEL);
 +	if (node)
-+		node->buf_info = *buf_info;
++		node->buf_info =3D *buf_info;
 +
 +	return node;
 +}
 +
-+struct isp4if_img_buf_node *isp4if_dequeue_buffer(struct isp4_interface *ispif)
++struct isp4if_img_buf_node *isp4if_dequeue_buffer(struct isp4_interface *i=
+spif)
 +{
 +	struct isp4if_img_buf_node *buf_node;
 +
 +	guard(spinlock)(&ispif->bufq_lock);
 +
-+	buf_node = list_first_entry_or_null(&ispif->bufq, typeof(*buf_node), node);
++	buf_node =3D list_first_entry_or_null(&ispif->bufq, typeof(*buf_node), no=
+de);
 +	if (buf_node)
 +		list_del(&buf_node->node);
 +
 +	return buf_node;
 +}
 +
-+int isp4if_queue_buffer(struct isp4_interface *ispif, struct isp4if_img_buf_node *buf_node)
++int isp4if_queue_buffer(struct isp4_interface *ispif, struct isp4if_img_bu=
+f_node *buf_node)
 +{
 +	int ret;
 +
-+	ret = isp4if_send_buffer(ispif, &buf_node->buf_info);
++	ret =3D isp4if_send_buffer(ispif, &buf_node->buf_info);
 +	if (ret)
 +		return ret;
 +
@@ -1259,11 +1314,11 @@ index 000000000000..2ab5029d39a9
 +{
 +	int ret;
 +
-+	ret = isp4if_alloc_fw_gpumem(ispif);
++	ret =3D isp4if_alloc_fw_gpumem(ispif);
 +	if (ret)
 +		return ret;
 +
-+	ret = isp4if_fw_boot(ispif);
++	ret =3D isp4if_fw_boot(ispif);
 +	if (ret)
 +		goto failed_fw_boot;
 +
@@ -1285,10 +1340,11 @@ index 000000000000..2ab5029d39a9
 +	return 0;
 +}
 +
-+int isp4if_init(struct isp4_interface *ispif, struct device *dev, void __iomem *isp_mmio)
++int isp4if_init(struct isp4_interface *ispif, struct device *dev, void __i=
+omem *isp_mmio)
 +{
-+	ispif->dev = dev;
-+	ispif->mmio = isp_mmio;
++	ispif->dev =3D dev;
++	ispif->mmio =3D isp_mmio;
 +
 +	spin_lock_init(&ispif->cmdq_lock); /* used for cmdq access */
 +	spin_lock_init(&ispif->bufq_lock); /* used for bufq access */
@@ -1299,12 +1355,13 @@ index 000000000000..2ab5029d39a9
 +
 +	return 0;
 +}
-diff --git a/drivers/media/platform/amd/isp4/isp4_interface.h b/drivers/media/platform/amd/isp4/isp4_interface.h
+diff --git a/drivers/media/platform/amd/isp4/isp4_interface.h b/drivers/med=
+ia/platform/amd/isp4/isp4_interface.h
 new file mode 100644
-index 000000000000..2ec48e1a0503
+index 000000000000..01d5268f7d4c
 --- /dev/null
 +++ b/drivers/media/platform/amd/isp4/isp4_interface.h
-@@ -0,0 +1,140 @@
+@@ -0,0 +1,141 @@
 +/* SPDX-License-Identifier: GPL-2.0+ */
 +/*
 + * Copyright (C) 2025 Advanced Micro Devices, Inc.
@@ -1332,15 +1389,16 @@ index 000000000000..2ec48e1a0503
 +#define ISP4IF_RB_FULL_SLEEP_US (33 * USEC_PER_MSEC)
 +#define ISP4IF_RB_FULL_TIMEOUT_US (10 * ISP4IF_RB_FULL_SLEEP_US)
 +
-+#define ISP4IF_META_INFO_BUF_SIZE ALIGN(sizeof(struct isp4fw_meta_info), 0x8000)
++#define ISP4IF_META_INFO_BUF_SIZE ALIGN(sizeof(struct isp4fw_meta_info), 0=
+x8000)
 +#define ISP4IF_MAX_STREAM_BUF_COUNT 8
 +
 +#define ISP4IF_FW_LOG_RINGBUF_SIZE SZ_2M
 +
 +enum isp4if_stream_id {
-+	ISP4IF_STREAM_ID_GLOBAL = 0,
-+	ISP4IF_STREAM_ID_1 = 1,
-+	ISP4IF_STREAM_ID_MAX = 4
++	ISP4IF_STREAM_ID_GLOBAL =3D 0,
++	ISP4IF_STREAM_ID_1 =3D 1,
++	ISP4IF_STREAM_ID_MAX =3D 4
 +};
 +
 +enum isp4if_status {
@@ -1402,9 +1460,10 @@ index 000000000000..2ec48e1a0503
 +static inline void isp4if_split_addr64(u64 addr, u32 *lo, u32 *hi)
 +{
 +	if (lo)
-+		*lo = addr & 0xffffffff;
++		*lo =3D addr & 0xffffffff;
++
 +	if (hi)
-+		*hi = addr >> 32;
++		*hi =3D addr >> 32;
 +}
 +
 +static inline u64 isp4if_join_addr64(u32 lo, u32 hi)
@@ -1412,16 +1471,20 @@ index 000000000000..2ec48e1a0503
 +	return (((u64)hi) << 32) | (u64)lo;
 +}
 +
-+int isp4if_f2h_resp(struct isp4_interface *ispif, enum isp4if_stream_id stream,
++int isp4if_f2h_resp(struct isp4_interface *ispif, enum isp4if_stream_id st=
+ream,
 +		    struct isp4fw_resp *resp);
 +
-+int isp4if_send_command(struct isp4_interface *ispif, u32 cmd_id, const void *package,
++int isp4if_send_command(struct isp4_interface *ispif, u32 cmd_id, const vo=
+id *package,
 +			u32 package_size);
 +
-+int isp4if_send_command_sync(struct isp4_interface *ispif, u32 cmd_id, const void *package,
++int isp4if_send_command_sync(struct isp4_interface *ispif, u32 cmd_id, con=
+st void *package,
 +			     u32 package_size);
 +
-+struct isp4if_cmd_element *isp4if_rm_cmd_from_cmdq(struct isp4_interface *ispif, u32 seq_num,
++struct isp4if_cmd_element *isp4if_rm_cmd_from_cmdq(struct isp4_interface *=
+ispif, u32 seq_num,
 +						   u32 cmd_id);
 +
 +void isp4if_clear_cmdq(struct isp4_interface *ispif);
@@ -1430,11 +1493,14 @@ index 000000000000..2ec48e1a0503
 +
 +void isp4if_dealloc_buffer_node(struct isp4if_img_buf_node *buf_node);
 +
-+struct isp4if_img_buf_node *isp4if_alloc_buffer_node(struct isp4if_img_buf_info *buf_info);
++struct isp4if_img_buf_node *isp4if_alloc_buffer_node(struct isp4if_img_buf=
+_info *buf_info);
 +
-+struct isp4if_img_buf_node *isp4if_dequeue_buffer(struct isp4_interface *ispif);
++struct isp4if_img_buf_node *isp4if_dequeue_buffer(struct isp4_interface *i=
+spif);
 +
-+int isp4if_queue_buffer(struct isp4_interface *ispif, struct isp4if_img_buf_node *buf_node);
++int isp4if_queue_buffer(struct isp4_interface *ispif, struct isp4if_img_bu=
+f_node *buf_node);
 +
 +int isp4if_stop(struct isp4_interface *ispif);
 +
@@ -1442,10 +1508,9 @@ index 000000000000..2ec48e1a0503
 +
 +int isp4if_deinit(struct isp4_interface *ispif);
 +
-+int isp4if_init(struct isp4_interface *ispif, struct device *dev, void __iomem *isp_mmio);
++int isp4if_init(struct isp4_interface *ispif, struct device *dev, void __i=
+omem *isp_mmio);
 +
 +#endif /* _ISP4_INTERFACE_H_ */
--- 
+--=20
 2.34.1
-
-
