@@ -4,7 +4,9 @@
 	"packages": {
 		"signal-desktop": {
 			"build-depends": [
+				"binary(ar)",
 				"binary(bsdtar-static)",
+				"binary(pnpm)",
 				"binary(tar)",
 				"pkgconfig(alsa)",
 				"pkgconfig(cups)",
@@ -12,7 +14,8 @@
 				"pkgconfig(gtk+-3.0)",
 				"pkgconfig(libdrm)",
 				"pkgconfig(libpulse)",
-				"pkgconfig(xscrnsaver)"
+				"pkgconfig(xscrnsaver)",
+				"soname(libcrypt.so.1(x86_64))"
 			],
 			"depends": [
 				"interpreter(/lib64/ld-linux-x86-64.so.2(x86_64))",
@@ -175,9 +178,12 @@
 				"/usr/lib/signal/v8_context_snapshot.bin",
 				"/usr/lib/signal/vk_swiftshader_icd.json",
 				"/usr/share/applications/signal-desktop.desktop",
+				"/usr/share/icons/hicolor/1024x1024/apps/signal-desktop.png",
 				"/usr/share/icons/hicolor/128x128/apps/signal-desktop.png",
+				"/usr/share/icons/hicolor/16x16/apps/signal-desktop.png",
 				"/usr/share/icons/hicolor/256x256/apps/signal-desktop.png",
 				"/usr/share/icons/hicolor/32x32/apps/signal-desktop.png",
+				"/usr/share/icons/hicolor/48x48/apps/signal-desktop.png",
 				"/usr/share/icons/hicolor/512x512/apps/signal-desktop.png",
 				"/usr/share/icons/hicolor/64x64/apps/signal-desktop.png"
 			],
@@ -193,6 +199,6 @@
 		}
 	},
 	"source-name": "signal-desktop",
-	"source-release": "1",
+	"source-release": "2",
 	"source-version": "7.84.0"
 }
