@@ -1,0 +1,16 @@
+diff -Naur a/drivers/net/wireless/intel/iwlwifi/iwl-config.h b/drivers/net/wireless/intel/iwlwifi/iwl-config.h
+--- a/drivers/net/wireless/intel/iwlwifi/iwl-config.h	2025-12-16 09:14:42.001544881 +0100
++++ b/drivers/net/wireless/intel/iwlwifi/iwl-config.h	2025-12-16 09:23:14.104920872 +0100
+@@ -234,7 +234,11 @@
+ 	if (iwl_api_is_core_number(api))
+ 		return api - API_IS_CORE_START;
+ 
+-	return api - API_TO_CORE_OFFS;
++	if (api >= API_TO_CORE_OFFS) {
++          return api - API_TO_CORE_OFFS;
++	}
++	printk("api: %d\n", api);
++	return api;
+ }
+ 
+ #define FW_API_FMT			"%s%d"
