@@ -5,7 +5,7 @@
 #
 name        : nvidia-graphics-driver
 version     : "590.48.01"
-release     : 35
+release     : 36
 homepage    : https://www.nvidia.com/
 upstreams   :
     - https://us.download.nvidia.com/XFree86/Linux-x86_64/590.48.01/NVIDIA-Linux-x86_64-590.48.01.run:
@@ -95,6 +95,9 @@ install     : |
     ln -s nvidia-persistenced.user %(installroot)%(libdir)/userdb/143.user
     %tmpfiles "D /run/nvidia-persistenced 0755 nvidia-persistenced nvidia-persistenced -"
     popd
+
+    # sort out suspend
+    %install_file %(pkgdir)/nvidia-power-management.conf %(installroot)%(libdir)/modprobe.d/nvidia-power-management.conf
 
     # conflicts by egl-wayland/egl-gbm/egl-x11
     rm -v %(installroot)%(libdir){,32}/libnvidia-egl-wayland*
