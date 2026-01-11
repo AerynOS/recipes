@@ -73,10 +73,21 @@ environment : |
     export KBUILD_BUILD_USER=root
     export KBUILD_BUILD_TIMESTAMP=$(date --utc --date=@$SOURCE_DATE_EPOCH +%%F)
 setup       : |
-    for i in $(cat %(pkgdir)/patches/series) ; do
-        %patch %(pkgdir)/patches/$i
-    done
-
+    if [[ -f %(pkgdir)/patches/series ]]
+    then
+        # This retains patch order while removings blank lines
+        # and lines starting with a # character (with any number of preceding blanks)
+        # which should make the patch series file nicer to maintain due to comment support
+        PATCHES=($(sed -E -e '/^\s*$/d' -e '/^[[:space:]]*#.*$/d' %(pkgdir)/patches/series))
+        for p in "${PATCHES[@]}"
+        do
+            %patch "%(pkgdir)/patches/${p}"
+        done
+    else
+        echo -e "\nERROR: Please set up a pkg/patches/series file!\n"
+        exit 1
+    fi
+    
     extraVersion="-%(release).desktop"
     sed -e "s/EXTRAVERSION =.*/EXTRAVERSION = $extraVersion/" -i Makefile
 

@@ -1,6 +1,11 @@
+# Firmware
 0001-firmware_loader-add-earlyboot-trees-for-firmware-loa.patch
 0001-drivers-firmware-skip-simpledrm-if-nvidia-drm.modese.patch
+
+# Enable x86_64-v2 build optimisations
 more-ISA-levels-and-uarches-for-kernel-6.16+.patch
+
+# MS Surface device patches
 surface/0001-Revert-efi-x86-Set-the-PE-COFF-header-s-NX-compat-fl.patch
 surface/0002-PM-hibernate-Add-a-lockdown_hibernate-parameter.patch
 surface/0003-surface3-oemb-add-DMI-matches-for-Surface-3-with-bro.patch
@@ -41,12 +46,19 @@ surface/0037-ACPI-Add-AMD-13-Surface-Laptop-4-model-to-irq-7-over.patch
 surface/0038-acpi-allow-usage-of-acpi_tad-on-HW-reduced-platforms.patch
 surface/0039-HID-Add-hid-surface-driver-to-filter-BTN_0-FN-key.patch
 surface/0040-hid-multitouch-Prevent-mode-set-on-Surface-Laptop-St.patch
+
+# amdgpu patches that make it easier to control
+# whether to use radeon or amdgpu from the kernel cmd-line
 0001-drm-amdgpu-enable-SI-and-CIK-support-by-default.patch
 0001-Add-kernel-arg-to-enable-amdgpu-overdrive.patch
-0001-lib-fonts-Add-Terminus-10x18-console-font.patch
+
+# Various amdgpu tweaks
 hdmi/0001-drm-edid-parse-HDMI-ALLM-info.patch
 hdmi/0002-drm-edid-parse-HDMI-VRR-information.patch
 hdmi/0003-drm-amd-display-rename-PCON-adaptive-sync-types.patch
 hdmi/0004-drm-amd-display-enable-HDMI-VRR-over-PCON.patch
 hdmi/0005-amdgpu-Add-CH7218-PCON-to-the-VRR-whitelist.patch
 hdmi/0006-drm-amd-display-Bump-the-HDMI-clock-to-340MHz.patch
+
+# Use a nicer kernel console font
+0001-lib-fonts-Add-Terminus-10x18-console-font.patch
