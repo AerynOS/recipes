@@ -5,7 +5,7 @@
 #
 name        : ghostty
 version     : "1.3.0-dev+c90f47f"
-release     : 1
+release     : 2
 homepage    : https://github.com/ghostty-org/ghostty
 upstreams   :
     - https://github.com/ghostty-org/ghostty/releases/download/tip/ghostty-source.tar.gz : e89419edccf6529d3ffc19fcf857ede70ffc2abd8bc201b3a4f9a480b88355a4
@@ -17,7 +17,7 @@ networking  : true
 builddeps   :
     - binary(gettext)
     - binary(tic)
-    # - binary(pandoc) # TODO: Package & remove `-Demit-docs=false`
+    - binary(pandoc)
     - binary(zig)
     - pkgconfig(blueprint-compiler)
     - pkgconfig(freetype2)
@@ -45,8 +45,7 @@ build       : |
       --verbose \
       -Doptimize=ReleaseFast \
       -Dcpu=baseline \
-      -Dversion-string="%(version)" \
-      -Demit-docs=false
+      -Dversion-string="%(version)"
 install     : |
     # `g/ghostty` already provided by ncurses
     rm -rv %(installroot)/usr/share/terminfo/g

@@ -5,6 +5,7 @@
 		"ghostty": {
 			"build-depends": [
 				"binary(gettext)",
+				"binary(pandoc)",
 				"binary(tic)",
 				"binary(zig)",
 				"glslang-devel",
@@ -48,6 +49,10 @@
 				"/usr/share/bat/syntaxes/ghostty.sublime-syntax",
 				"/usr/share/dbus-1/services/com.mitchellh.ghostty.service",
 				"/usr/share/fish/vendor_completions.d/ghostty.fish",
+				"/usr/share/ghostty/doc/ghostty.1.html",
+				"/usr/share/ghostty/doc/ghostty.1.md",
+				"/usr/share/ghostty/doc/ghostty.5.html",
+				"/usr/share/ghostty/doc/ghostty.5.md",
 				"/usr/share/ghostty/shell-integration/bash/bash-preexec.sh",
 				"/usr/share/ghostty/shell-integration/bash/ghostty.bash",
 				"/usr/share/ghostty/shell-integration/elvish/lib/ghostty-integration.elv",
@@ -543,6 +548,8 @@
 				"/usr/share/locale/uk_UA.UTF-8/LC_MESSAGES/com.mitchellh.ghostty.mo",
 				"/usr/share/locale/zh_CN.UTF-8/LC_MESSAGES/com.mitchellh.ghostty.mo",
 				"/usr/share/locale/zh_TW.UTF-8/LC_MESSAGES/com.mitchellh.ghostty.mo",
+				"/usr/share/man/man1/ghostty.1",
+				"/usr/share/man/man5/ghostty.5",
 				"/usr/share/metainfo/com.mitchellh.ghostty.metainfo.xml",
 				"/usr/share/nautilus-python/extensions/ghostty.py",
 				"/usr/share/nvim/site/compiler/ghostty.vim",
@@ -565,6 +572,7 @@
 		"ghostty-devel": {
 			"build-depends": [
 				"binary(gettext)",
+				"binary(pandoc)",
 				"binary(tic)",
 				"binary(zig)",
 				"glslang-devel",
@@ -605,6 +613,6 @@
 		}
 	},
 	"source-name": "ghostty",
-	"source-release": "1",
+	"source-release": "2",
 	"source-version": "1.3.0-dev+c90f47f"
 }
