@@ -5,6 +5,7 @@
 		"gssdp": {
 			"build-depends": [
 				"binary(gi-docgen)",
+				"binary(pandoc)",
 				"binary(vapigen)",
 				"pkgconfig(glib-2.0)",
 				"pkgconfig(gobject-introspection-1.0)",
@@ -31,6 +32,7 @@
 		"gssdp-devel": {
 			"build-depends": [
 				"binary(gi-docgen)",
+				"binary(pandoc)",
 				"binary(vapigen)",
 				"pkgconfig(glib-2.0)",
 				"pkgconfig(gobject-introspection-1.0)",
@@ -65,6 +67,7 @@
 		"gssdp-utils": {
 			"build-depends": [
 				"binary(gi-docgen)",
+				"binary(pandoc)",
 				"binary(vapigen)",
 				"pkgconfig(glib-2.0)",
 				"pkgconfig(gobject-introspection-1.0)",
@@ -82,7 +85,8 @@
 				"soname(libsoup-3.0.so.0(x86_64))"
 			],
 			"files": [
-				"/usr/bin/gssdp-device-sniffer"
+				"/usr/bin/gssdp-device-sniffer",
+				"/usr/share/man/man1/gssdp-device-sniffer.1"
 			],
 			"name": "gssdp-utils",
 			"provides": [
@@ -91,6 +95,6 @@
 		}
 	},
 	"source-name": "gssdp",
-	"source-release": "1",
+	"source-release": "2",
 	"source-version": "1.6.4"
 }
