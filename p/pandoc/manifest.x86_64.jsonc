@@ -1,0 +1,27 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"pandoc": {
+			"files": [
+				"/usr/bin/pandoc",
+				"/usr/bin/pandoc-lua",
+				"/usr/bin/pandoc-server",
+				"/usr/share/licenses/COPYING.md",
+				"/usr/share/licenses/COPYRIGHT",
+				"/usr/share/man/man1/pandoc-lua.1.gz",
+				"/usr/share/man/man1/pandoc-server.1.gz",
+				"/usr/share/man/man1/pandoc.1.gz"
+			],
+			"name": "pandoc",
+			"provides": [
+				"binary(pandoc)",
+				"binary(pandoc-lua)",
+				"binary(pandoc-server)"
+			]
+		}
+	},
+	"source-name": "pandoc",
+	"source-release": "1",
+	"source-version": "3.8.3"
+}

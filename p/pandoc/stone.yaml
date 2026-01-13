@@ -1,0 +1,28 @@
+#
+# SPDX-FileCopyrightText: © 2025- AerynOS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : pandoc
+version     : 3.8.3
+release     : 1
+homepage    : https://pandoc.org/
+upstreams   :
+    - https://github.com/jgm/pandoc/archive/refs/tags/3.8.3.tar.gz : 064775f55802fea443c53b9ad61b6af5aab3fcda71c40e8ccb97f650dce78640
+    - https://github.com/jgm/pandoc/releases/download/3.8.3/pandoc-3.8.3-linux-amd64.tar.gz:
+        hash: c224fab89f827d3623380ecb7c1078c163c769c849a14ac27e8d3bfbb914c9b4
+        unpack: false
+        rename: pandoc.tar.gz
+summary     : Universal markup converter
+description : |
+    Pandoc is a Haskell library for converting from one markup format to another, and a command-line tool that uses this library.
+license     :
+    - BSD-3-Clause
+    - GPL-2.0-or-later
+install     : |
+    mkdir -p %(installroot)%(prefix)
+    bsdtar-static -xf %(sourcedir)/pandoc.tar.gz --strip-components=1 -C %(installroot)%(prefix)
+
+    # Licenses
+    %install_file COPYING.md -t %(installroot)%(datadir)/licenses
+    %install_file COPYRIGHT -t %(installroot)%(datadir)/licenses
