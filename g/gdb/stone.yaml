@@ -5,7 +5,7 @@
 #
 name        : gdb
 version     : "17.1"
-release     : 7
+release     : 8
 homepage    : https://www.sourceware.org/gdb
 upstreams   :
     - https://ftp.gnu.org/gnu/gdb/gdb-17.1.tar.xz : 14996f5f74c9f68f5a543fdc45bca7800207f91f92aeea6c2e791822c7c6d876
@@ -18,6 +18,7 @@ builddeps   :
     - binary(makeinfo)
     - pkgconfig(expat)
     - pkgconfig(gmp)
+    - pkgconfig(libdebuginfod)
     - pkgconfig(liblzma)
     - pkgconfig(libxxhash)
     - pkgconfig(libzstd)
@@ -31,6 +32,7 @@ setup       : |
         --with-python=%(bindir)/python3 \
         --with-system-readline \
         --with-system-zlib \
+        --with-debuginfod \
         --with-zstd
 build       : |
     %make

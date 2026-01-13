@@ -7,6 +7,7 @@
 				"binary(makeinfo)",
 				"pkgconfig(expat)",
 				"pkgconfig(gmp)",
+				"pkgconfig(libdebuginfod)",
 				"pkgconfig(liblzma)",
 				"pkgconfig(libxxhash)",
 				"pkgconfig(libzstd)",
@@ -19,6 +20,7 @@
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))",
+				"soname(libdebuginfod.so.1(x86_64))",
 				"soname(libexpat.so.1(x86_64))",
 				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libgmp.so.10(x86_64))",
@@ -147,6 +149,7 @@
 				"binary(makeinfo)",
 				"pkgconfig(expat)",
 				"pkgconfig(gmp)",
+				"pkgconfig(libdebuginfod)",
 				"pkgconfig(liblzma)",
 				"pkgconfig(libxxhash)",
 				"pkgconfig(libzstd)",
@@ -165,6 +168,6 @@
 		}
 	},
 	"source-name": "gdb",
-	"source-release": "7",
+	"source-release": "8",
 	"source-version": "17.1"
 }
