@@ -4,6 +4,7 @@
 	"packages": {
 		"libavif": {
 			"build-depends": [
+				"binary(pandoc)",
 				"libyuv-devel",
 				"pkgconfig(SvtAv1Enc)",
 				"pkgconfig(aom)",
@@ -35,6 +36,7 @@
 		},
 		"libavif-devel": {
 			"build-depends": [
+				"binary(pandoc)",
 				"libyuv-devel",
 				"pkgconfig(SvtAv1Enc)",
 				"pkgconfig(aom)",
@@ -70,6 +72,7 @@
 		},
 		"libavif-tools": {
 			"build-depends": [
+				"binary(pandoc)",
 				"libyuv-devel",
 				"pkgconfig(SvtAv1Enc)",
 				"pkgconfig(aom)",
@@ -94,7 +97,9 @@
 			"files": [
 				"/usr/bin/avifdec",
 				"/usr/bin/avifenc",
-				"/usr/bin/avifgainmaputil"
+				"/usr/bin/avifgainmaputil",
+				"/usr/share/man/man1/avifdec.1",
+				"/usr/share/man/man1/avifenc.1"
 			],
 			"name": "libavif-tools",
 			"provides": [
@@ -105,6 +110,6 @@
 		}
 	},
 	"source-name": "libavif",
-	"source-release": "5",
+	"source-release": "6",
 	"source-version": "1.3.0"
 }
