@@ -92,14 +92,14 @@ function goroot() {
 
 # Push into a package directory
 function chpkg() {
-    cd "$(git rev-parse --show-toplevel)"/*/"$1" || return 1
+    cd "$(git rev-parse --show-toplevel)"/${1:0:1}/"$1" || return 1
 }
 
 # Bash completions
 _chpkg()
 {
     # list of package directories we can go into
-    _list=$(ls "$(git rev-parse --show-toplevel)"/*/)
+    _list=$(basename -a "$(git rev-parse --show-toplevel)"/{a..z}/*)
 
     local cur
     COMPREPLY=()
