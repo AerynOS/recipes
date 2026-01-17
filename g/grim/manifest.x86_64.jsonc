@@ -1,0 +1,35 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"grim": {
+			"build-depends": [
+				"binary(meson)",
+				"pkgconfig(libjpeg)",
+				"pkgconfig(libpng)",
+				"pkgconfig(pixman-1)",
+				"pkgconfig(wayland-client)",
+				"pkgconfig(wayland-protocols)"
+			],
+			"depends": [
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libjpeg.so.8(x86_64))",
+				"soname(libm.so.6(x86_64))",
+				"soname(libpixman-1.so.0(x86_64))",
+				"soname(libpng16.so.16(x86_64))",
+				"soname(libwayland-client.so.0(x86_64))"
+			],
+			"files": [
+				"/usr/bin/grim"
+			],
+			"name": "grim",
+			"provides": [
+				"binary(grim)"
+			]
+		}
+	},
+	"source-name": "grim",
+	"source-release": "1",
+	"source-version": "1.5.0"
+}

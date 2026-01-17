@@ -1,0 +1,31 @@
+#
+# SPDX-FileCopyrightText: © 2025- AerynOS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : slurp
+version     : 1.5.0
+release     : 1
+homepage    : https://github.com/emersion/slurp
+upstreams   :
+    - https://github.com/emersion/slurp/archive/refs/heads/master.zip : caf9fea57f4f8fa46462f9e0ac14b579b3455a514ee73bb2ab4501d4f5825b56
+summary     : Select a region in a Wayland compositor 
+description : |
+    Select a region in a Wayland compositor and print it to the standard output. Works well with grim.
+license     : 
+    - MIT
+builddeps   :
+    - binary(meson)
+    - binary(scdoc)
+    
+    - pkgconfig(cairo)
+    - pkgconfig(wayland-client)
+    - pkgconfig(wayland-cursor)
+    - pkgconfig(wayland-protocols)
+    - pkgconfig(xkbcommon)
+setup       : |
+    %meson
+build       : |
+    %meson_build
+install     : |
+    %meson_install
