@@ -27,11 +27,17 @@
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))",
+				"soname(libcairo.so.2(x86_64))",
 				"soname(libcurl.so.4(x86_64))",
+				"soname(libfontconfig.so.1(x86_64))",
+				"soname(libfreetype.so.6(x86_64))",
 				"soname(libfyaml.so.0(x86_64))",
+				"soname(libgdk_pixbuf-2.0.so.0(x86_64))",
 				"soname(libgio-2.0.so.0(x86_64))",
 				"soname(libglib-2.0.so.0(x86_64))",
 				"soname(libgobject-2.0.so.0(x86_64))",
+				"soname(libpango-1.0.so.0(x86_64))",
+				"soname(librsvg-2.so.2(x86_64))",
 				"soname(libsystemd.so.0(x86_64))",
 				"soname(libxml2.so.16(x86_64))",
 				"soname(libxmlb.so.2(x86_64))",
@@ -39,7 +45,11 @@
 			],
 			"files": [
 				"/usr/bin/appstreamcli",
+				"/usr/lib/appstream/appstreamcli-compose",
 				"/usr/lib/girepository-1.0/AppStream-1.0.typelib",
+				"/usr/lib/girepository-1.0/AppStreamCompose-1.0.typelib",
+				"/usr/lib/libappstream-compose.so.0",
+				"/usr/lib/libappstream-compose.so.1.1.1",
 				"/usr/lib/libappstream.so.1.1.1",
 				"/usr/lib/libappstream.so.5",
 				"/usr/share/appstream/appstream.conf",
@@ -93,12 +103,15 @@
 				"/usr/share/locale/uk/LC_MESSAGES/appstream.mo",
 				"/usr/share/locale/zh_CN/LC_MESSAGES/appstream.mo",
 				"/usr/share/locale/zh_TW/LC_MESSAGES/appstream.mo",
+				"/usr/share/man/man1/appstreamcli-compose.1",
 				"/usr/share/man/man1/appstreamcli.1",
-				"/usr/share/metainfo/org.freedesktop.appstream.cli.metainfo.xml"
+				"/usr/share/metainfo/org.freedesktop.appstream.cli.metainfo.xml",
+				"/usr/share/metainfo/org.freedesktop.appstream.compose.metainfo.xml"
 			],
 			"name": "appstream",
 			"provides": [
 				"binary(appstreamcli)",
+				"soname(libappstream-compose.so.0(x86_64))",
 				"soname(libappstream.so.5(x86_64))"
 			]
 		},
@@ -131,6 +144,17 @@
 				"pkgconfig(gobject-2.0)"
 			],
 			"files": [
+				"/usr/include/appstream-compose/appstream-compose.h",
+				"/usr/include/appstream-compose/asc-compose.h",
+				"/usr/include/appstream-compose/asc-directory-unit.h",
+				"/usr/include/appstream-compose/asc-enums-types.h",
+				"/usr/include/appstream-compose/asc-globals.h",
+				"/usr/include/appstream-compose/asc-hint.h",
+				"/usr/include/appstream-compose/asc-icon-policy.h",
+				"/usr/include/appstream-compose/asc-image.h",
+				"/usr/include/appstream-compose/asc-result.h",
+				"/usr/include/appstream-compose/asc-unit.h",
+				"/usr/include/appstream-compose/asc-utils.h",
 				"/usr/include/appstream/appstream.h",
 				"/usr/include/appstream/as-agreement-section.h",
 				"/usr/include/appstream/as-agreement.h",
@@ -171,18 +195,22 @@
 				"/usr/include/appstream/as-vercmp.h",
 				"/usr/include/appstream/as-version.h",
 				"/usr/include/appstream/as-video.h",
+				"/usr/lib/libappstream-compose.so",
 				"/usr/lib/libappstream.so",
+				"/usr/lib/pkgconfig/appstream-compose.pc",
 				"/usr/lib/pkgconfig/appstream.pc",
 				"/usr/share/gettext/its/metainfo.its",
 				"/usr/share/gettext/its/metainfo.loc",
 				"/usr/share/gir-1.0/AppStream-1.0.gir",
+				"/usr/share/gir-1.0/AppStreamCompose-1.0.gir",
 				"/usr/share/installed-tests/appstream/metainfo-validate.test",
 				"/usr/share/vala/vapi/appstream.deps",
 				"/usr/share/vala/vapi/appstream.vapi"
 			],
 			"name": "appstream-devel",
 			"provides": [
-				"pkgconfig(appstream)"
+				"pkgconfig(appstream)",
+				"pkgconfig(appstream-compose)"
 			]
 		},
 		"appstream-qt6": {
@@ -290,6 +318,6 @@
 		}
 	},
 	"source-name": "appstream",
-	"source-release": "13",
+	"source-release": "14",
 	"source-version": "1.1.1"
 }
