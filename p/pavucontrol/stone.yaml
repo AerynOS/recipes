@@ -1,0 +1,33 @@
+#
+# SPDX-FileCopyrightText: © 2025- AerynOS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : pavucontrol
+version     : 6.2
+release     : 1
+homepage    : https://www.freedesktop.org/software/pulseaudio/pavucontrol/
+upstreams   :
+    - git|https://gitlab.freedesktop.org/pulseaudio/pavucontrol.git : d43ef2b5e8aaa73382ed2990354c24648f097a74
+summary     : PulseAudio Volume Control (pavucontrol) is a simple GTK based volume control tool ("mixer") for the PulseAudio sound server
+description : |
+    PulseAudio Volume Control (pavucontrol) is a simple GTK based volume control tool ("mixer") for the PulseAudio sound server
+license     : 
+    - GPL-2.0-or-later
+    - GPL-2.0-only
+builddeps   :
+    - binary(clang-tidy)
+    - binary(lynx)
+    - binary(msgfmt)
+    - pkgconfig(gtkmm-4.0)
+    - pkgconfig(json-glib-1.0)
+    - pkgconfig(libcanberra)
+    - pkgconfig(libpulse)
+    - pkgconfig(libpulse-mainloop-glib)
+    - pkgconfig(sigc++-3.0)
+setup       : |
+    %meson
+build       : |
+    %meson_build
+install     : |
+    %meson_install
