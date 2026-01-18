@@ -1,0 +1,42 @@
+#
+# SPDX-FileCopyrightText: © 2025- AerynOS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : quickshell
+version     : 0.2.1
+release     : 1
+homepage    : https://github.com/quickshell-mirror/quickshell
+upstreams   :
+    - https://github.com/quickshell-mirror/quickshell/archive/refs/tags/v0.2.1.tar.gz : 337bab5d4badb92e51d01ac1cfbeaeb784478bad82f3c8297fd7be42a6995af2
+summary     : Flexible QtQuick based desktop shell toolkit
+description : |
+    Quickshell is a toolkit for building status bars, widgets, lockscreens, and other desktop components using QtQuick. It can be used alongside your wayland compositor or window manager to build a complete desktop environment. 
+license     : 
+    - GPL-3.0-or-later
+    - LGPL-3.0-or-later
+    - GPL-3.0-only
+    - LGPL-3.0-only
+builddeps   :
+    - binary(pkgconf)
+    - cmake(Qt6Qml)
+    - cmake(Qt6ShaderTools)
+    - cmake(Qt6Svg)
+    - cmake(Qt6WaylandClientPrivate)
+    - pkgconfig(CLI11)
+    - pkgconfig(gbm)
+    - pkgconfig(jemalloc)
+    - pkgconfig(libdrm)
+    - pkgconfig(libpipewire-0.3)
+    - pkgconfig(pam)
+    - pkgconfig(wayland-protocols)
+setup       : |
+    %cmake -DDISTRIBUTOR="AerynOS" \
+           -DDISTRIBUTOR_DEBUGINFO_AVAILABLE=NO \
+           -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+           -DINSTALL_QML_PREFIX="lib/qt6/qml" \
+           -DCRASH_REPORTER=OFF
+build       : |
+    %cmake_build
+install     : |
+    %cmake_install
