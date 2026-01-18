@@ -1,0 +1,59 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"cli11": {
+			"files": [
+				"/usr/share/cmake/CLI11/CLI11Config.cmake",
+				"/usr/share/cmake/CLI11/CLI11ConfigVersion.cmake"
+			],
+			"name": "cli11",
+			"provides": [
+				"cmake(CLI11)"
+			]
+		},
+		"cli11-devel": {
+			"depends": [
+				"cli11"
+			],
+			"files": [
+				"/usr/include/CLI/App.hpp",
+				"/usr/include/CLI/Argv.hpp",
+				"/usr/include/CLI/CLI.hpp",
+				"/usr/include/CLI/Config.hpp",
+				"/usr/include/CLI/ConfigFwd.hpp",
+				"/usr/include/CLI/Encoding.hpp",
+				"/usr/include/CLI/Error.hpp",
+				"/usr/include/CLI/ExtraValidators.hpp",
+				"/usr/include/CLI/Formatter.hpp",
+				"/usr/include/CLI/FormatterFwd.hpp",
+				"/usr/include/CLI/Macros.hpp",
+				"/usr/include/CLI/Option.hpp",
+				"/usr/include/CLI/Split.hpp",
+				"/usr/include/CLI/StringTools.hpp",
+				"/usr/include/CLI/Timer.hpp",
+				"/usr/include/CLI/TypeTools.hpp",
+				"/usr/include/CLI/Validators.hpp",
+				"/usr/include/CLI/Version.hpp",
+				"/usr/include/CLI/impl/App_inl.hpp",
+				"/usr/include/CLI/impl/Argv_inl.hpp",
+				"/usr/include/CLI/impl/Config_inl.hpp",
+				"/usr/include/CLI/impl/Encoding_inl.hpp",
+				"/usr/include/CLI/impl/ExtraValidators_inl.hpp",
+				"/usr/include/CLI/impl/Formatter_inl.hpp",
+				"/usr/include/CLI/impl/Option_inl.hpp",
+				"/usr/include/CLI/impl/Split_inl.hpp",
+				"/usr/include/CLI/impl/StringTools_inl.hpp",
+				"/usr/include/CLI/impl/Validators_inl.hpp",
+				"/usr/share/pkgconfig/CLI11.pc"
+			],
+			"name": "cli11-devel",
+			"provides": [
+				"pkgconfig(CLI11)"
+			]
+		}
+	},
+	"source-name": "cli11",
+	"source-release": "1",
+	"source-version": "2.6.1"
+}

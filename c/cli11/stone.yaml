@@ -1,0 +1,24 @@
+#
+# SPDX-FileCopyrightText: © 2025- AerynOS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : cli11
+version     : 2.6.1
+release     : 1
+homepage    : https://github.com/CLIUtils/CLI11
+upstreams   :
+    - https://github.com/CLIUtils/CLI11/archive/refs/tags/v2.6.1.tar.gz : 377691f3fac2b340f12a2f79f523c780564578ba3d6eaf5238e9f35895d5ba95
+summary     : C++11 Command Line Interface Parser
+description : |
+    CLI11 is a command line parser for C++11 and beyond that provides a rich feature set with a simple and intuitive interface.
+license     : 
+    - BSD-3-Clause
+setup       : |
+    %cmake -W no-dev \
+           -DCLI11_BUILD_TESTS=OFF \
+           -DCLI11_BUILD_EXAMPLES=OFF
+build       : |
+    %cmake_build
+install     : |
+    %cmake_install
