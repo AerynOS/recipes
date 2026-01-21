@@ -5,7 +5,7 @@
 #
 name        : wlroots
 version     : 0.19.2
-release     : 8
+release     : 9
 homepage    : https://gitlab.freedesktop.org/wlroots/wlroots/
 upstreams   :
     - https://gitlab.freedesktop.org/wlroots/wlroots/-/releases/0.19.2/downloads/wlroots-0.19.2.tar.gz : 09a0a8d60104c8b0772fee4f60ba76a89aed7e59dff7659d00960fba06bdf267
@@ -40,10 +40,15 @@ builddeps   :
 rundeps     :
     - binary(Xwayland)
     - hwdata
+tuning      :
+    - lto: false
+    - symbolic: false
 setup       : |
     %meson
 build       : |
     %meson_build
+test        : |
+    %meson_test
 install     : |
     %meson_install
 
@@ -52,4 +57,4 @@ install     : |
 packages    :
     - "%(name)":
         paths:
-            - /usr/lib/*.so
+            - /usr/lib*/*.so
