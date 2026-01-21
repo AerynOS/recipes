@@ -1,0 +1,48 @@
+#
+# SPDX-FileCopyrightText: © 2025- AerynOS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : mangowc
+version     : 0.10.10
+release     : 1
+homepage    : https://github.com/DreamMaoMao/mangowc
+upstreams   :
+    - https://github.com/DreamMaoMao/mangowc/archive/refs/tags/0.10.10.tar.gz : 34c63ee8d7b6fa7404f21cbfcfd10141821aab216d3217a6de5eeac8f5a537c0
+summary     : A Wayland compositor with smooth animation
+description : |
+    A wayland compositor utilizing wlroots as a base and SceneFX for aesthetics
+license     : 
+    - GPL-3.0-or-later
+builddeps   :
+    - binary(g++)
+    - binary(git)
+    - binary(meson)
+    - binary(Xwayland)
+    
+    - pkgconfig(hwdata)
+    - pkgconfig(libdisplay-info)
+    - pkgconfig(libdrm)
+    - pkgconfig(libinput)
+    - pkgconfig(libliftoff)
+    - pkgconfig(libseat)
+    - pkgconfig(libpcre2-8)
+    - pkgconfig(pixman-1)
+    - pkgconfig(scenefx)
+    - pkgconfig(wayland-client)
+    - pkgconfig(wayland-protocols)
+    - pkgconfig(wayland-server)
+    - pkgconfig(wlroots)
+    - pkgconfig(xi)
+    - pkgconfig(xcb)
+    - pkgconfig(xkbcommon)
+    - pkgconfig(xwayland)
+setup       : |
+    %meson
+build       : |
+    %meson_build
+install     : |
+    %meson_install
+
+    %install_dir %(installroot)%(vendordir)/mango
+    %install_file config.conf %(installroot)%(vendordir)/mango/.
