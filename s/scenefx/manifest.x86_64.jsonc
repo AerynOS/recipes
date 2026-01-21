@@ -1,0 +1,80 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"scenefx": {
+			"build-depends": [
+				"binary(g++)",
+				"binary(meson)",
+				"pkgconfig(libdrm)",
+				"pkgconfig(libglvnd)",
+				"pkgconfig(pixman-1)",
+				"pkgconfig(wayland-protocols)",
+				"pkgconfig(wayland-server)",
+				"pkgconfig(wlroots)",
+				"pkgconfig(xkbcommon)"
+			],
+			"depends": [
+				"soname(libEGL.so.1(x86_64))",
+				"soname(libGLESv2.so.2(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libdrm.so.2(x86_64))",
+				"soname(libgbm.so.1(x86_64))",
+				"soname(libm.so.6(x86_64))",
+				"soname(libpixman-1.so.0(x86_64))",
+				"soname(libwayland-server.so.0(x86_64))",
+				"soname(libwlroots-0.19.so(x86_64))"
+			],
+			"files": [
+				"/usr/lib/libscenefx-0.4.so"
+			],
+			"name": "scenefx",
+			"provides": [
+				"soname(libscenefx-0.4.so(x86_64))"
+			]
+		},
+		"scenefx-devel": {
+			"build-depends": [
+				"binary(g++)",
+				"binary(meson)",
+				"pkgconfig(libdrm)",
+				"pkgconfig(libglvnd)",
+				"pkgconfig(pixman-1)",
+				"pkgconfig(wayland-protocols)",
+				"pkgconfig(wayland-server)",
+				"pkgconfig(wlroots)",
+				"pkgconfig(xkbcommon)"
+			],
+			"depends": [
+				"pkgconfig(egl)",
+				"pkgconfig(gbm)",
+				"pkgconfig(glesv2)",
+				"pkgconfig(libdrm)",
+				"pkgconfig(pixman-1)",
+				"pkgconfig(wayland-server)",
+				"pkgconfig(wlroots-0.19)",
+				"pkgconfig(xkbcommon)",
+				"scenefx"
+			],
+			"files": [
+				"/usr/include/scenefx-0.4/scenefx/render/fx_renderer/fx_effect_framebuffers.h",
+				"/usr/include/scenefx-0.4/scenefx/render/fx_renderer/fx_renderer.h",
+				"/usr/include/scenefx-0.4/scenefx/render/pass.h",
+				"/usr/include/scenefx-0.4/scenefx/types/fx/blur_data.h",
+				"/usr/include/scenefx-0.4/scenefx/types/fx/clipped_region.h",
+				"/usr/include/scenefx-0.4/scenefx/types/fx/corner_location.h",
+				"/usr/include/scenefx-0.4/scenefx/types/wlr_scene.h",
+				"/usr/lib/pkgconfig/scenefx-0.4.pc",
+				"/usr/lib/pkgconfig/scenefx.pc"
+			],
+			"name": "scenefx-devel",
+			"provides": [
+				"pkgconfig(scenefx)",
+				"pkgconfig(scenefx-0.4)"
+			]
+		}
+	},
+	"source-name": "scenefx",
+	"source-release": "1",
+	"source-version": "0.4.1"
+}
