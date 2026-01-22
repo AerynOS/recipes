@@ -4,6 +4,7 @@
 	"packages": {
 		"libstone": {
 			"build-depends": [
+				"binary(patchelf)",
 				"cargo-c"
 			],
 			"depends": [
@@ -12,16 +13,19 @@
 				"soname(libgcc_s.so.1(x86_64))"
 			],
 			"files": [
+				"/usr/lib/libstone.so.0",
 				"/usr/lib/libstone.so.0.24",
 				"/usr/lib/libstone.so.0.24.7"
 			],
 			"name": "libstone",
 			"provides": [
+				"soname(libstone.so.0(x86_64))",
 				"soname(libstone.so.0.24(x86_64))"
 			]
 		},
 		"libstone-devel": {
 			"build-depends": [
+				"binary(patchelf)",
 				"cargo-c"
 			],
 			"depends": [
@@ -39,6 +43,6 @@
 		}
 	},
 	"source-name": "libstone",
-	"source-release": "4",
-	"source-version": "0.0.1"
+	"source-release": "6",
+	"source-version": "0.24.7+64eafc2"
 }

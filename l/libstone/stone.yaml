@@ -4,8 +4,8 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : libstone
-version     : 0.0.1
-release     : 4
+version     : 0.24.7+64eafc2
+release     : 6
 homepage    : https://github.com/serpent-os/tools
 upstreams   :
     - https://github.com/serpent-os/tools/archive/64eafc2a67b9a46fbf35f025bb4908363894cdba.tar.gz : 90dd22784d79a61e585a7385c8f2c4646de4fb529abe4b3f0b40e6878ff08205
@@ -15,6 +15,7 @@ description : |
 license     : MPL-2.0
 networking  : yes
 builddeps   :
+    - binary(patchelf)
     - cargo-c
 setup       : |
     %cargo_fetch
@@ -32,5 +33,20 @@ install     : |
       --release \
       --frozen \
       --prefix=/usr
+
+    soname=$(readlink %(installroot)%(libdir)/libstone.so)
+
+    # Temporary fix, ensure DT_SONAME `so.0.24` is kept as provider since
+    # `libarchive` depends on this and we want to expose `so.0` / major version
+    # as the provided DT_SONAME
+    rm %(installroot)%(libdir)/libstone.so.0.24
+    cp %(installroot)%(libdir)/$soname %(installroot)%(libdir)/libstone.so.0.24
+
+    # Expose major version as DT_SONAME to avoid minor version link breakage
+    #
+    # Rust follows symver and doesn't do this by default for `0.x.x` pre-stable
+    # version. Until we stabilize `libstone` to `1.x.x`, this is needed
+    ln -s $soname %(installroot)%(libdir)/libstone.so.0
+    patchelf --set-soname libstone.so.0 %(installroot)%(libdir)/$soname
 
     rm -v %(installroot)%(libdir)/*.a
