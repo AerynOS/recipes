@@ -1,0 +1,30 @@
+#
+# SPDX-FileCopyrightText: © 2026- AerynOS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : ttyd
+version     : 1.7.7
+release     : 1
+homepage    : https://github.com/tsl0922/ttyd
+upstreams   :
+    - https://github.com/tsl0922/ttyd/archive/refs/tags/1.7.7.tar.gz : 039dd995229377caee919898b7bd54484accec3bba49c118e2d5cd6ec51e3650
+summary     : Share your terminal over the web
+description : |
+    ttyd is a simple command-line tool for sharing terminal over the web.
+license     : 
+    - JSON
+    - MIT
+    - Xnet
+builddeps   :
+    - pkgconfig(json-c)
+    - pkgconfig(libwebsockets)
+    - pkgconfig(libuv)
+    - pkgconfig(openssl)
+    - pkgconfig(zlib)
+setup       : |
+    %cmake
+build       : |
+    %cmake_build
+install     : |
+    %cmake_install
