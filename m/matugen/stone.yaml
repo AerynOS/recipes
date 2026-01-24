@@ -18,10 +18,10 @@ description : |
 license     :
     - GPL-2.0-only
 networking  : true
-builddeps   :
-    - binary(git)
-    - binary(cargo)
-    - binary(rustc)
+builddeps:
+  - binary(cargo)
+  - binary(git)
+  - binary(rustc)
 build       : |
     cargo build --release --locked
 install     : |
