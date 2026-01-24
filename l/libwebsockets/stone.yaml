@@ -1,0 +1,36 @@
+#
+# SPDX-FileCopyrightText: © 2025- AerynOS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : libwebsockets
+version     : "4.5.2"
+release     : 1
+homepage    : https://github.com/warmcat/libwebsockets
+upstreams   :
+    - https://github.com/warmcat/libwebsockets/archive/refs/tags/v4.5.2.tar.gz : 04244efb7a6438c8c6bfc79b21214db5950f72c9cf57e980af57ca321aae87b2
+summary     : Lightweight C networking library
+description : |
+    Libwebsockets (LWS) is a flexible, lightweight pure C library for implementing modern network protocols easily with a tiny footprint, using a nonblocking event loop.
+license     :
+    - Apache-2.0
+    - BSD-2-Clause
+    - BSD-3-Clause
+    - CC0-1.0
+    - MIT
+    - OFL-1.1
+    - Zlib
+builddeps   :
+    - pkgconfig(libuv)
+    - pkgconfig(openssl)
+    - pkgconfig(zlib)
+setup       : |
+    # Ensure openssl.cnf can be found in %(vendordir)
+    %patch %(pkgdir)/stateless-openssl.cnf-location.patch
+    
+    %cmake \
+        -DLWS_WITH_LIBUV=ON
+build       : |
+    %cmake_build
+install     : |
+    %cmake_install
