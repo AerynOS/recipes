@@ -1,0 +1,27 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"vhs": {
+			"build-depends": [
+				"binary(go)"
+			],
+			"depends": [
+				"binary(ffmpeg)",
+				"binary(ttyd)",
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(libc.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/bin/vhs"
+			],
+			"name": "vhs",
+			"provides": [
+				"binary(vhs)"
+			]
+		}
+	},
+	"source-name": "vhs",
+	"source-release": "1",
+	"source-version": "0.10.0"
+}

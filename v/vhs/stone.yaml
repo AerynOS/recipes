@@ -1,0 +1,34 @@
+#
+# SPDX-FileCopyrightText: © 2025- AerynOS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : vhs
+version     : "0.10.0"
+release     : 1
+homepage    : https://github.com/charmbracelet/vhs
+upstreams   :
+    - https://github.com/charmbracelet/vhs/archive/refs/tags/v0.10.0.tar.gz : ae37fe7e52ade753f850ab81c7d5344f8e540ab6886f877bf5b613620c909893
+summary     : Your CLI home video recorder
+description : |
+    Write terminal GIFs as code for integration testing and demoing your CLI tools.
+license     : 
+    - JSON
+    - MIT
+    - Xnet
+builddeps   :
+    - binary(go)
+rundeps     :
+    - binary(ffmpeg)
+    - binary(ttyd)
+networking  : true
+setup       : |
+    go mod vendor
+build       : |
+    # Update themes -- it appears they get compiled in.
+    %make
+
+    go build
+install     : |
+    %install_bin vhs
+    
