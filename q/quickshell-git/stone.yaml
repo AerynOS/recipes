@@ -18,26 +18,26 @@ license     :
     - LGPL-3.0-or-later
     - GPL-3.0-only
     - LGPL-3.0-only
-builddeps   :
-    - binary(git)
-    - binary(pkgconf)
-    - cmake(Qt6Qml)
-    - cmake(Qt6ShaderTools)
-    - cmake(Qt6Svg)
-    - cmake(Qt6WaylandClientPrivate)
-    - pkgconfig(CLI11)
-    - pkgconfig(wayland-client)
-    - pkgconfig(wayland-egl)
-    - pkgconfig(wayland-cursor)
-    - pkgconfig(wayland-protocols)
-    - pkgconfig(xkbcommon)
-    - pkgconfig(libdrm)
-    - pkgconfig(gbm)
-    - pkgconfig(libpipewire-0.3)
-    - pkgconfig(pam)
-    - pkgconfig(jemalloc)
-    - pkgconfig(polkit-agent-1)
-    - spirv-tools
+builddeps:
+  - binary(git)
+  - binary(pkgconf)
+  - cmake(Qt6Qml)
+  - cmake(Qt6ShaderTools)
+  - cmake(Qt6Svg)
+  - cmake(Qt6WaylandClientPrivate)
+  - pkgconfig(CLI11)
+  - pkgconfig(gbm)
+  - pkgconfig(jemalloc)
+  - pkgconfig(libdrm)
+  - pkgconfig(libpipewire-0.3)
+  - pkgconfig(pam)
+  - pkgconfig(polkit-agent-1)
+  - pkgconfig(wayland-client)
+  - pkgconfig(wayland-cursor)
+  - pkgconfig(wayland-egl)
+  - pkgconfig(wayland-protocols)
+  - pkgconfig(xkbcommon)
+  - spirv-tools
 setup       : |
     %cmake -DDISTRIBUTOR="AerynOS (quickshell-git)" \
            -DDISTRIBUTOR_DEBUGINFO_AVAILABLE=NO \
