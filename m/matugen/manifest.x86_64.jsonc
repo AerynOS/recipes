@@ -1,0 +1,30 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"matugen": {
+			"build-depends": [
+				"binary(cargo)",
+				"binary(git)",
+				"binary(rustc)"
+			],
+			"depends": [
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(ld-linux-x86-64.so.2(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libm.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/bin/matugen"
+			],
+			"name": "matugen",
+			"provides": [
+				"binary(matugen)"
+			]
+		}
+	},
+	"source-name": "matugen",
+	"source-release": "1",
+	"source-version": "3.1.0"
+}

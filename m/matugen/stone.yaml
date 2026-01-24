@@ -1,0 +1,29 @@
+#
+# SPDX-FileCopyrightText: © 2025- AerynOS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : matugen
+version     : 3.1.0
+release     : 1
+homepage    : https://github.com/InioX/matugen
+upstreams   :
+    - https://github.com/InioX/matugen/archive/refs/tags/v3.1.0.tar.gz : f00b7bd284ef6184a0c94d54cb745230c6e58f26012491eaf7f7bcea0f3a489b
+summary     : Material You color palette generator (git snapshot)
+description : |
+    Matugen generates Material You color palettes from images or colors and
+    applies them to templates and configuration files.
+
+    This package tracks the upstream git repository, pinned to an immutable ref.
+license     :
+    - GPL-2.0-only
+networking  : true
+builddeps   :
+    - binary(git)
+    - binary(cargo)
+    - binary(rustc)
+build       : |
+    cargo build --release --locked
+install     : |
+    install -Dm0755 target/release/matugen %(installroot)/usr/bin/matugen
+
