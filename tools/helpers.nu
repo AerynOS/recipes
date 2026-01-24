@@ -7,7 +7,7 @@ use std null-device
 
 # Check AerynOS package is latest in recipes repo.
 export def checkupdate [
-  ...packages: string@package_list_strict
+  ...packages: string@package_list_strict # Package name(s) to check
   --no-color (-C) # Don't color the status ouptut
 ]: nothing -> table {
 
@@ -17,7 +17,7 @@ export def checkupdate [
   } else {
     $packages
   }
-  | each {|package|
+  | par-each {|package|
     (
       $AOS_REPO_PATH
       | path join ($package | split chars | first) $package
@@ -65,28 +65,40 @@ export def checkupdate [
 
 # Primitive CPE search tool
 export def cpesearch [
-  package?: string@package_list # Package name
+  ...packages: string@package_list # Package name(s) to search for
 ]: nothing -> table {
-  mut target = $package
-  if ($package | is-empty) {
+  if ($packages | is-empty) {
     print "Warning: No paramaters passed, using current directory name. Pass --help to see usage"
-    $target = pwd | path basename
+    pwd | path basename
+  } else {
+    $packages
   }
-
-  http post --content-type application/json $CPE_SEARCH_URL ({query: [$target]})
-  | each {|cpe_result|
-    { cpe_id: $cpe_result.0 trash: (
+  | each {|package|
+    http post --content-type application/json $CPE_SEARCH_URL ({query: [$package]})
+    | each {|cpe_result|
+      [[cpe_id]; [$cpe_result.0]]
+      | merge (
         $cpe_result.1
         | str replace $CPE_COMMON_PREFIX ''
         | split column : -n 2
         | rename vendor product
       )
+      | insert cve_link {|row|
+        $"https://cve.circl.lu/search?vendor=($row.vendor)&product=($row.product)"
+        | ansi link
+      }
     }
-  } | flatten | flatten
-  | insert cve_link {|row|
-    $"https://cve.circl.lu/search?vendor=($row.vendor)&product=($row.product)"
-    | ansi link
+    | flatten
+    | $in | insert name $package
   }
+  | flatten
+  | group-by --to-table name
+  | update items {reject name}
+  | rename -c {items: results}
+  | do {|table,packages|
+    let empty_names = $packages | where {not ($in in $table.name)}
+    $empty_names | reduce -f $table {|it, acc| $acc | append {name: $it}}
+  } $in $packages
 }
 
 # Go to the root directory of the AerynOS recipes
