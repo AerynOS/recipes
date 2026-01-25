@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : yubikey-manager
-version     : 5.8.0
-release     : 1
+version     : 5.9.0
+release     : 2
 homepage    : https://developers.yubico.com/yubikey-manager/
 upstreams   :
-    - https://github.com/Yubico/yubikey-manager/releases/download/5.8.0/yubikey_manager-5.8.0.tar.gz : 3af0da65e1fdd46763c94ee74e2da55a4b6e7771da776c197f5f4b4581738560
+    - https://github.com/Yubico/yubikey-manager/releases/download/5.9.0/yubikey_manager-5.9.0.tar.gz : fb97e8013d426d5107602152b151e32a099204617b34e8673497346c902e96f7
 summary     : Command line utility for configuring your YubiKey
 description : |
     Python library and command line tool for configuring any YubiKey over all USB transports.
@@ -22,6 +22,7 @@ builddeps   :
     - python(keyring)
     - python(poetry-core)
     - python(pyscard)
+    - python(python-pskc)
 rundeps     :
     - ccid
     - pcsclite
@@ -30,6 +31,7 @@ rundeps     :
     - python(fido2)
     - python(keyring)
     - python(pyscard)
+    - python(python-pskc)
 build       : |
     %pyproject_build
 install     : |

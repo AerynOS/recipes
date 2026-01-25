@@ -11,7 +11,8 @@
 				"python(installer)",
 				"python(keyring)",
 				"python(poetry-core)",
-				"python(pyscard)"
+				"python(pyscard)",
+				"python(python-pskc)"
 			],
 			"depends": [
 				"ccid",
@@ -20,7 +21,8 @@
 				"python(cryptography)",
 				"python(fido2)",
 				"python(keyring)",
-				"python(pyscard)"
+				"python(pyscard)",
+				"python(python-pskc)"
 			],
 			"files": [
 				"/usr/bin/ykman",
@@ -163,11 +165,11 @@
 				"/usr/lib/python3.11/site-packages/ykman/scripting.py",
 				"/usr/lib/python3.11/site-packages/ykman/settings.py",
 				"/usr/lib/python3.11/site-packages/ykman/util.py",
-				"/usr/lib/python3.11/site-packages/yubikey_manager-5.8.0.dist-info/METADATA",
-				"/usr/lib/python3.11/site-packages/yubikey_manager-5.8.0.dist-info/RECORD",
-				"/usr/lib/python3.11/site-packages/yubikey_manager-5.8.0.dist-info/WHEEL",
-				"/usr/lib/python3.11/site-packages/yubikey_manager-5.8.0.dist-info/entry_points.txt",
-				"/usr/lib/python3.11/site-packages/yubikey_manager-5.8.0.dist-info/licenses/COPYING",
+				"/usr/lib/python3.11/site-packages/yubikey_manager-5.9.0.dist-info/METADATA",
+				"/usr/lib/python3.11/site-packages/yubikey_manager-5.9.0.dist-info/RECORD",
+				"/usr/lib/python3.11/site-packages/yubikey_manager-5.9.0.dist-info/WHEEL",
+				"/usr/lib/python3.11/site-packages/yubikey_manager-5.9.0.dist-info/entry_points.txt",
+				"/usr/lib/python3.11/site-packages/yubikey_manager-5.9.0.dist-info/licenses/COPYING",
 				"/usr/lib/python3.11/site-packages/yubikit/__init__.py",
 				"/usr/lib/python3.11/site-packages/yubikit/__pycache__/__init__.cpython-311.opt-1.pyc",
 				"/usr/lib/python3.11/site-packages/yubikit/__pycache__/__init__.cpython-311.pyc",
@@ -228,6 +230,6 @@
 		}
 	},
 	"source-name": "yubikey-manager",
-	"source-release": "1",
-	"source-version": "5.8.0"
+	"source-release": "2",
+	"source-version": "5.9.0"
 }
