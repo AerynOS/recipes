@@ -1,0 +1,38 @@
+name        : gpu-screen-recorder
+version     : 5.12.2
+release     : 1
+homepage    : https://git.dec05eba.com/gpu-screen-recorder/about/
+license     : GPL-3.0-only
+summary     : An extremely fast hardware-accelerated screen recorder
+description : |
+    GPU Screen Recorder is a high-performance screen recorder for Linux that
+    minimizes system overhead by leveraging GPU hardware encoding. It can be
+    used for local recording, streaming, and instant-replay workflows.
+upstreams   :
+    - git|https://repo.dec05eba.com/gpu-screen-recorder : c1af14340657daa39aa177e301bbde01aafa62fd
+builddeps   :
+    - binary(meson)
+    - binary(ninja)
+    - binary(pkgconf)
+    - pkgconfig(dbus-1)
+    - pkgconfig(libcap)
+    - pkgconfig(libdrm)
+    - pkgconfig(libglvnd)
+    - pkgconfig(libpipewire-0.3)
+    - pkgconfig(libpulse)
+    - pkgconfig(libva)
+    - pkgconfig(vulkan)
+    - pkgconfig(wayland-client)
+    - pkgconfig(x11)
+    - pkgconfig(xcomposite)
+    - pkgconfig(xdamage)
+    - pkgconfig(xrandr)
+    - libavcodec-devel
+    - libavfilter-devel
+    - libavformat-devel
+setup       : |
+    %meson -Dcapabilities=false
+build       : |
+    %meson_build
+install     : |
+    %meson_install
