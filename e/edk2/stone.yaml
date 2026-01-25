@@ -5,7 +5,7 @@
 #
 name        : edk2
 version     : "202511"
-release     : 4
+release     : 5
 upstreams   :
     - git|https://github.com/tianocore/edk2 : 46548b1adac82211d8d11da12dd914f41e7aa775
 homepage    : https://github.com/tianocore/tianocore.github.io/wiki/EDK-II
@@ -26,7 +26,7 @@ builddeps   :
     - binary(python3)
     - pkgconfig(uuid)
 environment : |
-    _BUILD_ARCHS=(AARCH64 X64)
+    _BUILD_ARCHS=(AARCH64 RISCV64 X64)
 
     # Options that should be used by every build, including the shells
     _CC_OPTS=(
@@ -85,6 +85,25 @@ build       : |
                 dd if=/dev/zero of=Build/ArmVirtQemu-AArch64/RELEASE_CLANGDWARF/FV/QEMU_VARS.fd bs=1M count=64
             ;;
 
+            RISCV64)
+                echo "Building RiscVVirtPkg ($_ARCH) with secure boot support"
+                _build_options=(
+                    -p OvmfPkg/RiscVVirt/RiscVVirtQemu.dsc
+                    -a "$_ARCH"
+                    "${_CC_OPTS[@]}"
+                    "${_EFI_OPTS[@]}"
+                    "${_NETWORK_TLS[@]}"
+                    # -D SECURE_BOOT_ENABLE Haven't figured out how to enable
+                )
+                BaseTools/BinWrappers/PosixLike/build "${_build_options[@]}"
+                dd if=/dev/zero of=Build/RiscVVirtQemu/RELEASE_CLANGDWARF/FV/RISCV_VIRT_CODE.fd.tmp bs=1M count=32
+                dd if=Build/RiscVVirtQemu/RELEASE_CLANGDWARF/FV/RISCV_VIRT_CODE.fd of=Build/RiscVVirtQemu/RELEASE_CLANGDWARF/FV/RISCV_VIRT_CODE.fd.tmp conv=notrunc
+                mv -v Build/RiscVVirtQemu/RELEASE_CLANGDWARF/FV/RISCV_VIRT_CODE.fd{.tmp,}
+                dd if=/dev/zero of=Build/RiscVVirtQemu/RELEASE_CLANGDWARF/FV/RISCV_VIRT_VARS.fd.tmp bs=1M count=32
+                dd if=Build/RiscVVirtQemu/RELEASE_CLANGDWARF/FV/RISCV_VIRT_VARS.fd of=Build/RiscVVirtQemu/RELEASE_CLANGDWARF/FV/RISCV_VIRT_VARS.fd.tmp conv=notrunc
+                mv -v Build/RiscVVirtQemu/RELEASE_CLANGDWARF/FV/RISCV_VIRT_VARS.fd{.tmp,}
+            ;;
+
             X64)
                 echo "Building ovmf ($_ARCH) with microvm support (4MB FD)"
                 _build_options=(
@@ -131,6 +150,9 @@ install     : |
     # AARCH64
     %install_file Build/ArmVirtQemu-AArch64/RELEASE_CLANGDWARF/FV/*.fd -t %(installroot)/usr/share/%(name)/aarch64/
 
+    # RISCV64
+    %install_file Build/RiscVVirtQemu/RELEASE_CLANGDWARF/FV/*.fd -t %(installroot)/usr/share/%(name)/riscv64/
+
     # X64
     %install_file Build/OvmfX64-4mb/RELEASE_CLANGDWARF/FV/OVMF_CODE.fd %(installroot)/usr/share/%(name)/x64/OVMF_CODE.4m.fd
     %install_file Build/OvmfX64-4mb/RELEASE_CLANGDWARF/FV/OVMF_VARS.fd %(installroot)/usr/share/%(name)/x64/OVMF_VARS.4m.fd
@@ -148,6 +170,13 @@ packages    :
         paths:
             - /usr/share/edk2/aarch64/
             - /usr/share/qemu/firmware/*aarch64*.json
+
+    - "%(name)-riscv64":
+        summary: Firmware for Virtual Machines (RISCV64)
+        description: Firmware for Virtual Machines (RISCV64)
+        paths:
+            - /usr/share/edk2/riscv64/
+            - /usr/share/qemu/firmware/*riscv64*.json
 
     - "%(name)-ovmf":
         summary: Firmware for Virtual Machines (x86_64)
