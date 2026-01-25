@@ -1,0 +1,23 @@
+#
+# SPDX-FileCopyrightText: © 2025- AerynOS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : python-dateutil
+version     : 2.9.0.post0
+release     : 1
+homepage    : https://pypi.org/project/python-dateutil
+upstreams   :
+    - https://files.pythonhosted.org/packages/66/c0/0c8b6ad9f17a802ee498c46e004a0eb49bc148f2fd230864601a86dcf6db/python-dateutil-2.9.0.post0.tar.gz : 37dd54208da7e1cd875388217d5e00ebd4179249f90fb72437e91a35459a0ad3
+summary     : Extensions to the standard Python datetime module
+description : |
+    The dateutil module provides powerful extensions to the standard datetime module, available in Python.
+license     : Apache-2.0
+builddeps   :
+    - python(setuptools-scm)
+rundeps     :
+    - python(six)
+build       : |
+    %python_setup
+install     : |
+    %python_install
