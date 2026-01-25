@@ -1,0 +1,78 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"python-pskc": {
+			"build-depends": [
+				"python(cryptography)",
+				"python(python-dateutil)"
+			],
+			"depends": [
+				"python(cryptography)",
+				"python(python-dateutil)"
+			],
+			"files": [
+				"/usr/bin/csv2pskc",
+				"/usr/bin/pskc2csv",
+				"/usr/bin/pskc2pskc",
+				"/usr/lib/python3.11/site-packages/pskc/__init__.py",
+				"/usr/lib/python3.11/site-packages/pskc/__pycache__/__init__.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/pskc/__pycache__/algorithms.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/pskc/__pycache__/device.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/pskc/__pycache__/encryption.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/pskc/__pycache__/exceptions.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/pskc/__pycache__/key.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/pskc/__pycache__/mac.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/pskc/__pycache__/parser.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/pskc/__pycache__/policy.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/pskc/__pycache__/serialiser.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/pskc/__pycache__/signature.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/pskc/__pycache__/xml.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/pskc/algorithms.py",
+				"/usr/lib/python3.11/site-packages/pskc/crypto/__init__.py",
+				"/usr/lib/python3.11/site-packages/pskc/crypto/__pycache__/__init__.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/pskc/crypto/__pycache__/aeskw.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/pskc/crypto/__pycache__/tripledeskw.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/pskc/crypto/aeskw.py",
+				"/usr/lib/python3.11/site-packages/pskc/crypto/tripledeskw.py",
+				"/usr/lib/python3.11/site-packages/pskc/device.py",
+				"/usr/lib/python3.11/site-packages/pskc/encryption.py",
+				"/usr/lib/python3.11/site-packages/pskc/exceptions.py",
+				"/usr/lib/python3.11/site-packages/pskc/key.py",
+				"/usr/lib/python3.11/site-packages/pskc/mac.py",
+				"/usr/lib/python3.11/site-packages/pskc/parser.py",
+				"/usr/lib/python3.11/site-packages/pskc/policy.py",
+				"/usr/lib/python3.11/site-packages/pskc/py.typed",
+				"/usr/lib/python3.11/site-packages/pskc/scripts/__init__.py",
+				"/usr/lib/python3.11/site-packages/pskc/scripts/__pycache__/__init__.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/pskc/scripts/__pycache__/csv2pskc.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/pskc/scripts/__pycache__/pskc2csv.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/pskc/scripts/__pycache__/pskc2pskc.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/pskc/scripts/__pycache__/util.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/pskc/scripts/csv2pskc.py",
+				"/usr/lib/python3.11/site-packages/pskc/scripts/pskc2csv.py",
+				"/usr/lib/python3.11/site-packages/pskc/scripts/pskc2pskc.py",
+				"/usr/lib/python3.11/site-packages/pskc/scripts/util.py",
+				"/usr/lib/python3.11/site-packages/pskc/serialiser.py",
+				"/usr/lib/python3.11/site-packages/pskc/signature.py",
+				"/usr/lib/python3.11/site-packages/pskc/xml.py",
+				"/usr/lib/python3.11/site-packages/python_pskc-1.4-py3.11.egg-info/PKG-INFO",
+				"/usr/lib/python3.11/site-packages/python_pskc-1.4-py3.11.egg-info/SOURCES.txt",
+				"/usr/lib/python3.11/site-packages/python_pskc-1.4-py3.11.egg-info/dependency_links.txt",
+				"/usr/lib/python3.11/site-packages/python_pskc-1.4-py3.11.egg-info/entry_points.txt",
+				"/usr/lib/python3.11/site-packages/python_pskc-1.4-py3.11.egg-info/requires.txt",
+				"/usr/lib/python3.11/site-packages/python_pskc-1.4-py3.11.egg-info/top_level.txt"
+			],
+			"name": "python-pskc",
+			"provides": [
+				"binary(csv2pskc)",
+				"binary(pskc2csv)",
+				"binary(pskc2pskc)",
+				"python(python-pskc)"
+			]
+		}
+	},
+	"source-name": "python-pskc",
+	"source-release": "1",
+	"source-version": "1.4"
+}

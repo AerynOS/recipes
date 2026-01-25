@@ -1,0 +1,27 @@
+#
+# SPDX-FileCopyrightText: © 2025- AerynOS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : python-pskc
+version     : 1.4
+release     : 1
+homepage    : https://pypi.org/project/python_pskc
+upstreams   :
+    - https://files.pythonhosted.org/packages/source/p/python_pskc/python_pskc-1.4.tar.gz : 4a36381446ca067be728b30e01b4d18dbd9d1ad553bf07c3710abcd87653eefe
+summary     : Python module for handling PSKC files
+description : |
+    A Python module to handle Portable Symmetric Key Container (PSKC) files as defined in RFC 6030.
+    PSKC files are used to transport and provision symmetric keys and key meta data (seed files) to
+    different types of crypto modules, commonly one-time password systems or other authentication devices.
+license     : LGPL-2.1-or-later
+builddeps     :
+    - python(cryptography)
+    - python(python-dateutil)
+rundeps     :
+    - python(cryptography)
+    - python(python-dateutil)
+build       : |
+    %python_setup
+install     : |
+    %python_install
