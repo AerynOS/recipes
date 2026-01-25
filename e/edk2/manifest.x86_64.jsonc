@@ -38,9 +38,25 @@
 				"/usr/share/qemu/firmware/60-edk2-ovmf-x86_64-4m.json"
 			],
 			"name": "edk2-ovmf"
+		},
+		"edk2-riscv64": {
+			"build-depends": [
+				"binary(dd)",
+				"binary(iasl)",
+				"binary(make)",
+				"binary(nasm)",
+				"binary(python3)",
+				"pkgconfig(uuid)"
+			],
+			"files": [
+				"/usr/share/edk2/riscv64/RISCV_VIRT_CODE.fd",
+				"/usr/share/edk2/riscv64/RISCV_VIRT_VARS.fd",
+				"/usr/share/qemu/firmware/60-edk2-riscv64.json"
+			],
+			"name": "edk2-riscv64"
 		}
 	},
 	"source-name": "edk2",
-	"source-release": "4",
+	"source-release": "5",
 	"source-version": "202511"
 }
