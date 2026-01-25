@@ -5,7 +5,7 @@
 #
 name        : qemu
 version     : 10.1.3
-release     : 25
+release     : 26
 homepage    : http://www.qemu.org/
 upstreams   :
     - https://download.qemu.org/qemu-10.1.3.tar.xz : fbaa7a0d7a9a1deb5695b125916746ec28fe0de6275d4454f3e3bbaf8b339b53
@@ -78,9 +78,8 @@ builddeps   :
     # - libcacard
     # - libxdp
 setup       : |
-    # TODO: Build RISCV support and split out
     %configure \
-        --target-list=aarch64-softmmu,aarch64-linux-user,arm-softmmu,arm-linux-user,i386-softmmu,i386-linux-user,x86_64-softmmu,x86_64-linux-user \
+        --target-list=aarch64-softmmu,aarch64-linux-user,arm-softmmu,arm-linux-user,i386-softmmu,i386-linux-user,riscv64-softmmu,riscv64-linux-user,x86_64-softmmu,x86_64-linux-user \
         -Db_lto=true \
         -Db_lto_mode=thin \
         -Dmodules=enabled
@@ -97,11 +96,14 @@ install     : |
         --qemu-path "%(bindir)" \
         --persistent yes \
         --preserve-argv0 yes
+        
+    %break_exit
 
     # Delete binfmt entries for any targets we don't support
     find %(installroot)%(libdir)/binfmt.d/ -maxdepth 1 \
         ! -name 'qemu-aarch64.conf' \
         ! -name 'qemu-arm.conf' \
+        ! -name 'qemu-riscv64.conf' \
         -type f -exec rm -v {} +
 
     %install_file %(pkgdir)/qemu-guest-agent.service -t %(installroot)/%(libdir)/systemd/system/
@@ -130,6 +132,8 @@ install     : |
     # Deprecated
     %install_dir %(installroot)%(docdir)/%(name)/
     echo "DEPRECATED" > %(installroot)%(docdir)/%(name)/README
+    
+    %break_exit
 packages    :
     - "%(name)-guest-agent":
         paths:
@@ -485,6 +489,15 @@ packages    :
             - /usr/bin/qemu-arm
             - /usr/lib/binfmt.d/qemu-arm.conf
 
+    - "%(name)-user-riscv64":
+        summary: QEMU user mode emulation - riscv64
+        description: QEMU user mode emulation - riscv64
+        rundeps:
+            - "%(name)-common"
+        paths:
+            - /usr/bin/qemu-riscv64
+            - /usr/lib/binfmt.d/qemu-riscv64.conf
+
     - "%(name)-system-x86":
         summary: QEMU system emulator for x86
         description: QEMU system emulator for x86
@@ -534,6 +547,21 @@ packages    :
             - /usr/share/qemu/npcm7xx_bootrom.bin
             - /usr/share/qemu/npcm8xx_bootrom.bin
 
+    - "%(name)-system-riscv64":
+        summary: QEMU system emulator for riscv64
+        description: QEMU system emulator for riscv64
+        rundeps:
+            - "%(name)-common"
+            - edk2-riscv64
+        paths:
+            - /usr/bin/qemu-system-riscv64
+
+    - "%(name)-system-riscv-firmware":
+        summary: Firmware for QEMU system emulator for RISC-V
+        description: Firmware for QEMU system emulator for RISC-V
+        paths:
+            - /usr/share/qemu/opensbi-riscv*.bin
+
     - "%(name)-system-ppc-firmware":
         summary: Firmware for QEMU system emulator for PPC
         description: Firmware for QEMU system emulator for PPC
@@ -559,12 +587,6 @@ packages    :
         description: Firmware for QEMU system emulator for Microblaze
         paths:
             - /usr/share/qemu/dtb/petalogix-*.dtb
-
-    - "%(name)-system-riscv-firmware":
-        summary: Firmware for QEMU system emulator for SPARC
-        description: Firmware for QEMU system emulator for SPARC
-        paths:
-            - /usr/share/qemu/opensbi-riscv*.bin
 
     - "%(name)-system-sparc-firmware":
         summary: Firmware for QEMU system emulator for SPARC
