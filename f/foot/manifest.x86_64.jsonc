@@ -4,10 +4,16 @@
 	"packages": {
 		"foot": {
 			"build-depends": [
+				"binary(meson)",
+				"binary(ninja)",
 				"binary(scdoc)",
+				"binary(tic)",
 				"pkgconfig(fcft)",
 				"pkgconfig(fontconfig)",
+				"pkgconfig(freetype2)",
+				"pkgconfig(ncurses)",
 				"pkgconfig(pixman-1)",
+				"pkgconfig(systemd)",
 				"pkgconfig(tllist)",
 				"pkgconfig(wayland-client)",
 				"pkgconfig(wayland-cursor)",
@@ -36,6 +42,7 @@
 				"/usr/share/applications/footclient.desktop",
 				"/usr/share/bash-completion/completions/foot",
 				"/usr/share/bash-completion/completions/footclient",
+				"/usr/share/defaults/foot/foot.ini",
 				"/usr/share/doc/foot/CHANGELOG.md",
 				"/usr/share/doc/foot/LICENSE",
 				"/usr/share/doc/foot/README.md",
@@ -131,6 +138,8 @@
 				"/usr/share/man/man1/footclient.1",
 				"/usr/share/man/man5/foot.ini.5",
 				"/usr/share/man/man7/foot-ctlseqs.7",
+				"/usr/share/terminfo/f/foot-extra",
+				"/usr/share/terminfo/f/foot-extra-direct",
 				"/usr/share/zsh/site-functions/_foot",
 				"/usr/share/zsh/site-functions/_footclient"
 			],
@@ -142,6 +151,6 @@
 		}
 	},
 	"source-name": "foot",
-	"source-release": "1",
+	"source-release": "2",
 	"source-version": "1.25.0"
 }

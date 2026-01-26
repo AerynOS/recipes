@@ -5,7 +5,7 @@
 #
 name        : foot
 version     : 1.25.0
-release     : 1
+release     : 2
 homepage    : https://codeberg.org/dnkl/foot
 upstreams   :
     - https://codeberg.org/dnkl/foot/archive/1.25.0.tar.gz : 442a42d576ec72dd50f2d3faea8a664230a47bac79dc1eb6e7c9125ee76c130f
@@ -15,13 +15,17 @@ description : |
 license     : 
     - MIT
 builddeps   :
+    - binary(meson)
+    - binary(ninja)
+    - binary(tic)
     - binary(scdoc)
     - pkgconfig(fcft)
     - pkgconfig(fontconfig)
-    # TODO: workout duplicate terminfo files
-    # - pkgconfig(ncurses)
+    - pkgconfig(freetype2)
+    - pkgconfig(ncurses)
     - pkgconfig(pixman-1)
     - pkgconfig(tllist)
+    - pkgconfig(systemd)
     - pkgconfig(wayland-client)
     - pkgconfig(wayland-cursor)
     - pkgconfig(wayland-protocols)
@@ -29,9 +33,17 @@ builddeps   :
     - pkgconfig(xkbcommon)
 dependencies: |
     - library(fcft)
+tuning:
+    - lto
+    - optimize: speed
 setup       : |
-    %meson -Dterminfo=disabled
+    %meson \
+        --prefix=/usr \
+        -Db_lto=true \
+        -Dterminfo-base-name=foot-extra
 build       : |
     %meson_build
 install     : |
     %meson_install
+    %install_dir %(installroot)%(vendordir)/%(name)
+    %install_file foot.ini %(installroot)%(vendordir)/%(name)/foot.ini
