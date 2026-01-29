@@ -4,12 +4,12 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : firefox
-version     : 147.0.1
-release     : 52
+version     : 147.0.2
+release     : 53
 homepage    : https://www.mozilla.org/
 upstreams   :
-    - https://releases.mozilla.org/pub/firefox/releases/147.0.1/source/firefox-147.0.1.source.tar.xz:
-        hash: 09e8274ac3772fd492c4f4995cdf33cca1d8856423cbb6640aca593202067dcb
+    - https://releases.mozilla.org/pub/firefox/releases/147.0.2/source/firefox-147.0.2.source.tar.xz:
+        hash: 689d3d34c31b317511a09d6e568250c6736138ee092ef9129c98836d11d942d9
         unpackdir: firefox
 summary     : Firefox web browser
 description : |
@@ -65,6 +65,8 @@ setup       : |
     %patch %(pkgdir)/patches/0001-Fix-Firefox-Thunderbird-envvar-conflicts.patch
     %patch %(pkgdir)/patches/0001-Allow-installing-addons-from-user-scope.patch
 
+    %patch %(pkgdir)/patches/ftbfs-glibc-2.43.patch -d security/nss
+
     # TODO: Figure out if we still need to enable unsigned addon loading considering we switched back to unmodified langpacks
 
     cp %(pkgdir)/build/mozconfig .
@@ -82,6 +84,12 @@ setup       : |
     # Set up google safe browsing API key for AerynOS
     cp %(pkgdir)/build/aerynos-google-safebrowsing-api-key .
     echo "ac_add_options --with-google-safebrowsing-api-keyfile=%(workdir)/aerynos-google-safebrowsing-api-key" >> mozconfig
+
+    # Try to remove this in thunderbird 148
+    %patch %(pkgdir)/patches/ftbfs-glibc-2.43-2.patch
+    sed -i 's/f8ad2b69fa472e332b50572c1b2dcc1c8a0fa783a1199aad245398d3df421b4b/dfdde6b4d42603fd3fe087a96bc0e7258ed38891154132a55b1eeac504f6f3c6/g' third_party/rust/glslopt/.cargo-checksum.json
+    sed -i '/^#ifndef SYS_SECCOMP$/,/^#endif$/{ /^#ifndef SYS_SECCOMP$/d; /^#define SYS_SECCOMP/d; /^#endif$/d; }' \
+        security/sandbox/chromium/sandbox/linux/system_headers/linux_seccomp.h
 
     ./mach configure
 build       : |
