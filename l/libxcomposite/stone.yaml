@@ -4,22 +4,26 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : libxcomposite
-version     : 0.4.6
-release     : 4
+version     : 0.4.7
+release     : 5
 homepage    : https://gitlab.freedesktop.org/xorg/lib/libxcomposite
 upstreams   :
-    - https://xorg.freedesktop.org/releases/individual/lib/libXcomposite-0.4.6.tar.xz : fe40bcf0ae1a09070eba24088a5eb9810efe57453779ec1e20a55080c6dc2c87
+    - https://xorg.freedesktop.org/releases/individual/lib/libXcomposite-0.4.7.tar.xz : 8bdf310967f484503fa51714cf97bff0723d9b673e0eecbf92b3f97c060c8ccb
 summary     : Composite extension to the X11 protocol
 description : |
     libXcomposite - client library for the Composite extension to the X11 protocol
 license     : X11
 builddeps   :
+    - binary(xmlto)
     - pkgconfig(x11)
     - pkgconfig(xfixes)
     - pkgconfig(xproto)
+    - docbook
+environment : |
+    %export_docbook_catalogs
 setup       : |
-    %configure
+    %meson
 build       : |
-    %make
+    %meson_build
 install     : |
-    %make_install
+    %meson_install

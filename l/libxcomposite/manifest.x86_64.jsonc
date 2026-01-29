@@ -4,6 +4,8 @@
 	"packages": {
 		"libxcomposite": {
 			"build-depends": [
+				"binary(xmlto)",
+				"docbook",
 				"pkgconfig(x11)",
 				"pkgconfig(xfixes)",
 				"pkgconfig(xproto)"
@@ -23,6 +25,8 @@
 		},
 		"libxcomposite-devel": {
 			"build-depends": [
+				"binary(xmlto)",
+				"docbook",
 				"pkgconfig(x11)",
 				"pkgconfig(xfixes)",
 				"pkgconfig(xproto)"
@@ -36,7 +40,6 @@
 			],
 			"files": [
 				"/usr/include/X11/extensions/Xcomposite.h",
-				"/usr/lib/libXcomposite.a",
 				"/usr/lib/libXcomposite.so",
 				"/usr/lib/pkgconfig/xcomposite.pc",
 				"/usr/share/man/man3/XCompositeCreateRegionFromBorderClip.3",
@@ -59,6 +62,6 @@
 		}
 	},
 	"source-name": "libxcomposite",
-	"source-release": "4",
-	"source-version": "0.4.6"
+	"source-release": "5",
+	"source-version": "0.4.7"
 }
