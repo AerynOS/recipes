@@ -6,9 +6,11 @@
 			"build-depends": [
 				"binary(flex)",
 				"binary(xsltproc)",
+				"docbook",
 				"docbook-xsl"
 			],
 			"depends": [
+				"binary(xsltproc)",
 				"docbook-xsl",
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))"
@@ -62,6 +64,6 @@
 		}
 	},
 	"source-name": "xmlto",
-	"source-release": "6",
+	"source-release": "7",
 	"source-version": "0.0.29"
 }
