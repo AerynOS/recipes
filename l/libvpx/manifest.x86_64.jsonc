@@ -20,6 +20,9 @@
 			"files": [
 				"/usr/bin/vpxdec",
 				"/usr/bin/vpxenc",
+				"/usr/lib/libvpx.so.11",
+				"/usr/lib/libvpx.so.11.0",
+				"/usr/lib/libvpx.so.11.0.1",
 				"/usr/lib/libvpx.so.12",
 				"/usr/lib/libvpx.so.12.0",
 				"/usr/lib/libvpx.so.12.0.0"
@@ -28,6 +31,7 @@
 			"provides": [
 				"binary(vpxdec)",
 				"binary(vpxenc)",
+				"soname(libvpx.so.11(x86_64))",
 				"soname(libvpx.so.12(x86_64))"
 			]
 		},
@@ -64,6 +68,6 @@
 		}
 	},
 	"source-name": "libvpx",
-	"source-release": "6",
+	"source-release": "7",
 	"source-version": "1.16.0"
 }
