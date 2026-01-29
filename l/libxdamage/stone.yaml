@@ -4,23 +4,23 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : libxdamage
-version     : 1.1.6
-release     : 4
+version     : 1.1.7
+release     : 5
 homepage    : https://gitlab.freedesktop.org/xorg/lib/libxdamage
 upstreams   :
-    - https://xorg.freedesktop.org/releases/individual/lib/libXdamage-1.1.6.tar.xz : 52733c1f5262fca35f64e7d5060c6fcd81a880ba8e1e65c9621cf0727afb5d11
+    - https://xorg.freedesktop.org/releases/individual/lib/libXdamage-1.1.7.tar.xz : 127067f521d3ee467b97bcb145aeba1078e2454d448e8748eb984d5b397bde24
 summary     : X Damage Extension library
 description : |
     libXdamage - X Damage Extension library
 license     : X11
 builddeps   :
     - pkgconfig(x11)
-    - pkgconfig(xext)
+    # - pkgconfig(xext)
     - pkgconfig(xfixes)
     - pkgconfig(xproto)
 setup       : |
-    %configure --disable-static
+    %meson
 build       : |
-    %make
+    %meson_build
 install     : |
-    %make_install
+    %meson_install

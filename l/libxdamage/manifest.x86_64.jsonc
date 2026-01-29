@@ -5,13 +5,11 @@
 		"libxdamage": {
 			"build-depends": [
 				"pkgconfig(x11)",
-				"pkgconfig(xext)",
 				"pkgconfig(xfixes)",
 				"pkgconfig(xproto)"
 			],
 			"depends": [
 				"soname(libX11.so.6(x86_64))",
-				"soname(libXfixes.so.3(x86_64))",
 				"soname(libc.so.6(x86_64))"
 			],
 			"files": [
@@ -26,14 +24,15 @@
 		"libxdamage-devel": {
 			"build-depends": [
 				"pkgconfig(x11)",
-				"pkgconfig(xext)",
 				"pkgconfig(xfixes)",
 				"pkgconfig(xproto)"
 			],
 			"depends": [
 				"libxdamage",
 				"pkgconfig(damageproto)",
+				"pkgconfig(fixesproto)",
 				"pkgconfig(x11)",
+				"pkgconfig(xextproto)",
 				"pkgconfig(xfixes)",
 				"pkgconfig(xproto)"
 			],
@@ -49,6 +48,6 @@
 		}
 	},
 	"source-name": "libxdamage",
-	"source-release": "4",
-	"source-version": "1.1.6"
+	"source-release": "5",
+	"source-version": "1.1.7"
 }
