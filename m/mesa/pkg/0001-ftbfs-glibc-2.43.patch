@@ -1,0 +1,36 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Reilly Brogan <reilly@reillybrogan.com>
+Date: Thu, 29 Jan 2026 11:34:16 -0600
+Subject: [PATCH] ftbfs glibc 2.43
+
+---
+ src/amd/vulkan/radv_debug.c        | 2 +-
+ src/compiler/clc/nir_load_libclc.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/src/amd/vulkan/radv_debug.c b/src/amd/vulkan/radv_debug.c
+index 842bca2a7c3..41056bc3424 100644
+--- a/src/amd/vulkan/radv_debug.c
++++ b/src/amd/vulkan/radv_debug.c
+@@ -385,7 +385,7 @@ struct radv_shader_inst {
+ /* Split a disassembly string into lines and add them to the array pointed
+  * to by "instructions". */
+ static void
+-radv_add_split_disasm(const char *disasm, uint64_t start_addr, unsigned *num, struct radv_shader_inst *instructions)
++radv_add_split_disasm(char *disasm, uint64_t start_addr, unsigned *num, struct radv_shader_inst *instructions)
+ {
+    struct radv_shader_inst *last_inst = *num ? &instructions[*num - 1] : NULL;
+    char *next;
+diff --git a/src/compiler/clc/nir_load_libclc.c b/src/compiler/clc/nir_load_libclc.c
+index c4784350296..869db0c7533 100644
+--- a/src/compiler/clc/nir_load_libclc.c
++++ b/src/compiler/clc/nir_load_libclc.c
+@@ -263,7 +263,7 @@ libclc_add_generic_variants(nir_shader *shader)
+       if (strstr(func->name, "async_work_group_strided_copy"))
+          continue;
+ 
+-      char *U3AS1 = strstr(func->name, "U3AS1");
++      const char *U3AS1 = strstr(func->name, "U3AS1");
+       if (U3AS1 == NULL)
+          continue;
+ 

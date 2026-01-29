@@ -6,7 +6,7 @@
 name        : mesa
 version     : 25.3.4
 # Note: keep mesa-clc in-sync with this package version-wise
-release     : 61
+release     : 62
 homepage    : https://mesa3d.org/
 upstreams   :
     - https://mesa.freedesktop.org/archive/mesa-25.3.4.tar.xz : 3a0fc6ec070b45ae25dc2ccb5e52fae1d89141f7c39c4a91fe4eaa80dfff9deb
@@ -26,6 +26,7 @@ builddeps   :
     - binary(mesa_clc)
     - binary(python3)
     - binary(rustc)
+    - binary(rustfmt) # Probably can be removed in next version
     - cmake(Clang)
     - cmake(glslang)
     - pkgconfig(libclc)
@@ -90,6 +91,10 @@ setup       : |
 
     # Fix build with Sphinx 8.2
     %patch %(pkgdir)/0001-docs-Fix-build-with-Sphinx-8.2.patch
+
+    # Fix build with glibc 2.43
+    %patch %(pkgdir)/38594.patch
+    %patch %(pkgdir)/0001-ftbfs-glibc-2.43.patch
 
     %meson \
         -Ddisplay-info=${_IS_64BIT_FEAT} \
