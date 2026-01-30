@@ -3,6 +3,9 @@
 	"manifest-version": "0.2",
 	"packages": {
 		"foomatic-db": {
+			"build-depends": [
+				"binary(tar)"
+			],
 			"files": [
 				"/usr/share/foomatic/db/oldprinterids",
 				"/usr/share/foomatic/db/source/PPD",
@@ -13467,6 +13470,6 @@
 		}
 	},
 	"source-name": "foomatic-db",
-	"source-release": "3",
+	"source-release": "4",
 	"source-version": "20240504"
 }

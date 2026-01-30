@@ -5,7 +5,7 @@
 #
 name        : foomatic-db
 version     : 20240504
-release     : 3
+release     : 4
 homepage    : https://github.com/OpenPrinting/foomatic-db
 upstreams   :
     - https://github.com/OpenPrinting/foomatic-db/archive/refs/tags/20240504.tar.gz : 88f8bb320231840f78ac9d37113ff0ddb6e6003671c1721fef4bc9e5b9fb1e17
@@ -13,6 +13,8 @@ summary     : OpenPrinting printer support database
 description : |
     The collected knowledge about printers, drivers, and driver options in XML files, used by foomatic-db-engine to generate PPD files.
 license     : GPL-2.0-or-later
+builddeps   :
+    - binary(tar)
 setup       : |
     %reconfigure
 build       : |

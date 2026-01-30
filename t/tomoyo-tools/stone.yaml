@@ -5,7 +5,7 @@
 #
 name        : tomoyo-tools
 version     : 2.6.1
-release     : 3
+release     : 4
 homepage    : https://tomoyo.sourceforge.net/2.6/
 upstreams   :
     - https://sourceforge.net/projects/tomoyo/files/tomoyo-tools/2.6/tomoyo-tools-2.6.1-20210910.tar.gz/download : 47a12cdb1fe7bbd0b2e3486150fe1e754fa9c869aeefd42fd311c4022b78010a
@@ -16,6 +16,7 @@ description : |
     This package contains the user-space tooling for creating, maintaining and inspecting TOMOYO MAC policies.
 license     : GPL-2.0-or-later
 builddeps:
+    - binary(bsdtar-static)
     - pkgconfig(ncursesw)
     - pkgconfig(readline)
 build       : |

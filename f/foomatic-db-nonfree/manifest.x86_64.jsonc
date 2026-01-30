@@ -3,6 +3,9 @@
 	"manifest-version": "0.2",
 	"packages": {
 		"foomatic-db-nonfree": {
+			"build-depends": [
+				"binary(tar)"
+			],
 			"files": [
 				"/usr/share/foomatic/db/source/PPD/Dell/dl3100cn.ppd",
 				"/usr/share/foomatic/db/source/PPD/Genicom/GN28PPM.PPD",
@@ -238,6 +241,6 @@
 		}
 	},
 	"source-name": "foomatic-db-nonfree",
-	"source-release": "3",
+	"source-release": "4",
 	"source-version": "20240504"
 }
