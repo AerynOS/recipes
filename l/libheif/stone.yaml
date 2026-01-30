@@ -5,7 +5,7 @@
 #
 name        : libheif
 version     : 1.21.2
-release     : 6
+release     : 7
 upstreams   :
     - https://github.com/strukturag/libheif/releases/download/v1.21.2/libheif-1.21.2.tar.gz : 75f530b7154bc93e7ecf846edfc0416bf5f490612de8c45983c36385aa742b42
 homepage    : https://github.com/strukturag/libheif
@@ -37,6 +37,8 @@ builddeps   :
     - pkgconfig(zlib)
     # - libvvdec/libvvenc
 setup       : |
+    %patch %(pkgdir)/1680.patch
+
     # Basically, build support for everything but as plugins
     # Then split each plugin out to a subpackage and have the main package depend on several as the "defaults"
     %cmake \
