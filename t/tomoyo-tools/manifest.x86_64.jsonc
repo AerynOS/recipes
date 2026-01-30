@@ -4,6 +4,7 @@
 	"packages": {
 		"tomoyo-tools": {
 			"build-depends": [
+				"binary(bsdtar-static)",
 				"pkgconfig(ncursesw)",
 				"pkgconfig(readline)"
 			],
@@ -83,6 +84,6 @@
 		}
 	},
 	"source-name": "tomoyo-tools",
-	"source-release": "3",
+	"source-release": "4",
 	"source-version": "2.6.1"
 }
