@@ -5,7 +5,7 @@
 #
 name        : gstreamer
 version     : 1.26.10
-release     : 40
+release     : 41
 homepage    : https://gstreamer.freedesktop.org/
 upstreams   :
     - https://gitlab.freedesktop.org/gstreamer/gstreamer/-/archive/1.26.10/gstreamer-1.26.10.tar.gz : 2839c9fa70fd4775d16bf4aa77cf339ca2f59b8e34b0944a832ad56db851b37f
@@ -157,6 +157,8 @@ setup       : |
     # pushd subprojects/gst-devtools/dots-viewer
     # %cargo_fetch
     # popd
+
+    %patch %(pkgdir)/ftbfs-svt-av1-4.patch
 
     # TODO: When boulder/moss supports capabilities use that for ptp-helper instead of setuid
     # NOTE: When updating this package (major version) if you want to find out what subpackage a given file should go in
