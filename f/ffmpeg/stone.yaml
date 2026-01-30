@@ -5,7 +5,7 @@
 #
 name        : ffmpeg
 version     : '8.0.1'
-release     : 20
+release     : 21
 homepage    : https://ffmpeg.org/releases
 upstreams   :
     - https://ffmpeg.org/releases/ffmpeg-8.0.1.tar.xz:
@@ -13,8 +13,8 @@ upstreams   :
         unpack: false
         rename: current.tar.xz
 
-    - https://ffmpeg.org/releases/ffmpeg-7.1.2.tar.xz:
-        hash: 089bc60fb59d6aecc5d994ff530fd0dcb3ee39aa55867849a2bbc4e555f9c304
+    - https://ffmpeg.org/releases/ffmpeg-7.1.3.tar.xz:
+        hash: f0bf043299db9e3caacb435a712fc541fbb07df613c4b893e8b77e67baf3adbe
         unpack: false
         rename: compat.tar.xz
 summary     : FFmpeg is a complete, cross-platform solution to record, convert and stream audio and video.
@@ -137,6 +137,7 @@ setup       : |
     %patch %(pkgdir)/0001-configure-explicitly-disable-spirv_compiler.patch
     %patch %(pkgdir)/CVE-2025-22921.patch
     %patch %(pkgdir)/chromium.patch
+    %patch %(pkgdir)/ftbfs-svt-av1-4.patch
 
     ./configure \
         --prefix=%(prefix) \
@@ -206,6 +207,7 @@ setup       : |
     pushd current
     %patch %(pkgdir)/0001-Don-t-print-in-columns.patch
     %patch %(pkgdir)/chromium.patch
+    %patch %(pkgdir)/ftbfs-svt-av1-4.patch
 
     ./configure \
         --prefix=%(prefix) \
