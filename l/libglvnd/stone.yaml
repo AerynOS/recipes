@@ -5,7 +5,7 @@
 #
 name        : libglvnd
 version     : 1.7.0
-release     : 9
+release     : 10
 homepage    : https://gitlab.freedesktop.org/glvnd/libglvnd
 upstreams   :
     - https://gitlab.freedesktop.org/-/project/4399/uploads/c24806c283070dc70700234ca8ffacf8/libglvnd-1.7.0.tar.gz : 13ae5bb99a5a2869fbe00aadb49b21fd9c13dfbf59844b0f88d521098094d44a
@@ -61,3 +61,8 @@ packages    :
             - "%(name)-gles"
             - "%(name)-glx"
             - "%(name)-opengl"
+
+            # │B│ /usr/include/GL/glx.h:30:10: fatal error: 'X11/Xlib.h' file not found
+            # │B│    30 | #include <X11/Xlib.h>
+            # │B│       |          ^~~~~~~~~~~~
+            - pkgconfig(x11)
