@@ -5,7 +5,7 @@
 #
 name        : fftw
 version     : 3.3.10
-release     : 2
+release     : 3
 homepage    : http://www.fftw.org
 upstreams   :
     - http://www.fftw.org/fftw-3.3.10.tar.gz : 
@@ -20,8 +20,8 @@ builddeps   :
     - binary(makeinfo)
 setup       : |
     mkdir fftw fftwf
-    tar -xf %(sourcedir)/fftw.tar.gz --strip-components=1 -C fftw
-    tar -xf %(sourcedir)/fftw.tar.gz --strip-components=1 -C fftwf
+    bsdtar-static -xf %(sourcedir)/fftw.tar.gz --strip-components=1 -C fftw
+    bsdtar-static -xf %(sourcedir)/fftw.tar.gz --strip-components=1 -C fftwf
 
     _shared_args="--disable-static --enable-shared --enable-threads"
     pushd fftw
