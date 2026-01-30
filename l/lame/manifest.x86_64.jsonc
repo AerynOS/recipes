@@ -4,6 +4,7 @@
 	"packages": {
 		"lame": {
 			"build-depends": [
+				"binary(bsdtar-static)",
 				"binary(nasm)",
 				"pkgconfig(ncursesw)"
 			],
@@ -27,6 +28,7 @@
 		},
 		"lame-devel": {
 			"build-depends": [
+				"binary(bsdtar-static)",
 				"binary(nasm)",
 				"pkgconfig(ncursesw)"
 			],
@@ -41,6 +43,7 @@
 		},
 		"lame-docs": {
 			"build-depends": [
+				"binary(bsdtar-static)",
 				"binary(nasm)",
 				"pkgconfig(ncursesw)"
 			],
@@ -64,6 +67,6 @@
 		}
 	},
 	"source-name": "lame",
-	"source-release": "5",
+	"source-release": "6",
 	"source-version": "3.100"
 }
