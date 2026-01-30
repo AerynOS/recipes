@@ -4,11 +4,17 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : svt-av1
-version     : 3.1.2
-release     : 5
+version     : 4.0.1
+release     : 6
 homepage    : https://gitlab.com/AOMediaCodec/SVT-AV1
 upstreams   :
-    - https://gitlab.com/AOMediaCodec/SVT-AV1/-/archive/v3.1.2/SVT-AV1-v3.1.2.tar.bz2 : 802e9bb2b14f66e8c638f54857ccb84d3536144b0ae18b9f568bbf2314d2de88
+    - https://gitlab.com/AOMediaCodec/SVT-AV1/-/archive/v4.0.1/SVT-AV1-v4.0.1.tar.bz2:
+        hash: df2a2dd51512717e8c3637072750a3899c3a69d684accccace33c1c467f7e852
+        unpackdir: current
+
+    - https://gitlab.com/AOMediaCodec/SVT-AV1/-/archive/v3.1.2/SVT-AV1-v3.1.2.tar.bz2:
+        hash: 802e9bb2b14f66e8c638f54857ccb84d3536144b0ae18b9f568bbf2314d2de88
+        unpackdir: compat
 summary     : Scalable Video Technology for AV1 (SVT-AV1 Encoder)
 description : |
     The Scalable Video Technology for AV1 (SVT-AV1 Encoder) is an AV1-compliant encoder library core.
@@ -26,9 +32,37 @@ setup      : |
     # error: always_inline function '_mm256_set1_epi32' requires target feature 'avx', but would be inlined into function 'svt_av1_calc_target_weighted_pred_above_avx2' that is compiled without support for 'avx'
     export CFLAGS="${CFLAGS/-Wa,--compress-debug-sections=zstd/}"
 
+    if [ -d ../compat ]; then
+        pushd ../compat
+
+        %cmake \
+            -DBUILD_APPS=OFF
+        popd
+    fi
+
     %cmake \
-           -DBUILD_APPS=OFF
+        -DBUILD_APPS=OFF
 build      : |
-    %cmake_build
+    if [ -d ../compat ]; then
+        pushd ../compat
+            %ccache_zero
+            env CCACHE_BASEDIR="${pwd}" %cmake_build
+            %ccache_stats
+        popd
+    fi
+
+    %ccache_zero
+    env CCACHE_BASEDIR="${pwd}" %cmake_build
+    %ccache_stats
 install    : |
+    if [ -d ../compat ]; then
+        pushd ../compat
+        DESTDIR="${pwd}/tmp" cmake --install "%(builddir)" --verbose
+
+        # Only copy the sonames
+        %install_dir %(installroot)/%(libdir)
+        find ${pwd}/tmp/%(libdir) -name "libSvtAv1Enc.so.*" -print -exec mv {} %(installroot)/%(libdir) \;
+        popd
+    fi
+
     %cmake_install

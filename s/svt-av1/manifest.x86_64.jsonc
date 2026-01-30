@@ -12,11 +12,14 @@
 			],
 			"files": [
 				"/usr/lib/libSvtAv1Enc.so.3",
-				"/usr/lib/libSvtAv1Enc.so.3.1.2"
+				"/usr/lib/libSvtAv1Enc.so.3.1.2",
+				"/usr/lib/libSvtAv1Enc.so.4",
+				"/usr/lib/libSvtAv1Enc.so.4.0.1"
 			],
 			"name": "svt-av1",
 			"provides": [
-				"soname(libSvtAv1Enc.so.3(x86_64))"
+				"soname(libSvtAv1Enc.so.3(x86_64))",
+				"soname(libSvtAv1Enc.so.4(x86_64))"
 			]
 		},
 		"svt-av1-devel": {
@@ -34,16 +37,21 @@
 				"/usr/include/svt-av1/EbSvtAv1ErrorCodes.h",
 				"/usr/include/svt-av1/EbSvtAv1Formats.h",
 				"/usr/include/svt-av1/EbSvtAv1Metadata.h",
+				"/usr/lib/cmake/SVT-AV1/SVT-AV1-sharedTargets-release.cmake",
+				"/usr/lib/cmake/SVT-AV1/SVT-AV1-sharedTargets.cmake",
+				"/usr/lib/cmake/SVT-AV1/SVT-AV1Config.cmake",
+				"/usr/lib/cmake/SVT-AV1/SVT-AV1ConfigVersion.cmake",
 				"/usr/lib/libSvtAv1Enc.so",
 				"/usr/lib/pkgconfig/SvtAv1Enc.pc"
 			],
 			"name": "svt-av1-devel",
 			"provides": [
+				"cmake(SVT-AV1)",
 				"pkgconfig(SvtAv1Enc)"
 			]
 		}
 	},
 	"source-name": "svt-av1",
-	"source-release": "5",
-	"source-version": "3.1.2"
+	"source-release": "6",
+	"source-version": "4.0.1"
 }
