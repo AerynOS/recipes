@@ -5,7 +5,7 @@
 #
 name        : foomatic-db-nonfree
 version     : 20240504
-release     : 3
+release     : 4
 homepage    : https://github.com/OpenPrinting/foomatic-db-nonfree
 upstreams   :
     - git|https://github.com/OpenPrinting/foomatic-db-nonfree : 6ddae02ac89240c019f8b5026cfe70e30fd2b3db
@@ -13,6 +13,8 @@ summary     : OpenPrinting printer support database - non-free PPD files
 description : |
     This is a repository of PPD and Foomatic XML files that may have restrictions that keep them from being used on a variety of machines for licensing and other non-technical reasons.
 license     : GPL-2.0-or-later
+builddeps   :
+    - binary(tar)
 setup       : |
     %reconfigure
 build       : |
