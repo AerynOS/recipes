@@ -5,7 +5,7 @@
 #
 name        : zulip-desktop
 version     : 5.12.2
-release     : 1
+release     : 2
 upstreams   :
     - https://github.com/zulip/zulip-desktop/archive/v5.12.2.tar.gz : ffd0473910889797ba8f0944c7819f38c4210c44e2e886ff8cb63a2a2f2b75e5
 homepage    : https://zulipchat.com
@@ -16,6 +16,8 @@ description : |
 networking  : yes
 builddeps   :
     - binary(npm)
+rundeps     :
+    - binary(xdg-open)
 setup       : |
     %patch %(pkgdir)/0001-Disable-auto-update.patch
 
