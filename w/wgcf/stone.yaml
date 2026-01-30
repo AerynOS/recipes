@@ -1,0 +1,34 @@
+#
+# SPDX-FileCopyrightText: © 2026 AerynOS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : wgcf
+version     : 2.2.30
+release     : 1
+homepage    : https://github.com/ViRb3/wgcf
+upstreams   :
+    - https://github.com/ViRb3/wgcf/archive/refs/tags/v2.2.30.tar.gz : 91dae7e063476486643bc20005fa764380e2a3b38f42002b4c5e17da637bafba
+summary     : Unofficial Cloudflare Warp for WireGuard
+description : |
+    Unofficial CLI tool for Cloudflare Warp to create and manage accounts, and generate WireGuard profiles.
+license     : 
+    - MIT
+builddeps   :
+    - binary(go)
+rundeps     :
+    - nftables
+    - wireguard-tools
+networking  : yes
+build       : |
+    go build -o wgcf -trimpath -buildmode=pie -ldflags "-s -w"
+
+    ./wgcf completion bash > wgcf.bash
+    ./wgcf completion zsh > wgcf.zsh
+    ./wgcf completion fish > wgcf.fish
+install     : |
+    %install_bin wgcf
+
+    %install_file wgcf.bash %(installroot)%(datadir)/bash-completion/completions/wgcf
+    %install_file wgcf.zsh %(installroot)%(datadir)/zsh/site-functions/_wgcf
+    %install_file wgcf.fish %(installroot)%(datadir)/fish/vendor_completions.d/wgcf.fish
