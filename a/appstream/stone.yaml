@@ -5,7 +5,7 @@
 #
 name        : appstream
 version     : 1.1.1
-release     : 13
+release     : 14
 homepage    : https://www.freedesktop.org/wiki/Distributions/AppStream/
 upstreams   :
     - https://www.freedesktop.org/software/appstream/releases/AppStream-1.1.1.tar.xz : 3b9d325074ede328eed4746d0c4fbfc3b8f6f4fdbc9c173ed70e40569a79b117
@@ -41,8 +41,10 @@ environment : |
 
     %export_docbook_catalogs
 setup       : |
+    # Added -Dcompose to include the compose module for appstreamcli
     %meson \
         --sysconfdir=%(datadir)/appstream \
+        -Dcompose=true \
         -Dapidocs=false \
         -Dinstall-docs=false \
         -Dqt=true \

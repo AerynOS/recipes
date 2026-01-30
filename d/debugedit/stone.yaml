@@ -1,0 +1,28 @@
+#
+# SPDX-FileCopyrightText: © 2025 - AerynOS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : debugedit
+version     : 5.2
+release     : 1
+homepage    : https://sourceware.org/pub/debugedit/5.2
+upstreams   :
+    - https://sourceware.org/pub/debugedit/5.2/debugedit-5.2.tar.xz : 705296803cc4403f38764e891b4ed38f8d8d4f8a9164bd4f86c9d4bedcac68dd
+summary     : debugedit provides programs and scripts for creating debuginfo and source file distributions, collect build-ids and rewrite source paths in DWARF data for debugging, tracing and profiling.
+description : |
+    debugedit provides programs and scripts for creating debuginfo and source file distributions, collect build-ids and rewrite source paths in DWARF data for debugging, tracing and profiling.
+license     : 
+    - GPL-2.0-or-later
+    - GPL-3.0-or-later
+    - LGPL-2.1-or-later
+builddeps   :
+    - pkgconfig(libdw)
+    - pkgconfig(libelf)
+    - pkgconfig(libxxhash)
+setup       : |
+    %configure
+build       : |
+    %make
+install     : |
+    %make_install
