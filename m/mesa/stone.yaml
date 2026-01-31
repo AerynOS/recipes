@@ -6,7 +6,7 @@
 name        : mesa
 version     : 25.3.4
 # Note: keep mesa-clc in-sync with this package version-wise
-release     : 62
+release     : 63
 homepage    : https://mesa3d.org/
 upstreams   :
     - https://mesa.freedesktop.org/archive/mesa-25.3.4.tar.xz : 3a0fc6ec070b45ae25dc2ccb5e52fae1d89141f7c39c4a91fe4eaa80dfff9deb
@@ -95,6 +95,9 @@ setup       : |
     # Fix build with glibc 2.43
     %patch %(pkgdir)/38594.patch
     %patch %(pkgdir)/0001-ftbfs-glibc-2.43.patch
+
+    # intel ANV texture bug fix https://gitlab.freedesktop.org/mesa/mesa/-/issues/14684
+    export CXXFLAGS+=" -fno-strict-aliasing"
 
     %meson \
         -Ddisplay-info=${_IS_64BIT_FEAT} \
