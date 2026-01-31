@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : gstreamer
-version     : 1.26.10
-release     : 42
+version     : 1.28.0
+release     : 43
 homepage    : https://gstreamer.freedesktop.org/
 upstreams   :
-    - https://gitlab.freedesktop.org/gstreamer/gstreamer/-/archive/1.26.10/gstreamer-1.26.10.tar.gz : 2839c9fa70fd4775d16bf4aa77cf339ca2f59b8e34b0944a832ad56db851b37f
+    - https://gitlab.freedesktop.org/gstreamer/gstreamer/-/archive/1.28.0/gstreamer-1.28.0.tar.gz : 06629bc45465ac6676357ef10dcdd0cbe2bdafa267b37bbac35beb432f872c45
 summary     : GStreamer multimedia framework
 description : |
     GStreamer can bridge to other multimedia frameworks in order to reuse existing components (e.g. codecs) and use platform input/output mechanisms.
@@ -126,9 +126,11 @@ builddeps   :
 # - libraw1394
 # - libavc1394
 # - libiec61883
+# - shout
 # - twolame
 # - wavpack
 # bad:
+# - lcevc
 # - libltc
 # - libchromaprint
 # - libdc1394-2
@@ -143,9 +145,11 @@ builddeps   :
 # - libopenmpt
 # - librtmp
 # - srt
+# - svthevcenc
 # - vo-aacenc
 # - wildmidi
 # - zbar
+# - zvbi-0.2
 # ugly:
 # - liba52
 # - libmpeg2
@@ -157,8 +161,6 @@ setup       : |
     # pushd subprojects/gst-devtools/dots-viewer
     # %cargo_fetch
     # popd
-
-    %patch %(pkgdir)/ftbfs-svt-av1-4.patch
 
     # TODO: When boulder/moss supports capabilities use that for ptp-helper instead of setuid
     # NOTE: When updating this package (major version) if you want to find out what subpackage a given file should go in
@@ -210,6 +212,7 @@ packages    :
         paths:
             - /usr/lib/python3*/site-packages/gi
             - /usr/lib/gstreamer-1.0/libgstpython.so
+            - /usr/lib/gstreamer-1.0/python/gesotioformatter.py
 
     - "%(name)-devtools":
         summary: Development and debugging tools for GStreamer
@@ -457,6 +460,7 @@ packages    :
             - /usr/lib/gstreamer-1.0/libgstgdp.so
             - /usr/lib/gstreamer-1.0/libgstgeometrictransform.so
             - /usr/lib/gstreamer-1.0/libgstgsm.so
+            - /usr/lib/gstreamer-1.0/libgsthip.so
             - /usr/lib/gstreamer-1.0/libgsthls.so
             - /usr/lib/gstreamer-1.0/libgstid3tag.so
             - /usr/lib/gstreamer-1.0/libgstinsertbin.so
@@ -529,7 +533,6 @@ packages    :
             - /usr/lib/gstreamer-1.0/libgstwebrtc.so
             - /usr/lib/gstreamer-1.0/libgstwebrtcdsp.so
             - /usr/lib/gstreamer-1.0/libgstx265.so
-            - /usr/lib/gstreamer-1.0/libgsty4mdec.so
             - /usr/share/gstreamer-1.0/encoding-profiles
             - /usr/share/gstreamer-1.0/presets/GstFreeverb.prs
             - /usr/share/locale/**/**/gst-plugins-bad-1.0.mo
@@ -547,6 +550,7 @@ packages    :
             - /usr/lib/girepository-1.0/GstCodecs-1.0.typelib
             - /usr/lib/girepository-1.0/GstCuda-1.0.typelib
             - /usr/lib/girepository-1.0/GstDxva-1.0.typelib
+            - /usr/lib/girepository-1.0/GstHip*-1.0.typelib
             - /usr/lib/girepository-1.0/GstInsertBin-1.0.typelib
             - /usr/lib/girepository-1.0/GstMpegts-1.0.typelib
             - /usr/lib/girepository-1.0/GstMse-1.0.typelib
@@ -566,6 +570,7 @@ packages    :
             - /usr/lib/libgstcodecs-1.0.so.*
             - /usr/lib/libgstcuda-1.0.so.*
             - /usr/lib/libgstdxva-1.0.so.*
+            - /usr/lib/libgsthip.so.*
             - /usr/lib/libgstinsertbin-1.0.so.*
             - /usr/lib/libgstisoff-1.0.so.*
             - /usr/lib/libgstmpegts-1.0.so.*
@@ -615,6 +620,7 @@ packages    :
             - /usr/include/gstreamer-1.0/gst/basecamerabinsrc/
             - /usr/include/gstreamer-1.0/gst/codecparsers/
             - /usr/include/gstreamer-1.0/gst/cuda/
+            - /usr/include/gstreamer-1.0/gst/hip/
             - /usr/include/gstreamer-1.0/gst/insertbin/
             - /usr/include/gstreamer-1.0/gst/interfaces/
             - /usr/include/gstreamer-1.0/gst/isoff/
@@ -637,6 +643,7 @@ packages    :
             - /usr/lib/libgstcodecs-1.0.so
             - /usr/lib/libgstcuda-1.0.so
             - /usr/lib/libgstdxva-1.0.so
+            - /usr/lib/libgsthip.so
             - /usr/lib/libgstinsertbin-1.0.so
             - /usr/lib/libgstisoff-1.0.so
             - /usr/lib/libgstmpegts-1.0.so
@@ -656,6 +663,7 @@ packages    :
             - /usr/lib/pkgconfig/gstreamer-bad-audio-1.0.pc
             - /usr/lib/pkgconfig/gstreamer-codecparsers-1.0.pc
             - /usr/lib/pkgconfig/gstreamer-cuda-1.0.pc
+            - /usr/lib/pkgconfig/gstreamer-hip*-1.0.pc
             - /usr/lib/pkgconfig/gstreamer-insertbin-1.0.pc
             - /usr/lib/pkgconfig/gstreamer-mpegts-1.0.pc
             - /usr/lib/pkgconfig/gstreamer-mse-1.0.pc
@@ -676,6 +684,7 @@ packages    :
             - /usr/share/gir-1.0/GstCodecs-1.0.gir
             - /usr/share/gir-1.0/GstCuda-1.0.gir
             - /usr/share/gir-1.0/GstDxva-1.0.gir
+            - /usr/share/gir-1.0/GstHip*-1.0.gir
             - /usr/share/gir-1.0/GstInsertBin-1.0.gir
             - /usr/share/gir-1.0/GstMpegts-1.0.gir
             - /usr/share/gir-1.0/GstMse-1.0.gir
@@ -758,7 +767,7 @@ packages    :
             - /usr/lib/gstreamer-1.0/libgstwavparse.so
             - /usr/lib/gstreamer-1.0/libgstximagesrc.so
             - /usr/lib/gstreamer-1.0/libgstxingmux.so
-            - /usr/lib/gstreamer-1.0/libgsty4menc.so
+            - /usr/lib/gstreamer-1.0/libgsty4m.so
             - /usr/share/gstreamer-1.0/presets/GstIirEqualizer10Bands.prs
             - /usr/share/gstreamer-1.0/presets/GstIirEqualizer3Bands.prs
             - /usr/share/gstreamer-1.0/presets/GstQTMux.prs
