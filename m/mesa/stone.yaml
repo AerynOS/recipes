@@ -6,17 +6,134 @@
 name        : mesa
 version     : 25.3.4
 # Note: keep mesa-clc in-sync with this package version-wise
-release     : 63
+release     : 64
 homepage    : https://mesa3d.org/
 upstreams   :
     - https://mesa.freedesktop.org/archive/mesa-25.3.4.tar.xz : 3a0fc6ec070b45ae25dc2ccb5e52fae1d89141f7c39c4a91fe4eaa80dfff9deb
+##@@BEGIN_UPSTREAMS
+    - https://crates.io/api/v1/crates/bitflags/2.9.1/download:
+        hash: 1b8e56985ec62d17e9c1001dc89c88ecd7dc08e47eba5ec7c29c7b5eeecde967
+        rename: bitflags-2.9.1.tar.gz
+        unpack: false
+    - https://crates.io/api/v1/crates/cfg-if/1.0.0/download:
+        hash: baf1de4339761588bc0619e3cbc0120ee582ebb74b53b4efbf79117bd2da40fd
+        rename: cfg-if-1.0.0.tar.gz
+        unpack: false
+    - https://crates.io/api/v1/crates/equivalent/1.0.1/download:
+        hash: 5443807d6dff69373d433ab9ef5378ad8df50ca6298caf15de6e52e24aaf54d5
+        rename: equivalent-1.0.1.tar.gz
+        unpack: false
+    - https://crates.io/api/v1/crates/errno/0.3.12/download:
+        hash: cea14ef9355e3beab063703aa9dab15afd25f0667c341310c1e5274bb1d0da18
+        rename: errno-0.3.12.tar.gz
+        unpack: false
+    - https://crates.io/api/v1/crates/hashbrown/0.14.1/download:
+        hash: 7dfda62a12f55daeae5015f81b0baea145391cb4520f86c248fc615d72640d12
+        rename: hashbrown-0.14.1.tar.gz
+        unpack: false
+    - https://crates.io/api/v1/crates/indexmap/2.2.6/download:
+        hash: 168fb715dda47215e360912c096649d23d58bf392ac62f73919e831745e40f26
+        rename: indexmap-2.2.6.tar.gz
+        unpack: false
+    - https://crates.io/api/v1/crates/libc/0.2.171/download:
+        hash: c19937216e9d3aa9956d9bb8dfc0b0c8beb6058fc4f7a4dc4d850edf86a237d6
+        rename: libc-0.2.171.tar.gz
+        unpack: false
+    - https://crates.io/api/v1/crates/log/0.4.27/download:
+        hash: 13dc2df351e3202783a1fe0d44375f7295ffb4049267b0f3018346dc122a1d94
+        rename: log-0.4.27.tar.gz
+        unpack: false
+    - https://crates.io/api/v1/crates/once_cell/1.8.0/download:
+        hash: 692fcb63b64b1758029e0a96ee63e049ce8c5948587f2f7208df04625e5f6b56
+        rename: once_cell-1.8.0.tar.gz
+        unpack: false
+    - https://crates.io/api/v1/crates/paste/1.0.14/download:
+        hash: de3145af08024dea9fa9914f381a17b8fc6034dfb00f3a84013f7ff43f29ed4c
+        rename: paste-1.0.14.tar.gz
+        unpack: false
+    - https://crates.io/api/v1/crates/pest/2.8.0/download:
+        hash: 198db74531d58c70a361c42201efde7e2591e976d518caf7662a47dc5720e7b6
+        rename: pest-2.8.0.tar.gz
+        unpack: false
+    - https://crates.io/api/v1/crates/pest_derive/2.8.0/download:
+        hash: d725d9cfd79e87dccc9341a2ef39d1b6f6353d68c4b33c177febbe1a402c97c5
+        rename: pest_derive-2.8.0.tar.gz
+        unpack: false
+    - https://crates.io/api/v1/crates/pest_generator/2.8.0/download:
+        hash: db7d01726be8ab66ab32f9df467ae8b1148906685bbe75c82d1e65d7f5b3f841
+        rename: pest_generator-2.8.0.tar.gz
+        unpack: false
+    - https://crates.io/api/v1/crates/pest_meta/2.8.0/download:
+        hash: 7f9f832470494906d1fca5329f8ab5791cc60beb230c74815dff541cbd2b5ca0
+        rename: pest_meta-2.8.0.tar.gz
+        unpack: false
+    - https://crates.io/api/v1/crates/proc-macro2/1.0.86/download:
+        hash: 5e719e8df665df0d1c8fbfd238015744736151d4445ec0836b8e628aae103b77
+        rename: proc-macro2-1.0.86.tar.gz
+        unpack: false
+    - https://crates.io/api/v1/crates/quote/1.0.35/download:
+        hash: 291ec9ab5efd934aaf503a6466c5d5251535d108ee747472c3977cc5acc868ef
+        rename: quote-1.0.35.tar.gz
+        unpack: false
+    - https://crates.io/api/v1/crates/remain/0.2.12/download:
+        hash: 1ad5e011230cad274d0532460c5ab69828ea47ae75681b42a841663efffaf794
+        rename: remain-0.2.12.tar.gz
+        unpack: false
+    - https://crates.io/api/v1/crates/roxmltree/0.20.0/download:
+        hash: 6c20b6793b5c2fa6553b250154b78d6d0db37e72700ae35fad9387a46f487c97
+        rename: roxmltree-0.20.0.tar.gz
+        unpack: false
+    - https://crates.io/api/v1/crates/rustc-hash/2.1.1/download:
+        hash: 357703d41365b4b27c590e3ed91eabb1b663f07c4c084095e60cbed4362dff0d
+        rename: rustc-hash-2.1.1.tar.gz
+        unpack: false
+    - https://crates.io/api/v1/crates/rustix/1.1.2/download:
+        hash: cd15f8a2c5551a84d56efdc1cd049089e409ac19a3072d5037a17fd70719ff3e
+        rename: rustix-1.1.2.tar.gz
+        unpack: false
+    - https://crates.io/api/v1/crates/syn/2.0.87/download:
+        hash: 25aa4ce346d03a6dcd68dd8b4010bcb74e54e62c90c573f394c46eae99aba32d
+        rename: syn-2.0.87.tar.gz
+        unpack: false
+    - https://crates.io/api/v1/crates/thiserror/2.0.11/download:
+        hash: d452f284b73e6d76dd36758a0c8684b1d5be31f92b89d07fd5822175732206fc
+        rename: thiserror-2.0.11.tar.gz
+        unpack: false
+    - https://crates.io/api/v1/crates/thiserror-impl/2.0.11/download:
+        hash: 26afc1baea8a989337eeb52b6e72a039780ce45c3edfcc9c5b9d112feeb173c2
+        rename: thiserror-impl-2.0.11.tar.gz
+        unpack: false
+    - https://crates.io/api/v1/crates/ucd-trie/0.1.6/download:
+        hash: ed646292ffc8188ef8ea4d1e0e0150fb15a5c2e12ad9b8fc191ae7a8a7f3c4b9
+        rename: ucd-trie-0.1.6.tar.gz
+        unpack: false
+    - https://crates.io/api/v1/crates/unicode-ident/1.0.12/download:
+        hash: 3354b9ac3fae1ff6755cb6db53683adb661634f67557942dea4facebec0fee4b
+        rename: unicode-ident-1.0.12.tar.gz
+        unpack: false
+    - https://crates.io/api/v1/crates/windows-link/0.2.0/download:
+        hash: 45e46c0661abb7180e7b9c281db115305d49ca1709ab8242adf09666d2173c65
+        rename: windows-link-0.2.0.tar.gz
+        unpack: false
+    - https://crates.io/api/v1/crates/windows-sys/0.61.1/download:
+        hash: 6f109e41dd4a3c848907eb83d5a42ea98b3769495597450cf6d153507b166f0f
+        rename: windows-sys-0.61.1.tar.gz
+        unpack: false
+    - https://crates.io/api/v1/crates/zerocopy/0.8.13/download:
+        hash: 67914ab451f3bfd2e69e5e9d2ef3858484e7074d63f204fd166ec391b54de21d
+        rename: zerocopy-0.8.13.tar.gz
+        unpack: false
+    - https://crates.io/api/v1/crates/zerocopy-derive/0.8.13/download:
+        hash: 7988d73a4303ca289df03316bc490e934accf371af6bc745393cf3c2c5c4f25d
+        rename: zerocopy-derive-0.8.13.tar.gz
+        unpack: false
+##@@END_UPSTREAMS
 summary     : Mesa 3D graphics library
 description : |
     The Mesa project began as an open-source implementation of the OpenGL specification - a system for rendering interactive 3D graphics. Over the years the project has grown to implement more graphics APIs, including OpenGL ES, OpenCL, OpenMAX, VDPAU, VA-API, Vulkan and EGL. A variety of device drivers allows the Mesa libraries to be used in many different environments ranging from software emulation to complete hardware acceleration for modern GPUs. Mesa ties into several other open-source projects: the Direct Rendering Infrastructure, X.org, and Wayland to provide OpenGL support on Linux, FreeBSD, and other operating systems.
 license     :
     - BSD-2-Clause
     - MIT
-networking  : true
 builddeps   :
     - binary(bindgen)
     - binary(bison)
@@ -29,6 +146,8 @@ builddeps   :
     - binary(rustfmt) # Probably can be removed in next version
     - cmake(Clang)
     - cmake(glslang)
+    - cmake(libxml2)
+    - pkgconfig(libarchive)
     - pkgconfig(libclc)
     - pkgconfig(libdisplay-info)
     - pkgconfig(sysprof-capture-4)
@@ -54,14 +173,14 @@ builddeps   :
     - pkgconfig32(xshmfence)
     - pkgconfig32(xxf86vm)
     - pkgconfig32(zlib)
+    - python(mako)
+    - python(ply)
+    - python(pyyaml)
     - clang-32bit
     - clang-devel
     - gcc-32bit-devel
     - libatomic-32bit
     - lm_sensors-devel
-    - python(mako)
-    - python(ply)
-    - python(pyyaml)
     - rust-32bit
 tuning      :
     - lto: false
@@ -99,6 +218,8 @@ setup       : |
     # intel ANV texture bug fix https://gitlab.freedesktop.org/mesa/mesa/-/issues/14684
     export CXXFLAGS+=" -fno-strict-aliasing"
 
+    export MESON_PACKAGE_CACHE_DIR=%(sourcedir)
+
     %meson \
         -Ddisplay-info=${_IS_64BIT_FEAT} \
         -Degl=enabled \
@@ -118,8 +239,7 @@ setup       : |
         -Dvideo-codecs=all \
         -Dmicrosoft-clc=disabled \
         -Dvulkan-drivers=amd,intel,intel_hasvk,swrast,virtio$EXTRA_VK_DRIVERS \
-        -Dvulkan-layers=anti-lag,device-select,overlay,screenshot,vram-report-limit \
-        --wrap-mode=default
+        -Dvulkan-layers=anti-lag,device-select,overlay,screenshot,vram-report-limit
 build       : |
     %meson_build
 install     : |
