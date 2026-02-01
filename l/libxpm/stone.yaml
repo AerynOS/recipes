@@ -4,24 +4,26 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : libxpm
-version     : 3.5.17
-release     : 2
+version     : 3.5.18
+release     : 3
 homepage    : https://gitlab.freedesktop.org/xorg/lib/libxpm
 upstreams   :
-    - https://www.x.org/releases/individual/lib/libXpm-3.5.17.tar.gz : 959466c7dfcfcaa8a65055bfc311f74d4c43d9257900f85ab042604d286df0c6
+    - https://www.x.org/releases/individual/lib/libXpm-3.5.18.tar.gz : 74eb57253ed3085686371a331737daf072223b77f76bba13ed65a4b3aa6cb403
 summary     : X Pixmap (XPM) image file format library
 description : |
     libXpm provides support and common operations for the XPM pixmap format, which is commonly used in legacy X applications. XPM is an extension of the monochrome XBM bitmap specified in the X protocol.
 license     : MIT
 builddeps  :
+    - binary(xgettext)
     - pkgconfig(x11)
-    - gettext-devel
+    - pkgconfig(xorg-macros)
 checkdeps  :
     - pkgconfig(glib-2.0)
 setup       : |
-    %configure --disable-open-zfile \
-               --disable-static \
-               --enable-unit-tests
+    %configure \
+        --disable-open-zfile \
+        --disable-static \
+        --enable-unit-tests
 build       : |
     %make
 install     : |

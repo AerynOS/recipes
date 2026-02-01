@@ -4,9 +4,10 @@
 	"packages": {
 		"libxpm": {
 			"build-depends": [
-				"gettext-devel",
+				"binary(xgettext)",
 				"pkgconfig(glib-2.0)",
-				"pkgconfig(x11)"
+				"pkgconfig(x11)",
+				"pkgconfig(xorg-macros)"
 			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
@@ -28,9 +29,10 @@
 		},
 		"libxpm-devel": {
 			"build-depends": [
-				"gettext-devel",
+				"binary(xgettext)",
 				"pkgconfig(glib-2.0)",
-				"pkgconfig(x11)"
+				"pkgconfig(x11)",
+				"pkgconfig(xorg-macros)"
 			],
 			"depends": [
 				"libxpm",
@@ -89,6 +91,6 @@
 		}
 	},
 	"source-name": "libxpm",
-	"source-release": "2",
-	"source-version": "3.5.17"
+	"source-release": "3",
+	"source-version": "3.5.18"
 }
