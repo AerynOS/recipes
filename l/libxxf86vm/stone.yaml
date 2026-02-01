@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : libxxf86vm
-version     : 1.1.6
-release     : 5
+version     : 1.1.7
+release     : 6
 homepage    : https://gitlab.freedesktop.org/xorg/lib/libxxf86vm
 upstreams   :
-    - http://xorg.freedesktop.org/releases/individual/lib/libXxf86vm-1.1.6.tar.gz : d2b4b1ec4eb833efca9981f19ed1078a8a73eed0bb3ca5563b64527ae8021e52
+    - http://xorg.freedesktop.org/releases/individual/lib/libXxf86vm-1.1.7.tar.gz : 9a983e3cbb7a57905262291a17da962293c0645f99efd475e3c85264bfddc337
 summary     : X11 XFree86 video mode extension library
 description : |
     libXxf86vm provides an interface to the XFree86-VidModeExtension extension, which allows client applications to get and set video mode timings in extensive detail.  It is used by the xvidtune program in particular.
@@ -20,8 +20,8 @@ builddeps   :
      - pkgconfig(xproto)
 emul32      : yes
 setup       : |
-    %configure --disable-static
+    %meson
 build       : |
-    %make
+    %meson_build
 install     : |
-    %make_install
+    %meson_install
