@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : libxinerama
-version     : 1.1.5
-release     : 4
+version     : 1.1.6
+release     : 5
 homepage    : https://gitlab.freedesktop.org/xorg/lib/libxinerama
 upstreams   :
-    - https://www.x.org/releases/individual/lib/libXinerama-1.1.5.tar.xz : 5094d1f0fcc1828cb1696d0d39d9e866ae32520c54d01f618f1a3c1e30c2085c
+    - https://www.x.org/releases/individual/lib/libXinerama-1.1.6.tar.xz : d00fc1599c303dc5cbc122b8068bdc7405d6fcb19060f4597fc51bd3a8be51d7
 summary     : Xlib API for Xinerama extension to X11 Protocol
 description : |
     libXinerama - API for Xinerama extension to X11 Protocol
@@ -18,8 +18,8 @@ builddeps   :
     - pkgconfig(xext)
     - pkgconfig(xproto)
 setup       : |
-    %configure --disable-static
+    %meson
 build       : |
-    %make
+    %meson_build
 install     : |
-    %make_install
+    %meson_install
