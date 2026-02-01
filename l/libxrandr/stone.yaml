@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : libxrandr
-version     : '1.5.4'
-release     : 7
+version     : 1.5.5
+release     : 8
 homepage    : https://www.x.org/wiki/libraries/libxrandr/
 upstreams   :
-    - https://www.x.org/releases/individual/lib/libXrandr-1.5.4.tar.gz : c72c94dc3373512ceb67f578952c5d10915b38cc9ebb0fd176a49857b8048e22
+    - https://www.x.org/releases/individual/lib/libXrandr-1.5.5.tar.gz : 23faedab4675890ba579b8103399132a139527306b18b500c6fe28e090e2a056
 summary     : X11 RandR extension library
 description : |
     libXrandr provides an X Window System client interface to the RandR extension to the X protocol. The RandR extension allows for run-time configuration of display attributes such as resolution, rotation, and reflection.
@@ -20,8 +20,8 @@ builddeps   :
     - pkgconfig(xproto)
 emul32      : yes
 setup       : |
-    %configure --disable-static
+    %meson
 build       : |
-    %make
+    %meson_build
 install     : |
-    %make_install
+    %meson_install
