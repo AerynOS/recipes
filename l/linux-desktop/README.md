@@ -94,4 +94,18 @@ Once the kernel builds and you have tested that it boots and works on your local
 
 Best of luck on your kernel maintenance journey. ^^'
 
+## initrd notes
 
+To ensure better scalability and reproducibility, we use pre-built initrds instead of dkms.
+
+However, multiple initrds have some interesting... properties... due to them using CPIO filesystems.
+Basically the problem is that multiple initrds are not actually "merged", but that the kernel checks inodes in reverse order and only the first matching one is read.
+So when the kernel goes to lookup /etc it will find /etc in the nvidia initrd and read the list of entries from it.
+It will only have /etc/systemd and that /etc/systemd will only have /etc/systemd/system.conf.d and so on.
+Essentially every other file in /etc/ that's in the main initrd will not be visible to any processes running.
+
+Now that may or may not cause an actual error, but it's definitely not something we want.
+To avoid that behavior we have a rule where initrd extensions can only have top-level directories and files that do not conflict with any ones in the main initrd.
+That's why we add /eb-fw and /eb-nvidia-fw to the kernel firmware search paths via a patch, if you tried to have them in /lib/firmware it would cause /lib to get masked which would be very bad since that's where all the kernel modules and firmware is loaded from.
+
+If you use rd.break=pre-udev to break and drop into a shell during the init you can do a ls /etc and see what this means.
