@@ -14,6 +14,7 @@
 				"docbook",
 				"docbook-xsl",
 				"pkgconfig(Qt6UiTools)",
+				"pkgconfig(bash-completion)",
 				"pkgconfig(glib-2.0)",
 				"pkgconfig(gobject-introspection-1.0)",
 				"pkgconfig(libcurl)",
@@ -40,9 +41,10 @@
 			"files": [
 				"/usr/bin/appstreamcli",
 				"/usr/lib/girepository-1.0/AppStream-1.0.typelib",
-				"/usr/lib/libappstream.so.1.1.1",
+				"/usr/lib/libappstream.so.1.1.2",
 				"/usr/lib/libappstream.so.5",
 				"/usr/share/appstream/appstream.conf",
+				"/usr/share/bash-completion/completions/appstreamcli",
 				"/usr/share/locale/ain/LC_MESSAGES/appstream.mo",
 				"/usr/share/locale/ar/LC_MESSAGES/appstream.mo",
 				"/usr/share/locale/bg/LC_MESSAGES/appstream.mo",
@@ -72,6 +74,7 @@
 				"/usr/share/locale/ja/LC_MESSAGES/appstream.mo",
 				"/usr/share/locale/ka/LC_MESSAGES/appstream.mo",
 				"/usr/share/locale/ko/LC_MESSAGES/appstream.mo",
+				"/usr/share/locale/kw/LC_MESSAGES/appstream.mo",
 				"/usr/share/locale/lt/LC_MESSAGES/appstream.mo",
 				"/usr/share/locale/nb/LC_MESSAGES/appstream.mo",
 				"/usr/share/locale/nl/LC_MESSAGES/appstream.mo",
@@ -114,6 +117,7 @@
 				"docbook",
 				"docbook-xsl",
 				"pkgconfig(Qt6UiTools)",
+				"pkgconfig(bash-completion)",
 				"pkgconfig(glib-2.0)",
 				"pkgconfig(gobject-introspection-1.0)",
 				"pkgconfig(libcurl)",
@@ -197,6 +201,7 @@
 				"docbook",
 				"docbook-xsl",
 				"pkgconfig(Qt6UiTools)",
+				"pkgconfig(bash-completion)",
 				"pkgconfig(glib-2.0)",
 				"pkgconfig(gobject-introspection-1.0)",
 				"pkgconfig(libcurl)",
@@ -218,7 +223,7 @@
 				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
-				"/usr/lib/libAppStreamQt.so.1.1.1",
+				"/usr/lib/libAppStreamQt.so.1.1.2",
 				"/usr/lib/libAppStreamQt.so.3"
 			],
 			"name": "appstream-qt6",
@@ -238,6 +243,7 @@
 				"docbook",
 				"docbook-xsl",
 				"pkgconfig(Qt6UiTools)",
+				"pkgconfig(bash-completion)",
 				"pkgconfig(glib-2.0)",
 				"pkgconfig(gobject-introspection-1.0)",
 				"pkgconfig(libcurl)",
@@ -290,6 +296,6 @@
 		}
 	},
 	"source-name": "appstream",
-	"source-release": "13",
-	"source-version": "1.1.1"
+	"source-release": "14",
+	"source-version": "1.1.2"
 }
