@@ -5,7 +5,7 @@
 #
 name        : plasma-workspace
 version     : 6.5.5
-release     : 28
+release     : 29
 upstreams   :
     - https://download.kde.org/stable/plasma/6.5.5/plasma-workspace-6.5.5.tar.xz : 29b0763bbbdd9e27416dce1fd939242d2588feef36c4cbae941c31964d531fd4
 homepage    : https://kde.org/plasma-desktop/
@@ -138,7 +138,6 @@ packages    :
             - systemd # Used for session init
             # - xrdb # Used for fonts, can we get away without it?
             # - xprop # Can we avoid this?
-            - xwaylandvideobridge # Used for streaming Wayland windows to Xwayland clients
 
             # Power management
             - powerdevil
