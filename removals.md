@@ -171,3 +171,7 @@
 
 ### Renamed
 - gnome-online-accounts-devel
+
+### No longer used
+- xwaylandvideobridge
+- xwaylandvideobridge-dbginfo
