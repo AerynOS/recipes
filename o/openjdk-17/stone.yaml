@@ -4,16 +4,16 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : openjdk-17
-version     : 17.0.17
-release     : 1
+version     : 17.0.18
+release     : 2
 upstreams   :
-    - https://github.com/openjdk/jdk17u/archive/refs/tags/jdk-17.0.17-ga.tar.gz:
-        hash: e2d1d92a4a593d9a87054ea54f76fcb6119f782c57945506a2ec4adff6ddc123
+    - https://github.com/openjdk/jdk17u/archive/refs/tags/jdk-17.0.18-ga.tar.gz:
+        hash: 15c4fbd1d69254d362c24e82f4e9ab7ed69c8ebc7daf996500210698c944230a
         unpackdir: "jdk"
     # BOOTSTRAPPIN
-    - https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.17%2B10/OpenJDK17U-jdk_x64_linux_hotspot_17.0.17_10.tar.gz:
-        hash: 992f96e7995075ac7636bb1a8de52b0c61d71ed3137fafc979ab96b4ab78dd75
-        unpackdir: "jdk/bootstrap-jdk"
+    # - https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.18%2B8/OpenJDK17U-jdk_x64_linux_hotspot_17.0.18_10.tar.gz:
+    #     hash: 992f96e7995075ac7636bb1a8de52b0c61d71ed3137fafc979ab96b4ab78dd75
+    #     unpackdir: "jdk/bootstrap-jdk"
     # Detection seems broken, we can't use system gtest (TODO fix this)
     - https://github.com/google/googletest/archive/refs/tags/v1.14.0.tar.gz:
         hash: 8ad598c73ad796e0d8280b082cebd82a630d73e73cd3c70057938a6501bba5d7
@@ -49,32 +49,33 @@ builddeps   :
     - pkgconfig(xt)
     - pkgconfig(xtst)
     - giflib-devel
+    - openjdk-17
 rundeps-exclude:
     - 'soname\(libjvm\.so\(.*\)\)'
 setup       : |
     # Set to 1 to bootstrap
-    _bootstrap=1
+    _bootstrap=0
 
     # TODO package jtreg so we can run tests (post bootstrapping)
     # TODO at some point when we have conflicts it should be feasible to package the JRE
 
-    %patch %(pkgdir)/0001-Force-gnu-mode-for-date.patch
-
     # ccache needs to be enabled via conf option, not by setting the path
     if [[ " ${PATH[*]} " =~ "ccache" ]]; then
         export PATH="${PATH//\/usr\/lib\/ccache\/bin:/}"
-        export extra_conf_opts="--enable-ccache"
+        extra_conf_opts="--enable-ccache"
     fi
 
     if [[ ${_bootstrap} == "1" ]]; then
-        export extra_conf_opts+=" --with-boot-jdk='%(workdir)/bootstrap-jdk'"
+        extra_conf_opts+=" --with-boot-jdk='%(workdir)/bootstrap-jdk'"
+    else
+        extra_conf_opts+=" --with-boot-jdk='%(libdir)/openjdk-17'"
     fi
 
     # Git commit that corresponds to version
-    export GITCOMMIT=$(git ls-remote https://github.com/openjdk/jdk17u.git refs/tags/jdk-%(version)-ga^{} | awk '{print $1}')
+    GITCOMMIT=$(git ls-remote https://github.com/openjdk/jdk17u.git refs/tags/jdk-%(version)-ga^{} | awk '{print $1}')
     # Basically this finds the git tag with the same commit as the `version-ga` format and then
     # parses it with regex to extract the -build part (so `17.0.17-ga` to match `17.0.17-10` and the output is `10`)
-    export _version_build=$(git ls-remote https://github.com/openjdk/jdk17u.git | \
+    _version_build=$(git ls-remote https://github.com/openjdk/jdk17u.git | \
                             grep ${GITCOMMIT} | \
                             sed '/-ga^{}/d' | \
                             awk '{print $2}' | \
