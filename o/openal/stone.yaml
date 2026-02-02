@@ -4,16 +4,17 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : openal
-version     : 1.24.3
-release     : 4
+version     : 1.25.1
+release     : 5
 upstreams   :
-    - https://github.com/kcat/openal-soft/archive/refs/tags/1.24.3.tar.gz : 7e1fecdeb45e7f78722b776c5cf30bd33934b961d7fd2a11e0494e064cc631ce
+    - https://github.com/kcat/openal-soft/archive/refs/tags/1.25.1.tar.gz : 5f8efe8dfba5e9307a50251ba615ace857c7fa9dddfe34130b83e213d7f7cf24
 homepage    : https://openal-soft.org/
 license     : LGPL-2.1-or-later
 summary     : Open Source OpenAL implementation
 description : |
     OpenAL Soft is an LGPL-licensed, cross-platform, software implementation of the OpenAL 3D audio API. It's forked from the open-sourced Windows version available originally from openal.org's SVN repository (now defunct).
 builddeps   :
+    - pkgconfig(Qt6Widgets)
     - pkgconfig(alsa)
     - pkgconfig(dbus-1)
     - pkgconfig(fmt)
@@ -21,6 +22,7 @@ builddeps   :
     - pkgconfig(libavdevice)
     - pkgconfig(libavformat)
     - pkgconfig(libavutil)
+    - pkgconfig(libmysofa)
     - pkgconfig(libpipewire-0.3)
     - pkgconfig(libpulse)
     - pkgconfig(libswresample)
@@ -30,7 +32,8 @@ builddeps   :
     - pkgconfig(zlib)
     # JACK
 setup       : |
-    %patch %(pkgdir)/unbundle-fmt.patch
+    # TODO: Rebase this patch
+    # patch %(pkgdir)/unbundle-fmt.patch
 
     %cmake
 build       : |
@@ -47,8 +50,21 @@ packages    :
             # Uses dlopen(), but since pipewire is the default on Aeryn make sure it's available
             - "soname(libpipewire-0.3.so.0(x86_64))"
 
+    - "%(name)-devel":
+        paths:
+            - /usr/bin/makemhr
+
     - "%(name)-examples":
         summary: Sample applications for OpenAl
         description: Sample applications for OpenAl
         paths:
             - /usr/bin/al*
+
+    - "%(name)-qt":
+        summary: Qt frontend for configuring OpenAL
+        description: Qt frontend for configuring OpenAL
+        rundeps:
+            - qt6-wayland
+        paths:
+            - /usr/bin/alsoft-config
+            - "%(name)"
