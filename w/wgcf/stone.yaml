@@ -9,9 +9,9 @@ release     : 1
 homepage    : https://github.com/ViRb3/wgcf
 upstreams   :
     - https://github.com/ViRb3/wgcf/archive/refs/tags/v2.2.30.tar.gz : 91dae7e063476486643bc20005fa764380e2a3b38f42002b4c5e17da637bafba
-summary     : Unofficial Cloudflare Warp for WireGuard
+summary     : Unofficial Cloudflare WARP for WireGuard
 description : |
-    Unofficial CLI tool for Cloudflare Warp to create and manage accounts, and generate WireGuard profiles.
+    Unofficial Cloudflare WARP CLI tool to create and manage accounts, and generate WireGuard profiles.
 license     : 
     - MIT
 builddeps   :
@@ -29,6 +29,6 @@ build       : |
 install     : |
     %install_bin wgcf
 
-    %install_file wgcf.bash %(installroot)%(datadir)/bash-completion/completions/wgcf
-    %install_file wgcf.zsh %(installroot)%(datadir)/zsh/site-functions/_wgcf
-    %install_file wgcf.fish %(installroot)%(datadir)/fish/vendor_completions.d/wgcf.fish
+    %install_file wgcf.bash %(installroot)%(bashcompletionsdir)/wgcf
+    %install_file wgcf.zsh %(installroot)%(zshcompletionsdir)/_wgcf
+    %install_file wgcf.fish %(installroot)%(fishcompletionsdir)/wgcf.fish
