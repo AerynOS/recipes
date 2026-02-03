@@ -5,7 +5,7 @@
 #
 name        : niri
 version     : "25.11"
-release     : 13
+release     : 14
 summary     : Niri Desktop Compositor
 license     : GPL-3.0
 homepage    : https://github.com/YaLTeR/niri
@@ -58,5 +58,5 @@ install     : |
     done
 
     %install_file bash-completions %(installroot)%(bashcompletionsdir)/niri
-    %install_file fish-completions %(installroot)%(zshcompletionsdir)/niri.fish
-    %install_file zsh-completions %(installroot)%(fishcompletionsdir)/_niri
+    %install_file fish-completions %(installroot)%(fishcompletionsdir)/niri.fish
+    %install_file zsh-completions %(installroot)%(zshcompletionsdir)/_niri
