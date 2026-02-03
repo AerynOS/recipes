@@ -5,8 +5,8 @@
 #
 name        : dankmaterialshell
 version     : 1.2.3
-release     : 1
-homepage    : https://github.com/AvengeMedia/DankMaterialShell
+release     : 2
+homepage    : https://danklinux.com/
 upstreams   :
     - https://github.com/AvengeMedia/DankMaterialShell/archive/refs/tags/v1.2.3.tar.gz : ce3d098441db44c835437f810e042c55aca97752bf2244d3d50ac83caf79b337
 summary     : Desktop shell for wayland compositor
@@ -22,10 +22,30 @@ builddeps   :
 rundeps     :
     - binary(quickshell)
 networking  : yes
+setup       : |
+    %patch %(pkgdir)/0001-Allow-root-check-to-be-overridden.patch
+
+    cd core/cmd/dms
+    go mod vendor
 build       : |
-    %make
+    pushd core/cmd/dms
+    export CGO_CPPFLAGS="${CPPFLAGS}"
+    export CGO_CFLAGS="${CFLAGS}"
+    export CGO_CXXFLAGS="${CXXFLAGS}"
+    export CGO_LDFLAGS="${LDFLAGS}"
+    export GOFLAGS="-buildmode=pie -trimpath -modcacherw -mod=readonly"
+
+    go build -o dms \
+        -tags distro_binary \
+        -ldflags "-X main.Version=v%(version)" \
+        .
+    popd
+
+    DANKSHELL_OVERRIDE_ROOT_CHECK=0 core/cmd/dms/dms completion bash > completion.bash
+    DANKSHELL_OVERRIDE_ROOT_CHECK=0 core/cmd/dms/dms completion fish > completion.fish
+    DANKSHELL_OVERRIDE_ROOT_CHECK=0 core/cmd/dms/dms completion zsh > completion.zsh
 install     : |
-    %install_bin core/bin/dms
+    %install_bin core/cmd/dms/dms
 
     %install_file assets/dms-open.desktop -t %(installroot)%(datadir)/applications
     %install_file assets/danklogo.svg %(installroot)%(datadir)/icons/hicolor/scalable/apps/danklogo.svg
@@ -36,6 +56,6 @@ install     : |
     rm -rf %(installroot)%(datadir)/quickshell/dms/.git* %(installroot)%(datadir)/quickshell/dms/.github
 
     # Completions
-    %install_file %(pkgdir)/bash-completion %(installroot)%(bashcompletionsdir)/dms
-    %install_file %(pkgdir)/zsh-completion %(installroot)%(zshcompletionsdir)/_dms
-    %install_file %(pkgdir)/fish-completion %(installroot)%(fishcompletionsdir)/dms.fish
+    %install_file completion.bash %(installroot)%(bashcompletionsdir)/dms
+    %install_file completion.zsh %(installroot)%(zshcompletionsdir)/_dms
+    %install_file completion.fish %(installroot)%(fishcompletionsdir)/dms.fish

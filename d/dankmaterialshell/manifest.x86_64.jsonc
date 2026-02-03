@@ -7,7 +7,9 @@
 				"binary(go)"
 			],
 			"depends": [
-				"binary(quickshell)"
+				"binary(quickshell)",
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(libc.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/bin/dms",
@@ -639,6 +641,6 @@
 		}
 	},
 	"source-name": "dankmaterialshell",
-	"source-release": "1",
+	"source-release": "2",
 	"source-version": "1.2.3"
 }

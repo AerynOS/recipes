@@ -1,0 +1,43 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Reilly Brogan <reilly@reillybrogan.com>
+Date: Mon, 2 Feb 2026 18:06:26 -0600
+Subject: [PATCH] Allow root check to be overridden
+
+---
+ core/cmd/dms/main.go        | 5 ++++-
+ core/cmd/dms/main_distro.go | 6 ++++--
+ 2 files changed, 8 insertions(+), 3 deletions(-)
+
+diff --git a/core/cmd/dms/main.go b/core/cmd/dms/main.go
+index 6b09e4dc..8677a437 100644
+--- a/core/cmd/dms/main.go
++++ b/core/cmd/dms/main.go
+@@ -34,7 +34,10 @@ func init() {
+ }
+ 
+ func main() {
+-	if os.Geteuid() == 0 {
++	// Allow someone to override the root check if they really, really want to
++	_, override := os.LookupEnv("DANKSHELL_OVERRIDE_ROOT_CHECK")
++
++	if os.Geteuid() == 0 && !override {
+ 		log.Fatal("This program should not be run as root. Exiting.")
+ 	}
+ 
+diff --git a/core/cmd/dms/main_distro.go b/core/cmd/dms/main_distro.go
+index 6496485a..bc0caf74 100644
+--- a/core/cmd/dms/main_distro.go
++++ b/core/cmd/dms/main_distro.go
+@@ -30,8 +30,10 @@ func init() {
+ }
+ 
+ func main() {
+-	// Block root
+-	if os.Geteuid() == 0 {
++	// Allow someone to override the root check if they really, really want to
++	_, override := os.LookupEnv("DANKSHELL_OVERRIDE_ROOT_CHECK")
++
++	if os.Geteuid() == 0 && !override {
+ 		log.Fatal("This program should not be run as root. Exiting.")
+ 	}
+ 
