@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : gst-plugins-rs
-version     : 1.26.10
-release     : 15
+version     : 1.28.0
+release     : 16
 homepage    : https://gitlab.freedesktop.org/gstreamer/gst-plugins-rs
 upstreams   :
-    - https://gitlab.freedesktop.org/gstreamer/gst-plugins-rs/-/archive/gstreamer-1.26.10/gst-plugins-rs-gstreamer-1.26.10.tar.gz : 42da7539e28b0c093a4b3b48ab5659cc5e2e7aee98e2518a3209a3e85ce0fe70
+    - https://gitlab.freedesktop.org/gstreamer/gst-plugins-rs/-/archive/gstreamer-1.28.0/gst-plugins-rs-gstreamer-1.28.0.tar.gz : 1bc6a7cedb6a0af5eae0ab301b22059b85b82b348669a596b0902bf84514eacc
 summary     : GStreamer plugins written in Rust.
 description : |
     These plugins can be used by applications written in other programming languages as well of course, they are just like any other GStreamer plugins available on the system.
@@ -31,12 +31,15 @@ builddeps   :
     - pkgconfig(libsodium)
     - pkgconfig(libwebp)
     - pkgconfig(openssl)
+    # hotdoc
 # Missing libraries:
 # - libvvdec
 environment: |
     export SODIUM_USE_PKG_CONFIG=1
 setup       : |
-    %meson
+    # Enable validate if we ever enable devtools in gstreamer
+    %meson \
+        -Dvalidate=disabled
 build       : |
     %meson_build
 install     : |

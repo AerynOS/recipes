@@ -420,6 +420,7 @@
 				"/usr/lib/mariadb/plugin/auth_ed25519.so",
 				"/usr/lib/mariadb/plugin/auth_gssapi.so",
 				"/usr/lib/mariadb/plugin/auth_gssapi_client.so",
+				"/usr/lib/mariadb/plugin/auth_mysql_sha2.so",
 				"/usr/lib/mariadb/plugin/auth_pam.so",
 				"/usr/lib/mariadb/plugin/auth_pam_tool_dir/auth_pam_tool",
 				"/usr/lib/mariadb/plugin/auth_pam_v1.so",
@@ -712,6 +713,7 @@
 				"soname(mariadb/plugin/auth_ed25519.so(x86_64))",
 				"soname(mariadb/plugin/auth_gssapi.so(x86_64))",
 				"soname(mariadb/plugin/auth_gssapi_client.so(x86_64))",
+				"soname(mariadb/plugin/auth_mysql_sha2.so(x86_64))",
 				"soname(mariadb/plugin/auth_pam.so(x86_64))",
 				"soname(mariadb/plugin/auth_pam_v1.so(x86_64))",
 				"soname(mariadb/plugin/auth_parsec.so(x86_64))",
@@ -1094,11 +1096,13 @@
 				"/usr/include/mysql/server/private/keycaches.h",
 				"/usr/include/mysql/server/private/lex.h",
 				"/usr/include/mysql/server/private/lex_charset.h",
+				"/usr/include/mysql/server/private/lex_hash.h",
 				"/usr/include/mysql/server/private/lex_ident.h",
 				"/usr/include/mysql/server/private/lex_ident_cli.h",
 				"/usr/include/mysql/server/private/lex_ident_sys.h",
 				"/usr/include/mysql/server/private/lex_string.h",
 				"/usr/include/mysql/server/private/lex_symbol.h",
+				"/usr/include/mysql/server/private/lex_token.h",
 				"/usr/include/mysql/server/private/lf.h",
 				"/usr/include/mysql/server/private/lock.h",
 				"/usr/include/mysql/server/private/log.h",
@@ -1476,6 +1480,6 @@
 		}
 	},
 	"source-name": "mariadb",
-	"source-release": "2",
-	"source-version": "11.8.2"
+	"source-release": "3",
+	"source-version": "11.8.5"
 }

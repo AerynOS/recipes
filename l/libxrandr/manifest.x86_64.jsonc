@@ -58,6 +58,8 @@
 				"libxrandr-32bit",
 				"libxrandr-devel",
 				"pkgconfig(randrproto)",
+				"pkgconfig(renderproto)",
+				"pkgconfig(xextproto)",
 				"pkgconfig(xproto)",
 				"pkgconfig32(x11)",
 				"pkgconfig32(xext)",
@@ -82,8 +84,10 @@
 			"depends": [
 				"libxrandr",
 				"pkgconfig(randrproto)",
+				"pkgconfig(renderproto)",
 				"pkgconfig(x11)",
 				"pkgconfig(xext)",
+				"pkgconfig(xextproto)",
 				"pkgconfig(xproto)",
 				"pkgconfig(xrender)"
 			],
@@ -114,6 +118,6 @@
 		}
 	},
 	"source-name": "libxrandr",
-	"source-release": "7",
-	"source-version": "1.5.4"
+	"source-release": "8",
+	"source-version": "1.5.5"
 }

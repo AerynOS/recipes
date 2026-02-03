@@ -1,0 +1,39 @@
+From 8d6a5e114ffdceb2fcdbe5638eec6772731f7c5e Mon Sep 17 00:00:00 2001
+From: Moss Heim <moss.heim@qt.io>
+Date: Wed, 17 Dec 2025 11:20:01 +0100
+Subject: [PATCH] Pass Nodejs_EXECUTABLE to GN build
+
+The Chromium build system used to find nodejs separately by running
+'which nodejs' and 'which node'. This led to issues when the executable
+found differed from the one found by qtwebengine's CMake configuration.
+Now we pass the path directly to the Chromium build via an environment
+variable so it can be read in third_party/node/node.py.
+
+Pick-to: 6.8 6.9 6.10 6.11
+Fixes: QTBUG-142667
+Task-number: QTBUG-124576
+Change-Id: Idf0d040aed8f29a8d4aa6a1269c980de885863ef
+Reviewed-by: Allan Sandfeld Jensen <allan.jensen@qt.io>
+---
+ cmake/Functions.cmake | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/cmake/Functions.cmake b/cmake/Functions.cmake
+index e3f5f54d4..63670c16c 100644
+--- a/cmake/Functions.cmake
++++ b/cmake/Functions.cmake
+@@ -438,7 +438,10 @@ function(add_ninja_command)
+             ${arg_BUILDDIR}/${arg_TARGET} # use generator expression in CMAKE 3.20
+         BYPRODUCTS ${arg_BYPRODUCTS}
+         COMMENT "Running ninja for ${arg_TARGET} in ${arg_BUILDDIR}"
+-        COMMAND Ninja::ninja
++        COMMAND ${CMAKE_COMMAND}
++            -E env
++            "NODEJS_EXECUTABLE=${Nodejs_EXECUTABLE}"
++            $<TARGET_FILE:Ninja::ninja>
+             ${ninja_flags}
+             -C ${arg_BUILDDIR}
+             ${arg_TARGET}
+-- 
+GitLab
+

@@ -5,16 +5,20 @@
 #
 name        : lame
 version     : '3.100'
-release     : 5
+release     : 6
 homepage    : https://lame.sourceforge.io/
 upstreams   :
-    - https://netcologne.dl.sourceforge.net/project/lame/lame/3.100/lame-3.100.tar.gz : ddfe36cab873794038ae2c1210557ad34857a4b6bdc515785d1da9e175b1da1e
+    - https://sourceforge.net/projects/lame/files/lame/3.100/lame-3.100.tar.gz/download :
+        hash: ddfe36cab873794038ae2c1210557ad34857a4b6bdc515785d1da9e175b1da1e
+        rename: lame.tar.gz
 summary     : LAME is a high quality MPEG Audio Layer III (MP3) encoder
 description : |
     LAME is a high quality MPEG Audio Layer III (MP3) encoder licensed under the LGPL.
 license     :
     - LGPL-2.0-or-later
 builddeps   :
+    # TODO: Remove me once boulder fix https://github.com/AerynOS/os-tools/pull/678 is packaged
+    - binary(bsdtar-static)
     - binary(nasm)
     - pkgconfig(ncursesw)
 setup       : |

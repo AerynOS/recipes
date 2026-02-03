@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : tdb
-version     : 1.4.14
-release     : 4
+version     : 1.4.15
+release     : 5
 homepage    : https://tdb.samba.org
 upstreams   :
-    - https://www.samba.org/ftp/tdb/tdb-1.4.14.tar.gz : 144f407d42ed7a0ec1470a40ef17ad41133fe910bce865dd9fe084d49c907526
+    - https://www.samba.org/ftp/tdb/tdb-1.4.15.tar.gz : fba09d8df1f1b9072aeae8e78b2bd43c5afef20b2f6deefa633aa14a377a8dd2
 summary     : Simple database API for Samba.
 description : |
     This is a simple database API. It was inspired by the realisation that in Samba we have several ad-hoc bits of code that essentially implement small databases for sharing structures between parts of Samba. The interface is based on gdbm. gdbm couldn't be use as we needed to be able to have multiple writers to the databases at one time.

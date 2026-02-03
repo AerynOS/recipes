@@ -4,16 +4,16 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : openjdk-21
-version     : 21.0.9
-release     : 1
+version     : 21.0.10
+release     : 2
 upstreams   :
-    - https://github.com/openjdk/jdk21u/archive/refs/tags/jdk-21.0.9-ga.tar.gz:
-        hash: 4ffe05ff839192b01ed53ccd69835f7b5508bee7ca0d5703ac210897065e7ff0
+    - https://github.com/openjdk/jdk21u/archive/refs/tags/jdk-21.0.10-ga.tar.gz:
+        hash: 133a864987b4732d46cca5084b7cde8ffef168bde4e4b0118ebd2b38c1fda2f1
         unpackdir: "jdk"
     # BOOTSTRAPPIN
-    - https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.9%2B10/OpenJDK21U-jdk_x64_linux_hotspot_21.0.9_10.tar.gz:
-        hash: 810d3773df7e0d6c4394e4e244b264c8b30e0b05a0acf542d065fd78a6b65c2f
-        unpackdir: "jdk/bootstrap-jdk"
+    # - https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.10%2B10/OpenJDK21U-jdk_x64_linux_hotspot_21.0.10_10.tar.gz:
+    #     hash: 810d3773df7e0d6c4394e4e244b264c8b30e0b05a0acf542d065fd78a6b65c2f
+    #     unpackdir: "jdk/bootstrap-jdk"
     # Detection seems broken, we can't use system gtest (TODO fix this)
     - https://github.com/google/googletest/archive/refs/tags/v1.14.0.tar.gz:
         hash: 8ad598c73ad796e0d8280b082cebd82a630d73e73cd3c70057938a6501bba5d7
@@ -49,32 +49,33 @@ builddeps   :
     - pkgconfig(xt)
     - pkgconfig(xtst)
     - giflib-devel
+    - openjdk-21
 rundeps-exclude:
     - 'soname\(libjvm\.so\(.*\)\)'
 setup       : |
     # Set to 1 to bootstrap
-    _bootstrap=1
+    _bootstrap=0
 
     # TODO package jtreg so we can run tests (post bootstrapping)
     # TODO at some point when we have conflicts it should be feasible to package the JRE
 
-    %patch %(pkgdir)/0001-Force-gnu-mode-for-date.patch
-
     # ccache needs to be enabled via conf option, not by setting the path
     if [[ " ${PATH[*]} " =~ "ccache" ]]; then
         export PATH="${PATH//\/usr\/lib\/ccache\/bin:/}"
-        export extra_conf_opts="--enable-ccache"
+        extra_conf_opts="--enable-ccache"
     fi
 
     if [[ ${_bootstrap} == "1" ]]; then
-        export extra_conf_opts+=" --with-boot-jdk='%(workdir)/bootstrap-jdk'"
+        extra_conf_opts+=" --with-boot-jdk='%(workdir)/bootstrap-jdk'"
+    else
+        extra_conf_opts+=" --with-boot-jdk='%(libdir)/openjdk-21'"
     fi
 
     # Git commit that corresponds to version
-    export GITCOMMIT=$(git ls-remote https://github.com/openjdk/jdk21u.git refs/tags/jdk-%(version)-ga^{} | awk '{print $1}')
+    GITCOMMIT=$(git ls-remote https://github.com/openjdk/jdk21u.git refs/tags/jdk-%(version)-ga^{} | awk '{print $1}')
     # Basically this finds the git tag with the same commit as the `version-ga` format and then
     # parses it with regex to extract the -build part (so `21.0.9-ga` to match `21.0.9-10` and the output is `10`)
-    export _version_build=$(git ls-remote https://github.com/openjdk/jdk21u.git | \
+    _version_build=$(git ls-remote https://github.com/openjdk/jdk21u.git | \
                             grep ${GITCOMMIT} | \
                             sed '/-ga^{}/d' | \
                             awk '{print $2}' | \
