@@ -5,11 +5,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : linux-desktop
-version     : 6.18.7
-release     : 125
+version     : 6.18.9
+release     : 126
 homepage    : https://kernel.org/
 upstreams   :
-    - https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.18.7.tar.xz : b726a4d15cf9ae06219b56d87820776e34d89fbc137e55fb54a9b9c3015b8f1e
+    - https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.18.9.tar.xz : 030115ff8fb4cb536d8449dc40ebc3e314e86ba1b316a6ae21091a11cc930578
 summary     : The Linux Kernel for desktop systems
 description : |
     The Linux Kernel for desktop systems
@@ -83,11 +83,8 @@ setup       : |
         do
             %patch "%(pkgdir)/patches/${p}"
         done
-    else
-        echo -e "\nERROR: Please set up a pkg/patches/series file!\n"
-        exit 1
     fi
-    
+
     extraVersion="-%(release).desktop"
     sed -e "s/EXTRAVERSION =.*/EXTRAVERSION = $extraVersion/" -i Makefile
 
