@@ -4,30 +4,22 @@
 	"packages": {
 		"mangowc": {
 			"build-depends": [
-				"binary(Xwayland)",
-				"binary(g++)",
-				"binary(git)",
-				"binary(meson)",
-				"pkgconfig(hwdata)",
-				"pkgconfig(libdisplay-info)",
 				"pkgconfig(libdrm)",
 				"pkgconfig(libinput)",
-				"pkgconfig(libliftoff)",
 				"pkgconfig(libpcre2-8)",
-				"pkgconfig(libseat)",
 				"pkgconfig(pixman-1)",
 				"pkgconfig(scenefx)",
-				"pkgconfig(wayland-client)",
 				"pkgconfig(wayland-protocols)",
-				"pkgconfig(wayland-server)",
 				"pkgconfig(wlroots)",
 				"pkgconfig(xcb)",
-				"pkgconfig(xi)",
 				"pkgconfig(xkbcommon)",
 				"pkgconfig(xwayland)"
 			],
 			"depends": [
+				"binary(foot)",
+				"binary(tofi)",
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"pkgset-aeryn-base-desktop",
 				"soname(libc.so.6(x86_64))",
 				"soname(libinput.so.10(x86_64))",
 				"soname(libpcre2-8.so.0(x86_64))",
@@ -52,6 +44,6 @@
 		}
 	},
 	"source-name": "mangowc",
-	"source-release": "1",
-	"source-version": "0.10.10"
+	"source-release": "2",
+	"source-version": "0.12.0"
 }
