@@ -1,0 +1,31 @@
+#
+# SPDX-FileCopyrightText: © 2025- AerynOS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : p7zip
+version     : 17.06
+release     : 1
+homepage    : https://github.com/p7zip-project/p7zip
+upstreams   :
+    - https://github.com/p7zip-project/p7zip/archive/refs/tags/v17.06.tar.gz : c35640020e8f044b425d9c18e1808ff9206dc7caf77c9720f57eb0849d714cd1
+summary     : Port of 7-Zip archiver for Unix
+description : |
+    Command-line file archiver with high compression ratio
+license     :
+    - LGPL-2.1-or-later
+builddeps   :
+    - pkgconfig(libnatspec)
+tuning      :
+    - optimize: speed
+setup       : |
+    %patch %(pkgdir)/natspec.patch
+    %patch %(pkgdir)/do-not-gzip-man-pages.patch
+
+    # Use Clang
+    sed -i 's/CC=gcc/CC?=gcc/; s/CXX=g++/CXX?=g++/' makefile.*
+build       : |
+    %make OPTFLAGS="$CPPFLAGS $CFLAGS" 7z 7zr 7za
+install     : |
+    %make_install DEST_DIR=%(installroot) DEST_HOME=%(prefix) DEST_MAN=%(mandir) DEST_SHARE=%(libdir)/p7zip
+    rm -rf %(installroot)%(docdir)
