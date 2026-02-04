@@ -4,10 +4,10 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : libfyaml
-version     : "0.9.3"
-release     : 3
+version     : "0.9.4"
+release     : 4
 upstreams   :
-    - https://github.com/pantoniou/libfyaml/releases/download/v0.9.3/libfyaml-0.9.3.tar.gz : d4541c36ae726f51e9df22dd8ac1a19d122666060daf3806e37b848d4c73a8ed
+    - https://github.com/pantoniou/libfyaml/releases/download/v0.9.4/libfyaml-0.9.4.tar.gz : dac2b0af7b757b32a4fa7c6493d85d0f7dea6effd20ae4352570b6a450b9e5fb
 homepage    : https://github.com/pantoniou/libfyaml
 license     : MIT
 summary     : Fully feature complete YAML parser and emitter
@@ -20,7 +20,8 @@ builddeps   :
     - pkgconfig(check)
     - pkgconfig(yaml-0.1)
 setup       : |
-    %cmake
+    %cmake \
+        -DENABLE_NETWORK=OFF
 build       : |
     %cmake_build
 install     : |
