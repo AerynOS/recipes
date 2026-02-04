@@ -1,0 +1,13 @@
+diff --git a/config.conf b/config.conf
+index 6cbb3a2..d7300bf 100644
+--- a/config.conf
++++ b/config.conf
+@@ -146,7 +146,7 @@ tagrule=id:9,layout_name:tile
+ bind=SUPER,r,reload_config
+ 
+ # menu and terminal
+-bind=Alt,space,spawn,rofi -show drun
++bind=Alt,space,spawn,tofi-drun --drun-launch=true
+ bind=Alt,Return,spawn,foot
+ 
+ # exit
