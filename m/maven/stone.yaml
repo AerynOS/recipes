@@ -19,6 +19,7 @@ description : |
     Apache Maven is a build tool for Java projects. Using a project object model (POM), Maven manages a project's compilation, testing, and documentation. 
 
 license     : Apache-2.0
+
 networking  : true
 
 builddeps   :
@@ -37,7 +38,7 @@ environment : |
     export PATH="%(workdir)/apache-maven-3.9.12/bin:$PATH"
 
 build       : |
-    mvn install -Drat.skip=true -DskipTests -Dmaven.javadoc.skip
+    mvn install javadoc:aggregate -Drat.skip=true -DskipTests
 
 install     : |
     cd apache-maven/target
@@ -49,3 +50,12 @@ install     : |
     %install_dir %(installroot)/usr/bin
     ln -s /usr/share/maven/bin/mvn %(installroot)/usr/bin/mvn
     ln -s /usr/share/maven/bin/mvnDebug %(installroot)/usr/bin/mvnDebug
+
+    cd ../..
+    %install_dir %(installroot)/usr/share/doc/maven/api
+    cp -r target/reports/apidocs/* %(installroot)/usr/share/doc/maven/api/
+
+packages    :
+    - "%(name)-docs":
+        paths:
+            - /usr/share/doc/
