@@ -1,0 +1,34 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"scx-tools": {
+			"depends": [
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"scx-scheds",
+				"soname(ld-linux-x86-64.so.2(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libm.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/bin/scx_loader",
+				"/usr/bin/scxctl",
+				"/usr/lib/systemd/system/scx_loader.service",
+				"/usr/share/dbus-1/interfaces/org.scx.Loader.xml",
+				"/usr/share/dbus-1/system-services/org.scx.Loader.service",
+				"/usr/share/dbus-1/system.d/org.scx.Loader.conf",
+				"/usr/share/defaults/scx_loader/config.toml",
+				"/usr/share/polkit-1/actions/org.scx.Loader.policy"
+			],
+			"name": "scx-tools",
+			"provides": [
+				"binary(scx_loader)",
+				"binary(scxctl)"
+			]
+		}
+	},
+	"source-name": "scx-tools",
+	"source-release": "1",
+	"source-version": "1.0.19"
+}

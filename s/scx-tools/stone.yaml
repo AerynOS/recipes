@@ -1,0 +1,37 @@
+#
+# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : scx-tools
+version     : 1.0.19
+release     : 1
+homepage    : https://github.com/sched-ext/scx-loader
+upstreams   :
+    - https://github.com/sched-ext/scx-loader/archive/refs/tags/v1.0.19.tar.gz : a8a334a2b8bab79ad48860ac88bba75c1c9cf75c2d35628de95823926a8e6787
+summary     : sched_ext tools
+description : |
+    sched_ext tools
+networking  : yes
+license     : MIT
+rundeps     :
+    - scx-scheds
+setup       : |
+    %cargo_fetch
+build       : |
+    export VENDORDIR=%(vendordir)
+    %cargo_build
+install     : |
+    find "%(cargo_target_dir)" -maxdepth 1 -type f -executable -exec %install_exe {} -t %(installroot)%(bindir) \;
+
+    %(cargo_target_dir)/xtask install --destdir "%(installroot)"
+
+    # Useless stuff not needed
+    rm -v %(installroot)%(bindir)/xtask
+
+    # Replaced by our own
+    rm -v %(installroot)%(datadir)/scx_loader/config.toml
+    rmdir %(installroot)%(datadir)/scx_loader/
+
+    # Install our default config
+    %install_file %(pkgdir)/config.toml -t %(installroot)%(vendordir)/scx_loader
