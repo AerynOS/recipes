@@ -4,44 +4,43 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : scx-scheds
-version     : 1.0.17
-release     : 5
+version     : 1.0.19
+release     : 6
 homepage    : https://github.com/sched-ext/scx
 upstreams   :
-    - https://github.com/sched-ext/scx/archive/refs/tags/v1.0.17.tar.gz : 2f9dbce619f6fd547fabcd4ef1220fe125f1277218e9d8bfbabdb4063c8417b9
-summary     : sched_ext schedulers and tools
+    - https://github.com/sched-ext/scx/archive/refs/tags/v1.0.19.tar.gz : 1240edfdec50a915405571ba375b8b803201d23e6509e975bc101e633e8bdfeb
+summary     : sched_ext schedulers
 description : |
-    sched_ext schedulers and tools
+    sched_ext schedulers
 networking  : yes
 license     :
     - MIT
 builddeps   :
-    - binary(bpftool)
-    - binary(cargo)
+    - binary(find)
     - binary(make)
-    - binary(jq)
-    - binary(protoc)
     - pkgconfig(libbpf)
-    - pkgconfig(libelf)
     - pkgconfig(libseccomp)
-    - pkgconfig(libsystemd)
 setup       : |
-    %meson \
-        -Dbpftool=disabled \
-        -Dlibbpf_a=disabled \
-        -Dvendordir=%(vendordir)
     %cargo_fetch
 build       : |
-    %meson_build
+    # Build rust schedulers
+    %cargo_build
 install     : |
-    %meson_install
+    find "%(cargo_target_dir)" -maxdepth 1 -type f -executable -exec %install_exe {} -t %(installroot)%(bindir) \;
 
-    # Unsupported, use scx_loader
-    # rm -v %(installroot)%(libdir)/systemd/system/scx.service
-
-    # Overwrite shipped default config with our own
-    %install_file %(pkgdir)/config.toml %(installroot)%(vendordir)/scx_loader/config.toml
+    # Useless stuff not needed
+    rm -v %(installroot)%(bindir)/{scx_arena_selftests,vmlinux_docify,xtask}
 packages    :
-    - "%(name)-devel":
+    - "%(name)-extra":
+        summary: Various extra sched_ext schedulers
+        description: |
+            Various sched_ext schedulers that are either experimental, for testing purposes, are single-purpose in nature, or require significant additional configuration and know-how to be useful.
         paths:
-            - /usr/bin/vmlinux_docify
+            # If we ever re-add the C schedulers they should probably go in here
+            - /usr/bin/scx_chaos
+            - /usr/bin/scx_layered
+            - /usr/bin/scx_mitosis
+            - /usr/bin/scx_rlfifo
+            - /usr/bin/scx_rustland
+            - /usr/bin/scx_tickless
+            - /usr/bin/scx_wd40

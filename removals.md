@@ -175,3 +175,6 @@
 ### No longer used
 - xwaylandvideobridge
 - xwaylandvideobridge-dbginfo
+
+### Not built
+- scx-scheds-devel
