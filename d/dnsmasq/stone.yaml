@@ -4,7 +4,7 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : dnsmasq
-version     : "2.92"
+version     : 2.92
 release     : 2
 homepage    : https://thekelleys.org.uk/dnsmasq
 upstreams   :
@@ -28,7 +28,7 @@ setup       : |
     # corresponding sysusers file installed below
     sed -e 's|#define CHUSER "nobody"|#define CHUSER "dnsmasq"|' \
         -e 's|#define CHGRP "dip"|#define CHGRP "dnsmasq"|' -i src/config.h
-        
+
     sed -e 's|%%%%PREFIX%%%%|/usr|' -i dnsmasq.conf.example
 build       : |
     %make all-i18n \
