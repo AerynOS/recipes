@@ -4,7 +4,7 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : docbook5-xml
-version     : "5.1"
+version     : 5.1
 release     : 1
 homepage    : https://docbook.org/schemas/5x
 upstreams   :
@@ -283,7 +283,7 @@ build       : |
     popd
 install     : |
     _docbook5dir="%(installroot)%(datadir)/xml/docbook"
-        
+
     # docbook-5.0
     pushd "5.0"
     for v in 5.0; do
