@@ -4,7 +4,7 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : edk2
-version     : "202511"
+version     : 202511
 release     : 4
 upstreams   :
     - git|https://github.com/tianocore/edk2 : 46548b1adac82211d8d11da12dd914f41e7aa775
@@ -67,7 +67,7 @@ build       : |
         #     -p ShellPkg/ShellPkg.dsc \
         #     -a "${_ARCH}" \
         #     ${_CC_OPTS[@]}
-        
+
         case "${_ARCH}" in
             AARCH64)
                 echo "Building ArmVirtPkg ($_ARCH) with secure boot support"
