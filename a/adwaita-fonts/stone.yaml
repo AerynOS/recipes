@@ -4,14 +4,14 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : adwaita-fonts
-version     : 49.0
+version     : "49.0"
 release     : 3
 homepage    : https://gitlab.gnome.org/GNOME/adwaita-fonts
 upstreams   :
     - https://download.gnome.org/sources/adwaita-fonts/49/adwaita-fonts-49.0.tar.xz : 3157c620eb5b72b25ab156d194aa4eb223f9870d547fe83fdbdf06d3e7becb37
 summary     : The typefaces for GNOME
 description : |
-    Adwaita Fonts includes Adwaita Sans, a variation of Inter, 
+    Adwaita Fonts includes Adwaita Sans, a variation of Inter,
     and Adwaita Mono, Iosevka customized to match Inter.
 license     : |
     GPL-3.0-or-later
@@ -21,4 +21,3 @@ build       : |
     %meson_build
 install     : |
     %meson_install
-
