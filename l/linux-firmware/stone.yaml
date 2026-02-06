@@ -4,7 +4,7 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : linux-firmware
-version     : "20260110"
+version     : 20260110
 release     : 35
 homepage    : https://kernel.org
 upstreams   :
@@ -27,7 +27,7 @@ setup       : |
     for c in "${_reverts[@]}"; do
         echo Reverting $(git log --oneline -1 "${c}")
         git revert -n "${c}"
-    done  
+    done
 install     : |
     make install-zst FIRMWAREDIR=/usr/lib/firmware DESTDIR=%(installroot)
 
