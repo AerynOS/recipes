@@ -5,7 +5,7 @@
 #
 name        : kitinerary
 version     : 25.12.1
-release     : 14
+release     : 15
 upstreams   :
     - https://download.kde.org/stable/release-service/25.12.1/src/kitinerary-25.12.1.tar.xz : a2ea7b6c8b4ca3fb06e26c14baae2c2387c40e4d34a9383c158b1cb48ca5cdaa
 homepage    : https://invent.kde.org/pim/kitinerary
@@ -32,6 +32,8 @@ builddeps   :
     # TODO:
     # - libphonenumber
 setup       : |
+    %patch %(pkgdir)/upstream-01.patch
+    %patch %(pkgdir)/upstream-02.patch
     %cmake_kf6
 build       : |
     %cmake_build
