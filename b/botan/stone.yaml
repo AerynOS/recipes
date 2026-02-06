@@ -4,7 +4,7 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : botan
-version     : 3.10.0
+version     : "3.10.0"
 release     : 6
 homepage    : https://botan.randombit.net
 upstreams   :
@@ -37,7 +37,7 @@ build       : |
 install     : |
     %make_install
     %python_compile
-    rm %(installroot)/%(libdir)/*.a    
+    rm %(installroot)/%(libdir)/*.a
 packages    :
     - "%(name)-docs":
         paths:
