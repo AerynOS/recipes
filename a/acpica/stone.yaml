@@ -8,7 +8,7 @@
 # https://github.com/acpica/acpica/issues/883
 # https://github.com/acpica/acpica/issues/857
 name        : acpica
-version     : 20241212
+version     : "20241212"
 release     : 2
 homepage    : https://acpica.org
 upstreams   :
@@ -27,4 +27,3 @@ build       : |
     NOWERROR=TRUE %make
 install     : |
     %make_install
-
