@@ -5,7 +5,7 @@
 #
 name        : qemu
 version     : 10.2.0
-release     : 27
+release     : 28
 homepage    : http://www.qemu.org/
 upstreams   :
     - https://download.qemu.org/qemu-10.2.0.tar.xz : 9e30ad1b8b9f7b4463001582d1ab297f39cfccea5d08540c0ca6d6672785883a
@@ -81,9 +81,8 @@ setup       : |
     %patch %(pkgdir)/0002-nfs-Add-support-for-libnfs-v2-api.patch
     %patch %(pkgdir)/0008-Revert-meson.build-Disallow-libnfs-v6-to-fix-the-bro.patch
 
-    # TODO: Build RISCV support and split out
     %configure \
-        --target-list=aarch64-softmmu,aarch64-linux-user,arm-softmmu,arm-linux-user,i386-softmmu,i386-linux-user,x86_64-softmmu,x86_64-linux-user \
+        --target-list=aarch64-softmmu,aarch64-linux-user,arm-softmmu,arm-linux-user,i386-softmmu,i386-linux-user,riscv64-softmmu,riscv64-linux-user,x86_64-softmmu,x86_64-linux-user \
         -Db_lto=true \
         -Db_lto_mode=thin \
         -Dmodules=enabled
@@ -105,6 +104,7 @@ install     : |
     find %(installroot)%(libdir)/binfmt.d/ -maxdepth 1 \
         ! -name 'qemu-aarch64.conf' \
         ! -name 'qemu-arm.conf' \
+        ! -name 'qemu-riscv64.conf' \
         -type f -exec rm -v {} +
 
     %install_file %(pkgdir)/qemu-guest-agent.service -t %(installroot)/%(libdir)/systemd/system/
@@ -496,6 +496,15 @@ packages    :
             - /usr/bin/qemu-arm
             - /usr/lib/binfmt.d/qemu-arm.conf
 
+    - "%(name)-user-riscv64":
+        summary: QEMU user mode emulation - riscv64
+        description: QEMU user mode emulation - riscv64
+        rundeps:
+            - "%(name)-common"
+        paths:
+            - /usr/bin/qemu-riscv64
+            - /usr/lib/binfmt.d/qemu-riscv64.conf
+
     - "%(name)-system-x86":
         summary: QEMU system emulator for x86
         description: QEMU system emulator for x86
@@ -545,6 +554,22 @@ packages    :
             - /usr/share/qemu/npcm7xx_bootrom.bin
             - /usr/share/qemu/npcm8xx_bootrom.bin
 
+    - "%(name)-system-riscv64":
+        summary: QEMU system emulator for riscv64
+        description: QEMU system emulator for riscv64
+        rundeps:
+            - "%(name)-common"
+            - "%(name)-system-riscv-firmware"
+            - edk2-riscv64
+        paths:
+            - /usr/bin/qemu-system-riscv64
+
+    - "%(name)-system-riscv-firmware":
+        summary: Firmware for QEMU system emulator for RISC-V
+        description: Firmware for QEMU system emulator for RISC-V
+        paths:
+            - /usr/share/qemu/opensbi-riscv*.bin
+
     - "%(name)-system-ppc-firmware":
         summary: Firmware for QEMU system emulator for PPC
         description: Firmware for QEMU system emulator for PPC
@@ -571,12 +596,6 @@ packages    :
         description: Firmware for QEMU system emulator for Microblaze
         paths:
             - /usr/share/qemu/dtb/petalogix-*.dtb
-
-    - "%(name)-system-riscv-firmware":
-        summary: Firmware for QEMU system emulator for SPARC
-        description: Firmware for QEMU system emulator for SPARC
-        paths:
-            - /usr/share/qemu/opensbi-riscv*.bin
 
     - "%(name)-system-sparc-firmware":
         summary: Firmware for QEMU system emulator for SPARC
