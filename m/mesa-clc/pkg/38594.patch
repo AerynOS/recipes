@@ -1,0 +1,81 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sat, 22 Nov 2025 15:52:23 -0800
+Subject: [PATCH] util/glx/egl: fix const qualifier warnings found with C23
+ glibc support
+
+glibc master has been C23'fying the functions which is resulting errors
+
+Several functions assigned results of bsearch/strstr/strpbrk/memchr to
+non-const pointers, triggering -Wincompatible-pointer-types-discards-qualifiers
+under clang/gcc with -Werror. Cast bsearch return values where needed and
+propagate const correctness for strstr/strpbrk/memchr results.
+
+Files:
+- egldispatchstubs.c, glxglvnd.c: add const cast to bsearch return
+- clientinfo.c, u_printf.c: use const char * for strstr/strpbrk results
+- blob.c: make nul pointer const
+- gl_enums.py (generated C): cast bsearch return to enum_elt *
+
+Removes build failures with strict warning flags without changing behavior.
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ src/egl/main/egldispatchstubs.c      | 2 +-
+ src/glx/clientinfo.c                 | 2 +-
+ src/glx/glxglvnd.c                   | 2 +-
+ src/mesa/glapi/glapi/gen/gl_enums.py | 2 +-
+ 4 files changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/src/egl/main/egldispatchstubs.c b/src/egl/main/egldispatchstubs.c
+index 694902f4b53..73d236eb2fa 100644
+--- a/src/egl/main/egldispatchstubs.c
++++ b/src/egl/main/egldispatchstubs.c
+@@ -49,7 +49,7 @@ static int
+ FindProcIndex(const char *name)
+ {
+    const char **match =
+-      bsearch(name, __EGL_DISPATCH_FUNC_NAMES, __EGL_DISPATCH_COUNT,
++      (const char **)bsearch(name, __EGL_DISPATCH_FUNC_NAMES, __EGL_DISPATCH_COUNT,
+               sizeof(const char *), Compare);
+ 
+    if (match == NULL)
+diff --git a/src/glx/clientinfo.c b/src/glx/clientinfo.c
+index 14e0e44a832..b3d4f312a34 100644
+--- a/src/glx/clientinfo.c
++++ b/src/glx/clientinfo.c
+@@ -129,7 +129,7 @@ glxSendClientInfo(struct glx_display *glx_dpy, int screen)
+ 
+       const char *haystack = src->serverGLXexts;
+       while (haystack != NULL) {
+-    char *match = strstr(haystack, "GLX_ARB_create_context");
++    const char *match = strstr(haystack, "GLX_ARB_create_context");
+ 
+     if (match == NULL)
+        break;
+diff --git a/src/glx/glxglvnd.c b/src/glx/glxglvnd.c
+index bf5c2a06b0c..46622d60f08 100644
+--- a/src/glx/glxglvnd.c
++++ b/src/glx/glxglvnd.c
+@@ -28,7 +28,7 @@ static unsigned FindGLXFunction(const GLubyte *name)
+ {
+     const char **match;
+ 
+-    match = bsearch(name, __glXDispatchTableStrings, DI_FUNCTION_COUNT,
++    match = (const char**)bsearch(name, __glXDispatchTableStrings, DI_FUNCTION_COUNT,
+                     sizeof(const char *), compare);
+ 
+     if (match == NULL)
+diff --git a/src/mesa/glapi/glapi/gen/gl_enums.py b/src/mesa/glapi/glapi/gen/gl_enums.py
+index d880d882479..91be15b7938 100644
+--- a/src/mesa/glapi/glapi/gen/gl_enums.py
++++ b/src/mesa/glapi/glapi/gen/gl_enums.py
+@@ -91,7 +91,7 @@ _mesa_enum_to_string(int nr)
+ {
+    enum_elt *elt;
+ 
+-   elt = bsearch(& nr, enum_string_table_offsets,
++   elt = (enum_elt *)bsearch(& nr, enum_string_table_offsets,
+                  ARRAY_SIZE(enum_string_table_offsets),
+                  sizeof(enum_string_table_offsets[0]),
+                  (cfunc) compar_nr);
