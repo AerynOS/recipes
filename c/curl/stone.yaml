@@ -14,6 +14,10 @@ description : |
 upstreams   :
     - https://curl.se/download/curl-8.18.0.tar.gz: e9274a5f8ab5271c0e0e6762d2fce194d5f98acc568e4ce816845b2dcc0cf88f
 builddeps:
+    - pkgconfig(krb5-gssapi)
+    - pkgconfig(ldap)
+    - pkgconfig(libnghttp3)
+    - pkgconfig(libssh2)
     - pkgconfig32(jansson)
     - pkgconfig32(libbrotlidec)
     - pkgconfig32(libcrypto)
@@ -21,10 +25,6 @@ builddeps:
     - pkgconfig32(libpsl)
     - pkgconfig32(libzstd)
     - pkgconfig32(zlib)
-    - pkgconfig(krb5-gssapi)
-    - pkgconfig(ldap)
-    - pkgconfig(libnghttp3)
-    - pkgconfig(libssh2)
 emul32      : true
 profiles    :
     - emul32:
