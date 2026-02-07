@@ -14,8 +14,8 @@ description : |
     cairomm is the C++ binding for the Cairo library.
 license     : LGPL-2.1-or-later
 builddeps   :
-    - pkgconfig(mm-common-util)
     - pkgconfig(cairo)
+    - pkgconfig(mm-common-util)
     - pkgconfig(sigc++-2.0)
 setup       : |
     %autogen --disable-static \
