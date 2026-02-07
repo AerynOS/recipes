@@ -19,6 +19,7 @@ builddeps   :
 tuning      :
     - optimize: speed
 setup       : |
+    # Enable windows-like non-UTF8 international filename workarounds for better compat
     %patch %(pkgdir)/natspec.patch
     %patch %(pkgdir)/do-not-gzip-man-pages.patch
 
