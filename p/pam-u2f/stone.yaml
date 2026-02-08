@@ -1,0 +1,30 @@
+#
+# SPDX-FileCopyrightText: © 2025- AerynOS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : pam-u2f
+version     : 1.4.0
+release     : 1
+homepage    : https://developers.yubico.com/pam-u2f
+upstreams   :
+    - https://github.com/Yubico/pam-u2f/archive/pam_u2f-1.4.0.tar.gz : 243de4db11512514e6ac7fde54a0369b13e9b2423b43ceb89f108867888783a0
+summary     : Pluggable Authentication Module (PAM) for U2F
+description : |
+    This module implements PAM over U2F, providing an easy way to integrate the YubiKey (or other U2F compliant authenticators) into your existing infrastructure.
+license     : 
+    - BSD-2-Clause
+builddeps   :
+    - binary(asciidoc)
+    - pkgconfig(libcrypto)
+    - pkgconfig(libfido2)
+    - pkgconfig(pam)
+    - docbook
+environment : |
+    %export_docbook_catalogs
+setup       : |
+    %reconfigure --with-pam-dir=%(libdir)/security/
+build       : |
+    %make
+install     : |
+    %make_install
