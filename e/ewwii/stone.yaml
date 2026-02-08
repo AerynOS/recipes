@@ -1,0 +1,33 @@
+#
+# SPDX-FileCopyrightText: © 2025- AerynOS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : ewwii
+version     : 0.3.1+git.80d77cc
+release     : 1
+homepage    : https://ewwii-sh.github.io/
+upstreams   :
+    - git|https://github.com/Ewwii-sh/ewwii.git : 80d77cc7ba6e684e97fd23a07bbc9d7dc57032cc
+summary     :  An eww rewrite that is powerful, flexible, and extensible. 
+description : |
+     An eww rewrite that is powerful, flexible, and extensible. 
+license     : 
+    - GPL-3.0-only
+builddeps   :
+    - pkgconfig(cairo-gobject)
+    - pkgconfig(gdk-pixbuf-2.0)
+    - pkgconfig(glib-2.0)
+    - pkgconfig(graphene-gobject-1.0)
+    - pkgconfig(gtk4)
+    - pkgconfig(gtk4-layer-shell-0)
+    - pkgconfig(pango)
+networking  : true
+setup       : |
+    %cargo_fetch
+build       : |
+    %cargo_build
+install     : |
+    %cargo_install
+check       : |
+    %cargo_test
