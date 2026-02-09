@@ -5,7 +5,7 @@
 #
 name        : opengamepadui
 version     : "0.43.0"
-release     : 21
+release     : 22
 homepage    : https://github.com/ShadowBlip/OpenGamepadUI
 upstreams   :
     - https://github.com/ShadowBlip/OpenGamepadUI/archive/refs/tags/v0.43.0.tar.gz : ad7f9a75c422d6dc66df53515a5f8d5cf87119b91e44a422feee32b4f4549d43
@@ -33,6 +33,7 @@ environment : |
 setup       : |
     %patch %(pkgdir)/use-chimeraos-defaults.patch
     %patch %(pkgdir)/fix-prefix.patch
+    %patch %(pkgdir)/debug.patch
 
     cd extensions
     %cargo_fetch
@@ -40,3 +41,6 @@ build       : |
     %make
 install     : |
     %make_install PREFIX=%(installroot)/usr
+
+    #Don't enable service files
+    %install_file %(pkgdir)/opengamepadui-user.preset %(installroot)%(libdir)/systemd/user-preset/%(name).preset
