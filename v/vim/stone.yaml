@@ -4,12 +4,12 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : vim
-version     : 9.1.1966
-release     : 16
+version     : "9.1.2140"
+release     : 17
 homepage    : https://github.com/vim/vim
 upstreams   :
-    - https://github.com/vim/vim/archive/refs/tags/v9.1.1966.tar.gz:
-        hash: d1e3691e74bdeb69e619a3c095382c2afe72463cc8c50a2739e13d2636277eb7
+    - https://github.com/vim/vim/archive/refs/tags/v9.1.2140.tar.gz:
+        hash: f54fd2159352d844c312def43913d783c7809b5dd020fb67a74468cb0dda97ab
         unpack: false
         rename: vim.tar.gz
 summary     : Vi IMproved, an advanced text editor
@@ -46,12 +46,14 @@ environment : |
             --enable-multibyte \
             --enable-python3interp=dynamic \
             --enable-rubyinterp=dynamic \
+            --enable-wayland-focus-steal=yes \
             --with-compiledby="AerynOS" \
             --with-features=huge \
             --with-luajit \
             --with-modified-by="AerynOS" \
             --with-python3-stable-abi \
             --with-tlib=ncurses \
+            --with-wayland=yes \
             "$@"
     }
 setup       : |

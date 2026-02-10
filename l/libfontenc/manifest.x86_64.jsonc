@@ -28,7 +28,9 @@
 				"pkgconfig(zlib)"
 			],
 			"depends": [
-				"libfontenc"
+				"libfontenc",
+				"pkgconfig(xproto)",
+				"pkgconfig(zlib)"
 			],
 			"files": [
 				"/usr/include/X11/fonts/fontenc.h",
@@ -42,6 +44,6 @@
 		}
 	},
 	"source-name": "libfontenc",
-	"source-release": "3",
-	"source-version": "1.1.8"
+	"source-release": "4",
+	"source-version": "1.1.9"
 }

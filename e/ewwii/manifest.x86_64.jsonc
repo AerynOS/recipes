@@ -1,0 +1,43 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"ewwii": {
+			"build-depends": [
+				"pkgconfig(cairo-gobject)",
+				"pkgconfig(gdk-pixbuf-2.0)",
+				"pkgconfig(glib-2.0)",
+				"pkgconfig(graphene-gobject-1.0)",
+				"pkgconfig(gtk4)",
+				"pkgconfig(gtk4-layer-shell-0)",
+				"pkgconfig(pango)"
+			],
+			"depends": [
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(ld-linux-x86-64.so.2(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libcairo.so.2(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libgdk_pixbuf-2.0.so.0(x86_64))",
+				"soname(libgio-2.0.so.0(x86_64))",
+				"soname(libglib-2.0.so.0(x86_64))",
+				"soname(libgobject-2.0.so.0(x86_64))",
+				"soname(libgraphene-1.0.so.0(x86_64))",
+				"soname(libgtk-4.so.1(x86_64))",
+				"soname(libgtk4-layer-shell.so.0(x86_64))",
+				"soname(libm.so.6(x86_64))",
+				"soname(libpango-1.0.so.0(x86_64))"
+			],
+			"files": [
+				"/usr/bin/ewwii"
+			],
+			"name": "ewwii",
+			"provides": [
+				"binary(ewwii)"
+			]
+		}
+	},
+	"source-name": "ewwii",
+	"source-release": "1",
+	"source-version": "0.3.1+git.80d77cc"
+}
