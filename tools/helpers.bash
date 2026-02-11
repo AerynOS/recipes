@@ -95,6 +95,14 @@ function chpkg() {
     cd "$(git rev-parse --show-toplevel)"/${1:0:1}/"$1" || return 1
 }
 
+# Quote unquoted version strings in recipes
+function fix-version-strings () {
+    find . -type f -name "stone.yaml" -exec sed -i -E \
+    -e 's|^([[:space:]]*version[[:space:]]*:[[:space:]]*)'\''([^'\'']*)'\''|\1"\2"|' \
+    -e 's|^([[:space:]]*version[[:space:]]*:[[:space:]]*)([^"'\''[:space:]][^[:space:]]*)|\1"\2"|' \
+    {} +
+}
+
 # Bash completions
 _chpkg()
 {
