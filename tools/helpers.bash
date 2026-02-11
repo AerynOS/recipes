@@ -103,6 +103,32 @@ function fix-version-strings () {
     {} +
 }
 
+# Quickly fixup a recipe commit for a source package
+function fixup-recipe-commit() {
+    if [[ ! -f "stone.yaml" ]]; then
+        echo "No stone.yaml found in current directory, aborting!"
+        return 1
+    fi
+
+    if ! git status --porcelain -- . | grep -q '^ M'; then
+        echo "No files in current directory are modified, aborting!"
+        return 1
+    fi
+
+    # Be explicit about adding files specific to packaging to avoid adding aliens
+    local paths=(stone.yaml manifest.x86_64.bin  manifest.x86_64.jsonc monitoring.yaml pkg/)
+    for path in "${paths[@]}"; do
+        [[ -e $path ]] && git add "$path"
+    done
+
+    # Fixup the last commit in the directory
+    git commit --fixup "$(git log -1 --format="%h" -- .)"
+    git rebase origin/HEAD --autosquash --autostash
+
+    # Print out the commit for the user
+    git log -1 -- .
+}
+
 # Bash completions
 _chpkg()
 {
