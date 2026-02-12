@@ -5,7 +5,7 @@
 #
 name        : nvidia-open-gpu-kernel-modules
 version     : "590.48.01"
-release     : 66
+release     : 67
 homepage    : https://github.com/NVIDIA/open-gpu-kernel-modules
 upstreams   :
     - https://download.nvidia.com/XFree86/NVIDIA-kernel-module-source/NVIDIA-kernel-module-source-590.48.01.tar.xz : ffcd948cfe32bb0655fc911b8204ae6df086346025dd644d559a9b148297a80d
@@ -67,10 +67,10 @@ install     : |
 
     # Create an initrd for the firmware and .ko files
     sh %(sourcedir)/NVIDIA.run --extract-only --target extracted
-    mkdir -p initrd/eb-nvidia
-    mkdir -p initrd/eb-nvidia-fw/%(version)
-    %install_file extracted/firmware/*.bin initrd/eb-nvidia-fw/%(version)/.
-    find %(installroot)%(libdir)/modules -name '*.ko' -exec cp -v {} initrd/eb-nvidia \;
+    mkdir -p initrd/%(libdir)/modules/$KERNEL_UNAME/kernel/drivers/video
+    %install_file extracted/firmware/*.bin -t initrd/%(libdir)/firmware/nvidia/%(version)
+    %install_file %(pkgdir)/nvidia-power-management.conf initrd/%(libdir)/modprobe.d/nvidia-power-management.conf
+    find %(installroot)%(libdir)/modules -name '*.ko' -exec cp -v {} initrd/%(libdir)/modules/$KERNEL_UNAME/kernel/drivers/video \;
     touch initrd/.dracut-depmod-invalidate
     pushd initrd
     find . | cpio -o -H newc | zstd -19 -T0 -c > %(installroot)%(libdir)/kernel/$KERNEL_UNAME/60-nvidia.initrd
