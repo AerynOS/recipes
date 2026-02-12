@@ -1,35 +1,41 @@
-From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
-From: =?UTF-8?q?Tomasz=20Paku=C5=82a?= <forest10pl@gmail.com>
-Date: Tue, 9 Dec 2025 14:38:45 +0100
-Subject: [PATCH 5/6] amdgpu: Add CH7218 PCON to the VRR whitelist
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+From: Tomasz Pakuła <tomasz.pakula.oficjalny@gmail.com>
+Subject: [PATCH v3 07/19] drm/amd/display: Add CH7218 PCON ID
+Date: Tue,  3 Feb 2026 19:56:14 +0100
+Content-Type: text/plain; charset="utf-8"
 
+[Why]
 Chrontel CH7218 found in Ugreen DP -> HDMI 2.1 adapter (model 85564)
 works perfectly with VRR after testing. VRR and FreeSync compatibility
 is explicitly advertised as a feature so it's addition is a formality.
 
+Support FreeSync info packet passthrough and "generic" HDMI VRR.
+
+[How]
+Add CH7218's ID to dm_helpers_is_vrr_pcon_allowed()
+
+Closes: https://gitlab.freedesktop.org/drm/amd/-/issues/4773
+
 Signed-off-by: Tomasz Pakuła <tomasz.pakula.oficjalny@gmail.com>
+Reviewed-by: Harry Wentland <harry.wentland@amd.com>
 ---
  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c | 1 +
  drivers/gpu/drm/amd/display/include/ddc_service_types.h   | 1 +
  2 files changed, 2 insertions(+)
 
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-index 63dc9382c48ee..f0bfaa862d087 100644
+index cb8a2855ac10..690558584a0f 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-@@ -1374,6 +1374,7 @@ static bool dm_is_freesync_pcon_whitelist(const uint32_t branch_dev_id)
+@@ -1396,6 +1396,7 @@ bool dm_helpers_is_vrr_pcon_allowed(const struct dc_link *link, const struct drm
  	case DP_BRANCH_DEVICE_ID_0060AD:
  	case DP_BRANCH_DEVICE_ID_00E04C:
  	case DP_BRANCH_DEVICE_ID_90CC24:
 +	case DP_BRANCH_DEVICE_ID_2B02F0:
- 		ret_val = true;
- 		break;
- 	default:
+ 		return true;
+ 	}
+ 
 diff --git a/drivers/gpu/drm/amd/display/include/ddc_service_types.h b/drivers/gpu/drm/amd/display/include/ddc_service_types.h
-index 1c603b12957f6..e838f7c1269c4 100644
+index 1c603b12957f..e838f7c1269c 100644
 --- a/drivers/gpu/drm/amd/display/include/ddc_service_types.h
 +++ b/drivers/gpu/drm/amd/display/include/ddc_service_types.h
 @@ -36,6 +36,7 @@
@@ -40,3 +46,6 @@ index 1c603b12957f6..e838f7c1269c4 100644
  #define DP_BRANCH_HW_REV_10 0x10
  #define DP_BRANCH_HW_REV_20 0x20
  
+-- 
+2.52.0
+
