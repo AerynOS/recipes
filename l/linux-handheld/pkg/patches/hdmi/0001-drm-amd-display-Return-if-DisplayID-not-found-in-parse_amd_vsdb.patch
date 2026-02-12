@@ -1,0 +1,37 @@
+From: Tomasz Pakuła <tomasz.pakula.oficjalny@gmail.com>
+Subject: [PATCH v3 01/19] drm/amd/display: Return if DisplayID not found in
+ parse_amd_vsdb()
+Date: Tue,  3 Feb 2026 19:56:08 +0100
+Content-Type: text/plain; charset="utf-8"
+
+[Why]
+The function would continue to try to parse EDID even if DisplayID
+extension block wasn't found. Sometimes it got lucky and found AMD vsdb
+in CEA extension block which made debugging harder.
+
+[How]
+Add a return if DisplayID extension block wasn't found
+
+Signed-off-by: Tomasz Pakuła <tomasz.pakula.oficjalny@gmail.com>
+Reviewed-by: Harry Wentland <harry.wentland@amd.com>
+---
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index d8fac7e69181..29e4a047b455 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -13136,6 +13136,9 @@ static int parse_amd_vsdb(struct amdgpu_dm_connector *aconnector,
+ 			break;
+ 	}
+ 
++	if (i == edid->extensions)
++		return false;
++
+ 	while (j < EDID_LENGTH - sizeof(struct amd_vsdb_block)) {
+ 		struct amd_vsdb_block *amd_vsdb = (struct amd_vsdb_block *)&edid_ext[j];
+ 		unsigned int ieeeId = (amd_vsdb->ieee_id[2] << 16) | (amd_vsdb->ieee_id[1] << 8) | (amd_vsdb->ieee_id[0]);
+-- 
+2.52.0
+
