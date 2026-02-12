@@ -1,0 +1,61 @@
+From: Jack Chang <jack.chang at amd.com>
+
+[Why&How]
+Read Panel replay caps from DPCD when retrieving link capability
+
+Reviewed-by: Robin Chen <robin.chen at amd.com>
+Signed-off-by: Jack Chang <jack.chang at amd.com>
+Signed-off-by: Leon Huang <Leon.Huang1 at amd.com>
+Signed-off-by: Ivan Lipski <ivan.lipski at amd.com>
+---
+ drivers/gpu/drm/amd/display/dc/dc_dp_types.h          | 11 +++++++++++
+ .../display/dc/link/protocols/link_dp_capability.c    |  5 +++++
+ 2 files changed, 16 insertions(+)
+
+diff --git a/drivers/gpu/drm/amd/display/dc/dc_dp_types.h b/drivers/gpu/drm/amd/display/dc/dc_dp_types.h
+index db669ccb1d58..55413923ea86 100644
+--- a/drivers/gpu/drm/amd/display/dc/dc_dp_types.h
++++ b/drivers/gpu/drm/amd/display/dc/dc_dp_types.h
+@@ -1157,6 +1157,16 @@ struct dprx_states {
+ 	bool cable_id_written;
+ };
+ 
++union dpcd_panel_replay_capability_supported {
++	struct {
++		unsigned char PANEL_REPLAY_SUPPORT          :1;
++		unsigned char SELECTIVE_UPDATE_SUPPORT      :1;
++		unsigned char EARLY_TRANSPORT_SUPPORT       :1;
++		unsigned char RESERVED				        :5;
++	} bits;
++	unsigned char raw;
++};
++
+ enum dpcd_downstream_port_max_bpc {
+ 	DOWN_STREAM_MAX_8BPC = 0,
+ 	DOWN_STREAM_MAX_10BPC,
+@@ -1280,6 +1290,7 @@ struct dpcd_caps {
+ 	struct edp_psr_info psr_info;
+ 
+ 	struct replay_info pr_info;
++	union dpcd_panel_replay_capability_supported pr_caps_supported;
+ 	uint16_t edp_oled_emission_rate;
+ 	union dp_receive_port0_cap receive_port0_cap;
+ 	/* Indicates the number of SST links supported by MSO (Multi-Stream Output) */
+diff --git a/drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_capability.c b/drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_capability.c
+index 750147c52c8a..168c59bf1f16 100644
+--- a/drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_capability.c
++++ b/drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_capability.c
+@@ -2091,6 +2091,11 @@ static bool retrieve_link_cap(struct dc_link *link)
+ 			link->dpcd_caps.max_uncompressed_pixel_rate_cap.raw,
+ 			sizeof(link->dpcd_caps.max_uncompressed_pixel_rate_cap.raw));
+ 
++	core_link_read_dpcd(link,
++			DP_PANEL_REPLAY_CAPABILITY_SUPPORT,
++			&link->dpcd_caps.pr_caps_supported.raw,
++			sizeof(link->dpcd_caps.pr_caps_supported.raw));
++
+ 	/* Read DP tunneling information. */
+ 	status = dpcd_get_tunneling_device_data(link);
+ 	if (status != DC_OK)
+-- 
+2.43.0

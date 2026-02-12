@@ -1,0 +1,252 @@
+From: Jack Chang <jack.chang at amd.com>
+
+[Why&How]
+1.Add flow to enable and configure panel replay enablement and
+configuration
+2.Add registry key for enable option
+3.Add replay version check to be compatible with freesync replay
+4.Add AC/DC switch function to notify ac/dc change.
+5.Add flow in set event function to check and decide Replay
+enable/disable
+
+Reviewed-by: Robin Chen <robin.chen at amd.com>
+Signed-off-by: Jack Chang <jack.chang at amd.com>
+Signed-off-by: Leon Huang <Leon.Huang1 at amd.com>
+Signed-off-by: Ivan Lipski <ivan.lipski at amd.com>
+---
+ drivers/gpu/drm/amd/display/dc/dc_dp_types.h  |  25 ++++
+ .../link/protocols/link_edp_panel_control.c   | 126 +++++++++++++++++-
+ .../gpu/drm/amd/display/include/dpcd_defs.h   |  16 +++
+ .../amd/display/modules/power/power_helpers.c |   3 +
+ 4 files changed, 168 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/display/dc/dc_dp_types.h b/drivers/gpu/drm/amd/display/dc/dc_dp_types.h
+index 55413923ea86..79e1696def63 100644
+--- a/drivers/gpu/drm/amd/display/dc/dc_dp_types.h
++++ b/drivers/gpu/drm/amd/display/dc/dc_dp_types.h
+@@ -1357,6 +1357,31 @@ union dpcd_replay_configuration {
+ 	unsigned char raw;
+ };
+ 
++union panel_replay_enable_and_configuration_1 {
++	struct {
++		unsigned char PANEL_REPLAY_ENABLE                     :1;
++		unsigned char PANEL_REPLAY_CRC_ENABLE                 :1;
++		unsigned char IRQ_HPD_ASSDP_MISSING                   :1;
++		unsigned char IRQ_HPD_VSCSDP_UNCORRECTABLE_ERROR      :1;
++		unsigned char IRQ_HPD_RFB_ERROR                       :1;
++		unsigned char IRQ_HPD_ACTIVE_FRAME_CRC_ERROR          :1;
++		unsigned char PANEL_REPLAY_SELECTIVE_UPDATE_ENABLE    :1;
++		unsigned char PANEL_REPLAY_EARLY_TRANSPORT_ENABLE     :1;
++	} bits;
++	unsigned char raw;
++};
++
++union panel_replay_enable_and_configuration_2 {
++	struct {
++		unsigned char SINK_REFRESH_RATE_UNLOCK_GRANTED        :1;
++		unsigned char RESERVED                                :1;
++		unsigned char SU_Y_GRANULARITY_EXT_VALUE_ENABLED      :1;
++		unsigned char SU_Y_GRANULARITY_EXT_VALUE              :4;
++		unsigned char SU_REGION_SCAN_LINE_CAPTURE_INDICATION  :1;
++	} bits;
++	unsigned char raw;
++};
++
+ union dpcd_alpm_configuration {
+ 	struct {
+ 		unsigned char ENABLE                    : 1;
+diff --git a/drivers/gpu/drm/amd/display/dc/link/protocols/link_edp_panel_control.c b/drivers/gpu/drm/amd/display/dc/link/protocols/link_edp_panel_control.c
+index 9391c75a30e5..c56e69eb27ef 100644
+--- a/drivers/gpu/drm/amd/display/dc/link/protocols/link_edp_panel_control.c
++++ b/drivers/gpu/drm/amd/display/dc/link/protocols/link_edp_panel_control.c
+@@ -949,7 +949,7 @@ bool edp_set_replay_allow_active(struct dc_link *link, const bool *allow_active,
+ 	/* Set power optimization flag */
+ 	if (power_opts && link->replay_settings.replay_power_opt_active != *power_opts) {
+ 		if (replay != NULL && link->replay_settings.replay_feature_enabled &&
+-		    replay->funcs->replay_set_power_opt) {
++			replay->funcs->replay_set_power_opt) {
+ 			replay->funcs->replay_set_power_opt(replay, *power_opts, panel_inst);
+ 			link->replay_settings.replay_power_opt_active = *power_opts;
+ 		}
+@@ -984,7 +984,117 @@ bool edp_get_replay_state(const struct dc_link *link, uint64_t *state)
+ 	return true;
+ }
+ 
+-bool edp_setup_replay(struct dc_link *link, const struct dc_stream_state *stream)
++static bool edp_setup_panel_replay(struct dc_link *link, const struct dc_stream_state *stream)
++{
++	/* To-do: Setup Replay */
++	struct dc *dc;
++	struct dmub_replay *replay;
++	int i;
++	unsigned int panel_inst;
++	struct replay_context replay_context = { 0 };
++	unsigned int lineTimeInNs = 0;
++
++	union panel_replay_enable_and_configuration_1 pr_config_1 = { 0 };
++	union panel_replay_enable_and_configuration_2 pr_config_2 = { 0 };
++
++	union dpcd_alpm_configuration alpm_config;
++
++	replay_context.controllerId = CONTROLLER_ID_UNDEFINED;
++
++	if (!link)
++		return false;
++
++	//Clear Panel Replay enable & config
++	dm_helpers_dp_write_dpcd(link->ctx, link,
++		DP_PANEL_REPLAY_ENABLE_AND_CONFIGURATION_1,
++		(uint8_t *)&(pr_config_1.raw), sizeof(uint8_t));
++
++	dm_helpers_dp_write_dpcd(link->ctx, link,
++		DP_PANEL_REPLAY_ENABLE_AND_CONFIGURATION_2,
++		(uint8_t *)&(pr_config_2.raw), sizeof(uint8_t));
++
++	if (!(link->replay_settings.config.replay_supported))
++		return false;
++
++	dc = link->ctx->dc;
++
++	//not sure should keep or not
++	replay = dc->res_pool->replay;
++
++	if (!replay)
++		return false;
++
++	if (!dc_get_edp_link_panel_inst(dc, link, &panel_inst))
++		return false;
++
++	replay_context.aux_inst = link->ddc->ddc_pin->hw_info.ddc_channel;
++	replay_context.digbe_inst = link->link_enc->transmitter;
++	replay_context.digfe_inst = link->link_enc->preferred_engine;
++
++	for (i = 0; i < MAX_PIPES; i++) {
++		if (dc->current_state->res_ctx.pipe_ctx[i].stream
++				== stream) {
++			/* dmcu -1 for all controller id values,
++			 * therefore +1 here
++			 */
++			replay_context.controllerId =
++				dc->current_state->res_ctx.pipe_ctx[i].stream_res.tg->inst + 1;
++			break;
++		}
++	}
++
++	lineTimeInNs =
++		((stream->timing.h_total * 1000000) /
++			(stream->timing.pix_clk_100hz / 10)) + 1;
++
++	replay_context.line_time_in_ns = lineTimeInNs;
++
++	link->replay_settings.replay_feature_enabled =
++			replay->funcs->replay_copy_settings(replay, link, &replay_context, panel_inst);
++
++	if (link->replay_settings.replay_feature_enabled) {
++		pr_config_1.bits.PANEL_REPLAY_ENABLE = 1;
++		pr_config_1.bits.PANEL_REPLAY_CRC_ENABLE = 1;
++		pr_config_1.bits.IRQ_HPD_ASSDP_MISSING = 1;
++		pr_config_1.bits.IRQ_HPD_VSCSDP_UNCORRECTABLE_ERROR = 1;
++		pr_config_1.bits.IRQ_HPD_RFB_ERROR = 1;
++		pr_config_1.bits.IRQ_HPD_ACTIVE_FRAME_CRC_ERROR = 1;
++		pr_config_1.bits.PANEL_REPLAY_SELECTIVE_UPDATE_ENABLE = 1;
++		pr_config_1.bits.PANEL_REPLAY_EARLY_TRANSPORT_ENABLE = 1;
++
++		pr_config_2.bits.SINK_REFRESH_RATE_UNLOCK_GRANTED = 0;
++		pr_config_2.bits.SU_Y_GRANULARITY_EXT_VALUE_ENABLED = 0;
++		pr_config_2.bits.SU_REGION_SCAN_LINE_CAPTURE_INDICATION = 0;
++
++		dm_helpers_dp_write_dpcd(link->ctx, link,
++			DP_PANEL_REPLAY_ENABLE_AND_CONFIGURATION_1,
++			(uint8_t *)&(pr_config_1.raw), sizeof(uint8_t));
++
++		dm_helpers_dp_write_dpcd(link->ctx, link,
++			DP_PANEL_REPLAY_ENABLE_AND_CONFIGURATION_2,
++			(uint8_t *)&(pr_config_2.raw), sizeof(uint8_t));
++
++		//ALPM Setup
++		memset(&alpm_config, 0, sizeof(alpm_config));
++		alpm_config.bits.ENABLE = link->replay_settings.config.alpm_mode != DC_ALPM_UNSUPPORTED ? 1 : 0;
++
++		if (link->replay_settings.config.alpm_mode == DC_ALPM_AUXLESS) {
++			alpm_config.bits.ALPM_MODE_SEL = 1;
++			alpm_config.bits.ACDS_PERIOD_DURATION = 1;
++		}
++
++		dm_helpers_dp_write_dpcd(
++			link->ctx,
++			link,
++			DP_RECEIVER_ALPM_CONFIG,
++			&alpm_config.raw,
++			sizeof(alpm_config.raw));
++	}
++
++	return true;
++}
++
++static bool edp_setup_freesync_replay(struct dc_link *link, const struct dc_stream_state *stream)
+ {
+ 	/* To-do: Setup Replay */
+ 	struct dc *dc;
+@@ -1080,6 +1190,18 @@ bool edp_setup_replay(struct dc_link *link, const struct dc_stream_state *stream
+ 	return true;
+ }
+ 
++bool edp_setup_replay(struct dc_link *link, const struct dc_stream_state *stream)
++{
++	if (!link)
++		return false;
++	if (link->replay_settings.config.replay_version == DC_VESA_PANEL_REPLAY)
++		return edp_setup_panel_replay(link, stream);
++	else if (link->replay_settings.config.replay_version == DC_FREESYNC_REPLAY)
++		return edp_setup_freesync_replay(link, stream);
++	else
++		return false;
++}
++
+ /*
+  * This is general Interface for Replay to set an 32 bit variable to dmub
+  * replay_FW_Message_type: Indicates which instruction or variable pass to DMUB
+diff --git a/drivers/gpu/drm/amd/display/include/dpcd_defs.h b/drivers/gpu/drm/amd/display/include/dpcd_defs.h
+index de8f3cfed6c8..07b937b92efc 100644
+--- a/drivers/gpu/drm/amd/display/include/dpcd_defs.h
++++ b/drivers/gpu/drm/amd/display/include/dpcd_defs.h
+@@ -30,6 +30,22 @@
+ #ifndef DP_SINK_HW_REVISION_START // can remove this once the define gets into linux drm_dp_helper.h
+ #define DP_SINK_HW_REVISION_START 0x409
+ #endif
++/* Panel Replay*/
++#ifndef DP_PANEL_REPLAY_CAPABILITY_SUPPORT // can remove this once the define gets into linux drm_dp_helper.h
++#define DP_PANEL_REPLAY_CAPABILITY_SUPPORT 0x0b0
++#endif /* DP_PANEL_REPLAY_CAPABILITY_SUPPORT */
++#ifndef DP_PANEL_REPLAY_CAPABILITY // can remove this once the define gets into linux drm_dp_helper.h
++#define DP_PANEL_REPLAY_CAPABILITY 0x0b1
++#endif /* DP_PANEL_REPLAY_CAPABILITY */
++#ifndef DP_PANEL_REPLAY_ENABLE_AND_CONFIGURATION_1  // can remove this once the define gets into linux drm_dp_helper.h
++#define DP_PANEL_REPLAY_ENABLE_AND_CONFIGURATION_1  0x1b0
++#endif /* DP_PANEL_REPLAY_ENABLE_AND_CONFIGURATION_1 */
++#ifndef DP_PANEL_REPLAY_ENABLE // can remove this once the define gets into linux drm_dp_helper.h
++#define DP_PANEL_REPLAY_ENABLE (1 << 0)
++#endif /* DP_PANEL_REPLAY_ENABLE */
++#ifndef DP_PANEL_REPLAY_ENABLE_AND_CONFIGURATION_2 // can remove this once the define gets into linux drm_dp_helper.h
++#define DP_PANEL_REPLAY_ENABLE_AND_CONFIGURATION_2 0x1b1
++#endif /* DP_PANEL_REPLAY_ENABLE_AND_CONFIGURATION_2 */
+ 
+ enum dpcd_revision {
+ 	DPCD_REV_10 = 0x10,
+diff --git a/drivers/gpu/drm/amd/display/modules/power/power_helpers.c b/drivers/gpu/drm/amd/display/modules/power/power_helpers.c
+index 88b5b716a084..fd139b219bf9 100644
+--- a/drivers/gpu/drm/amd/display/modules/power/power_helpers.c
++++ b/drivers/gpu/drm/amd/display/modules/power/power_helpers.c
+@@ -1037,6 +1037,9 @@ void calculate_replay_link_off_frame_count(struct dc_link *link,
+ 	uint8_t max_link_off_frame_count = 0;
+ 	uint16_t max_deviation_line = 0,  pixel_deviation_per_line = 0;
+ 
++	if (!link || link->replay_settings.config.replay_version != DC_FREESYNC_REPLAY)
++		return;
++
+ 	max_deviation_line = link->dpcd_caps.pr_info.max_deviation_line;
+ 	pixel_deviation_per_line = link->dpcd_caps.pr_info.pixel_deviation_per_line;
+ 
+-- 
+2.43.0
