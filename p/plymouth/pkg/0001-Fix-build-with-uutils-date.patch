@@ -1,0 +1,19 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Reilly Brogan <reilly@reillybrogan.com>
+Date: Thu, 12 Feb 2026 11:47:50 -0600
+Subject: [PATCH] Fix build with uutils date
+
+---
+ scripts/generate-version.sh | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/scripts/generate-version.sh b/scripts/generate-version.sh
+index 8ad6e2a3..c6aa51ab 100755
+--- a/scripts/generate-version.sh
++++ b/scripts/generate-version.sh
+@@ -21,4 +21,4 @@ fi
+ # If it is from a git checkout, derive the version from the date of the last commit, and the number
+ # of commits since the last release.
+ COMMITS_SINCE_LAST_RELEASE=$(git rev-list $(git describe --abbrev=0)..HEAD --count)
+-date +%y.%j.${COMMITS_SINCE_LAST_RELEASE} -d "@$(git log -1 --pretty=format:%ct)"
++date -d "@$(git log -1 --pretty=format:%ct)" +%y.%j.${COMMITS_SINCE_LAST_RELEASE}

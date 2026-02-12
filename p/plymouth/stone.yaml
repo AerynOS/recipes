@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : plymouth
-version     : "24.004.60+git.8bc9364c"
-release     : 10
+version     : "24.004.60+git.45655f12"
+release     : 11
 homepage    : https://www.freedesktop.org/wiki/Software/Plymouth/
 upstreams   :
-    - git|https://gitlab.freedesktop.org/plymouth/plymouth.git : 8bc9364cac02179ae55344e32e30a8b459872d25
+    - git|https://gitlab.freedesktop.org/plymouth/plymouth.git : 45655f12fa2d5553ab4ba509f2e203c249191664
 summary     : Graphical Boot Animation and Logger
 description : |
     Graphical Boot Animation and Logger
@@ -41,7 +41,11 @@ environment : |
     %export_docbook_catalogs
 setup       : |
     %patch %(pkgdir)/0001-Set-plymouth-defaults.patch
-    %meson -Dlogo=/usr/share/icons/aerynos-logo-dark.png --libexecdir=lib
+    %patch %(pkgdir)/0001-Fix-build-with-uutils-date.patch
+
+    %meson \
+        --libexecdir=lib \
+        -Dlogo=/usr/share/icons/aerynos-logo-dark.png
 build       : |
     %meson_build
 install     : |
