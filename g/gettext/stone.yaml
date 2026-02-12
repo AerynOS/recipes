@@ -4,15 +4,15 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : gettext
-version     : "0.26"
-release     : 10
+version     : "1.0"
+release     : 11
 summary     : GNU locale utilities
 license     : GPL-3.0-or-later
 homepage    : https://www.gnu.org/software/gettext/gettext.html
 description : |
     GNU locale utilities.
 upstreams   :
-    - https://mirrors.kernel.org/gnu/gettext/gettext-0.26.tar.gz : 39acf4b0371e9b110b60005562aace5b3631fed9b1bb9ecccfc7f56e58bb1d7f
+    - https://ftp.gnu.org/pub/gnu/gettext/gettext-1.0.tar.gz: 85d99b79c981a404874c02e0342176cf75c7698e2b51fe41031cf6526d974f1a
 builddeps   :
     - pkgconfig(libxml-2.0)
     - pkgconfig(ncursesw)
@@ -40,8 +40,8 @@ packages    :
         paths:
             - /usr/lib/libasprintf.so.0*
             - /usr/lib/libgettextpo.so.0*
-            - /usr/lib/libgettextlib-0.*.so
-            - /usr/lib/libgettextsrc-0.*.so
+            - /usr/lib/libgettextlib-*.*.so
+            - /usr/lib/libgettextsrc-*.*.so
 
     # Moss upgrade workaround
     - "%(name)":
