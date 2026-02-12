@@ -1,0 +1,37 @@
+From 55be79b3f3c4f8b4a55ca49ecc3aa85f0be53fda Mon Sep 17 00:00:00 2001
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sat, 20 Dec 2025 18:23:33 -0800
+Subject: [PATCH] tgsi_text: fix memchr const-qualifier warning in
+ skip_n_chars()
+
+skip_n_chars() takes a const char **, so memchr() returns a const pointer.
+Store the result in a const char * (and cast length to size_t) to avoid
+dropping qualifiers, fixing Clang -Werror build failures.
+
+Fixes
+src/gallium/auxiliary/tgsi/tgsi_text.c:87:10: error: initializing 'char *' with an expression of type 'const void *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
+   87 |    char* str = memchr(*pcur, '\0', n);
+      |          ^     ~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ src/gallium/auxiliary/tgsi/tgsi_text.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/gallium/auxiliary/tgsi/tgsi_text.c b/src/gallium/auxiliary/tgsi/tgsi_text.c
+index db7d7b952..82eb88805 100644
+--- a/src/gallium/auxiliary/tgsi/tgsi_text.c
++++ b/src/gallium/auxiliary/tgsi/tgsi_text.c
+@@ -84,7 +84,7 @@ streq_nocase_uprcase(const char *str1,
+ static inline bool skip_n_chars(const char **pcur,
+                                    int n)
+ {
+-   char* str = memchr(*pcur, '\0', n);
++   const char* str = (const char*)memchr(*pcur, '\0', (size_t)n);
+    if (unlikely(str)) {
+       *pcur = str;
+       return false;
+-- 
+GitLab
+
