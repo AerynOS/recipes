@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : mesa-clc
-version     : "25.3.5"
-release     : 25
+version     : "26.0.0"
+release     : 26
 homepage    : https://mesa3d.org/
 upstreams   :
-    - https://mesa.freedesktop.org/archive/mesa-25.3.5.tar.xz : be472413475082df945e0f9be34f5af008baa03eb357e067ce5a611a2d44c44b
+    - https://mesa.freedesktop.org/archive/mesa-26.0.0.tar.xz : 2a44e98e64d5c36cec64633de2d0ec7eff64703ee25b35364ba8fcaa84f33f72
 summary     : Tool used for building OpenCL C to SPIR-V
 description : |
     %(name) tool used for building OpenCL C to SPIR-V
@@ -27,10 +27,6 @@ builddeps   :
     - python(mako)
     - python(pyyaml)
 setup       : |
-    # Fix build with glibc 2.43
-    %patch %(pkgdir)/38594.patch
-    %patch %(pkgdir)/0001-ftbfs-glibc-2.43.patch
-
     %meson \
         -Dgallium-drivers="" \
         -Dglx=disabled \
