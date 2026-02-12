@@ -57,10 +57,10 @@
 				"/usr/share/man/man1/bluetoothctl-monitor.1",
 				"/usr/share/man/man1/bluetoothctl-player.1",
 				"/usr/share/man/man1/bluetoothctl-scan.1",
+				"/usr/share/man/man1/bluetoothctl-telephony.1",
 				"/usr/share/man/man1/bluetoothctl-transport.1",
 				"/usr/share/man/man1/bluetoothctl.1",
 				"/usr/share/man/man1/btattach.1",
-				"/usr/share/man/man1/btmgmt.1",
 				"/usr/share/man/man1/btmon.1",
 				"/usr/share/man/man5/org.bluez.Adapter.5",
 				"/usr/share/man/man5/org.bluez.AdminPolicySet.5",
@@ -74,6 +74,7 @@
 				"/usr/share/man/man5/org.bluez.BatteryProviderManager.5",
 				"/usr/share/man/man5/org.bluez.Bearer.BREDR.5",
 				"/usr/share/man/man5/org.bluez.Bearer.LE.5",
+				"/usr/share/man/man5/org.bluez.Call.5",
 				"/usr/share/man/man5/org.bluez.Device.5",
 				"/usr/share/man/man5/org.bluez.DeviceSet.5",
 				"/usr/share/man/man5/org.bluez.GattCharacteristic.5",
@@ -96,6 +97,10 @@
 				"/usr/share/man/man5/org.bluez.NetworkServer.5",
 				"/usr/share/man/man5/org.bluez.Profile.5",
 				"/usr/share/man/man5/org.bluez.ProfileManager.5",
+				"/usr/share/man/man5/org.bluez.Telephony.5",
+				"/usr/share/man/man5/org.bluez.Thermometer.5",
+				"/usr/share/man/man5/org.bluez.ThermometerManager.5",
+				"/usr/share/man/man5/org.bluez.ThermometerWatcher.5",
 				"/usr/share/man/man7/hci.7",
 				"/usr/share/man/man7/iso.7",
 				"/usr/share/man/man7/l2cap.7",
@@ -252,7 +257,7 @@
 			],
 			"files": [
 				"/usr/lib/libbluetooth.so.3",
-				"/usr/lib/libbluetooth.so.3.19.15"
+				"/usr/lib/libbluetooth.so.3.19.16"
 			],
 			"name": "bluez-libs",
 			"provides": [
@@ -350,6 +355,6 @@
 		}
 	},
 	"source-name": "bluez",
-	"source-release": "9",
-	"source-version": "5.85"
+	"source-release": "10",
+	"source-version": "5.86"
 }
