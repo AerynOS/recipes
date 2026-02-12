@@ -4,20 +4,19 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : binutils
-version     : "2.45.1+git.48324fde"
-release     : 26
+version     : "2.46.0+git.908827bf"
+release     : 27
 summary     : A GNU collection of binary utilities
 license     : GPL-3.0-or-later
 homepage    : https://sourceware.org/binutils
 description : |
     A GNU collection of binary utilities
 upstreams   :
-    # binutils-2_45-branch
-    - git|https://sourceware.org/git/binutils-gdb.git : 48324fde1e284293dd3d570dba597cb644921c92
+    # binutils-2_46-branch
+    - git|https://sourceware.org/git/binutils-gdb.git : 908827bf71b82787dbd846604e77af42c05bad8f
 builddeps   :
     - binary(bison)
     - binary(flex)
-    - binary(g++)
     - binary(m4)
     - binary(makeinfo)
     - binary(msgmerge)
@@ -41,6 +40,7 @@ setup       : |
     # Non release builds mess up the sonames
     sed -i '/^development=/s/true/false/' bfd/development.sh
 
+    # TODO: Figure out how to get PGO working with Clang (`--enable-pgo-build=lto`)
     mkdir %(builddir) && cd %(builddir)
     ../configure %(options_configure) \
         --disable-gdb \
@@ -60,7 +60,6 @@ setup       : |
         --enable-ld=default \
         --enable-multilib \
         --enable-new-dtags \
-        --enable-pgo-build=lto \
         --enable-plugins \
         --enable-relro=yes \
         --enable-secureplt \
@@ -85,9 +84,8 @@ install     : |
     %install_dir %(installroot)/usr/share/defaults/gprofng
     mv %(installroot)/etc/gprofng.rc %(installroot)/usr/share/defaults/gprofng
     rmdir %(installroot)/etc
-toolchain   : gnu
 tuning      :
-    - lto
+    - lto: full
     - nosemantic
     - optimize: speed
     - symbolic
