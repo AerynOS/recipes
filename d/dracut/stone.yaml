@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : dracut
-version     : "107"
-release     : 11
+version     : "110"
+release     : 12
 homepage    : https://github.com/dracut-ng/dracut-ng
 upstreams   :
-    - https://github.com/dracut-ng/dracut-ng/archive/refs/tags/107.tar.gz : b39d0d1cd35ff43aba8771c5367d8c6c59bb432c0cac62f49601f21c0d634895
+    - https://github.com/dracut-ng/dracut-ng/archive/refs/tags/110.tar.gz : 0d357853f8cf2371d89a8ebcbbb1fd2c1c85a79d8866925fd7385eaeb20a27dc
 summary     : dracut is an event driven initramfs infrastructure.
 description : |
     dracut (the tool) is used to create an initramfs image by copying tools and files from an installed system and combining it with the dracut framework, usually found in /usr/lib/dracut/modules.d.
@@ -18,20 +18,22 @@ license     :
     - BSD-3-Clause
     - GPL-2.0-or-later
 builddeps   :
+    - binary(asciidoctor)
     - pkgconfig(libkmod)
+    - pkgconfig(libsystemd)
 rundeps     :
     - binary(cpio)
     - terminus-font
 setup       : |
     %patch %(pkgdir)/0001-solus-Add-module-to-invalidate-depmod-index.patch
     %patch %(pkgdir)/0002-Support-stateless-glibc-ldconfig-configuration.patch
+
     # revisit when the patch is improved
     # %patch %(pkgdir)/0003-Exclude-unwanted-paths-from-initrd-creation.patch
-    %patch %(pkgdir)/0004-Downstream-De-compress-kbd-files.patch
-    %patch %(pkgdir)/0005-solus-Allow-for-skipping-firmware-installation.patch
-    %patch %(pkgdir)/0006-45plymouth-Generate-proper-OS-plymouth-for-generic-i.patch
 
-    %configure_with_bash --disable-documentation
+    %patch %(pkgdir)/0005-solus-Allow-for-skipping-firmware-installation.patch
+
+    %configure_with_bash
 build       : |
     %make
 install     : |

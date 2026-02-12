@@ -1,27 +1,24 @@
-From 3925bd074e587b0e7f2f88590d439d14db2a1d04 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Ikey Doherty <ikey@solus-project.com>
 Date: Fri, 16 Dec 2016 05:04:48 +0000
-Subject: [PATCH 2/6] Support stateless glibc ldconfig configuration
+Subject: [PATCH] Support stateless glibc ldconfig configuration
 
 Signed-off-by: Ikey Doherty <ikey@solus-project.com>
 Modifyied-by: Philip Mueller <philm@manjaro.org>
 ---
- dracut-init.sh | 2 +-
+ dracut.sh | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/dracut-init.sh b/dracut-init.sh
-index 986da96..94cfc88 100755
---- a/dracut-init.sh
-+++ b/dracut-init.sh
-@@ -537,7 +537,7 @@ inst_rules() {
+diff --git a/dracut.sh b/dracut.sh
+index 9819b793..a30ebb5c 100755
+--- a/dracut.sh
++++ b/dracut.sh
+@@ -1572,7 +1572,7 @@ mark_hostonly() {
  build_ld_cache() {
      local dstdir="${dstdir:-"$initdir"}"
  
--    for f in "$dracutsysrootdir"/etc/ld.so.conf "$dracutsysrootdir"/etc/ld.so.conf.d/*; do
-+    for f in "$dracutsysrootdir"/etc/ld.so.conf "$dracutsysrootdir"/etc/ld.so.conf.d/* "$dracutsysrootdir"/usr/share/defaults/ld.so.conf "$dracutsysrootdir"/usr/share/defaults/ld.so.conf.d/* "$dracutsysrootdir"/usr/share/ld.so.conf.d/*; do
+-    for f in "${dracutsysrootdir-}"/etc/ld.so.conf "${dracutsysrootdir-}"/etc/ld.so.conf.d/*; do
++    for f in "${dracutsysrootdir-}"/etc/ld.so.conf "${dracutsysrootdir-}"/etc/ld.so.conf.d/* "${dracutsysrootdir-}"/usr/share/defaults/ld.so.conf "${dracutsysrootdir-}"/usr/share/defaults/*; do
          [[ -f $f ]] && inst_simple "${f}"
      done
      if ! $DRACUT_LDCONFIG -r "$initdir" -f /etc/ld.so.conf; then
--- 
-2.47.1
-
