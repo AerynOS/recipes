@@ -6,7 +6,7 @@
 #
 name        : linux-handheld
 version     : "6.18.10"
-release     : 45
+release     : 46
 homepage    : https://kernel.org/
 upstreams   :
     - https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.18.10.tar.xz : d6d377161741ada2fab28eed69143277634a2aeb5e3883e50c031588ede48ede
@@ -47,6 +47,7 @@ builddeps   :
     - pkgconfig(libssl)
     - pkgconfig(libzstd)
     - pkgconfig(mpfr)
+    - pkgconfig(ncursesw) # for 'make nconfig' in chroot
     - pkgconfig(ply-boot-client)
     - sysbinary(cryptsetup)
     - sysbinary(fsck.ext4)
@@ -62,6 +63,7 @@ builddeps   :
     - linux-firmware-nvidia-graphics
     - rust-devel # Needs Rust source
     - serpent-artwork
+    - systemd # Needs the actual init binary
 packages    :
     - "%(name)-devel":
         paths:
@@ -81,9 +83,6 @@ setup       : |
         do
             %patch "%(pkgdir)/patches/${p}"
         done
-    else
-        echo -e "\nERROR: Please set up a pkg/patches/series file!\n"
-        exit 1
     fi
 
     extraVersion="-%(release).handheld"
@@ -137,12 +136,12 @@ install     : |
     /usr/sbin/depmod -b %(installroot)/usr ${kernelVersion} -a
 
     # We can make the initrd smaller by decompressing the firmware prior to compressing the entire initrd.
-    mkdir -p eb-fw/
-    cp -ra /usr/lib/firmware/* eb-fw
+    mkdir -p usr/lib/firmware/
+    cp -ra /usr/lib/firmware/* usr/lib/firmware
     file_list=()
     while IFS=  read -r -d $'\0'; do
         file_list+=("$REPLY")
-    done < <(find eb-fw -type f -print0)
+    done < <(find usr/lib/firmware -type f -print0)
     for file in "${file_list[@]}"; do
         if [ -z ${file##*.zst} ]; then
             unzstd --rm "$file"
@@ -153,7 +152,7 @@ install     : |
     link_list=()
     while IFS=  read -r -d $'\0'; do
         link_list+=("$REPLY")
-    done < <(find eb-fw -type l -print0)
+    done < <(find usr/lib/firmware -type l -print0)
     for file in "${link_list[@]}"; do
         link=$(readlink "$file")
         if [ -z ${link##*.zst} ]; then
@@ -168,18 +167,27 @@ install     : |
 
     # Include early microcode
     # 2025-07-29: Add vfio kernel modules to initrd as they need to be loaded very early in the boot process
-    # 2025-07-29: Add modprobe configuration for Nvidia sleep options to cover early KMS module loading
-    drm_modules="amdgpu hyperv_drm i915 qxl radeon simpledrm vboxvideo virtio-gpu vmwgfx xe"
+    drm_modules="amdgpu hyperv_drm i915 nouveau qxl radeon simpledrm vboxvideo virtio-gpu vmwgfx xe"
     vfio_modules="vfio_pci vfio_iommu_type1"
-    PATH="/usr/bin:/usr/sbin" dracut --strip --tmpdir /tmp -N -f \
-        --kmoddir %(installroot)%(libdir)/modules/${kernelVersion} --kver $kernelVersion \
-        --add "bash rescue systemd virtiofs lvm dm moss zz-init-extension" \
-        --strip --hardlink --nomdadmconf --nolvmconf --reproducible \
+    PATH="/usr/bin:/usr/sbin" dracut \
+        --add "bash rescue systemd drm virtiofs lvm dm moss zz-init-extension" \
         --add-drivers "${drm_modules} ${vfio_modules}" \
-        --zstd --early-microcode --fwdir eb-fw/ \
-        --include %(pkgdir)/initrd/depmod.conf %(libdir)/depmod.d/depmod.conf \
+        --early-microcode \
+        --force \
+        --fwdir usr/lib/firmware/ \
+        --hardlink \
+        --include %(pkgdir)/initrd/50-protectsystem-off.conf %(libdir)/systemd/system.conf.d/50-protectsystem-off.conf \
         --include %(pkgdir)/initrd/timeouts.conf %(libdir)/systemd/system.conf.d/timeouts.conf \
-        --include %(pkgdir)/initrd/nvidia-sleep.modprobe %(libdir)/modprobe.d/nvidia-sleep.conf \
+        --kmoddir %(installroot)%(libdir)/modules/${kernelVersion} \
+        --kver $kernelVersion \
+        --no-hostonly \
+        --nolvmconf \
+        --nomdadmconf \
+        --strip \
+        --reproducible \
+        --tmpdir /tmp \
+        --verbose \
+        --zstd \
         %(installroot)%(libdir)/kernel/$kernelVersion/50-default.initrd
 
     # Temporary: Help with VMs
