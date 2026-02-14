@@ -1,0 +1,32 @@
+#
+# SPDX-FileCopyrightText: © 2025- AerynOS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : level-zero
+version     : "1.28.0"
+release     : 1
+homepage    : https://github.com/oneapi-src/level-zero
+upstreams   :
+    - https://github.com/oneapi-src/level-zero/archive/refs/tags/v1.28.0.tar.gz : 92cdffb1e55084857c63672cfe6ef03fd763dec5cca0318d9d02583bf07064a5
+summary     : oneAPI Level Zero Specification Headers and Loader
+description : |
+    The oneAPI Level Zero (Level Zero) provides low-level direct-to-metal interfaces that are tailored to the devices in a oneAPI platform. This package includes the Level Zero headers, loader, and validation layer
+license     :
+    - MIT
+builddeps   :
+    - cmake(spdlog)
+    - pkgconfig(OpenCL-Headers)
+# networking  : true # required for check
+setup       : |
+    %patch %(pkgdir)/zerGetDefaultContext.patch
+    %cmake \
+        -DSYSTEM_SPDLOG=ON
+# -DBUILD_L0_LOADER_TESTS=ON
+build       : |
+    %cmake_build
+install     : |
+    %cmake_install
+# check       : |
+#     export ZEL_LIBRARY_PATH=%(workdir)/%(builddir)/lib
+#     %cmake_test
