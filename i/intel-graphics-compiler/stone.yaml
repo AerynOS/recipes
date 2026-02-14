@@ -1,0 +1,98 @@
+#
+# SPDX-FileCopyrightText: © 2025- AerynOS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : intel-graphics-compiler
+version     : "2.28.4"
+release     : 1
+homepage    : https://github.com/intel/intel-graphics-compiler
+upstreams   :
+    - https://github.com/intel/intel-graphics-compiler/archive/refs/tags/v2.28.4.tar.gz :
+        hash: 1594e9425246fd9d2947f56f42f0f3676a3be77f0a5291438bca02a7d8520ce2
+        rename: igc
+    - https://github.com/intel/vc-intrinsics/archive/refs/tags/v0.24.3.tar.gz :
+        hash: d34cc01a07a803d94e93f240f65b0e577bc6db1da22ff64b38a2bcbe9d232723
+        rename: vc-intrinsics
+    - https://github.com/llvm/llvm-project/releases/download/llvmorg-16.0.6/llvm-project-16.0.6.src.tar.xz :
+        hash: ce5e71081d17ce9e86d7cbcfa28c4b04b9300f8fb7e78422b1feb6bc52c3028e
+        rename: llvm-project
+    - git|https://github.com/intel/opencl-clang.git :
+        ref: 7161d7c6d97da80f12739cebad9bf508555bbfd9
+        clonedir: llvm-project/llvm/projects/opencl-clang
+    - git|https://github.com/KhronosGroup/SPIRV-LLVM-Translator.git :
+        ref: c13fcf6c5072483d50993e9175087bead3b7bf8a
+        clonedir: llvm-project/llvm/projects/llvm-spirv
+summary     : Intel Graphics Compiler for OpenCL
+description : |
+    The Intel® Graphics Compiler for OpenCL™ is an LLVM-based compiler for OpenCL™ targeting Intel® graphics hardware architecture.
+license     : MIT
+tuning      : # Copypasta from LLVM (???)
+    - fortify: false
+    - frame-pointer: false
+    - harden: false
+    - icf: all
+    - lto: false
+    - nosemantic: true
+    - optimize: speed
+    - symbolic: all
+builddeps   :
+    - binary(bison)
+    - binary(flex)
+    - binary(mold)
+    - binary(objdump)
+    - binary(patch)
+    - binary(python)
+    - cmake(SPIRV-Headers)
+    - cmake(SPIRV-Tools)
+    - cmake(libxml2)
+    - pkgconfig(libedit)
+    - pkgconfig(libzstd)
+    - pkgconfig(protobuf)
+    - pkgconfig(valgrind)
+    - pkgconfig(zlib)
+    - python(mako)
+    - python(pygments)
+    - python(pyyaml)
+setup       : |
+    # PR for replacing `<ciso646>` with `<version>`
+    %patch %(pkgdir)/383.patch
+
+    # Fake-out opencl-clang into thinking its a git repo
+    # so that it can apply patches to itself (From Nix)
+    git -C ../llvm-project init
+    git -C ../llvm-project -c user.name=boulder -c user.email= commit --allow-empty -m stub
+    pushd ../
+    %patch %(pkgdir)/use-patch-instead-of-git-am.patch
+    popd
+
+    # Fix an error in patched opencl-clang
+    # patch taken from commit 98cd73e ref: PR #363, remove in release 2.29.1
+    %patch %(pkgdir)/363.patch
+
+    # error: first argument in call to 'memset' is a pointer to non-trivially
+    # copyable type 'FINALIZER_INFO' [-Werror,-Wnontrivial-memcall]
+    # patch taken from commit 65895e2, remove in release 2.29.1
+    %patch %(pkgdir)/Fix-sendInfo-management.patch
+
+    %cmake \
+        -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
+        -DIGC_OPTION__ARCHITECTURE_TARGET=Linux64 \
+        -DIGC_OPTION__CLANG_MODE=Source \
+        -DIGC_OPTION__LLD_MODE=Source \
+        -DIGC_OPTION__LLVM_PREFERRED_VERSION="16.0.6" \
+        -DIGC_OPTION__LLVM_MODE=Source \
+        -DIGC_OPTION__LINK_KHRONOS_SPIRV_TRANSLATOR=ON \
+        -DIGC_OPTION__SPIRV_TOOLS_MODE=Prebuilds \
+        -DIGC_OPTION__USE_PREINSTALLED_SPIRV_HEADERS=ON \
+        -DIGC_OPTION__VC_INTRINSICS_MODE=Source \
+        -DLLVM_EXTERNAL_SPIRV_HEADERS_SOURCE_DIR=/usr/include/spirv/ \
+        -Wno-dev
+build       : |
+    %cmake_build
+install     : |
+    %cmake_install
+
+    # Move and Remove stuff that conflict
+    mv %(installroot)%(includedir)/opencl-c{,-base}.h %(installroot)%(includedir)/igc
+    rm -f %(installroot)%(bindir)/lld
