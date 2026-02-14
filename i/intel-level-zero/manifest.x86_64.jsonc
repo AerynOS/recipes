@@ -1,0 +1,70 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"level-zero": {
+			"build-depends": [
+				"cmake(spdlog)",
+				"pkgconfig(OpenCL-Headers)"
+			],
+			"depends": [
+				"soname(ld-linux-x86-64.so.2(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libspdlog.so.1.17(x86_64))",
+				"soname(libstdc++.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/lib/libze_loader.so.1",
+				"/usr/lib/libze_loader.so.1.28.0",
+				"/usr/lib/libze_tracing_layer.so.1",
+				"/usr/lib/libze_tracing_layer.so.1.28.0",
+				"/usr/lib/libze_validation_layer.so.1",
+				"/usr/lib/libze_validation_layer.so.1.28.0"
+			],
+			"name": "level-zero",
+			"provides": [
+				"soname(libze_loader.so.1(x86_64))",
+				"soname(libze_tracing_layer.so.1(x86_64))",
+				"soname(libze_validation_layer.so.1(x86_64))"
+			]
+		},
+		"level-zero-devel": {
+			"build-depends": [
+				"cmake(spdlog)",
+				"pkgconfig(OpenCL-Headers)"
+			],
+			"depends": [
+				"level-zero"
+			],
+			"files": [
+				"/usr/include/level_zero/layers/zel_tracing_api.h",
+				"/usr/include/level_zero/layers/zel_tracing_ddi.h",
+				"/usr/include/level_zero/layers/zel_tracing_register_cb.h",
+				"/usr/include/level_zero/loader/ze_loader.h",
+				"/usr/include/level_zero/ze_api.h",
+				"/usr/include/level_zero/ze_ddi.h",
+				"/usr/include/level_zero/ze_ddi_common.h",
+				"/usr/include/level_zero/zer_api.h",
+				"/usr/include/level_zero/zer_ddi.h",
+				"/usr/include/level_zero/zes_api.h",
+				"/usr/include/level_zero/zes_ddi.h",
+				"/usr/include/level_zero/zet_api.h",
+				"/usr/include/level_zero/zet_ddi.h",
+				"/usr/lib/libze_loader.so",
+				"/usr/lib/libze_tracing_layer.so",
+				"/usr/lib/libze_validation_layer.so",
+				"/usr/lib/pkgconfig/level-zero.pc",
+				"/usr/lib/pkgconfig/libze_loader.pc"
+			],
+			"name": "level-zero-devel",
+			"provides": [
+				"pkgconfig(level-zero)",
+				"pkgconfig(libze_loader)"
+			]
+		}
+	},
+	"source-name": "level-zero",
+	"source-release": "1",
+	"source-version": "1.28.0"
+}
