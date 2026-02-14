@@ -1,0 +1,48 @@
+#
+# SPDX-FileCopyrightText: © 2025- AerynOS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : yelp
+version     : 49.0
+release     : 1
+homepage    : https://apps.gnome.org/Yelp/
+upstreams   :
+    - https://download.gnome.org/sources/yelp/49/yelp-49.0.tar.xz : e6614e0b1f4ba5fe7b8d149bdd42673f030656fbdcd736ae9860719197c63457
+summary     : Help viewer for GNOME
+description : |
+    Yelp is the GNOME help viewer. It is the default Mallard viewer, but it can also display DocBook, info, man, and HTML documentation.
+
+    It makes it easy to find the documentation you need, with interactive search and bookmarks.
+
+    It also has an editor mode, which shows editorial comments and revision statuses when editing Mallard documents.
+license     : 
+    - GPL-2.0-or-later
+builddeps   :
+    - binary(appstreamcli)
+    - binary(desktop-file-validate)
+    - binary(glib-compile-schemas)
+    - binary(itstool)
+    - binary(msgfmt)
+    - pkgconfig(bzip2)
+    - pkgconfig(gio-2.0)
+    - pkgconfig(gio-unix-2.0)
+    - pkgconfig(gtk4)
+    - pkgconfig(gtk4-unix-print)
+    - pkgconfig(libadwaita-1)
+    - pkgconfig(libexslt)
+    - pkgconfig(liblzma)
+    - pkgconfig(libxml-2.0)
+    - pkgconfig(libxslt)
+    - pkgconfig(sqlite3)
+    - pkgconfig(webkitgtk-6.0)
+    - pkgconfig(webkitgtk-web-process-extension-6.0)
+    - pkgconfig(yelp-xsl)
+rundeps     :
+    - yelp-xsl
+setup       : |
+    %meson
+build       : |
+    %meson_build
+install     : |
+    %meson_install
