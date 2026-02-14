@@ -1,0 +1,180 @@
+From 65895e214492aeb45a79989056564787628220d6 Mon Sep 17 00:00:00 2001
+From: "Pillow, Scott" <scott.pillow@intel.com>
+Date: Tue, 3 Feb 2026 02:05:13 +0000
+Subject: [PATCH]  Fix sendInfo management
+
+Fix sendInfo management
+---
+ visa/BuildIRImpl.cpp            |  9 +--------
+ visa/Optimizer.cpp              |  2 --
+ visa/VISAKernelImpl.cpp         | 35 +++++++++++++++++++++------------
+ visa/include/JitterDataStruct.h | 31 +++++++++++++++++++++++++++++
+ visa/main.cpp                   |  3 +--
+ 5 files changed, 55 insertions(+), 25 deletions(-)
+
+diff --git a/visa/BuildIRImpl.cpp b/visa/BuildIRImpl.cpp
+index a2353e241d16..a278961d5e21 100644
+--- a/visa/BuildIRImpl.cpp
++++ b/visa/BuildIRImpl.cpp
+@@ -848,14 +848,7 @@ IR_Builder::IR_Builder(INST_LIST_NODE_ALLOCATOR &alloc, G4_Kernel &k,
+   arg_size = 0;
+   return_var_size = 0;
+   if (metaData != NULL) {
+-#if defined(__GNUC__) && (__GNUC__ >= 8)
+-#pragma GCC diagnostic push
+-#pragma GCC diagnostic ignored "-Wclass-memaccess"
+-#endif
+-    memset(metaData, 0, sizeof(FINALIZER_INFO));
+-#if defined(__GNUC__) && (__GNUC__ >= 8)
+-#pragma GCC diagnostic pop
+-#endif
++    *metaData = FINALIZER_INFO();
+   }
+ 
+   usedBarriers = BitSet(kernel.getMaxNumOfBarriers(), false);
+diff --git a/visa/Optimizer.cpp b/visa/Optimizer.cpp
+index 03cf00cc8062..fe481a103734 100644
+--- a/visa/Optimizer.cpp
++++ b/visa/Optimizer.cpp
+@@ -6107,8 +6107,6 @@ void Optimizer::countGRFUsage() {
+     if (GRFUse[i])
+       count++;
+   fg.builder->getJitInfo()->stats.numGRFUsed = count;
+-  fg.builder->criticalMsgStream()
+-      << "\tKernel " << kernel.getName() << " : " << count << " registers\n";
+ }
+ 
+ //
+diff --git a/visa/VISAKernelImpl.cpp b/visa/VISAKernelImpl.cpp
+index 3c7b12b979cc..77dabf4b29fd 100644
+--- a/visa/VISAKernelImpl.cpp
++++ b/visa/VISAKernelImpl.cpp
+@@ -8,6 +8,7 @@ SPDX-License-Identifier: MIT
+ 
+ #include <fstream>
+ #include <functional>
++#include <new>
+ #include <regex>
+ #include <sstream>
+ 
+@@ -473,19 +474,20 @@ void *VISAKernelImpl::encodeAndEmit(unsigned int &binarySize) {
+ 
+ #ifdef _WIN32
+   if (m_options->getOption(vISA_ShaderStatsDumpless)) {
+-      typedef void(__stdcall* PFNOPENWRAPPERDLL)(
+-          void* buf, size_t buf_size, char* dump_stem, char* platform,
+-          void* sendinfo, size_t sendinfo_size);
+-      HMODULE handle = LoadDependency("WrapperLib.dll");
+-      if (handle) {
+-          auto OpenWrapper =
+-              (PFNOPENWRAPPERDLL)GetProcAddress(handle, "process_buffer");
+-          if (OpenWrapper) {
+-              OpenWrapper(binary, binarySize, (char*)m_asmName.c_str(),
+-                  (char*)m_kernel->getGenxPlatformString(),
+-                  &m_jitInfo->sendInfo, sizeof(m_jitInfo->sendInfo));
+-          }
++    typedef void(__stdcall * PFNOPENWRAPPERDLL)(void *buf, size_t buf_size,
++                                                char *dump_stem, char *platform,
++                                                void *sendinfo);
++    HMODULE handle = LoadDependency("WrapperLib.dll");
++    if (handle) {
++      auto OpenWrapper =
++          (PFNOPENWRAPPERDLL)GetProcAddress(handle, "process_buffer");
++      if (OpenWrapper) {
++        vISA::PERF_SENDINFO::PERF_SENDINFO_VIEW SendInfoView =
++            m_jitInfo->sendInfo.serialize();
++        OpenWrapper(binary, binarySize, (char *)m_asmName.c_str(),
++                    (char *)m_kernel->getGenxPlatformString(), &SendInfoView);
+       }
++    }
+   }
+ #endif
+ 
+@@ -734,7 +736,8 @@ int VISAKernelImpl::InitializeFastPath() {
+     m_kernel->getKernelDebugInfo()->setVISAKernel(this);
+   }
+ 
+-  m_jitInfo = (FINALIZER_INFO *)m_mem.alloc(sizeof(FINALIZER_INFO));
++  void *pJitInfoMem = m_mem.alloc(sizeof(FINALIZER_INFO));
++  m_jitInfo = new (pJitInfoMem) FINALIZER_INFO();
+ 
+   void *addr = m_kernelMem->alloc(sizeof(class IR_Builder));
+   m_builder = new (addr)
+@@ -9233,6 +9236,12 @@ VISAKernelImpl::~VISAKernelImpl() {
+     // so that internal data structures get cleared.
+     m_kernel->~G4_Kernel();
+     m_builder->~IR_Builder();
++
++    if (m_jitInfo != nullptr) {
++      m_jitInfo->~FINALIZER_INFO();
++      m_jitInfo = nullptr;
++    }
++
+     delete m_kernelMem;
+   }
+ 
+diff --git a/visa/include/JitterDataStruct.h b/visa/include/JitterDataStruct.h
+index 4b2081980b65..75d2ae9be8b6 100644
+--- a/visa/include/JitterDataStruct.h
++++ b/visa/include/JitterDataStruct.h
+@@ -10,8 +10,10 @@ SPDX-License-Identifier: MIT
+ #define JITTERDATASTRUCT_
+ 
+ #include <bitset>
++#include <cstddef>
+ #include <optional>
+ #include <stdint.h>
++#include <vector>
+ 
+ // clang-format off
+ #include "common/LLVMWarningsPush.hpp"
+@@ -169,6 +171,35 @@ struct PERF_SENDINFO {
+   std::vector<uint32_t> src1Vec;
+   // 3rd element = dst Lenth
+   std::vector<uint32_t> destVec;
++
++  static constexpr uint32_t SENDINFO_VIEW_MAGIC = 0x53495657; // 'SIVW'
++  static constexpr uint16_t SENDINFO_VIEW_VERSION = 1;
++
++  struct BUFFER {
++    const uint32_t *pBuffer;
++    size_t Size;
++  };
++
++  struct PERF_SENDINFO_VIEW {
++    uint32_t Magic;
++    uint16_t Version;
++    BUFFER Src0;
++    BUFFER Src1;
++    BUFFER Dest;
++  };
++
++  PERF_SENDINFO_VIEW serialize() const {
++    PERF_SENDINFO_VIEW View = {};
++    View.Magic = SENDINFO_VIEW_MAGIC;
++    View.Version = SENDINFO_VIEW_VERSION;
++    View.Src0.pBuffer = (src0Vec.empty()) ? nullptr : src0Vec.data();
++    View.Src0.Size = src0Vec.size();
++    View.Src1.pBuffer = (src1Vec.empty()) ? nullptr : src1Vec.data();
++    View.Src1.Size = src1Vec.size();
++    View.Dest.pBuffer = (destVec.empty()) ? nullptr : destVec.data();
++    View.Dest.Size = destVec.size();
++    return View;
++  }
+ };
+ 
+ struct FINALIZER_INFO {
+diff --git a/visa/main.cpp b/visa/main.cpp
+index 2e67472e2b89..d7ad94296891 100644
+--- a/visa/main.cpp
++++ b/visa/main.cpp
+@@ -114,8 +114,7 @@ int JITCompileAllOptions(const char *kernelName, const void *kernelIsa,
+   }
+ 
+   if (jitInfo != NULL)
+-    memcpy_s(jitInfo, sizeof(vISA::FINALIZER_INFO), tempJitInfo,
+-             sizeof(vISA::FINALIZER_INFO));
++    *jitInfo = *tempJitInfo;
+ 
+   if (!(0 == kernel->GetGenxBinary(genxBinary, size) && genxBinary != NULL)) {
+     return JIT_INVALID_INPUT;
