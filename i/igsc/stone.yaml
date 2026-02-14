@@ -1,0 +1,31 @@
+#
+# SPDX-FileCopyrightText: © 2025- AerynOS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : igsc
+version     : "1.0.2"
+release     : 1
+homepage    : https://github.com/intel/igsc
+upstreams   :
+    - https://github.com/intel/igsc/archive/refs/tags/V1.0.2.tar.gz : 84ebdcfa46e9a2cb760f0c4865ba38fb93c53f2abae2e81974c629e21458923f
+summary     : Intel(R) Graphics System Controller Firmware Update Library
+description : |
+    Intel Graphics System Firmware Update Library (IGSC FUL) is a pure C low level library that exposes a required API to perform a firmware update of an Intel discrete graphics device. It uses a cross platform library metee in order to access the GSC (mei) device. GSC device is an extension of the Intel discrete graphics device (dGFX).
+license     :
+    - Apache-2.0
+builddeps   :
+    - pkgconfig(systemd)
+    - intel-metee
+checkdeps   :
+    - cmake(cmocka)
+setup       : |
+    %cmake \
+        -DENABLE_TESTS=ON \
+        -DBUILD_SHARED_LIBS=ON
+build       : |
+    %cmake_build
+install     : |
+    %cmake_install
+check       : |
+    %cmake_test --test-dir %(builddir)/tests
