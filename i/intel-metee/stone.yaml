@@ -1,0 +1,29 @@
+#
+# SPDX-FileCopyrightText: © 2025- AerynOS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : intel-metee
+version     : "6.2.1"
+release     : 1
+homepage    : https://github.com/intel/metee
+upstreams   :
+    - https://github.com/intel/metee/archive/refs/tags/6.2.1.tar.gz : 84d36a8cc290a3e4df5f4c3a06e777b66d000868975b4c88d8df752862f96b8c
+summary     : Access library for Intel CSME HECI interface
+description : |
+    ME TEE Library is a C library to access CSE/CSME/GSC firmware via a mei interface. ME TEE provides a single cross-platform API to access to MEI devices on Linux and Windows. MEI TEE API simplify connection and communication with the mei device, and firmware status registers retrieval.
+license     :
+    - Apache-2.0
+setup       : |
+    %cmake \
+        -DBUILD_DOCS=OFF \
+        -DBUILD_SHARED_LIBS=ON
+build       : |
+    %cmake_build
+install     : |
+    %cmake_install
+packages    :
+    - "%(name)":
+        paths:
+            - /usr/lib/lib*
+            - /usr/include*
