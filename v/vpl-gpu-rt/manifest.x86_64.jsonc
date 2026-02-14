@@ -1,0 +1,57 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"vpl-gpu-rt": {
+			"build-depends": [
+				"pkgconfig(igdgmm)",
+				"pkgconfig(libdrm)",
+				"pkgconfig(libva)"
+			],
+			"depends": [
+				"soname(libc.so.6(x86_64))",
+				"soname(libdrm.so.2(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libm.so.6(x86_64))",
+				"soname(libstdc++.so.6(x86_64))",
+				"soname(libva-drm.so.2(x86_64))",
+				"soname(libva.so.2(x86_64))"
+			],
+			"files": [
+				"/usr/lib/libmfx-gen.so.1.2",
+				"/usr/lib/libmfx-gen.so.1.2.16"
+			],
+			"name": "vpl-gpu-rt",
+			"provides": [
+				"soname(libmfx-gen.so.1.2(x86_64))"
+			]
+		},
+		"vpl-gpu-rt-devel": {
+			"build-depends": [
+				"pkgconfig(igdgmm)",
+				"pkgconfig(libdrm)",
+				"pkgconfig(libva)"
+			],
+			"depends": [
+				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libm.so.6(x86_64))",
+				"soname(libstdc++.so.6(x86_64))",
+				"vpl-gpu-rt"
+			],
+			"files": [
+				"/usr/lib/libmfx-gen.so",
+				"/usr/lib/libmfx-gen/enctools.so",
+				"/usr/lib/pkgconfig/libmfx-gen.pc"
+			],
+			"name": "vpl-gpu-rt-devel",
+			"provides": [
+				"pkgconfig(libmfx-gen)",
+				"soname(libmfx-gen/enctools.so(x86_64))"
+			]
+		}
+	},
+	"source-name": "vpl-gpu-rt",
+	"source-release": "1",
+	"source-version": "26.1.2"
+}
