@@ -1,0 +1,13 @@
+diff --git a/cmake/modules/CMakeFunctions.cmake b/cmake/modules/CMakeFunctions.cmake
+index 254f2ac..eb21a7f 100644
+--- a/llvm-project/llvm/projects/opencl-clang/cmake/modules/CMakeFunctions.cmake
++++ b/llvm-project/llvm/projects/opencl-clang/cmake/modules/CMakeFunctions.cmake
+@@ -137,7 +137,7 @@ function(apply_patches repo_dir patches_dir base_revision target_branch)
+                 message(STATUS "[OPENCL-CLANG] Patch ${patch} is already in local branch - ignore patching")
+             else()
+                 execute_process( # Apply the patch
+-                    COMMAND ${GIT_EXECUTABLE} am --3way --keep-non-patch --ignore-whitespace -C0 ${patch}
++                    COMMAND patch -p1 --ignore-whitespace -i ${patch}
+                     WORKING_DIRECTORY ${repo_dir}
+                     OUTPUT_VARIABLE patching_log
+                 )
