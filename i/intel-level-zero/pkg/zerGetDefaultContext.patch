@@ -1,0 +1,12 @@
+diff --git a/include/layers/zel_tracing_register_cb.h b/include/layers/zel_tracing_register_cb.h
+index d76d77f..3ccc5af 100644
+--- a/include/layers/zel_tracing_register_cb.h
++++ b/include/layers/zel_tracing_register_cb.h
+@@ -2728,6 +2728,7 @@ typedef void (ZE_APICALL *zer_pfnTranslateIdentifierToDeviceHandleCb_t)(
+ 
+ typedef struct _zer_get_default_context_params_t
+ {
++    void* _dummy;
+ } zer_get_default_context_params_t;
+ 
+ 

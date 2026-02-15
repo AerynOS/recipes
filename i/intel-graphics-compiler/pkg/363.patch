@@ -1,0 +1,13 @@
+diff --git a/IGC/AdaptorOCL/cif/cif/export/registry.h b/IGC/AdaptorOCL/cif/cif/export/registry.h
+index 6a585631d003..9137095d445b 100644
+--- a/IGC/AdaptorOCL/cif/cif/export/registry.h
++++ b/IGC/AdaptorOCL/cif/cif/export/registry.h
+@@ -43,7 +43,7 @@ template <template <Version_t> class Interface> struct EntryPointInterface : Ent
+   EntryPointInterface() {}
+ 
+   ICIF *Create(Version_t version, ICIF *parent) const override {
+-    return CIF::InterfaceCreator<Interface>::template CreateInterfaceVer(version, version, parent);
++    return CIF::InterfaceCreator<Interface>::template CreateInterfaceVer<>(version, version, parent);
+   }
+ 
+   InterfaceId_t GetFirstIncompatible(CIF::CompatibilityDataHandle handle) const override {

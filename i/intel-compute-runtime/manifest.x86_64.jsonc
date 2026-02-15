@@ -1,0 +1,87 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"intel-compute-runtime": {
+			"build-depends": [
+				"cmake(igsc)",
+				"pkgconfig(igc-opencl)",
+				"pkgconfig(igdgmm)",
+				"pkgconfig(level-zero)",
+				"pkgconfig(libdrm)",
+				"pkgconfig(libudev)",
+				"pkgconfig(libva)",
+				"pkgconfig(libze_loader)"
+			],
+			"depends": [
+				"intel-graphics-compiler",
+				"intel-level-zero",
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(ld-linux-x86-64.so.2(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libigdgmm.so.12(x86_64))",
+				"soname(libm.so.6(x86_64))",
+				"soname(libocloc.so(x86_64))",
+				"soname(libstdc++.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/bin/ocloc",
+				"/usr/lib/intel-opencl/libigdrcl.so",
+				"/usr/lib/libze_intel_gpu.so.1",
+				"/usr/lib/libze_intel_gpu.so.1.14.37020",
+				"/usr/share/OpenCL/vendors/intel.icd"
+			],
+			"name": "intel-compute-runtime",
+			"provides": [
+				"binary(ocloc)",
+				"soname(intel-opencl/libigdrcl.so(x86_64))",
+				"soname(libze_intel_gpu.so.1(x86_64))"
+			]
+		},
+		"intel-compute-runtime-devel": {
+			"build-depends": [
+				"cmake(igsc)",
+				"pkgconfig(igc-opencl)",
+				"pkgconfig(igdgmm)",
+				"pkgconfig(level-zero)",
+				"pkgconfig(libdrm)",
+				"pkgconfig(libudev)",
+				"pkgconfig(libva)",
+				"pkgconfig(libze_loader)"
+			],
+			"depends": [
+				"intel-compute-runtime",
+				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libstdc++.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/include/level_zero/driver_experimental/zex_api.h",
+				"/usr/include/level_zero/driver_experimental/zex_cmdlist.h",
+				"/usr/include/level_zero/driver_experimental/zex_common.h",
+				"/usr/include/level_zero/driver_experimental/zex_context.h",
+				"/usr/include/level_zero/driver_experimental/zex_driver.h",
+				"/usr/include/level_zero/driver_experimental/zex_event.h",
+				"/usr/include/level_zero/driver_experimental/zex_graph.h",
+				"/usr/include/level_zero/driver_experimental/zex_memory.h",
+				"/usr/include/level_zero/driver_experimental/zex_module.h",
+				"/usr/include/level_zero/ze_intel_gpu.h",
+				"/usr/include/level_zero/ze_intel_results.h",
+				"/usr/include/level_zero/ze_stypes.h",
+				"/usr/include/level_zero/zes_intel_gpu_sysman.h",
+				"/usr/include/level_zero/zet_intel_gpu_debug.h",
+				"/usr/include/level_zero/zet_intel_gpu_metric.h",
+				"/usr/include/ocloc_api.h",
+				"/usr/lib/libocloc.so"
+			],
+			"name": "intel-compute-runtime-devel",
+			"provides": [
+				"soname(libocloc.so(x86_64))"
+			]
+		}
+	},
+	"source-name": "intel-compute-runtime",
+	"source-release": "1",
+	"source-version": "26.05.37020.3"
+}

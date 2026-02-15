@@ -1,0 +1,54 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"igsc": {
+			"build-depends": [
+				"cmake(cmocka)",
+				"intel-metee",
+				"pkgconfig(systemd)"
+			],
+			"depends": [
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libmetee.so.6.2.1.0(x86_64))",
+				"soname(libudev.so.1(x86_64))"
+			],
+			"files": [
+				"/usr/bin/igsc",
+				"/usr/lib/libigsc.so.1",
+				"/usr/lib/libigsc.so.1.0.2.0"
+			],
+			"name": "igsc",
+			"provides": [
+				"binary(igsc)",
+				"soname(libigsc.so.1(x86_64))"
+			]
+		},
+		"igsc-devel": {
+			"build-depends": [
+				"cmake(cmocka)",
+				"intel-metee",
+				"pkgconfig(systemd)"
+			],
+			"depends": [
+				"igsc"
+			],
+			"files": [
+				"/usr/include/igsc_lib.h",
+				"/usr/lib/cmake/igsc/igscConfig.cmake",
+				"/usr/lib/cmake/igsc/igscConfigVersion.cmake",
+				"/usr/lib/cmake/igsc/igscTargets-release.cmake",
+				"/usr/lib/cmake/igsc/igscTargets.cmake",
+				"/usr/lib/libigsc.so"
+			],
+			"name": "igsc-devel",
+			"provides": [
+				"cmake(igsc)"
+			]
+		}
+	},
+	"source-name": "igsc",
+	"source-release": "1",
+	"source-version": "1.0.2"
+}
