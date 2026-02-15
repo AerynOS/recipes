@@ -1,0 +1,107 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"yelp-xsl": {
+			"build-depends": [
+				"binary(awk)",
+				"binary(itstool)",
+				"binary(msgfmt)",
+				"binary(xsltproc)"
+			],
+			"files": [
+				"/usr/share/yelp-xsl/js/highlight.pack.js",
+				"/usr/share/yelp-xsl/xslt/common/color.xsl",
+				"/usr/share/yelp-xsl/xslt/common/css/core.css.tmpl",
+				"/usr/share/yelp-xsl/xslt/common/css/docbook.css.tmpl",
+				"/usr/share/yelp-xsl/xslt/common/css/elements.css.tmpl",
+				"/usr/share/yelp-xsl/xslt/common/css/mallard-editor.css.tmpl",
+				"/usr/share/yelp-xsl/xslt/common/css/mallard.css.tmpl",
+				"/usr/share/yelp-xsl/xslt/common/css/syntax.css.tmpl",
+				"/usr/share/yelp-xsl/xslt/common/domains/yelp-xsl.xml",
+				"/usr/share/yelp-xsl/xslt/common/html.xsl",
+				"/usr/share/yelp-xsl/xslt/common/icons.xsl",
+				"/usr/share/yelp-xsl/xslt/common/icons/yelp-note-advanced.svg",
+				"/usr/share/yelp-xsl/xslt/common/icons/yelp-note-bug.svg",
+				"/usr/share/yelp-xsl/xslt/common/icons/yelp-note-important.svg",
+				"/usr/share/yelp-xsl/xslt/common/icons/yelp-note-note.svg",
+				"/usr/share/yelp-xsl/xslt/common/icons/yelp-note-package.svg",
+				"/usr/share/yelp-xsl/xslt/common/icons/yelp-note-tip.svg",
+				"/usr/share/yelp-xsl/xslt/common/icons/yelp-note-warning.svg",
+				"/usr/share/yelp-xsl/xslt/common/l10n-numbers.xsl",
+				"/usr/share/yelp-xsl/xslt/common/l10n.xsl",
+				"/usr/share/yelp-xsl/xslt/common/tmpl.xsl",
+				"/usr/share/yelp-xsl/xslt/common/ttml.xsl",
+				"/usr/share/yelp-xsl/xslt/common/utils.xsl",
+				"/usr/share/yelp-xsl/xslt/docbook/common/db-chunk.xsl",
+				"/usr/share/yelp-xsl/xslt/docbook/common/db-common.xsl",
+				"/usr/share/yelp-xsl/xslt/docbook/common/db-profile.xsl",
+				"/usr/share/yelp-xsl/xslt/docbook/common/db-selectors.mod",
+				"/usr/share/yelp-xsl/xslt/docbook/common/db-title.xsl",
+				"/usr/share/yelp-xsl/xslt/docbook/common/db-xref.xsl",
+				"/usr/share/yelp-xsl/xslt/docbook/html/db2html-bibliography.xsl",
+				"/usr/share/yelp-xsl/xslt/docbook/html/db2html-block.xsl",
+				"/usr/share/yelp-xsl/xslt/docbook/html/db2html-callout.xsl",
+				"/usr/share/yelp-xsl/xslt/docbook/html/db2html-classsynopsis.xsl",
+				"/usr/share/yelp-xsl/xslt/docbook/html/db2html-cmdsynopsis.xsl",
+				"/usr/share/yelp-xsl/xslt/docbook/html/db2html-division.xsl",
+				"/usr/share/yelp-xsl/xslt/docbook/html/db2html-ebnf.xsl",
+				"/usr/share/yelp-xsl/xslt/docbook/html/db2html-footnote.xsl",
+				"/usr/share/yelp-xsl/xslt/docbook/html/db2html-funcsynopsis.xsl",
+				"/usr/share/yelp-xsl/xslt/docbook/html/db2html-index.xsl",
+				"/usr/share/yelp-xsl/xslt/docbook/html/db2html-inline.xsl",
+				"/usr/share/yelp-xsl/xslt/docbook/html/db2html-links.xsl",
+				"/usr/share/yelp-xsl/xslt/docbook/html/db2html-list.xsl",
+				"/usr/share/yelp-xsl/xslt/docbook/html/db2html-math.xsl",
+				"/usr/share/yelp-xsl/xslt/docbook/html/db2html-media.xsl",
+				"/usr/share/yelp-xsl/xslt/docbook/html/db2html-refentry.xsl",
+				"/usr/share/yelp-xsl/xslt/docbook/html/db2html-suppressed.xsl",
+				"/usr/share/yelp-xsl/xslt/docbook/html/db2html-table.xsl",
+				"/usr/share/yelp-xsl/xslt/docbook/html/db2html-xref.xsl",
+				"/usr/share/yelp-xsl/xslt/docbook/html/db2html.xsl",
+				"/usr/share/yelp-xsl/xslt/docbook/html/db2xhtml.xsl",
+				"/usr/share/yelp-xsl/xslt/mallard/cache/mal-cache.xsl",
+				"/usr/share/yelp-xsl/xslt/mallard/common/mal-gloss.xsl",
+				"/usr/share/yelp-xsl/xslt/mallard/common/mal-if.xsl",
+				"/usr/share/yelp-xsl/xslt/mallard/common/mal-link.xsl",
+				"/usr/share/yelp-xsl/xslt/mallard/common/mal-sort.xsl",
+				"/usr/share/yelp-xsl/xslt/mallard/html/mal2html-api.xsl",
+				"/usr/share/yelp-xsl/xslt/mallard/html/mal2html-block.xsl",
+				"/usr/share/yelp-xsl/xslt/mallard/html/mal2html-gloss.xsl",
+				"/usr/share/yelp-xsl/xslt/mallard/html/mal2html-inline.xsl",
+				"/usr/share/yelp-xsl/xslt/mallard/html/mal2html-links.xsl",
+				"/usr/share/yelp-xsl/xslt/mallard/html/mal2html-list.xsl",
+				"/usr/share/yelp-xsl/xslt/mallard/html/mal2html-math.xsl",
+				"/usr/share/yelp-xsl/xslt/mallard/html/mal2html-media.xsl",
+				"/usr/share/yelp-xsl/xslt/mallard/html/mal2html-page.xsl",
+				"/usr/share/yelp-xsl/xslt/mallard/html/mal2html-svg.xsl",
+				"/usr/share/yelp-xsl/xslt/mallard/html/mal2html-table.xsl",
+				"/usr/share/yelp-xsl/xslt/mallard/html/mal2html-ui.xsl",
+				"/usr/share/yelp-xsl/xslt/mallard/html/mal2html.xsl",
+				"/usr/share/yelp-xsl/xslt/mallard/html/mal2xhtml.xsl"
+			],
+			"name": "yelp-xsl"
+		},
+		"yelp-xsl-devel": {
+			"build-depends": [
+				"binary(awk)",
+				"binary(itstool)",
+				"binary(msgfmt)",
+				"binary(xsltproc)"
+			],
+			"depends": [
+				"yelp-xsl"
+			],
+			"files": [
+				"/usr/share/pkgconfig/yelp-xsl.pc"
+			],
+			"name": "yelp-xsl-devel",
+			"provides": [
+				"pkgconfig(yelp-xsl)"
+			]
+		}
+	},
+	"source-name": "yelp-xsl",
+	"source-release": "1",
+	"source-version": "49.0"
+}
