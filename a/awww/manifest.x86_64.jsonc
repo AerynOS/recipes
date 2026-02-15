@@ -1,0 +1,43 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"awww": {
+			"build-depends": [
+				"binary(scdoc)",
+				"pkgconfig(liblz4)",
+				"pkgconfig(wayland-client)",
+				"pkgconfig(wayland-protocols)"
+			],
+			"depends": [
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(ld-linux-x86-64.so.2(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(liblz4.so.1(x86_64))",
+				"soname(libm.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/bin/awww",
+				"/usr/bin/awww-daemon",
+				"/usr/share/man/man1/awww-clear-cache.1",
+				"/usr/share/man/man1/awww-clear.1",
+				"/usr/share/man/man1/awww-daemon.1",
+				"/usr/share/man/man1/awww-img.1",
+				"/usr/share/man/man1/awww-kill.1",
+				"/usr/share/man/man1/awww-pause.1",
+				"/usr/share/man/man1/awww-query.1",
+				"/usr/share/man/man1/awww-restore.1",
+				"/usr/share/man/man1/awww.1"
+			],
+			"name": "awww",
+			"provides": [
+				"binary(awww)",
+				"binary(awww-daemon)"
+			]
+		}
+	},
+	"source-name": "awww",
+	"source-release": "1",
+	"source-version": "0.11.2+git.2c86d41"
+}
