@@ -1,0 +1,20 @@
+#
+# SPDX-FileCopyrightText: © 2025- AerynOS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : lolcat
+version     : "1.5"
+release     : 1
+homepage    : https://github.com/jaseg/lolcat
+upstreams   :
+    - https://github.com/jaseg/lolcat/archive/refs/tags/v1.5.tar.gz : 2af79bed90e0bda52ae500d16e7e7022037fad10c487c317e7f0ff17ec4b14f5
+summary     : Rainbows and unicorns!
+description : |
+    High-performance implementation of lolcat from busyloop
+license     : WTFPL
+build       : |
+    %make
+install     : |
+    %install_dir %(installroot)%(bindir)
+    %make_install DESTDIR=%(installroot)%(bindir)
