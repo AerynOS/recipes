@@ -1,0 +1,25 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"lolcat": {
+			"depends": [
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libm.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/bin/censor",
+				"/usr/bin/lolcat"
+			],
+			"name": "lolcat",
+			"provides": [
+				"binary(censor)",
+				"binary(lolcat)"
+			]
+		}
+	},
+	"source-name": "lolcat",
+	"source-release": "1",
+	"source-version": "1.5"
+}
