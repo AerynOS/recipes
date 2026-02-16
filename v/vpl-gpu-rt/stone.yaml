@@ -5,7 +5,7 @@
 #
 name        : vpl-gpu-rt
 version     : "26.1.2"
-release     : 1
+release     : 2
 homepage    : https://github.com/intel/vpl-gpu-rt/
 upstreams   :
     - https://github.com/intel/vpl-gpu-rt/archive/refs/tags/intel-onevpl-26.1.2.tar.gz : 1f0b4a81b206253d315d795e5c075312f6b20e0110c7cf9bc83d24bd548fc015
@@ -21,6 +21,9 @@ builddeps   :
 tuning      :
     - optimize: speed
 setup       : |
+    # Outlined in issue #331
+    %patch %(pkgdir)/fix-av1-when-clang.patch
+
     %cmake \
         -DBUILD_TESTS=OFF \
         -DMFX_ENABLE_AENC=ON
