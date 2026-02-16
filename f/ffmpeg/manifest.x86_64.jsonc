@@ -4,6 +4,7 @@
 	"packages": {
 		"ffmpeg": {
 			"build-depends": [
+				"binary(clang)",
 				"binary(makeinfo)",
 				"binary(nasm)",
 				"binary(pod2man)",
@@ -110,6 +111,7 @@
 		},
 		"ffmpeg-devel": {
 			"build-depends": [
+				"binary(clang)",
 				"binary(makeinfo)",
 				"binary(nasm)",
 				"binary(pod2man)",
@@ -215,6 +217,7 @@
 		},
 		"ffmpeg-docs": {
 			"build-depends": [
+				"binary(clang)",
 				"binary(makeinfo)",
 				"binary(nasm)",
 				"binary(pod2man)",
@@ -315,6 +318,7 @@
 		},
 		"libavcodec": {
 			"build-depends": [
+				"binary(clang)",
 				"binary(makeinfo)",
 				"binary(nasm)",
 				"binary(pod2man)",
@@ -431,6 +435,7 @@
 		},
 		"libavcodec-devel": {
 			"build-depends": [
+				"binary(clang)",
 				"binary(makeinfo)",
 				"binary(nasm)",
 				"binary(pod2man)",
@@ -563,6 +568,7 @@
 		},
 		"libavdevice": {
 			"build-depends": [
+				"binary(clang)",
 				"binary(makeinfo)",
 				"binary(nasm)",
 				"binary(pod2man)",
@@ -665,6 +671,7 @@
 		},
 		"libavdevice-devel": {
 			"build-depends": [
+				"binary(clang)",
 				"binary(makeinfo)",
 				"binary(nasm)",
 				"binary(pod2man)",
@@ -764,6 +771,7 @@
 		},
 		"libavfilter": {
 			"build-depends": [
+				"binary(clang)",
 				"binary(makeinfo)",
 				"binary(nasm)",
 				"binary(pod2man)",
@@ -854,7 +862,8 @@
 				"soname(libswscale.so.8(x86_64))",
 				"soname(libswscale.so.9(x86_64))",
 				"soname(libva.so.2(x86_64))",
-				"soname(libvpl.so.2(x86_64))"
+				"soname(libvpl.so.2(x86_64))",
+				"soname(libz.so.1(x86_64))"
 			],
 			"files": [
 				"/usr/lib/libavfilter.so.10",
@@ -870,6 +879,7 @@
 		},
 		"libavfilter-devel": {
 			"build-depends": [
+				"binary(clang)",
 				"binary(makeinfo)",
 				"binary(nasm)",
 				"binary(pod2man)",
@@ -971,6 +981,7 @@
 		},
 		"libavformat": {
 			"build-depends": [
+				"binary(clang)",
 				"binary(makeinfo)",
 				"binary(nasm)",
 				"binary(pod2man)",
@@ -1063,6 +1074,7 @@
 		},
 		"libavformat-devel": {
 			"build-depends": [
+				"binary(clang)",
 				"binary(makeinfo)",
 				"binary(nasm)",
 				"binary(pod2man)",
@@ -1157,6 +1169,7 @@
 		},
 		"libavutil": {
 			"build-depends": [
+				"binary(clang)",
 				"binary(makeinfo)",
 				"binary(nasm)",
 				"binary(pod2man)",
@@ -1246,6 +1259,7 @@
 		},
 		"libavutil-devel": {
 			"build-depends": [
+				"binary(clang)",
 				"binary(makeinfo)",
 				"binary(nasm)",
 				"binary(pod2man)",
@@ -1523,6 +1537,7 @@
 		},
 		"libpostproc": {
 			"build-depends": [
+				"binary(clang)",
 				"binary(makeinfo)",
 				"binary(nasm)",
 				"binary(pod2man)",
@@ -1600,6 +1615,7 @@
 		},
 		"libpostproc-devel": {
 			"build-depends": [
+				"binary(clang)",
 				"binary(makeinfo)",
 				"binary(nasm)",
 				"binary(pod2man)",
@@ -1680,6 +1696,7 @@
 		},
 		"libswresample": {
 			"build-depends": [
+				"binary(clang)",
 				"binary(makeinfo)",
 				"binary(nasm)",
 				"binary(pod2man)",
@@ -1763,6 +1780,7 @@
 		},
 		"libswresample-devel": {
 			"build-depends": [
+				"binary(clang)",
 				"binary(makeinfo)",
 				"binary(nasm)",
 				"binary(pod2man)",
@@ -1851,6 +1869,7 @@
 		},
 		"libswscale": {
 			"build-depends": [
+				"binary(clang)",
 				"binary(makeinfo)",
 				"binary(nasm)",
 				"binary(pod2man)",
@@ -1933,6 +1952,7 @@
 		},
 		"libswscale-devel": {
 			"build-depends": [
+				"binary(clang)",
 				"binary(makeinfo)",
 				"binary(nasm)",
 				"binary(pod2man)",
@@ -2021,6 +2041,6 @@
 		}
 	},
 	"source-name": "ffmpeg",
-	"source-release": "23",
+	"source-release": "24",
 	"source-version": "8.0.1"
 }
