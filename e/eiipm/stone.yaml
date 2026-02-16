@@ -1,0 +1,25 @@
+#
+# SPDX-FileCopyrightText: © 2025- AerynOS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : eiipm
+version     : "0.4.0"
+release     : 1
+homepage    : https://github.com/Ewwii-sh/eiipm
+upstreams   :
+    - git|https://github.com/Ewwii-sh/eiipm.git : 80519b999b868e0332f495fc972a7c43f8e2cbcc
+summary     :  Package manager of ewwii
+description : |
+    Eiipm is the package manager of Ewwii
+license     : 
+    - Apache-2.0
+builddeps   :
+    - pkgconfig(openssl)
+networking  : true
+setup       : |
+    %cargo_fetch
+build       : |
+    %cargo_build
+install     : |
+    %cargo_install
