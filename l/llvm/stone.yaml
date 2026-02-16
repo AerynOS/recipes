@@ -5,7 +5,7 @@
 #
 name        : llvm
 version     : "21.1.8"
-release     : 44
+release     : 45
 summary     : Low Level Virtual Machine
 license     :
     - Apache-2.0 WITH LLVM-exception
@@ -63,7 +63,7 @@ environment : |
         _IS_64BIT_BUILD="ON"
 
         # Full-fat (in the milk sense) build suitable for cross-compilation
-        _BUILD_TARGETS="AArch64;AMDGPU;ARM;BPF;RISCV;SPIRV;WebAssembly;X86"
+        _BUILD_TARGETS="AArch64;AMDGPU;ARM;BPF;NVPTX;RISCV;SPIRV;WebAssembly;X86"
         _PROJECTS="bolt;clang;clang-tools-extra;flang;lld;lldb;llvm;mlir;polly"
         _RUNTIMES="compiler-rt;flang-rt;libclc;libcxx;libcxxabi;libunwind;offload;openmp"
     fi
@@ -982,6 +982,8 @@ packages    :
             - /usr/lib/libLLVMOffload.so
             - /usr/lib/amdgcn-amd-amdhsa/libomptarget-amdgpu.bc
             - /usr/lib/amdgcn-amd-amdhsa/libompdevice.a
+            - /usr/lib/nvptx64-nvidia-cuda/libomptarget-nvptx.bc
+            - /usr/lib/nvptx64-nvidia-cuda/libompdevice.a
             - /usr/lib/libomptarget*.bc
             - /usr/lib/libomptarget*.a
             - /usr/lib/libomptarget.so

@@ -10032,7 +10032,9 @@
 				"/usr/lib/amdgcn-amd-amdhsa/libompdevice.a",
 				"/usr/lib/amdgcn-amd-amdhsa/libomptarget-amdgpu.bc",
 				"/usr/lib/libLLVMOffload.so",
-				"/usr/lib/libomptarget.so"
+				"/usr/lib/libomptarget.so",
+				"/usr/lib/nvptx64-nvidia-cuda/libompdevice.a",
+				"/usr/lib/nvptx64-nvidia-cuda/libomptarget-nvptx.bc"
 			],
 			"name": "offload-devel",
 			"provides": [
@@ -10268,6 +10270,6 @@
 		}
 	},
 	"source-name": "llvm",
-	"source-release": "44",
+	"source-release": "45",
 	"source-version": "21.1.8"
 }
