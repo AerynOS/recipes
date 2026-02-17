@@ -1,7 +1,7 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Reilly Brogan <reilly@reillybrogan.com>
 Date: Fri, 21 Nov 2025 11:22:21 -0600
-Subject: [PATCH] Run render tick at ~240fps
+Subject: [PATCH] Run render tick at ~120fps
 
 ---
  src/corelib/animation/qabstractanimation.cpp | 2 +-
@@ -16,7 +16,7 @@ index 7b404712f77..37eb11a0973 100644
  #include <QtCore/qscopedvaluerollback.h>
  
 -#define DEFAULT_TIMER_INTERVAL 16
-+#define DEFAULT_TIMER_INTERVAL 4
++#define DEFAULT_TIMER_INTERVAL 8
  #define PAUSE_TIMER_COARSE_THRESHOLD 2000
  
  QT_BEGIN_NAMESPACE

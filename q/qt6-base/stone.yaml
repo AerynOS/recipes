@@ -5,7 +5,7 @@
 #
 name        : qt6-base
 version     : "6.10.2"
-release     : 22
+release     : 23
 homepage    : https://www.qt.io
 upstreams   :
     - https://download.qt.io/official_releases/qt/6.10/6.10.2/submodules/qtbase-everywhere-src-6.10.2.tar.xz : aeb78d29291a2b5fd53cb55950f8f5065b4978c25fb1d77f627d695ab9adf21e
@@ -72,8 +72,8 @@ setup       : |
     %patch %(pkgdir)/0001-Adjust-build-flags.patch
     %patch %(pkgdir)/0001-Support-stateless-config-directories.patch
 
-    # The default Qt6 render loop runs at ~60fps which makes animations look choppy on higher fps monitors. Bump this up to ~240fps
-    %patch %(pkgdir)/0001-Run-render-tick-at-240fps.patch
+    # The default Qt6 render loop runs at ~60fps which makes animations look choppy on higher fps monitors. Bump this up to ~120fps
+    %patch %(pkgdir)/0001-Run-render-tick-at-120fps.patch
 
     # Upstream backports
     %patch %(pkgdir)/0001-Drop-CMAKE_SYSTEM_VERSION-from-modules-json-if-Linux.patch
