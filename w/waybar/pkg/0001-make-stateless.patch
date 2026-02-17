@@ -1,0 +1,40 @@
+diff --git a/include/config.hpp b/include/config.hpp
+index 1ef9ef5f..99e6a8d8 100644
+--- a/include/config.hpp
++++ b/include/config.hpp
+@@ -9,6 +9,10 @@
+ #define SYSCONFDIR "/etc"
+ #endif
+ 
++#ifndef VENDORDIR
++#define VENDORDIR "/usr/share/defaults"
++#endif
++
+ namespace waybar {
+ 
+ class Config {
+diff --git a/meson.build b/meson.build
+index db9407eb..147aa8e1 100644
+--- a/meson.build
++++ b/meson.build
+@@ -572,7 +572,7 @@ executable(
+ install_data(
+     'resources/config.jsonc',
+     'resources/style.css',
+-    install_dir: sysconfdir / 'xdg/waybar'
++    install_dir: '/usr/share/defaults/waybar'
+ )
+ 
+ scdoc = dependency('scdoc', version: '>=1.9.2', native: true, required: get_option('man-pages'))
+diff --git a/src/config.cpp b/src/config.cpp
+index 266342ae..c824ff41 100644
+--- a/src/config.cpp
++++ b/src/config.cpp
+@@ -21,6 +21,7 @@ namespace waybar {
+ const std::vector<std::string> Config::CONFIG_DIRS = {
+     "$XDG_CONFIG_HOME/waybar/", "$HOME/.config/waybar/",   "$HOME/waybar/",
+     "/etc/xdg/waybar/",         SYSCONFDIR "/xdg/waybar/", "./resources/",
++    VENDORDIR "/waybar/",
+ };
+ 
+ const char* Config::CONFIG_PATH_ENV = "WAYBAR_CONFIG_DIR";

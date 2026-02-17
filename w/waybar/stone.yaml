@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : waybar
-version     : "0.14.0"
-release     : 6
+version     : "0.15.0"
+release     : 7
 homepage    : https://github.com/Alexays/Waybar
 upstreams   :
-    - https://github.com/Alexays/Waybar/archive/refs/tags/0.14.0.tar.gz : 7f3859779bb3a5028a7215b2000c2e476c03453a52289164ba60a4bf1bb3772f
+    - https://github.com/Alexays/Waybar/archive/refs/tags/0.15.0.tar.gz : 21c2bbef88c40473c355003582f9331d2f9b8a01efdcce0935edfc5f6b023a3e
 summary     : Highly customizable Wayland bar for Sway and Wlroots based compositors
 description : |
     Highly customizable Wayland bar for Sway and Wlroots based compositors.
@@ -17,7 +17,6 @@ networking  : true
 builddeps   :
     - binary(clang-tidy)
     - binary(git)
-    - name(catch2)
     - pkgconfig(cava)
     - pkgconfig(dbusmenu-gtk3-0.4)
     # - pkgconfig(epoll-shim)
@@ -50,14 +49,12 @@ builddeps   :
     - pkgconfig(wayland-protocols)
     - pkgconfig(wireplumber-0.5)
     - pkgconfig(xkbregistry)
-    # libgps
+    - catch2
+    # - libgps
 setup       : |
     %patch %(pkgdir)/0001-Fix-fmt-12.0-build.patch
-    %patch %(pkgdir)/0001-ftbfs-clang-21.patch
-
-    # Cava temporarily disabled due to build failures, check with new version
-    %meson \
-        -Dcava=disabled
+    %patch %(pkgdir)/0001-make-stateless.patch
+    %meson
 build       : |
     %meson_build
 install     : |
