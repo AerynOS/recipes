@@ -4,10 +4,10 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : drkonqi
-version     : "6.5.5"
-release     : 10
+version     : "6.6.0"
+release     : 11
 upstreams   :
-    - https://download.kde.org/stable/plasma/6.5.5/drkonqi-6.5.5.tar.xz : 79a9ee0f1011fc7813ca419d8c8098ce3be9ff74136d3bd80ef730fb7547f78f
+    - https://download.kde.org/stable/plasma/6.6.0/drkonqi-6.6.0.tar.xz : ba3a736fe602ffb12cc246f4a6b6627b6b0522e2204004b5d3c3ec2e4f1e8570
 homepage    : https://kde.org/plasma-desktop/
 license     :
     - GPL-2.0-or-later
@@ -54,6 +54,7 @@ rundeps     :
     - python(sentry-sdk)
     - kf6-kirigami
     - kf6-kitemmodels
+    # flatpak-coredumpctl is installed if flatpak is installed
 tuning      :
     - lto: full
     - optimize: speed
