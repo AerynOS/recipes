@@ -43,6 +43,7 @@
 				"soname(libKF6Service.so.6(x86_64))",
 				"soname(libKF6WidgetsAddons.so.6(x86_64))",
 				"soname(libKF6WindowSystem.so.6(x86_64))",
+				"soname(libPlasma.so.6(x86_64))",
 				"soname(libQt6Core.so.6(x86_64))",
 				"soname(libQt6DBus.so.6(x86_64))",
 				"soname(libQt6Gui.so.6(x86_64))",
@@ -50,6 +51,7 @@
 				"soname(libQt6Quick.so.6(x86_64))",
 				"soname(libQt6Widgets.so.6(x86_64))",
 				"soname(libc.so.6(x86_64))",
+				"soname(libm.so.6(x86_64))",
 				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
@@ -58,7 +60,13 @@
 				"/usr/lib/qt6/plugins/kf6/kded/bluedevil.so",
 				"/usr/lib/qt6/plugins/kf6/kio/kio_bluetooth.so",
 				"/usr/lib/qt6/plugins/kf6/kio/kio_obexftp.so",
+				"/usr/lib/qt6/plugins/plasma/applets/org.kde.plasma.bluetooth.so",
 				"/usr/lib/qt6/plugins/plasma/kcms/systemsettings/kcm_bluetooth.so",
+				"/usr/lib/qt6/qml/org/kde/bluedevil/components/ForgetDeviceDialog.qml",
+				"/usr/lib/qt6/qml/org/kde/bluedevil/components/bluedevilcomponents.qmltypes",
+				"/usr/lib/qt6/qml/org/kde/bluedevil/components/kde-qmlmodule.version",
+				"/usr/lib/qt6/qml/org/kde/bluedevil/components/libbluedevilcomponents.so",
+				"/usr/lib/qt6/qml/org/kde/bluedevil/components/qmldir",
 				"/usr/lib/qt6/qml/org/kde/plasma/private/bluetooth/SharedDevicesStateProxyModel.qml",
 				"/usr/lib/qt6/qml/org/kde/plasma/private/bluetooth/bluetoothplugin.qmltypes",
 				"/usr/lib/qt6/qml/org/kde/plasma/private/bluetooth/kde-qmlmodule.version",
@@ -237,13 +245,6 @@
 				"/usr/share/locale/zh_TW/LC_MESSAGES/kcm_bluetooth.mo",
 				"/usr/share/locale/zh_TW/LC_MESSAGES/plasma_applet_org.kde.plasma.bluetooth.mo",
 				"/usr/share/mime/packages/bluedevil-mime.xml",
-				"/usr/share/plasma/plasmoids/org.kde.plasma.bluetooth/contents/config/main.xml",
-				"/usr/share/plasma/plasmoids/org.kde.plasma.bluetooth/contents/ui/DeviceItem.qml",
-				"/usr/share/plasma/plasmoids/org.kde.plasma.bluetooth/contents/ui/FullRepresentation.qml",
-				"/usr/share/plasma/plasmoids/org.kde.plasma.bluetooth/contents/ui/MediaPlayerItem.qml",
-				"/usr/share/plasma/plasmoids/org.kde.plasma.bluetooth/contents/ui/Toolbar.qml",
-				"/usr/share/plasma/plasmoids/org.kde.plasma.bluetooth/contents/ui/main.qml",
-				"/usr/share/plasma/plasmoids/org.kde.plasma.bluetooth/metadata.json",
 				"/usr/share/qlogging-categories6/bluedevil.categories",
 				"/usr/share/remoteview/bluetooth-network.desktop"
 			],
@@ -254,7 +255,9 @@
 				"soname(qt6/plugins/kf6/kded/bluedevil.so(x86_64))",
 				"soname(qt6/plugins/kf6/kio/kio_bluetooth.so(x86_64))",
 				"soname(qt6/plugins/kf6/kio/kio_obexftp.so(x86_64))",
+				"soname(qt6/plugins/plasma/applets/org.kde.plasma.bluetooth.so(x86_64))",
 				"soname(qt6/plugins/plasma/kcms/systemsettings/kcm_bluetooth.so(x86_64))",
+				"soname(qt6/qml/org/kde/bluedevil/components/libbluedevilcomponents.so(x86_64))",
 				"soname(qt6/qml/org/kde/plasma/private/bluetooth/libbluetoothplugin.so(x86_64))"
 			]
 		},
@@ -319,6 +322,6 @@
 		}
 	},
 	"source-name": "bluedevil",
-	"source-release": "16",
-	"source-version": "6.5.5"
+	"source-release": "17",
+	"source-version": "6.6.0"
 }
