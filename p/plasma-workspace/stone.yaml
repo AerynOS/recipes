@@ -4,10 +4,10 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : plasma-workspace
-version     : "6.5.5"
-release     : 29
+version     : "6.6.0"
+release     : 30
 upstreams   :
-    - https://download.kde.org/stable/plasma/6.5.5/plasma-workspace-6.5.5.tar.xz : 29b0763bbbdd9e27416dce1fd939242d2588feef36c4cbae941c31964d531fd4
+    - https://download.kde.org/stable/plasma/6.6.0/plasma-workspace-6.6.0.tar.xz : 098e1fddb30600855248bea36e012c0f5ff12d1ba3381a1ce42005e4d2304d6e
 homepage    : https://kde.org/plasma-desktop/
 license     :
     - GFDL-1.2
@@ -45,7 +45,6 @@ builddeps   :
     - cmake(KF6NetworkManagerQt)
     - cmake(KF6NewStuff)
     - cmake(KF6Notifications)
-    - cmake(KF6NotifyConfig)
     - cmake(KF6Package)
     - cmake(KF6Parts)
     - cmake(KF6Prison)
@@ -64,9 +63,7 @@ builddeps   :
     - cmake(KWayland)
     - cmake(KWinDBusInterface)
     - cmake(LayerShellQt)
-    - cmake(Phonon4Qt6)
     - cmake(Plasma)
-    - cmake(Plasma5Support)
     - cmake(PlasmaActivities)
     - cmake(PlasmaActivitiesStats)
     - cmake(PlasmaWaylandProtocols)
@@ -99,14 +96,14 @@ tuning      :
 setup       : |
     %patch %(pkgdir)/0001-Remove-wayland-from-session-name.patch
     %patch %(pkgdir)/0001-Use-stateless-dir-for-menu.patch
-    %patch %(pkgdir)/0001-Use-plasma-keyboard-for-SDDM-input.patch
 
     # Regrettably we can't set WITH_X11=OFF yet because the font KCM relies on it to build. For now we can just cleanup the session bits afterwords
     %cmake_kf6 \
         -DGLIBC_LOCALE_GEN=OFF \
         -DGLIBC_LOCALE_PREGENERATED=ON \
         -DINSTALL_SDDM_WAYLAND_SESSION=ON \
-        -DWITH_X11=ON
+        -DWITH_X11=ON \
+        -DWITH_X11_SESSION=OFF
 build       : |
     %cmake_build
 install     : |
@@ -114,11 +111,6 @@ install     : |
 
     # PAM
     %install_file %(pkgdir)/pam.d/* -t %(installroot)%(vendordir)/pam.d/
-
-    # Purge X11 session bits
-    rm -rfv %(installroot)%(datadir)/xsessions \
-            %(installroot)%(bindir)/startplasma-x11 \
-            %(installroot)%(libdir)/systemd/user/plasma-workspace-x11.target
 packages    :
     - "%(name)":
         rundeps:
@@ -167,8 +159,6 @@ packages    :
         summary: "Library files for %(name)"
         description: |
             Library files for %(name), typically pulled in as a dependency of another package.
-        rundeps:
-            - phonon-backend-mpv-qt6 # Phonon backend
         paths:
             - /usr/lib/libbatterycontrol.so.*
             - /usr/lib/libkfontinst*.so.*
@@ -187,17 +177,14 @@ packages    :
             - /usr/lib/qt6/plugins/kf6/packagestructure/*.so
             - /usr/lib/qt6/plugins/kf6/parts/*.so
             - /usr/lib/qt6/plugins/kf6/thumbcreator/*.so
-            - /usr/lib/qt6/plugins/phonon_platform/*.so
             - /usr/lib/qt6/plugins/plasma/applets/*.so
             - /usr/lib/qt6/plugins/plasma/containmentactions/*.so
             - /usr/lib/qt6/plugins/plasma/kcminit/*.so
             - /usr/lib/qt6/plugins/plasma/kcms/systemsettings/kcm_*.so
             - /usr/lib/qt6/plugins/plasma/kcms/systemsettings_qwidgets/*.so
-            - /usr/lib/qt6/plugins/plasma5support/dataengine/*.so
             - /usr/lib/qt6/plugins/plasmacalendarplugins/*.so
             - /usr/share/kconf_update/
             - /usr/share/kglobalaccel/
-            - /usr/share/xdg/taskmanagerrulesrc
 
     - "%(name)-devel":
         rundeps:
