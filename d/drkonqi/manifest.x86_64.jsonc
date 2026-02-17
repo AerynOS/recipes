@@ -80,7 +80,6 @@
 				"/usr/lib/kf6/drkonqi-coredump-processor",
 				"/usr/lib/kf6/drkonqi-polkit-helper",
 				"/usr/lib/kf6/drkonqi-sentry-postman",
-				"/usr/lib/qt6/plugins/drkonqi/KDECoredumpNotifierTruck.so",
 				"/usr/lib/systemd/system/drkonqi-coredump-processor@.service",
 				"/usr/lib/systemd/system/systemd-coredump@.service.wants/drkonqi-coredump-processor@.service",
 				"/usr/lib/systemd/user/default.target.wants/drkonqi-coredump-cleanup.service",
@@ -106,6 +105,7 @@
 				"/usr/share/drkonqi/gdb/python/gdb_preamble/__init__.py",
 				"/usr/share/drkonqi/gdb/python/gdb_preamble/preamble.py",
 				"/usr/share/drkonqi/mappings",
+				"/usr/share/knotifications6/drkonqi-coredump-launcher.notifyrc",
 				"/usr/share/locale/af/LC_MESSAGES/drkonqi.mo",
 				"/usr/share/locale/ar/LC_MESSAGES/drkonqi.mo",
 				"/usr/share/locale/ast/LC_MESSAGES/drkonqi.mo",
@@ -204,12 +204,11 @@
 			"name": "drkonqi",
 			"provides": [
 				"binary(drkonqi-coredump-gui)",
-				"binary(drkonqi-sentry-data)",
-				"soname(qt6/plugins/drkonqi/KDECoredumpNotifierTruck.so(x86_64))"
+				"binary(drkonqi-sentry-data)"
 			]
 		}
 	},
 	"source-name": "drkonqi",
-	"source-release": "10",
-	"source-version": "6.5.5"
+	"source-release": "11",
+	"source-version": "6.6.0"
 }
