@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : libmtp
-version     : "1.1.22"
-release     : 2
+version     : "1.1.23"
+release     : 3
 homepage    : https://github.com/libmtp/libmtp
 upstreams   :
-    - https://github.com/libmtp/libmtp/releases/download/v1.1.22/libmtp-1.1.22.tar.gz : c3fcf411aea9cb9643590cbc9df99fa5fe30adcac695024442973d76fa5f87bc
+    - https://github.com/libmtp/libmtp/releases/download/v1.1.23/libmtp-1.1.23.tar.gz : 74a2b6e8cb4a0304e95b995496ea3ac644c29371649b892b856e22f12a0bdeed
 summary     : A library for communicating with MTP devices
 description : |
     A library for communicating with MTP devices. Media Transfer Protocol (MTP) is a protocol used for transferring files between devices.
@@ -17,7 +17,8 @@ builddeps   :
     - pkgconfig(libusb-1.0)
     - pkgconfig(libgcrypt)
 setup       : |
-    %configure --disable-static
+    %configure \
+        --disable-static
 build       : |
     %make
 install     : |
