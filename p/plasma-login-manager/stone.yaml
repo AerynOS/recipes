@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : plasma-login-manager
-version     : "0.0.1+git.91db523e"
-release     : 10
-homepage    : https://github.com/sddm/sddm
+version     : "6.6.0"
+release     : 11
+homepage    : https://kde.org/plasma-desktop/
 upstreams   :
-    - git|https://invent.kde.org/plasma/plasma-login-manager.git : 91db523e69943a6766f796da09f0ffd3cf452dfd
+    - https://download.kde.org/stable/plasma/6.6.0/plasma-login-manager-6.6.0.tar.xz : 7498de956b308b71fd42676028209235e2b7fbf793eee029e65484979e2ef0d4
 summary     : Display manager for KDE Plasam
 description : |
     Plasma Login provides a display manager for KDE Plasma, forked from SDDM and with a new frontend providing a greeter, wallpaper plugin integration and System Settings module (KCM).
@@ -24,13 +24,17 @@ builddeps   :
     - cmake(KF6KCMUtils)
     - cmake(KF6KIO)
     - cmake(KF6Package)
+    - cmake(KF6Screen)
     - cmake(KF6WindowSystem)
     - cmake(LayerShellQt)
+    - cmake(LibKLookAndFeel)
     - cmake(LibKWorkspace)
     - cmake(PlasmaQuick)
     - cmake(Qt6CorePrivate)
+    - cmake(Qt6ShaderTools)
     - pkgconfig(pam)
     - pkgconfig(systemd)
+    - pkgconfig(xau)
 rundeps     :
     - kwin # Doesn't support any other compositor AFAIK
     - qt6-wayland
@@ -38,6 +42,7 @@ setup       : |
     %patch %(pkgdir)/0001-downstream-Update-defaults-conf-dir.patch
 
     %cmake_kf6 \
+        -DINSTALL_PAM_CONFIGURATION:BOOL=OFF \
         -DUID_MAX=60513 \
         -DUID_MIN=1000
 build       : |
