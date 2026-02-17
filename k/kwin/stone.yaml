@@ -4,10 +4,10 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : kwin
-version     : "6.5.5"
-release     : 22
+version     : "6.6.0"
+release     : 23
 upstreams   :
-    - https://download.kde.org/stable/plasma/6.5.5/kwin-6.5.5.tar.xz : fbad845044231174ca7aad45572d1713d1b6f65289d94cac24776a103f051e46
+    - https://download.kde.org/stable/plasma/6.6.0/kwin-6.6.0.tar.xz : 35134fcfb64d01904cdcd25aea8e90c68c37973a088971e4d678acfdc5020914
 homepage    : https://kde.org/plasma-desktop/
 license     :
     - GFDL-1.2-only
@@ -81,11 +81,6 @@ tuning      :
     - lto: full
     - optimize: speed
 setup       : |
-    # Remove with Plasma 6.6 (hopefully)
-    %patch %(pkgdir)/highfps.patch
-
-    %patch %(pkgdir)/upstream-01.patch
-
     %cmake_kf6
 build       : |
     %cmake_build
