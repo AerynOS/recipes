@@ -6,7 +6,7 @@
 			"build-depends": [
 				"binary(clang-tidy)",
 				"binary(git)",
-				"name(catch2)",
+				"catch2",
 				"pkgconfig(cava)",
 				"pkgconfig(dbusmenu-gtk3-0.4)",
 				"pkgconfig(fftw3)",
@@ -73,6 +73,8 @@
 			"files": [
 				"/usr/bin/waybar",
 				"/usr/lib/systemd/user/waybar.service",
+				"/usr/share/defaults/waybar/config.jsonc",
+				"/usr/share/defaults/waybar/style.css",
 				"/usr/share/man/man5/waybar-backlight-slider.5",
 				"/usr/share/man/man5/waybar-backlight.5",
 				"/usr/share/man/man5/waybar-battery.5",
@@ -131,6 +133,6 @@
 		}
 	},
 	"source-name": "waybar",
-	"source-release": "6",
-	"source-version": "0.14.0"
+	"source-release": "7",
+	"source-version": "0.15.0"
 }
