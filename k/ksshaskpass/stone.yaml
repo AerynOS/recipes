@@ -4,10 +4,10 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : ksshaskpass
-version     : "6.5.5"
-release     : 11
+version     : "6.6.0"
+release     : 12
 upstreams   :
-    - https://download.kde.org/stable/plasma/6.5.5/ksshaskpass-6.5.5.tar.xz : 191e729f6442b916b53dc35a830b0188f74ea20ef6525b326983ae5815ec6bcb
+    - https://download.kde.org/stable/plasma/6.6.0/ksshaskpass-6.6.0.tar.xz : 28a775a52be2fb67c4404afdf819132152183541cbddbe0b15753e7b0c6341f6
 homepage    : https://kde.org/plasma-desktop/
 license     : GPL-2.0-or-later
 summary     : Front-end for ssh-add which stores the password of the ssh key in KWallet
@@ -19,8 +19,8 @@ builddeps   :
     - cmake(KF6CoreAddons)
     - cmake(KF6DocTools)
     - cmake(KF6I18n)
-    - cmake(KF6Wallet)
     - cmake(KF6WidgetsAddons)
+    - cmake(Qt6Keychain)
 rundeps     :
     - binary(ssh-add)
     - binary(ssh-agent)
