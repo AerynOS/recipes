@@ -4,10 +4,10 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : plasma-desktop
-version     : "6.5.5"
-release     : 22
+version     : "6.6.0"
+release     : 23
 upstreams   :
-    - https://download.kde.org/stable/plasma/6.5.5/plasma-desktop-6.5.5.tar.xz : 2367f12531575b2e445cd2b0fa0b756f151f10eaa27358b0966735ff400146c7
+    - https://download.kde.org/stable/plasma/6.6.0/plasma-desktop-6.6.0.tar.xz : d91e4dd276ea1ad743e31ace859a36ec4dfb431495c81eb1a8eb32a49c73f342
 homepage    : https://kde.org/plasma-desktop/
 license     :
     - GPL-2.0-only
@@ -78,6 +78,7 @@ builddeps   :
     - pkgconfig(xkeyboard-config)
     - font-noto
     - font-noto-emoji
+    - kpipewire # org.kde.pipewire QML module
 tuning      :
     - lto: full
     - optimize: speed
@@ -106,6 +107,7 @@ packages    :
             - kf6-kirigami-addons
             - kf6-qqc2-desktop-style
             - kmenuedit
+            - kpipewire # org.kde.pipewire QML module
             - iso-codes # Keyboard internationalization
             - plasma-integration # Breeze
             - plasma-workspace # All the logic bits and bobs
