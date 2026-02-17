@@ -4,10 +4,10 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : plasma-nm
-version     : "6.5.5"
-release     : 18
+version     : "6.6.0"
+release     : 19
 upstreams   :
-    - https://download.kde.org/stable/plasma/6.5.5/plasma-nm-6.5.5.tar.xz : fb096f1bc85f5eb1ee8ae80df044479860987c8bcecd4ab7120fed253698c2a0
+    - https://download.kde.org/stable/plasma/6.6.0/plasma-nm-6.6.0.tar.xz : 01e543d5c6f101fb2e01ceefd7d4338b7e2ed0b2d67546d7227ed3aa78dd5d50
 homepage    : https://kde.org/plasma-desktop/
 license     :
     - GPL-2.0-only
@@ -23,12 +23,14 @@ builddeps   :
     - cmake(KF6CoreAddons)
     - cmake(KF6DBusAddons)
     - cmake(KF6I18n)
+    - cmake(KF6JobWidgets)
     - cmake(KF6KIO)
     - cmake(KF6KCMUtils)
     - cmake(KF6Kirigami)
     - cmake(KF6ModemManagerQt)
     - cmake(KF6NetworkManagerQt)
     - cmake(KF6Notifications)
+    - cmake(KF6QuickCharts)
     - cmake(KF6Prison)
     - cmake(KF6Service)
     - cmake(KF6Solid)
@@ -57,6 +59,7 @@ packages    :
     - "%(name)":
         rundeps:
             - kf6-kirigami
+            - kf6-kquickcharts # QML dep
             - kf6-prison
             - networkmanager
         paths:
