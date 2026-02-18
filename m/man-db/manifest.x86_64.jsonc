@@ -6,6 +6,7 @@
 			"build-depends": [
 				"binary(groff)",
 				"binary(gzip)",
+				"binary(tar)",
 				"flex-devel",
 				"gdbm-devel",
 				"pkgconfig(libmagic)",
@@ -33,9 +34,9 @@
 				"/usr/bin/mandb",
 				"/usr/bin/manpath",
 				"/usr/bin/whatis",
-				"/usr/lib/man-db/libman-2.12.1.so",
+				"/usr/lib/man-db/libman-2.13.1.so",
 				"/usr/lib/man-db/libman.so",
-				"/usr/lib/man-db/libmandb-2.12.1.so",
+				"/usr/lib/man-db/libmandb-2.13.1.so",
 				"/usr/lib/man-db/libmandb.so",
 				"/usr/lib/man-db/man-db/globbing",
 				"/usr/lib/man-db/man-db/manconv",
@@ -96,7 +97,6 @@
 				"/usr/share/locale/ro/LC_MESSAGES/man-db.mo",
 				"/usr/share/locale/ru/LC_MESSAGES/man-db-gnulib.mo",
 				"/usr/share/locale/ru/LC_MESSAGES/man-db.mo",
-				"/usr/share/locale/rw/LC_MESSAGES/man-db-gnulib.mo",
 				"/usr/share/locale/sk/LC_MESSAGES/man-db-gnulib.mo",
 				"/usr/share/locale/sl/LC_MESSAGES/man-db-gnulib.mo",
 				"/usr/share/locale/sr/LC_MESSAGES/man-db-gnulib.mo",
@@ -106,6 +106,7 @@
 				"/usr/share/locale/tr/LC_MESSAGES/man-db-gnulib.mo",
 				"/usr/share/locale/tr/LC_MESSAGES/man-db.mo",
 				"/usr/share/locale/uk/LC_MESSAGES/man-db-gnulib.mo",
+				"/usr/share/locale/uk/LC_MESSAGES/man-db.mo",
 				"/usr/share/locale/vi/LC_MESSAGES/man-db-gnulib.mo",
 				"/usr/share/locale/vi/LC_MESSAGES/man-db.mo",
 				"/usr/share/locale/zh_CN/LC_MESSAGES/man-db-gnulib.mo",
@@ -144,13 +145,13 @@
 				"binary(mandb)",
 				"binary(manpath)",
 				"binary(whatis)",
-				"soname(man-db/libman-2.12.1.so(x86_64))",
-				"soname(man-db/libmandb-2.12.1.so(x86_64))",
+				"soname(man-db/libman-2.13.1.so(x86_64))",
+				"soname(man-db/libmandb-2.13.1.so(x86_64))",
 				"sysbinary(accessdb)"
 			]
 		}
 	},
 	"source-name": "man-db",
-	"source-release": "7",
-	"source-version": "2.12.1"
+	"source-release": "8",
+	"source-version": "2.13.1"
 }

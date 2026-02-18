@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : man-db
-version     : "2.12.1"
-release     : 7
+version     : "2.13.1"
+release     : 8
 homepage    : https://man-db.nongnu.org/
 upstreams   :
-    - https://download.savannah.nongnu.org/releases/man-db/man-db-2.12.1.tar.xz : ddee249daeb78cf92bab794ccd069cc8b575992265ea20e239e887156e880265
+    - https://download.savannah.nongnu.org/releases/man-db/man-db-2.13.1.tar.xz : 8afebb6f7eb6bb8542929458841f5c7e6f240e30c86358c1fbcefbea076c87d9
 summary     : Application to read Linux man pages
 description : |
     man-db is an implementation of the standard Unix documentation system accessed using the man command. It uses a Berkeley DB database in place of the traditional flat-text whatis databases.
@@ -19,6 +19,7 @@ license     :
 builddeps   :
     - binary(groff)
     - binary(gzip)
+    - binary(tar)
     - pkgconfig(libmagic)
     - pkgconfig(libpipeline)
     - pkgconfig(libseccomp)
@@ -31,6 +32,7 @@ rundeps     :
     - binary(groff)
 setup       : |
     %patch %(pkgdir)/stateless.patch
+    %patch %(pkgdir)/0001-gettext-1.0.patch
     %reconfigure \
          --disable-setuid \
          --enable-cache-owner=root \
