@@ -1,0 +1,26 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Reilly Brogan <reilly@reillybrogan.com>
+Date: Tue, 17 Feb 2026 21:28:22 -0600
+Subject: [PATCH] Use gnu-sort for symbol sorting
+
+Uutils sort behaves differently here which subtly breaks the creation of the symbol versioning script. This causes symbols required for the networkmanager plugins not to be added to the NetworkManager binary which causes plugin failures like this:
+```
+failed to load plugin: /usr/lib/NetworkManager/1.56.0/libnm-device-plugin-wifi.so: undefined symbol: nm_active_connection_get_settings_connection
+```
+---
+ tools/create-exports-NetworkManager.sh | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/tools/create-exports-NetworkManager.sh b/tools/create-exports-NetworkManager.sh
+index e6fc01b9fa..41a64b57bd 100755
+--- a/tools/create-exports-NetworkManager.sh
++++ b/tools/create-exports-NetworkManager.sh
+@@ -14,7 +14,7 @@ die() {
+ # the plugins are build. For example, compiling without
+ # --with-more-asserts will yield less symbols.
+ _sort() {
+-    LANG=C sort -u
++    LANG=C gnu-sort -u
+ }
+ 
+ call_nm() {

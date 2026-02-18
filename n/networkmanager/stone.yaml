@@ -5,7 +5,7 @@
 #
 name        : networkmanager
 version     : "1.56.0"
-release     : 13
+release     : 14
 homepage    : https://wiki.gnome.org/Projects/NetworkManager
 upstreams   :
     - https://gitlab.freedesktop.org/NetworkManager/NetworkManager/-/releases/1.56.0/downloads/NetworkManager-1.56.0.tar.xz : 59a32d385cc1e7ae26e43798c6f12d07ff6198abd041ec0620b3a08cfc021ccc
@@ -19,6 +19,7 @@ license     :
 builddeps   :
     - binary(eu-readelf)
     - binary(gtkdoc-scan)
+    - binary(gnu-sort) # See patch
     - binary(msgfmt)
     - binary(perl)
     - binary(vapigen)
@@ -57,6 +58,8 @@ setup       : |
     # TODO:
     # - Setup online check
 
+    %patch %(pkgdir)/0001-Use-gnu-sort-for-symbol-sorting.patch
+
     %meson \
         -Db_lto=true \
         -Dbluez5_dun=true \
@@ -70,6 +73,7 @@ setup       : |
         -Diptables=%(sbindir)/iptables \
         -Dip6tables=%(sbindir)/ip6tables \
         -Diwd=true \
+        -Dld_gc=false \
         -Dlibaudit=no \
         -Dmodify_system=true \
         -Dnft=%(sbindir)/nft \
