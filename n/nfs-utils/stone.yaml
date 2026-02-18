@@ -4,24 +4,23 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : nfs-utils
-version     : "2.4.8"
-release     : 1
+version     : "2.8.5"
+release     : 2
 homepage    : https://nfs.sourceforge.net/
-lastrip     : false
 upstreams   :
-    - https://sourceforge.net/projects/nfs/files/nfs-utils/2.8.4/nfs-utils-2.8.4.tar.gz : 403c6aed9b8a7cc365df13cbc1358c0b8ed3a14326d1f84a117c42da6dabcd1c
+    - https://sourceforge.net/projects/nfs/files/nfs-utils/2.8.5/nfs-utils-2.8.5.tar.gz : 2493c77a963491e6ea1aabedf07eabea1244d3e997b94a17e9abe9e9fe8f98f0
 summary     : nfs-client capability bundle
 description : |
     Network File-System client utilities
 license     : 
     - GPL-2.0-or-later
     - GPL-2.0-only
-environment: |
-    export CFLAGS+=' -Wno-strict-prototypes' 
 builddeps   :
     - pkgconfig(krb5)
+    - pkgconfig(ldap)
     - pkgconfig(libcap)
     - pkgconfig(libevent)
+    - pkgconfig(libsasl2)
     - pkgconfig(libtirpc)
     - pkgconfig(mount)
     - pkgconfig(readline)
@@ -39,14 +38,36 @@ setup       : |
     sed -i "s|libexec|bin|" tools/nfsrahead/99-nfs.rules
     %configure \
         --sbindir=/usr/sbin \
-        --enable-libmount-mount \
-        --without-tcp-wrappers \
-        --enable-mountconfig \
+        --disable-static \
         --enable-ipv6 \
+        --enable-junction \
+        --enable-libmount-mount \
+        --enable-mountconfig \
         --with-systemd \
-        --enable-junction
+        --without-tcp-wrappers
 build       : |
     %make
 install     : |
     %make_install
     mv %(installroot)/sbin/* %(installroot)/usr/sbin/
+
+    %install_dir %(installroot)%(docdir)/%(name)-devel/
+    echo "DEPRECATED" > %(installroot)%(docdir)/%(name)-devel/README
+packages    :
+    - "%(name)-devel":
+        paths:
+            - /usr/share/doc/nfs-utils-devel/
+
+    - "libnfsidmap":
+        paths:
+            - /usr/lib/libnfsidmap.so.*
+            - /usr/lib/libnfsidmap/*.so
+
+    - "libnfsidmap-devel":
+        rundeps:
+            - "libnfsidmap"
+        paths:
+            - /usr/include/nfsidmap*.h
+            - /usr/lib/libnfsidmap.so
+            - /usr/lib/pkgconfig/libnfsidmap.pc
+            - /usr/share/man/man3/nfs4_uid_to_name.3*

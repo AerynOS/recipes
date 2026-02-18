@@ -2,6 +2,78 @@
 {
 	"manifest-version": "0.2",
 	"packages": {
+		"libnfsidmap": {
+			"build-depends": [
+				"e2fsprogs-devel",
+				"keyutils-devel",
+				"libnl-devel",
+				"libxml2-devel",
+				"pkgconfig(krb5)",
+				"pkgconfig(ldap)",
+				"pkgconfig(libcap)",
+				"pkgconfig(libevent)",
+				"pkgconfig(libsasl2)",
+				"pkgconfig(libtirpc)",
+				"pkgconfig(mount)",
+				"pkgconfig(readline)",
+				"pkgconfig(sqlite3)",
+				"rpcsvc-proto-devel"
+			],
+			"depends": [
+				"soname(libc.so.6(x86_64))",
+				"soname(libgssapi_krb5.so.2(x86_64))",
+				"soname(libldap.so.2(x86_64))",
+				"soname(libresolv.so.2(x86_64))"
+			],
+			"files": [
+				"/usr/lib/libnfsidmap.so.1",
+				"/usr/lib/libnfsidmap.so.1.0.0",
+				"/usr/lib/libnfsidmap/nsswitch.so",
+				"/usr/lib/libnfsidmap/regex.so",
+				"/usr/lib/libnfsidmap/static.so",
+				"/usr/lib/libnfsidmap/umich_ldap.so"
+			],
+			"name": "libnfsidmap",
+			"provides": [
+				"soname(libnfsidmap.so.1(x86_64))",
+				"soname(libnfsidmap/nsswitch.so(x86_64))",
+				"soname(libnfsidmap/regex.so(x86_64))",
+				"soname(libnfsidmap/static.so(x86_64))",
+				"soname(libnfsidmap/umich_ldap.so(x86_64))"
+			]
+		},
+		"libnfsidmap-devel": {
+			"build-depends": [
+				"e2fsprogs-devel",
+				"keyutils-devel",
+				"libnl-devel",
+				"libxml2-devel",
+				"pkgconfig(krb5)",
+				"pkgconfig(ldap)",
+				"pkgconfig(libcap)",
+				"pkgconfig(libevent)",
+				"pkgconfig(libsasl2)",
+				"pkgconfig(libtirpc)",
+				"pkgconfig(mount)",
+				"pkgconfig(readline)",
+				"pkgconfig(sqlite3)",
+				"rpcsvc-proto-devel"
+			],
+			"depends": [
+				"libnfsidmap"
+			],
+			"files": [
+				"/usr/include/nfsidmap.h",
+				"/usr/include/nfsidmap_plugin.h",
+				"/usr/lib/libnfsidmap.so",
+				"/usr/lib/pkgconfig/libnfsidmap.pc",
+				"/usr/share/man/man3/nfs4_uid_to_name.3"
+			],
+			"name": "libnfsidmap-devel",
+			"provides": [
+				"pkgconfig(libnfsidmap)"
+			]
+		},
 		"nfs-utils": {
 			"build-depends": [
 				"e2fsprogs-devel",
@@ -9,8 +81,10 @@
 				"libnl-devel",
 				"libxml2-devel",
 				"pkgconfig(krb5)",
+				"pkgconfig(ldap)",
 				"pkgconfig(libcap)",
 				"pkgconfig(libevent)",
+				"pkgconfig(libsasl2)",
 				"pkgconfig(libtirpc)",
 				"pkgconfig(mount)",
 				"pkgconfig(readline)",
@@ -24,36 +98,28 @@
 				"soname(libc.so.6(x86_64))",
 				"soname(libcap.so.2(x86_64))",
 				"soname(libcom_err.so.2(x86_64))",
-				"soname(libdevmapper.so.1.02(x86_64))",
 				"soname(libevent_core-2.1.so.7(x86_64))",
 				"soname(libgssapi_krb5.so.2(x86_64))",
 				"soname(libk5crypto.so.3(x86_64))",
 				"soname(libkeyutils.so.1(x86_64))",
 				"soname(libkrb5.so.3(x86_64))",
 				"soname(libmount.so.1(x86_64))",
+				"soname(libnfsidmap.so.1(x86_64))",
 				"soname(libnl-3.so.200(x86_64))",
 				"soname(libnl-genl-3.so.200(x86_64))",
 				"soname(libreadline.so.8(x86_64))",
-				"soname(libresolv.so.2(x86_64))",
 				"soname(libsqlite3.so.0(x86_64))",
 				"soname(libtirpc.so.3(x86_64))",
 				"soname(libuuid.so.1(x86_64))",
 				"soname(libxml2.so.16(x86_64))"
 			],
 			"files": [
-				"/usr/lib/libnfsidmap.la",
-				"/usr/lib/libnfsidmap.so.1",
-				"/usr/lib/libnfsidmap.so.1.0.0",
-				"/usr/lib/libnfsidmap/nsswitch.la",
-				"/usr/lib/libnfsidmap/regex.la",
-				"/usr/lib/libnfsidmap/static.la",
 				"/usr/lib/nfs-utils/nfsrahead",
 				"/usr/lib/systemd/system-generators/nfs-server-generator",
 				"/usr/lib/systemd/system-generators/nfsroot-generator",
 				"/usr/lib/systemd/system-generators/rpc-pipefs-generator",
 				"/usr/lib/systemd/system/auth-rpcgss-module.service",
 				"/usr/lib/systemd/system/fsidd.service",
-				"/usr/lib/systemd/system/nfs-blkmap.service",
 				"/usr/lib/systemd/system/nfs-client.target",
 				"/usr/lib/systemd/system/nfs-idmapd.service",
 				"/usr/lib/systemd/system/nfs-mountd.service",
@@ -68,7 +134,6 @@
 				"/usr/lib/systemd/system/var-lib-nfs-rpc_pipefs.mount",
 				"/usr/lib/udev/rules.d/60-nfs.rules",
 				"/usr/lib/udev/rules.d/99-nfs.rules",
-				"/usr/sbin/blkmapd",
 				"/usr/sbin/exportfs",
 				"/usr/sbin/fsidd",
 				"/usr/sbin/mount.nfs",
@@ -103,7 +168,6 @@
 				"/usr/share/man/man5/nfsrahead.5",
 				"/usr/share/man/man7/nfs.systemd.7",
 				"/usr/share/man/man7/nfsd.7",
-				"/usr/share/man/man8/blkmapd.8",
 				"/usr/share/man/man8/exportfs.8",
 				"/usr/share/man/man8/gssd.8",
 				"/usr/share/man/man8/idmapd.8",
@@ -135,8 +199,6 @@
 			],
 			"name": "nfs-utils",
 			"provides": [
-				"soname(libnfsidmap.so.1(x86_64))",
-				"sysbinary(blkmapd)",
 				"sysbinary(exportfs)",
 				"sysbinary(fsidd)",
 				"sysbinary(mount.nfs)",
@@ -172,8 +234,10 @@
 				"libnl-devel",
 				"libxml2-devel",
 				"pkgconfig(krb5)",
+				"pkgconfig(ldap)",
 				"pkgconfig(libcap)",
 				"pkgconfig(libevent)",
+				"pkgconfig(libsasl2)",
 				"pkgconfig(libtirpc)",
 				"pkgconfig(mount)",
 				"pkgconfig(readline)",
@@ -181,34 +245,15 @@
 				"rpcsvc-proto-devel"
 			],
 			"depends": [
-				"nfs-utils",
-				"soname(libc.so.6(x86_64))",
-				"soname(libresolv.so.2(x86_64))"
+				"nfs-utils"
 			],
 			"files": [
-				"/usr/include/nfsidmap.h",
-				"/usr/include/nfsidmap_plugin.h",
-				"/usr/lib/libnfsidmap.a",
-				"/usr/lib/libnfsidmap.so",
-				"/usr/lib/libnfsidmap/nsswitch.a",
-				"/usr/lib/libnfsidmap/nsswitch.so",
-				"/usr/lib/libnfsidmap/regex.a",
-				"/usr/lib/libnfsidmap/regex.so",
-				"/usr/lib/libnfsidmap/static.a",
-				"/usr/lib/libnfsidmap/static.so",
-				"/usr/lib/pkgconfig/libnfsidmap.pc",
-				"/usr/share/man/man3/nfs4_uid_to_name.3"
+				"/usr/share/doc/nfs-utils-devel/README"
 			],
-			"name": "nfs-utils-devel",
-			"provides": [
-				"pkgconfig(libnfsidmap)",
-				"soname(libnfsidmap/nsswitch.so(x86_64))",
-				"soname(libnfsidmap/regex.so(x86_64))",
-				"soname(libnfsidmap/static.so(x86_64))"
-			]
+			"name": "nfs-utils-devel"
 		}
 	},
 	"source-name": "nfs-utils",
-	"source-release": "1",
-	"source-version": "2.4.8"
+	"source-release": "2",
+	"source-version": "2.8.5"
 }

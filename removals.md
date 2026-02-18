@@ -178,3 +178,6 @@
 
 ### Not built
 - scx-scheds-devel
+
+### Renamed
+- nfs-utils-devel
