@@ -4,10 +4,10 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : openvpn
-version     : "2.6.19"
-release     : 5
+version     : "2.7.0"
+release     : 6
 upstreams   :
-    - https://swupdate.openvpn.net/community/releases/openvpn-2.6.19.tar.gz : 13702526f687c18b2540c1a3f2e189187baaa65211edcf7ff6772fa69f0536cf
+    - https://swupdate.openvpn.net/community/releases/openvpn-2.7.0.tar.gz : 2f0e10eb272be61e8fb25fe1cfa20875ff30ac857ef1418000c02290bd6dfa45
 homepage    : https://openvpn.net/community/
 license     :
     - GPL-2.0-only
@@ -33,7 +33,6 @@ setup       : |
         --enable-async-push \
         --enable-pkcs11 \
         --enable-systemd \
-        --enable-x509-alt-username \
         --with-crypto-library=openssl
 build       : |
     %make
