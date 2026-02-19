@@ -4,23 +4,33 @@
 	"packages": {
 		"erofs-utils": {
 			"build-depends": [
+				"binary(flex)",
 				"binary(gettext)",
 				"pkgconfig(fuse3)",
+				"pkgconfig(json-c)",
+				"pkgconfig(libcurl)",
 				"pkgconfig(libdeflate)",
 				"pkgconfig(liblz4)",
 				"pkgconfig(liblzma)",
+				"pkgconfig(libnl-genl-3.0)",
+				"pkgconfig(libxml-2.0)",
 				"pkgconfig(libxxhash)",
 				"pkgconfig(libzstd)",
+				"pkgconfig(openssl)",
 				"pkgconfig(uuid)",
 				"pkgconfig(zlib)"
 			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))",
+				"soname(libcrypto.so.3(x86_64))",
+				"soname(libcurl.so.4(x86_64))",
 				"soname(libdeflate.so.0(x86_64))",
 				"soname(libfuse3.so.4(x86_64))",
 				"soname(liblz4.so.1(x86_64))",
 				"soname(liblzma.so.5(x86_64))",
+				"soname(libnl-3.so.200(x86_64))",
+				"soname(libnl-genl-3.so.200(x86_64))",
 				"soname(libuuid.so.1(x86_64))",
 				"soname(libxxhash.so.0(x86_64))",
 				"soname(libz.so.1(x86_64))",
@@ -31,21 +41,23 @@
 				"/usr/bin/erofsfuse",
 				"/usr/bin/fsck.erofs",
 				"/usr/bin/mkfs.erofs",
+				"/usr/sbin/mount.erofs",
 				"/usr/share/man/man1/dump.erofs.1",
-				"/usr/share/man/man1/erofsfuse.1",
 				"/usr/share/man/man1/fsck.erofs.1",
-				"/usr/share/man/man1/mkfs.erofs.1"
+				"/usr/share/man/man1/mkfs.erofs.1",
+				"/usr/share/man/man8/mount.erofs.8"
 			],
 			"name": "erofs-utils",
 			"provides": [
 				"binary(dump.erofs)",
 				"binary(erofsfuse)",
 				"binary(fsck.erofs)",
-				"binary(mkfs.erofs)"
+				"binary(mkfs.erofs)",
+				"sysbinary(mount.erofs)"
 			]
 		}
 	},
 	"source-name": "erofs-utils",
-	"source-release": "7",
-	"source-version": "1.8.10"
+	"source-release": "8",
+	"source-version": "1.9"
 }

@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : erofs-utils
-version     : "1.8.10"
-release     : 7
+version     : "1.9"
+release     : 8
 homepage    : https://git.kernel.org/pub/scm/linux/kernel/git/xiang/erofs-utils.git
 upstreams   :
-    - https://git.kernel.org/pub/scm/linux/kernel/git/xiang/erofs-utils.git/snapshot/erofs-utils-1.8.10.tar.gz : 05eb4edebe11decce6ecb34e98d2f80c8cd283c2f2967d8ba7efd58418570514
+    - https://git.kernel.org/pub/scm/linux/kernel/git/xiang/erofs-utils.git/snapshot/erofs-utils-1.9.tar.gz : d1bc84b5d60bcae121a7f57ea97d4155189087e178f8127f30846d9f537c9d73
 summary     : EROFS filesystem utilities
 description : |
     EROFS filesystem utilities
@@ -16,20 +16,24 @@ license     :
     - GPL-2.0-or-later
     - Apache-2.0
 builddeps   :
+    - binary(flex)
     - binary(gettext)
     - pkgconfig(fuse3)
+    - pkgconfig(json-c)
+    - pkgconfig(libcurl)
     - pkgconfig(libdeflate)
     - pkgconfig(liblz4)
     - pkgconfig(liblzma)
+    - pkgconfig(libnl-genl-3.0)
+    - pkgconfig(libxml-2.0)
     - pkgconfig(libxxhash)
     - pkgconfig(libzstd)
+    - pkgconfig(openssl)
     - pkgconfig(uuid)
     - pkgconfig(zlib)
 setup       : |
     %reconfigure \
         --enable-fuse \
-        --enable-lzma \
-        --enable-multithreading \
         --with-libdeflate
 build       : |
     %make
