@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : iptables
-version     : "1.8.11"
-release     : 6
+version     : "1.8.12"
+release     : 7
 homepage    : https://www.netfilter.org/projects/iptables/
 upstreams   :
-    - https://netfilter.org/pub/iptables/iptables-1.8.11.tar.xz : d87303d55ef8c92bcad4dd3f978b26d272013642b029425775f5bad1009fe7b2
+    - https://netfilter.org/pub/iptables/iptables-1.8.12.tar.xz : 8e7ee962601492de6503d171d4a948092ab18f89f111de72e3037c1f40cfb846
 summary     : Linux kernel packet control tool (using nft interface)
 description : |
     Linux kernel packet control tool (using nft interface)
@@ -20,9 +20,6 @@ builddeps   :
     - pkgconfig(libnftnl)
     - linux-headers
 setup       : |
-    %patch %(pkgdir)/upstream-01.patch
-    %patch %(pkgdir)/upstream-02.patch
-
     %configure \
         --sysconfdir=%(vendordir)%(sysconfdir) \
         --disable-static \
