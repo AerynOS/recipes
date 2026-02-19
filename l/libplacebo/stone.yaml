@@ -4,11 +4,18 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : libplacebo
-version     : "7.351.0"
-release     : 9
+version     : "7.360.0"
+release     : 10
 homepage    : https://libplacebo.org/
 upstreams   :
-    - https://code.videolan.org/videolan/libplacebo/-/archive/v7.351.0/libplacebo-v7.351.0.tar.bz2 : d68159280842a7f0482dcea44a440f4c9a8e9403b82eccf185e46394dfc77e6a
+    - https://code.videolan.org/videolan/libplacebo/-/archive/v7.360.0/libplacebo-v7.360.0.tar.bz2:
+        hash: 265a8888d4bc169b39c53315f1ba682249f2b0917e0438c1bb241aef822d8744
+        unpackdir: current
+
+    # Don't delete this section, just comment it out if it's not needed. The build recipe accounts for it possibly not existing
+    - https://code.videolan.org/videolan/libplacebo/-/archive/v7.351.0/libplacebo-v7.351.0.tar.bz2:
+        hash: d68159280842a7f0482dcea44a440f4c9a8e9403b82eccf185e46394dfc77e6a
+        unpackdir: compat
 summary     : Reusable library for GPU-accelerated image/video processing primitives and shaders, as well a batteries-included, extensible, high-quality rendering pipeline
 description : |
   libplacebo is, in a nutshell, the core rendering algorithms and ideas of mpv rewritten as an independent library. As of today, libplacebo contains a large assortment of video processing shaders, focusing on both quality and performance
@@ -28,7 +35,39 @@ setup       : |
     %meson \
         -Ddemos=false \
         -Dglslang=enabled
+    if [ -d ../compat ]; then
+        pushd ../compat
+        %meson \
+            -Ddemos=false \
+            -Dglslang=enabled
+        popd
+    fi
+
+    %meson \
+        -Ddemos=false \
+        -Dglslang=enabled
 build       : |
-    %meson_build
+    if [ -d ../compat ]; then
+        pushd ../compat
+            %ccache_zero
+            env CCACHE_BASEDIR="${pwd}" %meson_build
+            %ccache_stats
+        popd
+    fi
+
+    %ccache_zero
+    env CCACHE_BASEDIR="${pwd}" %meson_build
+    %ccache_stats
 install     : |
+    if [ -d ../compat ]; then
+        pushd ../compat
+            mkdir tmp
+            DESTDIR="${pwd}/tmp" meson install --no-rebuild -C "%(builddir)"
+
+            # Only copy the sonames
+            %install_dir %(installroot)/%(libdir)
+            find ${pwd}/tmp/%(libdir) -name "libplacebo.so.*" -print -exec mv {} %(installroot)/%(libdir) \;
+        popd
+    fi
+
     %meson_install

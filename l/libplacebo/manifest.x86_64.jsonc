@@ -27,11 +27,13 @@
 				"soname(libvulkan.so.1(x86_64))"
 			],
 			"files": [
-				"/usr/lib/libplacebo.so.351"
+				"/usr/lib/libplacebo.so.351",
+				"/usr/lib/libplacebo.so.360"
 			],
 			"name": "libplacebo",
 			"provides": [
-				"soname(libplacebo.so.351(x86_64))"
+				"soname(libplacebo.so.351(x86_64))",
+				"soname(libplacebo.so.360(x86_64))"
 			]
 		},
 		"libplacebo-devel": {
@@ -98,6 +100,6 @@
 		}
 	},
 	"source-name": "libplacebo",
-	"source-release": "9",
-	"source-version": "7.351.0"
+	"source-release": "10",
+	"source-version": "7.360.0"
 }
