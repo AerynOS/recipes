@@ -5,7 +5,7 @@
 #
 name        : libplacebo
 version     : "7.360.0"
-release     : 10
+release     : 11
 homepage    : https://libplacebo.org/
 upstreams   :
     - https://code.videolan.org/videolan/libplacebo/-/archive/v7.360.0/libplacebo-v7.360.0.tar.bz2:
@@ -13,9 +13,9 @@ upstreams   :
         unpackdir: current
 
     # Don't delete this section, just comment it out if it's not needed. The build recipe accounts for it possibly not existing
-    - https://code.videolan.org/videolan/libplacebo/-/archive/v7.351.0/libplacebo-v7.351.0.tar.bz2:
-        hash: d68159280842a7f0482dcea44a440f4c9a8e9403b82eccf185e46394dfc77e6a
-        unpackdir: compat
+    # - https://code.videolan.org/videolan/libplacebo/-/archive/v7.351.0/libplacebo-v7.351.0.tar.bz2:
+    #     hash: d68159280842a7f0482dcea44a440f4c9a8e9403b82eccf185e46394dfc77e6a
+    #     unpackdir: compat
 summary     : Reusable library for GPU-accelerated image/video processing primitives and shaders, as well a batteries-included, extensible, high-quality rendering pipeline
 description : |
   libplacebo is, in a nutshell, the core rendering algorithms and ideas of mpv rewritten as an independent library. As of today, libplacebo contains a large assortment of video processing shaders, focusing on both quality and performance
