@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : xwayland-run
-version     : "0.0.4"
-release     : 2
+version     : "0.0.5"
+release     : 3
 homepage    : https://gitlab.freedesktop.org/ofourdan/xwayland-run
 upstreams   :
-    - https://gitlab.freedesktop.org/ofourdan/xwayland-run/-/archive/0.0.4/xwayland-run-0.0.4.tar.gz : 409eaf44938b120e8abe4e7c4a384d71d6ee1c72239f36e585fa0a2815d0fd8f
+    - https://gitlab.freedesktop.org/ofourdan/xwayland-run/-/archive/0.0.5/xwayland-run-0.0.5.tar.gz : b000386a0f0270cf49d5207b60215de7a09423d8afe3a45fe3e315791667fbb5
 summary     : xwayland-run contains a set of small utilities revolving around running Xwayland and various Wayland compositor headless.
 description : |
     xwayland-run contains a set of small utilities revolving around running Xwayland and various Wayland compositor headless. Initially, xwayland-run was intended as a replacement for the xvfb-run utility
@@ -23,7 +23,8 @@ rundeps     :
     - binary(mutter)
     - binary(Xwayland)
 setup       : |
-    %meson -Dcompositor=mutter
+    %meson \
+        -Dcompositor=mutter
 build       : |
     %meson_build
 install     : |
