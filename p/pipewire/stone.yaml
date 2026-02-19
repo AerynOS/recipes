@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : pipewire
-version     : "1.4.10"
-release     : 23
+version     : "1.6.0"
+release     : 24
 homepage    : https://pipewire.org/
 upstreams   :
-    - https://gitlab.freedesktop.org/pipewire/pipewire/-/archive/1.4.10/pipewire-1.4.10.tar.gz : 20184b3fac2e2759385302423bdf04db64490a3c79a091147993a822ae992128
+    - https://gitlab.freedesktop.org/pipewire/pipewire/-/archive/1.6.0/pipewire-1.6.0.tar.gz : eef582901d8323669560dd32e3b76b1b15011d73a38f0035a3f11b933112f397
 summary     : Linux audio + video multiplexing
 description : |
     PipeWire is a project that aims to greatly improve handling of audio and video under Linux. It provides a low-latency, graph-based processing engine on top of audio and video devices that can be used to support the use cases currently handled by both PulseAudio and JACK. PipeWire was designed with a powerful security model that makes interacting with audio and video devices from containerized applications easy, with support for Flatpak applications being the primary goal.
@@ -32,6 +32,7 @@ builddeps   :
     - pkgconfig(lc3)
     - pkgconfig(ldacBT-enc)
     - pkgconfig(libavcodec)
+    - pkgconfig(libavfilter)
     - pkgconfig(libavformat)
     - pkgconfig(libcanberra)
     - pkgconfig(libcap)
@@ -60,8 +61,10 @@ builddeps   :
     # lc3plus
     # libcamera
     # jack
+    # ldacbt-dec
 setup       : |
-    %patch %(pkgdir)/0001-Fix-clang-build-error.patch
+    # glibc 2.43 build failure
+    export CFLAGS+=" -Wno-error=incompatible-pointer-types-discards-qualifiers"
 
     %meson \
         -Dbluez5=enabled \
