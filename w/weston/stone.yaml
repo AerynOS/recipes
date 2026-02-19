@@ -4,16 +4,17 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : weston
-version     : "14.0.2"
-release     : 2
+version     : "15.0.0"
+release     : 3
 homepage    : https://gitlab.freedesktop.org/wayland/weston
 upstreams   :
-    - https://gitlab.freedesktop.org/wayland/weston/-/archive/14.0.2/weston-14.0.2.tar.gz : 633f4e0f232ad150300c95ffcbc646fedf1349487bf389dbd2045fa69013d6e2
+    - https://gitlab.freedesktop.org/wayland/weston/-/archive/15.0.0/weston-15.0.0.tar.gz : 9e8d76a141a7a571558ac96357b285277a57ba99ae251ed62b0856a8cbc44c7b
 summary     : A lightweight and functional Wayland compositor
 description : |
     Weston is the reference implementation of a Wayland compositor, as well as a useful environment in and of itself. Out of the box, Weston provides a very basic desktop, or a full-featured environment for non-desktop uses such as automotive, embedded, in-flight, industrial, kiosks, set-top boxes and TVs. It also provides a library allowing other projects to build their own full-featured environments on top of Weston's core.
 license     : MIT
 builddeps   :
+    - binary(glslangValidator)
     - pkgconfig(cairo)
     - pkgconfig(egl)
     - pkgconfig(freerdp3)
@@ -28,10 +29,12 @@ builddeps   :
     - pkgconfig(libinput)
     - pkgconfig(libpipewire-0.3)
     - pkgconfig(libseat)
-    - pkgconfig(libva)
     - pkgconfig(libwebp)
+    - pkgconfig(lua)
+    - pkgconfig(pam)
     - pkgconfig(pango)
     - pkgconfig(pixman-1)
+    - pkgconfig(vulkan)
     - pkgconfig(wayland-protocols)
     - pkgconfig(wayland-server)
     - pkgconfig(xcb-cursor)
@@ -40,14 +43,12 @@ builddeps   :
     - pkgconfig(xwayland)
     # TODO: VNC
 setup       : |
-    %patch %(pkgdir)/0001-Allow-libdisplay-info-0.3.patch
-
     # ld.lld: error: undefined symbol: __start_test_section
     export LDFLAGS+=" -Wl,--no-gc-sections"
 
     %meson \
-            -Dbackend-vnc=false \
-            -Dbackend-x11=false
+        -Dbackend-vnc=false \
+        -Dbackend-x11=false
 build       : |
     %meson_build
 install     : |
