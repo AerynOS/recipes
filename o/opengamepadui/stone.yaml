@@ -5,7 +5,7 @@
 #
 name        : opengamepadui
 version     : "0.44.2"
-release     : 23
+release     : 24
 homepage    : https://github.com/ShadowBlip/OpenGamepadUI
 upstreams   :
     - https://github.com/ShadowBlip/OpenGamepadUI/archive/refs/tags/v0.44.2.tar.gz : 1337b170b2990fb75d6f3b02db979bb4d6bc51ac3d96daaef1ef9f2b17b4af6b
@@ -31,9 +31,16 @@ rundeps     :
 environment : |
     export PATH="/usr/bin:/usr/sbin"
 setup       : |
+    # Workaround to have decent default settings. We need to create a new platform on OGUI
     %patch %(pkgdir)/use-chimeraos-defaults.patch
+    # Enables OGUI to start properly
     %patch %(pkgdir)/fix-prefix.patch
+    # Be more verbose to be able to debug better
     %patch %(pkgdir)/debug.patch
+    # Currently '-steamos3' flag is preventing 'steam' to be launched on AerynOS.
+    # Additionally we enable more options in overlaymode to compensate missing features
+    # of GamepadUI which SteamDeck mode would provide.
+    %patch %(pkgdir)/aerynos.patch
 
     cd extensions
     %cargo_fetch
