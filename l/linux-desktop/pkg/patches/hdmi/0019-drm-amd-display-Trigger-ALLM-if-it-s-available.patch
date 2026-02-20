@@ -1,6 +1,6 @@
 From: Tomasz Pakuła <tomasz.pakula.oficjalny@gmail.com>
-Subject: [PATCH v3 15/19] drm/amd/display: Trigger ALLM if it's available
-Date: Tue,  3 Feb 2026 19:56:22 +0100
+Subject: [PATCH v4 19/27] drm/amd/display: Trigger ALLM if it's available
+Date: Mon, 16 Feb 2026 17:45:08 +0100
 Content-Type: text/plain; charset="utf-8"
 
 [Why]
@@ -17,33 +17,9 @@ with hf-vsif. I learned this the hard way...
 Signed-off-by: Tomasz Pakuła <tomasz.pakula.oficjalny@gmail.com>
 Reviewed-by: Harry Wentland <harry.wentland@amd.com>
 ---
- drivers/gpu/drm/amd/display/dc/core/dc_resource.c          | 4 +++-
  .../gpu/drm/amd/display/modules/info_packet/info_packet.c  | 7 ++++---
- 2 files changed, 7 insertions(+), 4 deletions(-)
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_resource.c b/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
-index 848c267ef11e..4a7c9f810e35 100644
---- a/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
-+++ b/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
-@@ -4504,6 +4504,7 @@ static void set_avi_info_frame(
- 	unsigned int rid = pipe_ctx->stream->timing.rid;
- 	unsigned int fr_ind = pipe_ctx->stream->timing.fr_index;
- 	enum dc_timing_3d_format format;
-+	bool allm;
- 
- 	if (stream->avi_infopacket.valid) {
- 		*info_packet = stream->avi_infopacket;
-@@ -4658,8 +4659,9 @@ static void set_avi_info_frame(
- 	if (pipe_ctx->stream->timing.hdmi_vic != 0)
- 		vic = 0;
- 	format = stream->timing.timing_3d_format;
-+	allm = stream->link->local_sink->edid_caps.allm;
- 	/*todo, add 3DStereo support*/
--	if (format != TIMING_3D_FORMAT_NONE) {
-+	if ((format != TIMING_3D_FORMAT_NONE) || allm) {
- 		// Based on HDMI specs hdmi vic needs to be converted to cea vic when 3D is enabled
- 		switch (pipe_ctx->stream->timing.hdmi_vic) {
- 		case 1:
 diff --git a/drivers/gpu/drm/amd/display/modules/info_packet/info_packet.c b/drivers/gpu/drm/amd/display/modules/info_packet/info_packet.c
 index 8e110c86bdd4..53e488fdb4ea 100644
 --- a/drivers/gpu/drm/amd/display/modules/info_packet/info_packet.c
@@ -63,5 +39,5 @@ index 8e110c86bdd4..53e488fdb4ea 100644
  		hdmi_vic_mode = is_hdmi_vic_mode(stream);
  
 -- 
-2.52.0
+2.53.0
 

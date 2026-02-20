@@ -1,6 +1,6 @@
 From: Tomasz Pakuła <tomasz.pakula.oficjalny@gmail.com>
-Subject: [PATCH v3 06/19] drm/amd/display: Add PCON VRR ID check override
-Date: Tue,  3 Feb 2026 19:56:13 +0100
+Subject: [PATCH v4 10/27] drm/amd/display: Add PCON VRR ID check override
+Date: Mon, 16 Feb 2026 17:44:59 +0100
 Content-Type: text/plain; charset="utf-8"
 
 [Why]
@@ -22,10 +22,10 @@ Reviewed-by: Harry Wentland <harry.wentland@amd.com>
  5 files changed, 20 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 9346b62d981b..306c29ff38f0 100644
+index 2603da69d772..b6079a1ce2ac 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -2062,6 +2062,9 @@ static int amdgpu_dm_init(struct amdgpu_device *adev)
+@@ -2060,6 +2060,9 @@ static int amdgpu_dm_init(struct amdgpu_device *adev)
  	if (amdgpu_dc_debug_mask & DC_SKIP_DETECTION_LT)
  		adev->dm.dc->debug.skip_detection_link_training = true;
  
@@ -35,7 +35,7 @@ index 9346b62d981b..306c29ff38f0 100644
  	adev->dm.dc->debug.visual_confirm = amdgpu_dc_visual_confirm;
  
  	/* TODO: Remove after DP2 receiver gets proper support of Cable ID feature */
-@@ -13314,7 +13317,8 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
+@@ -13357,7 +13360,8 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
  	if (amdgpu_dm_connector->dc_link) {
  		dpcd_caps = amdgpu_dm_connector->dc_link->dpcd_caps;
  		is_pcon = dpcd_caps.dongle_type == DISPLAY_DONGLE_DP_HDMI_CONVERTER;
@@ -44,7 +44,7 @@ index 9346b62d981b..306c29ff38f0 100644
 +			amdgpu_dm_connector->dc_link, connector->dev);
  	}
  
- 	/* Some eDP panels only have the refresh rate range info in DisplayID */
+ 	/* DP & eDP excluding PCONs */
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
 index 45a91df619d9..cb8a2855ac10 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
@@ -72,10 +72,10 @@ index 45a91df619d9..cb8a2855ac10 100644
  }
  
 diff --git a/drivers/gpu/drm/amd/display/dc/dc.h b/drivers/gpu/drm/amd/display/dc/dc.h
-index ab19b6230945..7b22575ff638 100644
+index ce08477d1ccd..141d8c76d001 100644
 --- a/drivers/gpu/drm/amd/display/dc/dc.h
 +++ b/drivers/gpu/drm/amd/display/dc/dc.h
-@@ -1057,6 +1057,7 @@ struct dc_debug_options {
+@@ -1058,6 +1058,7 @@ struct dc_debug_options {
  	bool scl_reset_length10;
  	bool hdmi20_disable;
  	bool skip_detection_link_training;
@@ -114,5 +114,5 @@ index ac2d3701e2bd..894e1e738ce0 100644
  
  enum amd_dpm_forced_level;
 -- 
-2.52.0
+2.53.0
 

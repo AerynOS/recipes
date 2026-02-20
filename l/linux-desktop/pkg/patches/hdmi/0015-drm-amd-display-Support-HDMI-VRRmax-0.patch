@@ -1,6 +1,6 @@
 From: Tomasz Pakuła <tomasz.pakula.oficjalny@gmail.com>
-Subject: [PATCH v3 11/19] drm/amd/display: Support HDMI VRRmax=0
-Date: Tue,  3 Feb 2026 19:56:18 +0100
+Subject: [PATCH v4 15/27] drm/amd/display: Support HDMI VRRmax=0
+Date: Mon, 16 Feb 2026 17:45:04 +0100
 Content-Type: text/plain; charset="utf-8"
 
 [Why]
@@ -16,21 +16,17 @@ I found through testing, that TVs seem to reject VTEM when BRR is set
 to over 1023 Hz. Use this as the last resort VRRmax. 1023 is the max
 value for a 10-bit field as well.
 
-v2:
-- Update max BRR value to 1023
-
 Signed-off-by: Tomasz Pakuła <tomasz.pakula.oficjalny@gmail.com>
-Reviewed-by: Harry Wentland <harry.wentland@amd.com>
 ---
  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 23 +++++++++++++++----
  .../amd/display/modules/inc/mod_info_packet.h |  2 ++
  2 files changed, 20 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 6fb23d59fcc9..2200161da71b 100644
+index 931493433439..991e2262ecbc 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -13232,14 +13232,27 @@ static void monitor_range_from_vsdb(struct drm_display_info *display,
+@@ -13259,14 +13259,27 @@ static void monitor_range_from_vsdb(struct drm_display_info *display,
  }
  
  /**
@@ -61,7 +57,7 @@ index 6fb23d59fcc9..2200161da71b 100644
  }
  
  /*
-@@ -13374,8 +13387,8 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
+@@ -13413,8 +13426,8 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
  	/* DP -> HDMI PCON */
  	} else if (pcon_allowed) {
  		/* Prefer HDMI VRR */
@@ -86,5 +82,5 @@ index 5de8a6918e6a..306eb7355c25 100644
  		const struct dc_stream_state *stream,
  		struct dc_info_packet *info_packet,
 -- 
-2.52.0
+2.53.0
 

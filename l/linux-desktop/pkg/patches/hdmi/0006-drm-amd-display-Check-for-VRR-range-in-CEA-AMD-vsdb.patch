@@ -1,6 +1,6 @@
 From: Tomasz Pakuła <tomasz.pakula.oficjalny@gmail.com>
-Subject: [PATCH v3 03/19] drm/amd/display: Check for VRR range in CEA AMD vsdb
-Date: Tue,  3 Feb 2026 19:56:10 +0100
+Subject: [PATCH v4 06/27] drm/amd/display: Check for VRR range in CEA AMD vsdb
+Date: Mon, 16 Feb 2026 17:44:55 +0100
 Content-Type: text/plain; charset="utf-8"
 
 [Why]
@@ -26,13 +26,13 @@ Reviewed-by: Harry Wentland <harry.wentland@amd.com>
  1 file changed, 6 insertions(+)
 
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 2c5877ed5f32..856007bba4d9 100644
+index 64d1dae4d214..b3bf5e0c19a5 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -13306,6 +13306,12 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
- 
- 	if (sink->sink_signal == SIGNAL_TYPE_DISPLAY_PORT ||
- 	    sink->sink_signal == SIGNAL_TYPE_EDP) {
+@@ -13332,6 +13332,12 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
+ 		/* Some eDP panels only have the refresh rate range info in DisplayID */
+ 		if (is_monitor_range_invalid(connector))
+ 			parse_edid_displayid_vrr(connector, edid);
 +		/*
 +		 * Many monitors expose AMD vsdb in CAE even for DP and their
 +		 * monitor ranges do not contain Range Limits Only flag
@@ -43,5 +43,5 @@ index 2c5877ed5f32..856007bba4d9 100644
  		if (dpcd_caps.allow_invalid_MSA_timing_param)
  			freesync_capable = copy_range_to_amdgpu_connector(connector);
 -- 
-2.52.0
+2.53.0
 

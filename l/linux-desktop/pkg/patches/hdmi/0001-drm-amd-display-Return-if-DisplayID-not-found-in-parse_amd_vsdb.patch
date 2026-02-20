@@ -1,7 +1,7 @@
 From: Tomasz Pakuła <tomasz.pakula.oficjalny@gmail.com>
-Subject: [PATCH v3 01/19] drm/amd/display: Return if DisplayID not found in
+Subject: [PATCH v4 01/27] drm/amd/display: Return if DisplayID not found in
  parse_amd_vsdb()
-Date: Tue,  3 Feb 2026 19:56:08 +0100
+Date: Mon, 16 Feb 2026 17:44:50 +0100
 Content-Type: text/plain; charset="utf-8"
 
 [Why]
@@ -19,19 +19,19 @@ Reviewed-by: Harry Wentland <harry.wentland@amd.com>
  1 file changed, 3 insertions(+)
 
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index d8fac7e69181..29e4a047b455 100644
+index 12bebdfd7fdc..2d770ed98871 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -13136,6 +13136,9 @@ static int parse_amd_vsdb(struct amdgpu_dm_connector *aconnector,
+@@ -13162,6 +13162,9 @@ static int parse_amd_vsdb(struct amdgpu_dm_connector *aconnector,
  			break;
  	}
  
 +	if (i == edid->extensions)
 +		return false;
 +
- 	while (j < EDID_LENGTH - sizeof(struct amd_vsdb_block)) {
+ 	total_ext_block_len = EDID_LENGTH * edid->extensions;
+ 	while (j < total_ext_block_len - sizeof(struct amd_vsdb_block)) {
  		struct amd_vsdb_block *amd_vsdb = (struct amd_vsdb_block *)&edid_ext[j];
- 		unsigned int ieeeId = (amd_vsdb->ieee_id[2] << 16) | (amd_vsdb->ieee_id[1] << 8) | (amd_vsdb->ieee_id[0]);
 -- 
-2.52.0
+2.53.0
 

@@ -1,6 +1,6 @@
 From: Tomasz Pakuła <tomasz.pakula.oficjalny@gmail.com>
-Subject: [PATCH v3 13/19] drm/amd/display: Save HDMI gaming info to edid caps
-Date: Tue,  3 Feb 2026 19:56:20 +0100
+Subject: [PATCH v4 17/27] drm/amd/display: Save HDMI gaming info to edid caps
+Date: Mon, 16 Feb 2026 17:45:06 +0100
 Content-Type: text/plain; charset="utf-8"
 
 [Why]
@@ -37,7 +37,7 @@ index 690558584a0f..c24476182fdf 100644
  	if (edid_caps->edid_hdmi)
  		populate_hdmi_info_from_connector(&connector->display_info.hdmi, edid_caps);
 diff --git a/drivers/gpu/drm/amd/display/dc/dc_types.h b/drivers/gpu/drm/amd/display/dc/dc_types.h
-index 0e953059ff6d..f9f108db1734 100644
+index bddb16bb76d4..2efca21a6561 100644
 --- a/drivers/gpu/drm/amd/display/dc/dc_types.h
 +++ b/drivers/gpu/drm/amd/display/dc/dc_types.h
 @@ -210,9 +210,14 @@ struct dc_edid_caps {
@@ -57,5 +57,5 @@ index 0e953059ff6d..f9f108db1734 100644
  	bool hdr_supported;
  	bool rr_capable;
 -- 
-2.52.0
+2.53.0
 
