@@ -1,7 +1,7 @@
 From: Tomasz Pakuła <tomasz.pakula.oficjalny@gmail.com>
-Subject: [PATCH v3 02/19] drm/amd/display: Refactor
+Subject: [PATCH v4 02/27] drm/amd/display: Refactor
  amdgpu_dm_update_freesync_caps()
-Date: Tue,  3 Feb 2026 19:56:09 +0100
+Date: Mon, 16 Feb 2026 17:44:51 +0100
 Content-Type: text/plain; charset="utf-8"
 
 [Why]
@@ -10,20 +10,16 @@ This function started to get very messy and hard to follow.
 [How]
 Eject some functionality to separate functions and simplify greatly.
 
-Changes in v3:
-- Less struct traversal in helper functions
-
 Signed-off-by: Tomasz Pakuła <tomasz.pakula.oficjalny@gmail.com>
-Reviewed-by: Harry Wentland <harry.wentland@amd.com>
 ---
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 123 +++++++++++-------
- 1 file changed, 73 insertions(+), 50 deletions(-)
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 110 +++++++++++-------
+ 1 file changed, 69 insertions(+), 41 deletions(-)
 
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 29e4a047b455..2c5877ed5f32 100644
+index 2d770ed98871..6218ad911fde 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -13119,8 +13119,8 @@ static void parse_edid_displayid_vrr(struct drm_connector *connector,
+@@ -13144,8 +13144,8 @@ static void parse_edid_displayid_vrr(struct drm_connector *connector,
  	}
  }
  
@@ -34,16 +30,14 @@ index 29e4a047b455..2c5877ed5f32 100644
  {
  	u8 *edid_ext = NULL;
  	int i;
-@@ -13172,13 +13172,13 @@ static int parse_amd_vsdb(struct amdgpu_dm_connector *aconnector,
+@@ -13199,13 +13199,13 @@ static int parse_amd_vsdb(struct amdgpu_dm_connector *aconnector,
  	return false;
  }
  
 -static int parse_hdmi_amd_vsdb(struct amdgpu_dm_connector *aconnector,
--			       const struct edid *edid,
--			       struct amdgpu_hdmi_vsdb_info *vsdb_info)
-+static int parse_amd_vsdb_cea(struct amdgpu_dm_connector *aconnector,
-+			      const struct edid *edid,
-+			      struct amdgpu_hdmi_vsdb_info *vsdb_info)
++static bool parse_amd_vsdb_cea(struct amdgpu_dm_connector *aconnector,
+ 			       const struct edid *edid,
+ 			       struct amdgpu_hdmi_vsdb_info *vsdb_info)
  {
 +	struct amdgpu_hdmi_vsdb_info vsdb_local = {0};
  	u8 *edid_ext = NULL;
@@ -52,7 +46,7 @@ index 29e4a047b455..2c5877ed5f32 100644
  
  	/*----- drm_find_cea_extension() -----*/
  	/* No EDID or EDID extensions */
-@@ -13199,9 +13199,47 @@ static int parse_hdmi_amd_vsdb(struct amdgpu_dm_connector *aconnector,
+@@ -13226,9 +13226,47 @@ static int parse_hdmi_amd_vsdb(struct amdgpu_dm_connector *aconnector,
  	if (edid_ext[0] != CEA_EXT)
  		return -ENODEV;
  
@@ -62,7 +56,7 @@ index 29e4a047b455..2c5877ed5f32 100644
  
 -	return valid_vsdb_found ? i : -ENODEV;
 +	*vsdb_info = vsdb_local;
-+	return i;
++	return false;
 +}
 +
 +static bool is_monitor_range_invalid(const struct drm_connector *conn)
@@ -102,7 +96,7 @@ index 29e4a047b455..2c5877ed5f32 100644
  }
  
  /**
-@@ -13218,13 +13256,14 @@ static int parse_hdmi_amd_vsdb(struct amdgpu_dm_connector *aconnector,
+@@ -13245,13 +13283,14 @@ static int parse_hdmi_amd_vsdb(struct amdgpu_dm_connector *aconnector,
  void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
  				    const struct drm_edid *drm_edid)
  {
@@ -118,23 +112,21 @@ index 29e4a047b455..2c5877ed5f32 100644
  	const struct edid *edid;
  	bool freesync_capable = false;
  	enum adaptive_sync_type as_type = ADAPTIVE_SYNC_TYPE_NONE;
-@@ -13256,62 +13295,46 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
- 		goto update;
+@@ -13284,60 +13323,49 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
  
  	edid = drm_edid_raw(drm_edid); // FIXME: Get rid of drm_edid_raw()
-+	parse_amd_vsdb_cea(amdgpu_dm_connector, edid, &vsdb_info);
-+
+ 
 +	if (amdgpu_dm_connector->dc_link)
 +		dpcd_caps = amdgpu_dm_connector->dc_link->dpcd_caps;
- 
++
  	/* Some eDP panels only have the refresh rate range info in DisplayID */
 -	if ((connector->display_info.monitor_range.min_vfreq == 0 ||
 -	     connector->display_info.monitor_range.max_vfreq == 0))
 +	if (is_monitor_range_invalid(connector))
  		parse_edid_displayid_vrr(connector, edid);
  
--	if (edid && (sink->sink_signal == SIGNAL_TYPE_DISPLAY_PORT ||
--		     sink->sink_signal == SIGNAL_TYPE_EDP)) {
+ 	if (edid && (sink->sink_signal == SIGNAL_TYPE_DISPLAY_PORT ||
+ 		     sink->sink_signal == SIGNAL_TYPE_EDP)) {
 -		if (amdgpu_dm_connector->dc_link &&
 -		    amdgpu_dm_connector->dc_link->dpcd_caps.allow_invalid_MSA_timing_param) {
 -			amdgpu_dm_connector->min_vfreq = connector->display_info.monitor_range.min_vfreq;
@@ -142,8 +134,6 @@ index 29e4a047b455..2c5877ed5f32 100644
 -			if (amdgpu_dm_connector->max_vfreq - amdgpu_dm_connector->min_vfreq > 10)
 -				freesync_capable = true;
 -		}
-+	if (sink->sink_signal == SIGNAL_TYPE_DISPLAY_PORT ||
-+	    sink->sink_signal == SIGNAL_TYPE_EDP) {
  
 -		parse_amd_vsdb(amdgpu_dm_connector, edid, &vsdb_info);
 +		if (dpcd_caps.allow_invalid_MSA_timing_param)
@@ -153,9 +143,7 @@ index 29e4a047b455..2c5877ed5f32 100644
 -			amdgpu_dm_connector->vsdb_info.replay_mode = vsdb_info.replay_mode;
 -			amdgpu_dm_connector->vsdb_info.amd_vsdb_version = vsdb_info.amd_vsdb_version;
 +		/* eDP */
-+		if (edid)
-+			parse_amd_vsdb_did(amdgpu_dm_connector, edid, &vsdb_did);
-+
++		parse_amd_vsdb_did(amdgpu_dm_connector, edid, &vsdb_did);
 +		if (vsdb_did.replay_mode) {
 +			amdgpu_dm_connector->vsdb_info.replay_mode = vsdb_did.replay_mode;
 +			amdgpu_dm_connector->vsdb_info.amd_vsdb_version = vsdb_did.amd_vsdb_version;
@@ -172,10 +160,13 @@ index 29e4a047b455..2c5877ed5f32 100644
 -
 -			connector->display_info.monitor_range.min_vfreq = vsdb_info.min_refresh_rate_hz;
 -			connector->display_info.monitor_range.max_vfreq = vsdb_info.max_refresh_rate_hz;
--		}
-+	} else if (sink->sink_signal == SIGNAL_TYPE_HDMI_TYPE_A && vsdb_info.freesync_supported) {
-+		monitor_range_from_vsdb(&connector->display_info, &vsdb_info);
-+		freesync_capable = copy_range_to_amdgpu_connector(connector);
++	} else if (sink->sink_signal == SIGNAL_TYPE_HDMI_TYPE_A &&
++		   drm_edid) {
++		parse_amd_vsdb_cea(amdgpu_dm_connector, edid, &vsdb_info);
++		if (vsdb_info.freesync_supported) {
++			monitor_range_from_vsdb(&connector->display_info, &vsdb_info);
++			freesync_capable = copy_range_to_amdgpu_connector(connector);
+ 		}
  	}
  
  	if (amdgpu_dm_connector->dc_link)
@@ -184,15 +175,14 @@ index 29e4a047b455..2c5877ed5f32 100644
 -	if (as_type == FREESYNC_TYPE_PCON_IN_WHITELIST) {
 -		i = parse_hdmi_amd_vsdb(amdgpu_dm_connector, edid, &vsdb_info);
 -		if (i >= 0 && vsdb_info.freesync_supported && vsdb_info.amd_vsdb_version > 0) {
-+	if (as_type == FREESYNC_TYPE_PCON_IN_WHITELIST && vsdb_info.freesync_supported) {
-+		amdgpu_dm_connector->pack_sdp_v1_3 = true;
-+		amdgpu_dm_connector->as_type = as_type;
-+		amdgpu_dm_connector->vsdb_info = vsdb_info;
- 
--			amdgpu_dm_connector->pack_sdp_v1_3 = true;
--			amdgpu_dm_connector->as_type = as_type;
--			amdgpu_dm_connector->vsdb_info = vsdb_info;
 -
++	if (as_type == FREESYNC_TYPE_PCON_IN_WHITELIST && drm_edid) {
++		parse_amd_vsdb_cea(amdgpu_dm_connector, edid, &vsdb_info);
++		if (vsdb_info.freesync_supported) {
+ 			amdgpu_dm_connector->pack_sdp_v1_3 = true;
+ 			amdgpu_dm_connector->as_type = as_type;
+ 			amdgpu_dm_connector->vsdb_info = vsdb_info;
+ 
 -			amdgpu_dm_connector->min_vfreq = vsdb_info.min_refresh_rate_hz;
 -			amdgpu_dm_connector->max_vfreq = vsdb_info.max_refresh_rate_hz;
 -			if (amdgpu_dm_connector->max_vfreq - amdgpu_dm_connector->min_vfreq > 10)
@@ -200,12 +190,12 @@ index 29e4a047b455..2c5877ed5f32 100644
 -
 -			connector->display_info.monitor_range.min_vfreq = vsdb_info.min_refresh_rate_hz;
 -			connector->display_info.monitor_range.max_vfreq = vsdb_info.max_refresh_rate_hz;
--		}
-+		monitor_range_from_vsdb(&connector->display_info, &vsdb_info);
-+		freesync_capable = copy_range_to_amdgpu_connector(connector);
++			parse_amd_vsdb_cea(amdgpu_dm_connector, edid, &vsdb_info);
++			monitor_range_from_vsdb(&connector->display_info, &vsdb_info);
++			freesync_capable = copy_range_to_amdgpu_connector(connector);
+ 		}
  	}
  
- update:
 -- 
-2.52.0
+2.53.0
 

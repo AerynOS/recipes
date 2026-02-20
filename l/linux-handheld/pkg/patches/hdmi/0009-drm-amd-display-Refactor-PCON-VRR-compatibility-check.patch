@@ -1,7 +1,7 @@
 From: Tomasz Pakuła <tomasz.pakula.oficjalny@gmail.com>
-Subject: [PATCH v3 05/19] drm/amd/display: Refactor PCON VRR compatibility
+Subject: [PATCH v4 09/27] drm/amd/display: Refactor PCON VRR compatibility
  check
-Date: Tue,  3 Feb 2026 19:56:12 +0100
+Date: Mon, 16 Feb 2026 17:44:58 +0100
 Content-Type: text/plain; charset="utf-8"
 
 [Why]
@@ -14,76 +14,52 @@ to better reflect what this function does. It never actually gave us any
 other info.
 
 Signed-off-by: Tomasz Pakuła <tomasz.pakula.oficjalny@gmail.com>
-Reviewed-by: Harry Wentland <harry.wentland@amd.com>
 ---
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 24 +++++++-----
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 11 ++----
  .../amd/display/amdgpu_dm/amdgpu_dm_helpers.c | 39 ++++++-------------
  drivers/gpu/drm/amd/display/dc/dm_helpers.h   |  2 +-
- 3 files changed, 27 insertions(+), 38 deletions(-)
+ 3 files changed, 17 insertions(+), 35 deletions(-)
 
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 284f5b326c18..9346b62d981b 100644
+index 2f31fe7265d9..2603da69d772 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -13278,7 +13278,8 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
+@@ -13321,8 +13321,8 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
  	struct dpcd_caps dpcd_caps = {0};
  	const struct edid *edid;
  	bool freesync_capable = false;
--	enum adaptive_sync_type as_type = ADAPTIVE_SYNC_TYPE_NONE;
 +	bool pcon_allowed = false;
-+	bool is_pcon = false;
+ 	bool is_pcon = false;
+-	enum adaptive_sync_type as_type = ADAPTIVE_SYNC_TYPE_NONE;
  
  	if (!connector->state) {
  		drm_err(adev_to_drm(adev), "%s - Connector has no state", __func__);
-@@ -13306,18 +13307,23 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
- 	if (!adev->dm.freesync_module || !dc_supports_vrr(sink->ctx->dce_version))
- 		goto update;
- 
-+	/* Gather all data */
- 	edid = drm_edid_raw(drm_edid); // FIXME: Get rid of drm_edid_raw()
- 	parse_amd_vsdb_cea(amdgpu_dm_connector, edid, &vsdb_info);
- 
--	if (amdgpu_dm_connector->dc_link)
-+	if (amdgpu_dm_connector->dc_link) {
+@@ -13357,6 +13357,7 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
+ 	if (amdgpu_dm_connector->dc_link) {
  		dpcd_caps = amdgpu_dm_connector->dc_link->dpcd_caps;
-+		is_pcon = dpcd_caps.dongle_type == DISPLAY_DONGLE_DP_HDMI_CONVERTER;
+ 		is_pcon = dpcd_caps.dongle_type == DISPLAY_DONGLE_DP_HDMI_CONVERTER;
 +		pcon_allowed = dm_helpers_is_vrr_pcon_allowed(amdgpu_dm_connector->dc_link);
-+	}
+ 	}
  
- 	/* Some eDP panels only have the refresh rate range info in DisplayID */
- 	if (is_monitor_range_invalid(connector))
- 		parse_edid_displayid_vrr(connector, edid);
- 
--	if (sink->sink_signal == SIGNAL_TYPE_DISPLAY_PORT ||
--	    sink->sink_signal == SIGNAL_TYPE_EDP) {
-+	/* DP & eDP excluding PCONs */
-+	if ((sink->sink_signal == SIGNAL_TYPE_EDP ||
-+	     sink->sink_signal == SIGNAL_TYPE_DISPLAY_PORT) && !is_pcon) {
- 		/*
- 		 * Many monitors expose AMD vsdb in CAE even for DP and their
- 		 * monitor ranges do not contain Range Limits Only flag
-@@ -13342,17 +13348,15 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
- 			amdgpu_dm_connector->as_type = ADAPTIVE_SYNC_TYPE_EDP;
- 		}
- 
-+	/* HDMI */
+ 	/* DP & eDP excluding PCONs */
+@@ -13390,15 +13391,11 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
  	} else if (sink->sink_signal == SIGNAL_TYPE_HDMI_TYPE_A && vsdb_info.freesync_supported) {
  		monitor_range_from_vsdb(&connector->display_info, &vsdb_info);
  		freesync_capable = copy_range_to_amdgpu_connector(connector);
 -	}
- 
--	if (amdgpu_dm_connector->dc_link)
--		as_type = dm_get_adaptive_sync_support_type(amdgpu_dm_connector->dc_link);
 -
+-	if (amdgpu_dm_connector->dc_link && is_pcon)
+-		as_type = dm_get_adaptive_sync_support_type(amdgpu_dm_connector->dc_link);
+ 
+ 	/* DP -> HDMI PCON */
 -	if (as_type == FREESYNC_TYPE_PCON_IN_WHITELIST && vsdb_info.freesync_supported) {
-+	/* DP -> HDMI PCON */
 +	} else if (pcon_allowed && vsdb_info.freesync_supported) {
 +		amdgpu_dm_connector->as_type = FREESYNC_TYPE_PCON_IN_WHITELIST;
  		amdgpu_dm_connector->pack_sdp_v1_3 = true;
 -		amdgpu_dm_connector->as_type = as_type;
  		amdgpu_dm_connector->vsdb_info = vsdb_info;
  
- 		monitor_range_from_vsdb(&connector->display_info, &vsdb_info);
+ 		parse_amd_vsdb_cea(amdgpu_dm_connector, edid, &vsdb_info);
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
 index 1f41d6540b83..45a91df619d9 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
@@ -158,5 +134,5 @@ index 7014b8c2c956..e51f1e489129 100644
  bool dm_helpers_is_hdr_on(struct dc_context *ctx, struct dc_stream_state *stream);
  
 -- 
-2.52.0
+2.53.0
 

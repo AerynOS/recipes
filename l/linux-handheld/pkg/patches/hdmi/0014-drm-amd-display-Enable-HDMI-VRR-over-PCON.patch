@@ -1,6 +1,6 @@
 From: Tomasz Pakuła <tomasz.pakula.oficjalny@gmail.com>
-Subject: [PATCH v3 10/19] drm/amd/display: Enable HDMI VRR over PCON
-Date: Tue,  3 Feb 2026 19:56:17 +0100
+Subject: [PATCH v4 14/27] drm/amd/display: Enable HDMI VRR over PCON
+Date: Mon, 16 Feb 2026 17:45:03 +0100
 Content-Type: text/plain; charset="utf-8"
 
 [Why]
@@ -26,14 +26,14 @@ Signed-off-by: Tomasz Pakuła <tomasz.pakula.oficjalny@gmail.com>
 Tested-by: Bernhard Berger <bernhard.berger@gmail.com>
 Reviewed-by: Harry Wentland <harry.wentland@amd.com>
 ---
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 28 +++++++++++++++----
- 1 file changed, 23 insertions(+), 5 deletions(-)
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 29 +++++++++++++++----
+ 1 file changed, 23 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 92e571e687e9..6fb23d59fcc9 100644
+index e511eb5a1f7f..931493433439 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -13231,6 +13231,17 @@ static void monitor_range_from_vsdb(struct drm_display_info *display,
+@@ -13258,6 +13258,17 @@ static void monitor_range_from_vsdb(struct drm_display_info *display,
  	display->monitor_range.max_vfreq = vsdb->max_refresh_rate_hz;
  }
  
@@ -51,7 +51,7 @@ index 92e571e687e9..6fb23d59fcc9 100644
  /*
   * Returns true if connector is capable of freesync
   * Optionally, can fetch the range from AMD vsdb
-@@ -13279,6 +13290,7 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
+@@ -13322,6 +13333,7 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
  	struct amdgpu_device *adev = drm_to_adev(connector->dev);
  	struct amdgpu_hdmi_vsdb_info vsdb_info = {0};
  	struct amdgpu_hdmi_vsdb_info vsdb_did = {0};
@@ -59,7 +59,7 @@ index 92e571e687e9..6fb23d59fcc9 100644
  	struct dpcd_caps dpcd_caps = {0};
  	const struct edid *edid;
  	bool freesync_capable = false;
-@@ -13314,6 +13326,7 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
+@@ -13357,6 +13369,7 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
  	/* Gather all data */
  	edid = drm_edid_raw(drm_edid); // FIXME: Get rid of drm_edid_raw()
  	parse_amd_vsdb_cea(amdgpu_dm_connector, edid, &vsdb_info);
@@ -67,7 +67,7 @@ index 92e571e687e9..6fb23d59fcc9 100644
  
  	if (amdgpu_dm_connector->dc_link) {
  		dpcd_caps = amdgpu_dm_connector->dc_link->dpcd_caps;
-@@ -13359,12 +13372,17 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
+@@ -13398,13 +13411,17 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
  		freesync_capable = copy_range_to_amdgpu_connector(connector);
  
  	/* DP -> HDMI PCON */
@@ -84,6 +84,7 @@ index 92e571e687e9..6fb23d59fcc9 100644
 +			monitor_range_from_vsdb(&connector->display_info, &vsdb_info);
 +		}
  
+-		parse_amd_vsdb_cea(amdgpu_dm_connector, edid, &vsdb_info);
 -		monitor_range_from_vsdb(&connector->display_info, &vsdb_info);
 +		amdgpu_dm_connector->pack_sdp_v1_3 = true;
 +		amdgpu_dm_connector->as_type = ADAPTIVE_SYNC_TYPE_PCON_ALLOWED;
@@ -91,5 +92,5 @@ index 92e571e687e9..6fb23d59fcc9 100644
  	}
  
 -- 
-2.52.0
+2.53.0
 

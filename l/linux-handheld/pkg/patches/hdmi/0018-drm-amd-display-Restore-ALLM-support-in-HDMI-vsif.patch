@@ -1,6 +1,6 @@
 From: Tomasz Pakuła <tomasz.pakula.oficjalny@gmail.com>
-Subject: [PATCH v3 14/19] drm/amd/display: Restore ALLM support in HDMI vsif
-Date: Tue,  3 Feb 2026 19:56:21 +0100
+Subject: [PATCH v4 18/27] drm/amd/display: Restore ALLM support in HDMI vsif
+Date: Mon, 16 Feb 2026 17:45:07 +0100
 Content-Type: text/plain; charset="utf-8"
 
 [Why]
@@ -27,7 +27,6 @@ ALLM bits.
 Implement logic to offset 3D data if building hf-vsif.
 
 Signed-off-by: Tomasz Pakuła <tomasz.pakula.oficjalny@gmail.com>
-Reviewed-by: Harry Wentland <harry.wentland@amd.com>
 ---
  .../display/modules/info_packet/info_packet.c | 113 ++++++++++++------
  1 file changed, 74 insertions(+), 39 deletions(-)
@@ -193,5 +192,5 @@ index 294f56d20062..8e110c86bdd4 100644
  		checksum += info_packet->hb0;
  		checksum += info_packet->hb1;
 -- 
-2.52.0
+2.53.0
 

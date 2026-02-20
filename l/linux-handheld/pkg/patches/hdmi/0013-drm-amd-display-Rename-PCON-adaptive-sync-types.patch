@@ -1,6 +1,6 @@
 From: Tomasz Pakuła <tomasz.pakula.oficjalny@gmail.com>
-Subject: [PATCH v3 09/19] drm/amd/display: Rename PCON adaptive sync types
-Date: Tue,  3 Feb 2026 19:56:16 +0100
+Subject: [PATCH v4 13/27] drm/amd/display: Rename PCON adaptive sync types
+Date: Mon, 16 Feb 2026 17:45:02 +0100
 Content-Type: text/plain; charset="utf-8"
 
 [Why]
@@ -21,10 +21,10 @@ Reviewed-by: Harry Wentland <harry.wentland@amd.com>
  3 files changed, 10 insertions(+), 9 deletions(-)
 
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 306c29ff38f0..92e571e687e9 100644
+index b6079a1ce2ac..e511eb5a1f7f 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -9620,7 +9620,8 @@ static void update_freesync_state_on_stream(
+@@ -9629,7 +9629,8 @@ static void update_freesync_state_on_stream(
  
  	aconn = (struct amdgpu_dm_connector *)new_stream->dm_stream_context;
  
@@ -34,7 +34,7 @@ index 306c29ff38f0..92e571e687e9 100644
  		pack_sdp_v1_3 = aconn->pack_sdp_v1_3;
  
  		if (aconn->vsdb_info.amd_vsdb_version == 1)
-@@ -13359,7 +13360,7 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
+@@ -13398,7 +13399,7 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
  
  	/* DP -> HDMI PCON */
  	} else if (pcon_allowed && vsdb_info.freesync_supported) {
@@ -87,5 +87,5 @@ index 00473c6284d5..294f56d20062 100644
  		break;
  	}
 -- 
-2.52.0
+2.53.0
 
