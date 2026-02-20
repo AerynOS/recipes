@@ -21,7 +21,7 @@ builddeps   :
 rundeps     :
     # Moss upgrade bug
     - gstreamer-plugins-good
-networking  : yes
+networking  : true
 setup       : |
     %cargo_fetch
 build       : |

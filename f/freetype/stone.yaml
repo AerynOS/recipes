@@ -20,7 +20,7 @@ builddeps   :
     - pkgconfig32(libbrotlidec)
     - pkgconfig32(libpng)
     - pkgconfig32(zlib)
-emul32      : yes
+emul32      : true
 profiles    :
     - emul32:
         setup: |

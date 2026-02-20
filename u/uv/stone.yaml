@@ -18,7 +18,7 @@ builddeps   :
     - binary(maturin)
     - binary(python3)
     - python(installer)
-networking  : yes
+networking  : true
 setup       : |
     %patch %(pkgdir)/downstream-bin.patch
 

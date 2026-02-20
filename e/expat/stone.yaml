@@ -13,7 +13,7 @@ description : |
     An XML parser library
 upstreams   :
     - https://github.com/libexpat/libexpat/releases/download/R_2_7_4/expat-2.7.4.tar.xz: 9e9cabb457c1e09de91db2706d8365645792638eb3be1f94dbb2149301086ac0
-emul32      : yes
+emul32      : true
 setup       : |
     %configure \
         --disable-static

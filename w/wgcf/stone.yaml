@@ -19,7 +19,7 @@ builddeps   :
 rundeps     :
     - nftables
     - wireguard-tools
-networking  : yes
+networking  : true
 build       : |
     go build -o wgcf -trimpath -buildmode=pie -ldflags "-s -w"
 

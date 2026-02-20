@@ -17,7 +17,7 @@ builddeps   :
     - binary(just)
     - binary(which)
     - pkgconfig(xkbcommon)
-networking  : yes
+networking  : true
 setup       : |
     %patch %(pkgdir)/serpent_branding.patch
     %cargo_fetch

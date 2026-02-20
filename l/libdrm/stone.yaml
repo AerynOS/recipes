@@ -18,7 +18,7 @@ builddeps   :
     - binary(rst2man)
     # Intel support
     - pkgconfig32(pciaccess)
-emul32      : yes
+emul32      : true
 setup       : |
     %meson -Dudev=true
 build       : |

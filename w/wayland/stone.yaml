@@ -20,7 +20,7 @@ builddeps   :
     - pkgconfig32(expat)
     - pkgconfig32(libffi)
     - pkgconfig32(libxml-2.0)
-emul32      : yes
+emul32      : true
 setup       : |
     %meson \
         -Ddocumentation=false \

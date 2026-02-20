@@ -22,7 +22,7 @@ builddeps   :
     - pkgconfig(libssl)
     - pkgconfig(libudev)
     - pkgconfig(xkbcommon)
-networking  : yes
+networking  : true
 setup       : |
     %cargo_fetch
 build       : |

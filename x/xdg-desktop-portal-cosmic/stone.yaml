@@ -23,7 +23,7 @@ rundeps     :
     - binary(pipewire)
     - gvfs # Used for file services
     - xdg-desktop-portal
-networking  : yes
+networking  : true
 setup       : |
     %cargo_fetch
 build       : |

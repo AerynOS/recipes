@@ -22,7 +22,7 @@ builddeps   :
 rundeps     :
     - binary(nm-connection-editor)
     - binary(pipewire-pulse)
-networking  : yes
+networking  : true
 setup       : |
     %cargo_fetch
 build       : |

@@ -153,7 +153,7 @@ builddeps   :
 # ugly:
 # - liba52
 # - libmpeg2
-networking  : yes # cargo deps
+networking  : true # cargo deps
 environment : |
     # Make cargo use system libzstd
     export ZSTD_SYS_USE_PKG_CONFIG=1

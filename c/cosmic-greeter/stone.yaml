@@ -29,7 +29,7 @@ rundeps     :
     - cosmic-wallpapers
     # Temporary workaround until we have some kind of virtual package that defines the base system
     - linux-pam
-networking  : yes
+networking  : true
 setup       : |
     # Override fallback background
     cp /usr/share/backgrounds/aerynos/marc-markstein-0kD1eHgyuPI-unsplash.jpg res/background.jpg

@@ -15,7 +15,7 @@ description : |
 license     : X11
 builddeps:
     - pkgconfig32(x11)
-emul32      : yes
+emul32      : true
 setup       : |
     %meson
 build       : |

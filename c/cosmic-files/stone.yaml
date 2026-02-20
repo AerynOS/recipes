@@ -27,7 +27,7 @@ rundeps     :
     - gvfs-fuse
     - gvfs-nfs
     - gvfs-smb
-networking  : yes
+networking  : true
 environment : |
     # Force system libs
     export ZSTD_SYS_USE_PKG_CONFIG=1

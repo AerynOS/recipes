@@ -17,7 +17,7 @@ license     :
     - X11
 builddeps   :
     - pkgconfig(xproto)
-emul32      : yes
+emul32      : true
 setup       : |
     %configure --disable-static
 build       : |

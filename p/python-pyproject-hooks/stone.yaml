@@ -13,7 +13,7 @@ summary     : A low-level library for calling build-backends in `pyproject.toml`
 description : |
     This is a low-level library for calling build-backends in pyproject.toml-based project. It provides the basic functionality to help write tooling that generates distribution files from Python projects.
 license     : MIT
-networking  : yes
+networking  : true
 builddeps   :
     - binary(pip3)
 # [LATER] Rebootstrap using %pyproject_build, %pyproject_install.

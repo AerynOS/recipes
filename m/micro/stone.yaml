@@ -18,7 +18,7 @@ license     :
 builddeps   :
    - binary(go)
 #[LATER] rundep: xclip
-networking  : yes
+networking  : true
 build       : |
     export CGO_CPPFLAGS="${CPPFLAGS}"
     export CGO_CFLAGS="${CFLAGS}"

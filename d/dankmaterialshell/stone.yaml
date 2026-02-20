@@ -21,7 +21,7 @@ builddeps   :
     - binary(go)
 rundeps     :
     - binary(quickshell)
-networking  : yes
+networking  : true
 setup       : |
     %patch %(pkgdir)/0001-Allow-root-check-to-be-overridden.patch
 

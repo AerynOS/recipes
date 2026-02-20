@@ -21,7 +21,7 @@ tuning      :
     - lto: full
     - symbolic: false
     - optimize: speed
-emul32      : yes
+emul32      : true
 setup       : |
     %meson \
         -Dgles1=false

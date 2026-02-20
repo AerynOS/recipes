@@ -18,7 +18,7 @@ builddeps   :
     - pkgconfig(xkbcommon)
 rundeps     :
     - binary(qalc) # Used for math expressions (https://github.com/pop-os/launcher/blob/8d9da92dbae520b37ab93fc2364a01d7adbd2f29/plugins/src/calc/mod.rs#L117)
-networking  : yes
+networking  : true
 setup       : |
     %cargo_fetch
 build       : |

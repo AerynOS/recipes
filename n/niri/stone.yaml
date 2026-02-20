@@ -33,7 +33,7 @@ rundeps    :
     - binary(xwayland-satellite)
     - xdg-desktop-portal-gnome
     - xdg-desktop-portal-gtk
-networking  : yes
+networking  : true
 setup       : |
     %cargo_fetch
 build       : |
