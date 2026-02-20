@@ -5,7 +5,7 @@
 #
 name        : kf6-qqc2-desktop-style
 version     : "6.23.0"
-release     : 15
+release     : 16
 upstreams   :
     - https://download.kde.org/stable/frameworks/6.23/qqc2-desktop-style-6.23.0.tar.xz : a7aa7e0b20d51ffb91f0446640a5e052369c433ef48e3526b4f507384ce7980d
 homepage    : https://community.kde.org/Frameworks
@@ -28,6 +28,8 @@ builddeps   :
 rundeps     :
     - kf6-sonnet
 setup       : |
+    %patch %(pkgdir)/upstream-01.patch
+
     %cmake_kf6
 build       : |
     %cmake_build
