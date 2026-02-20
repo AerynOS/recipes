@@ -19,7 +19,7 @@ builddeps   :
 checkdeps   :
     # Some of the tests need timezone data
     - tzdata
-networking  : yes
+networking  : true
 build       : |
     go build -v ./yq.go
 install     : |

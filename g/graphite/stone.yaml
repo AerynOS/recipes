@@ -21,7 +21,7 @@ license     :
 #     - a2x Docs (need a few other things)
 checkdeps   :
     - binary(readelf)
-emul32      : yes
+emul32      : true
 setup       : |
     %patch %(pkgdir)/ftbfs-libstdc-15.patch
     %patch %(pkgdir)/ftbfs-cmake-4.patch

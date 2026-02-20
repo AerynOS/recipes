@@ -26,7 +26,7 @@ rundeps     :
     - binary(Xwayland)
     - iso-codes
     - shared-mime-info
-networking  : yes
+networking  : true
 setup       : |
     %cargo_fetch
 build       : |

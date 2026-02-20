@@ -19,7 +19,7 @@ builddeps   :
     - binary(go)
 rundeps     :
     - binary(git)
-networking     : yes
+networking     : true
 setup       : |
     go mod vendor
 build       : |

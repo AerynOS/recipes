@@ -18,7 +18,7 @@ description : |
 builddeps   :
     - binary(cargo)
     - binary(git)
-networking  : yes
+networking  : true
 environment : |
     export HELIX_DEFAULT_RUNTIME=%(libexecdir)/runtime
 setup       : |

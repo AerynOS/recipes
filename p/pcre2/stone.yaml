@@ -20,7 +20,7 @@ license     :
     - BSD-3-Clause
 # checkdeps   :
 #    - valgrind
-emul32      : yes
+emul32      : true
 setup       : |
     %configure --disable-static \
                --enable-pcre2-16 \

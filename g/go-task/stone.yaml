@@ -16,7 +16,7 @@ license     :
     - MIT
 builddeps   :
    - binary(go)
-networking  : yes
+networking  : true
 environment : |
     export GO111MODULE=auto
     export GOFLAGS="-buildmode=pie -trimpath -mod=readonly -modcacherw -ldflags=-linkmode=external"

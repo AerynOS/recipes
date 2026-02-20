@@ -22,7 +22,7 @@ builddeps   :
 rundeps     :
     # needed for `boulder recipe (...)` actions
     - binary(bsdtar)
-networking  : yes
+networking  : true
 tuning      :
     - optimize: size
     - lto

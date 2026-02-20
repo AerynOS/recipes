@@ -21,7 +21,7 @@ builddeps   :
     - pkgconfig(zlib)
 rundeps     :
     - "%(name)-libs"
-emul32      : yes
+emul32      : true
 environment : |
     export CFLAGS="${CFLAGS} -mllvm -vp-counters-per-site=2"
 setup       : |

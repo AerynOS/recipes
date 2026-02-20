@@ -25,7 +25,7 @@ rundeps     :
     - geoclue
     - pop-os-sound-theme
     - power-profiles-daemon
-networking  : yes
+networking  : true
 environment :
     export GEOCLUE_AGENT=$(realpath %(libdir)/geoclue/geoclue-2.0/demos/agent)
 setup       : |

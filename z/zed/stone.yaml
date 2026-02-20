@@ -43,7 +43,7 @@ rundeps     :
 # If you don't use GCC it trieds to link libstdc++ while using libc++ headers which is obviously doomed to fail
 # I think this requires upstream support in the cc package for correctly choosing libc++: https://github.com/rust-lang/cc-rs/issues/1468
 toolchain   : gnu
-networking  : yes
+networking  : true
 tuning      :
     - lto: false
 environment : |

@@ -21,7 +21,7 @@ builddeps   :
     - pkgconfig(xkbcommon)
 rundeps     :
     - polkit
-networking  : yes
+networking  : true
 environment : |
     export POLKIT_AGENT_HELPER_1=%(libdir)/polkit-1/polkit-agent-helper-1
 setup       : |

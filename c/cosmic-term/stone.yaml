@@ -17,7 +17,7 @@ license     :
 builddeps   :
     - binary(just)
     - pkgconfig(xkbcommon)
-networking  : yes
+networking  : true
 setup       : |
     %cargo_fetch
 build       : |

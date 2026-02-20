@@ -20,7 +20,7 @@ builddeps   :
 checkdeps   :
     - binary(find)
     - binary(python)
-emul32      : yes
+emul32      : true
 profiles    :
     - emul32:
         build: |

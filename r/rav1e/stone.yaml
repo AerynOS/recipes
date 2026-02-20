@@ -19,7 +19,7 @@ license     : BSD-2-Clause
 builddeps   :
     - binary(cargo-cbuild)
     - binary(nasm)
-networking  : yes
+networking  : true
 setup       : |
     %install_file %(sourcedir)/Cargo.lock .
     %cargo_fetch

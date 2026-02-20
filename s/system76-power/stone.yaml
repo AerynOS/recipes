@@ -17,7 +17,7 @@ license:
 builddeps   :
     - binary(cargo)
     - pkgconfig(libusb-1.0)
-networking  : yes
+networking  : true
 build       : |
     %make
 install     : |

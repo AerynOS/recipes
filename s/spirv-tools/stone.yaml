@@ -17,7 +17,7 @@ license     :
 builddeps  :
     - pkgconfig(SPIRV-Headers)
     - pkgconfig(python3)
-emul32      : yes
+emul32      : true
 setup       : |
     %cmake \
         -DSPIRV-Headers_SOURCE_DIR=/usr \

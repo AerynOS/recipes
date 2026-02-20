@@ -18,7 +18,7 @@ license     :
     - GPL-3.0-or-later
 builddeps   :
     - pkgconfig32(ncursesw)
-emul32      : yes
+emul32      : true
 setup       : |
     %patch %(pkgdir)/readline83-001 -p0
     %patch %(pkgdir)/readline83-002 -p0

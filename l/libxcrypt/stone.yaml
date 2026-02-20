@@ -20,7 +20,7 @@ license     :
     - LGPL-2.1-or-later
 builddeps   :
     - binary(perl)
-emul32      : yes
+emul32      : true
 setup       : |
     mkdir compat regular
     bsdtar-static -xf %(sourcedir)/libxcrypt.tar.xz --strip-components=1 -C compat
