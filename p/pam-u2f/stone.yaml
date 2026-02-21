@@ -1,0 +1,27 @@
+#
+# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : pam-u2f
+version     : 1.4.0
+release     : 1
+summary     : Universal 2nd Factor (U2F) PAM authentication module from Yubico
+license     : BSD-2-Clause
+homepage    : https://developers.yubico.com/pam-u2f/
+description : |
+    This module implements PAM over U2F and FIDO2, providing an easy way to integrate the YubiKey (or other U2F/FIDO2 compliant authenticators) into your existing infrastructure.
+upstreams   :
+    - https://developers.yubico.com/pam-u2f/Releases/pam_u2f-1.4.0.tar.gz: a59927cea38ea8d91a6836a04e20fc629edde4204b16082f703f6db378e9c634
+builddeps   :
+    - binary(asciidoc)
+    - pkgconfig(libfido2)
+    - pkgconfig(pam)
+environment : |
+    %export_docbook_catalogs
+setup       : |
+    %cmake
+build       : |
+    %cmake_build
+install     : |
+    %cmake_install
