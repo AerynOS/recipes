@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : linux-firmware
-version     : "20260110"
-release     : 35
+version     : "20260221+git.40f48240"
+release     : 36
 homepage    : https://kernel.org
 upstreams   :
-    - git|https://gitlab.com/kernel-firmware/linux-firmware.git : 06a743fd69999590e88199bb9edba9d5b73d6ad1
+    - git|https://gitlab.com/kernel-firmware/linux-firmware.git : 40f482401e023ac4aa2964d688499b79e1467f27
 summary     : Firmware to allow devices to function correctly
 description : |
     Firmware to allow devices to function correctly
@@ -283,6 +283,8 @@ packages    :
         summary: Support for misc hardware
         # This should include all firmware that is either excluded from an above package or otherwise not subpackaged (the "catch-all")
         paths:
+            - /usr/lib/firmware/8E8*.bin*
+            - /usr/lib/firmware/8EF*.bin*
             - /usr/lib/firmware/INT8866RCA2*
             - /usr/lib/firmware/TAS*.bin*
             - /usr/lib/firmware/TIAS*.bin*
