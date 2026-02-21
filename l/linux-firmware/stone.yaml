@@ -5,10 +5,14 @@
 #
 name        : linux-firmware
 version     : "20260110"
-release     : 35
+release     : 36
 homepage    : https://kernel.org
 upstreams   :
     - git|https://gitlab.com/kernel-firmware/linux-firmware.git : 06a743fd69999590e88199bb9edba9d5b73d6ad1
+    - https://lore.kernel.org/linux-wireless/20260219193751.5823-1-sean.wang@kernel.org/raw :
+        hash: f0338aef852ecde2b8421e72e1a0f5354f54af9b34aed754f70566f9f79f0641
+        unpack: false
+        rename: 0001-linux-firmware-update-firmware-for-MT7902-WiFi-device.patch
 summary     : Firmware to allow devices to function correctly
 description : |
     Firmware to allow devices to function correctly
@@ -27,7 +31,13 @@ setup       : |
     for c in "${_reverts[@]}"; do
         echo Reverting $(git log --oneline -1 "${c}")
         git revert -n "${c}"
-    done  
+    done
+
+    # Add MT7902 firmware
+    # https://lore.kernel.org/linux-wireless/20260219193751.5823-1-sean.wang@kernel.org/T/#u
+    git apply -v -p1 < %(sourcedir)/0001-linux-firmware-update-firmware-for-MT7902-WiFi-device.patch
+    # Make 'check_whence.py' happy
+    git add mediatek/*MT7902*
 install     : |
     make install-zst FIRMWAREDIR=/usr/lib/firmware DESTDIR=%(installroot)
 
