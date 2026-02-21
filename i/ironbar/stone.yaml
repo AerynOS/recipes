@@ -1,0 +1,37 @@
+#
+# SPDX-FileCopyrightText: © 2025- AerynOS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : ironbar
+version     : "0.18.0"
+release     : 1
+homepage    : https://github.com/JakeStanger/ironbar
+upstreams   :
+    - git|https://github.com/JakeStanger/ironbar.git : 585eb5f7c92ed83b32fac45552b867207bfeb6e2
+summary     :  Customisable Wayland GTK4 bar written in Rust. 
+description : |
+    A customisable and feature-rich GTK4 bar for Wayland compositors, written in Rust. 
+license     : 
+    - MIT
+builddeps   :
+    - pkgconfig(cairo)
+    - pkgconfig(cairo-gobject)
+    - pkgconfig(dbus-1)
+    - pkgconfig(gdk-pixbuf-2.0)
+    - pkgconfig(glib-2.0)
+    - pkgconfig(gtk4)
+    - pkgconfig(gtk4-layer-shell-0)
+    - pkgconfig(libevdev)
+    - pkgconfig(libinput)
+    - pkgconfig(libpulse)
+    - pkgconfig(luajit)
+    - pkgconfig(openssl)
+    - pkgconfig(pango)
+networking  : true
+setup       : |
+    %cargo_fetch
+build       : |
+    %cargo_build
+install     : |
+    %cargo_install
