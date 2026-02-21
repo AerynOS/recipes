@@ -1,0 +1,33 @@
+#
+# SPDX-FileCopyrightText: © 2025- AerynOS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : riftbar
+version     : "0.1.4"
+release     : 1
+homepage    : https://github.com/BinaryHarbinger/riftbar
+upstreams   :
+    - git|https://github.com/BinaryHarbinger/riftbar.git : 2c3aceaf5287e74db9c4fa2174f60b41052aeb0f
+summary     : Highly customizable GTK4 bar for Wayland written in Rust.
+description : |
+    Riftbar is a Waybar-like status bar writen in Rust designed to be fast, safe and modern.
+license     :
+    - GPL-3.0-or-later
+builddeps   :
+    - pkgconfig(cairo)
+    - pkgconfig(cairo-gobject)
+    - pkgconfig(dbus-1)
+    - pkgconfig(gdk-pixbuf-2.0)
+    - pkgconfig(glib-2.0)
+    - pkgconfig(graphene-gobject-1.0)
+    - pkgconfig(gtk4)
+    - pkgconfig(gtk4-layer-shell-0)
+    - pkgconfig(pango)
+networking  : true
+setup       : |
+    %cargo_fetch
+build       : |
+    %cargo_build
+install     : |
+    %cargo_install
