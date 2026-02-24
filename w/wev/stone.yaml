@@ -1,0 +1,25 @@
+#
+# SPDX-FileCopyrightText: © 2025- AerynOS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : wev
+version     : "1.1.0"
+release     : 1
+homepage    : https://git.sr.ht/~sircmpwn/wev
+upstreams   :
+    - https://git.sr.ht/~sircmpwn/wev/archive/1.1.0.tar.gz : 89b8d9bc756631795ee91c99a0d5b0877c9f5c3acfe81f77a2b69ecfc15daf16
+summary     : wayland event viewer
+description : |
+    This is a tool for debugging events on a Wayland window, analagous to the X11 tool xev.
+license     :
+    - MIT
+builddeps   :
+    - pkgconfig(wayland-client)
+    - pkgconfig(wayland-protocols)
+    - pkgconfig(xkbcommon)
+build       : |
+    %make
+install     : |
+    %install_bin wev
+    %install_file wev.1 %(installroot)%(mandir)/man1/wev.1
