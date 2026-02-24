@@ -1,0 +1,18 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"v4l2loopback-module": {
+			"build-depends": [
+				"linux-desktop-devel"
+			],
+			"files": [
+				"/usr/lib/modules/6.18.13-130.desktop/extra/v4l2loopback.ko"
+			],
+			"name": "v4l2loopback-module"
+		}
+	},
+	"source-name": "v4l2loopback-module",
+	"source-release": "1",
+	"source-version": "0.15.3"
+}
