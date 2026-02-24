@@ -10,7 +10,7 @@ name        : mesa
 version     : "26.0.0"
 ##@@END_VERSION
 # Note: keep mesa-clc in-sync with this package version-wise
-release     : 66
+release     : 67
 homepage    : https://mesa3d.org/
 upstreams   :
 ##@@BEGIN_SOURCE
@@ -219,7 +219,7 @@ setup       : |
     %patch %(pkgdir)/0001-docs-Fix-build-with-Sphinx-8.2.patch
 
     # intel ANV texture bug fix https://gitlab.freedesktop.org/mesa/mesa/-/issues/14684
-    export CXXFLAGS+=" -fno-strict-aliasing"
+    %patch %(pkgdir)/upstream-01.patch
 
     export MESON_PACKAGE_CACHE_DIR=%(sourcedir)
 
