@@ -1,0 +1,29 @@
+#
+# SPDX-FileCopyrightText: © 2025- AerynOS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : roswell
+version     : "24.10.115"
+release     : 1
+homepage    : https://github.com/roswell/roswell
+upstreams   :
+    - https://github.com/roswell/roswell/archive/refs/tags/v24.10.115.tar.gz :
+            hash: 9c23cb263d4645caaae21cda8f1f5793b0f08ee5c5338aab5974cb4f473d1c4b
+            rename: roswell
+summary     : intended to be a launcher for a major lisp environment that just works.
+description : |
+    Roswell is a Lisp implementation installer/manager, launcher, and much more!
+license     :
+    - MIT
+builddeps   :
+    - pkgconfig(libcurl)
+setup       : |
+    sh bootstrap
+    %configure \
+        --prefix=%(prefix) \
+        --sysconfdir=%(vendordir) # TODO: stateless. Could not figure out how to make a stateless patch so this is the best option for now. If someone else wants to tackle it be my guest.
+build       : |
+    %make
+install     : |
+    %make_install
