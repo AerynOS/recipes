@@ -83,9 +83,12 @@ You can optionally replace `%break_exit` with `%break_continue` in the last step
 
 ### 5. Kernel rebuild story
 
-When submitting a PR, it is important to also remember to either update or `just bump`, then `just build` the `nvidia-open-gpu-kernel-modules` with the kernel added to your local repo.
+When submitting a PR, it is important to also remember to either update or `just bump`, then `just build` the following list of packages with the newly built kernel added to your local repo:
 
-If you update the `nvidia-open-gpu-kernel-modules` rather than just bumping it, you will also need to ensure that the nvidia-graphics-driver is in sync.
+- `nvidia-open-gpu-kernel-modules`
+- `v4l2loopback-module`
+
+If you update the `nvidia-open-gpu-kernel-modules` rather than just bumping it, you will also need to ensure that the `nvidia-graphics-driver` is in sync.
 
 
 ### Conclusion
