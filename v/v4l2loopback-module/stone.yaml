@@ -1,6 +1,6 @@
 name        : v4l2loopback-module
 version     : 0.15.3
-release     : 2
+release     : 1
 homepage    : https://github.com/umlaeute/v4l2loopback
 upstreams   :
     - https://github.com/umlaeute/v4l2loopback/archive/refs/tags/v0.15.3.tar.gz : 2758ea287da8dd34a0421c0dd50094a0342d22414e1bbccbbe92f41bbaa26b2d
@@ -14,8 +14,8 @@ license     :
 builddeps   :
     - linux-desktop-devel
 environment : |
-   _KPATH=$(find %(libdir)/modules -maxdepth 2 -name build | sort -V | tail -n 1); export _KPATH
-   _KVER=$(basename $(dirname ${_KPATH})); export _KVER
+   _KPATH=$(find %(libdir)/modules -maxdepth 2 -name build | sort -V | tail -n 1); export "${_KPATH}"
+   _KVER=$(basename $(dirname ${_KPATH})); export "${_KVER}"
 build       : |
     %make LLVM=1 KDIR=${_KPATH} KERNELRELEASE=${_KVER}
 install     : |
