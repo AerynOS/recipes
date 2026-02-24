@@ -1,0 +1,39 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"v4l2loopback-module-lts": {
+			"build-depends": [
+				"binary(zstd)",
+				"linux-lts-devel",
+				"linux-stable-devel"
+			],
+			"depends": [
+				"linux-lts",
+				"sysbinary(depmod)"
+			],
+			"files": [
+				"/usr/lib/modules/6.18.21-1.lts/extra/v4l2loopback.ko.zst"
+			],
+			"name": "v4l2loopback-module-lts"
+		},
+		"v4l2loopback-module-stable": {
+			"build-depends": [
+				"binary(zstd)",
+				"linux-lts-devel",
+				"linux-stable-devel"
+			],
+			"depends": [
+				"linux-stable",
+				"sysbinary(depmod)"
+			],
+			"files": [
+				"/usr/lib/modules/6.18.22-1.stable/extra/v4l2loopback.ko.zst"
+			],
+			"name": "v4l2loopback-module-stable"
+		}
+	},
+	"source-name": "v4l2loopback-module",
+	"source-release": "2",
+	"source-version": "0.15.3"
+}
