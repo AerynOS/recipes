@@ -1,0 +1,49 @@
+#
+# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : playerctl
+version     : "2.4.1"
+release     : 1
+homepage    : https://github.com/altdesktop/playerctl
+upstreams   :
+    - https://github.com/altdesktop/playerctl/archive/refs/tags/v2.4.1.tar.gz : 75957ad5071956f563542c7557af16a57e40b4a7f66bc9b6373d022ec5eef548
+summary     : Command-line MPRIS-compatible Media Player Controller
+description : |
+    Playerctl is a command-line utility and library for controlling media players
+    that implement the MPRIS D-Bus Interface Specification. Playerctl makes it easy
+    to bind player actions, such as play and pause, to media keys. You can also get
+    metadata about the playing track such as the artist and title for integration
+    into statusline generators or other command-line tools.
+
+    For more advanced users, Playerctl provides an introspectable library available
+    in your favorite scripting language that allows more detailed control like the
+    ability to subscribe to media player events or get metadata such as artist and
+    title for the playing track.
+
+    Examples of players implementing the MPRIS D-Bus Interface Specification include
+    vlc, mpv, RhythmBox, web browsers, cmus, mpd, spotify and others.
+license     : LGPL-3.0-or-later
+builddeps   :
+    - binary(gtkdoc-scan)
+    - pkgconfig(gobject-2.0)
+    - pkgconfig(gobject-introspection-1.0)
+    - docbook-xsl
+environment : |
+    %export_docbook_catalogs
+setup       : |
+    %meson \
+        -Dbash-completions=true \
+        -Dzsh-completions=true
+build       : |
+    %meson_build
+install     : |
+    %meson_install
+packages    :
+    - "%(name)-libs":
+        summary: Libraries and shared code for %(name)
+        description: Libraries and shared code for %(name)
+        paths:
+            - /usr/lib/girepository-1.0/Playerctl-2.0.typelib
+            - /usr/lib/lib*.so.*

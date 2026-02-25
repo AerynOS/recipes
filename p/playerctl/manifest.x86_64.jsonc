@@ -1,0 +1,118 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"playerctl": {
+			"build-depends": [
+				"binary(gtkdoc-scan)",
+				"docbook-xsl",
+				"pkgconfig(gobject-2.0)",
+				"pkgconfig(gobject-introspection-1.0)"
+			],
+			"depends": [
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libgio-2.0.so.0(x86_64))",
+				"soname(libglib-2.0.so.0(x86_64))",
+				"soname(libgobject-2.0.so.0(x86_64))",
+				"soname(libplayerctl.so.2(x86_64))"
+			],
+			"files": [
+				"/usr/bin/playerctl",
+				"/usr/bin/playerctld",
+				"/usr/share/bash-completion/completions/playerctl.bash",
+				"/usr/share/dbus-1/services/org.mpris.MediaPlayer2.playerctld.service",
+				"/usr/share/man/man1/playerctl.1",
+				"/usr/share/zsh/site-functions/_playerctl"
+			],
+			"name": "playerctl",
+			"provides": [
+				"binary(playerctl)",
+				"binary(playerctld)"
+			]
+		},
+		"playerctl-devel": {
+			"build-depends": [
+				"binary(gtkdoc-scan)",
+				"docbook-xsl",
+				"pkgconfig(gobject-2.0)",
+				"pkgconfig(gobject-introspection-1.0)"
+			],
+			"depends": [
+				"pkgconfig(gio-2.0)",
+				"pkgconfig(gio-unix-2.0)",
+				"pkgconfig(gobject-2.0)",
+				"playerctl"
+			],
+			"files": [
+				"/usr/include/playerctl/playerctl-enum-types.h",
+				"/usr/include/playerctl/playerctl-player-manager.h",
+				"/usr/include/playerctl/playerctl-player-name.h",
+				"/usr/include/playerctl/playerctl-player.h",
+				"/usr/include/playerctl/playerctl-version.h",
+				"/usr/include/playerctl/playerctl.h",
+				"/usr/lib/libplayerctl.so",
+				"/usr/lib/pkgconfig/playerctl.pc",
+				"/usr/share/gir-1.0/Playerctl-2.0.gir"
+			],
+			"name": "playerctl-devel",
+			"provides": [
+				"pkgconfig(playerctl)"
+			]
+		},
+		"playerctl-docs": {
+			"build-depends": [
+				"binary(gtkdoc-scan)",
+				"docbook-xsl",
+				"pkgconfig(gobject-2.0)",
+				"pkgconfig(gobject-introspection-1.0)"
+			],
+			"files": [
+				"/usr/share/gtk-doc/html/playerctl/PlayerctlPlayer.html",
+				"/usr/share/gtk-doc/html/playerctl/PlayerctlPlayerManager.html",
+				"/usr/share/gtk-doc/html/playerctl/annotation-glossary.html",
+				"/usr/share/gtk-doc/html/playerctl/api-index-full.html",
+				"/usr/share/gtk-doc/html/playerctl/ch01.html",
+				"/usr/share/gtk-doc/html/playerctl/home.png",
+				"/usr/share/gtk-doc/html/playerctl/index.html",
+				"/usr/share/gtk-doc/html/playerctl/left-insensitive.png",
+				"/usr/share/gtk-doc/html/playerctl/left.png",
+				"/usr/share/gtk-doc/html/playerctl/object-tree.html",
+				"/usr/share/gtk-doc/html/playerctl/playerctl-playerctl-player-name.html",
+				"/usr/share/gtk-doc/html/playerctl/playerctl.devhelp2",
+				"/usr/share/gtk-doc/html/playerctl/right-insensitive.png",
+				"/usr/share/gtk-doc/html/playerctl/right.png",
+				"/usr/share/gtk-doc/html/playerctl/style.css",
+				"/usr/share/gtk-doc/html/playerctl/up-insensitive.png",
+				"/usr/share/gtk-doc/html/playerctl/up.png"
+			],
+			"name": "playerctl-docs"
+		},
+		"playerctl-libs": {
+			"build-depends": [
+				"binary(gtkdoc-scan)",
+				"docbook-xsl",
+				"pkgconfig(gobject-2.0)",
+				"pkgconfig(gobject-introspection-1.0)"
+			],
+			"depends": [
+				"soname(libc.so.6(x86_64))",
+				"soname(libgio-2.0.so.0(x86_64))",
+				"soname(libglib-2.0.so.0(x86_64))",
+				"soname(libgobject-2.0.so.0(x86_64))"
+			],
+			"files": [
+				"/usr/lib/girepository-1.0/Playerctl-2.0.typelib",
+				"/usr/lib/libplayerctl.so.2",
+				"/usr/lib/libplayerctl.so.2.4.1"
+			],
+			"name": "playerctl-libs",
+			"provides": [
+				"soname(libplayerctl.so.2(x86_64))"
+			]
+		}
+	},
+	"source-name": "playerctl",
+	"source-release": "1",
+	"source-version": "2.4.1"
+}
