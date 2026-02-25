@@ -4,10 +4,10 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : lxcfs
-version     : "6.0.5"
-release     : 3
+version     : "6.0.6"
+release     : 4
 upstreams   :
-    - https://linuxcontainers.org/downloads/lxcfs/lxcfs-6.0.5.tar.gz : 91ce19087147791361115f3c8d3c647d5b0a36d386cd050ee0175bb75cc5d918
+    - https://linuxcontainers.org/downloads/lxcfs/lxcfs-6.0.6.tar.gz : 386339ba4cde289b0f6df4fe7a614caa1e45dd91bc0200b4aff6c51bf9d5ef9e
 homepage    : https://www.hadrons.org/software/libmd
 license     : BSD-3-Clause AND BSD-2-Clause
 summary     : FUSE filesystem for LXC
@@ -19,6 +19,10 @@ builddeps   :
     - pkgconfig(systemd)
     - python(jinja2)
 setup       : |
+    # glibc 2.43 build failure, remove in future version
+    # https://github.com/lxc/lxcfs/issues/707
+    export CFLAGS+=" -Wno-error=incompatible-pointer-types-discards-qualifiers"
+
     %meson
 build       : |
     %meson_build
