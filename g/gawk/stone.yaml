@@ -4,18 +4,20 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : gawk
-version     : "5.3.2"
-release     : 8
+version     : "5.4.0"
+release     : 9
 summary     : GNU awk pattern-matching language
 license     : GPL-3.0-or-later
 homepage    : https://www.gnu.org/software/gawk/gawk.html
 description : |
     GNU awk pattern-matching language
 upstreams   :
-    # - https://ftp.gnu.org/gnu/gawk/gawk-5.3.2.tar.xz: f8c3486509de705192138b00ef2c00bbbdd0e84c30d5c07d23fc73a9dc4cc9cc
+    # - https://ftp.gnu.org/gnu/gawk/gawk-5.4.0.tar.xz: f8c3486509de705192138b00ef2c00bbbdd0e84c30d5c07d23fc73a9dc4cc9cc
     # Use a mirror because the GNU servers are terrible
-    - https://mirror.kumi.systems/gnu/gawk/gawk-5.3.2.tar.xz: f8c3486509de705192138b00ef2c00bbbdd0e84c30d5c07d23fc73a9dc4cc9cc
+    - https://mirror.kumi.systems/gnu/gawk/gawk-5.4.0.tar.xz: 3dd430f0cd3b4428c6c3f6afc021b9cd3c1f8c93f7a688dc268ca428a90b4ac1
 builddeps   :
+    - binary(bison)
+    - binary(msgfmt)
     - pkgconfig(gmp)
     - pkgconfig(mpfr)
     - pkgconfig(readline)

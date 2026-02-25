@@ -4,6 +4,8 @@
 	"packages": {
 		"gawk": {
 			"build-depends": [
+				"binary(bison)",
+				"binary(msgfmt)",
 				"pkgconfig(gmp)",
 				"pkgconfig(mpfr)",
 				"pkgconfig(readline)"
@@ -19,7 +21,7 @@
 			"files": [
 				"/usr/bin/awk",
 				"/usr/bin/gawk",
-				"/usr/bin/gawk-5.3.2",
+				"/usr/bin/gawk-5.4.0",
 				"/usr/bin/gawkbug",
 				"/usr/lib/gawk/awk/grcat",
 				"/usr/lib/gawk/awk/pwcat",
@@ -76,20 +78,17 @@
 				"/usr/share/info/gawk_statist.jpg",
 				"/usr/share/info/gawkinet.info",
 				"/usr/share/info/gawkworkflow.info",
+				"/usr/share/info/notes.info",
 				"/usr/share/info/pm-gawk.info",
+				"/usr/share/locale/ar/LC_MESSAGES/gawk.mo",
 				"/usr/share/locale/bg/LC_MESSAGES/gawk.mo",
-				"/usr/share/locale/ca/LC_MESSAGES/gawk.mo",
-				"/usr/share/locale/da/LC_MESSAGES/gawk.mo",
 				"/usr/share/locale/de/LC_MESSAGES/gawk.mo",
 				"/usr/share/locale/es/LC_MESSAGES/gawk.mo",
-				"/usr/share/locale/fi/LC_MESSAGES/gawk.mo",
 				"/usr/share/locale/fr/LC_MESSAGES/gawk.mo",
+				"/usr/share/locale/he/LC_MESSAGES/gawk.mo",
 				"/usr/share/locale/id/LC_MESSAGES/gawk.mo",
 				"/usr/share/locale/it/LC_MESSAGES/gawk.mo",
-				"/usr/share/locale/ja/LC_MESSAGES/gawk.mo",
-				"/usr/share/locale/ka/LC_MESSAGES/gawk.mo",
 				"/usr/share/locale/ko/LC_MESSAGES/gawk.mo",
-				"/usr/share/locale/ms/LC_MESSAGES/gawk.mo",
 				"/usr/share/locale/nl/LC_MESSAGES/gawk.mo",
 				"/usr/share/locale/pl/LC_MESSAGES/gawk.mo",
 				"/usr/share/locale/pt/LC_MESSAGES/gawk.mo",
@@ -99,7 +98,6 @@
 				"/usr/share/locale/sv/LC_MESSAGES/gawk.mo",
 				"/usr/share/locale/tr/LC_MESSAGES/gawk.mo",
 				"/usr/share/locale/uk/LC_MESSAGES/gawk.mo",
-				"/usr/share/locale/vi/LC_MESSAGES/gawk.mo",
 				"/usr/share/locale/zh_CN/LC_MESSAGES/gawk.mo",
 				"/usr/share/man/man1/gawk.1",
 				"/usr/share/man/man1/gawkbug.1",
@@ -109,7 +107,7 @@
 			"provides": [
 				"binary(awk)",
 				"binary(gawk)",
-				"binary(gawk-5.3.2)",
+				"binary(gawk-5.4.0)",
 				"binary(gawkbug)",
 				"soname(gawk/filefuncs.so(x86_64))",
 				"soname(gawk/fnmatch.so(x86_64))",
@@ -127,6 +125,8 @@
 		},
 		"gawk-devel": {
 			"build-depends": [
+				"binary(bison)",
+				"binary(msgfmt)",
 				"pkgconfig(gmp)",
 				"pkgconfig(mpfr)",
 				"pkgconfig(readline)"
@@ -152,6 +152,6 @@
 		}
 	},
 	"source-name": "gawk",
-	"source-release": "8",
-	"source-version": "5.3.2"
+	"source-release": "9",
+	"source-version": "5.4.0"
 }
