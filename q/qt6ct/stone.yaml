@@ -1,0 +1,35 @@
+#
+# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : qt6ct
+version     : "0.11"
+release     : 1
+homepage    : https://www.opencode.net/trialuser/qt6ct
+upstreams   :
+    - https://www.opencode.net/api/v4/projects/5459/packages/generic/qt6ct/0.11/qt6ct-0.11.tar.xz : 35ac3c65136c4c5e6e06e477dd0574b128333f050d315bfabc73db2df06a9c14
+summary     : Qt6 - Configuration Tool
+description : |
+    This program allows users to configure Qt6 settings (theme, font, icons, etc.) under DE/WM without Qt integration.
+license     : BSD-2-Clause
+builddeps   :
+    - cmake(KF6ColorScheme)
+    - cmake(KF6Config)
+    - cmake(KF6IconThemes)
+    - cmake(Qt6LinguistTools)
+    - cmake(Qt6WidgetsPrivate)
+rundeps     :
+    - qt6-svg
+setup       : |
+    %patch %(pkgdir)/kde.patch
+
+    %cmake
+build       : |
+    %cmake_build
+install     : |
+    %cmake_install
+packages    :
+    - "%(name)":
+        paths:
+            - /usr/lib/lib*.so

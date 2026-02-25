@@ -1,0 +1,60 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"qt6ct": {
+			"build-depends": [
+				"cmake(KF6ColorScheme)",
+				"cmake(KF6Config)",
+				"cmake(KF6IconThemes)",
+				"cmake(Qt6LinguistTools)",
+				"cmake(Qt6WidgetsPrivate)"
+			],
+			"depends": [
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"qt6-svg",
+				"soname(ld-linux-x86-64.so.2(x86_64))",
+				"soname(libKF6ColorScheme.so.6(x86_64))",
+				"soname(libKF6ConfigCore.so.6(x86_64))",
+				"soname(libKF6IconThemes.so.6(x86_64))",
+				"soname(libQt6Core.so.6(x86_64))",
+				"soname(libQt6Gui.so.6(x86_64))",
+				"soname(libQt6QuickControls2.so.6(x86_64))",
+				"soname(libQt6Widgets.so.6(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libstdc++.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/bin/qt6ct",
+				"/usr/lib/libqt6ct-common.so",
+				"/usr/lib/libqt6ct-common.so.0.11",
+				"/usr/lib/qt6/plugins/platformthemes/libqt6ct.so",
+				"/usr/lib/qt6/plugins/styles/libqt6ct-style.so",
+				"/usr/share/applications/qt6ct.desktop",
+				"/usr/share/qt6ct/colors/airy.conf",
+				"/usr/share/qt6ct/colors/darker.conf",
+				"/usr/share/qt6ct/colors/dusk.conf",
+				"/usr/share/qt6ct/colors/ia_ora.conf",
+				"/usr/share/qt6ct/colors/sand.conf",
+				"/usr/share/qt6ct/colors/simple.conf",
+				"/usr/share/qt6ct/colors/waves.conf",
+				"/usr/share/qt6ct/qss/fusion-fixes.qss",
+				"/usr/share/qt6ct/qss/scrollbar-simple.qss",
+				"/usr/share/qt6ct/qss/sliders-simple.qss",
+				"/usr/share/qt6ct/qss/tooltip-simple.qss",
+				"/usr/share/qt6ct/qss/traynotification-simple.qss"
+			],
+			"name": "qt6ct",
+			"provides": [
+				"binary(qt6ct)",
+				"soname(libqt6ct-common.so.0.11(x86_64))",
+				"soname(qt6/plugins/platformthemes/libqt6ct.so(x86_64))",
+				"soname(qt6/plugins/styles/libqt6ct-style.so(x86_64))"
+			]
+		}
+	},
+	"source-name": "qt6ct",
+	"source-release": "1",
+	"source-version": "0.11"
+}
