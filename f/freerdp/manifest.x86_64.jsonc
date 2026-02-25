@@ -311,12 +311,6 @@
 				"/usr/include/freerdp3/freerdp/utils/string.h",
 				"/usr/include/freerdp3/freerdp/version.h",
 				"/usr/include/freerdp3/freerdp/window.h",
-				"/usr/include/rdtk0/rdtk/api.h",
-				"/usr/include/rdtk0/rdtk/build-config.h",
-				"/usr/include/rdtk0/rdtk/buildflags.h",
-				"/usr/include/rdtk0/rdtk/config.h",
-				"/usr/include/rdtk0/rdtk/rdtk.h",
-				"/usr/include/rdtk0/rdtk/version.h",
 				"/usr/include/uwac0/uwac/build-config.h",
 				"/usr/include/uwac0/uwac/buildflags.h",
 				"/usr/include/uwac0/uwac/config.h",
@@ -343,10 +337,6 @@
 				"/usr/lib/cmake/FreeRDP3/FreeRDPConfigVersion.cmake",
 				"/usr/lib/cmake/FreeRDP3/FreeRDPTargets-release.cmake",
 				"/usr/lib/cmake/FreeRDP3/FreeRDPTargets.cmake",
-				"/usr/lib/cmake/rdtk0/rdtk-release.cmake",
-				"/usr/lib/cmake/rdtk0/rdtk.cmake",
-				"/usr/lib/cmake/rdtk0/rdtkConfig.cmake",
-				"/usr/lib/cmake/rdtk0/rdtkConfigVersion.cmake",
 				"/usr/lib/cmake/uwac0/uwac-release.cmake",
 				"/usr/lib/cmake/uwac0/uwac.cmake",
 				"/usr/lib/cmake/uwac0/uwacConfig.cmake",
@@ -357,14 +347,12 @@
 				"/usr/lib/libfreerdp-shadow-subsystem3.so",
 				"/usr/lib/libfreerdp-shadow3.so",
 				"/usr/lib/libfreerdp3.so",
-				"/usr/lib/librdtk0.so",
 				"/usr/lib/libuwac0.so",
 				"/usr/lib/pkgconfig/freerdp-client3.pc",
 				"/usr/lib/pkgconfig/freerdp-server-proxy3.pc",
 				"/usr/lib/pkgconfig/freerdp-server3.pc",
 				"/usr/lib/pkgconfig/freerdp-shadow3.pc",
 				"/usr/lib/pkgconfig/freerdp3.pc",
-				"/usr/lib/pkgconfig/rdtk0.pc",
 				"/usr/lib/pkgconfig/uwac0.pc"
 			],
 			"name": "freerdp-devel",
@@ -374,14 +362,12 @@
 				"cmake(FreeRDP-Proxy)",
 				"cmake(FreeRDP-Server)",
 				"cmake(FreeRDP-Shadow)",
-				"cmake(rdtk)",
 				"cmake(uwac)",
 				"pkgconfig(freerdp-client3)",
 				"pkgconfig(freerdp-server-proxy3)",
 				"pkgconfig(freerdp-server3)",
 				"pkgconfig(freerdp-shadow3)",
 				"pkgconfig(freerdp3)",
-				"pkgconfig(rdtk0)",
 				"pkgconfig(uwac0)"
 			]
 		},
@@ -452,19 +438,17 @@
 				"/usr/lib/freerdp3/proxy/libproxy-demo-plugin.so",
 				"/usr/lib/freerdp3/proxy/libproxy-dyn-channel-dump-plugin.so",
 				"/usr/lib/libfreerdp-client3.so.3",
-				"/usr/lib/libfreerdp-client3.so.3.22.0",
+				"/usr/lib/libfreerdp-client3.so.3.23.0",
 				"/usr/lib/libfreerdp-server-proxy3.so.3",
-				"/usr/lib/libfreerdp-server-proxy3.so.3.22.0",
+				"/usr/lib/libfreerdp-server-proxy3.so.3.23.0",
 				"/usr/lib/libfreerdp-server3.so.3",
-				"/usr/lib/libfreerdp-server3.so.3.22.0",
+				"/usr/lib/libfreerdp-server3.so.3.23.0",
 				"/usr/lib/libfreerdp-shadow-subsystem3.so.3",
-				"/usr/lib/libfreerdp-shadow-subsystem3.so.3.22.0",
+				"/usr/lib/libfreerdp-shadow-subsystem3.so.3.23.0",
 				"/usr/lib/libfreerdp-shadow3.so.3",
-				"/usr/lib/libfreerdp-shadow3.so.3.22.0",
+				"/usr/lib/libfreerdp-shadow3.so.3.23.0",
 				"/usr/lib/libfreerdp3.so.3",
-				"/usr/lib/libfreerdp3.so.3.22.0",
-				"/usr/lib/librdtk0.so.0",
-				"/usr/lib/librdtk0.so.0.2.0",
+				"/usr/lib/libfreerdp3.so.3.23.0",
 				"/usr/lib/libuwac0.so.0",
 				"/usr/lib/libuwac0.so.0.2.0",
 				"/usr/share/FreeRDP/images/test_icon.bmp",
@@ -484,7 +468,6 @@
 				"soname(libfreerdp-shadow-subsystem3.so.3(x86_64))",
 				"soname(libfreerdp-shadow3.so.3(x86_64))",
 				"soname(libfreerdp3.so.3(x86_64))",
-				"soname(librdtk0.so.0(x86_64))",
 				"soname(libuwac0.so.0(x86_64))"
 			]
 		},
@@ -532,9 +515,9 @@
 			],
 			"files": [
 				"/usr/lib/libwinpr-tools3.so.3",
-				"/usr/lib/libwinpr-tools3.so.3.22.0",
+				"/usr/lib/libwinpr-tools3.so.3.23.0",
 				"/usr/lib/libwinpr3.so.3",
-				"/usr/lib/libwinpr3.so.3.22.0"
+				"/usr/lib/libwinpr3.so.3.23.0"
 			],
 			"name": "libwinpr",
 			"provides": [
@@ -672,6 +655,6 @@
 		}
 	},
 	"source-name": "freerdp",
-	"source-release": "22",
-	"source-version": "3.22.0"
+	"source-release": "23",
+	"source-version": "3.23.0"
 }
