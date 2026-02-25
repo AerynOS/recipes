@@ -4,10 +4,10 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : edk2
-version     : "202511"
-release     : 5
+version     : "202602"
+release     : 6
 upstreams   :
-    - git|https://github.com/tianocore/edk2 : 46548b1adac82211d8d11da12dd914f41e7aa775
+    - git|https://github.com/tianocore/edk2 : b7a715f7c03c45c6b4575bf88596bfd79658b8ce
 homepage    : https://github.com/tianocore/tianocore.github.io/wiki/EDK-II
 license     :
     - BSD-2-Clause
@@ -52,8 +52,6 @@ environment : |
 
     # Sanitize build environment
     unset CFLAGS CXXFLAGS LDFLAGS
-setup       : |
-    %patch %(pkgdir)/ftbfs-nasm-3.patch
 build       : |
     make -j%(jobs) -C BaseTools
 
