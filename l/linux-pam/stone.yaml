@@ -4,8 +4,8 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : linux-pam
-version     : "1.7.1"
-release     : 18
+version     : "1.7.2"
+release     : 19
 summary     : Pluggable Authentication Modules
 license     :
     - BSD-3-Clause
@@ -14,7 +14,7 @@ homepage    : http://www.linux-pam.org/
 description : |
     Pluggable Authentication Modules
 upstreams   :
-    - https://github.com/linux-pam/linux-pam/releases/download/v1.7.1/Linux-PAM-1.7.1.tar.xz: 21dbcec6e01dd578f14789eac9024a18941e6f2702a05cf91b28c232eeb26ab0
+    - https://github.com/linux-pam/linux-pam/releases/download/v1.7.2/Linux-PAM-1.7.2.tar.xz: 3d86b6383fb5fd9eb9578d2cd47d92801191f4bf3f9bc61419bfefc8aa1e531a
 builddeps   :
     - binary(bison)
     - binary(flex)
@@ -36,9 +36,6 @@ profiles    :
 environment : |
     %export_docbook_catalogs
 setup       : |
-    # version script assignment of 'global' to symbol 'pam_sm_chauthtok' failed: symbol not defined
-    export LDFLAGS="${LDFLAGS} -Wl,--undefined-version"
-
     %meson \
         -Dvendordir=%(vendordir)
 build       : |
