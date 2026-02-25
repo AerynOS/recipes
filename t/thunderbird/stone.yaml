@@ -5,12 +5,12 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : thunderbird
-version     : "147.0.1"
-release     : 34
+version     : "148.0"
+release     : 35
 homepage    : https://www.thunderbird.net/
 upstreams   :
-    - https://releases.mozilla.org/pub/thunderbird/releases/147.0.1/source/thunderbird-147.0.1.source.tar.xz:
-        hash: 3e8a52c552a983340ced4c8f44ee37ae5028a2c9d717b9b49ee37ae72a6615ce
+    - https://releases.mozilla.org/pub/thunderbird/releases/148.0/source/thunderbird-148.0.source.tar.xz:
+        hash: 9ea77f583695a898c225baa065b3db5a0d196f4e1da8bacba994e4a8c564b0c3
         unpackdir: thunderbird
 summary     : Thunderbird Email Client
 description : |
@@ -68,6 +68,8 @@ setup       : |
     %patch %(pkgdir)/patches/0001-Allow-installing-addons-from-user-scope.patch
 
     %patch %(pkgdir)/patches/ftbfs-glibc-2.43.patch -d security/nss
+    %patch %(pkgdir)/patches/ftbfs-gcc-15.2.1.patch
+    %patch %(pkgdir)/patches/ftbfs-gcc-15.2.1-2.patch
 
     cp %(pkgdir)/build/mozconfig .
     sed -e 's|@@JOBCOUNT@@|%(jobs)|' -e 's|@@LIBDIR@@|%(libdir)|' -i mozconfig
@@ -81,7 +83,7 @@ setup       : |
         echo "ac_add_options --enable-lto=cross,full" >> mozconfig
     fi
 
-    # Try to remove this in thunderbird 148
+    # Try to remove this in thunderbird 149
     ./mach tb-rust vendor
     %patch %(pkgdir)/patches/ftbfs-glibc-2.43-2.patch
     sed -i 's/f8ad2b69fa472e332b50572c1b2dcc1c8a0fa783a1199aad245398d3df421b4b/dfdde6b4d42603fd3fe087a96bc0e7258ed38891154132a55b1eeac504f6f3c6/g' third_party/rust/glslopt/.cargo-checksum.json
