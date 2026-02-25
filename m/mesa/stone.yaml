@@ -7,14 +7,14 @@ name        : mesa
 ### IMPORTANT: Use the update-mesa.py script to update this package
 
 ##@@BEGIN_VERSION
-version     : "26.0.0"
+version     : "26.0.1"
 ##@@END_VERSION
 # Note: keep mesa-clc in-sync with this package version-wise
-release     : 67
+release     : 68
 homepage    : https://mesa3d.org/
 upstreams   :
 ##@@BEGIN_SOURCE
-    - https://mesa.freedesktop.org/archive/mesa-26.0.0.tar.xz : 2a44e98e64d5c36cec64633de2d0ec7eff64703ee25b35364ba8fcaa84f33f72
+    - https://mesa.freedesktop.org/archive/mesa-26.0.1.tar.xz : bb5104f9f9a46c9b5175c24e601e0ef1ab44ce2d0fdbe81548b59adc8b385dcc
 ##@@END_SOURCE
 
 ##@@BEGIN_CRATES
@@ -217,9 +217,6 @@ setup       : |
 
     # Fix build with Sphinx 8.2
     %patch %(pkgdir)/0001-docs-Fix-build-with-Sphinx-8.2.patch
-
-    # intel ANV texture bug fix https://gitlab.freedesktop.org/mesa/mesa/-/issues/14684
-    %patch %(pkgdir)/upstream-01.patch
 
     export MESON_PACKAGE_CACHE_DIR=%(sourcedir)
 
