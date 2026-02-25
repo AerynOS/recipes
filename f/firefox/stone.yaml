@@ -4,12 +4,12 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : firefox
-version     : "147.0.4"
-release     : 54
+version     : "148.0"
+release     : 55
 homepage    : https://www.mozilla.org/
 upstreams   :
-    - https://releases.mozilla.org/pub/firefox/releases/147.0.4/source/firefox-147.0.4.source.tar.xz:
-        hash: bc0742ac62b177987d3312352194d4a088396ccf7b02e94be88f8072d82e94f7
+    - https://releases.mozilla.org/pub/firefox/releases/148.0/source/firefox-148.0.source.tar.xz:
+        hash: ec93e5040a23b7dbe9ec77eb4a7ccda9820856d7851bf2f617f3673b6354cb6f
         unpackdir: firefox
 summary     : Firefox web browser
 description : |
@@ -57,7 +57,9 @@ environment : |
 
     export MOZ_NOSPAM=1
     export PIP_NETWORK_INSTALL_RESTRICTED_VIRTUALENVS=mach
-    export MACH_BUILD_PYTHON_NATIVE_PACKAGE_SOURCE="none"
+
+    # Temporarily disabled due to mozshellutil build failure
+    # export MACH_BUILD_PYTHON_NATIVE_PACKAGE_SOURCE="none"
     export MOZ_BUILD_DATE="$(date -u${SOURCE_DATE_EPOCH:+d @$SOURCE_DATE_EPOCH} +%%Y%%m%%d%%H%%M%%S)"
 setup       : |
     # Looks like this causes build hangs because it disables the watchdog...
@@ -66,6 +68,9 @@ setup       : |
     %patch %(pkgdir)/patches/0001-Allow-installing-addons-from-user-scope.patch
 
     %patch %(pkgdir)/patches/ftbfs-glibc-2.43.patch -d security/nss
+    %patch %(pkgdir)/patches/ftbfs-gcc-15.2.1.patch
+    %patch %(pkgdir)/patches/ftbfs-gcc-15.2.1-2.patch
+    %patch %(pkgdir)/patches/upstream-01.patch
 
     # TODO: Figure out if we still need to enable unsigned addon loading considering we switched back to unmodified langpacks
 
@@ -85,7 +90,7 @@ setup       : |
     cp %(pkgdir)/build/aerynos-google-safebrowsing-api-key .
     echo "ac_add_options --with-google-safebrowsing-api-keyfile=%(workdir)/aerynos-google-safebrowsing-api-key" >> mozconfig
 
-    # Try to remove this in thunderbird 148
+    # Try to remove this in Firefox 149
     %patch %(pkgdir)/patches/ftbfs-glibc-2.43-2.patch
     sed -i 's/f8ad2b69fa472e332b50572c1b2dcc1c8a0fa783a1199aad245398d3df421b4b/dfdde6b4d42603fd3fe087a96bc0e7258ed38891154132a55b1eeac504f6f3c6/g' third_party/rust/glslopt/.cargo-checksum.json
     sed -i '/^#ifndef SYS_SECCOMP$/,/^#endif$/{ /^#ifndef SYS_SECCOMP$/d; /^#define SYS_SECCOMP/d; /^#endif$/d; }' \
