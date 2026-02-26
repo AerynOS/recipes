@@ -4,24 +4,25 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : zxing-cpp
-version     : "2.3.0"
-release     : 2
+version     : "3.0.2"
+release     : 3
 upstreams   :
-    - https://github.com/zxing-cpp/zxing-cpp/archive/refs/tags/v2.3.0.tar.gz : 64e4139103fdbc57752698ee15b5f0b0f7af9a0331ecbdc492047e0772c417ba
+    - https://github.com/zxing-cpp/zxing-cpp/archive/refs/tags/v3.0.2.tar.gz : b063dacf384c7bb93ab2c3eea247cc06b4525330f0efa631907aa3029f7e2144
 homepage    : https://github.com/zxing-cpp/zxing-cpp
 license     : Apache-2.0
 summary     : ZXing-C++ ("zebra crossing") is an open-source, multi-format linear/matrix barcode image processing library implemented in C++
 description : |
     ZXing-C++ ("zebra crossing") is an open-source, multi-format linear/matrix barcode image processing library implemented in C++. It was originally ported from the Java ZXing Library but has been developed further and now includes many improvements in terms of quality and performance. It can both read and write barcodes in a number of formats.
-# builddeps   :
+builddeps   :
+    - cmake(zint)
 # TODO add pybind11 for Python bindings, STB so this can be de-vendored
 # This is the only package that uses STB currently, so open up networking so it can just download it
 networking  : true
 setup       : |
     %cmake \
-        -DBUILD_PYTHON_MODULE=OFF \
-        -DBUILD_EXAMPLES=OFF \
-        -DBUILD_SHARED_LIBS=ON \         
+        -DZXING_EXAMPLES=OFF \
+        -DZXING_PYTHON_MODULE=OFF \
+        -DZXING_USE_BUNDLED_ZINT=OFF
 build       : |
     %cmake_build
 install     : |

@@ -3,54 +3,52 @@
 	"manifest-version": "0.2",
 	"packages": {
 		"zxing-cpp": {
+			"build-depends": [
+				"cmake(zint)"
+			],
 			"depends": [
 				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libm.so.6(x86_64))",
-				"soname(libstdc++.so.6(x86_64))"
+				"soname(libstdc++.so.6(x86_64))",
+				"soname(libzint.so.2.16(x86_64))"
 			],
 			"files": [
-				"/usr/lib/libZXing.so.2.3.0",
-				"/usr/lib/libZXing.so.3"
+				"/usr/lib/libZXing.so.3.0.2",
+				"/usr/lib/libZXing.so.4"
 			],
 			"name": "zxing-cpp",
 			"provides": [
-				"soname(libZXing.so.3(x86_64))"
+				"soname(libZXing.so.4(x86_64))"
 			]
 		},
 		"zxing-cpp-devel": {
+			"build-depends": [
+				"cmake(zint)"
+			],
 			"depends": [
 				"zxing-cpp"
 			],
 			"files": [
 				"/usr/include/ZXing/Barcode.h",
 				"/usr/include/ZXing/BarcodeFormat.h",
-				"/usr/include/ZXing/BitHacks.h",
-				"/usr/include/ZXing/BitMatrix.h",
-				"/usr/include/ZXing/BitMatrixIO.h",
-				"/usr/include/ZXing/ByteArray.h",
 				"/usr/include/ZXing/CharacterSet.h",
-				"/usr/include/ZXing/Content.h",
-				"/usr/include/ZXing/DecodeHints.h",
+				"/usr/include/ZXing/ContentType.h",
+				"/usr/include/ZXing/CreateBarcode.h",
 				"/usr/include/ZXing/Error.h",
-				"/usr/include/ZXing/Flags.h",
 				"/usr/include/ZXing/GTIN.h",
 				"/usr/include/ZXing/ImageView.h",
-				"/usr/include/ZXing/Matrix.h",
-				"/usr/include/ZXing/MultiFormatWriter.h",
 				"/usr/include/ZXing/Point.h",
 				"/usr/include/ZXing/Quadrilateral.h",
-				"/usr/include/ZXing/Range.h",
 				"/usr/include/ZXing/ReadBarcode.h",
 				"/usr/include/ZXing/ReaderOptions.h",
-				"/usr/include/ZXing/Result.h",
-				"/usr/include/ZXing/StructuredAppend.h",
-				"/usr/include/ZXing/TextUtfEncoding.h",
 				"/usr/include/ZXing/Version.h",
-				"/usr/include/ZXing/ZXAlgorithms.h",
+				"/usr/include/ZXing/WriteBarcode.h",
 				"/usr/include/ZXing/ZXVersion.h",
+				"/usr/include/ZXing/ZXingC.h",
 				"/usr/include/ZXing/ZXingCpp.h",
+				"/usr/include/ZXing/ZXingQt.h",
 				"/usr/lib/cmake/ZXing/ZXingConfig.cmake",
 				"/usr/lib/cmake/ZXing/ZXingConfigVersion.cmake",
 				"/usr/lib/cmake/ZXing/ZXingTargets-release.cmake",
@@ -66,6 +64,6 @@
 		}
 	},
 	"source-name": "zxing-cpp",
-	"source-release": "2",
-	"source-version": "2.3.0"
+	"source-release": "3",
+	"source-version": "3.0.2"
 }
