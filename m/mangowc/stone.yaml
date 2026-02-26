@@ -4,37 +4,27 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : mangowc
-version     : "0.12.2"
-release     : 4
+version     : "0.12.4"
+release     : 5
 homepage    : https://github.com/DreamMaoMao/mangowc
 upstreams   :
-    - https://github.com/DreamMaoMao/mangowc/archive/refs/tags/0.12.2.tar.gz : b2e6d0cad2eb4a18e0098c45f5f961a81ddd8b37027bd61c25b5e24473c62d66
+    - https://github.com/DreamMaoMao/mangowc/archive/refs/tags/0.12.4.tar.gz : b866f3c68e998dcba2ebf78d5e9bbc897eccdf48128d5094a006bdc7592a2bdd
 summary     : A Wayland compositor with smooth animation
 description : |
     A wayland compositor utilizing wlroots as a base and SceneFX for aesthetics
 license     :
     - GPL-3.0-or-later
 builddeps   :
-    - pkgconfig(libdrm)
-    - pkgconfig(libinput)
     - pkgconfig(libpcre2-8)
-    - pkgconfig(pixman-1)
     - pkgconfig(scenefx)
     - pkgconfig(wayland-protocols)
     - pkgconfig(wlroots)
-    - pkgconfig(xcb)
-    - pkgconfig(xkbcommon)
-    - pkgconfig(xwayland)
 rundeps     :
     - binary(foot) # Ensure default config terminal is installed
-    - binary(tofi) # Ensure an application launcher is installed
 setup       : |
-    # Change default config to use tofi instead of rofi so I don't need to add another package.
-    %patch %(pkgdir)/change-rofi-to-tofi.patch
+    %patch %(pkgdir)/stateless-config.patch
     %meson
 build       : |
     %meson_build
 install     : |
     %meson_install
-
-    %install_file config.conf -t %(installroot)%(vendordir)/mango/
