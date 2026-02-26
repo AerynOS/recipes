@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : gstreamer
-version     : "1.28.0"
-release     : 43
+version     : "1.28.1"
+release     : 44
 homepage    : https://gstreamer.freedesktop.org/
 upstreams   :
-    - https://gitlab.freedesktop.org/gstreamer/gstreamer/-/archive/1.28.0/gstreamer-1.28.0.tar.gz : 06629bc45465ac6676357ef10dcdd0cbe2bdafa267b37bbac35beb432f872c45
+    - https://gitlab.freedesktop.org/gstreamer/gstreamer/-/archive/1.28.1/gstreamer-1.28.1.tar.gz : 97fee2ed866d087cd0f0cecbb3b955d18145bda22c8ae4d3a04603c6a055e8a6
 summary     : GStreamer multimedia framework
 description : |
     GStreamer can bridge to other multimedia frameworks in order to reuse existing components (e.g. codecs) and use platform input/output mechanisms.
@@ -548,6 +548,7 @@ packages    :
             - /usr/lib/girepository-1.0/GstAnalytics-1.0.typelib
             - /usr/lib/girepository-1.0/GstBadAudio-1.0.typelib
             - /usr/lib/girepository-1.0/GstCodecs-1.0.typelib
+            - /usr/lib/girepository-1.0/GstCodecParsers-1.0.typelib
             - /usr/lib/girepository-1.0/GstCuda-1.0.typelib
             - /usr/lib/girepository-1.0/GstDxva-1.0.typelib
             - /usr/lib/girepository-1.0/GstHip*-1.0.typelib
@@ -682,6 +683,7 @@ packages    :
             - /usr/share/gir-1.0/GstAnalytics-1.0.gir
             - /usr/share/gir-1.0/GstBadAudio-1.0.gir
             - /usr/share/gir-1.0/GstCodecs-1.0.gir
+            - /usr/share/gir-1.0/GstCodecParsers-1.0.gir
             - /usr/share/gir-1.0/GstCuda-1.0.gir
             - /usr/share/gir-1.0/GstDxva-1.0.gir
             - /usr/share/gir-1.0/GstHip*-1.0.gir
