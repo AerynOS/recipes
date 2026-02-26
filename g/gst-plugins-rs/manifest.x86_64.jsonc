@@ -7,6 +7,7 @@
 				"binary(cargo)",
 				"binary(cargo-cbuild)",
 				"binary(curl)",
+				"binary(make)",
 				"binary(nasm)",
 				"pkgconfig(dav1d)",
 				"pkgconfig(glib-2.0)",
@@ -53,6 +54,7 @@
 				"/usr/lib/gstreamer-1.0/libgstcdg.so",
 				"/usr/lib/gstreamer-1.0/libgstclaxon.so",
 				"/usr/lib/gstreamer-1.0/libgstdav1d.so",
+				"/usr/lib/gstreamer-1.0/libgstdebugseimetainserter.so",
 				"/usr/lib/gstreamer-1.0/libgstdeepgram.so",
 				"/usr/lib/gstreamer-1.0/libgstdemucs.so",
 				"/usr/lib/gstreamer-1.0/libgstelevenlabs.so",
@@ -102,7 +104,8 @@
 				"/usr/lib/gstreamer-1.0/libgstthreadshare.so",
 				"/usr/lib/gstreamer-1.0/libgsttogglerecord.so",
 				"/usr/lib/gstreamer-1.0/libgsturiplaylistbin.so",
-				"/usr/lib/gstreamer-1.0/libgstwebrtchttp.so"
+				"/usr/lib/gstreamer-1.0/libgstwebrtchttp.so",
+				"/usr/lib/gstreamer-1.0/libgstwhisper.so"
 			],
 			"name": "gst-plugins-rs",
 			"provides": [
@@ -112,6 +115,7 @@
 				"soname(gstreamer-1.0/libgstcdg.so(x86_64))",
 				"soname(gstreamer-1.0/libgstclaxon.so(x86_64))",
 				"soname(gstreamer-1.0/libgstdav1d.so(x86_64))",
+				"soname(gstreamer-1.0/libgstdebugseimetainserter.so(x86_64))",
 				"soname(gstreamer-1.0/libgstdeepgram.so(x86_64))",
 				"soname(gstreamer-1.0/libgstdemucs.so(x86_64))",
 				"soname(gstreamer-1.0/libgstelevenlabs.so(x86_64))",
@@ -161,7 +165,8 @@
 				"soname(gstreamer-1.0/libgstthreadshare.so(x86_64))",
 				"soname(gstreamer-1.0/libgsttogglerecord.so(x86_64))",
 				"soname(gstreamer-1.0/libgsturiplaylistbin.so(x86_64))",
-				"soname(gstreamer-1.0/libgstwebrtchttp.so(x86_64))"
+				"soname(gstreamer-1.0/libgstwebrtchttp.so(x86_64))",
+				"soname(gstreamer-1.0/libgstwhisper.so(x86_64))"
 			]
 		},
 		"gstreamer-plugin-gtk4": {
@@ -169,6 +174,7 @@
 				"binary(cargo)",
 				"binary(cargo-cbuild)",
 				"binary(curl)",
+				"binary(make)",
 				"binary(nasm)",
 				"pkgconfig(dav1d)",
 				"pkgconfig(glib-2.0)",
@@ -203,6 +209,6 @@
 		}
 	},
 	"source-name": "gst-plugins-rs",
-	"source-release": "16",
-	"source-version": "1.28.0"
+	"source-release": "17",
+	"source-version": "1.28.1"
 }
