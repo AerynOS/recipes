@@ -1,0 +1,53 @@
+#
+# SPDX-FileCopyrightText: © 2025- AerynOS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : maven
+version     : 3.9.12
+release     : 1
+homepage    : https://maven.apache.org
+upstreams   :
+    - https://dlcdn.apache.org/maven/maven-3/3.9.12/source/apache-maven-3.9.12-src.tar.gz:
+        hash: eb6333567ff68f46c510ffe2a18028f47d67003991a82a1bd1acd8500303fdf0
+        unpackdir: "maven"
+
+    - https://dlcdn.apache.org/maven/maven-3/3.9.12/binaries/apache-maven-3.9.12-bin.tar.gz : 
+        hash: fa2c9948729296c23afd18fd01a90f62cdda09a46191b54a8bc3764c2eee812e
+        unpackdir: "maven/bootstrap"
+
+summary     : Build automation tool for Java Projects
+description : |
+    Apache Maven is a build tool for Java projects. Using a project object model (POM), Maven manages a project's compilation, testing, and documentation. 
+license     : Apache-2.0
+networking  : true
+builddeps   :
+    - binary(java-17)
+    - binary(tar)
+rundeps     :
+    - binary(java-21)
+setup       : |
+    %patch %(pkgdir)/remove-zip-format.patch -p0
+environment : |
+    export JAVA_HOME=/usr/lib/jvm/openjdk-17
+    export PATH="%(workdir)/bootstrap/bin:$PATH"
+build       : |
+    mvn install javadoc:aggregate -Drat.skip=true -DskipTests
+install     : |
+    cd apache-maven/target/
+    tar xzf apache-maven-3.9.12-bin.tar.gz
+
+    %install_dir %(installroot)/usr/share/maven
+    cp -r apache-maven-3.9.12/* %(installroot)/usr/share/maven/
+
+    %install_dir %(installroot)/usr/bin
+    ln -srv /usr/share/maven/bin/mvn %(installroot)/usr/bin/mvn
+    ln -srv /usr/share/maven/bin/mvnDebug %(installroot)/usr/bin/mvnDebug
+
+    cd ../..
+    %install_dir %(installroot)/usr/share/doc/maven/api
+    cp -r target/reports/apidocs/* %(installroot)/usr/share/doc/maven/api/
+packages    :
+    - "%(name)-docs":
+        paths:
+            - /usr/share/doc/
