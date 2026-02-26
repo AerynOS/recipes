@@ -1,0 +1,69 @@
+#
+# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : zint
+version     : "2.16.0"
+release     : 1
+upstreams   :
+    - https://downloads.sourceforge.net/zint/zint-2.16.0-src.tar.gz : 37e767afada2403bb9ae49b93a19eb0a9e944a0c278d9f23522746b3d08a3c4b
+homepage    : https://www.zint.org.uk
+license     : BSD-3-Clause AND GPL-3.0-or-later
+summary     : Barcode generator library
+description : |
+    Zint is a C library for encoding data in several barcode variants. The
+    bundled command-line utility provides a simple interface to the library.
+    Features of the library:
+    - Over 50 symbologies including all ISO/IEC standards, like QR codes.
+    - Unicode translation for symbologies which support Latin-1 and Kanji character sets.
+    - Full GS1 support including data verification and automated insertion of FNC1 characters.
+    - Support for encoding binary data including NULL (ASCII 0) characters.
+    - Health Industry Barcode (HIBC) encoding capabilities.
+    - Output in PNG, EPS and SVG formats with user adjustable sizes and colors.
+    - Verification stage for SBN, ISBN and ISBN-13 data.
+builddeps   :
+    - cmake(Qt6Svg)
+    - cmake(Qt6UiTools)
+    - cmake(Qt6Widgets)
+    - pkgconfig(libpng)
+    - pkgconfig(zlib)
+setup       : |
+    %patch %(pkgdir)/zint-shared.patch
+
+    %cmake \
+        -DZINT_QT6=ON   
+build       : |
+    %cmake_build
+install     : |
+    %cmake_install
+
+    %install_file zint-qt.png %(installroot)%(datadir)/icons/hicolor/48x48/apps/zint-qt.png
+    %install_file zint-qt.desktop %(installroot)%(datadir)/applications/zint-qt.desktop
+packages    :
+    - "%(name)-qt":
+        summary: Zint Barcode Studio
+        description: |
+            Zint Barcode Studio is a Qt-based GUI which allows desktop users to generate 
+            barcodes which can then be embedded in documents or HTML pages.
+        paths:
+            - /usr/bin/zint-qt
+            - /usr/lib/libQZint.so.*
+            - /usr/share/applications/
+            - /usr/share/icons/hicolor/
+
+    - "%(name)-qt-devel":
+        summary: Zint Barcode Studio - Development Files
+        description: |
+            Zint Barcode Studio is a Qt-based GUI which allows desktop users to generate 
+            barcodes which can then be embedded in documents or HTML pages.
+        rundeps:
+            - "%(name)-devel"
+            - "%(name)-qt"
+        paths:
+            - /usr/include/qzint.h
+            - /usr/lib/libQZint.so
+
+    - "%(name)-devel":
+        rundeps:
+            - pkgconfig(libpng)
