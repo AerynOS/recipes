@@ -4,20 +4,13 @@
 	"packages": {
 		"mangowc": {
 			"build-depends": [
-				"pkgconfig(libdrm)",
-				"pkgconfig(libinput)",
 				"pkgconfig(libpcre2-8)",
-				"pkgconfig(pixman-1)",
 				"pkgconfig(scenefx)",
 				"pkgconfig(wayland-protocols)",
-				"pkgconfig(wlroots)",
-				"pkgconfig(xcb)",
-				"pkgconfig(xkbcommon)",
-				"pkgconfig(xwayland)"
+				"pkgconfig(wlroots)"
 			],
 			"depends": [
 				"binary(foot)",
-				"binary(tofi)",
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libinput.so.10(x86_64))",
@@ -33,7 +26,8 @@
 				"/usr/bin/mango",
 				"/usr/bin/mmsg",
 				"/usr/share/defaults/mango/config.conf",
-				"/usr/share/wayland-sessions/mango.desktop"
+				"/usr/share/wayland-sessions/mango.desktop",
+				"/usr/share/xdg-desktop-portal/mango-portals.conf"
 			],
 			"name": "mangowc",
 			"provides": [
@@ -43,6 +37,6 @@
 		}
 	},
 	"source-name": "mangowc",
-	"source-release": "4",
-	"source-version": "0.12.2"
+	"source-release": "5",
+	"source-version": "0.12.4"
 }
