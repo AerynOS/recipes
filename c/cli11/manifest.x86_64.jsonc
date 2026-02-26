@@ -4,19 +4,6 @@
 	"packages": {
 		"cli11": {
 			"files": [
-				"/usr/share/cmake/CLI11/CLI11Config.cmake",
-				"/usr/share/cmake/CLI11/CLI11ConfigVersion.cmake"
-			],
-			"name": "cli11",
-			"provides": [
-				"cmake(CLI11)"
-			]
-		},
-		"cli11-devel": {
-			"depends": [
-				"cli11"
-			],
-			"files": [
 				"/usr/include/CLI/App.hpp",
 				"/usr/include/CLI/Argv.hpp",
 				"/usr/include/CLI/CLI.hpp",
@@ -45,15 +32,27 @@
 				"/usr/include/CLI/impl/Split_inl.hpp",
 				"/usr/include/CLI/impl/StringTools_inl.hpp",
 				"/usr/include/CLI/impl/Validators_inl.hpp",
+				"/usr/share/cmake/CLI11/CLI11Config.cmake",
+				"/usr/share/cmake/CLI11/CLI11ConfigVersion.cmake",
 				"/usr/share/pkgconfig/CLI11.pc"
 			],
-			"name": "cli11-devel",
+			"name": "cli11",
 			"provides": [
+				"cmake(CLI11)",
 				"pkgconfig(CLI11)"
 			]
+		},
+		"cli11-devel": {
+			"depends": [
+				"cli11"
+			],
+			"files": [
+				"/usr/share/doc/cli11-devel/README"
+			],
+			"name": "cli11-devel"
 		}
 	},
 	"source-name": "cli11",
-	"source-release": "1",
-	"source-version": "2.6.1"
+	"source-release": "2",
+	"source-version": "2.6.2"
 }

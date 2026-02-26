@@ -181,3 +181,6 @@
 
 ### Renamed
 - nfs-utils-devel
+
+### Merged into main package
+- cli11-devel

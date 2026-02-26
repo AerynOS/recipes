@@ -4,21 +4,33 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : cli11
-version     : "2.6.1"
-release     : 1
+version     : "2.6.2"
+release     : 2
 homepage    : https://github.com/CLIUtils/CLI11
 upstreams   :
-    - https://github.com/CLIUtils/CLI11/archive/refs/tags/v2.6.1.tar.gz : 377691f3fac2b340f12a2f79f523c780564578ba3d6eaf5238e9f35895d5ba95
+    - https://github.com/CLIUtils/CLI11/archive/refs/tags/v2.6.2.tar.gz : c6ea6b2e5608b3ea8617999bd5f47420c71b2ebdb8dc4767c1034d1da5785711
 summary     : C++11 Command Line Interface Parser
 description : |
     CLI11 is a command line parser for C++11 and beyond that provides a rich feature set with a simple and intuitive interface.
 license     :
     - BSD-3-Clause
 setup       : |
-    %cmake -W no-dev \
-           -DCLI11_BUILD_TESTS=OFF \
-           -DCLI11_BUILD_EXAMPLES=OFF
+    %cmake \
+        -DCLI11_BUILD_TESTS=OFF \
+        -DCLI11_BUILD_EXAMPLES=OFF
 build       : |
     %cmake_build
 install     : |
     %cmake_install
+    %install_dir %(installroot)%(docdir)/%(name)-devel/
+    echo "DEPRECATED" > %(installroot)%(docdir)/%(name)-devel/README
+packages    :
+    # Devel-only package
+    - "%(name)":
+        paths:
+            - /usr/include/
+            - /usr/share/pkgconfig/
+
+    - "%(name)-devel":
+        paths:
+            - /usr/share/doc/cli11-devel
