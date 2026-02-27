@@ -5,7 +5,7 @@
 #
 name        : intel-compute-runtime
 version     : "26.05.37020.3"
-release     : 1
+release     : 2
 homepage    : https://github.com/intel/compute-runtime
 upstreams   :
     - https://github.com/intel/compute-runtime/archive/refs/tags/26.05.37020.3.tar.gz : 75f2c7a5a702fd561fb3a8dcc20da18fe599904e8c2db655c5cde8cdffebaf9d
@@ -27,7 +27,7 @@ builddeps   :
     - pkgconfig(libze_loader)
 rundeps     :
     - intel-graphics-compiler
-    - intel-level-zero
+    - level-zero
 setup       : |
     %patch %(pkgdir)/010-intel-compute-runtime-disable-werror.patch
     %cmake \
