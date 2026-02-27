@@ -184,3 +184,6 @@
 
 ### Merged into main package
 - cli11-devel
+
+### Renamed to level-zero
+- intel-level-zero
