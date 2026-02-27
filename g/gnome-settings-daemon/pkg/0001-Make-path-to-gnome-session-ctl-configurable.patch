@@ -1,0 +1,62 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Reilly Brogan <reilly@reillybrogan.com>
+Date: Fri, 27 Feb 2026 11:45:25 -0600
+Subject: [PATCH] Make path to gnome-session-ctl configurable
+
+Aeryn has per-app libexec directories
+
+Origin: vendor
+Forwarded: not-needed
+Last-Update: 2026-02-27
+---
+ meson.build            | 2 ++
+ meson_options.txt      | 1 +
+ plugins/gsd.service.in | 2 +-
+ plugins/meson.build    | 1 +
+ 4 files changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/meson.build b/meson.build
+index e2282f42..9bdb8c6c 100644
+--- a/meson.build
++++ b/meson.build
+@@ -37,6 +37,8 @@ gsd_pkglibdir = join_paths(gsd_libdir, gsd_api_name)
+ 
+ gsd_schemadir = join_paths(gsd_datadir, 'glib-2.0', 'schemas')
+ 
++gnomesessionpath = join_paths(gsd_prefix, get_option('gnomesessionpath'))
++
+ gsd_3_0_api_name = '@0@-@1@'.format(meson.project_name(), '3.0')
+ gsd_gtk_modules_directory = join_paths(gsd_libdir, gsd_3_0_api_name, 'gtk-modules')
+ 
+diff --git a/meson_options.txt b/meson_options.txt
+index c19ece3f..f6acd523 100644
+--- a/meson_options.txt
++++ b/meson_options.txt
+@@ -1,4 +1,5 @@
+ option('udev_dir', type: 'string', value: '', description: 'Absolute path of the udev base directory')
++option('gnomesessionpath', type: 'string', value: '/usr/libexec/gnome-session-ctl', description: 'Absolute path to the gnome-session-ctl binary')
+ option('systemd', type: 'boolean', value: true, description: 'Enable systemd integration')
+ option('elogind', type: 'boolean', value: false, description: 'Use elogind')
+ option('alsa', type: 'boolean', value: true, description: 'build with ALSA support (not optional on Linux platforms)')
+diff --git a/plugins/gsd.service.in b/plugins/gsd.service.in
+index c47a6768..6c09e05c 100644
+--- a/plugins/gsd.service.in
++++ b/plugins/gsd.service.in
+@@ -23,4 +23,4 @@ BusName=@plugin_dbus_name@
+ TimeoutStopSec=5
+ # We cannot use OnFailure as e.g. dependency failures are normal
+ # https://github.com/systemd/systemd/issues/12352
+-ExecStopPost=@libexecdir@/gnome-session-ctl --exec-stop-check
++ExecStopPost=@gnomesessionpath@ --exec-stop-check
+diff --git a/plugins/meson.build b/plugins/meson.build
+index fae3fc9e..7662fcd5 100644
+--- a/plugins/meson.build
++++ b/plugins/meson.build
+@@ -97,6 +97,7 @@ foreach plugin: all_plugins
+         unit_conf.set('description', plugin_description)
+         unit_conf.set('libexecdir', gsd_libexecdir)
+         unit_conf.set('plugin_dbus_name', plugin_dbus_name)
++        unit_conf.set('gnomesessionpath', gnomesessionpath)
+ 
+         gates_all = []
+         gates_after = []
