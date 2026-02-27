@@ -37,9 +37,11 @@
 				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
-				"/usr/lib/libKirigamiAddonsStatefulApp.so.1.11.0",
+				"/usr/lib/libKirigamiAddonsComponents.so.1.12.0",
+				"/usr/lib/libKirigamiAddonsComponents.so.6",
+				"/usr/lib/libKirigamiAddonsStatefulApp.so.1.12.0",
 				"/usr/lib/libKirigamiAddonsStatefulApp.so.6",
-				"/usr/lib/libKirigamiApp.so.1.11.0",
+				"/usr/lib/libKirigamiApp.so.1.12.0",
 				"/usr/lib/libKirigamiApp.so.6",
 				"/usr/lib/qt6/qml/org/kde/kirigamiaddons/components/Avatar.qml",
 				"/usr/lib/qt6/qml/org/kde/kirigamiaddons/components/AvatarButton.qml",
@@ -241,6 +243,7 @@
 			],
 			"name": "kf6-kirigami-addons",
 			"provides": [
+				"soname(libKirigamiAddonsComponents.so.6(x86_64))",
 				"soname(libKirigamiAddonsStatefulApp.so.6(x86_64))",
 				"soname(libKirigamiApp.so.6(x86_64))",
 				"soname(qt6/qml/org/kde/kirigamiaddons/components/libcomponentsplugin.so(x86_64))",
@@ -282,6 +285,10 @@
 				"/usr/include/KirigamiAddons/App/kirigamiapp_export.h",
 				"/usr/include/KirigamiAddons/App/kirigamiapp_version.h",
 				"/usr/include/KirigamiAddons/App/kirigamiappdefaults.h",
+				"/usr/include/KirigamiAddons/Components/NameUtils",
+				"/usr/include/KirigamiAddons/Components/kirigamiaddonscomponents_export.h",
+				"/usr/include/KirigamiAddons/Components/kirigamiaddonscomponents_version.h",
+				"/usr/include/KirigamiAddons/Components/nameutils.h",
 				"/usr/include/KirigamiAddonsStatefulApp/AbstractKirigamiApplication",
 				"/usr/include/KirigamiAddonsStatefulApp/KirigamiActionCollection",
 				"/usr/include/KirigamiAddonsStatefulApp/abstractkirigamiapplication.h",
@@ -292,6 +299,7 @@
 				"/usr/lib/cmake/KF6KirigamiAddons/KirigamiAddonsMacros.cmake",
 				"/usr/lib/cmake/KF6KirigamiAddons/KirigamiAddonsTargets-release.cmake",
 				"/usr/lib/cmake/KF6KirigamiAddons/KirigamiAddonsTargets.cmake",
+				"/usr/lib/libKirigamiAddonsComponents.so",
 				"/usr/lib/libKirigamiAddonsStatefulApp.so",
 				"/usr/lib/libKirigamiApp.so",
 				"/usr/share/kdevappwizard/templates/kirigamiaddons6.tar.bz2",
@@ -304,6 +312,6 @@
 		}
 	},
 	"source-name": "kf6-kirigami-addons",
-	"source-release": "10",
-	"source-version": "1.11.0"
+	"source-release": "11",
+	"source-version": "1.12.0"
 }
