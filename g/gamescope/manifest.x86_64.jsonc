@@ -80,6 +80,7 @@
 			],
 			"files": [
 				"/usr/bin/gamescope",
+				"/usr/bin/gamescope-type",
 				"/usr/bin/gamescopectl",
 				"/usr/bin/gamescopereaper",
 				"/usr/bin/gamescopestream",
@@ -127,6 +128,7 @@
 				"/usr/share/gamescope/scripts/00-gamescope/displays/gpd.win4.lcd.lua",
 				"/usr/share/gamescope/scripts/00-gamescope/displays/lenovo.legiongo.lcd.lua",
 				"/usr/share/gamescope/scripts/00-gamescope/displays/lenovo.legiongos.lcd.lua",
+				"/usr/share/gamescope/scripts/00-gamescope/displays/onexplayer.f1.oled.lua",
 				"/usr/share/gamescope/scripts/00-gamescope/displays/valve.steamdeck.lcd.lua",
 				"/usr/share/gamescope/scripts/00-gamescope/displays/valve.steamdeck.oled.lua",
 				"/usr/share/gamescope/scripts/00-gamescope/displays/zotac.zone.oled.lua",
@@ -136,6 +138,7 @@
 			"name": "gamescope",
 			"provides": [
 				"binary(gamescope)",
+				"binary(gamescope-type)",
 				"binary(gamescopectl)",
 				"binary(gamescopereaper)",
 				"binary(gamescopestream)",
@@ -144,6 +147,6 @@
 		}
 	},
 	"source-name": "gamescope",
-	"source-release": "5",
-	"source-version": "3.16.19"
+	"source-release": "6",
+	"source-version": "3.16.20"
 }
