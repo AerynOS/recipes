@@ -6,7 +6,6 @@
 more-ISA-levels-and-uarches-for-kernel-6.16+.patch
 
 # Add linux-asus patches
-asus/0002-hid-add-VID-PID-for-ASUS-ROG-RAIKIRI-PRO.patch
 # https://lkml.org/lkml/2025/11/2/427
 asus/v17-0001-platform-x86-asus-wmi-export-symbols-used-for-re.patch
 asus/v17-0002-platform-x86-asus-armoury-move-existing-tunings-.patch
@@ -17,23 +16,24 @@ asus/v17-0006-platform-x86-asus-armoury-add-screen-auto-bright.patch
 asus/v17-0007-platform-x86-asus-wmi-deprecate-bios-features.patch
 asus/v17-0008-platform-x86-asus-wmi-rename-ASUS_WMI_DEVID_PPT_.patch
 asus/v17-0009-platform-x86-asus-armoury-add-ppt_-and-nv_-tunin.patch
-asus/0014-asus-ally-hid-add-new-driver-for-ASUS-Ally-handhelds.patch
-asus/0015-asus-ally-hid-Add-joystick-LED-ring-support.patch
-asus/0016-asus-ally-hid-initial-Ally-X-gamepad-bringup.patch
-asus/0017-asus-ally-hid-add-QAM-steam-action-attribute-to-disa.patch
-asus/0018-asus-ally-hid-add-force-feedback-to-Ally-X-gamepad.patch
-asus/0019-asus-ally-hid-handle-screenside-QAM-buttons.patch
-asus/0020-asus-ally-hid-rename-input-devices.patch
-asus/0021-asus-ally-hid-add-gamepad-config-structures.patch
-asus/0022-asus-ally-hid-test-vibe.patch
-asus/0023-asus-ally-hid-add-deadzone-and-outer-threshold-to-JS.patch
-asus/0024-asus-ally-hid-test-trigger-dzot.patch
-asus/0025-asus-ally-hid-test-js-anti-deadzone.patch
-asus/0026-asus-ally-hid-test-joystick-response-curves.patch
-asus/0027-asus-ally-hid-test-btn-turbo.patch
-asus/0028-asus-ally-hid-test-gamepad-mode.patch
-asus/0029-ally-tmp-remapping.patch
-asus/0030-asus-wmi-fixup-screenpad-brightness.patch
+# https://github.com/OpenGamingCollective/linux/pull/11
+asus/0001-FOR-UPSTREAM-hid-asus-ally-Add-joystick-LED-ring-sup.patch
+asus/0002-FOR-UPSTREAM-hid-asus-ally-do-MCY-FW-validation-in-h.patch
+asus/0003-FOR-UPSTREAM-hid-asus-ally-initial-Ally-X-gamepad-br.patch
+asus/0004-FOR-UPSTREAM-hid-asus-ally-initial-gamepad-configura.patch
+asus/0005-FOR-UPSTREAM-hid-asus-ally-add-button-remap-attribut.patch
+asus/0006-FOR-UPSTREAM-hid-asus-ally-add-gamepad-mode-selectio.patch
+asus/0007-FOR-UPSTREAM-hid-asus-ally-Turbo-settings-for-button.patch
+asus/0008-FOR-UPSTREAM-hid-asus-ally-add-vibration-intensity-s.patch
+asus/0009-FOR-UPSTREAM-hid-asus-ally-add-JS-deadzones.patch
+asus/0010-FOR-UPSTREAM-hid-asus-ally-add-trigger-deadzones.patch
+asus/0011-FOR-UPSTREAM-hid-asus-ally-add-anti-deadzones.patch
+asus/0012-FOR-UPSTREAM-hid-asus-ally-add-JS-response-curves.patch
+asus/0013-FOR-UPSTREAM-hid-asus-ally-mcu_version-attribute.patch
+asus/0014-FOR-UPSTREAM-hid-asus-ally-add-calibrations-wip.patch
+asus/0015-FOR-UPSTREAM-debug-by-default.patch
+asus/0016-FOR-UPSTREAM-hid-asus-ally-grab-short-press-QAM-on-R.patch
+asus/0017-FOR-UPSTREAM-hid-asus-ally-disable-wakeup-attribute-.patch
 
 # Handheld patches from CachyOS and Manjaro
 handheld/0000-usb-vhci-hcd-Unconditionally-allow-system-suspend.patch
@@ -87,7 +87,6 @@ hdmi/0006-amd-gfx-drm-amd-display-Re-check-seamless-boot-can-be-enabled-or-not.p
 # From https://gitlab.freedesktop.org/agd5f/linux
 hdmi/0001-amd-staging-drm-next-drm-amd-display-Add-AS-SDP-v2-support-for-eDP-feature.patch
 hdmi/0002-amd-staging-drm-next-drm-amd-display-Revise-VSC-SDP-header-for-Panel-Replay.patch
-hdmi/0003-amd-staging-drm-next-drm-amd-display-Add-an-hdmi_hpd_debounce_delay_ms-module.patch
 hdmi/0004-amd-staging-drm-next-drm-amd-display-parse-all-extension-blocks-for-VSDB.patch
 # [PATCH v4] drm/amd: VRR fixes, HDMI Gaming Features
 # https://patchew.org/linux/20260216164516.36803-1-tomasz.pakula.oficjalny@gmail.com/
