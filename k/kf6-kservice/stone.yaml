@@ -5,7 +5,7 @@
 #
 name        : kf6-kservice
 version     : "6.23.0"
-release     : 15
+release     : 16
 upstreams   :
     - https://download.kde.org/stable/frameworks/6.23/kservice-6.23.0.tar.xz : efd56bf68fe2feb1939a050562e403d9624a74eb95dc7c264c3806800cfb2d53
 homepage    : https://community.kde.org/Frameworks
@@ -24,6 +24,8 @@ builddeps   :
     - cmake(KF6DocTools)
     - cmake(KF6I18n)
 setup       : |
+    %patch %(pkgdir)/upstream-226.patch
+
     %cmake_kf6
 build       : |
     %cmake_build
