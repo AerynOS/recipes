@@ -1,0 +1,66 @@
+#
+# SPDX-FileCopyrightText: © 2025- AerynOS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : elephant
+version     : "2.19.3"
+release     : 1
+homepage    : https://github.com/abenz1267/elephant
+upstreams   :
+    - https://github.com/abenz1267/elephant/archive/refs/tags/v2.19.3.tar.gz : 92f6737a717ed489dc041ee377992214ef8d6b3641c1436376d05672c97fc01e
+summary     : Elephant - cuz it's phat - is a powerful data provider service and backend for building custom application launchers and desktop utilities.
+description : |
+    Elephant acts as a unified backend service that aggregates data from various sources (desktop applications, files, clipboard history, etc.) and provides a consistent interface for frontend applications like custom launchers, productivity tools, or desktop widgets.
+license     :
+    - GPL-3.0-or-later
+builddeps   :
+    - binary(go)
+networking  : true
+setup       : |
+    go mod download
+build       : |
+    go build -o elephant ./cmd/elephant/elephant.go
+
+    for dir in internal/providers/*; do
+        if [ -d $dir ]; then
+            pushd $dir
+            go build -buildmode=plugin -buildvcs=false
+            popd
+        else
+            continue
+        fi
+    done
+install     : |
+    %install_bin elephant
+    %install_file assets/elephant.service %(installroot)%(libdir)/systemd/system/elephant.service
+    %install_dir %(installroot)%(datadir)/licenses/%(name)
+    %install_file LICENSE %(installroot)%(datadir)/licenses/%(name)/LICENSE
+
+    # Not entirely sure if this is correct or if it installs every provider with the base package. Intended behavior is for each provider to only be installed with the specific package for it.
+    %install_dir %(installroot)%(libdir)/%(name)
+    for dir in internal/providers/*; do
+        if [ -d $dir ]; then
+            pushd $dir
+            %install_file *.so %(installroot)%(libdir)/%(name)/.
+            popd
+        else
+            continue
+        fi
+    done
+packages    :
+    - "%(name)":
+            summary: Elephant - cuz it's phat - is a powerful data provider service and backend for building custom application launchers and desktop utilities.
+            description: |
+                Elephant acts as a unified backend service that aggregates data from various sources (desktop applications, files, clipboard history, etc.) and provides a consistent interface for frontend applications like custom launchers, productivity tools, or desktop widgets.
+            paths:
+                - /usr/bin/elephant
+                - /usr/lib/systemd/system/elephant.service
+                - /usr/share/licenses/elephant/LICENSE
+    - "%(name)-desktopapplications":
+        summary: desktopapplications provider for elephant
+        description: desktopapplications provider for elephant
+        rundeps:
+            - elephant
+        paths:
+            - /usr/lib/elephant/desktopapplications.so

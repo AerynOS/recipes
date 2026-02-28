@@ -1,0 +1,61 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"walker": {
+			"build-depends": [
+				"pkgconfig(cairo)",
+				"pkgconfig(gtk4)",
+				"pkgconfig(gtk4-layer-shell-0)",
+				"pkgconfig(poppler-glib)",
+				"pkgconfig(protobuf)"
+			],
+			"depends": [
+				"elephant-desktopapplications",
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(ld-linux-x86-64.so.2(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libcairo.so.2(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libgdk_pixbuf-2.0.so.0(x86_64))",
+				"soname(libgio-2.0.so.0(x86_64))",
+				"soname(libglib-2.0.so.0(x86_64))",
+				"soname(libgobject-2.0.so.0(x86_64))",
+				"soname(libgtk-4.so.1(x86_64))",
+				"soname(libgtk4-layer-shell.so.0(x86_64))",
+				"soname(libm.so.6(x86_64))",
+				"soname(libpoppler-glib.so.8(x86_64))"
+			],
+			"files": [
+				"/usr/bin/walker",
+				"/usr/share/defaults/walker/config.toml",
+				"/usr/share/defaults/walker/themes/default/item.xml",
+				"/usr/share/defaults/walker/themes/default/item_actionsmenu.xml",
+				"/usr/share/defaults/walker/themes/default/item_archlinuxpkgs.xml",
+				"/usr/share/defaults/walker/themes/default/item_bookmarks.xml",
+				"/usr/share/defaults/walker/themes/default/item_calc.xml",
+				"/usr/share/defaults/walker/themes/default/item_clipboard.xml",
+				"/usr/share/defaults/walker/themes/default/item_dmenu.xml",
+				"/usr/share/defaults/walker/themes/default/item_dnfpackages.xml",
+				"/usr/share/defaults/walker/themes/default/item_files.xml",
+				"/usr/share/defaults/walker/themes/default/item_providerlist.xml",
+				"/usr/share/defaults/walker/themes/default/item_symbols.xml",
+				"/usr/share/defaults/walker/themes/default/item_symbols_grid.xml",
+				"/usr/share/defaults/walker/themes/default/item_todo.xml",
+				"/usr/share/defaults/walker/themes/default/item_unicode.xml",
+				"/usr/share/defaults/walker/themes/default/keybind.xml",
+				"/usr/share/defaults/walker/themes/default/layout.xml",
+				"/usr/share/defaults/walker/themes/default/preview.xml",
+				"/usr/share/defaults/walker/themes/default/style.css",
+				"/usr/share/licenses/walker/LICENSE"
+			],
+			"name": "walker",
+			"provides": [
+				"binary(walker)"
+			]
+		}
+	},
+	"source-name": "walker",
+	"source-release": "1",
+	"source-version": "2.14.2"
+}
