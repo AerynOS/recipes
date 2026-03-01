@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : lxc
-version     : "6.0.5"
-release     : 2
+version     : "6.0.6"
+release     : 3
 homepage    : https://linuxcontainers.org/lxc
 upstreams   :
-    - https://linuxcontainers.org/downloads/lxc/lxc-6.0.5.tar.gz : 2e540c60b9dd49e7ee1a4efa5e9c743b05df911b81b375ed5043d9dd7ee0b48a
+    - https://linuxcontainers.org/downloads/lxc/lxc-6.0.6.tar.gz : b0ba4537258d2b848fd07dedb1044dab132de3fb3f1976d240da40a7dee1b8cf
 license     : LGPL-2.1-or-later
 summary     : Linux Containers
 description : |
@@ -24,6 +24,9 @@ builddeps   :
     # TODO: docbook2man for man pages
     # lxcfs
 setup       : |
+    # glibc 2.43 build failure, remove in future version
+    export CFLAGS+=" -Wno-error=incompatible-pointer-types-discards-qualifiers"
+
     # TODO: Figure out why static libcap isn't working
     %meson \
         -Dapparmor=false \
