@@ -3,12 +3,12 @@
 #
 # SPDX-License-Identifier: MPL-2.0
 #
-name        : mangowc
-version     : "0.12.4"
-release     : 5
-homepage    : https://github.com/DreamMaoMao/mangowc
+name        : mango
+version     : "0.12.5"
+release     : 6
+homepage    : https://github.com/mangowm/mango
 upstreams   :
-    - https://github.com/DreamMaoMao/mangowc/archive/refs/tags/0.12.4.tar.gz : b866f3c68e998dcba2ebf78d5e9bbc897eccdf48128d5094a006bdc7592a2bdd
+        - https://github.com/mangowm/mango/archive/refs/tags/0.12.5.tar.gz : 56ce7e86d7d54878b2e309bd1df380b1983a27ef1fb92868a26b2cc06cf539f1
 summary     : A Wayland compositor with smooth animation
 description : |
     A wayland compositor utilizing wlroots as a base and SceneFX for aesthetics
@@ -19,8 +19,6 @@ builddeps   :
     - pkgconfig(scenefx)
     - pkgconfig(wayland-protocols)
     - pkgconfig(wlroots)
-rundeps     :
-    - binary(foot) # Ensure default config terminal is installed
 setup       : |
     %patch %(pkgdir)/stateless-config.patch
     %meson

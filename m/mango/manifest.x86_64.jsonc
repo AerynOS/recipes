@@ -2,7 +2,7 @@
 {
 	"manifest-version": "0.2",
 	"packages": {
-		"mangowc": {
+		"mango": {
 			"build-depends": [
 				"pkgconfig(libpcre2-8)",
 				"pkgconfig(scenefx)",
@@ -10,7 +10,6 @@
 				"pkgconfig(wlroots)"
 			],
 			"depends": [
-				"binary(foot)",
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libinput.so.10(x86_64))",
@@ -29,14 +28,14 @@
 				"/usr/share/wayland-sessions/mango.desktop",
 				"/usr/share/xdg-desktop-portal/mango-portals.conf"
 			],
-			"name": "mangowc",
+			"name": "mango",
 			"provides": [
 				"binary(mango)",
 				"binary(mmsg)"
 			]
 		}
 	},
-	"source-name": "mangowc",
-	"source-release": "5",
-	"source-version": "0.12.4"
+	"source-name": "mango",
+	"source-release": "6",
+	"source-version": "0.12.5"
 }
