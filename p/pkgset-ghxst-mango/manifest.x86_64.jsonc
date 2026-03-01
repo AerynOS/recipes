@@ -1,0 +1,54 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"pkgset-ghxst-mango-full": {
+			"depends": [
+				"awww",
+				"grim",
+				"pkgset-ghxst-mango-recommended",
+				"polkit",
+				"polkit-kde-agent",
+				"slurp",
+				"swayidle",
+				"swaylock",
+				"waybar",
+				"wev",
+				"wf-recorder",
+				"wlsunset"
+			],
+			"files": [
+				"/usr/share/doc/pkgset-ghxst-mango-full/README"
+			],
+			"name": "pkgset-ghxst-mango-full"
+		},
+		"pkgset-ghxst-mango-minimal": {
+			"depends": [
+				"mango"
+			],
+			"files": [
+				"/usr/share/doc/pkgset-ghxst-mango-minimal/README"
+			],
+			"name": "pkgset-ghxst-mango-minimal"
+		},
+		"pkgset-ghxst-mango-recommended": {
+			"depends": [
+				"foot",
+				"lucien",
+				"pkgset-aeryn-base-desktop",
+				"pkgset-ghxst-mango-minimal",
+				"wl-clipboard-rs",
+				"xdg-desktop-portal",
+				"xdg-desktop-portal-gtk",
+				"xdg-desktop-portal-wlr"
+			],
+			"files": [
+				"/usr/share/doc/pkgset-ghxst-mango-recommended/README"
+			],
+			"name": "pkgset-ghxst-mango-recommended"
+		}
+	},
+	"source-name": "pkgset-ghxst-mango",
+	"source-release": "1",
+	"source-version": "2026.03"
+}
