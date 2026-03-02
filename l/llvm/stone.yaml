@@ -5,7 +5,7 @@
 #
 name        : llvm
 version     : "21.1.8"
-release     : 45
+release     : 46
 summary     : Low Level Virtual Machine
 license     :
     - Apache-2.0 WITH LLVM-exception
@@ -63,7 +63,7 @@ environment : |
         _IS_64BIT_BUILD="ON"
 
         # Full-fat (in the milk sense) build suitable for cross-compilation
-        _BUILD_TARGETS="AArch64;AMDGPU;ARM;BPF;NVPTX;RISCV;SPIRV;WebAssembly;X86"
+        _BUILD_TARGETS="AArch64;AMDGPU;ARM;AVR;BPF;Hexagon;Lanai;LoongArch;Mips;MSP430;NVPTX;PowerPC;RISCV;Sparc;SPIRV;SystemZ;VE;WebAssembly;X86;XCore"
         _PROJECTS="bolt;clang;clang-tools-extra;flang;lld;lldb;llvm;mlir;polly"
         _RUNTIMES="compiler-rt;flang-rt;libclc;libcxx;libcxxabi;libunwind;offload;openmp"
     fi
@@ -93,13 +93,12 @@ environment : |
         %patch %(pkgdir)/patches/config/0001-lld-Always-enable-build-id-and-use-20-byte-hashes.patch
 
         # Aeryn-specific patches
-        %patch %(pkgdir)/patches/aerynos/0001-Support-serpent-aeryn-as-a-distro.patch
+        %patch %(pkgdir)/patches/aerynos/0001-Support-aeryn-solus-as-a-distro.patch
         %patch %(pkgdir)/patches/aerynos/0001-Use-correct-Serpent-OS-multilib-paths-for-ld.patch
         %patch %(pkgdir)/patches/aerynos/0001-Update-binutils-version-to-match-Serpent-OS.patch
         %patch %(pkgdir)/patches/aerynos/0001-clang-lib-Ignore-Werror-if-CLANG_IGNORE_WERROR-is-se.patch
 
         # Performance-related patches
-        %patch %(pkgdir)/patches/perf/0001-Reduce-GCC-startup-searches.patch
         %patch %(pkgdir)/patches/perf/0001-Use-mimalloc-for-clang-lld-llvm.patch
 
         ## Upstream backports
@@ -437,12 +436,12 @@ profiles    :
             %install_dir %(installroot)%(bashcompletionsdir)
             mv %(installroot)/usr/share/clang/bash-autocomplete.sh %(installroot)%(bashcompletionsdir)/clang
 
-            # Provides cc/c++ on Aeryn
-            for i in cc %(host_platform)-cc x86_64-serpent-linux-cc; do
+            # Provides cc/c++ on Aeryn/Solus
+            for i in cc %(host_platform)-cc x86_64-solus-linux-cc; do
                 ln -srv %(installroot)%(bindir)/clang %(installroot)%(bindir)/${i}
                 ln -srv %(installroot)%(mandir)/man1/clang.1 %(installroot)%(mandir)/man1/${i}.1
             done
-            for i in c++ %(host_platform)-c++ x86_64-serpent-linux-c++; do
+            for i in c++ %(host_platform)-c++ x86_64-solus-linux-c++; do
                 ln -srv %(installroot)%(bindir)/clang++ %(installroot)%(bindir)/${i}
                 ln -srv %(installroot)%(mandir)/man1/clang.1 %(installroot)%(mandir)/man1/${i}.1
             done

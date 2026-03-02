@@ -55,16 +55,16 @@
 				"/usr/bin/clang-scan-deps",
 				"/usr/bin/x86_64-aerynos-linux-c++",
 				"/usr/bin/x86_64-aerynos-linux-cc",
-				"/usr/bin/x86_64-serpent-linux-c++",
-				"/usr/bin/x86_64-serpent-linux-cc",
+				"/usr/bin/x86_64-solus-linux-c++",
+				"/usr/bin/x86_64-solus-linux-cc",
 				"/usr/share/bash-completion/completions/clang",
 				"/usr/share/man/man1/c++.1",
 				"/usr/share/man/man1/cc.1",
 				"/usr/share/man/man1/clang.1",
 				"/usr/share/man/man1/x86_64-aerynos-linux-c++.1",
 				"/usr/share/man/man1/x86_64-aerynos-linux-cc.1",
-				"/usr/share/man/man1/x86_64-serpent-linux-c++.1",
-				"/usr/share/man/man1/x86_64-serpent-linux-cc.1"
+				"/usr/share/man/man1/x86_64-solus-linux-c++.1",
+				"/usr/share/man/man1/x86_64-solus-linux-cc.1"
 			],
 			"name": "clang",
 			"provides": [
@@ -78,8 +78,8 @@
 				"binary(clang-scan-deps)",
 				"binary(x86_64-aerynos-linux-c++)",
 				"binary(x86_64-aerynos-linux-cc)",
-				"binary(x86_64-serpent-linux-c++)",
-				"binary(x86_64-serpent-linux-cc)"
+				"binary(x86_64-solus-linux-c++)",
+				"binary(x86_64-solus-linux-cc)"
 			]
 		},
 		"clang-32bit": {
@@ -1829,6 +1829,7 @@
 				"/usr/include/flang/__fortran_builtins.mod",
 				"/usr/include/flang/__fortran_ieee_exceptions.mod",
 				"/usr/include/flang/__fortran_type_info.mod",
+				"/usr/include/flang/__ppc_intrinsics.mod",
 				"/usr/include/flang/__ppc_types.mod",
 				"/usr/include/flang/cooperative_groups.mod",
 				"/usr/include/flang/cudadevice.mod",
@@ -1838,6 +1839,7 @@
 				"/usr/include/flang/iso_c_binding.mod",
 				"/usr/include/flang/iso_fortran_env.mod",
 				"/usr/include/flang/iso_fortran_env_impl.mod",
+				"/usr/include/flang/mma.mod",
 				"/usr/include/flang/omp_lib.h",
 				"/usr/include/flang/omp_lib.mod",
 				"/usr/include/flang/omp_lib_kinds.mod",
@@ -10270,6 +10272,6 @@
 		}
 	},
 	"source-name": "llvm",
-	"source-release": "45",
+	"source-release": "46",
 	"source-version": "21.1.8"
 }
