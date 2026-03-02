@@ -39,7 +39,7 @@
 			"files": [
 				"/usr/bin/g++",
 				"/usr/bin/x86_64-aerynos-linux-g++",
-				"/usr/bin/x86_64-serpent-linux-g++",
+				"/usr/bin/x86_64-solus-linux-g++",
 				"/usr/lib/gcc/x86_64-aerynos-linux/15/cc1plus",
 				"/usr/lib/gcc/x86_64-aerynos-linux/15/g++-mapper-server",
 				"/usr/share/man/man1/g++.1"
@@ -48,7 +48,7 @@
 			"provides": [
 				"binary(g++)",
 				"binary(x86_64-aerynos-linux-g++)",
-				"binary(x86_64-serpent-linux-g++)"
+				"binary(x86_64-solus-linux-g++)"
 			]
 		},
 		"g++-32bit": {
@@ -131,11 +131,11 @@
 				"/usr/bin/x86_64-aerynos-linux-gcc-ar",
 				"/usr/bin/x86_64-aerynos-linux-gcc-nm",
 				"/usr/bin/x86_64-aerynos-linux-gcc-ranlib",
-				"/usr/bin/x86_64-serpent-linux-gcc",
-				"/usr/bin/x86_64-serpent-linux-gcc-15",
-				"/usr/bin/x86_64-serpent-linux-gcc-ar",
-				"/usr/bin/x86_64-serpent-linux-gcc-nm",
-				"/usr/bin/x86_64-serpent-linux-gcc-ranlib",
+				"/usr/bin/x86_64-solus-linux-gcc",
+				"/usr/bin/x86_64-solus-linux-gcc-15",
+				"/usr/bin/x86_64-solus-linux-gcc-ar",
+				"/usr/bin/x86_64-solus-linux-gcc-nm",
+				"/usr/bin/x86_64-solus-linux-gcc-ranlib",
 				"/usr/lib/bfd-plugins/liblto_plugin.so",
 				"/usr/lib/gcc/x86_64-aerynos-linux/15/cc1",
 				"/usr/lib/gcc/x86_64-aerynos-linux/15/collect2",
@@ -880,7 +880,7 @@
 				"/usr/lib/gcc/x86_64-aerynos-linux/15/plugin/libcp1plugin.so",
 				"/usr/lib/gcc/x86_64-aerynos-linux/15/plugin/libcp1plugin.so.0",
 				"/usr/lib/gcc/x86_64-aerynos-linux/15/plugin/libcp1plugin.so.0.0.0",
-				"/usr/lib/gcc/x86_64-serpent-linux",
+				"/usr/lib/gcc/x86_64-solus-linux",
 				"/usr/lib/libasan.a",
 				"/usr/lib/libasan.so",
 				"/usr/lib/libasan.so.8",
@@ -985,11 +985,11 @@
 				"binary(x86_64-aerynos-linux-gcc-ar)",
 				"binary(x86_64-aerynos-linux-gcc-nm)",
 				"binary(x86_64-aerynos-linux-gcc-ranlib)",
-				"binary(x86_64-serpent-linux-gcc)",
-				"binary(x86_64-serpent-linux-gcc-15)",
-				"binary(x86_64-serpent-linux-gcc-ar)",
-				"binary(x86_64-serpent-linux-gcc-nm)",
-				"binary(x86_64-serpent-linux-gcc-ranlib)",
+				"binary(x86_64-solus-linux-gcc)",
+				"binary(x86_64-solus-linux-gcc-15)",
+				"binary(x86_64-solus-linux-gcc-ar)",
+				"binary(x86_64-solus-linux-gcc-nm)",
+				"binary(x86_64-solus-linux-gcc-ranlib)",
 				"soname(gcc/x86_64-aerynos-linux/15/liblto_plugin.so(x86_64))",
 				"soname(gcc/x86_64-aerynos-linux/15/plugin/libcc1plugin.so.0(x86_64))",
 				"soname(gcc/x86_64-aerynos-linux/15/plugin/libcp1plugin.so.0(x86_64))",
@@ -1156,14 +1156,14 @@
 			"files": [
 				"/usr/bin/gccrs",
 				"/usr/bin/x86_64-aerynos-linux-gccrs",
-				"/usr/bin/x86_64-serpent-linux-gccrs",
+				"/usr/bin/x86_64-solus-linux-gccrs",
 				"/usr/lib/gcc/x86_64-aerynos-linux/15/crab1"
 			],
 			"name": "gccrs",
 			"provides": [
 				"binary(gccrs)",
 				"binary(x86_64-aerynos-linux-gccrs)",
-				"binary(x86_64-serpent-linux-gccrs)"
+				"binary(x86_64-solus-linux-gccrs)"
 			]
 		},
 		"gcobol": {
@@ -1258,7 +1258,7 @@
 			"files": [
 				"/usr/bin/gfortran",
 				"/usr/bin/x86_64-aerynos-linux-gfortran",
-				"/usr/bin/x86_64-serpent-linux-gfortran",
+				"/usr/bin/x86_64-solus-linux-gfortran",
 				"/usr/lib/gcc/x86_64-aerynos-linux/15/f951",
 				"/usr/lib/gcc/x86_64-aerynos-linux/15/finclude/ieee_arithmetic.mod",
 				"/usr/lib/gcc/x86_64-aerynos-linux/15/finclude/ieee_exceptions.mod",
@@ -1280,7 +1280,7 @@
 			"provides": [
 				"binary(gfortran)",
 				"binary(x86_64-aerynos-linux-gfortran)",
-				"binary(x86_64-serpent-linux-gfortran)"
+				"binary(x86_64-solus-linux-gfortran)"
 			]
 		},
 		"gfortran-32bit": {
@@ -3370,7 +3370,7 @@
 				"/usr/include/c++/15/x86_64-aerynos-linux/bits/stdtr1c++.h",
 				"/usr/include/c++/15/x86_64-aerynos-linux/bits/time_members.h",
 				"/usr/include/c++/15/x86_64-aerynos-linux/ext/opt_random.h",
-				"/usr/include/c++/15/x86_64-serpent-linux",
+				"/usr/include/c++/15/x86_64-solus-linux",
 				"/usr/lib/libstdc++.so"
 			],
 			"name": "libstdc++-devel"
@@ -3408,6 +3408,6 @@
 		}
 	},
 	"source-name": "gcc",
-	"source-release": "18",
-	"source-version": "15.2.0+git.e4ee38ae"
+	"source-release": "19",
+	"source-version": "15.2.0+git.6bdd48e5"
 }
