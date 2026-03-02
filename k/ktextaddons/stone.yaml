@@ -4,10 +4,10 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : ktextaddons
-version     : "1.9.1"
-release     : 8
+version     : "2.0.0"
+release     : 9
 upstreams   :
-    - https://download.kde.org/stable/ktextaddons/ktextaddons-1.9.1.tar.xz : 366d5a94c7405482c3a6d261347c1b995de73a087059996b117d612bfc1291c2
+    - https://download.kde.org/stable/ktextaddons/ktextaddons-2.0.0.tar.xz : 0101dacca60bef92d2b045342c880e1419f3dd6b1e98a1f850a14f47b3f9de79
 homepage    : https://invent.kde.org/libraries/ktextaddons
 license     :
     - GPL-2.0-or-later
@@ -45,6 +45,7 @@ packages    :
             - /usr/lib/libKF6*.so.*
             - /usr/lib/libtextautogenerateollama.so.*
             - /usr/lib/libtextautogenerategenericnetwork.so.*
+            - /usr/lib/libtextautogenerateollama*.so.*
             - /usr/lib/libtextutils-cmark-rc-copy.so.*
             - /usr/lib/qt6/plugins/kf6/speechtotext/
             - /usr/lib/qt6/plugins/kf6/textautogeneratetext/
