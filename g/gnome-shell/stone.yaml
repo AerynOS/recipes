@@ -5,7 +5,7 @@
 #
 name        : gnome-shell
 version     : "49.4"
-release     : 44
+release     : 45
 homepage    : https://gitlab.gnome.org/GNOME/gnome-shell
 upstreams   :
     - https://download.gnome.org/sources/gnome-shell/49/gnome-shell-49.4.tar.xz : 9d6f0ca2f0140c114f114f6707413611f614fb1ea6c317a8d1fcc40c3c595b08
@@ -26,7 +26,6 @@ builddeps   :
     - binary(perl)
     - binary(python3)
     - binary(rst2man)
-    - binary(rtkitctl)
     - binary(wireplumber)
     - pkgconfig(atk-bridge-2.0)
     - pkgconfig(bash-completion)
@@ -55,9 +54,10 @@ builddeps   :
     - pkgconfig(polkit-agent-1)
     - pkgconfig(systemd)
     - pkgconfig(x11)
+    - sysbinary(rtkitctl)
 rundeps     :
     - binary(Xwayland)
-    - binary(rtkitctl)
+    - sysbinary(rtkitctl)
     - adwaita-icon-theme
     - font-cantarell
     - gdm-libs
