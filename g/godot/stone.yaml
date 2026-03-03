@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : godot
-version     : "4.5.1"
-release     : 10
+version     : "4.6.1"
+release     : 11
 homepage    : https://godotengine.org
 upstreams   :
-    - https://github.com/godotengine/godot/archive/refs/tags/4.5.1-stable.tar.gz: c62a6eafc4a2de44fda3ad2db6dbe989726cd4c37537e0af119eeb6886fe49f2
+    - https://github.com/godotengine/godot/archive/refs/tags/4.6.1-stable.tar.gz: f5d887cda2589fd2995b1cf7e74fe1ec54220f56d7fd6729a8a0865d794fb287
 summary     : Godot Engine – Multi-platform 2D and 3D game engine
 description : |
     Godot Engine is a feature-packed, cross-platform game engine to create 2D and 3D games from a unified interface.
@@ -41,8 +41,6 @@ builddeps   :
     - pkgconfig(wayland-scanner)
     - pkgconfig(zlib)
     # TODO enet, libtheora, mbedtls, miniupnpc, wslay, speech-dispatcher
-setup       : |
-    %patch %(pkgdir)/ftbfs-system-glslang.patch
 build       : |
     export AERYN_SCONS_ENV_PASSTHROUGH=1
     export BUILD_NAME="AerynOS"
