@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : rtkit
-version     : "0.13"
-release     : 3
-homepage    : https://github.com/heftig/rtkit
+version     : "0.14"
+release     : 4
+homepage    : https://gitlab.freedesktop.org/pipewire/rtkit
 upstreams   :
-    - https://github.com/heftig/rtkit/releases/download/v0.13/rtkit-0.13.tar.xz : a157144cd95cf6d25200e74b74a8f01e4fe51fd421bb63c1f00d471394b640ab
+    - https://gitlab.freedesktop.org/pipewire/rtkit/-/archive/v0.14/rtkit-v0.14.tar.gz : 55dd379b11f52b81655e2dc676de9d602d050cb0beb18ef01f0f65569f0a5e59
 summary     : Realtime Policy and Watchdog Daemon
 description : |
     Realtime Policy and Watchdog Daemon
@@ -22,7 +22,8 @@ builddeps   :
     - pkgconfig(polkit-gobject-1)
     - pkgconfig(systemd)
 setup       : |
-    %meson -Dinstalled_tests=false
+    %meson \
+        -Dinstalled_tests=false
 build       : |
     %meson_build
 install     : |
@@ -33,3 +34,6 @@ install     : |
     ln -s rtkit.group %(installroot)%(libdir)/userdb/133.group
     %install_file %(pkgdir)/rtkit.user %(installroot)%(libdir)/userdb/rtkit.user
     ln -s rtkit.user %(installroot)%(libdir)/userdb/133.user
+
+    rm -v %(installroot)%(sysusersdir)/rtkit.conf
+    rmdir -v %(installroot)%(sysusersdir)
