@@ -5,7 +5,7 @@
 #
 name        : kf6-kirigami
 version     : "6.23.0"
-release     : 23
+release     : 24
 upstreams   :
     - https://download.kde.org/stable/frameworks/6.23/kirigami-6.23.0.tar.xz : 8dc28d406be06d360d47e8013e13d633b8c2cfb03607f49029bb45ffdbd28910
 homepage    : https://community.kde.org/Frameworks
@@ -22,6 +22,8 @@ builddeps   :
     - cmake(Qt6ShaderTools)
     - cmake(Qt6Svg)
 setup       : |
+    %patch %(pkgdir)/upstream-01.patch
+
     %cmake_kf6
 build       : |
     %cmake_build
