@@ -1,0 +1,28 @@
+diff --git a/apps/desktop/desktop_native/napi/package.json b/apps/desktop/desktop_native/napi/package.json
+index 1234567890..1234567891 100644
+--- a/apps/desktop/desktop_native/napi/package.json
++++ b/apps/desktop/desktop_native/napi/package.json
+@@ -8,9 +8,6 @@
+   },
+   "author": "",
+   "license": "GPL-3.0",
+-  "devDependencies": {
+-    "@napi-rs/cli": "3.2.0"
+-  },
+   "napi": {
+     "binaryName": "desktop_napi",
+     "targets": [
+diff --git a/apps/desktop/electron-builder.json b/apps/desktop/electron-builder.json
+index 1234567890..1234567891 100644
+--- a/apps/desktop/electron-builder.json
++++ b/apps/desktop/electron-builder.json
+@@ -13,9 +13,6 @@
+     "output": "dist",
+     "app": "build"
+   },
+-  "afterSign": "scripts/after-sign.js",
+-  "afterPack": "scripts/after-pack.js",
+-  "beforePack": "scripts/before-pack.js",
+   "files": [
+     "!node_modules/@bitwarden/desktop-napi/scripts",
+     "!node_modules/@bitwarden/desktop-napi/src",
