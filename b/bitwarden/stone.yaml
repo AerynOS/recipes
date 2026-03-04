@@ -5,7 +5,7 @@
 #
 name        : bitwarden
 version     : "2026.1.1"
-release     : 1
+release     : 2
 summary     : A secure and free password manager for all of your devices
 license     : GPL-3.0-only
 homepage    : hhttps://github.com/bitwarden/clients/tree/main/apps/desktop
@@ -63,7 +63,7 @@ install     : |
     %install_exe apps/desktop/desktop_native/%(cargo_target_dir)/desktop_proxy %(installroot)${bitwardendir}
     %install_exe apps/desktop/desktop_native/%(cargo_target_dir)/libprocess_isolation.so %(installroot)${bitwardendir}
 
-    %install_file %(pkgdir)/bitwarden.desktop -t %(installroot)/usr/share/applications/
+    %install_file %(pkgdir)/Bitwarden.desktop -t %(installroot)/usr/share/applications/
 
     for i in 16 32 64 128 256 512 1024; do
         %install_dir %(installroot)/%(datadir)/icons/hicolor/${i}x${i}/apps
