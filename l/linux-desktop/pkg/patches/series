@@ -25,8 +25,10 @@ surface/0017-platform-surface-Add-driver-for-Surface-Book-1-dGPU-.patch
 surface/0018-Input-soc_button_array-support-AMD-variant-Surface-d.patch
 surface/0019-platform-surface-surfacepro3_button-don-t-load-on-am.patch
 surface/0020-USB-quirks-Add-USB_QUIRK_DELAY_INIT-for-Surface-Go-3.patch
-surface/0021-hid-multitouch-Turn-off-Type-Cover-keyboard-backligh.patch
-surface/0022-hid-multitouch-Add-support-for-surface-pro-type-cove.patch
+# Broken due to hid-multitouch-add-quirks-for-lenovo-yoga-book-9i.patch
+# https://github.com/linux-surface/linux-surface/issues/2017
+#surface/0021-hid-multitouch-Turn-off-Type-Cover-keyboard-backligh.patch
+#surface/0022-hid-multitouch-Add-support-for-surface-pro-type-cove.patch
 surface/0023-PCI-Add-quirk-to-prevent-calling-shutdown-method.patch
 surface/0024-PCI-Add-Surface-Laptop-Studio-2-devices-to-shutdown-.patch
 surface/0025-platform-surface-gpe-Add-support-for-Surface-Pro-9.patch
@@ -44,7 +46,8 @@ surface/0036-ACPI-Add-quirk-for-Surface-Laptop-4-AMD-missing-irq-.patch
 surface/0037-ACPI-Add-AMD-13-Surface-Laptop-4-model-to-irq-7-over.patch
 surface/0038-acpi-allow-usage-of-acpi_tad-on-HW-reduced-platforms.patch
 surface/0039-HID-Add-hid-surface-driver-to-filter-BTN_0-FN-key.patch
-surface/0040-hid-multitouch-Prevent-mode-set-on-Surface-Laptop-St.patch
+# Broken due to hid-multitouch-add-quirks-for-lenovo-yoga-book-9i.patch
+#surface/0040-hid-multitouch-Prevent-mode-set-on-Surface-Laptop-St.patch
 
 # Add linux-asus patches
 asus/0002-hid-add-VID-PID-for-ASUS-ROG-RAIKIRI-PRO.patch
