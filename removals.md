@@ -184,3 +184,7 @@
 
 ### Merged into main package
 - cli11-devel
+
+### Renamed/Rebranded upstream
+- mangowc
+- mangowc-dbginfo
