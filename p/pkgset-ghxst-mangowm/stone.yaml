@@ -1,0 +1,74 @@
+name           : pkgset-ghxst-mangowm
+version        : "2026.03" # The date the package was created - YYYY.MM
+release        : 1
+homepage       : https://github.com/mangowm/mango
+# No upstream
+summary        : pkgset virtual packages - Mango Wayland Compositor
+description    : |
+  pkgset virtual packages - Mango Wayland Compositor
+license        : MIT
+install        : |
+  for i in minimal recommended full; do
+    %install_dir %(installroot)%(docdir)/%(name)-${i}
+    echo "This file will disappear when virtual packages are introduced" > %(installroot)%(docdir)/%(name)-${i}/README
+  done
+packages       :
+  - "%(name)-minimal":
+      summary: A barebones Mango install with no extra software
+      description: |
+        A barebones Mango install with no extra software - Install a terminal and add it to the config before use
+      rundeps:
+        - binary(mango)
+        - pkgset-aeryn-base-desktop
+      paths:
+        - /usr/share/doc/%(name)-minimal/README
+  - "%(name)-recommended":
+      summary: Mango Wayland Compositor with a terminal, app launcher, portals, and clipboard support
+      description: |
+        Mango Wayland Compositor with a terminal, app launcher, portals, and clipboard support
+      rundeps:
+        # Terminal
+        - binary(foot)
+
+        # Clipboard
+        - binary(wl-clip)
+
+        # App launcher
+        - binary(elephant)
+        - binary(walker)
+
+        # Portals
+        - xdg-desktop-portal
+        - xdg-desktop-portal-gtk
+        - xdg-desktop-portal-wlr
+
+        - "%(name)-minimal"
+      paths:
+        - /usr/share/doc/%(name)-recommended/README
+  - "%(name)-full":
+      summary: All the apps needed for Mango Wayland Compositor to have a basic full desktop experience
+      description: |
+        All the apps needed for Mango Wayland Compositor to have a basic full desktop experience
+      rundeps:
+        # Screen capture
+        - binary(grim)
+        - binary(slurp)
+        - binary(wf-recorder)
+
+        # Polkit
+        - binary(pkaction)
+        - polkit-kde-agent
+
+        # Wallpaper
+        - binary(awww)
+
+        # Utility
+        - binary(swayidle)
+        - binary(swaylock)
+        - binary(waybar)
+        - binary(wlsunset)
+        - binary(wev)
+
+        - "%(name)-recommended"
+      paths:
+        - /usr/share/doc/%(name)-full/README
