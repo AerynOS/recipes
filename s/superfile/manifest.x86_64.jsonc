@@ -1,0 +1,21 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"superfile": {
+			"build-depends": [
+				"binary(go)"
+			],
+			"files": [
+				"/usr/bin/spf"
+			],
+			"name": "superfile",
+			"provides": [
+				"binary(spf)"
+			]
+		}
+	},
+	"source-name": "superfile",
+	"source-release": "1",
+	"source-version": "1.5.0"
+}
