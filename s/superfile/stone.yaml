@@ -1,0 +1,23 @@
+#
+# SPDX-FileCopyrightText: © 2025- AerynOS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : superfile
+version     : "1.5.0"
+release     : 1
+homepage    : https://github.com/yorukot/superfile
+upstreams   :
+    - https://github.com/yorukot/superfile/archive/refs/tags/v1.5.0.tar.gz : bb394f73817d164b9756613ccd850fb3dd5fd5ee898defd86b27eecd4cec48bf
+summary     : Pretty fancy and modern terminal file manager
+description : |
+    Pretty fancy and modern terminal file manager
+license     : 
+    - MIT
+networking  : true
+builddeps   :
+  - binary(go)
+build       : |
+    CGO_ENABLED=0 go build -o ./bin/spf
+install     : |
+    %install_bin bin/spf
