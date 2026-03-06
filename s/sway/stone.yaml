@@ -5,7 +5,7 @@
 #
 name        : sway
 version     : "1.11"
-release     : 9
+release     : 10
 homepage    : https://github.com/swaywm/sway
 upstreams   :
     - https://github.com/swaywm/sway/releases/download/1.11/sway-1.11.tar.gz : 0e37a55b7c3379230e97e1ad982542b75016a0c7d6676198604e557f9b373dae
@@ -34,7 +34,7 @@ builddeps   :
     # are only used to determine the correct locations directories. If not found
     # sway defaults to the typical locations to install to which is correct.
 rundeps     :
-    - binary(alacritty) # Let's make sure we have at least one terminal
+    - binary(foot) # Let's make sure we have at least one terminal
     - binary(swaybg)
     - binary(wmenu)
     - liberation-fonts-ttf # need fonts
@@ -45,7 +45,6 @@ rundeps     :
     # X11 support
     - binary(Xwayland)
 setup       : |
-    %patch %(pkgdir)/0001-Aeryn-default-config-changes.patch
     %patch %(pkgdir)/0001-Make-sway-stateless.patch
 
     %meson \
@@ -59,6 +58,6 @@ install     : |
     %install_file %(pkgdir)/50-systemd-user.conf -t %(installroot)%(vendordir)/sway/config.d/
 
     # Install xdg-desktop-portals configuration
-    %install_file %(pkgdir)/sway-portals.conf -t %(installroot)%(datadir)/xdg-desktop-portal
+    %install_file %(pkgdir)/sway-portals.conf -t %(installroot)%(datadir)/xdg-desktop-portal/
 
     # TODO: When moss supports xattrs make sure to add CAP_SYS_NICE to the binary
