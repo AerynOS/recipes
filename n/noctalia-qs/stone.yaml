@@ -1,0 +1,41 @@
+#
+# SPDX-FileCopyrightText: © 2025- AerynOS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : noctalia-qs
+version     : "0.0.5"
+release     : 1
+homepage    : https://github.com/noctalia-dev/noctalia-qs
+upstreams   :
+    - https://github.com/noctalia-dev/noctalia-qs/archive/refs/tags/v0.0.5.tar.gz : b0552dcffa6ddfbf81fa890508fca50b2cfa46a2c95f7a6945b94cdb45052026
+summary     : quickshell fork
+description : |
+    Flexible toolkit for making desktop shells with QtQuick, for Wayland and X11 
+license     : 
+    - LGPL-3.0-or-later
+builddeps   :
+    - binary(pkgconf)
+    - cmake(Qt6Qml)
+    - cmake(Qt6ShaderTools)
+    - cmake(Qt6Svg)
+    - cmake(Qt6WaylandClientPrivate)
+    - pkgconfig(CLI11)
+    - pkgconfig(gbm)
+    - pkgconfig(jemalloc)
+    - pkgconfig(libdrm)
+    - pkgconfig(libpipewire-0.3)
+    - pkgconfig(pam)
+    - pkgconfig(polkit-agent-1)
+    - pkgconfig(wayland-protocols)
+setup       : |
+    %cmake -DDISTRIBUTOR="AerynOS" \
+           -DDISTRIBUTOR_DEBUGINFO_AVAILABLE=NO \
+           -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+           -DINSTALL_QML_PREFIX="lib/qt6/qml" \
+           -DCRASH_REPORTER=OFF \
+           -DCMAKE_DISABLE_PRECOMPILE_HEADERS=ON
+build       : |
+    %cmake_build
+install     : |
+    %cmake_install
