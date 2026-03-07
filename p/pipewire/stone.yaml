@@ -4,11 +4,12 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : pipewire
-version     : "1.6.0"
-release     : 24
+version     : "1.6.0+git.5f77a7a"
+release     : 25
 homepage    : https://pipewire.org/
 upstreams   :
-    - https://gitlab.freedesktop.org/pipewire/pipewire/-/archive/1.6.0/pipewire-1.6.0.tar.gz : eef582901d8323669560dd32e3b76b1b15011d73a38f0035a3f11b933112f397
+#    - https://gitlab.freedesktop.org/pipewire/pipewire/-/archive/1.6.0/pipewire-1.6.0.tar.gz : eef582901d8323669560dd32e3b76b1b15011d73a38f0035a3f11b933112f397
+     - git|https://gitlab.freedesktop.org/pipewire/pipewire.git : 5f77a7ae2b911601a78714f3bcd3af70a97eb878
 summary     : Linux audio + video multiplexing
 description : |
     PipeWire is a project that aims to greatly improve handling of audio and video under Linux. It provides a low-latency, graph-based processing engine on top of audio and video devices that can be used to support the use cases currently handled by both PulseAudio and JACK. PipeWire was designed with a powerful security model that makes interacting with audio and video devices from containerized applications easy, with support for Flatpak applications being the primary goal.
@@ -47,16 +48,16 @@ builddeps   :
     - pkgconfig(lilv-0)
     - pkgconfig(ncursesw)
     - pkgconfig(openssl)
+    - pkgconfig(opus)
     - pkgconfig(readline)
+    - pkgconfig(sbc)
+    - pkgconfig(sdl2-compat)
     - pkgconfig(sndfile)
     - pkgconfig(systemd)
     - pkgconfig(vulkan)
+    - pkgconfig(webrtc-audio-processing-2)
     - pkgconfig(x11-xcb)
     - pkgconfig(xfixes)
-    - pkgconfig(opus)
-    - pkgconfig(sbc)
-    - pkgconfig(sdl2-compat)
-    - pkgconfig(webrtc-audio-processing-2)
     # libffado?
     # lc3plus
     # libcamera
