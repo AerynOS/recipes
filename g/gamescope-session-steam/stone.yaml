@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : gamescope-session-steam
-version     : "r10.1a3fdb7"
-release     : 3
-homepage    : https://github.com/ChimeraOS/gamescope-session-steam
+version     : "0.r10.1a3fdb7"
+release     : 4
+homepage    : https://github.com/OpenGamingCollective/gamescope-session-steam
 upstreams   :
-    - git|https://github.com/ChimeraOS/gamescope-session-steam.git : 1a3fdb7fa15a4bba7204bef69702b7a10a297828
+    - git|https://github.com/OpenGamingCollective/gamescope-session-steam.git : 1a3fdb7fa15a4bba7204bef69702b7a10a297828
 summary     : Steam Big Picture session based on gamescope
 description : |
     This project is not affiliated with Valve (wide inspiration was taken from their work on the SteamDeck).
@@ -26,7 +26,7 @@ install     : |
     ln -s /usr/share/fonts/TTF/DejaVuSans.ttf %(installroot)/usr/share/fonts/truetype/ttf-dejavu/DejaVuSans.ttf
 
     # remove flags not suitable
-    sed -i -e 's/ -steamos3//;s/ -steampal//;s/ -steamdeck//' %(installroot)/usr/share/gamescope-session-plus/sessions.d/steam
+    sed -i -e 's/ -steamos3/ -steamos/;s/ -steampal//;s/ -steamdeck//' %(installroot)/usr/share/gamescope-session-plus/sessions.d/steam
 
     # We ship our own update file
     rm %(installroot)/usr/bin/steamos-update
