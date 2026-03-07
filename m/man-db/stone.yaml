@@ -43,4 +43,4 @@ build       : |
 install     : |
     %make_install
     # TODO: Enable when we restore `/var` for pre triggers
-    # %install_file %(pkgdir)/trigger.yaml %(installroot)/usr/share/moss/triggers/tx.d/mandb.yaml
+    # %install_file %(pkgdir)/trigger.yaml %(installroot)/usr/share/moss/triggers/sys.d/mandb.yaml
