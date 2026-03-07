@@ -1,0 +1,26 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"carapace": {
+			"build-depends": [
+				"binary(go)"
+			],
+			"depends": [
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(libc.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/bin/carapace",
+				"/usr/share/licenses/carapace/LICENSE"
+			],
+			"name": "carapace",
+			"provides": [
+				"binary(carapace)"
+			]
+		}
+	},
+	"source-name": "carapace",
+	"source-release": "1",
+	"source-version": "1.6.3"
+}
