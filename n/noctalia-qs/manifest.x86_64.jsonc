@@ -20,6 +20,7 @@
 			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libEGL.so.1(x86_64))",
 				"soname(libOpenGL.so.0(x86_64))",
 				"soname(libQt6Core.so.6(x86_64))",
@@ -54,6 +55,8 @@
 				"/usr/lib/qt6/qml/Quickshell/Bluetooth/quickshell-bluetooth.qmltypes",
 				"/usr/lib/qt6/qml/Quickshell/DBusMenu/qmldir",
 				"/usr/lib/qt6/qml/Quickshell/DBusMenu/quickshell-dbusmenu.qmltypes",
+				"/usr/lib/qt6/qml/Quickshell/DWL/qmldir",
+				"/usr/lib/qt6/qml/Quickshell/DWL/quickshell-dwl.qmltypes",
 				"/usr/lib/qt6/qml/Quickshell/Hyprland/_FocusGrab/qmldir",
 				"/usr/lib/qt6/qml/Quickshell/Hyprland/_FocusGrab/quickshell-hyprland-focus-grab.qmltypes",
 				"/usr/lib/qt6/qml/Quickshell/Hyprland/_GlobalShortcuts/qmldir",
@@ -73,6 +76,10 @@
 				"/usr/lib/qt6/qml/Quickshell/Io/quickshell-io.qmltypes",
 				"/usr/lib/qt6/qml/Quickshell/Networking/qmldir",
 				"/usr/lib/qt6/qml/Quickshell/Networking/quickshell-network.qmltypes",
+				"/usr/lib/qt6/qml/Quickshell/Niri/_Ipc/qmldir",
+				"/usr/lib/qt6/qml/Quickshell/Niri/_Ipc/quickshell-niri-ipc.qmltypes",
+				"/usr/lib/qt6/qml/Quickshell/Niri/qmldir",
+				"/usr/lib/qt6/qml/Quickshell/Niri/quickshell-niri.qmltypes",
 				"/usr/lib/qt6/qml/Quickshell/Services/Greetd/qmldir",
 				"/usr/lib/qt6/qml/Quickshell/Services/Greetd/quickshell-service-greetd.qmltypes",
 				"/usr/lib/qt6/qml/Quickshell/Services/Mpris/qmldir",
@@ -114,6 +121,8 @@
 				"/usr/lib/qt6/qml/Quickshell/Widgets/WrapperRectangle.qml",
 				"/usr/lib/qt6/qml/Quickshell/Widgets/qmldir",
 				"/usr/lib/qt6/qml/Quickshell/Widgets/quickshell-widgets.qmltypes",
+				"/usr/lib/qt6/qml/Quickshell/WindowManager/qmldir",
+				"/usr/lib/qt6/qml/Quickshell/WindowManager/quickshell-windowmanager.qmltypes",
 				"/usr/lib/qt6/qml/Quickshell/X11/qmldir",
 				"/usr/lib/qt6/qml/Quickshell/X11/quickshell-x11.qmltypes",
 				"/usr/lib/qt6/qml/Quickshell/_Window/qmldir",
@@ -131,6 +140,6 @@
 		}
 	},
 	"source-name": "noctalia-qs",
-	"source-release": "1",
-	"source-version": "0.0.5"
+	"source-release": "2",
+	"source-version": "0.0.6"
 }
