@@ -5,7 +5,7 @@
 #
 name        : dolphin
 version     : "25.12.3"
-release     : 21
+release     : 22
 upstreams   :
     - https://download.kde.org/stable/release-service/25.12.3/src/dolphin-25.12.3.tar.xz : 9961de7cc076d9d7d598bb7f53afdebcfba20567093231f42ba72e031e089a3b
 homepage    : https://kde.org/applications/system/org.kde.dolphin
@@ -72,6 +72,10 @@ packages    :
             - /usr/lib/qt6/plugins/dolphin/
             - /usr/lib/qt6/plugins/kf6/kfileitemaction/
             - /usr/lib/qt6/plugins/kf6/parts/dolphinpart.so
+
+    - "%(name)-devel":
+        paths:
+            - /usr/share/dbus-1/interfaces/
 
     - "%(name)-docs":
         paths:
