@@ -1,0 +1,89 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Christian Meissl <meissl.christian@gmail.com>
+Date: Tue, 10 Feb 2026 06:55:49 +0100
+Subject: [PATCH] Fix dead surface hook VRAM leak (#3404)
+
+* remove pre-commit hook when surface is destroyed
+
+this re-uses the already existing remove_default_dmabuf_pre_commit_hook
+during surface destruction instead of just removing the hook from the
+stored list of hooks.
+
+* do not add dmabuf pre-commit hook for destroyed surfaces
+
+this prevents surfaces getting stored indefinitely in case
+some logic tries to add the hook for an already
+destroyed surface.
+
+* align surface/toplevel destruction order for client destruction
+
+resource destruction has undefined order in case
+the client does not explicitly destroy the resourced
+and wait for destruction to complete.
+the same applies for clients exiting unexpectedly.
+
+* rearrange some things
+
+---------
+
+Co-authored-by: Ivan Molodetskikh <yalterz@gmail.com>
+---
+ src/handlers/compositor.rs | 16 +++++++++++++++-
+ src/handlers/xdg_shell.rs  | 10 +++++++++-
+ 2 files changed, 24 insertions(+), 2 deletions(-)
+
+diff --git a/src/handlers/compositor.rs b/src/handlers/compositor.rs
+index 8b8a04d3..1fac9673 100644
+--- a/src/handlers/compositor.rs
++++ b/src/handlers/compositor.rs
+@@ -498,7 +498,16 @@ impl CompositorHandler for State {
+             .root_surface
+             .retain(|k, v| k != surface && v != surface);
+ 
+-        self.niri.dmabuf_pre_commit_hook.remove(surface);
++        // The object destruction order is not guaranteed to follow the logical role order. So for
++        // example when a client disconnects unexpectedly, WlSurface::destroyed() may be called
++        // before XdgShellHandler::toplevel_destroyed(). In this case, the surface will *not* have
++        // the default dmabuf pre-commit hook: it will still have the toplevel pre-commit hook.
++        //
++        // So, this may come out empty, and then the toplevel pre-commit hook will be removed in the
++        // subsequent toplevel_destroyed() call.
++        if let Some(hook) = self.niri.dmabuf_pre_commit_hook.remove(surface) {
++            remove_pre_commit_hook(surface, hook);
++        }
+     }
+ }
+ 
+@@ -517,6 +526,11 @@ delegate_shm!(State);
+ 
+ impl State {
+     pub fn add_default_dmabuf_pre_commit_hook(&mut self, surface: &WlSurface) {
++        if !surface.is_alive() {
++            error!("tried to add dmabuf pre-commit hook for a dead surface");
++            return;
++        }
++
+         let hook = add_pre_commit_hook::<Self, _>(surface, move |state, _dh, surface| {
+             let maybe_dmabuf = with_states(surface, |surface_data| {
+                 surface_data
+diff --git a/src/handlers/xdg_shell.rs b/src/handlers/xdg_shell.rs
+index 171b65fd..b83f9be4 100644
+--- a/src/handlers/xdg_shell.rs
++++ b/src/handlers/xdg_shell.rs
+@@ -868,7 +868,15 @@ impl XdgShellHandler for State {
+ 
+         self.niri.window_mru_ui.remove_window(id);
+         self.niri.layout.remove_window(&window, transaction.clone());
+-        self.add_default_dmabuf_pre_commit_hook(surface.wl_surface());
++
++        let surface = surface.wl_surface();
++        // This check is necessary because implicit resource destruction is done with
++        // undefined order, so the surface might get destroyed before toplevel_destroyed() is
++        // called. In this case, adding the default pre-commit hook here would leak it, since the
++        // place that removes it is WlSurface::destroyed(), which had already been called by now.
++        if surface.is_alive() {
++            self.add_default_dmabuf_pre_commit_hook(surface);
++        }
+ 
+         // If this is the only instance, then this transaction will complete immediately, so no
+         // need to set the timer.

@@ -5,7 +5,7 @@
 #
 name        : niri
 version     : "25.11"
-release     : 14
+release     : 15
 summary     : Niri Desktop Compositor
 license     : GPL-3.0
 homepage    : https://github.com/YaLTeR/niri
@@ -35,6 +35,9 @@ rundeps    :
     - xdg-desktop-portal-gtk
 networking  : true
 setup       : |
+    %patch %(pkgdir)/0001-Increase-default-Wayland-buffer-size.patch
+    %patch %(pkgdir)/0001-Fix-dead-surface-hook-VRAM-leak-3404.patch
+
     %cargo_fetch
 build       : |
     RUST_BACKTRACE=1 nice %cargo_build
@@ -60,3 +63,5 @@ install     : |
     %install_file bash-completions %(installroot)%(bashcompletionsdir)/niri
     %install_file fish-completions %(installroot)%(fishcompletionsdir)/niri.fish
     %install_file zsh-completions %(installroot)%(zshcompletionsdir)/_niri
+tuning      :
+    - lto: full
