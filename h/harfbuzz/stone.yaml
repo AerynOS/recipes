@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : harfbuzz
-version     : "12.3.2"
-release     : 27
+version     : "13.0.1"
+release     : 28
 homepage    : https://harfbuzz.github.io/
 upstreams   :
-    - https://github.com/harfbuzz/harfbuzz/releases/download/12.3.2/harfbuzz-12.3.2.tar.xz : 6f6db164359a2da5a84ef826615b448b33e6306067ad829d85d5b0bf936f1bb8
+    - https://github.com/harfbuzz/harfbuzz/releases/download/13.0.1/harfbuzz-13.0.1.tar.xz : 3553d943401c34ab9b8c75f35cdb8452ca660233b0e9d4a22395ce5245484bd7
 summary     : HarfBuzz text shaping engine
 description : |
     HarfBuzz is a text shaping library. Using the HarfBuzz library allows programs to convert a sequence of Unicode input into properly formatted and positioned glyph output—for any writing system and language.
@@ -18,6 +18,7 @@ license     :
 builddeps   :
     - binary(help2man)
     - pkgconfig(cairo)
+    - pkgconfig(chafa)
     - pkgconfig(freetype2)
     - pkgconfig(glib-2.0)
     - pkgconfig(gobject-2.0)
@@ -45,10 +46,24 @@ packages    :
         paths:
             - /usr/lib/libharfbuzz-icu.so.*
 
+    - "%(name)-raster":
+        summary: Harfbuzz raster support library
+        description: Harfbuzz raster support library
+        paths:
+            - /usr/lib/libharfbuzz-raster.so.*
+
+    - "%(name)-vector":
+        summary: Harfbuzz vector support library
+        description: Harfbuzz vector support library
+        paths:
+            - /usr/lib/libharfbuzz-vector.so.*
+
     - "%(name)-devel":
         rundeps:
             - "%(name)-cairo"
             - "%(name)-icu"
+            - "%(name)-raster"
+            - "%(name)-vector"
         paths:
             - /usr/bin/
             - /usr/share/man/
