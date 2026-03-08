@@ -4166,6 +4166,7 @@
 				"/usr/lib/golang/src/internal/poll/fd_writev_libc.go",
 				"/usr/lib/golang/src/internal/poll/fd_writev_unix.go",
 				"/usr/lib/golang/src/internal/poll/file_plan9.go",
+				"/usr/lib/golang/src/internal/poll/fstatat_unix.go",
 				"/usr/lib/golang/src/internal/poll/hook_cloexec.go",
 				"/usr/lib/golang/src/internal/poll/hook_unix.go",
 				"/usr/lib/golang/src/internal/poll/hook_windows.go",
@@ -5545,6 +5546,9 @@
 				"/usr/lib/golang/src/os/stat_unix.go",
 				"/usr/lib/golang/src/os/stat_wasip1.go",
 				"/usr/lib/golang/src/os/stat_windows.go",
+				"/usr/lib/golang/src/os/statat.go",
+				"/usr/lib/golang/src/os/statat_other.go",
+				"/usr/lib/golang/src/os/statat_unix.go",
 				"/usr/lib/golang/src/os/sticky_bsd.go",
 				"/usr/lib/golang/src/os/sticky_notbsd.go",
 				"/usr/lib/golang/src/os/sys.go",
@@ -10029,7 +10033,11 @@
 				"/usr/lib/golang/test/fixedbugs/issue7740.go",
 				"/usr/lib/golang/test/fixedbugs/issue7742.go",
 				"/usr/lib/golang/test/fixedbugs/issue7746.go",
+				"/usr/lib/golang/test/fixedbugs/issue77534.go",
 				"/usr/lib/golang/test/fixedbugs/issue7760.go",
+				"/usr/lib/golang/test/fixedbugs/issue77604.go",
+				"/usr/lib/golang/test/fixedbugs/issue77613.go",
+				"/usr/lib/golang/test/fixedbugs/issue77779.go",
 				"/usr/lib/golang/test/fixedbugs/issue7794.go",
 				"/usr/lib/golang/test/fixedbugs/issue7863.go",
 				"/usr/lib/golang/test/fixedbugs/issue7867.go",
@@ -10950,6 +10958,6 @@
 		}
 	},
 	"source-name": "golang",
-	"source-release": "29",
-	"source-version": "1.26.0"
+	"source-release": "30",
+	"source-version": "1.26.1"
 }
