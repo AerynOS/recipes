@@ -1,0 +1,26 @@
+#
+# SPDX-FileCopyrightText: © 2025- AerynOS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : conmon
+version     : "2.2.1"
+release     : 1
+homepage    : https://github.com/containers/conmon
+upstreams   :
+    - https://github.com/containers/conmon/archive/refs/tags/v2.2.1.tar.gz : 814fb5979a3a4b8576b1f901e606b482bebb41cb7e57926e6d5765ee786b96d3
+summary     : An OCI container runtime monitor
+description : |
+    Conmon is a monitoring program and communication tool between a container manager (like Podman or CRI-O) and an OCI runtime (like runc or crun) for a single container
+license     : Apache-2.0
+builddeps   :
+    - binary(git)
+    - pkgconfig(glib-2.0)
+    - pkgconfig(libseccomp)
+    - pkgconfig(libsystemd)
+setup       : |
+    %meson
+build       : |
+    %meson_build
+install     : |
+    %meson_install
