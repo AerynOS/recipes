@@ -1,0 +1,29 @@
+#
+# SPDX-FileCopyrightText: © 2025- AerynOS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : crun
+version     : "1.26"
+release     : 1
+homepage    : https://github.com/containers/crun
+upstreams   :
+    - https://github.com/containers/crun/releases/download/1.26/crun-1.26.tar.zst : 8218cf0f59c6cf2931b4ba8d19dbab1efc1557cbb94662903d17d6787442244d
+summary     : A fast and low-memory footprint OCI Container Runtime fully written in C
+description : |
+    A fast and lightweight fully featured OCI runtime and C library for running containers
+license     : 
+    - GPL-2.0-or-later
+    - LGPL-2.1-or-later
+builddeps   :
+    - pkgconfig(libcap)
+    - pkgconfig(libseccomp)
+    - pkgconfig(python3)
+    - pkgconfig(systemd)
+    - pkgconfig(yajl)
+setup       : |
+    %autogen --with-python-bindings --enable-shared --disable-static
+build       : |
+    %make
+install     : |
+    %make_install
