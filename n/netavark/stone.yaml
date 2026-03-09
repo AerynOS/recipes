@@ -5,7 +5,7 @@
 #
 name        : netavark
 version     : "1.17.2"
-release     : 3
+release     : 4
 upstreams   :
     - https://github.com/containers/netavark/archive/refs/tags/v1.17.2.tar.gz : 284faa7cc525b869cbac4053e0a4127ac743ca7da1457c49fffb35558ea9c78d
 homepage    : https://github.com/containers/netavark
@@ -17,8 +17,8 @@ description : |
     container management applications.
 networking  : true
 builddeps   :
+    - binary(mandown)
     - binary(protoc)
-    # mandown for man pages
 rundeps     :
     - sysbinary(nft)
     - aardvark-dns
@@ -26,15 +26,23 @@ setup       : |
     %cargo_fetch
 build       : |
     export NETAVARK_DEFAULT_FW=nftables
-    %cargo_build
+    %cargo_build --all-features
 
     # We're not using the make file
     sed "s|@@NETAVARK@@|%(libdir)/podman/%(name)|" contrib/systemd/system/netavark-dhcp-proxy.service.in > contrib/systemd/system/netavark-dhcp-proxy.service
     sed "s|@@NETAVARK@@|%(libdir)/podman/%(name)|" contrib/systemd/system/netavark-nftables-reload.service.in > contrib/systemd/system/netavark-nftables-reload.service
+
+    # Build man page
+    mandown docs/%(name).1.md > %(name).1
+
     # Note that there is firewalld integration files for whenever that's packaged
 install     : |
-    %install_exe %(cargo_target_dir)/%(name) -t %(installroot)%(libdir)/podman
+    %install_exe %(cargo_target_dir)/%(name) -t %(installroot)%(libdir)/podman/
 
-    %install_file contrib/systemd/system/netavark-dhcp-proxy.{service,socket} -t %(installroot)%(libdir)/systemd/system
-    %install_file contrib/systemd/system/netavark-nftables-reload.service -t %(installroot)%(libdir)/systemd/system
-    %install_file %(pkgdir)/%(name).preset -t %(installroot)/%(libdir)/systemd/system-preset
+    %install_file contrib/systemd/system/netavark-dhcp-proxy.{service,socket} -t %(installroot)%(libdir)/systemd/system/
+    %install_file contrib/systemd/system/netavark-nftables-reload.service -t %(installroot)%(libdir)/systemd/system/
+    %install_file %(pkgdir)/%(name).preset -t %(installroot)/%(libdir)/systemd/system-preset/
+
+    # Install documentation
+    %install_file %(name).1 -t %(installroot)%(mandir)/man1/
+    %install_file README.md -t %(installroot)%(docdir)/%(name)/
