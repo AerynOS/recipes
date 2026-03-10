@@ -9,15 +9,15 @@
 				"llvm-20-devel"
 			],
 			"depends": [
-				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"interpreter(/lib64/ld-linux-x86-64.so.2(x86_64))",
 				"soname(ld-linux-x86-64.so.2(x86_64))",
+				"soname(libLLVM.so.20.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
-				"soname(libstdc++.so.6(x86_64))",
-				"soname(llvm-20/lib/libLLVM.so.20.1(x86_64))",
-				"soname(llvm-20/lib/libclang-cpp.so.20.1(x86_64))",
-				"soname(llvm-20/lib/liblldCOFF.so.20.1(x86_64))",
-				"soname(llvm-20/lib/liblldELF.so.20.1(x86_64))",
-				"soname(llvm-20/lib/liblldWasm.so.20.1(x86_64))"
+				"soname(libclang-cpp.so.20.1(x86_64))",
+				"soname(liblldCOFF.so.20.1(x86_64))",
+				"soname(liblldELF.so.20.1(x86_64))",
+				"soname(liblldWasm.so.20.1(x86_64))",
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/bin/zig",
@@ -18136,6 +18136,6 @@
 		}
 	},
 	"source-name": "zig",
-	"source-release": "1",
+	"source-release": "2",
 	"source-version": "0.15.2"
 }
