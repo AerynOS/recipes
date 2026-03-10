@@ -5,7 +5,7 @@
 #
 name        : pipewire
 version     : "1.6.1"
-release     : 26
+release     : 27
 homepage    : https://pipewire.org/
 upstreams   :
    - https://gitlab.freedesktop.org/pipewire/pipewire/-/archive/1.6.1/pipewire-1.6.1.tar.gz : fe129cab5e5c262f4d8b22a7eba559b5f847e560a4904e8618124eeaca9a579c
@@ -63,6 +63,8 @@ builddeps   :
     # jack
     # ldacbt-dec
 setup       : |
+    %patch %(pkgdir)/upstream-01.patch
+
     # glibc 2.43 build failure
     export CFLAGS+=" -Wno-error=incompatible-pointer-types-discards-qualifiers"
 
