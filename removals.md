@@ -191,3 +191,8 @@
 
 ### Devel-only, merged with libclc
 - libclc-devel
+
+### Not needed
+- spirv-llvm-translator-32bit
+- spirv-llvm-translator-32bit-devel
+- spirv-llvm-translator-32bit-dbginfo
