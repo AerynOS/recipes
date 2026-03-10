@@ -4,21 +4,24 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : python-roman-numerals-py
-version     : "3.1.0"
-release     : 1
+version     : "4.1.0"
+release     : 2
 homepage    : https://github.com/AA-Turner/roman-numerals
 upstreams   :
-    - https://pypi.debian.net/roman-numerals-py/roman_numerals_py-3.1.0.tar.gz : be4bf804f083a4ce001b5eb7e3c0862479d10f94c936f6c4e5f250aa5ff5bd2d
+    - https://github.com/AA-Turner/roman-numerals/archive/refs/tags/v4.1.0.tar.gz : c12d098de0c0befa3de91be3f456f272978f481411fb22441a6b9fe386c24f80
 summary     : Manipulate roman numerals
 description : |
     Manipulate roman numerals
 license     : CC0-1.0
 builddeps   :
     - python(flit-core)
+    - python(setuptools)
 rundeps     :
     - python-libs
 checkdeps   :
     - python(pytest)
+environment : |
+    cd python
 build       : |
     %pyproject_build
 install     : |
