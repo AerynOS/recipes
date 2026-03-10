@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : python-sphinx
-version     : "8.3.0"
-release     : 1
+version     : "9.0.4"
+release     : 2
 homepage    : https://www.sphinx-doc.org
 upstreams   :
-    - https://pypi.debian.net/Sphinx/sphinx-8.3.0.tar.gz : 3bad4314a7fa72ce92344eaaa14c42ddf3177ee6a79c227e4ff8ae07d416f584
+    - https://pypi.debian.net/Sphinx/sphinx-9.0.4.tar.gz : 594ef59d042972abbc581d8baa577404abe4e6c3b04ef61bd7fc2acbd51f3fa3
 summary     : Python documentation generator
 description : |
     Python documentation generator
@@ -23,7 +23,7 @@ builddeps   :
     - python(jinja2)
     - python(pygments)
     - python(requests)
-    - python(roman-numerals-py)
+    - python(roman-numerals)
     - python(snowballstemmer)
 rundeps     :
     - binary(python3)
@@ -35,7 +35,7 @@ rundeps     :
 #     - python(pygments)
 #     - python(pytest)
 #     - python(requests)
-#     - python(roman-numerals-py)
+#     - python(roman-numerals)
 #     - python(snowballstemmer)
 # TODO: needs defusedxml or whatever that is for tests
 setup       : |
