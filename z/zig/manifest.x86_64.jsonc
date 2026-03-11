@@ -4,13 +4,12 @@
 	"packages": {
 		"zig": {
 			"build-depends": [
+				"binary(llvm-config-20)",
 				"clang-20-devel",
-				"lld-20-devel",
-				"llvm-20-devel"
+				"lld-20-devel"
 			],
 			"depends": [
 				"interpreter(/lib64/ld-linux-x86-64.so.2(x86_64))",
-				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libLLVM.so.20.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libclang-cpp.so.20.1(x86_64))",
@@ -21,6 +20,7 @@
 			],
 			"files": [
 				"/usr/bin/zig",
+				"/usr/bin/zig-0.15",
 				"/usr/lib/zig/build-web/fuzz.zig",
 				"/usr/lib/zig/build-web/index.html",
 				"/usr/lib/zig/build-web/main.js",
@@ -18131,11 +18131,12 @@
 			],
 			"name": "zig",
 			"provides": [
-				"binary(zig)"
+				"binary(zig)",
+				"binary(zig-0.15)"
 			]
 		}
 	},
 	"source-name": "zig",
-	"source-release": "2",
+	"source-release": "3",
 	"source-version": "0.15.2"
 }
