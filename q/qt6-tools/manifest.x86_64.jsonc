@@ -4,7 +4,8 @@
 	"packages": {
 		"qt6-assistant": {
 			"build-depends": [
-				"clang-devel",
+				"binary(llvm-config-21)",
+				"clang-21-devel",
 				"cmake(Qt6CorePrivate)",
 				"cmake(Qt6QmlTools)",
 				"pkgconfig(libzstd)"
@@ -35,7 +36,8 @@
 		},
 		"qt6-dbusviewer": {
 			"build-depends": [
-				"clang-devel",
+				"binary(llvm-config-21)",
+				"clang-21-devel",
 				"cmake(Qt6CorePrivate)",
 				"cmake(Qt6QmlTools)",
 				"pkgconfig(libzstd)"
@@ -64,7 +66,8 @@
 		},
 		"qt6-designer": {
 			"build-depends": [
-				"clang-devel",
+				"binary(llvm-config-21)",
+				"clang-21-devel",
 				"cmake(Qt6CorePrivate)",
 				"cmake(Qt6QmlTools)",
 				"pkgconfig(libzstd)"
@@ -113,7 +116,8 @@
 		},
 		"qt6-doctools": {
 			"build-depends": [
-				"clang-devel",
+				"binary(llvm-config-21)",
+				"clang-21-devel",
 				"cmake(Qt6CorePrivate)",
 				"cmake(Qt6QmlTools)",
 				"pkgconfig(libzstd)"
@@ -149,7 +153,8 @@
 		},
 		"qt6-linguist": {
 			"build-depends": [
-				"clang-devel",
+				"binary(llvm-config-21)",
+				"clang-21-devel",
 				"cmake(Qt6CorePrivate)",
 				"cmake(Qt6QmlTools)",
 				"pkgconfig(libzstd)"
@@ -197,7 +202,8 @@
 		},
 		"qt6-tools": {
 			"build-depends": [
-				"clang-devel",
+				"binary(llvm-config-21)",
+				"clang-21-devel",
 				"cmake(Qt6CorePrivate)",
 				"cmake(Qt6QmlTools)",
 				"pkgconfig(libzstd)"
@@ -231,7 +237,8 @@
 		},
 		"qt6-tools-demos": {
 			"build-depends": [
-				"clang-devel",
+				"binary(llvm-config-21)",
+				"clang-21-devel",
 				"cmake(Qt6CorePrivate)",
 				"cmake(Qt6QmlTools)",
 				"pkgconfig(libzstd)"
@@ -275,7 +282,8 @@
 		},
 		"qt6-tools-devel": {
 			"build-depends": [
-				"clang-devel",
+				"binary(llvm-config-21)",
+				"clang-21-devel",
 				"cmake(Qt6CorePrivate)",
 				"cmake(Qt6QmlTools)",
 				"pkgconfig(libzstd)"
@@ -779,6 +787,6 @@
 		}
 	},
 	"source-name": "qt6-tools",
-	"source-release": "13",
+	"source-release": "14",
 	"source-version": "6.10.2"
 }
