@@ -1,0 +1,35 @@
+From 088cabc1805d0fef9e5401cc89c133f149a149dc Mon Sep 17 00:00:00 2001
+From: Michael Kruse <llvm-project@meinersbur.de>
+Date: Tue, 26 Aug 2025 16:11:29 +0200
+Subject: [PATCH] Fix flang deps
+
+---
+ flang/lib/Optimizer/Builder/CMakeLists.txt          | 1 +
+ flang/lib/Optimizer/HLFIR/Transforms/CMakeLists.txt | 2 ++
+ 2 files changed, 3 insertions(+)
+
+diff --git a/flang/lib/Optimizer/Builder/CMakeLists.txt b/flang/lib/Optimizer/Builder/CMakeLists.txt
+index 8fb36a750d433..404afd185fd31 100644
+--- a/flang/lib/Optimizer/Builder/CMakeLists.txt
++++ b/flang/lib/Optimizer/Builder/CMakeLists.txt
+@@ -50,6 +50,7 @@ add_flang_library(FIRBuilder
+   FIRDialectSupport
+   FIRSupport
+   FortranEvaluate
++  FortranSupport
+   HLFIRDialect
+ 
+   MLIR_DEPS
+diff --git a/flang/lib/Optimizer/HLFIR/Transforms/CMakeLists.txt b/flang/lib/Optimizer/HLFIR/Transforms/CMakeLists.txt
+index cc74273d9c5d9..3775a13e31e95 100644
+--- a/flang/lib/Optimizer/HLFIR/Transforms/CMakeLists.txt
++++ b/flang/lib/Optimizer/HLFIR/Transforms/CMakeLists.txt
+@@ -27,6 +27,8 @@ add_flang_library(HLFIRTransforms
+   FIRSupport
+   FIRTransforms
+   FlangOpenMPTransforms
++  FortranEvaluate
++  FortranSupport
+   HLFIRDialect
+ 
+   LINK_COMPONENTS

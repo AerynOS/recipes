@@ -1,0 +1,31 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Reilly Brogan <reilly@reillybrogan.com>
+Date: Fri, 2 Aug 2024 15:55:23 -0500
+Subject: [PATCH] Build lld libraries shared
+
+We don't want to enable `ENABLE_SHARED` since it causes every LLVM library to be built shared even if they're intended to be private.
+
+Origin: vendor
+Forwarded: not-needed
+Last-Update: 2025-03-31
+---
+ lld/cmake/modules/AddLLD.cmake | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
+
+diff --git a/lld/cmake/modules/AddLLD.cmake b/lld/cmake/modules/AddLLD.cmake
+index 37f73afa915f..9bbca7d0c8ec 100644
+--- a/lld/cmake/modules/AddLLD.cmake
++++ b/lld/cmake/modules/AddLLD.cmake
+@@ -7,10 +7,8 @@ macro(add_lld_library name)
+     ""
+     ""
+     ${ARGN})
+-  if(ARG_SHARED)
+-    set(ARG_ENABLE_SHARED SHARED)
+-  endif()
+-  llvm_add_library(${name} ${ARG_ENABLE_SHARED} ${ARG_UNPARSED_ARGUMENTS})
++  set(ARG_ENABLE_SHARED SHARED)
++  llvm_add_library(${name} SHARED ${ARG_UNPARSED_ARGUMENTS})
+ 
+   if (NOT LLVM_INSTALL_TOOLCHAIN_ONLY)
+     get_target_export_arg(${name} LLD export_to_lldtargets UMBRELLA lld-libraries)

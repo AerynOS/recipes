@@ -1,0 +1,28 @@
+From 9e300078186de3cf95a42c13ab5b8821b9f602e0 Mon Sep 17 00:00:00 2001
+From: Joachim Jenke <jenke@itc.rwth-aachen.de>
+Date: Thu, 17 Jul 2025 16:42:02 +0200
+Subject: [PATCH] [offload] Add missing build dependency
+
+libc++ headers must be generated before compiling part of liboffload.
+The build error occurs if clang is configured to use libc++ by default.
+Fixes issue #149324
+---
+ offload/tools/offload-tblgen/CMakeLists.txt | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/offload/tools/offload-tblgen/CMakeLists.txt b/offload/tools/offload-tblgen/CMakeLists.txt
+index 15525dc44ea60..a5ae1c3757fbf 100644
+--- a/offload/tools/offload-tblgen/CMakeLists.txt
++++ b/offload/tools/offload-tblgen/CMakeLists.txt
+@@ -22,5 +22,11 @@ add_tablegen(offload-tblgen OFFLOAD
+   RecordTypes.hpp
+   )
+ 
++# Make sure that C++ headers are available, if libcxx is built at the same
++# time. This is important if clang is set to prefer libc++ over libstdc++
++if(TARGET cxx-headers)
++  add_dependencies(offload-tblgen cxx-headers)
++endif()
++
+ set(OFFLOAD_TABLEGEN_EXE "${OFFLOAD_TABLEGEN_EXE}" CACHE INTERNAL "")
+ set(OFFLOAD_TABLEGEN_TARGET "${OFFLOAD_TABLEGEN_TARGET}" CACHE INTERNAL "")
