@@ -10,7 +10,7 @@ name        : mesa
 version     : "26.0.1"
 ##@@END_VERSION
 # Note: keep mesa-clc in-sync with this package version-wise
-release     : 68
+release     : 69
 homepage    : https://mesa3d.org/
 upstreams   :
 ##@@BEGIN_SOURCE
@@ -146,7 +146,7 @@ builddeps   :
     - binary(bison)
     - binary(cbindgen)
     - binary(flex)
-    - binary(llvm-config32)
+    - binary(llvm-config32-22)
     - binary(mesa_clc)
     - binary(python3)
     - binary(rustc)
@@ -154,12 +154,12 @@ builddeps   :
     - cmake(Clang)
     - cmake(glslang)
     - cmake(libxml2)
+    - pkgconfig(LLVMSPIRVLib)
     - pkgconfig(libarchive)
     - pkgconfig(libclc)
     - pkgconfig(libdisplay-info)
     - pkgconfig(sysprof-capture-4)
     - pkgconfig(wayland-protocols)
-    - pkgconfig32(LLVMSPIRVLib)
     - pkgconfig32(SPIRV-Tools)
     - pkgconfig32(expat)
     - pkgconfig32(libdrm)
