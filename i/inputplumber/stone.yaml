@@ -6,7 +6,7 @@
 #
 name        : inputplumber
 version     : "0.75.2"
-release     : 53
+release     : 54
 homepage    : https://github.com/ShadowBlip/InputPlumber
 upstreams   :
     - https://github.com/ShadowBlip/InputPlumber/archive/refs/tags/v0.75.2.tar.gz : 595dfe58bd45b00a94f468df98ff3bb107870f0a4e45ab5077238902db723f7d
@@ -18,7 +18,7 @@ description : |
 license     : GPL-3.0-or-later
 networking  : true
 builddeps   :
-    - binary(llvm-config)
+    - binary(llvm-config-22)
     - pkgconfig(libevdev)
     - pkgconfig(libiio)
     - pkgconfig(libudev)
