@@ -5,7 +5,7 @@ Subject: [PATCH] Support aeryn/solus as a distro
 
 Origin: vendor
 Forwarded: not-needed
-Last-Update: 2026-02-27
+Last-Update: 2026-03-10
 ---
  clang/include/clang/Driver/Distro.h | 6 ++++++
  clang/lib/Driver/Distro.cpp         | 2 ++
@@ -13,7 +13,7 @@ Last-Update: 2026-02-27
  3 files changed, 13 insertions(+), 2 deletions(-)
 
 diff --git a/clang/include/clang/Driver/Distro.h b/clang/include/clang/Driver/Distro.h
-index 5c25592e68ad..ec6cb4d45bb3 100644
+index 0e17b30eb7e8..f20d45835006 100644
 --- a/clang/include/clang/Driver/Distro.h
 +++ b/clang/include/clang/Driver/Distro.h
 @@ -28,6 +28,7 @@ public:
@@ -23,35 +23,38 @@ index 5c25592e68ad..ec6cb4d45bb3 100644
 +    AerynOS,
      AlpineLinux,
      ArchLinux,
-     DebianLenny,
-@@ -48,6 +49,7 @@ public:
+     DebianJessie,
+@@ -46,6 +47,7 @@ public:
      Fedora,
      Gentoo,
      OpenSUSE,
 +    Solus,
-     UbuntuHardy,
-     UbuntuIntrepid,
-     UbuntuJaunty,
-@@ -142,6 +144,10 @@ public:
+     UbuntuQuantal,
+     UbuntuRaring,
+     UbuntuSaucy,
+@@ -131,6 +133,10 @@ public:
+   bool IsAlpineLinux() const { return DistroVal == AlpineLinux; }
  
    bool IsGentoo() const { return DistroVal == Gentoo; }
- 
++ 
 +  bool IsAerynOS() const { return DistroVal == AerynOS; }
 +
 +  bool IsSolus() const { return DistroVal == Solus;}
-+
+ 
    /// @}
  };
- 
 diff --git a/clang/lib/Driver/Distro.cpp b/clang/lib/Driver/Distro.cpp
-index 90e5a390be7e..02f96206a104 100644
+index df10458d092d..aa92e8145ccb 100644
 --- a/clang/lib/Driver/Distro.cpp
 +++ b/clang/lib/Driver/Distro.cpp
-@@ -38,9 +38,11 @@ static Distro::DistroType DetectOsRelease(llvm::vfs::FileSystem &VFS) {
+@@ -35,12 +35,14 @@ static Distro::DistroType DetectOsRelease(llvm::vfs::FileSystem &VFS) {
+   for (StringRef Line : Lines)
+     if (Version == Distro::UnknownDistro && Line.starts_with("ID="))
+       Version = llvm::StringSwitch<Distro::DistroType>(Line.substr(3))
++                    .Case("aerynos", Distro::AerynOS)
                      .Case("alpine", Distro::AlpineLinux)
                      .Case("fedora", Distro::Fedora)
                      .Case("gentoo", Distro::Gentoo)
-+                    .Case("aerynos", Distro::AerynOS)
                      .Case("arch", Distro::ArchLinux)
                      // On SLES, /etc/os-release was introduced in SLES 11.
                      .Case("sles", Distro::OpenSUSE)
@@ -60,10 +63,10 @@ index 90e5a390be7e..02f96206a104 100644
                      .Case("exherbo", Distro::Exherbo)
                      .Default(Distro::UnknownDistro);
 diff --git a/clang/lib/Driver/ToolChains/Gnu.cpp b/clang/lib/Driver/ToolChains/Gnu.cpp
-index f5e265585743..47f9b072d705 100644
+index cb6a9b242421..b9f2218753c2 100644
 --- a/clang/lib/Driver/ToolChains/Gnu.cpp
 +++ b/clang/lib/Driver/ToolChains/Gnu.cpp
-@@ -2339,7 +2339,7 @@ void Generic_GCC::GCCInstallationDetector::AddDefaultGCCPrefixes(
+@@ -2335,7 +2335,7 @@ void Generic_GCC::GCCInstallationDetector::AddDefaultGCCPrefixes(
    // lists should shrink over time. Please don't add more elements to *Triples.
    static const char *const AArch64LibDirs[] = {"/lib64", "/lib"};
    static const char *const AArch64Triples[] = {
@@ -72,7 +75,7 @@ index f5e265585743..47f9b072d705 100644
    static const char *const AArch64beLibDirs[] = {"/lib"};
    static const char *const AArch64beTriples[] = {"aarch64_be-none-linux-gnu"};
  
-@@ -2367,7 +2367,8 @@ void Generic_GCC::GCCInstallationDetector::AddDefaultGCCPrefixes(
+@@ -2363,7 +2363,8 @@ void Generic_GCC::GCCInstallationDetector::AddDefaultGCCPrefixes(
        "x86_64-pc-linux-gnu",    "x86_64-redhat-linux6E",
        "x86_64-redhat-linux",    "x86_64-suse-linux",
        "x86_64-manbo-linux-gnu", "x86_64-slackware-linux",
@@ -82,12 +85,12 @@ index f5e265585743..47f9b072d705 100644
    static const char *const X32Triples[] = {"x86_64-linux-gnux32",
                                             "x86_64-pc-linux-gnux32"};
    static const char *const X32LibDirs[] = {"/libx32", "/lib"};
-@@ -2437,6 +2438,8 @@ void Generic_GCC::GCCInstallationDetector::AddDefaultGCCPrefixes(
+@@ -2436,6 +2437,8 @@ void Generic_GCC::GCCInstallationDetector::AddDefaultGCCPrefixes(
+ 
+   static const char *const RISCV32LibDirs[] = {"/lib32", "/lib"};
+   static const char *const RISCV32Triples[] = {"riscv32-unknown-linux-gnu",
++                                               "riscv64-aerynos-linux",
++                                               "riscv64-solus-linux",
                                                 "riscv32-unknown-elf"};
    static const char *const RISCV64LibDirs[] = {"/lib64", "/lib"};
    static const char *const RISCV64Triples[] = {"riscv64-unknown-linux-gnu",
-+                                               "riscv64-aerynos-linux",
-+                                               "riscv64-solus-linux",
-                                                "riscv64-unknown-elf"};
- 
-   static const char *const SPARCv8LibDirs[] = {"/lib32", "/lib"};
