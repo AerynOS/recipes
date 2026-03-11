@@ -7,18 +7,18 @@ Not used on Aeryn
 
 Origin: vendor
 Forwarded: not-needed
-Last-Update: 2025-03-31
+Last-Update: 2026-03-10
 ---
  openmp/tools/archer/CMakeLists.txt | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/openmp/tools/archer/CMakeLists.txt b/openmp/tools/archer/CMakeLists.txt
-index 980eb2b0b675..83222d9e4bfc 100644
+index a1c768c449d0..5b8a0bdcd7f2 100644
 --- a/openmp/tools/archer/CMakeLists.txt
 +++ b/openmp/tools/archer/CMakeLists.txt
-@@ -15,7 +15,7 @@ if(LIBOMP_OMPT_SUPPORT AND LIBOMP_ARCHER_SUPPORT)
-   target_link_libraries(archer ${CMAKE_DL_LIBS})
-   add_library(archer_static STATIC ompt-tsan.cpp)
+@@ -30,7 +30,7 @@ if(LIBOMP_OMPT_SUPPORT AND LIBOMP_ARCHER_SUPPORT)
+     add_dependencies(archer_static cxxabi_shared)
+   endif()
  
 -  install(TARGETS archer archer_static
 +  install(TARGETS archer

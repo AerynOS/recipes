@@ -188,3 +188,6 @@
 ### Renamed/Rebranded upstream
 - mangowc
 - mangowc-dbginfo
+
+### Devel-only, merged with libclc
+- libclc-devel
