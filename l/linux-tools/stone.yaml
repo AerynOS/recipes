@@ -5,7 +5,7 @@
 #
 name        : linux-tools
 version     : "6.18.14"
-release     : 25
+release     : 26
 summary     : Tools included with the Linux source code
 license     : GPL-2.0-only
 homepage    : https://perf.wiki.kernel.org/
@@ -17,7 +17,7 @@ builddeps   :
     - binary(a2x)
     - binary(bison)
     - binary(flex)
-    - binary(llvm-config)
+    - binary(llvm-config-22)
     - binary(perl)
     - binary(msgmerge)
     - binary(xmlto)
