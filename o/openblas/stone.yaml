@@ -5,7 +5,7 @@
 #
 name        : openblas
 version     : "0.3.31"
-release     : 8
+release     : 9
 homepage    : https://github.com/OpenMathLib/OpenBLAS
 upstreams   :
     - https://github.com/OpenMathLib/OpenBLAS/archive/refs/tags/v0.3.31.tar.gz : 6dd2a63ac9d32643b7cc636eab57bf4e57d0ed1fff926dfbc5d3d97f2d2be3a6
@@ -16,7 +16,7 @@ license     : BSD-3-Clause
 builddeps   :
     - binary(flang)
 setup       : |
-    # %patch %(pkgdir)/openmp_link.patch
+    %patch %(pkgdir)/0001-Fix-building-with-openblas.patch
 
     %cmake \
         -DCMAKE_Fortran_COMPILER=flang \
