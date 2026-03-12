@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : gtk-4
-version     : "4.20.3"
-release     : 31
+version     : "4.22.0"
+release     : 32
 homepage    : https://www.gtk.org/
 upstreams   :
-    - https://download.gnome.org/sources/gtk/4.20/gtk-4.20.3.tar.xz : 2873f2903088a66c71173ea2ed85ffae266a66b972c3a4842bbb2f6f187ec153
+    - https://download.gnome.org/sources/gtk/4.22/gtk-4.22.0.tar.xz : ed3932469d3d891df53451f2cd28380af7673f736aa443bb3dda7adb40994f1e
 summary     : The GTK 4 libraries for developing user interfaces
 description : |
     The GTK 4 libraries are used for developing user interfaces
@@ -22,6 +22,7 @@ builddeps   :
     - binary(rst2man)
     - cmake(VulkanHeaders)
     - pkgconfig(cairo)
+    - pkgconfig(cairo-gobject)
     - pkgconfig(cloudproviders)
     - pkgconfig(colord)
     - pkgconfig(cups)
@@ -37,7 +38,6 @@ builddeps   :
     - pkgconfig(iso-codes)
     - pkgconfig(libjpeg)
     - pkgconfig(libpng)
-    - pkgconfig(librsvg-2.0)
     - pkgconfig(libtiff-4)
     - pkgconfig(pango)
     - pkgconfig(shaderc)
@@ -89,6 +89,7 @@ packages    :
         paths:
             - /usr/bin/gtk4-builder-tool
             - /usr/bin/gtk4-encode-symbolic-svg
+            - /usr/bin/gtk4-icon-editor
             - /usr/bin/gtk4-image-tool
             - /usr/bin/gtk4-path-tool
             - /usr/bin/gtk4-query-settings
