@@ -1,0 +1,33 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Highway <no-reply@google.com>
+Date: Tue, 9 Sep 2025 11:20:13 -0700
+Subject: [PATCH 06/10] Increase the clang version number to check for to
+ disable `SVE/SVE2` tests.
+
+PiperOrigin-RevId: 804989718
+---
+ hwy/detect_targets.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/hwy/detect_targets.h b/hwy/detect_targets.h
+index 5671253e..e6ea6364 100644
+--- a/hwy/detect_targets.h
++++ b/hwy/detect_targets.h
+@@ -268,7 +268,7 @@
+ #ifndef HWY_BROKEN_SVE  // allow override
+ // GCC 10+. Clang 19 still has many test failures for SVE. No Apple CPU (at
+ // least up to and including M4 and A18) has SVE.
+-#if (HWY_COMPILER_CLANG && HWY_COMPILER_CLANG < 2000) ||           \
++#if (HWY_COMPILER_CLANG && HWY_COMPILER_CLANG < 2100) ||           \
+     (HWY_COMPILER_GCC_ACTUAL && HWY_COMPILER_GCC_ACTUAL < 1000) || \
+     HWY_OS_APPLE
+ #define HWY_BROKEN_SVE (HWY_SVE | HWY_SVE_256)
+@@ -279,7 +279,7 @@
+ 
+ #ifndef HWY_BROKEN_SVE2  // allow override
+ // Clang 19 still has many test failures for SVE2.
+-#if (HWY_COMPILER_CLANG && HWY_COMPILER_CLANG < 2000) ||           \
++#if (HWY_COMPILER_CLANG && HWY_COMPILER_CLANG < 2100) ||           \
+     (HWY_COMPILER_GCC_ACTUAL && HWY_COMPILER_GCC_ACTUAL < 1000) || \
+     HWY_OS_APPLE
+ #define HWY_BROKEN_SVE2 (HWY_SVE2 | HWY_SVE2_128)

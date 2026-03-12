@@ -1,0 +1,31 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: ixgbe <1113177880@qq.com>
+Date: Fri, 12 Sep 2025 15:52:31 +0800
+Subject: [PATCH 03/10] Enable VQSORT for RISC-V
+
+---
+ hwy/contrib/sort/shared-inl.h | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
+
+diff --git a/hwy/contrib/sort/shared-inl.h b/hwy/contrib/sort/shared-inl.h
+index da4143db..5b683290 100644
+--- a/hwy/contrib/sort/shared-inl.h
++++ b/hwy/contrib/sort/shared-inl.h
+@@ -141,15 +141,13 @@ static_assert(SortConstants::MaxBufBytes<2>(64) <= 1664, "Unexpectedly high");
+ // vqsort isn't available on HWY_SCALAR, and builds time out on MSVC opt and
+ // Armv7 debug, and Armv8 GCC 11 asan hits an internal compiler error likely
+ // due to https://gcc.gnu.org/bugzilla/show_bug.cgi?id=97696. Armv8 Clang
+-// hwasan/msan/tsan/asan also fail to build SVE (b/335157772). RVV currently
+-// has a compiler issue.
++// hwasan/msan/tsan/asan also fail to build SVE (b/335157772).
+ #undef VQSORT_ENABLED
+ #undef VQSORT_COMPILER_COMPATIBLE
+ 
+ #if (HWY_COMPILER_MSVC && !HWY_IS_DEBUG_BUILD) ||                   \
+     (HWY_ARCH_ARM_V7 && HWY_IS_DEBUG_BUILD) ||                      \
+-    (HWY_ARCH_ARM_A64 && HWY_COMPILER_GCC_ACTUAL && HWY_IS_ASAN) || \
+-    (HWY_ARCH_RISCV)
++    (HWY_ARCH_ARM_A64 && HWY_COMPILER_GCC_ACTUAL && HWY_IS_ASAN)
+ #define VQSORT_COMPILER_COMPATIBLE 0
+ #else
+ #define VQSORT_COMPILER_COMPATIBLE 1
