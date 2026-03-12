@@ -9,45 +9,41 @@
 				"binary(gi-docgen)",
 				"binary(python3)",
 				"binary(rst2man)",
-				"binary(vapigen)",
 				"pkgconfig(cairo)",
 				"pkgconfig(cairo-gobject)",
+				"pkgconfig(dav1d)",
 				"pkgconfig(fontconfig)",
 				"pkgconfig(gdk-pixbuf-2.0)",
 				"pkgconfig(gobject-introspection-1.0)",
 				"pkgconfig(libpng)",
 				"pkgconfig(libxml-2.0)",
 				"pkgconfig(pango)",
+				"pkgconfig(vapigen)",
 				"pkgconfig(xdamage)",
 				"pkgconfig(xshmfence)"
 			],
 			"depends": [
-				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libcairo.so.2(x86_64))",
-				"soname(libfontconfig.so.1(x86_64))",
+				"soname(libdav1d.so.7(x86_64))",
 				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libgdk_pixbuf-2.0.so.0(x86_64))",
 				"soname(libgio-2.0.so.0(x86_64))",
 				"soname(libglib-2.0.so.0(x86_64))",
 				"soname(libgobject-2.0.so.0(x86_64))",
-				"soname(libharfbuzz.so.0(x86_64))",
 				"soname(libm.so.6(x86_64))",
 				"soname(libpango-1.0.so.0(x86_64))",
 				"soname(libpangocairo-1.0.so.0(x86_64))",
 				"soname(libxml2.so.16(x86_64))"
 			],
 			"files": [
-				"/usr/bin/rsvg-convert",
 				"/usr/lib/girepository-1.0/Rsvg-2.0.typelib",
 				"/usr/lib/librsvg-2.so.2",
-				"/usr/lib/librsvg-2.so.2.61.4",
-				"/usr/share/man/man1/rsvg-convert.1"
+				"/usr/lib/librsvg-2.so.2.62.0"
 			],
 			"name": "librsvg",
 			"provides": [
-				"binary(rsvg-convert)",
 				"soname(librsvg-2.so.2(x86_64))"
 			]
 		},
@@ -58,15 +54,16 @@
 				"binary(gi-docgen)",
 				"binary(python3)",
 				"binary(rst2man)",
-				"binary(vapigen)",
 				"pkgconfig(cairo)",
 				"pkgconfig(cairo-gobject)",
+				"pkgconfig(dav1d)",
 				"pkgconfig(fontconfig)",
 				"pkgconfig(gdk-pixbuf-2.0)",
 				"pkgconfig(gobject-introspection-1.0)",
 				"pkgconfig(libpng)",
 				"pkgconfig(libxml-2.0)",
 				"pkgconfig(pango)",
+				"pkgconfig(vapigen)",
 				"pkgconfig(xdamage)",
 				"pkgconfig(xshmfence)"
 			],
@@ -75,6 +72,7 @@
 				"pkgconfig(cairo)",
 				"pkgconfig(cairo-gobject)",
 				"pkgconfig(cairo-png)",
+				"pkgconfig(dav1d)",
 				"pkgconfig(freetype2)",
 				"pkgconfig(gdk-pixbuf-2.0)",
 				"pkgconfig(gio-2.0)",
@@ -93,7 +91,9 @@
 				"/usr/include/librsvg-2.0/librsvg/rsvg.h",
 				"/usr/lib/librsvg-2.so",
 				"/usr/lib/pkgconfig/librsvg-2.0.pc",
-				"/usr/share/gir-1.0/Rsvg-2.0.gir"
+				"/usr/share/gir-1.0/Rsvg-2.0.gir",
+				"/usr/share/vala/vapi/librsvg-2.0.deps",
+				"/usr/share/vala/vapi/librsvg-2.0.vapi"
 			],
 			"name": "librsvg-devel",
 			"provides": [
@@ -107,15 +107,16 @@
 				"binary(gi-docgen)",
 				"binary(python3)",
 				"binary(rst2man)",
-				"binary(vapigen)",
 				"pkgconfig(cairo)",
 				"pkgconfig(cairo-gobject)",
+				"pkgconfig(dav1d)",
 				"pkgconfig(fontconfig)",
 				"pkgconfig(gdk-pixbuf-2.0)",
 				"pkgconfig(gobject-introspection-1.0)",
 				"pkgconfig(libpng)",
 				"pkgconfig(libxml-2.0)",
 				"pkgconfig(pango)",
+				"pkgconfig(vapigen)",
 				"pkgconfig(xdamage)",
 				"pkgconfig(xshmfence)"
 			],
@@ -249,9 +250,55 @@
 				"/usr/share/doc/Rsvg-2.0/urlmap.js"
 			],
 			"name": "librsvg-docs"
+		},
+		"librsvg-tools": {
+			"build-depends": [
+				"binary(cargo)",
+				"binary(cargo-cbuild)",
+				"binary(gi-docgen)",
+				"binary(python3)",
+				"binary(rst2man)",
+				"pkgconfig(cairo)",
+				"pkgconfig(cairo-gobject)",
+				"pkgconfig(dav1d)",
+				"pkgconfig(fontconfig)",
+				"pkgconfig(gdk-pixbuf-2.0)",
+				"pkgconfig(gobject-introspection-1.0)",
+				"pkgconfig(libpng)",
+				"pkgconfig(libxml-2.0)",
+				"pkgconfig(pango)",
+				"pkgconfig(vapigen)",
+				"pkgconfig(xdamage)",
+				"pkgconfig(xshmfence)"
+			],
+			"depends": [
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(ld-linux-x86-64.so.2(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libcairo.so.2(x86_64))",
+				"soname(libdav1d.so.7(x86_64))",
+				"soname(libfontconfig.so.1(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libgio-2.0.so.0(x86_64))",
+				"soname(libglib-2.0.so.0(x86_64))",
+				"soname(libgobject-2.0.so.0(x86_64))",
+				"soname(libharfbuzz.so.0(x86_64))",
+				"soname(libm.so.6(x86_64))",
+				"soname(libpango-1.0.so.0(x86_64))",
+				"soname(libpangocairo-1.0.so.0(x86_64))",
+				"soname(libxml2.so.16(x86_64))"
+			],
+			"files": [
+				"/usr/bin/rsvg-convert",
+				"/usr/share/man/man1/rsvg-convert.1"
+			],
+			"name": "librsvg-tools",
+			"provides": [
+				"binary(rsvg-convert)"
+			]
 		}
 	},
 	"source-name": "librsvg",
-	"source-release": "16",
-	"source-version": "2.61.4"
+	"source-release": "17",
+	"source-version": "2.62.0"
 }
