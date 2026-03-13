@@ -5,7 +5,7 @@
 #
 name        : qt6-webengine
 version     : "6.10.2"
-release     : 18
+release     : 19
 homepage    : https://www.qt.io
 upstreams   :
     - https://download.qt.io/official_releases/qt/6.10/6.10.2/submodules/qtwebengine-everywhere-src-6.10.2.tar.xz: 856eddf292a69a88618567deea67711b4ec720e69bcb575ed7bb539c9023961e
@@ -15,7 +15,7 @@ upstreams   :
 # Don't edit anything between the BEGIN_UPSTREAMS and END_UPSTREAMS tags
 ##@@BEGIN_UPSTREAMS
     - git|https://invent.kde.org/qt/qt/qtwebengine-chromium.git:
-        ref: ed46808164fa75874b70d7a7a39128c3821eca11
+        ref: 21994ebf3ad7487a4147a98b3bcfd7a583802968
 ##@@END_UPSTREAMS
 summary     : Qt6 Webengine Module
 description : |
@@ -92,8 +92,9 @@ setup       : |
     # 3rdparty patches
     %patch %(pkgdir)/qtwebengine-link-pipewire.patch -d src/3rdparty
 
-    # enable building with clang-21
+    # enable building with clang-21/22
     %patch %(pkgdir)/ftbfs-clang-21.patch
+    %patch %(pkgdir)/ftbfs-clang-22.patch
 
     # enable building with glibc 2.43
     %patch %(pkgdir)/ftbfs-glibc-2.43.patch
