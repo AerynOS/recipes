@@ -5,6 +5,7 @@
 more-ISA-levels-and-uarches-for-kernel-6.16+.patch
 
 # MS Surface device patches
+# https://github.com/linux-surface/kernel/tree/v6.18-surface
 surface/0001-Revert-efi-x86-Set-the-PE-COFF-header-s-NX-compat-fl.patch
 surface/0002-PM-hibernate-Add-a-lockdown_hibernate-parameter.patch
 surface/0003-surface3-oemb-add-DMI-matches-for-Surface-3-with-bro.patch
@@ -40,11 +41,12 @@ surface/0032-include-mfd-tps68470-Add-masks-for-LEDA-and-LEDB.patch
 surface/0033-leds-tps68470-Add-LED-control-for-tps68470.patch
 surface/0034-media-i2c-dw9719-fix-probe-error-on-surface-go-2.patch
 surface/0035-Add-camera-support-for-Surface-Pro-9.patch
-surface/0036-ACPI-Add-quirk-for-Surface-Laptop-4-AMD-missing-irq-.patch
-surface/0037-ACPI-Add-AMD-13-Surface-Laptop-4-model-to-irq-7-over.patch
-surface/0038-acpi-allow-usage-of-acpi_tad-on-HW-reduced-platforms.patch
-surface/0039-HID-Add-hid-surface-driver-to-filter-BTN_0-FN-key.patch
-surface/0040-hid-multitouch-Prevent-mode-set-on-Surface-Laptop-St.patch
+surface/0036-media-ipu-bridge-Add-front-camera-rotation-quirks-fo.patch
+surface/0037-ACPI-Add-quirk-for-Surface-Laptop-4-AMD-missing-irq-.patch
+surface/0038-ACPI-Add-AMD-13-Surface-Laptop-4-model-to-irq-7-over.patch
+surface/0039-acpi-allow-usage-of-acpi_tad-on-HW-reduced-platforms.patch
+surface/0040-HID-Add-hid-surface-driver-to-filter-BTN_0-FN-key.patch
+surface/0041-hid-multitouch-Prevent-mode-set-on-Surface-Laptop-St.patch
 
 # Add linux-asus patches
 asus/0002-hid-add-VID-PID-for-ASUS-ROG-RAIKIRI-PRO.patch

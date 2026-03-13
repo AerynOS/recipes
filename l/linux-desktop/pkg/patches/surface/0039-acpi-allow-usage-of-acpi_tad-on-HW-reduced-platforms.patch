@@ -1,7 +1,7 @@
-From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From 4658081050d245b515333e5639b118e3fa6168dd Mon Sep 17 00:00:00 2001
 From: "Bart Groeneveld | GPX Solutions B.V" <bart@gpxbv.nl>
 Date: Mon, 5 Dec 2022 16:08:46 +0100
-Subject: [PATCH 38/40] acpi: allow usage of acpi_tad on HW-reduced platforms
+Subject: [PATCH 39/41] acpi: allow usage of acpi_tad on HW-reduced platforms
 
 The specification [1] allows so-called HW-reduced platforms,
 which do not implement everything, especially the wakeup related stuff.
@@ -21,7 +21,7 @@ Patchset: rtc
  1 file changed, 24 insertions(+), 12 deletions(-)
 
 diff --git a/drivers/acpi/acpi_tad.c b/drivers/acpi/acpi_tad.c
-index 33418dd6768a1..f94bbdc1de061 100644
+index 33418dd6768a..f94bbdc1de06 100644
 --- a/drivers/acpi/acpi_tad.c
 +++ b/drivers/acpi/acpi_tad.c
 @@ -433,6 +433,14 @@ static ssize_t caps_show(struct device *dev, struct device_attribute *attr,
@@ -105,3 +105,6 @@ index 33418dd6768a1..f94bbdc1de061 100644
  	if (caps & ACPI_TAD_DC_WAKE) {
  		ret = sysfs_create_group(&dev->kobj, &acpi_tad_dc_attr_group);
  		if (ret)
+-- 
+2.52.0
+
