@@ -1,7 +1,7 @@
-From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From 652839ecc85fc2856d0a6c52498d61c04851c41f Mon Sep 17 00:00:00 2001
 From: Tooraj Taraz <tooraj.taraz@yahoo.com>
 Date: Wed, 31 Dec 2025 00:35:50 +0100
-Subject: [PATCH 35/40] Add camera support for Surface Pro 9
+Subject: [PATCH 35/41] Add camera support for Surface Pro 9
 
 Experimental camera support for the Surface Pro 9.
 
@@ -15,7 +15,7 @@ Patchset: cameras
  4 files changed, 184 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/media/i2c/ov13858.c b/drivers/media/i2c/ov13858.c
-index 162b49046990a..85cd0c98af031 100644
+index 162b49046990..85cd0c98af03 100644
 --- a/drivers/media/i2c/ov13858.c
 +++ b/drivers/media/i2c/ov13858.c
 @@ -2,6 +2,7 @@
@@ -262,7 +262,7 @@ index 162b49046990a..85cd0c98af031 100644
  	},
  	.probe = ov13858_probe,
 diff --git a/drivers/media/i2c/ov5693.c b/drivers/media/i2c/ov5693.c
-index d294477f9dd30..46bc6c5b77580 100644
+index d294477f9dd3..46bc6c5b7758 100644
 --- a/drivers/media/i2c/ov5693.c
 +++ b/drivers/media/i2c/ov5693.c
 @@ -1396,6 +1396,7 @@ static const struct dev_pm_ops ov5693_pm_ops = {
@@ -274,7 +274,7 @@ index d294477f9dd30..46bc6c5b77580 100644
  };
  MODULE_DEVICE_TABLE(acpi, ov5693_acpi_match);
 diff --git a/drivers/media/pci/intel/ipu-bridge.c b/drivers/media/pci/intel/ipu-bridge.c
-index 4e579352ab2c0..ac637207b6444 100644
+index 4e579352ab2c..ac637207b644 100644
 --- a/drivers/media/pci/intel/ipu-bridge.c
 +++ b/drivers/media/pci/intel/ipu-bridge.c
 @@ -60,6 +60,10 @@ static const struct ipu_sensor_config ipu_supported_sensors[] = {
@@ -289,7 +289,7 @@ index 4e579352ab2c0..ac637207b6444 100644
  	IPU_SENSOR_CONFIG("INT3474", 1, 180000000),
  	/* Omnivision OV5670 */
 diff --git a/drivers/platform/x86/intel/int3472/discrete.c b/drivers/platform/x86/intel/int3472/discrete.c
-index 1505fc3ef7a85..20962e8acb263 100644
+index 1505fc3ef7a8..20962e8acb26 100644
 --- a/drivers/platform/x86/intel/int3472/discrete.c
 +++ b/drivers/platform/x86/intel/int3472/discrete.c
 @@ -229,6 +229,14 @@ static void int3472_get_con_id_and_polarity(struct int3472_discrete_device *int3
@@ -336,3 +336,6 @@ index 1505fc3ef7a85..20962e8acb263 100644
  		default: /* Never reached */
  			ret = -EINVAL;
  			break;
+-- 
+2.52.0
+

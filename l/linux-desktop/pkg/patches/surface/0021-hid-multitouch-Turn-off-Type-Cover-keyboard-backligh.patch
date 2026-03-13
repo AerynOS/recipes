@@ -1,7 +1,7 @@
-From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From 36fe9a8a785b46e63aadc92ff71ffa99d24069ac Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Jonas=20Dre=C3=9Fler?= <verdre@v0yd.nl>
 Date: Thu, 5 Nov 2020 13:09:45 +0100
-Subject: [PATCH 21/40] hid/multitouch: Turn off Type Cover keyboard backlight
+Subject: [PATCH 21/41] hid/multitouch: Turn off Type Cover keyboard backlight
  when suspending
 
 The Type Cover for Microsoft Surface devices supports a special usb
@@ -34,7 +34,7 @@ Patchset: surface-typecover
  1 file changed, 98 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
-index 4dcb1d43df27..41e73a6aeed3 100644
+index af19e089b012..ab040ea64e28 100644
 --- a/drivers/hid/hid-multitouch.c
 +++ b/drivers/hid/hid-multitouch.c
 @@ -35,7 +35,10 @@
@@ -56,7 +56,7 @@ index 4dcb1d43df27..41e73a6aeed3 100644
  
  #include "hid-haptic.h"
  
-@@ -82,12 +82,15 @@ MODULE_LICENSE("GPL");
+@@ -78,12 +82,15 @@ MODULE_LICENSE("GPL");
  #define MT_QUIRK_APPLE_TOUCHBAR		BIT(23)
  #define MT_QUIRK_YOGABOOK9I		BIT(24)
  #define MT_QUIRK_KEEP_LATENCY_ON_CLOSE	BIT(25)
@@ -72,7 +72,7 @@ index 4dcb1d43df27..41e73a6aeed3 100644
  enum latency_mode {
  	HID_LATENCY_NORMAL = 0,
  	HID_LATENCY_HIGH = 1,
-@@ -185,6 +192,8 @@ struct mt_device {
+@@ -186,6 +193,8 @@ struct mt_device {
  
  	struct list_head applications;
  	struct list_head reports;
@@ -81,7 +81,7 @@ index 4dcb1d43df27..41e73a6aeed3 100644
  };
  
  static void mt_post_parse_default_settings(struct mt_device *td,
-@@ -240,6 +243,7 @@ static void mt_post_parse(struct mt_devi
+@@ -234,6 +243,7 @@ static void mt_post_parse(struct mt_device *td, struct mt_application *app);
  #define MT_CLS_APPLE_TOUCHBAR			0x0114
  #define MT_CLS_YOGABOOK9I			0x0115
  #define MT_CLS_EGALAX_P80H84			0x0116
@@ -89,9 +89,9 @@ index 4dcb1d43df27..41e73a6aeed3 100644
  #define MT_CLS_SIS				0x0457
  
  #define MT_DEFAULT_MAXCONTACT	10
-@@ -436,6 +446,16 @@ static const struct mt_class mt_classes[] = {
- 			MT_QUIRK_YOGABOOK9I,
- 		.export_all_inputs = true
+@@ -453,6 +463,16 @@ static const struct mt_class mt_classes[] = {
+ 			MT_QUIRK_IGNORE_DUPLICATES |
+ 			MT_QUIRK_CONTACT_CNT_ACCURATE,
  	},
 +	{ .name = MT_CLS_WIN_8_MS_SURFACE_TYPE_COVER,
 +		.quirks = MT_QUIRK_HAS_TYPE_COVER_BACKLIGHT |
@@ -106,7 +106,7 @@ index 4dcb1d43df27..41e73a6aeed3 100644
  	{ }
  };
  
-@@ -1909,6 +1929,69 @@ static void mt_expired_timeout(struct timer_list *t)
+@@ -1928,6 +1948,69 @@ static void mt_expired_timeout(struct timer_list *t)
  	clear_bit_unlock(MT_IO_FLAGS_RUNNING, &td->mt_io_flags);
  }
  
@@ -176,7 +176,7 @@ index 4dcb1d43df27..41e73a6aeed3 100644
  static int mt_probe(struct hid_device *hdev, const struct hid_device_id *id)
  {
  	int ret, i;
-@@ -1937,6 +2020,9 @@ static int mt_probe(struct hid_device *hdev, const struct hid_device_id *id)
+@@ -1956,6 +2039,9 @@ static int mt_probe(struct hid_device *hdev, const struct hid_device_id *id)
  	td->inputmode_value = MT_INPUTMODE_TOUCHSCREEN;
  	hid_set_drvdata(hdev, td);
  
@@ -186,7 +186,7 @@ index 4dcb1d43df27..41e73a6aeed3 100644
  	INIT_LIST_HEAD(&td->applications);
  	INIT_LIST_HEAD(&td->reports);
  
-@@ -1975,8 +2061,10 @@ static int mt_probe(struct hid_device *hdev, const struct hid_device_id *id)
+@@ -1994,8 +2080,10 @@ static int mt_probe(struct hid_device *hdev, const struct hid_device_id *id)
  	timer_setup(&td->release_timer, mt_expired_timeout, 0);
  
  	ret = hid_parse(hdev);
@@ -198,7 +198,7 @@ index 4dcb1d43df27..41e73a6aeed3 100644
  
  	if (mtclass->name == MT_CLS_APPLE_TOUCHBAR &&
  	    !hid_find_field(hdev, HID_INPUT_REPORT,
-@@ -1990,8 +2078,10 @@ static int mt_probe(struct hid_device *hdev, const struct hid_device_id *id)
+@@ -2009,8 +2097,10 @@ static int mt_probe(struct hid_device *hdev, const struct hid_device_id *id)
  		hdev->quirks |= HID_QUIRK_NOGET;
  
  	ret = hid_hw_start(hdev, HID_CONNECT_DEFAULT);
@@ -210,7 +210,7 @@ index 4dcb1d43df27..41e73a6aeed3 100644
  
  	ret = sysfs_create_group(&hdev->dev.kobj, &mt_attribute_group);
  	if (ret)
-@@ -2052,6 +2142,7 @@ static void mt_remove(struct hid_device *hdev)
+@@ -2071,6 +2161,7 @@ static void mt_remove(struct hid_device *hdev)
  {
  	struct mt_device *td = hid_get_drvdata(hdev);
  
@@ -218,7 +218,7 @@ index 4dcb1d43df27..41e73a6aeed3 100644
  	timer_delete_sync(&td->release_timer);
  
  	sysfs_remove_group(&hdev->dev.kobj, &mt_attribute_group);
-@@ -2505,6 +2596,11 @@ static const struct hid_device_id mt_devices[] = {
+@@ -2538,6 +2629,11 @@ static const struct hid_device_id mt_devices[] = {
  		HID_USB_DEVICE(USB_VENDOR_ID_APPLE,
  			USB_DEVICE_ID_APPLE_TOUCHBAR_DISPLAY) },
  
@@ -230,3 +230,6 @@ index 4dcb1d43df27..41e73a6aeed3 100644
  	/* Google MT devices */
  	{ .driver_data = MT_CLS_GOOGLE,
  		HID_DEVICE(HID_BUS_ANY, HID_GROUP_ANY, USB_VENDOR_ID_GOOGLE,
+-- 
+2.52.0
+
