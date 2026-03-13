@@ -1,0 +1,21 @@
+#
+# SPDX-FileCopyrightText: © 2025- AerynOS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : mangowc
+version     : "0.12.4"
+release     : 6
+homepage    : https://github.com/DreamMaoMao/mangowc
+upstreams   :
+    - https://github.com/DreamMaoMao/mangowc/archive/refs/tags/0.12.4.tar.gz : 8581bfb6b4a73154748e6a305c9b410530b7f5a2037a7e45ea588efe2ac99f8c
+summary     : TYPO package - pending deletion
+description : |
+    TYPO package - pending deletion
+license     :
+    - GPL-3.0-or-later
+rundeps     :
+  - mangowm
+install     : |
+    %install_dir %(installroot)%(docdir)/typos/%(name)
+    echo "mangowc" > %(installroot)%(docdir)/typos/%(name)/TRANSITION

@@ -184,3 +184,15 @@
 
 ### Merged into main package
 - cli11-devel
+
+### Renamed/Rebranded upstream
+- mangowc
+- mangowc-dbginfo
+
+### Devel-only, merged with libclc
+- libclc-devel
+
+### Not needed
+- spirv-llvm-translator-32bit
+- spirv-llvm-translator-32bit-devel
+- spirv-llvm-translator-32bit-dbginfo

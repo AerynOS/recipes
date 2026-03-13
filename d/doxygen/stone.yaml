@@ -5,7 +5,7 @@
 #
 name        : doxygen
 version     : "1.16.1"
-release     : 12
+release     : 13
 homepage    :  https://www.doxygen.org/
 upstreams   :
     - https://github.com/doxygen/doxygen/archive/refs/tags/Release_1_16_1.tar.gz : cdf9d614ee8ed6a939ad12ab31a6aaa1b0c089dff2a4ce20aa008893b686d636
@@ -16,6 +16,7 @@ license     : GPL-2.0-only
 builddeps  :
     - binary(bison)
     - binary(flex)
+    - binary(llvm-config-22)
     - binary(python3)
     - pkgconfig(Qt6Core)
     - pkgconfig(Qt6Svg)

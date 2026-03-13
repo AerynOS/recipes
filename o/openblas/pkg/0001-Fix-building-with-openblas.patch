@@ -1,0 +1,58 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Reilly Brogan <reilly@reillybrogan.com>
+Date: Wed, 11 Mar 2026 16:04:17 -0500
+Subject: [PATCH] Fix building with openblas
+
+---
+ CMakeLists.txt     |  2 +-
+ cmake/system.cmake | 22 +++++++++++-----------
+ 2 files changed, 12 insertions(+), 12 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 1fa4d9678..cde60ce3c 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -303,7 +303,7 @@ if (USE_OPENMP)
+     if(NOFORTRAN)
+       target_link_libraries(${OpenBLAS_LIBNAME}_shared OpenMP::OpenMP_C)
+     else()
+-      target_link_libraries(${OpenBLAS_LIBNAME}_shared OpenMP::OpenMP_C OpenMP::OpenMP_Fortran)
++      target_link_libraries(${OpenBLAS_LIBNAME}_shared OpenMP::OpenMP_C)
+     endif()
+   endif()
+ endif()
+diff --git a/cmake/system.cmake b/cmake/system.cmake
+index f16be31df..f74857b84 100644
+--- a/cmake/system.cmake
++++ b/cmake/system.cmake
+@@ -454,19 +454,19 @@ if (USE_OPENMP)
+   find_package(OpenMP COMPONENTS C REQUIRED)
+   set(CCOMMON_OPT "${CCOMMON_OPT} -DUSE_OPENMP")
+   if (NOT NOFORTRAN)
+-    find_package(OpenMP COMPONENTS Fortran REQUIRED)
++    find_package(OpenMP REQUIRED)
+     # Avoid mixed OpenMP linkage
+     get_target_property(OMP_C_LIBS OpenMP::OpenMP_C INTERFACE_LINK_LIBRARIES)
+-    get_target_property(OMP_F_LIBS OpenMP::OpenMP_Fortran INTERFACE_LINK_LIBRARIES)
+-    if (NOT OMP_C_LIBS STREQUAL OMP_F_LIBS)
+-      message(NOTICE
+-        "CMake detected different OpenMP libraries for C and Fortran:\n"
+-        "C=${OMP_C_LIBS}\n"
+-        "Fortran=${OMP_F_LIBS}\n"
+-        "In case you encounter issues, please check that this is correct.\n"
+-        "You may pass -DOpenMP_<lang>_LIB_NAMES and -DOpenMP_<libname>_LIBRARY to cmake to manually force the OpenMP library."
+-      )
+-    endif()
++    # get_target_property(OMP_F_LIBS OpenMP::OpenMP_Fortran INTERFACE_LINK_LIBRARIES)
++    # if (NOT OMP_C_LIBS STREQUAL OMP_F_LIBS)
++    #   message(NOTICE
++    #     "CMake detected different OpenMP libraries for C and Fortran:\n"
++    #     "C=${OMP_C_LIBS}\n"
++    #     "Fortran=${OMP_F_LIBS}\n"
++    #     "In case you encounter issues, please check that this is correct.\n"
++    #     "You may pass -DOpenMP_<lang>_LIB_NAMES and -DOpenMP_<libname>_LIBRARY to cmake to manually force the OpenMP library."
++    #   )
++    # endif()
+   endif ()
+ endif ()
+ 

@@ -4,69 +4,30 @@
 	"packages": {
 		"spirv-llvm-translator": {
 			"build-depends": [
-				"binary(llvm-config32)",
-				"pkgconfig32(SPIRV-Tools)"
+				"binary(llvm-config-22)",
+				"pkgconfig(SPIRV-Tools)"
 			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"soname(ld-linux-x86-64.so.2(x86_64))",
-				"soname(libLLVM.so.21.1(x86_64))",
+				"soname(libLLVM.so.22.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/bin/llvm-spirv",
-				"/usr/lib/libLLVMSPIRVLib.so.21.1"
+				"/usr/lib/libLLVMSPIRVLib.so.22.1"
 			],
 			"name": "spirv-llvm-translator",
 			"provides": [
 				"binary(llvm-spirv)",
-				"soname(libLLVMSPIRVLib.so.21.1(x86_64))"
-			]
-		},
-		"spirv-llvm-translator-32bit": {
-			"build-depends": [
-				"binary(llvm-config32)",
-				"pkgconfig32(SPIRV-Tools)"
-			],
-			"depends": [
-				"soname(ld-linux.so.2(386))",
-				"soname(libLLVM.so.21.1(386))",
-				"soname(libc.so.6(386))",
-				"soname(libgcc_s.so.1(386))",
-				"soname(libstdc++.so.6(386))",
-				"spirv-llvm-translator"
-			],
-			"files": [
-				"/usr/lib32/libLLVMSPIRVLib.so.21.1"
-			],
-			"name": "spirv-llvm-translator-32bit",
-			"provides": [
-				"soname(libLLVMSPIRVLib.so.21.1(386))"
-			]
-		},
-		"spirv-llvm-translator-32bit-devel": {
-			"build-depends": [
-				"binary(llvm-config32)",
-				"pkgconfig32(SPIRV-Tools)"
-			],
-			"depends": [
-				"spirv-llvm-translator-32bit",
-				"spirv-llvm-translator-devel"
-			],
-			"files": [
-				"/usr/lib32/libLLVMSPIRVLib.so",
-				"/usr/lib32/pkgconfig/LLVMSPIRVLib.pc"
-			],
-			"name": "spirv-llvm-translator-32bit-devel",
-			"provides": [
-				"pkgconfig32(LLVMSPIRVLib)"
+				"soname(libLLVMSPIRVLib.so.22.1(x86_64))"
 			]
 		},
 		"spirv-llvm-translator-devel": {
 			"build-depends": [
-				"binary(llvm-config32)",
-				"pkgconfig32(SPIRV-Tools)"
+				"binary(llvm-config-22)",
+				"pkgconfig(SPIRV-Tools)"
 			],
 			"depends": [
 				"spirv-llvm-translator"
@@ -85,6 +46,6 @@
 		}
 	},
 	"source-name": "spirv-llvm-translator",
-	"source-release": "13",
-	"source-version": "21.1.4"
+	"source-release": "15",
+	"source-version": "22.1.0"
 }

@@ -1,0 +1,83 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"elephant": {
+			"build-depends": [
+				"binary(go)"
+			],
+			"depends": [
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(libc.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/bin/elephant",
+				"/usr/lib/elephant/1password.so",
+				"/usr/lib/elephant/archlinuxpkgs.so",
+				"/usr/lib/elephant/bitwarden.so",
+				"/usr/lib/elephant/bluetooth.so",
+				"/usr/lib/elephant/bookmarks.so",
+				"/usr/lib/elephant/calc.so",
+				"/usr/lib/elephant/clipboard.so",
+				"/usr/lib/elephant/dnfpackages.so",
+				"/usr/lib/elephant/files.so",
+				"/usr/lib/elephant/menus.so",
+				"/usr/lib/elephant/niriactions.so",
+				"/usr/lib/elephant/nirisessions.so",
+				"/usr/lib/elephant/providerlist.so",
+				"/usr/lib/elephant/runner.so",
+				"/usr/lib/elephant/snippets.so",
+				"/usr/lib/elephant/symbols.so",
+				"/usr/lib/elephant/todo.so",
+				"/usr/lib/elephant/unicode.so",
+				"/usr/lib/elephant/websearch.so",
+				"/usr/lib/elephant/windows.so",
+				"/usr/lib/systemd/system/elephant.service",
+				"/usr/share/licenses/elephant/LICENSE"
+			],
+			"name": "elephant",
+			"provides": [
+				"binary(elephant)",
+				"soname(elephant/1password.so(x86_64))",
+				"soname(elephant/archlinuxpkgs.so(x86_64))",
+				"soname(elephant/bitwarden.so(x86_64))",
+				"soname(elephant/bluetooth.so(x86_64))",
+				"soname(elephant/bookmarks.so(x86_64))",
+				"soname(elephant/calc.so(x86_64))",
+				"soname(elephant/clipboard.so(x86_64))",
+				"soname(elephant/dnfpackages.so(x86_64))",
+				"soname(elephant/files.so(x86_64))",
+				"soname(elephant/menus.so(x86_64))",
+				"soname(elephant/niriactions.so(x86_64))",
+				"soname(elephant/nirisessions.so(x86_64))",
+				"soname(elephant/providerlist.so(x86_64))",
+				"soname(elephant/runner.so(x86_64))",
+				"soname(elephant/snippets.so(x86_64))",
+				"soname(elephant/symbols.so(x86_64))",
+				"soname(elephant/todo.so(x86_64))",
+				"soname(elephant/unicode.so(x86_64))",
+				"soname(elephant/websearch.so(x86_64))",
+				"soname(elephant/windows.so(x86_64))"
+			]
+		},
+		"elephant-desktopapplications": {
+			"build-depends": [
+				"binary(go)"
+			],
+			"depends": [
+				"elephant",
+				"soname(libc.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/lib/elephant/desktopapplications.so"
+			],
+			"name": "elephant-desktopapplications",
+			"provides": [
+				"soname(elephant/desktopapplications.so(x86_64))"
+			]
+		}
+	},
+	"source-name": "elephant",
+	"source-release": "1",
+	"source-version": "2.19.3"
+}

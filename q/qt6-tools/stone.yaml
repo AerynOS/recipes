@@ -5,7 +5,7 @@
 #
 name        : qt6-tools
 version     : "6.10.2"
-release     : 13
+release     : 14
 homepage    : https://www.qt.io
 upstreams   :
     - https://download.qt.io/official_releases/qt/6.10/6.10.2/submodules/qttools-everywhere-src-6.10.2.tar.xz : 1e3d2c07c1fd76d2425c6eaeeaa62ffaff5f79210c4e1a5bc2a6a9db668d5b24
@@ -17,13 +17,16 @@ license     :
     - GPL-3.0-or-later
     - LGPL-3.0-or-later
 builddeps   :
+    - binary(llvm-config-21)
     - cmake(Qt6CorePrivate)
     - cmake(Qt6QmlTools)
     - pkgconfig(libzstd)
-    - clang-devel
+    - clang-21-devel
+    # TODO: Check updated versions for LLVM 22 compat
 setup       : |
     %patch %(pkgdir)/ftbfs-zstd.patch
-    %cmake_qt6
+    %cmake_qt6 \
+        -DCMAKE_PREFIX_PATH="%(libdir)/llvm-21/"
 build       : |
     %cmake_build
 install     : |

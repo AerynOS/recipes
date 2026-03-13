@@ -5,7 +5,7 @@
 #
 name        : llvm-20
 version     : "20.1.8"
-release     : 5
+release     : 6
 summary     : Low Level Virtual Machine
 license     :
     - Apache-2.0 WITH LLVM-exception
@@ -16,6 +16,7 @@ description : |
 upstreams   :
     - https://github.com/llvm/llvm-project/releases/download/llvmorg-20.1.8/llvm-project-20.1.8.src.tar.xz : 6898f963c8e938981e6c4a302e83ec5beb4630147c7311183cf61069af16333d
 builddeps   :
+    - binary(clang-22) # Ensure correct build ordering
     - binary(perl)
     - binary(python3)
     - binary(sed)
@@ -53,7 +54,6 @@ environment : |
         # Build-related patches, achieving adjustments/fixes to the build that cannot be done via cmake flags
         %patch %(pkgdir)/patches/build/0001-Build-lld-libraries-shared.patch
         %patch %(pkgdir)/patches/build/0001-Build-polly-libraries-shared.patch
-        %patch %(pkgdir)/patches/build/0001-Emit-relocations-for-BOLT.patch
         %patch %(pkgdir)/patches/build/0003-PATCH-clang-Don-t-install-static-libraries.patch
         %patch %(pkgdir)/patches/build/0001-downstream-Suppress-runpath-in-openmp.patch
         %patch %(pkgdir)/patches/build/0001-bolt-Set-version-string.patch
@@ -70,13 +70,11 @@ environment : |
         %patch %(pkgdir)/patches/config/0001-lld-Always-enable-build-id-and-use-20-byte-hashes.patch
 
         # Aeryn-specific patches
-        %patch %(pkgdir)/patches/aerynos/0001-Support-serpent-aeryn-as-a-distro.patch
+        %patch %(pkgdir)/patches/aerynos/0001-Support-aeryn-solus-as-a-distro.patch
         %patch %(pkgdir)/patches/aerynos/0001-Use-correct-Serpent-OS-multilib-paths-for-ld.patch
         %patch %(pkgdir)/patches/aerynos/0001-Update-binutils-version-to-match-Serpent-OS.patch
-        %patch %(pkgdir)/patches/aerynos/0001-clang-lib-Ignore-Werror-if-CLANG_IGNORE_WERROR-is-se.patch
 
         # Performance-related patches
-        %patch %(pkgdir)/patches/perf/0001-Reduce-GCC-startup-searches.patch
         %patch %(pkgdir)/patches/perf/0001-Use-mimalloc-for-clang-lld-llvm.patch
 
         ## Upstream backports

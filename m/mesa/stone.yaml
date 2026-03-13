@@ -7,14 +7,14 @@ name        : mesa
 ### IMPORTANT: Use the update-mesa.py script to update this package
 
 ##@@BEGIN_VERSION
-version     : "26.0.1"
+version     : "26.0.2"
 ##@@END_VERSION
 # Note: keep mesa-clc in-sync with this package version-wise
-release     : 68
+release     : 70
 homepage    : https://mesa3d.org/
 upstreams   :
 ##@@BEGIN_SOURCE
-    - https://mesa.freedesktop.org/archive/mesa-26.0.1.tar.xz : bb5104f9f9a46c9b5175c24e601e0ef1ab44ce2d0fdbe81548b59adc8b385dcc
+    - https://mesa.freedesktop.org/archive/mesa-26.0.2.tar.xz : 973f535221be211c6363842b4cce9ef8e9b3e1d5ea86c5450ca86060163c7346
 ##@@END_SOURCE
 
 ##@@BEGIN_CRATES
@@ -146,7 +146,7 @@ builddeps   :
     - binary(bison)
     - binary(cbindgen)
     - binary(flex)
-    - binary(llvm-config32)
+    - binary(llvm-config32-22)
     - binary(mesa_clc)
     - binary(python3)
     - binary(rustc)
@@ -154,12 +154,12 @@ builddeps   :
     - cmake(Clang)
     - cmake(glslang)
     - cmake(libxml2)
+    - pkgconfig(LLVMSPIRVLib)
     - pkgconfig(libarchive)
     - pkgconfig(libclc)
     - pkgconfig(libdisplay-info)
     - pkgconfig(sysprof-capture-4)
     - pkgconfig(wayland-protocols)
-    - pkgconfig32(LLVMSPIRVLib)
     - pkgconfig32(SPIRV-Tools)
     - pkgconfig32(expat)
     - pkgconfig32(libdrm)

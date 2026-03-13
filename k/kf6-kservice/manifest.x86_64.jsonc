@@ -12,6 +12,7 @@
 			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libKF6ConfigCore.so.6(x86_64))",
 				"soname(libKF6CoreAddons.so.6(x86_64))",
 				"soname(libKF6I18n.so.6(x86_64))",
@@ -188,6 +189,6 @@
 		}
 	},
 	"source-name": "kf6-kservice",
-	"source-release": "15",
+	"source-release": "17",
 	"source-version": "6.23.0"
 }

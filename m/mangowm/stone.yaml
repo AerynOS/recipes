@@ -1,0 +1,28 @@
+#
+# SPDX-FileCopyrightText: © 2025- AerynOS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : mangowm
+version     : "0.12.5"
+release     : 1
+homepage    : https://github.com/mangowm/mango
+upstreams   :
+        - https://github.com/mangowm/mango/archive/refs/tags/0.12.5.tar.gz : 56ce7e86d7d54878b2e309bd1df380b1983a27ef1fb92868a26b2cc06cf539f1
+summary     : A Wayland compositor with smooth animation
+description : |
+    A wayland compositor utilizing wlroots as a base and SceneFX for aesthetics
+license     :
+    - GPL-3.0-or-later
+builddeps   :
+    - pkgconfig(libpcre2-8)
+    - pkgconfig(scenefx)
+    - pkgconfig(wayland-protocols)
+    - pkgconfig(wlroots)
+setup       : |
+    %patch %(pkgdir)/stateless-config.patch
+    %meson
+build       : |
+    %meson_build
+install     : |
+    %meson_install

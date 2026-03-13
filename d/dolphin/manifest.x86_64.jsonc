@@ -98,7 +98,6 @@
 				"/usr/share/config.kcfg/dolphin_generalsettings.kcfg",
 				"/usr/share/config.kcfg/dolphin_iconsmodesettings.kcfg",
 				"/usr/share/config.kcfg/dolphin_versioncontrolsettings.kcfg",
-				"/usr/share/dbus-1/interfaces/org.freedesktop.FileManager1.xml",
 				"/usr/share/dbus-1/services/org.kde.dolphin.FileManager1.service",
 				"/usr/share/dolphin/dolphinpartactions.desktop",
 				"/usr/share/icons/hicolor/scalable/apps/org.kde.dolphin.svg",
@@ -306,7 +305,8 @@
 				"/usr/lib/cmake/DolphinVcs/DolphinVcsConfigVersion.cmake",
 				"/usr/lib/cmake/DolphinVcs/DolphinVcsTargets-release.cmake",
 				"/usr/lib/cmake/DolphinVcs/DolphinVcsTargets.cmake",
-				"/usr/lib/libdolphinvcs.so"
+				"/usr/lib/libdolphinvcs.so",
+				"/usr/share/dbus-1/interfaces/org.freedesktop.FileManager1.xml"
 			],
 			"name": "dolphin-devel",
 			"provides": [
@@ -587,9 +587,9 @@
 				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
-				"/usr/lib/libdolphinprivate.so.25.12.2",
+				"/usr/lib/libdolphinprivate.so.25.12.3",
 				"/usr/lib/libdolphinprivate.so.6",
-				"/usr/lib/libdolphinvcs.so.25.12.2",
+				"/usr/lib/libdolphinvcs.so.25.12.3",
 				"/usr/lib/libdolphinvcs.so.6",
 				"/usr/lib/qt6/plugins/dolphin/kcms/kcm_dolphingeneral.so",
 				"/usr/lib/qt6/plugins/dolphin/kcms/kcm_dolphinviewmodes.so",
@@ -612,6 +612,6 @@
 		}
 	},
 	"source-name": "dolphin",
-	"source-release": "20",
-	"source-version": "25.12.2"
+	"source-release": "22",
+	"source-version": "25.12.3"
 }

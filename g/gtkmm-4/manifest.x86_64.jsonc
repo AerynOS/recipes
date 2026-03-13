@@ -11,6 +11,7 @@
 				"binary(xsltproc)",
 				"pkgconfig(epoxy)",
 				"pkgconfig(gtk4)",
+				"pkgconfig(mm-common-libstdc++)",
 				"pkgconfig(pangomm-2.48)",
 				"pkgconfig(vulkan)"
 			],
@@ -49,6 +50,7 @@
 				"binary(xsltproc)",
 				"pkgconfig(epoxy)",
 				"pkgconfig(gtk4)",
+				"pkgconfig(mm-common-libstdc++)",
 				"pkgconfig(pangomm-2.48)",
 				"pkgconfig(vulkan)"
 			],
@@ -194,6 +196,8 @@
 				"/usr/include/gtkmm-4.0/gtkmm/accelerator.h",
 				"/usr/include/gtkmm-4.0/gtkmm/accelkey.h",
 				"/usr/include/gtkmm-4.0/gtkmm/accessible.h",
+				"/usr/include/gtkmm-4.0/gtkmm/accessiblehyperlink.h",
+				"/usr/include/gtkmm-4.0/gtkmm/accessiblehypertext.h",
 				"/usr/include/gtkmm-4.0/gtkmm/accessibletext.h",
 				"/usr/include/gtkmm-4.0/gtkmm/actionable.h",
 				"/usr/include/gtkmm-4.0/gtkmm/actionbar.h",
@@ -373,6 +377,7 @@
 				"/usr/include/gtkmm-4.0/gtkmm/passwordentry.h",
 				"/usr/include/gtkmm-4.0/gtkmm/picture.h",
 				"/usr/include/gtkmm-4.0/gtkmm/popover.h",
+				"/usr/include/gtkmm-4.0/gtkmm/popoverbin.h",
 				"/usr/include/gtkmm-4.0/gtkmm/popovermenu.h",
 				"/usr/include/gtkmm-4.0/gtkmm/popovermenubar.h",
 				"/usr/include/gtkmm-4.0/gtkmm/printcontext.h",
@@ -386,6 +391,8 @@
 				"/usr/include/gtkmm-4.0/gtkmm/printunixdialog.h",
 				"/usr/include/gtkmm-4.0/gtkmm/private/aboutdialog_p.h",
 				"/usr/include/gtkmm-4.0/gtkmm/private/accessible_p.h",
+				"/usr/include/gtkmm-4.0/gtkmm/private/accessiblehyperlink_p.h",
+				"/usr/include/gtkmm-4.0/gtkmm/private/accessiblehypertext_p.h",
 				"/usr/include/gtkmm-4.0/gtkmm/private/accessibletext_p.h",
 				"/usr/include/gtkmm-4.0/gtkmm/private/actionable_p.h",
 				"/usr/include/gtkmm-4.0/gtkmm/private/actionbar_p.h",
@@ -561,6 +568,7 @@
 				"/usr/include/gtkmm-4.0/gtkmm/private/passwordentry_p.h",
 				"/usr/include/gtkmm-4.0/gtkmm/private/picture_p.h",
 				"/usr/include/gtkmm-4.0/gtkmm/private/popover_p.h",
+				"/usr/include/gtkmm-4.0/gtkmm/private/popoverbin_p.h",
 				"/usr/include/gtkmm-4.0/gtkmm/private/popovermenu_p.h",
 				"/usr/include/gtkmm-4.0/gtkmm/private/popovermenubar_p.h",
 				"/usr/include/gtkmm-4.0/gtkmm/private/printcontext_p.h",
@@ -623,6 +631,7 @@
 				"/usr/include/gtkmm-4.0/gtkmm/private/stringsorter_p.h",
 				"/usr/include/gtkmm-4.0/gtkmm/private/stylecontext_p.h",
 				"/usr/include/gtkmm-4.0/gtkmm/private/styleprovider_p.h",
+				"/usr/include/gtkmm-4.0/gtkmm/private/svg_p.h",
 				"/usr/include/gtkmm-4.0/gtkmm/private/switch_p.h",
 				"/usr/include/gtkmm-4.0/gtkmm/private/symbolicpaintable_p.h",
 				"/usr/include/gtkmm-4.0/gtkmm/private/text_p.h",
@@ -713,6 +722,7 @@
 				"/usr/include/gtkmm-4.0/gtkmm/stringsorter.h",
 				"/usr/include/gtkmm-4.0/gtkmm/stylecontext.h",
 				"/usr/include/gtkmm-4.0/gtkmm/styleprovider.h",
+				"/usr/include/gtkmm-4.0/gtkmm/svg.h",
 				"/usr/include/gtkmm-4.0/gtkmm/switch.h",
 				"/usr/include/gtkmm-4.0/gtkmm/symbolicpaintable.h",
 				"/usr/include/gtkmm-4.0/gtkmm/text.h",
@@ -776,6 +786,6 @@
 		}
 	},
 	"source-name": "gtkmm-4",
-	"source-release": "9",
-	"source-version": "4.20.0"
+	"source-release": "10",
+	"source-version": "4.22.0"
 }

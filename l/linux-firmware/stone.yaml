@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : linux-firmware
-version     : "20260221+git.40f48240"
-release     : 36
+version     : "20260309"
+release     : 38
 homepage    : https://kernel.org
 upstreams   :
-    - git|https://gitlab.com/kernel-firmware/linux-firmware.git : 40f482401e023ac4aa2964d688499b79e1467f27
+    - git|https://gitlab.com/kernel-firmware/linux-firmware.git : c822cbbb14ce5b8ee1f27346220640ac350bbf34
 summary     : Firmware to allow devices to function correctly
 description : |
     Firmware to allow devices to function correctly
@@ -297,6 +297,7 @@ packages    :
             - /usr/lib/firmware/f2255usb.bin*
             - /usr/lib/firmware/isdbt_*.inp*
             - /usr/lib/firmware/lgs8g75.fw*
+            - /usr/lib/firmware/lt8713sx_fw.bin*
             - /usr/lib/firmware/lt9611uxc_fw.bin*
             - /usr/lib/firmware/mts_*.fw*
             - /usr/lib/firmware/qat_4xxx*

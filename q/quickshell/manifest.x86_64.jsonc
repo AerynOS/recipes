@@ -19,6 +19,7 @@
 			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"power-profiles-daemon",
 				"soname(libEGL.so.1(x86_64))",
 				"soname(libOpenGL.so.0(x86_64))",
 				"soname(libQt6Core.so.6(x86_64))",
@@ -39,7 +40,8 @@
 				"soname(libpipewire-0.3.so.0(x86_64))",
 				"soname(libstdc++.so.6(x86_64))",
 				"soname(libwayland-client.so.0(x86_64))",
-				"soname(libxcb.so.1(x86_64))"
+				"soname(libxcb.so.1(x86_64))",
+				"upower"
 			],
 			"files": [
 				"/usr/bin/qs",
@@ -113,6 +115,6 @@
 		}
 	},
 	"source-name": "quickshell",
-	"source-release": "2",
+	"source-release": "3",
 	"source-version": "0.2.1"
 }

@@ -5,7 +5,7 @@
 #
 name        : quickshell
 version     : "0.2.1"
-release     : 2
+release     : 3
 homepage    : https://github.com/quickshell-mirror/quickshell
 upstreams   :
     - https://github.com/quickshell-mirror/quickshell/archive/refs/tags/v0.2.1.tar.gz : 337bab5d4badb92e51d01ac1cfbeaeb784478bad82f3c8297fd7be42a6995af2
@@ -30,12 +30,17 @@ builddeps   :
     - pkgconfig(libpipewire-0.3)
     - pkgconfig(pam)
     - pkgconfig(wayland-protocols)
+rundeps     :
+    # Both of these are for the upower/ppd service integration
+    - power-profiles-daemon
+    - upower
 setup       : |
-    %cmake -DDISTRIBUTOR="AerynOS" \
-           -DDISTRIBUTOR_DEBUGINFO_AVAILABLE=NO \
-           -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-           -DINSTALL_QML_PREFIX="lib/qt6/qml" \
-           -DCRASH_REPORTER=OFF
+    # Remove NO_PCH in next version
+    %cmake \
+        -DCRASH_REPORTER=OFF \
+        -DDISTRIBUTOR="AerynOS" \
+        -DINSTALL_QML_PREFIX="lib/qt6/qml" \
+        -DNO_PCH=ON
 build       : |
     %cmake_build
 install     : |

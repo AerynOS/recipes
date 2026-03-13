@@ -5,7 +5,7 @@
 #
 name        : gnome-settings-daemon
 version     : "49.1"
-release     : 14
+release     : 15
 homepage    : https://gitlab.gnome.org/GNOME/gnome-settings-daemon
 upstreams   :
     - https://download.gnome.org/sources/gnome-settings-daemon/49/gnome-settings-daemon-49.1.tar.xz : 2a9957fc4f91c3b9127b49484179bef485120d9c1c208e44d44e6a746e6cc1c1
@@ -45,7 +45,10 @@ builddeps   :
 rundeps     :
     - cups-filters
 setup       : |
+    %patch %(pkgdir)/0001-Make-path-to-gnome-session-ctl-configurable.patch
+
     %meson \
+        -Dgnomesessionpath=%(libdir)/gnome-session/gnome-session-ctl \
         -Dusb-protection=false
 build       : |
     %meson_build

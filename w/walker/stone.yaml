@@ -1,0 +1,38 @@
+#
+# SPDX-FileCopyrightText: © 2025- AerynOS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : walker
+version     : "2.14.2"
+release     : 1
+homepage    : https://github.com/abenz1267/walker
+upstreams   :
+    - https://github.com/abenz1267/walker/archive/refs/tags/v2.14.2.tar.gz : 40346c6b2be3740d0f1e193f3ed16024009380287045f653ca32a3e45369a3c8
+summary     : Multi-Purpose Launcher with a lot of features. Highly Customizable and fast.
+description : |
+    A fast, customizable application launcher built with GTK4 and Rust, designed for Linux desktop environments. Walker provides a clean, modern interface for launching applications, running commands, performing calculations, and more.
+license     :
+    - GPL-3.0-or-later
+networking  : true
+builddeps   :
+    - pkgconfig(cairo)
+    - pkgconfig(gtk4)
+    - pkgconfig(gtk4-layer-shell-0)
+    - pkgconfig(poppler-glib)
+    - pkgconfig(protobuf)
+rundeps     :
+    - elephant-desktopapplications
+setup       : |
+    %cargo_fetch
+build       : |
+    %cargo_build
+install     : |
+    %cargo_install
+
+    %install_dir %(installroot)%(datadir)/licenses/%(name)
+    %install_file LICENSE %(installroot)%(datadir)/licenses/%(name)/LICENSE
+
+    %install_dir %(installroot)%(vendordir)/%(name)/themes/default
+    %install_file resources/config.toml %(installroot)%(vendordir)/%(name)/config.toml
+    %install_file resources/themes/default/* %(installroot)%(vendordir)/%(name)/themes/default/.

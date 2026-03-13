@@ -1,0 +1,36 @@
+#
+# SPDX-FileCopyrightText: © 2025- AerynOS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : yajl
+version     : "2.1.0+git.5e3a785"
+release     : 1
+homepage    : https://github.com/lloyd/yajl
+upstreams   :
+    - git|https://github.com/lloyd/yajl.git :
+        ref : 5e3a7856e643b4d6410ddc3f84bc2f38174f2872
+summary     : Yet Another JSON Library (YAJL)
+description : |
+    A fast streaming JSON parsing library in C.
+license     : ISC
+builddeps   :
+    - binary(doxygen)
+setup       : |
+    # cmake fails without this patch
+    %patch %(pkgdir)/yajl-PR-256-build-with-cmake-4.0.patch
+
+    %patch %(pkgdir)/yajl-2.1.0-memory_leak.patch
+    %patch %(pkgdir)/yajl-2.1.0-CVE-2017-16516.patch
+    %patch %(pkgdir)/yajl-2.1.0-CVE-2022-24795.patch
+
+    %cmake \
+        -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
+        -Wno-dev       
+build       : |
+    %cmake_build
+install     : |
+    %cmake_install
+
+    %install_file COPYING -t %(installroot)%(datadir)/licenses/%(name)
+    %install_file {ChangeLog,README,TODO} -t %(installroot)%(docdir)%(name)

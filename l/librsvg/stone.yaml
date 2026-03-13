@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : librsvg
-version     : "2.61.4"
-release     : 16
+version     : "2.62.0"
+release     : 17
 homepage    : https://gitlab.gnome.org/GNOME/librsvg
 upstreams   :
-    - https://download.gnome.org/sources/librsvg/2.61/librsvg-2.61.4.tar.xz : fca0ea28d1f28f95c8407d2579f4702dac085e7c758644daca8b40d1e072ca0c
+    - https://download.gnome.org/sources/librsvg/2.62/librsvg-2.62.0.tar.xz : 4278ddc1195ab82f4fd834ac1f5aa75ac1685f3cc5484bb0eaebe03a790b8d82
 summary     : Library to render SVG files using Cairo
 description : |
     A small library to render Scalable Vector Graphics (SVG), associated with the GNOME Project. It renders SVG files to Cairo surfaces. Cairo is the 2D, antialiased drawing library that GNOME uses to draw things to the screen or to generate output for printing.
@@ -21,15 +21,16 @@ builddeps   :
     - binary(gi-docgen)
     - binary(python3)
     - binary(rst2man)
-    - binary(vapigen)
     - pkgconfig(cairo)
     - pkgconfig(cairo-gobject)
+    - pkgconfig(dav1d)
     - pkgconfig(fontconfig)
     - pkgconfig(gdk-pixbuf-2.0)
     - pkgconfig(gobject-introspection-1.0)
     - pkgconfig(libpng)
     - pkgconfig(libxml-2.0)
     - pkgconfig(pango)
+    - pkgconfig(vapigen)
     - pkgconfig(xdamage)
     - pkgconfig(xshmfence)
 setup       : |
@@ -41,6 +42,15 @@ install     : |
 check       : |
     %meson_test || :
 packages    :
+    - "%(name)-tools":
+        paths:
+            - /usr/bin/rsvg-convert
+            - /usr/share/man/man1/rsvg-convert.1*
+
+    - "%(name)-devel":
+        paths:
+            - /usr/share/vala/vapi/
+
     - "%(name)-docs":
         paths:
-            - /usr/share/doc
+            - /usr/share/doc/

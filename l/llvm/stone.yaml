@@ -4,8 +4,8 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : llvm
-version     : "21.1.8"
-release     : 45
+version     : "22.1.1"
+release     : 48
 summary     : Low Level Virtual Machine
 license     :
     - Apache-2.0 WITH LLVM-exception
@@ -14,13 +14,14 @@ homepage    : https://www.llvm.org
 description : |
     Low Level Virtual Machine
 upstreams   :
-    - https://github.com/llvm/llvm-project/releases/download/llvmorg-21.1.8/llvm-project-21.1.8.src.tar.xz : 4633a23617fa31a3ea51242586ea7fb1da7140e426bd62fc164261fe036aa142
+    - https://github.com/llvm/llvm-project/releases/download/llvmorg-22.1.1/llvm-project-22.1.1.src.tar.xz : 9c6f37f6f5f68d38f435d25f770fc48c62d92b2412205767a16dac2c942f0c95
 builddeps   :
     - binary(perl)
     - binary(python3)
     - binary(sed)
     - binary(swig)
     - pkgconfig(hwloc)
+    # - pkgconfig(level-zero) # TODO: Check in a future LLVM release if this is supported properly
     - pkgconfig(libedit)
     - pkgconfig(liblzma)
     - pkgconfig(ncurses)
@@ -57,32 +58,34 @@ environment : |
         _BUILD_TARGETS="AMDGPU;SPIRV;X86"
         _PROJECTS="llvm"
         _RUNTIMES="libcxx;libcxxabi;libunwind"
+        _RUNTIME_TARGETS="default"
 
     else
         _TARGET_ARCH=x86_64
         _IS_64BIT_BUILD="ON"
 
         # Full-fat (in the milk sense) build suitable for cross-compilation
-        _BUILD_TARGETS="AArch64;AMDGPU;ARM;BPF;NVPTX;RISCV;SPIRV;WebAssembly;X86"
+        _BUILD_TARGETS="AArch64;AMDGPU;ARM;AVR;BPF;Hexagon;Lanai;LoongArch;Mips;MSP430;NVPTX;PowerPC;RISCV;Sparc;SPIRV;SystemZ;VE;WebAssembly;X86;XCore"
         _PROJECTS="bolt;clang;clang-tools-extra;flang;lld;lldb;llvm;mlir;polly"
         _RUNTIMES="compiler-rt;flang-rt;libclc;libcxx;libcxxabi;libunwind;offload;openmp"
+        _RUNTIME_TARGETS="default;amdgcn-amd-amdhsa;nvptx64-nvidia-cuda"
     fi
 
     if [[ " ${PATH[*]} " =~ "ccache" ]]; then
         EXTRA_LLVM_FLAGS="-DLLVM_CCACHE_BUILD=ON"
     fi
 
+    _MAJOR_VERSION=$(echo %(version) | cut -d. -f1)
+
     function apply_llvm_patches() {
         # Build-related patches, achieving adjustments/fixes to the build that cannot be done via cmake flags
         %patch %(pkgdir)/patches/build/0001-Build-lld-libraries-shared.patch
         %patch %(pkgdir)/patches/build/0001-Build-polly-libraries-shared.patch
-        %patch %(pkgdir)/patches/build/0001-Emit-relocations-for-BOLT.patch
         %patch %(pkgdir)/patches/build/0001-PATCH-clang-Don-t-install-static-libraries.patch
         %patch %(pkgdir)/patches/build/0001-downstream-Suppress-runpath-in-openmp.patch
         %patch %(pkgdir)/patches/build/0001-bolt-Set-version-string.patch
         %patch %(pkgdir)/patches/build/0001-openmp-Don-t-install-static-libarcher.patch
         %patch %(pkgdir)/patches/build/0001-polly-Create-targets-for-headers-cmake.patch
-        %patch %(pkgdir)/patches/build/0001-lldb-disable-man.patch
         %patch %(pkgdir)/patches/build/0001-offload-Fix-build-failure-with-icf-all.patch
 
         # Runtime config changes. These often duplicate settings set by our CFLAGS/LDFLAGS and are intended as sane
@@ -93,29 +96,24 @@ environment : |
         %patch %(pkgdir)/patches/config/0001-lld-Always-enable-build-id-and-use-20-byte-hashes.patch
 
         # Aeryn-specific patches
-        %patch %(pkgdir)/patches/aerynos/0001-Support-serpent-aeryn-as-a-distro.patch
+        %patch %(pkgdir)/patches/aerynos/0001-Support-aeryn-solus-as-a-distro.patch
         %patch %(pkgdir)/patches/aerynos/0001-Use-correct-Serpent-OS-multilib-paths-for-ld.patch
         %patch %(pkgdir)/patches/aerynos/0001-Update-binutils-version-to-match-Serpent-OS.patch
-        %patch %(pkgdir)/patches/aerynos/0001-clang-lib-Ignore-Werror-if-CLANG_IGNORE_WERROR-is-se.patch
 
         # Performance-related patches
-        %patch %(pkgdir)/patches/perf/0001-Reduce-GCC-startup-searches.patch
         %patch %(pkgdir)/patches/perf/0001-Use-mimalloc-for-clang-lld-llvm.patch
 
         ## Upstream backports
-        # Can be dropped once we switch to libstdc++
-        %patch %(pkgdir)/patches/upstream/149326.patch
-        %patch %(pkgdir)/patches/upstream/155422.patch
+        %patch %(pkgdir)/patches/upstream/0001-Backport-177953.patch
     }
 
     # 2025-03-25: Add LIBCXX_TYPEINFO_COMPARISON_IMPLEMENTATION=2 for https://bugs.kde.org/show_bug.cgi?id=479679
     #  See also https://github.com/llvm/llvm-project/issues/36746
     # TODO is it worth adding Lua support to lldb?
-    # 2025-10-16: Using FLANG_RT_ENABLE_SHARED=ON causes the flang-rt build to fail with linker errors. TODO fix that.
+    # 2026-03-10 (LLVM 22 update): amdgcn and nvptx are GPU architectures and we need to override the CFLAGS/CXXFLAGS as they would otherwise be incorrect
     function cmake_llvm_configure() {
         %cmake \
             -DCMAKE_SKIP_INSTALL_RPATH=ON \
-            -DBOLT_PACKAGE_VERSION=%(version) \
             -DCLANG_DEFAULT_LINKER=lld \
             -DCLANG_DEFAULT_OBJCOPY=llvm-objcopy \
             -DCLANG_DEFAULT_PIE_ON_LINUX=ON \
@@ -123,7 +121,10 @@ environment : |
             -DCLANG_PLUGIN_SUPPORT=ON \
             -DCLANG_REPOSITORY_STRING="AerynOS" \
             -DENABLE_LINKER_BUILD_ID=ON \
-            -DFLANG_RT_ENABLE_SHARED=OFF \
+            -DFLANG_RT_ENABLE_SHARED=ON \
+            -DFLANG_RT_ENABLE_STATIC=OFF \
+            -DFLANG_RT_INSTALL_RESOURCE_LIB_PATH=%(libdir) \
+            -DFLANG_RT_OUTPUT_RESOURCE_LIB_DIR=%(libdir) \
             -DLIBCXX_ENABLE_ABI_LINKER_SCRIPT=ON \
             -DLIBCXX_STATICALLY_LINK_ABI_IN_STATIC_LIBRARY=ON \
             -DLIBCXXABI_USE_LLVM_UNWINDER=OFF \
@@ -170,6 +171,7 @@ environment : |
             -DLLVM_LINK_LLVM_DYLIB=ON \
             -DLLVM_PARALLEL_LINK_JOBS=1 \
             -DLLVM_POLLY_LINK_INTO_TOOLS=OFF \
+            -DLLVM_RUNTIME_TARGETS=$_RUNTIME_TARGETS \
             -DLLVM_TARGET_ARCH=$_TARGET_ARCH \
             -DLLVM_TARGETS_TO_BUILD=$_BUILD_TARGETS \
             -DLLVM_TOOL_OPENMP_BUILD=ON \
@@ -179,8 +181,13 @@ environment : |
             -DMLIR_INSTALL_AGGREGATE_OBJECTS=OFF \
             -DMLIR_LINK_MLIR_DYLIB=ON \
             -DOPENMP_INSTALL_LIBDIR="%(libdir)" \
+            -DRUNTIMES_amdgcn-amd-amdhsa_LLVM_ENABLE_RUNTIMES=openmp \
+            -DRUNTIMES_amdgcn-amd-amdhsa_CMAKE_CXX_FLAGS="" \
+            -DRUNTIMES_nvptx64-nvidia-cuda_LLVM_ENABLE_RUNTIMES=openmp \
+            -DRUNTIMES_nvptx64-nvidia-cuda_CMAKE_CXX_FLAGS="" \
             -DSPHINX_OUTPUT_MAN=$_IS_64BIT_BUILD \
             -DSPHINX_OUTPUT_HTML=OFF \
+            -DSPHINX_WARNINGS_AS_ERRORS=OFF \
             $EXTRA_LLVM_FLAGS \
             "$@"
     }
@@ -254,7 +261,7 @@ environment : |
 
                 ### LLDB
                 # bin
-                lldb|lldb-python-scripts|lldb-argdumper|lldb-dap|lldb-instr|lldb-server)
+                lldb|lldb-python-scripts|lldb-argdumper|lldb-dap|lldb-instr|lldb-mcp|lldb-server)
                     ;;
                 # libs
                 liblldb|lldbIntelFeatures)
@@ -342,6 +349,7 @@ profiles    :
             ### LLVM (begin)
             # Force this to 32-bit specific configuration
             mv %(installroot)%(bindir)/llvm-config %(installroot)%(bindir)/llvm-config32
+            ln -srv %(installroot)%(bindir)/llvm-config32 %(installroot)%(bindir)/llvm-config32-${_MAJOR_VERSION}
             mv %(installroot)%(includedir)/llvm/Config/llvm-config.h %(installroot)%(includedir)/llvm/Config/llvm-config32.h
 
             # Make sure that the .defs files are arch-dependent
@@ -378,13 +386,29 @@ profiles    :
             %cmake_build --target distribution
 
             # Generate man pages (this list will need to be updated on every major LLVM update)
-            %cmake_build --target docs-clang-man docs-clang-tools-man docs-dsymutil-man docs-flang-man docs-llvm-dwarfdump-man docs-llvm-man docs-polly-man
+            %cmake_build --target \
+                docs-clang-man \
+                docs-clang-tools-man \
+                docs-dsymutil-man \
+                docs-flang-man \
+                docs-lldb-man \
+                docs-llvm-dwarfdump-man \
+                docs-llvm-man \
+                docs-polly-man
             %ccache_stats
         install: |
             DESTDIR="%(installroot)" cmake --build "%(builddir)" --verbose --target install-distribution
 
             # Install man pages
-            DESTDIR="%(installroot)" cmake --build "%(builddir)" --verbose --target install-docs-clang-man install-docs-clang-tools-man install-docs-dsymutil-man install-docs-flang-man install-docs-llvm-dwarfdump-man install-docs-llvm-man install-docs-polly-man
+            DESTDIR="%(installroot)" cmake --build "%(builddir)" --verbose --target \
+                install-docs-clang-man \
+                install-docs-clang-tools-man \
+                install-docs-dsymutil-man \
+                install-docs-flang-man \
+                install-docs-lldb-man \
+                install-docs-llvm-dwarfdump-man \
+                install-docs-llvm-man \
+                install-docs-polly-man
 
             # Unused man pages (or used elsewhere like the lldb-tblgen one)
             rm -fv %(installroot)%(mandir)/man1/lit* \
@@ -392,8 +416,6 @@ profiles    :
 
             # TODO: Restore the bolt'd build
 
-            # # Major clang version
-            # major_version=$(echo %(version) | cut -d. -f1)
             # export PATH="%(installroot)/usr/bin:${PATH}"
             # export LD_LIBRARY_PATH="%(installroot)/%(libdir):${LD_LIBRARY_PATH}"
 
@@ -419,6 +441,9 @@ profiles    :
             %install_dir %(installroot)/%(libdir)/bfd-plugins
             ln -srf %(installroot)/%(libdir)/LLVMgold.so %(installroot)/%(libdir)/bfd-plugins/LLVMgold.so
 
+            # Versioned llvm-config
+            ln -srv %(installroot)%(bindir)/llvm-config %(installroot)%(bindir)/llvm-config-${_MAJOR_VERSION}
+
             # Finish supporting 32 & 64bit llvm config headers
             mv %(installroot)%(includedir)/llvm/Config/llvm-config.h %(installroot)%(includedir)/llvm/Config/llvm-config64.h
             %install_file %(pkgdir)/llvm-config.h %(installroot)%(includedir)/llvm/Config/llvm-config.h
@@ -437,12 +462,12 @@ profiles    :
             %install_dir %(installroot)%(bashcompletionsdir)
             mv %(installroot)/usr/share/clang/bash-autocomplete.sh %(installroot)%(bashcompletionsdir)/clang
 
-            # Provides cc/c++ on Aeryn
-            for i in cc %(host_platform)-cc x86_64-serpent-linux-cc; do
+            # Provides cc/c++ on Aeryn/Solus
+            for i in cc %(host_platform)-cc x86_64-solus-linux-cc; do
                 ln -srv %(installroot)%(bindir)/clang %(installroot)%(bindir)/${i}
                 ln -srv %(installroot)%(mandir)/man1/clang.1 %(installroot)%(mandir)/man1/${i}.1
             done
-            for i in c++ %(host_platform)-c++ x86_64-serpent-linux-c++; do
+            for i in c++ %(host_platform)-c++ x86_64-solus-linux-c++; do
                 ln -srv %(installroot)%(bindir)/clang++ %(installroot)%(bindir)/${i}
                 ln -srv %(installroot)%(mandir)/man1/clang.1 %(installroot)%(mandir)/man1/${i}.1
             done
@@ -461,6 +486,11 @@ profiles    :
             %install_dir %(installroot)%(libdir)/pkgconfig
             sed -e 's@\@LIBDIR\@@%(libdir)@g' -e 's/@VERSION@/%(version)/g' %(pkgdir)/libunwind.pc.in > %(installroot)%(libdir)/pkgconfig/libunwind.pc
             # libcxx/libunwind (end)
+
+            ### libclc (begin)
+            %install_dir %(installroot)%(docdir)/libclc-devel/
+            echo "DEPRECATED" > %(installroot)%(docdir)/libclc-devel/README
+            ### libclc (end)
 
             %python_compile
 emul32      : true
@@ -507,7 +537,9 @@ packages    :
         paths:
             - /usr/bin/count
             - /usr/bin/lli-child-target
+            - /usr/bin/llvm-cas
             - /usr/bin/llvm-config
+            - /usr/bin/llvm-config-*
             - /usr/bin/llvm-test-mustache-spec
             - /usr/bin/not
             - /usr/bin/yaml-bench
@@ -541,6 +573,7 @@ packages    :
     - "%(name)-32bit-devel":
         paths:
             - /usr/bin/llvm-config32
+            - /usr/bin/llvm-config32-*
             - /usr/include/llvm/Config/llvm-config32.h
             - /usr/include/llvm/Config/32
             - /usr/lib32/cmake/llvm
@@ -610,7 +643,6 @@ packages    :
         paths:
             - /usr/bin/amdgpu-arch
             - /usr/bin/analyze-build
-            - /usr/bin/c-index-test
             - /usr/bin/clang-apply-replacements
             - /usr/bin/clang-change-namespace
             - /usr/bin/clang-check
@@ -728,6 +760,7 @@ packages    :
         description : |
             Fortran language front-end designed for integration with LLVM
         rundeps:
+            - flang-rt-devel
             - clang
             - lld
             # - Do we want Polly here or is just having it as a rundep of clang sufficient?
@@ -738,17 +771,32 @@ packages    :
             - /usr/bin/flang*
             - /usr/bin/tco
             - /usr/lib/clang/*/include/ISO_Fortran_binding.h
-            - /usr/lib/clang/*/lib/*/libflang_rt.runtime.a
-            - /usr/lib/libFortran*.a
             - /usr/include/flang
             - /usr/share/man/man1/flang*
+
+    - "flang-rt":
+        summary: Flang runtime libraries
+        description: |
+            Flang runtime libraries
+        paths:
+            - /usr/lib/libflang_rt.runtime.so
+
+    - "flang-rt-devel":
+        summary: Flang runtime libraries - development headers
+        description: |
+            Flang runtime libraries - development headers
+        rundeps:
+            - flang-rt
+        paths:
+            - /usr/include/flang-rt/
 
     - "libclc":
         summary: libclc is an open source implementation of the OpenCL 1.1 Specification
         description: |
             libclc is an open source implementation of the OpenCL 1.1 Specification
         paths:
-            - /usr/share/clc/*.bc
+            - /usr/lib/clang/*/lib/libclc/*.bc
+            - /usr/share/pkgconfig/libclc.pc
 
     - "libclc-devel":
         summary: libclc is an open source implementation of the OpenCL 1.1 Specification
@@ -757,7 +805,7 @@ packages    :
         rundeps:
             - libclc
         paths:
-            - /usr/share/pkgconfig/libclc.pc
+            - /usr/share/docs/libclc-devel/README
 
     - "libcxx":
         summary: "Modern C++ standard library"
@@ -921,6 +969,7 @@ packages    :
             - /usr/bin/lldb*
             - /usr/lib/liblldb*.so.*
             - /usr/lib/python3*/site-packages/lldb/
+            - /usr/share/man/man1/lldb*.1*
 
     - "lldb-devel":
         summary: LLVM Debugger
@@ -957,13 +1006,10 @@ packages    :
         rundeps:
             - mlir
 
-    # Should this depend on openmp or the other way around? TBD I guess
     - "offload":
         summary: LLVM OpenMP runtime - hardware accelerator offloading
         description: |
             LLVM OpenMP runtime - hardware accelerator offloading support
-        rundeps:
-            - openmp
         paths:
             - /usr/bin/llvm-offload-device-info
             - /usr/lib/libLLVMOffload.so.*
@@ -974,18 +1020,14 @@ packages    :
         description: |
             Development files for offload
         rundeps:
-            # openmp-devel? TBD
+            - openmp-devel
             - offload
         paths:
             - /usr/bin/llvm-omp-kernel-replay
             - /usr/include/offload
             - /usr/lib/libLLVMOffload.so
-            - /usr/lib/amdgcn-amd-amdhsa/libomptarget-amdgpu.bc
-            - /usr/lib/amdgcn-amd-amdhsa/libompdevice.a
-            - /usr/lib/nvptx64-nvidia-cuda/libomptarget-nvptx.bc
-            - /usr/lib/nvptx64-nvidia-cuda/libompdevice.a
+            - /usr/lib/libompdevice*.a
             - /usr/lib/libomptarget*.bc
-            - /usr/lib/libomptarget*.a
             - /usr/lib/libomptarget.so
 
     - "openmp":

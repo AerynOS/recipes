@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : rust
-version     : "1.93.0"
-release     : 32
+version     : "1.94.0"
+release     : 34
 homepage    : https://www.rust-lang.org/
 upstreams   :
-    - https://static.rust-lang.org/dist/rustc-1.93.0-src.tar.xz : e30d898272c587a22f77679f03c5e8192b5645c7c9ccc3407ad1106761507cea
+    - https://static.rust-lang.org/dist/rustc-1.94.0-src.tar.xz : 0b53ae34f5c0c3612cfe1de139f9167a018cd5737bc2205664fd69ba9b25f600
 summary     : Rust programming language compiler + tools
 description : |
     Rust programming language compiler + tools
@@ -29,7 +29,7 @@ builddeps   :
     - binary(FileCheck)
     - binary(cargo)
     - binary(cmake)
-    - binary(llvm-config)
+    - binary(llvm-config-21)
     - binary(ln)
     - binary(ninja)
     - binary(python)
@@ -45,6 +45,7 @@ builddeps   :
     - pkgconfig(sqlite3)
     - pkgconfig(zlib)
     - clang-32bit
+    - compiler-rt-21-32bit
 environment : |
     # Don't set these here, all configuration should come from config.toml or the package.yml
     unset RUSTFLAGS
@@ -60,7 +61,7 @@ environment : |
 
     # This needs to match which llvm we're building against. This should generally be `/usr/bin/llvm-config` but if we're using a versioned
     # package that will need to point to the versioned llvm-config
-    LLVM_CONFIG=%(bindir)/llvm-config
+    LLVM_CONFIG=%(bindir)/llvm-config-21
 setup       : |
     # Ensure that we use the system sqlite3
     %patch %(pkgdir)/0001-unbundle-sqlite.patch -d src/tools/cargo
@@ -81,9 +82,10 @@ setup       : |
     %patch %(pkgdir)/ldd-default.patch
     %patch %(pkgdir)/libdir.patch
 build       : |
-    LLVM_VERSION=$(llvm-config --version)
+    LLVM_VERSION=$(${LLVM_CONFIG} --version)
     LLVM_MAJOR="$( cut -d '.' -f 1 <<< "${LLVM_VERSION}" )"
-    COMPILER_RT_DIR="%(libdir)/clang/${LLVM_MAJOR}/lib/linux"
+    LLVM_LIBDIR=$(${LLVM_CONFIG} --libdir)
+    COMPILER_RT_DIR="${LLVM_LIBDIR}/clang/${LLVM_MAJOR}/lib/linux"
 
     if [[ " ${PATH[*]} " =~ "ccache" ]]; then
         CCACHE_ENABLE="true"
@@ -142,7 +144,7 @@ packages    :
         rundeps:
             - binary(clang)
             - binary(lld)
-            - compiler-rt
+            - compiler-rt-21
 
     - "%(name)-32bit":
         paths:
@@ -150,7 +152,7 @@ packages    :
         rundeps:
             - "%(name)"
             - clang-32bit
-            - compiler-rt-32bit
+            - compiler-rt-21-32bit
 
     - "%(name)-devel":
         paths:

@@ -4,6 +4,7 @@
 	"packages": {
 		"netavark": {
 			"build-depends": [
+				"binary(mandown)",
 				"binary(protoc)"
 			],
 			"depends": [
@@ -20,12 +21,14 @@
 				"/usr/lib/systemd/system-preset/netavark.preset",
 				"/usr/lib/systemd/system/netavark-dhcp-proxy.service",
 				"/usr/lib/systemd/system/netavark-dhcp-proxy.socket",
-				"/usr/lib/systemd/system/netavark-nftables-reload.service"
+				"/usr/lib/systemd/system/netavark-nftables-reload.service",
+				"/usr/share/doc/netavark/README.md",
+				"/usr/share/man/man1/netavark.1"
 			],
 			"name": "netavark"
 		}
 	},
 	"source-name": "netavark",
-	"source-release": "3",
+	"source-release": "4",
 	"source-version": "1.17.2"
 }

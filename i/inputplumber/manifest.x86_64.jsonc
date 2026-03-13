@@ -4,7 +4,7 @@
 	"packages": {
 		"inputplumber": {
 			"build-depends": [
-				"binary(llvm-config)",
+				"binary(llvm-config-22)",
 				"clang-devel",
 				"pkgconfig(libevdev)",
 				"pkgconfig(libiio)",
@@ -106,6 +106,7 @@
 				"/usr/share/inputplumber/devices/50-rog_ally.yaml",
 				"/usr/share/inputplumber/devices/50-rog_ally_x.yaml",
 				"/usr/share/inputplumber/devices/50-rog_flow_z13.yaml",
+				"/usr/share/inputplumber/devices/50-rog_xbox_ally.yaml",
 				"/usr/share/inputplumber/devices/50-steam_deck.yaml",
 				"/usr/share/inputplumber/devices/50-zotac-zone.yaml",
 				"/usr/share/inputplumber/devices/60-8bit_do_pro_2.yaml",
@@ -141,6 +142,6 @@
 		}
 	},
 	"source-name": "inputplumber",
-	"source-release": "51",
-	"source-version": "0.75.0"
+	"source-release": "54",
+	"source-version": "0.75.2"
 }

@@ -1,0 +1,41 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"mangowm": {
+			"build-depends": [
+				"pkgconfig(libpcre2-8)",
+				"pkgconfig(scenefx)",
+				"pkgconfig(wayland-protocols)",
+				"pkgconfig(wlroots)"
+			],
+			"depends": [
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libinput.so.10(x86_64))",
+				"soname(libpcre2-8.so.0(x86_64))",
+				"soname(libscenefx-0.4.so(x86_64))",
+				"soname(libwayland-client.so.0(x86_64))",
+				"soname(libwayland-server.so.0(x86_64))",
+				"soname(libwlroots-0.19.so(x86_64))",
+				"soname(libxcb-icccm.so.4(x86_64))",
+				"soname(libxkbcommon.so.0(x86_64))"
+			],
+			"files": [
+				"/usr/bin/mango",
+				"/usr/bin/mmsg",
+				"/usr/share/defaults/mango/config.conf",
+				"/usr/share/wayland-sessions/mango.desktop",
+				"/usr/share/xdg-desktop-portal/mango-portals.conf"
+			],
+			"name": "mangowm",
+			"provides": [
+				"binary(mango)",
+				"binary(mmsg)"
+			]
+		}
+	},
+	"source-name": "mangowm",
+	"source-release": "1",
+	"source-version": "0.12.5"
+}

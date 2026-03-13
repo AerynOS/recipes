@@ -4,8 +4,8 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : ldc
-version     : "1.41.0"
-release     : 21
+version     : "1.42.0"
+release     : 22
 summary     : The LLVM-based D Compiler
 license     :
     - Apache-2.0
@@ -15,20 +15,20 @@ homepage    : https://github.com/ldc-developers/ldc
 description : |
     The LLVM-based D Compiler
 upstreams   :
-    - https://github.com/ldc-developers/ldc/releases/download/v1.41.0/ldc-1.41.0-src.tar.gz:
-        hash: af52818b60706106fb8bca2024685c54eddce929edccae718ad9fbcf689f222f
+    - https://github.com/ldc-developers/ldc/releases/download/v1.42.0/ldc-1.42.0-src.tar.gz:
+        hash: 9bb0f628f869f7fc7b53c381a79742d29c17552c6f1a56b0a02aa289e65a0e3b
         unpackdir: "ldc"
-    - https://github.com/ldc-developers/ldc/releases/download/v1.41.0/ldc2-1.41.0-linux-x86_64.tar.xz:
-        hash: 4a439457f0fe59e69d02fd6b57549fc3c87ad0f55ad9fb9e42507b6f8e327c8f
+    - https://github.com/ldc-developers/ldc/releases/download/v1.42.0/ldc2-1.42.0-linux-x86_64.tar.xz:
+        hash: a7bc9c956138f558cadf9c962352f59d41c80df6eb3ae3f8039f25be14a69303
         stripdirs: 1
         unpackdir: "ldc/bootstrap/"
 builddeps   :
     - binary(ldc2)
-    - binary(llvm-config-20)
+    - binary(llvm-config-21)
     - pkgconfig(zlib)
     - binary(make)
-    - compiler-rt-20
-    - lld-20-devel
+    - compiler-rt-21
+    - lld-21-devel
     - ldc-static
 setup       : |
     # Set to 1 to rebootstrap, make sure you uncomment the dmd compiler from the upstreams
@@ -36,6 +36,7 @@ setup       : |
 
     %patch %(pkgdir)/stateless/0001-Fixups-for-packaging-and-stateless-config.patch
     %patch %(pkgdir)/0001-Link-against-libLLVM.so-for-LLVMSymbolize-symbols.patch
+    %patch %(pkgdir)/0001-Re-add-linking-to-shared-libs-default.patch
 
     # We use CMAKE_SKIP_INSTALL_RPATH instead of CMAKE_SKIP_RPATH because the former makes it so that we use rpath
     # during building and linking but strip it when installing. This means we can link ldc against the runtime we just built.
@@ -50,7 +51,7 @@ setup       : |
            -DLDC_DYNAMIC_COMPILE=OFF \
            -DLDC_INSTALL_LTOPLUGIN=ON \
            -DLDC_WITH_LLD=ON \
-           -DLLVM_CONFIG=%(bindir)/llvm-config-20 \
+           -DLLVM_CONFIG=%(bindir)/llvm-config-21 \
            -DPHOBOS_SYSTEM_ZLIB=ON \
            "$@"
     }
@@ -88,7 +89,7 @@ packages    :
         rundeps:
             - "%(name)-libs"
             - "%(name)-libs-debug"
-            - compiler-rt-20
+            - compiler-rt-21
 
     - "%(name)-libs":
         summary: Runtime libs for ldc

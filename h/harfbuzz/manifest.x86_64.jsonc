@@ -6,6 +6,7 @@
 			"build-depends": [
 				"binary(help2man)",
 				"pkgconfig(cairo)",
+				"pkgconfig(chafa)",
 				"pkgconfig(freetype2)",
 				"pkgconfig(glib-2.0)",
 				"pkgconfig(gobject-2.0)",
@@ -24,11 +25,11 @@
 			"files": [
 				"/usr/lib/girepository-1.0/HarfBuzz-0.0.typelib",
 				"/usr/lib/libharfbuzz-gobject.so.0",
-				"/usr/lib/libharfbuzz-gobject.so.0.61232.0",
+				"/usr/lib/libharfbuzz-gobject.so.0.61310.0",
 				"/usr/lib/libharfbuzz-subset.so.0",
-				"/usr/lib/libharfbuzz-subset.so.0.61232.0",
+				"/usr/lib/libharfbuzz-subset.so.0.61310.0",
 				"/usr/lib/libharfbuzz.so.0",
-				"/usr/lib/libharfbuzz.so.0.61232.0"
+				"/usr/lib/libharfbuzz.so.0.61310.0"
 			],
 			"name": "harfbuzz",
 			"provides": [
@@ -41,6 +42,7 @@
 			"build-depends": [
 				"binary(help2man)",
 				"pkgconfig(cairo)",
+				"pkgconfig(chafa)",
 				"pkgconfig(freetype2)",
 				"pkgconfig(glib-2.0)",
 				"pkgconfig(gobject-2.0)",
@@ -56,7 +58,7 @@
 			],
 			"files": [
 				"/usr/lib/libharfbuzz-cairo.so.0",
-				"/usr/lib/libharfbuzz-cairo.so.0.61232.0"
+				"/usr/lib/libharfbuzz-cairo.so.0.61310.0"
 			],
 			"name": "harfbuzz-cairo",
 			"provides": [
@@ -67,6 +69,7 @@
 			"build-depends": [
 				"binary(help2man)",
 				"pkgconfig(cairo)",
+				"pkgconfig(chafa)",
 				"pkgconfig(freetype2)",
 				"pkgconfig(glib-2.0)",
 				"pkgconfig(gobject-2.0)",
@@ -78,6 +81,8 @@
 				"harfbuzz",
 				"harfbuzz-cairo",
 				"harfbuzz-icu",
+				"harfbuzz-raster",
+				"harfbuzz-vector",
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"pkgconfig(cairo)",
 				"pkgconfig(freetype2)",
@@ -85,21 +90,28 @@
 				"pkgconfig(gobject-2.0)",
 				"pkgconfig(graphite2)",
 				"pkgconfig(icu-uc)",
+				"pkgconfig(libpng)",
 				"soname(libc.so.6(x86_64))",
 				"soname(libcairo.so.2(x86_64))",
+				"soname(libchafa.so.0(x86_64))",
 				"soname(libfreetype.so.6(x86_64))",
 				"soname(libglib-2.0.so.0(x86_64))",
 				"soname(libgobject-2.0.so.0(x86_64))",
 				"soname(libharfbuzz-cairo.so.0(x86_64))",
 				"soname(libharfbuzz-gobject.so.0(x86_64))",
+				"soname(libharfbuzz-raster.so.0(x86_64))",
 				"soname(libharfbuzz-subset.so.0(x86_64))",
+				"soname(libharfbuzz-vector.so.0(x86_64))",
 				"soname(libharfbuzz.so.0(x86_64))",
-				"soname(libm.so.6(x86_64))"
+				"soname(libm.so.6(x86_64))",
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/bin/hb-info",
+				"/usr/bin/hb-raster",
 				"/usr/bin/hb-shape",
 				"/usr/bin/hb-subset",
+				"/usr/bin/hb-vector",
 				"/usr/bin/hb-view",
 				"/usr/include/harfbuzz/hb-aat-layout.h",
 				"/usr/include/harfbuzz/hb-aat.h",
@@ -133,6 +145,7 @@
 				"/usr/include/harfbuzz/hb-ot-var.h",
 				"/usr/include/harfbuzz/hb-ot.h",
 				"/usr/include/harfbuzz/hb-paint.h",
+				"/usr/include/harfbuzz/hb-raster.h",
 				"/usr/include/harfbuzz/hb-script-list.h",
 				"/usr/include/harfbuzz/hb-set.h",
 				"/usr/include/harfbuzz/hb-shape-plan.h",
@@ -141,43 +154,55 @@
 				"/usr/include/harfbuzz/hb-subset-serialize.h",
 				"/usr/include/harfbuzz/hb-subset.h",
 				"/usr/include/harfbuzz/hb-unicode.h",
+				"/usr/include/harfbuzz/hb-vector.h",
 				"/usr/include/harfbuzz/hb-version.h",
 				"/usr/include/harfbuzz/hb.h",
 				"/usr/lib/cmake/harfbuzz/harfbuzz-config.cmake",
 				"/usr/lib/libharfbuzz-cairo.so",
 				"/usr/lib/libharfbuzz-gobject.so",
 				"/usr/lib/libharfbuzz-icu.so",
+				"/usr/lib/libharfbuzz-raster.so",
 				"/usr/lib/libharfbuzz-subset.so",
+				"/usr/lib/libharfbuzz-vector.so",
 				"/usr/lib/libharfbuzz.so",
 				"/usr/lib/pkgconfig/harfbuzz-cairo.pc",
 				"/usr/lib/pkgconfig/harfbuzz-gobject.pc",
 				"/usr/lib/pkgconfig/harfbuzz-icu.pc",
+				"/usr/lib/pkgconfig/harfbuzz-raster.pc",
 				"/usr/lib/pkgconfig/harfbuzz-subset.pc",
+				"/usr/lib/pkgconfig/harfbuzz-vector.pc",
 				"/usr/lib/pkgconfig/harfbuzz.pc",
 				"/usr/share/gir-1.0/HarfBuzz-0.0.gir",
 				"/usr/share/man/man1/hb-info.1",
+				"/usr/share/man/man1/hb-raster.1",
 				"/usr/share/man/man1/hb-shape.1",
 				"/usr/share/man/man1/hb-subset.1",
+				"/usr/share/man/man1/hb-vector.1",
 				"/usr/share/man/man1/hb-view.1"
 			],
 			"name": "harfbuzz-devel",
 			"provides": [
 				"binary(hb-info)",
+				"binary(hb-raster)",
 				"binary(hb-shape)",
 				"binary(hb-subset)",
+				"binary(hb-vector)",
 				"binary(hb-view)",
 				"cmake(harfbuzz)",
 				"pkgconfig(harfbuzz)",
 				"pkgconfig(harfbuzz-cairo)",
 				"pkgconfig(harfbuzz-gobject)",
 				"pkgconfig(harfbuzz-icu)",
-				"pkgconfig(harfbuzz-subset)"
+				"pkgconfig(harfbuzz-raster)",
+				"pkgconfig(harfbuzz-subset)",
+				"pkgconfig(harfbuzz-vector)"
 			]
 		},
 		"harfbuzz-icu": {
 			"build-depends": [
 				"binary(help2man)",
 				"pkgconfig(cairo)",
+				"pkgconfig(chafa)",
 				"pkgconfig(freetype2)",
 				"pkgconfig(glib-2.0)",
 				"pkgconfig(gobject-2.0)",
@@ -192,15 +217,68 @@
 			],
 			"files": [
 				"/usr/lib/libharfbuzz-icu.so.0",
-				"/usr/lib/libharfbuzz-icu.so.0.61232.0"
+				"/usr/lib/libharfbuzz-icu.so.0.61310.0"
 			],
 			"name": "harfbuzz-icu",
 			"provides": [
 				"soname(libharfbuzz-icu.so.0(x86_64))"
 			]
+		},
+		"harfbuzz-raster": {
+			"build-depends": [
+				"binary(help2man)",
+				"pkgconfig(cairo)",
+				"pkgconfig(chafa)",
+				"pkgconfig(freetype2)",
+				"pkgconfig(glib-2.0)",
+				"pkgconfig(gobject-2.0)",
+				"pkgconfig(gobject-introspection-1.0)",
+				"pkgconfig(graphite2)",
+				"pkgconfig(icu-uc)"
+			],
+			"depends": [
+				"soname(libc.so.6(x86_64))",
+				"soname(libharfbuzz.so.0(x86_64))",
+				"soname(libm.so.6(x86_64))",
+				"soname(libpng16.so.16(x86_64))"
+			],
+			"files": [
+				"/usr/lib/libharfbuzz-raster.so.0",
+				"/usr/lib/libharfbuzz-raster.so.0.61310.0"
+			],
+			"name": "harfbuzz-raster",
+			"provides": [
+				"soname(libharfbuzz-raster.so.0(x86_64))"
+			]
+		},
+		"harfbuzz-vector": {
+			"build-depends": [
+				"binary(help2man)",
+				"pkgconfig(cairo)",
+				"pkgconfig(chafa)",
+				"pkgconfig(freetype2)",
+				"pkgconfig(glib-2.0)",
+				"pkgconfig(gobject-2.0)",
+				"pkgconfig(gobject-introspection-1.0)",
+				"pkgconfig(graphite2)",
+				"pkgconfig(icu-uc)"
+			],
+			"depends": [
+				"soname(libc.so.6(x86_64))",
+				"soname(libharfbuzz.so.0(x86_64))",
+				"soname(libm.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/lib/libharfbuzz-vector.so.0",
+				"/usr/lib/libharfbuzz-vector.so.0.61310.0"
+			],
+			"name": "harfbuzz-vector",
+			"provides": [
+				"soname(libharfbuzz-vector.so.0(x86_64))"
+			]
 		}
 	},
 	"source-name": "harfbuzz",
-	"source-release": "27",
-	"source-version": "12.3.2"
+	"source-release": "29",
+	"source-version": "13.1.0"
 }

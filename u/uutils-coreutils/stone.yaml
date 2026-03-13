@@ -5,7 +5,7 @@
 #
 name        : uutils-coreutils
 version     : "0.6.0"
-release     : 30
+release     : 33
 homepage    : https://uutils.github.io/coreutils/
 upstreams   :
     - https://github.com/uutils/coreutils/archive/refs/tags/0.6.0.tar.gz : f751b8209ec05ae304941a727e42a668dcc45674986252f44d195ed43ccfad2f
@@ -24,8 +24,6 @@ environment : |
     export UUTILS_FEATURES="feat_acl,feat_systemd_logind,unix,uudoc"
     export RUSTFLAGS="$RUSTFLAGS -C codegen-units=1"
 setup       : |
-    # broken / needs rebasing
-    # %patch %(pkgdir)/6798.patch
     %cargo_fetch
 build       : |
     %cargo_build --features $UUTILS_FEATURES
@@ -39,7 +37,7 @@ install     : |
 
     for item in $(./%(cargo_target_dir)/coreutils --list); do
         case $item in
-            uptime|kill|more|groups|hostname)
+            uptime|kill|more|hostname)
                 continue
                 ;;
             *)

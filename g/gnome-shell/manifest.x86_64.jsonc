@@ -9,7 +9,6 @@
 				"binary(perl)",
 				"binary(python3)",
 				"binary(rst2man)",
-				"binary(rtkitctl)",
 				"binary(wireplumber)",
 				"pkgconfig(atk-bridge-2.0)",
 				"pkgconfig(bash-completion)",
@@ -37,12 +36,12 @@
 				"pkgconfig(mutter-clutter-17)",
 				"pkgconfig(polkit-agent-1)",
 				"pkgconfig(systemd)",
-				"pkgconfig(x11)"
+				"pkgconfig(x11)",
+				"sysbinary(rtkitctl)"
 			],
 			"depends": [
 				"adwaita-icon-theme",
 				"binary(Xwayland)",
-				"binary(rtkitctl)",
 				"font-cantarell",
 				"gdm-libs",
 				"geoclue",
@@ -93,6 +92,7 @@
 				"soname(mutter-17/libmutter-clutter-17.so.0(x86_64))",
 				"soname(mutter-17/libmutter-cogl-17.so.0(x86_64))",
 				"soname(mutter-17/libmutter-mtk-17.so.0(x86_64))",
+				"sysbinary(rtkitctl)",
 				"webkitgtk60",
 				"xdg-desktop-portal-gnome"
 			],
@@ -282,6 +282,6 @@
 		}
 	},
 	"source-name": "gnome-shell",
-	"source-release": "44",
+	"source-release": "45",
 	"source-version": "49.4"
 }

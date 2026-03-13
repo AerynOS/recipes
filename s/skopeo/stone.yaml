@@ -4,10 +4,10 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : skopeo
-version     : "1.21.0"
-release     : 4
+version     : "1.22.0"
+release     : 5
 upstreams   :
-    - https://github.com/containers/skopeo/archive/refs/tags/v1.21.0.tar.gz : f76eeddf697a3cc7a872e3077ab4d0fdbebe9f3c6171462e3e9feb84368b3fac
+    - https://github.com/containers/skopeo/archive/refs/tags/v1.22.0.tar.gz : dc9aa749973b10d3c2672d2839e61bac75cf32d5e5106463420b83653c9df3ff
 homepage    : https://github.com/containers/skopeo
 license     : Apache-2.0
 summary     : Inspect container images and repositories on registries
@@ -15,13 +15,13 @@ description : |
     Command line utility to inspect images and repositories directly on Docker
     registries without the need to pull them
 builddeps   :
+    - binary(go)
+    - binary(go-md2man)
     - pkgconfig(glib-2.0)
     - pkgconfig(gpgme)
     - pkgconfig(libassuan)
     - pkgconfig(libbtrfsutil)
     - pkgconfig(sqlite3)
-    - binary(go)
-    - binary(go-md2man)
     - shadow-devel
 rundeps     :
     - containers-common

@@ -5,29 +5,28 @@
 		"python-roman-numerals-py": {
 			"build-depends": [
 				"python(flit-core)",
-				"python(pytest)"
+				"python(pytest)",
+				"python(setuptools)"
 			],
 			"depends": [
 				"python-libs"
 			],
 			"files": [
+				"/usr/lib/python3.11/site-packages/roman_numerals-4.1.0.dist-info/METADATA",
+				"/usr/lib/python3.11/site-packages/roman_numerals-4.1.0.dist-info/RECORD",
+				"/usr/lib/python3.11/site-packages/roman_numerals-4.1.0.dist-info/WHEEL",
 				"/usr/lib/python3.11/site-packages/roman_numerals/__init__.py",
 				"/usr/lib/python3.11/site-packages/roman_numerals/__pycache__/__init__.cpython-311.opt-1.pyc",
 				"/usr/lib/python3.11/site-packages/roman_numerals/__pycache__/__init__.cpython-311.pyc",
-				"/usr/lib/python3.11/site-packages/roman_numerals/py.typed",
-				"/usr/lib/python3.11/site-packages/roman_numerals_py-3.1.0.dist-info/METADATA",
-				"/usr/lib/python3.11/site-packages/roman_numerals_py-3.1.0.dist-info/RECORD",
-				"/usr/lib/python3.11/site-packages/roman_numerals_py-3.1.0.dist-info/WHEEL",
-				"/usr/lib/python3.11/site-packages/roman_numerals_py-3.1.0.dist-info/licenses/LICENCE.rst"
+				"/usr/lib/python3.11/site-packages/roman_numerals/py.typed"
 			],
 			"name": "python-roman-numerals-py",
 			"provides": [
-				"python(roman-numerals-py(3.11))",
-				"python(roman-numerals-py)"
+				"python(roman-numerals)"
 			]
 		}
 	},
 	"source-name": "python-roman-numerals-py",
-	"source-release": "1",
-	"source-version": "3.1.0"
+	"source-release": "2",
+	"source-version": "4.1.0"
 }

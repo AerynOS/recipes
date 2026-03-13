@@ -1,0 +1,71 @@
+#
+# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : bitwarden
+version     : "2026.2.1"
+release     : 3
+summary     : A secure and free password manager for all of your devices
+license     : GPL-3.0-only
+homepage    : hhttps://github.com/bitwarden/clients/tree/main/apps/desktop
+upstreams   :
+    - https://github.com/bitwarden/clients/archive/refs/tags/desktop-v2026.2.1.tar.gz: 8e54a4c88af7827cad6b03ac5ae797e9591421885ec6f186f047ee29af301280
+description : |
+    A secure and free password manager for all of your devices
+networking  : true
+builddeps   :
+    - binary(npm)
+setup       : |
+    %patch %(pkgdir)/patches/0001-Don-t-run-postinstall.patch
+    %patch %(pkgdir)/patches/messaging.patch
+    %patch %(pkgdir)/patches/native-messaging.patch
+    %patch %(pkgdir)/patches/nativelib.patch
+    %patch %(pkgdir)/patches/sourcemaps.patch
+    %patch %(pkgdir)/patches/unnecessary-deps.patch
+
+    npm ci
+
+    cd apps/desktop/desktop_native
+    %cargo_fetch
+build       : |
+    cd apps/desktop/
+
+    pushd desktop_native
+    %cargo_build \
+        --package desktop_napi \
+        --package desktop_proxy \
+        --package process_isolation
+    
+    mv %(cargo_target_dir)/libdesktop_napi.so napi/desktop_napi.node
+    popd
+
+    npm run build
+    npm run clean:dist
+
+    # Shrink bundle by deleting unnecessary files
+    pushd build
+    find -name '*.map' -type f -print -delete
+    find -name '*package-lock.json' -type f -print -delete
+    popd
+
+    npm exec -c "electron-builder --linux --x64 --dir"
+install     : |
+    bitwardendir=%(libdir)/%(name)
+
+    %install_dir %(installroot)$bitwardendir
+    cp -a apps/desktop/dist/linux-unpacked/* %(installroot)$bitwardendir
+
+    %install_dir %(installroot)%(bindir)
+    %install_exe %(pkgdir)/bitwarden.sh %(installroot)%(bindir)/bitwarden-desktop
+
+    # desktop_proxy, libprocess_isolation
+    %install_exe apps/desktop/desktop_native/%(cargo_target_dir)/desktop_proxy %(installroot)${bitwardendir}
+    %install_exe apps/desktop/desktop_native/%(cargo_target_dir)/libprocess_isolation.so %(installroot)${bitwardendir}
+
+    %install_file %(pkgdir)/Bitwarden.desktop -t %(installroot)/usr/share/applications/
+
+    for i in 16 32 64 128 256 512 1024; do
+        %install_dir %(installroot)/%(datadir)/icons/hicolor/${i}x${i}/apps
+        %install_file apps/desktop/resources/icons/${i}x${i}.png %(installroot)/%(datadir)/icons/hicolor/${i}x${i}/apps/bitwarden.png
+    done
