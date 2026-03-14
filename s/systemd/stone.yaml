@@ -4,8 +4,8 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : systemd
-version     : "257.11"
-release     : 76
+version     : "257.13"
+release     : 77
 summary     : A System and Service Manager
 license     :
     - GPL-2.0-or-later
@@ -15,9 +15,12 @@ homepage    : http://www.freedesktop.org/wiki/Software/systemd
 description : |
     A System and Service Manager
 upstreams   :
-    - https://github.com/systemd/systemd/archive/refs/tags/v257.11.tar.gz : 08a5eb3fbc329b4adbaa96d027c34ba63e4e39f75c6db185c4a866e214d38288
+    - https://github.com/systemd/systemd/archive/refs/tags/v257.13.tar.gz : 1eb7d5f9ff8a426ff880a3cded9ce819613ba8003ac5ddde9eca162f14ddabe7
+# Use GCC for now due to 'clang: error: clang frontend command failed with exit code 139'
+toolchain   : gnu
 builddeps   :
     - binary(bpftool)
+    - binary(clang)
     - binary(gcc)
     - binary(gperf)
     - binary(m4)
