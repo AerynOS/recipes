@@ -5,6 +5,7 @@
 		"systemd": {
 			"build-depends": [
 				"binary(bpftool)",
+				"binary(clang)",
 				"binary(gcc)",
 				"binary(gperf)",
 				"binary(m4)",
@@ -712,6 +713,7 @@
 				"/usr/lib/udev/hwdb.d/70-sound-card.hwdb",
 				"/usr/lib/udev/hwdb.d/70-touchpad.hwdb",
 				"/usr/lib/udev/hwdb.d/80-ieee1394-unit-function.hwdb",
+				"/usr/lib/udev/hwdb.d/82-net-auto-link-local.hwdb",
 				"/usr/lib/udev/hwdb.d/README",
 				"/usr/lib/udev/iocost",
 				"/usr/lib/udev/mtd_probe",
@@ -1422,6 +1424,7 @@
 		"systemd-32bit": {
 			"build-depends": [
 				"binary(bpftool)",
+				"binary(clang)",
 				"binary(gcc)",
 				"binary(gperf)",
 				"binary(m4)",
@@ -1472,7 +1475,6 @@
 				"soname(ld-linux.so.2(386))",
 				"soname(libc.so.6(386))",
 				"soname(libcap.so.2(386))",
-				"soname(libgcc_s.so.1(386))",
 				"soname(libm.so.6(386))",
 				"soname(libzstd.so.1(386))",
 				"systemd"
@@ -1498,6 +1500,7 @@
 		"systemd-32bit-devel": {
 			"build-depends": [
 				"binary(bpftool)",
+				"binary(clang)",
 				"binary(gcc)",
 				"binary(gperf)",
 				"binary(m4)",
@@ -1563,6 +1566,7 @@
 		"systemd-devel": {
 			"build-depends": [
 				"binary(bpftool)",
+				"binary(clang)",
 				"binary(gcc)",
 				"binary(gperf)",
 				"binary(m4)",
@@ -2441,6 +2445,7 @@
 		"systemd-journal-remote": {
 			"build-depends": [
 				"binary(bpftool)",
+				"binary(clang)",
 				"binary(gcc)",
 				"binary(gperf)",
 				"binary(m4)",
@@ -2525,6 +2530,7 @@
 		"systemd-networkd": {
 			"build-depends": [
 				"binary(bpftool)",
+				"binary(clang)",
 				"binary(gcc)",
 				"binary(gperf)",
 				"binary(m4)",
@@ -2573,7 +2579,6 @@
 			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
-				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(systemd/libsystemd-shared-257.so(x86_64))"
 			],
@@ -2637,6 +2642,7 @@
 		"systemd-ukify": {
 			"build-depends": [
 				"binary(bpftool)",
+				"binary(clang)",
 				"binary(gcc)",
 				"binary(gperf)",
 				"binary(m4)",
@@ -2695,6 +2701,6 @@
 		}
 	},
 	"source-name": "systemd",
-	"source-release": "76",
-	"source-version": "257.11"
+	"source-release": "77",
+	"source-version": "257.13"
 }
