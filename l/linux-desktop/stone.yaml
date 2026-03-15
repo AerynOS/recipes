@@ -68,6 +68,7 @@ packages    :
     - "%(name)-devel":
         paths:
             - /usr/src
+            - /usr/lib/modules/*/build
 environment : |
     # Maximize ccache efficiency as well as make the build fully reproducible, except for the initrd which needs a timestamp to be signed
     export KBUILD_BUILD_USER=root
