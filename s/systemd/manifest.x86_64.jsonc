@@ -5,6 +5,7 @@
 		"systemd": {
 			"build-depends": [
 				"binary(bpftool)",
+				"binary(clang-21)",
 				"binary(gcc)",
 				"binary(gperf)",
 				"binary(m4)",
@@ -712,6 +713,7 @@
 				"/usr/lib/udev/hwdb.d/70-sound-card.hwdb",
 				"/usr/lib/udev/hwdb.d/70-touchpad.hwdb",
 				"/usr/lib/udev/hwdb.d/80-ieee1394-unit-function.hwdb",
+				"/usr/lib/udev/hwdb.d/82-net-auto-link-local.hwdb",
 				"/usr/lib/udev/hwdb.d/README",
 				"/usr/lib/udev/iocost",
 				"/usr/lib/udev/mtd_probe",
@@ -1422,6 +1424,7 @@
 		"systemd-32bit": {
 			"build-depends": [
 				"binary(bpftool)",
+				"binary(clang-21)",
 				"binary(gcc)",
 				"binary(gperf)",
 				"binary(m4)",
@@ -1498,6 +1501,7 @@
 		"systemd-32bit-devel": {
 			"build-depends": [
 				"binary(bpftool)",
+				"binary(clang-21)",
 				"binary(gcc)",
 				"binary(gperf)",
 				"binary(m4)",
@@ -1563,6 +1567,7 @@
 		"systemd-devel": {
 			"build-depends": [
 				"binary(bpftool)",
+				"binary(clang-21)",
 				"binary(gcc)",
 				"binary(gperf)",
 				"binary(m4)",
@@ -2441,6 +2446,7 @@
 		"systemd-journal-remote": {
 			"build-depends": [
 				"binary(bpftool)",
+				"binary(clang-21)",
 				"binary(gcc)",
 				"binary(gperf)",
 				"binary(m4)",
@@ -2525,6 +2531,7 @@
 		"systemd-networkd": {
 			"build-depends": [
 				"binary(bpftool)",
+				"binary(clang-21)",
 				"binary(gcc)",
 				"binary(gperf)",
 				"binary(m4)",
@@ -2637,6 +2644,7 @@
 		"systemd-ukify": {
 			"build-depends": [
 				"binary(bpftool)",
+				"binary(clang-21)",
 				"binary(gcc)",
 				"binary(gperf)",
 				"binary(m4)",
@@ -2695,6 +2703,6 @@
 		}
 	},
 	"source-name": "systemd",
-	"source-release": "76",
-	"source-version": "257.11"
+	"source-release": "77",
+	"source-version": "257.13"
 }
