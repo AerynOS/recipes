@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : kitty
-version     : "0.45.0"
-release     : 5
+version     : "0.46.1"
+release     : 6
 homepage    : https://github.com/kovidgoyal/kitty
 upstreams   :
-    - https://github.com/kovidgoyal/kitty/archive/refs/tags/v0.45.0.tar.gz : db67c67393ef82d58175b92af032a17da9f3bde854998bba0e541570d1756d10
+    - https://github.com/kovidgoyal/kitty/archive/refs/tags/v0.46.1.tar.gz : 18e60ecfbbb224b241057ccce0680e39d0a641bf0ba96b0318295e2ea78a14fa
 summary     : Cross-platform, fast, feature-rich, GPU based terminal
 description : |
     kitty the fast, feature-rich, GPU based terminal emulator
@@ -35,8 +35,8 @@ builddeps   :
     - pkgconfig(xkbcommon)
     - pkgconfig(xkbcommon-x11)
     - pkgconfig(xrandr)
-    - font-symbols-nerd
     - python(pip)
+    - font-symbols-nerd
 build       : |
     export CGO_CPPFLAGS="${CPPFLAGS}"
     export CGO_CFLAGS="${CFLAGS}"
