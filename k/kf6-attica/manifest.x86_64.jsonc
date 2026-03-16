@@ -7,6 +7,7 @@
 				"cmake(ECM)"
 			],
 			"depends": [
+				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libQt6Core.so.6(x86_64))",
 				"soname(libQt6Network.so.6(x86_64))",
 				"soname(libc.so.6(x86_64))",
@@ -14,7 +15,7 @@
 			],
 			"files": [
 				"/usr/lib/libKF6Attica.so.6",
-				"/usr/lib/libKF6Attica.so.6.23.0",
+				"/usr/lib/libKF6Attica.so.6.24.0",
 				"/usr/share/qlogging-categories6/attica.categories",
 				"/usr/share/qlogging-categories6/attica.renamecategories"
 			],
@@ -132,6 +133,6 @@
 		}
 	},
 	"source-name": "kf6-attica",
-	"source-release": "14",
-	"source-version": "6.23.0"
+	"source-release": "15",
+	"source-version": "6.24.0"
 }

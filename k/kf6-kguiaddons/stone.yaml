@@ -4,10 +4,10 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : kf6-kguiaddons
-version     : "6.23.0"
-release     : 22
+version     : "6.24.0"
+release     : 23
 upstreams   :
-    - https://download.kde.org/stable/frameworks/6.23/kguiaddons-6.23.0.tar.xz : b9c5ad9fd8fd8aeff2ae01b1317a0dad3011e4259e50e4f2e5685fee00047b48
+    - https://download.kde.org/stable/frameworks/6.24/kguiaddons-6.24.0.tar.xz : c5e44b56739cbc67e1b6955edc9534f58288ca09d02f85eaae56db8347395eaf
 homepage    : https://community.kde.org/Frameworks
 license     :
     - GPL-3.0-only
@@ -26,8 +26,6 @@ builddeps   :
     - pkgconfig(x11)
     # TODO package pyside bindings, note that they need to be subpackaged. Let's wait till something needs them
 setup       : |
-    %patch %(pkgdir)/upstream-01.patch
-
     %cmake_kf6 \
         -DBUILD_PYTHON_BINDINGS=OFF
 build       : |
