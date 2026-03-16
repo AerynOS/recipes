@@ -4,10 +4,10 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : kf6-qqc2-desktop-style
-version     : "6.23.0"
-release     : 16
+version     : "6.24.0"
+release     : 17
 upstreams   :
-    - https://download.kde.org/stable/frameworks/6.23/qqc2-desktop-style-6.23.0.tar.xz : a7aa7e0b20d51ffb91f0446640a5e052369c433ef48e3526b4f507384ce7980d
+    - https://download.kde.org/stable/frameworks/6.24/qqc2-desktop-style-6.24.0.tar.xz : 45967a1b596f1dfd21371948275a330ab3ede6fd94fdfd22f6ae5eb0b122de64
 homepage    : https://community.kde.org/Frameworks
 license     :
     - LGPL-2.0-or-later
@@ -28,8 +28,6 @@ builddeps   :
 rundeps     :
     - kf6-sonnet
 setup       : |
-    %patch %(pkgdir)/upstream-01.patch
-
     %cmake_kf6
 build       : |
     %cmake_build
