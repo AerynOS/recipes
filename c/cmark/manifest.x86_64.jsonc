@@ -6,7 +6,7 @@
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))",
-				"soname(libcmark.so.0.31.1(x86_64))"
+				"soname(libcmark.so.0.31.2(x86_64))"
 			],
 			"files": [
 				"/usr/bin/cmark",
@@ -44,15 +44,15 @@
 				"soname(libc.so.6(x86_64))"
 			],
 			"files": [
-				"/usr/lib/libcmark.so.0.31.1"
+				"/usr/lib/libcmark.so.0.31.2"
 			],
 			"name": "libcmark",
 			"provides": [
-				"soname(libcmark.so.0.31.1(x86_64))"
+				"soname(libcmark.so.0.31.2(x86_64))"
 			]
 		}
 	},
 	"source-name": "cmark",
-	"source-release": "3",
-	"source-version": "0.31.1"
+	"source-release": "4",
+	"source-version": "0.31.2"
 }
