@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : evolution-data-server
-version     : "3.58.3"
-release     : 23
+version     : "3.60.0"
+release     : 24
 homepage    : https://gitlab.gnome.org/GNOME/evolution-data-server
 upstreams   :
-    - https://download.gnome.org/sources/evolution-data-server/3.58/evolution-data-server-3.58.3.tar.xz : da136d1190d9e8b09499452f6058e24eee6b77f441a8c769f74a52451bf379f1
+    - https://download.gnome.org/sources/evolution-data-server/3.60/evolution-data-server-3.60.0.tar.xz : e04e383e0e28b24d91b3d373f6ffb87a5d46ba3845c7999c412cc7813adf6c18
 summary     : Calendar, contacts and task backend management
 description : |
     The Evolution Data Server provides a single database for common, desktop-wide information,
@@ -43,10 +43,6 @@ builddeps   :
     - pkgconfig(webkit2gtk-4.1)
     - pkgconfig(webkitgtk-6.0)
     # libphonenumber
-packages    :
-    - "%(name)-devel":
-        paths:
-            - /usr/share/vala/vapi
 setup       : |
     %cmake \
         -DENABLE_INTROSPECTION=ON \
@@ -57,3 +53,7 @@ build       : |
     %cmake_build
 install     : |
     %cmake_install
+packages    :
+    - "%(name)-devel":
+        paths:
+            - /usr/share/vala/vapi
