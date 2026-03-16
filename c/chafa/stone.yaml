@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : chafa
-version     : "1.18.0"
-release     : 2
+version     : "1.18.1"
+release     : 3
 homepage    : https://github.com/hpjansson/chafa
 upstreams   :
-    - https://github.com/hpjansson/chafa/releases/download/1.18.0/chafa-1.18.0.tar.xz : cd7475441ab8042e89dad706124999dd0aa3dc64653cdc20d49338549b9fcadb
+    - https://github.com/hpjansson/chafa/releases/download/1.18.1/chafa-1.18.1.tar.xz : e75a9772444247a70178cdd238b522d35c613dfb6f3a3bf516457958109e9910
 summary     : Converts image data into graphics formats or ANSI/Unicode character art suitable for display in a terminal.
 description : |
     Converts image data into graphics formats or ANSI/Unicode character art suitable for display in a terminal.
@@ -16,11 +16,33 @@ license     :
     - LGPL-3.0
     - GPL-3.0
 builddeps   :
+    - binary(xsltproc)
     - pkgconfig(freetype2)
     - pkgconfig(glib-2.0)
+    - pkgconfig(libavif)
+    - pkgconfig(libheif)
+    - pkgconfig(libjpeg)
+    - pkgconfig(libjxl)
+    - pkgconfig(librsvg-2.0)
+    - pkgconfig(libtiff-4)
+    - pkgconfig(libwebp)
+    - docbook
+    - docbook-xsl
+    # TODO: Patch to fix man page generation
+environment : |
+    %export_docbook_catalogs
 setup       : |
-    %configure
+    %configure \
+        --disable-static
 build       : |
     %make
 install     : |
     %make_install
+packages    :
+    - "%(name)-libs":
+        paths:
+            - /usr/lib/lib*.so.*
+
+    - "%(name)-devel":
+        paths:
+            - /usr/lib/chafa/include/chafaconfig.h
