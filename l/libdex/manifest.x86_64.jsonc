@@ -5,7 +5,6 @@
 		"libdex": {
 			"build-depends": [
 				"binary(vapigen)",
-				"libatomic",
 				"pkgconfig(gio-2.0)",
 				"pkgconfig(gobject-introspection-1.0)",
 				"pkgconfig(libsoup-3.0)",
@@ -22,7 +21,9 @@
 			"files": [
 				"/usr/lib/girepository-1.0/Dex-1.typelib",
 				"/usr/lib/libdex-1.so.1",
-				"/usr/lib/libdex-1.so.1.0.0"
+				"/usr/lib/libdex-1.so.1.0.0",
+				"/usr/lib/python3.11/site-packages/gi/overrides/Dex.py",
+				"/usr/lib/python3.11/site-packages/gi/overrides/__pycache__/Dex.cpython-311.pyc"
 			],
 			"name": "libdex",
 			"provides": [
@@ -32,7 +33,6 @@
 		"libdex-devel": {
 			"build-depends": [
 				"binary(vapigen)",
-				"libatomic",
 				"pkgconfig(gio-2.0)",
 				"pkgconfig(gobject-introspection-1.0)",
 				"pkgconfig(libsoup-3.0)",
@@ -55,9 +55,12 @@
 				"/usr/include/libdex-1/dex-delayed.h",
 				"/usr/include/libdex-1/dex-enums.h",
 				"/usr/include/libdex-1/dex-error.h",
+				"/usr/include/libdex-1/dex-features.h",
 				"/usr/include/libdex-1/dex-fiber.h",
+				"/usr/include/libdex-1/dex-future-list-model.h",
 				"/usr/include/libdex-1/dex-future-set.h",
 				"/usr/include/libdex-1/dex-future.h",
+				"/usr/include/libdex-1/dex-gdbus.h",
 				"/usr/include/libdex-1/dex-gio.h",
 				"/usr/include/libdex-1/dex-init.h",
 				"/usr/include/libdex-1/dex-main-scheduler.h",
@@ -86,6 +89,6 @@
 		}
 	},
 	"source-name": "libdex",
-	"source-release": "3",
-	"source-version": "1.0.0"
+	"source-release": "4",
+	"source-version": "1.1.0"
 }
