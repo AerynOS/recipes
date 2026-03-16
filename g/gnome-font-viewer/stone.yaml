@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : gnome-font-viewer
-version     : "49.0"
-release     : 4
+version     : "50.0"
+release     : 5
 homepage    : https://apps.gnome.org/FontViewer/
 upstreams   :
-    - https://download.gnome.org/sources/gnome-font-viewer/49/gnome-font-viewer-49.0.tar.xz : 7c018925c285771b55d7d1a6f15711c0c193d7450ed9871e20d44f2548562404
+    - https://download.gnome.org/sources/gnome-font-viewer/50/gnome-font-viewer-50.0.tar.xz : 9564b088c5b150c54e2a3a7bc7014deec6ee551261e98488f891b1f1b8dc6b80
 summary     : View fonts on your system
 description : |
     Fonts shows you the fonts installed on your computer for your use as thumbnails. Selecting any thumbnails shows the full view of how the font would look under various sizes.
@@ -17,6 +17,7 @@ description : |
 license     : GPL-2.0-or-later
 builddeps   :
     - binary(msgfmt)
+    - binary(update-desktop-database)
     - pkgconfig(fontconfig)
     - pkgconfig(freetype2)
     - pkgconfig(fribidi)
