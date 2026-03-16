@@ -4,10 +4,10 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : kf6-kservice
-version     : "6.23.0"
-release     : 17
+version     : "6.24.0"
+release     : 18
 upstreams   :
-    - https://download.kde.org/stable/frameworks/6.23/kservice-6.23.0.tar.xz : efd56bf68fe2feb1939a050562e403d9624a74eb95dc7c264c3806800cfb2d53
+    - https://download.kde.org/stable/frameworks/6.24/kservice-6.24.0.tar.xz : f7b3e5fab52949d16c0fce96afc5aaeb1cc94b47536e024d580750ffb1739723
 homepage    : https://community.kde.org/Frameworks
 license     :
     - GPL-2.0-only
@@ -24,9 +24,6 @@ builddeps   :
     - cmake(KF6DocTools)
     - cmake(KF6I18n)
 setup       : |
-    %patch %(pkgdir)/upstream-226.patch
-    %patch %(pkgdir)/upstream-231.patch
-
     %cmake_kf6
 build       : |
     %cmake_build
