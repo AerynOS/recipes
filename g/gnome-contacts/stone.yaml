@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : gnome-contacts
-version     : "49.0"
-release     : 1
+version     : "50.0"
+release     : 2
 homepage    : https://apps.gnome.org/Contacts/
 upstreams   :
-    - https://download.gnome.org/sources/gnome-contacts/49/gnome-contacts-49.0.tar.xz : 25f21c67bc29d77def2d9cd3e22d28460d12b47ff248a2017731b54db485e4af
+    - https://download.gnome.org/sources/gnome-contacts/50/gnome-contacts-50.0.tar.xz : 2a3bea343171be244f12b7c21a40ca38e9a92dea9890393af5e8ac139bc0dab3
 summary     : Manage your contacts
 description : |
     Contacts keeps and organize your contacts information. You can create, edit, delete and link together pieces of information about your contacts. Contacts aggregates the details from all your sources providing a centralized place for managing your contacts. Contacts will also integrate with online address books and automatically link contacts from different online sources.
@@ -24,6 +24,8 @@ builddeps   :
     - pkgconfig(gee-0.8)
     - pkgconfig(gio-unix-2.0)
     - pkgconfig(glib-2.0)
+    - pkgconfig(glycin-2)
+    - pkgconfig(glycin-gtk4-2)
     - pkgconfig(gmodule-export-2.0)
     - pkgconfig(goa-1.0)
     - pkgconfig(gstreamer-1.0)

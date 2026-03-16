@@ -4,14 +4,17 @@
 	"packages": {
 		"nautilus": {
 			"build-depends": [
+				"binary(blueprint-compiler)",
 				"binary(gi-docgen)",
 				"binary(localsearch)",
 				"binary(msgfmt)",
 				"binary(update-desktop-database)",
 				"pkgconfig(cloudproviders)",
 				"pkgconfig(gdk-pixbuf-2.0)",
-				"pkgconfig(gexiv2)",
+				"pkgconfig(gexiv2-0.16)",
 				"pkgconfig(glib-2.0)",
+				"pkgconfig(glycin-2)",
+				"pkgconfig(glycin-gtk4-2)",
 				"pkgconfig(gnome-autoar-0)",
 				"pkgconfig(gnome-desktop-4)",
 				"pkgconfig(gobject-introspection-1.0)",
@@ -35,9 +38,11 @@
 				"soname(libcairo.so.2(x86_64))",
 				"soname(libcloudproviders.so.0(x86_64))",
 				"soname(libgdk_pixbuf-2.0.so.0(x86_64))",
-				"soname(libgexiv2.so.2(x86_64))",
+				"soname(libgexiv2-0.16.so.4(x86_64))",
 				"soname(libgio-2.0.so.0(x86_64))",
 				"soname(libglib-2.0.so.0(x86_64))",
+				"soname(libglycin-2.so.0(x86_64))",
+				"soname(libglycin-gtk4-2.so.0(x86_64))",
 				"soname(libgmodule-2.0.so.0(x86_64))",
 				"soname(libgnome-autoar-0.so.0(x86_64))",
 				"soname(libgnome-desktop-4.so.2(x86_64))",
@@ -210,14 +215,17 @@
 		},
 		"nautilus-devel": {
 			"build-depends": [
+				"binary(blueprint-compiler)",
 				"binary(gi-docgen)",
 				"binary(localsearch)",
 				"binary(msgfmt)",
 				"binary(update-desktop-database)",
 				"pkgconfig(cloudproviders)",
 				"pkgconfig(gdk-pixbuf-2.0)",
-				"pkgconfig(gexiv2)",
+				"pkgconfig(gexiv2-0.16)",
 				"pkgconfig(glib-2.0)",
+				"pkgconfig(glycin-2)",
+				"pkgconfig(glycin-gtk4-2)",
 				"pkgconfig(gnome-autoar-0)",
 				"pkgconfig(gnome-desktop-4)",
 				"pkgconfig(gobject-introspection-1.0)",
@@ -413,6 +421,6 @@
 		}
 	},
 	"source-name": "nautilus",
-	"source-release": "20",
-	"source-version": "49.4"
+	"source-release": "21",
+	"source-version": "50.0"
 }

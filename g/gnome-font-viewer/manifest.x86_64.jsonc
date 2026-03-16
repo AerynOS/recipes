@@ -5,6 +5,7 @@
 		"gnome-font-viewer": {
 			"build-depends": [
 				"binary(msgfmt)",
+				"binary(update-desktop-database)",
 				"pkgconfig(fontconfig)",
 				"pkgconfig(freetype2)",
 				"pkgconfig(fribidi)",
@@ -91,6 +92,7 @@
 				"/usr/share/locale/kn/LC_MESSAGES/gnome-font-viewer.mo",
 				"/usr/share/locale/ko/LC_MESSAGES/gnome-font-viewer.mo",
 				"/usr/share/locale/ku/LC_MESSAGES/gnome-font-viewer.mo",
+				"/usr/share/locale/kw/LC_MESSAGES/gnome-font-viewer.mo",
 				"/usr/share/locale/ky/LC_MESSAGES/gnome-font-viewer.mo",
 				"/usr/share/locale/lt/LC_MESSAGES/gnome-font-viewer.mo",
 				"/usr/share/locale/lv/LC_MESSAGES/gnome-font-viewer.mo",
@@ -116,6 +118,7 @@
 				"/usr/share/locale/ro/LC_MESSAGES/gnome-font-viewer.mo",
 				"/usr/share/locale/ru/LC_MESSAGES/gnome-font-viewer.mo",
 				"/usr/share/locale/rw/LC_MESSAGES/gnome-font-viewer.mo",
+				"/usr/share/locale/sat/LC_MESSAGES/gnome-font-viewer.mo",
 				"/usr/share/locale/si/LC_MESSAGES/gnome-font-viewer.mo",
 				"/usr/share/locale/sk/LC_MESSAGES/gnome-font-viewer.mo",
 				"/usr/share/locale/sl/LC_MESSAGES/gnome-font-viewer.mo",
@@ -138,7 +141,7 @@
 				"/usr/share/locale/zh_CN/LC_MESSAGES/gnome-font-viewer.mo",
 				"/usr/share/locale/zh_HK/LC_MESSAGES/gnome-font-viewer.mo",
 				"/usr/share/locale/zh_TW/LC_MESSAGES/gnome-font-viewer.mo",
-				"/usr/share/metainfo/org.gnome.font-viewer.appdata.xml",
+				"/usr/share/metainfo/org.gnome.font-viewer.metainfo.xml",
 				"/usr/share/thumbnailers/gnome-font-viewer.thumbnailer"
 			],
 			"name": "gnome-font-viewer",
@@ -149,6 +152,6 @@
 		}
 	},
 	"source-name": "gnome-font-viewer",
-	"source-release": "4",
-	"source-version": "49.0"
+	"source-release": "5",
+	"source-version": "50.0"
 }

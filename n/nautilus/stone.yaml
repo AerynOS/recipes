@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : nautilus
-version     : "49.4"
-release     : 20
+version     : "50.0"
+release     : 21
 homepage    : https://apps.gnome.org/Nautilus/
 upstreams   :
-    - https://download.gnome.org/sources/nautilus/49/nautilus-49.4.tar.xz : 1476d9459a63c85f0ebc18f237b32d12b008ad786002376424919725f50e76a8
+    - https://download.gnome.org/sources/nautilus/50/nautilus-50.0.tar.xz : a9596ebb44fe118ab6d07c909bb3836d6ce1eed18d91520c5a805895d16333cc
 summary     : Access and organize files
 description : |
     Files, also known as Nautilus, is the default file manager of the GNOME desktop. It provides a simple and integrated way of managing your files and browsing your file system. Nautilus supports all the basic functions of a file manager and more. It can search and manage your files and folders, both locally and on a network, read and write data to and from removable media, run scripts, and launch apps. It has three views: Icon Grid, Icon List, and Tree List. Its functions can be extended with plugins and scripts.
@@ -16,14 +16,17 @@ license     :
     - GPL-3.0-or-later
     - LGPL-2.1-or-later
 builddeps   :
+    - binary(blueprint-compiler)
     - binary(gi-docgen)
     - binary(localsearch)
     - binary(msgfmt)
     - binary(update-desktop-database)
     - pkgconfig(cloudproviders)
     - pkgconfig(gdk-pixbuf-2.0)
-    - pkgconfig(gexiv2)
+    - pkgconfig(gexiv2-0.16)
     - pkgconfig(glib-2.0)
+    - pkgconfig(glycin-2)
+    - pkgconfig(glycin-gtk4-2)
     - pkgconfig(gnome-autoar-0)
     - pkgconfig(gnome-desktop-4)
     - pkgconfig(gobject-introspection-1.0)
@@ -35,6 +38,7 @@ builddeps   :
     - pkgconfig(libportal-gtk4)
     - pkgconfig(libxml-2.0)
     - pkgconfig(tinysparql-3.0)
+    # libselinux
 rundeps     :
     - glycin-thumbnailer # Needed for image thumbnails
     - gvfs-fuse
@@ -42,7 +46,8 @@ rundeps     :
 setup       : |
     %patch %(pkgdir)/default-terminal.patch
     %meson \
-        -Ddocs=true
+        -Ddocs=true \
+        -Dselinux=disabled
 build       : |
     %meson_build
 install     : |
