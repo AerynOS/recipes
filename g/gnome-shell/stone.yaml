@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : gnome-shell
-version     : "49.4"
-release     : 45
+version     : "50.0"
+release     : 46
 homepage    : https://gitlab.gnome.org/GNOME/gnome-shell
 upstreams   :
-    - https://download.gnome.org/sources/gnome-shell/49/gnome-shell-49.4.tar.xz : 9d6f0ca2f0140c114f114f6707413611f614fb1ea6c317a8d1fcc40c3c595b08
+    - https://download.gnome.org/sources/gnome-shell/50/gnome-shell-50.0.tar.xz : 85952fbd4929cfe613b876b2237e0d13464b0c2788b8a9867fb51c260255b0e3
 summary     : The core GNOME desktop experience
 description : |
     GNOME Shell provides core user interface functions for the GNOME desktop,
@@ -50,7 +50,7 @@ builddeps   :
     - pkgconfig(libstartup-notification-1.0)
     - pkgconfig(libsystemd)
     - pkgconfig(libxml-2.0)
-    - pkgconfig(mutter-clutter-17)
+    - pkgconfig(mutter-clutter-18)
     - pkgconfig(polkit-agent-1)
     - pkgconfig(systemd)
     - pkgconfig(x11)
