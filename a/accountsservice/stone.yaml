@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : accountsservice
-version     : "23.13.9"
-release     : 6
+version     : "25.34.76"
+release     : 7
 homepage    : https://www.freedesktop.org/wiki/Software/AccountsService/
 upstreams   :
-    - https://www.freedesktop.org/software/accountsservice/accountsservice-23.13.9.tar.xz : adda4cdeae24fa0992e7df3ffff9effa7090be3ac233a3edfdf69d5a9c9b924f
+    - https://gitlab.freedesktop.org/-/project/838/uploads/0aa56181fe567414786a305656d56987/accountsservice-25.34.76.tar.xz : 6288ebb85f6920a645c39bb14e6954240c04834ec5145e7ddde3ca13b386dbae
 summary     : D-BUS encapsulation for user and account management
 description : |
     AccountsService is a D-Bus service for accessing the list of user accounts and information attached to those accounts.
@@ -17,6 +17,7 @@ license     :
 builddeps   :
     - binary(msgfmt)
     - binary(vapigen)
+    - binary(xmlto)
     - pkgconfig(dbus-1)
     - pkgconfig(gio-2.0)
     - pkgconfig(gio-unix-2.0)
@@ -25,11 +26,16 @@ builddeps   :
     - pkgconfig(libxcrypt)
     - pkgconfig(polkit-gobject-1)
     - pkgconfig(systemd)
+    - docbook
+environment : |
+    %export_docbook_catalogs
 setup       : |
-    %patch %(pkgdir)/gcc-14.patch
-    %patch %(pkgdir)/upstream-01.patch
+    %patch %(pkgdir)/0001-Allow-version-to-be-overridden.patch
 
-    %meson
+    export VERSION_OVERRIDE="%(version)"
+
+    %meson \
+        -Ddocbook=true
 build       : |
     %meson_build
 install     : |
