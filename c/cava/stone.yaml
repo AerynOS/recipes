@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : cava
-version     : "0.10.6"
-release     : 3
+version     : "0.10.7"
+release     : 4
 homepage    : https://github.com/LukashonakV/cava
 upstreams   :
-    - https://github.com/LukashonakV/cava/archive/refs/tags/0.10.6.tar.gz : e715c4c6a625b8dc063e57e8e81c80e4d1015ec1b98db69a283b2c6770f839f4
+    - https://github.com/LukashonakV/cava/archive/refs/tags/0.10.7.tar.gz : 50cc6413e9c96c503657f814744a2baf429a24ff9fed31a8343e0ed285269eff
 summary     : Cross-platform Audio Visualizer
 description : |
     Cross-platform Audio Visualizer
@@ -22,6 +22,8 @@ builddeps   :
     - pkgconfig(libpulse)
     - pkgconfig(ncursesw)
     - pkgconfig(sdl2)
+    - pkgconfig(sndio)
+    # jack
 setup       : |
     %meson \
         -Dbuild_target=all
@@ -30,9 +32,13 @@ build       : |
 install     : |
     %meson_install
 packages    :
-    - "%(name)":
+    - "lib%(name)":
         paths:
-            - /usr/lib/libcava.so
+            - /usr/lib/libcava.so.*
+
+    - "%(name)-devel":
+        rundeps:
+            - "lib%(name)"
 tuning      :
     # <inline asm>:25:9: error: Could not find incbin file 'src/output/shaders/bar_spectrum.frag'
     #    25 | .incbin "src/output/shaders/bar_spectrum.frag"
