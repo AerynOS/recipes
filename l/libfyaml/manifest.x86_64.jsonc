@@ -5,7 +5,6 @@
 		"libfyaml": {
 			"build-depends": [
 				"binary(jq)",
-				"binary(sphinx-build)",
 				"pkgconfig(check)",
 				"pkgconfig(yaml-0.1)"
 			],
@@ -14,7 +13,7 @@
 			],
 			"files": [
 				"/usr/lib/libfyaml.so.0",
-				"/usr/lib/libfyaml.so.0.9.5"
+				"/usr/lib/libfyaml.so.0.9.6"
 			],
 			"name": "libfyaml",
 			"provides": [
@@ -24,7 +23,6 @@
 		"libfyaml-devel": {
 			"build-depends": [
 				"binary(jq)",
-				"binary(sphinx-build)",
 				"pkgconfig(check)",
 				"pkgconfig(yaml-0.1)"
 			],
@@ -33,6 +31,19 @@
 			],
 			"files": [
 				"/usr/include/libfyaml.h",
+				"/usr/include/libfyaml/libfyaml-align.h",
+				"/usr/include/libfyaml/libfyaml-allocator.h",
+				"/usr/include/libfyaml/libfyaml-atomics.h",
+				"/usr/include/libfyaml/libfyaml-blake3.h",
+				"/usr/include/libfyaml/libfyaml-composer.h",
+				"/usr/include/libfyaml/libfyaml-core.h",
+				"/usr/include/libfyaml/libfyaml-docbuild.h",
+				"/usr/include/libfyaml/libfyaml-dociter.h",
+				"/usr/include/libfyaml/libfyaml-endian.h",
+				"/usr/include/libfyaml/libfyaml-path-exec.h",
+				"/usr/include/libfyaml/libfyaml-thread.h",
+				"/usr/include/libfyaml/libfyaml-util.h",
+				"/usr/include/libfyaml/libfyaml-vlsize.h",
 				"/usr/lib/cmake/libfyaml/libfyaml-config-version.cmake",
 				"/usr/lib/cmake/libfyaml/libfyaml-config.cmake",
 				"/usr/lib/cmake/libfyaml/libfyaml-targets-release.cmake",
@@ -49,7 +60,6 @@
 		"libfyaml-tools": {
 			"build-depends": [
 				"binary(jq)",
-				"binary(sphinx-build)",
 				"pkgconfig(check)",
 				"pkgconfig(yaml-0.1)"
 			],
@@ -59,15 +69,34 @@
 				"soname(libfyaml.so.0(x86_64))"
 			],
 			"files": [
-				"/usr/bin/fy-tool"
+				"/usr/bin/fy-compose",
+				"/usr/bin/fy-dump",
+				"/usr/bin/fy-filter",
+				"/usr/bin/fy-join",
+				"/usr/bin/fy-testsuite",
+				"/usr/bin/fy-tool",
+				"/usr/bin/fy-ypath",
+				"/usr/share/man/man1/fy-compose.1",
+				"/usr/share/man/man1/fy-dump.1",
+				"/usr/share/man/man1/fy-filter.1",
+				"/usr/share/man/man1/fy-join.1",
+				"/usr/share/man/man1/fy-testsuite.1",
+				"/usr/share/man/man1/fy-tool.1",
+				"/usr/share/man/man1/fy-ypath.1"
 			],
 			"name": "libfyaml-tools",
 			"provides": [
-				"binary(fy-tool)"
+				"binary(fy-compose)",
+				"binary(fy-dump)",
+				"binary(fy-filter)",
+				"binary(fy-join)",
+				"binary(fy-testsuite)",
+				"binary(fy-tool)",
+				"binary(fy-ypath)"
 			]
 		}
 	},
 	"source-name": "libfyaml",
-	"source-release": "5",
-	"source-version": "0.9.5"
+	"source-release": "6",
+	"source-version": "0.9.6"
 }
