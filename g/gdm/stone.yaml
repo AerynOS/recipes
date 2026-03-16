@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : gdm
-version     : "49.2"
+version     : "50.0"
 release     : 27
 homepage    : https://gitlab.gnome.org/GNOME/gdm
 upstreams   :
-    - https://download.gnome.org/sources/gdm/49/gdm-49.2.tar.xz : 9813631f9f5f0f860ea14a437866e60efc7bed3023b7c3b765cc5de1de597a06
+    - https://download.gnome.org/sources/gdm/50/gdm-50.0.tar.xz : 646f53d68f2d2d147146ffaeb85047ded8b813dcb1c104d8f0ec36ca609eb5bf
 summary     : GNOME Display Manager
 description : |
     Login/lock and session management with the GNOME Display Manager
@@ -47,9 +47,6 @@ setup       : |
         -Dpam-mod-dir=%(libdir)/security \
         -Dpam-prefix=%(vendordir) \
         -Dplymouth=enabled \
-        -Dudev-dir=%(libdir)/udev/rules.d \
-        -Duser-display-server=true \
-        -Dwayland-support=true \
         -Dx11-support=false
 build       : |
     %meson_build
@@ -59,8 +56,11 @@ install     : |
     # TODO: Finish stateless + dependencies
     %install_file %(pkgdir)/gdm.group %(installroot)%(libdir)/userdb/gdm.group
     ln -s gdm.group %(installroot)%(libdir)/userdb/21.group
-    %install_file %(pkgdir)/gdm.user %(installroot)%(libdir)/userdb/gdm.user
-    ln -s gdm.user %(installroot)%(libdir)/userdb/21.user
+
+    # TODO: Remove this
+    # %install_file %(pkgdir)/gdm.user %(installroot)%(libdir)/userdb/gdm.user
+    # ln -s gdm.user %(installroot)%(libdir)/userdb/21.user
+
     rm -v %(installroot)%(vendordir)/pam.d/*
     %install_file %(pkgdir)/pam/gdm-* -t %(installroot)%(vendordir)/pam.d/
     %install_file %(pkgdir)/org.gnome.login-screen.gschema.override %(installroot)/usr/share/glib-2.0/schemas/org.gnome.login-screen.gschema.override
@@ -71,7 +71,6 @@ packages    :
 
     - "%(name)-libs":
         paths:
-            - /usr/bin/gdmflexiserver
             - /usr/lib/girepository-1.0/Gdm-1.0.typelib
             - /usr/lib/libgdm.so.*
             - /usr/share/glib-2.0/schemas/org.gnome.login-screen.gschema.*
