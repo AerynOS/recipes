@@ -4,10 +4,10 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : plasma-keyboard
-version     : "6.6.2"
-release     : 16
+version     : "6.6.3"
+release     : 17
 upstreams   :
-    - https://download.kde.org/stable/plasma/6.6.2/plasma-keyboard-6.6.2.tar.xz : 500a28f8cf92afe5f38d9a89f733441c72201d3ce45b92f12c3bfc98155b5cb7
+    - https://download.kde.org/stable/plasma/6.6.3/plasma-keyboard-6.6.3.tar.xz : fd10bafeb13b1065720dbf8ee334354f050979eddec8b2b025f76c6eb1a1193c
 homepage    : https://kde.org/plasma-desktop/
 license     : GPL-2.0-or-later
 summary     : Virtual keyboard for Plasma
@@ -18,6 +18,7 @@ builddeps   :
     - cmake(ECM)
     - cmake(KF6Config)
     - cmake(KF6CoreAddons)
+    - cmake(KF6Crash)
     - cmake(KF6I18n)
     - cmake(KF6KCMUtils)
     - cmake(Qt6CorePrivate)
