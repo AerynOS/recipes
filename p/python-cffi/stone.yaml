@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : python-cffi
-version     : "1.17.1"
-release     : 3
+version     : "2.0.0"
+release     : 4
 homepage    : https://cffi.readthedocs.org/
 upstreams   :
-    - https://pypi.debian.net/cffi/cffi-1.17.1.tar.gz : 1c39c6016c32bc48dd54561950ebd6836e1670f2ae46128f67cf49e789c52824
+    - https://pypi.debian.net/cffi/cffi-2.0.0.tar.gz : 44d1b5909021139fe36001ae048dbdde8214afa20200eda0f64c068cac5d5529
 summary     : Foreign Function Interface for Python calling C code
 description : |
     Foreign Function Interface for Python calling C code
@@ -22,9 +22,6 @@ rundeps     :
 # checkdeps   :
 #     - binary(pytest)
 #     - python(pycparser)
-setup       : |
-    %patch %(pkgdir)/0001-Use-clang-for-tests.patch
-    %patch %(pkgdir)/clang-errors.patch
 build       : |
     %pyproject_build
 install     : |
