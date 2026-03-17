@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : python-charset-normalizer
-version     : "3.4.3"
-release     : 2
+version     : "3.4.6"
+release     : 3
 homepage    : https://github.com/ousret/charset_normalizer
 upstreams   :
-    - https://pypi.debian.net/charset-normalizer/charset_normalizer-3.4.3.tar.gz : 6fce4b8500244f6fcb71465d4a4930d132ba9ab8e71a7859e6a5d59851068d14
+    - https://pypi.debian.net/charset-normalizer/charset_normalizer-3.4.6.tar.gz : 1ae6b62897110aa7c79ea2f5dd38d1abca6db663687c0b1ad9aed6f6bae3d9d6
 summary     : Truly universal encoding detector in pure Python
 description : |
     The Real First Universal Charset Detector. Open, modern and actively maintained alternative to Chardet.
@@ -21,6 +21,9 @@ rundeps     :
     - binary(python3)
 checkdeps   :
     - python(pytest)
+setup       : |
+    # TODO: Remove in future version
+    sed -i "s|setuptools>=68,<=82.0.0|setuptools>=68,<=83.0.0|g" pyproject.toml
 build       : |
     %pyproject_build
 install     : |
