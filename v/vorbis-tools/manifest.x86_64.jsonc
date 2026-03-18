@@ -1,0 +1,73 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"vorbis-tools": {
+			"build-depends": [
+				"binary(bison)",
+				"binary(msgfmt)",
+				"pkgconfig(flac)",
+				"pkgconfig(libcurl)",
+				"pkgconfig(ogg)",
+				"pkgconfig(speex)",
+				"pkgconfig(vorbis)"
+			],
+			"depends": [
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(libFLAC.so.14(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libm.so.6(x86_64))",
+				"soname(libogg.so.0(x86_64))",
+				"soname(libvorbis.so.0(x86_64))",
+				"soname(libvorbisenc.so.2(x86_64))",
+				"soname(libvorbisfile.so.3(x86_64))"
+			],
+			"files": [
+				"/usr/bin/oggdec",
+				"/usr/bin/oggenc",
+				"/usr/bin/ogginfo",
+				"/usr/bin/vcut",
+				"/usr/bin/vorbiscomment",
+				"/usr/share/locale/be/LC_MESSAGES/vorbis-tools.mo",
+				"/usr/share/locale/cs/LC_MESSAGES/vorbis-tools.mo",
+				"/usr/share/locale/da/LC_MESSAGES/vorbis-tools.mo",
+				"/usr/share/locale/de/LC_MESSAGES/vorbis-tools.mo",
+				"/usr/share/locale/en_GB/LC_MESSAGES/vorbis-tools.mo",
+				"/usr/share/locale/eo/LC_MESSAGES/vorbis-tools.mo",
+				"/usr/share/locale/es/LC_MESSAGES/vorbis-tools.mo",
+				"/usr/share/locale/fr/LC_MESSAGES/vorbis-tools.mo",
+				"/usr/share/locale/hr/LC_MESSAGES/vorbis-tools.mo",
+				"/usr/share/locale/hu/LC_MESSAGES/vorbis-tools.mo",
+				"/usr/share/locale/id/LC_MESSAGES/vorbis-tools.mo",
+				"/usr/share/locale/ka/LC_MESSAGES/vorbis-tools.mo",
+				"/usr/share/locale/nb/LC_MESSAGES/vorbis-tools.mo",
+				"/usr/share/locale/nl/LC_MESSAGES/vorbis-tools.mo",
+				"/usr/share/locale/pl/LC_MESSAGES/vorbis-tools.mo",
+				"/usr/share/locale/ro/LC_MESSAGES/vorbis-tools.mo",
+				"/usr/share/locale/ru/LC_MESSAGES/vorbis-tools.mo",
+				"/usr/share/locale/sk/LC_MESSAGES/vorbis-tools.mo",
+				"/usr/share/locale/sl/LC_MESSAGES/vorbis-tools.mo",
+				"/usr/share/locale/sr/LC_MESSAGES/vorbis-tools.mo",
+				"/usr/share/locale/sv/LC_MESSAGES/vorbis-tools.mo",
+				"/usr/share/locale/uk/LC_MESSAGES/vorbis-tools.mo",
+				"/usr/share/locale/vi/LC_MESSAGES/vorbis-tools.mo",
+				"/usr/share/man/man1/oggdec.1",
+				"/usr/share/man/man1/oggenc.1",
+				"/usr/share/man/man1/ogginfo.1",
+				"/usr/share/man/man1/vcut.1",
+				"/usr/share/man/man1/vorbiscomment.1"
+			],
+			"name": "vorbis-tools",
+			"provides": [
+				"binary(oggdec)",
+				"binary(oggenc)",
+				"binary(ogginfo)",
+				"binary(vcut)",
+				"binary(vorbiscomment)"
+			]
+		}
+	},
+	"source-name": "vorbis-tools",
+	"source-release": "1",
+	"source-version": "1.4.3"
+}
