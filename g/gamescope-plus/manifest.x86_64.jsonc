@@ -71,7 +71,6 @@
 				"soname(libpixman-1.so.0(x86_64))",
 				"soname(libseat.so.1(x86_64))",
 				"soname(libstdc++.so.6(x86_64))",
-				"soname(libsystemd.so.0(x86_64))",
 				"soname(libudev.so.1(x86_64))",
 				"soname(libwayland-client.so.0(x86_64))",
 				"soname(libwayland-server.so.0(x86_64))",
@@ -80,6 +79,7 @@
 			],
 			"files": [
 				"/usr/bin/gamescope",
+				"/usr/bin/gamescope-type",
 				"/usr/bin/gamescopectl",
 				"/usr/bin/gamescopereaper",
 				"/usr/bin/gamescopestream",
@@ -137,6 +137,7 @@
 			"name": "gamescope-plus",
 			"provides": [
 				"binary(gamescope)",
+				"binary(gamescope-type)",
 				"binary(gamescopectl)",
 				"binary(gamescopereaper)",
 				"binary(gamescopestream)",
@@ -146,5 +147,5 @@
 	},
 	"source-name": "gamescope-plus",
 	"source-release": "8",
-	"source-version": "3.16.19.plus1"
+	"source-version": "3.16.22.plus1"
 }
