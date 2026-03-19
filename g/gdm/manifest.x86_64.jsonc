@@ -38,20 +38,21 @@
 				"soname(libjson-glib-1.0.so.0(x86_64))",
 				"soname(libkeyutils.so.1(x86_64))",
 				"soname(libpam.so.0(x86_64))",
+				"soname(libpolkit-gobject-1.so.0(x86_64))",
 				"soname(libsystemd.so.0(x86_64))"
 			],
 			"files": [
 				"/usr/bin/gdm-config",
+				"/usr/lib/gdm/gdm-new-session",
 				"/usr/lib/gdm/gdm-runtime-config",
 				"/usr/lib/gdm/gdm-session-worker",
 				"/usr/lib/gdm/gdm-wayland-session",
 				"/usr/lib/security/pam_gdm.so",
 				"/usr/lib/systemd/system/gdm.service",
+				"/usr/lib/systemd/system/gnome-headless-session@.service",
 				"/usr/lib/systemd/user/gnome-session@gnome-login.target.d/gnome-login.session.conf",
 				"/usr/lib/userdb/21.group",
-				"/usr/lib/userdb/21.user",
 				"/usr/lib/userdb/gdm.group",
-				"/usr/lib/userdb/gdm.user",
 				"/usr/sbin/gdm",
 				"/usr/share/dbus-1/system.d/gdm.conf",
 				"/usr/share/dconf/profile/gdm",
@@ -65,6 +66,8 @@
 				"/usr/share/gdm/greeter-dconf-defaults",
 				"/usr/share/gdm/greeter/applications/mime-dummy-handler.desktop",
 				"/usr/share/gdm/greeter/applications/mimeapps.list",
+				"/usr/share/gdm/greeter/wayland-sessions/gnome-greeter.desktop",
+				"/usr/share/gdm/greeter/wayland-sessions/gnome-initial-setup.desktop",
 				"/usr/share/gdm/locale.alias",
 				"/usr/share/gnome-session/sessions/gnome-login.session",
 				"/usr/share/help/C/gdm/index.docbook",
@@ -97,6 +100,8 @@
 				"/usr/share/help/it/gdm/legal.xml",
 				"/usr/share/help/ka/gdm/index.docbook",
 				"/usr/share/help/ka/gdm/legal.xml",
+				"/usr/share/help/kk/gdm/index.docbook",
+				"/usr/share/help/kk/gdm/legal.xml",
 				"/usr/share/help/ko/gdm/index.docbook",
 				"/usr/share/help/ko/gdm/legal.xml",
 				"/usr/share/help/nl/gdm/index.docbook",
@@ -181,6 +186,7 @@
 				"/usr/share/locale/kn/LC_MESSAGES/gdm.mo",
 				"/usr/share/locale/ko/LC_MESSAGES/gdm.mo",
 				"/usr/share/locale/ku/LC_MESSAGES/gdm.mo",
+				"/usr/share/locale/kw/LC_MESSAGES/gdm.mo",
 				"/usr/share/locale/ky/LC_MESSAGES/gdm.mo",
 				"/usr/share/locale/lt/LC_MESSAGES/gdm.mo",
 				"/usr/share/locale/lv/LC_MESSAGES/gdm.mo",
@@ -233,6 +239,7 @@
 				"/usr/share/locale/zh_HK/LC_MESSAGES/gdm.mo",
 				"/usr/share/locale/zh_TW/LC_MESSAGES/gdm.mo",
 				"/usr/share/locale/zu/LC_MESSAGES/gdm.mo",
+				"/usr/share/polkit-1/actions/org.gnome.displaymanager.policy",
 				"/usr/share/polkit-1/rules.d/20-gdm.rules"
 			],
 			"name": "gdm",
@@ -313,7 +320,6 @@
 				"pkgconfig(xau)"
 			],
 			"depends": [
-				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libgio-2.0.so.0(x86_64))",
 				"soname(libglib-2.0.so.0(x86_64))",
@@ -321,7 +327,6 @@
 				"soname(libsystemd.so.0(x86_64))"
 			],
 			"files": [
-				"/usr/bin/gdmflexiserver",
 				"/usr/lib/girepository-1.0/Gdm-1.0.typelib",
 				"/usr/lib/libgdm.so.1",
 				"/usr/lib/libgdm.so.1.0.0",
@@ -330,12 +335,11 @@
 			],
 			"name": "gdm-libs",
 			"provides": [
-				"binary(gdmflexiserver)",
 				"soname(libgdm.so.1(x86_64))"
 			]
 		}
 	},
 	"source-name": "gdm",
 	"source-release": "27",
-	"source-version": "49.2"
+	"source-version": "50.0"
 }

@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : tree
-version     : "2.3.1"
-release     : 5
+version     : "2.3.2"
+release     : 6
 homepage    : https://oldmanprogrammer.net/source.php?dir=projects/tree
 upstreams   :
-    - https://oldmanprogrammer.net/tar/tree/tree-2.3.1.tgz : 47ca786ed4ea4aa277cabd42b1a54635aca41b29e425e9229bd1317831f25665
+    - https://oldmanprogrammer.net/tar/tree/tree-2.3.2.tgz : 6b941dd6cbecfb4d3250700e4d08d8e0c251488981dd4868b90d744234300e21
 summary     : Recursive directory listing command that produces a depth indented listing of files
 description : |
     recursive directory listing command that produces a depth indented listing of files
@@ -19,4 +19,3 @@ build       : |
 install     : |
     %install_bin %(workdir)/tree
     %install_file %(workdir)/doc/tree.1 %(installroot)/usr/share/man/man1/tree.1
-toolchain: gnu

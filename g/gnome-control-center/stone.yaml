@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : gnome-control-center
-version     : "49.5"
-release     : 31
+version     : "50.0"
+release     : 32
 homepage    : https://apps.gnome.org/Settings/
 upstreams   :
-    - https://download.gnome.org/sources/gnome-control-center/49/gnome-control-center-49.5.tar.xz : c253dc9f66b015eb6ce84f8f1575a467deed0acd9f57501e70520ca494aac430
+    - https://download.gnome.org/sources/gnome-control-center/50/gnome-control-center-50.0.tar.xz : 20e8d5b13b9f390581004cab34b74372c0ff4a16f9c11bffd93d8386fbcdeeb3
 summary     : Utility to configure the GNOME desktop
 description : |
     Settings is the primary interface for configuring your system.
@@ -20,8 +20,9 @@ builddeps   :
     - binary(msgfmt)
     - binary(setxkbmap)
     - pkgconfig(accountsservice)
+    - pkgconfig(cairo-gobject)
+    - pkgconfig(colord)
     - pkgconfig(colord-gtk4)
-    - pkgconfig(com_err)
     - pkgconfig(cups)
     - pkgconfig(epoxy)
     - pkgconfig(gcr-4)
@@ -34,14 +35,17 @@ builddeps   :
     - pkgconfig(gnome-desktop-4)
     - pkgconfig(gnome-settings-daemon)
     - pkgconfig(gnutls)
+    - pkgconfig(goa-1.0)
     - pkgconfig(goa-backend-1.0)
     - pkgconfig(gsettings-desktop-schemas)
     - pkgconfig(gsound)
     - pkgconfig(gthread-2.0)
-    - pkgconfig(gtk+-3.0)
+    - pkgconfig(gtk4)
     - pkgconfig(gudev-1.0)
+    - pkgconfig(json-glib-1.0)
     - pkgconfig(ibus-1.0)
     - pkgconfig(krb5)
+    - pkgconfig(libadwaita-1)
     - pkgconfig(libgtop-2.0)
     - pkgconfig(libnm)
     - pkgconfig(libnma)
@@ -59,16 +63,17 @@ builddeps   :
     - pkgconfig(tecla)
     - pkgconfig(udisks2)
     - pkgconfig(upower-glib)
+    - pkgconfig(wayland-client)
     - pkgconfig(x11)
+    # gmobile
 rundeps     :
     - cups-pk-helper
     - gnome-remote-desktop
     - tecla
-    # Moss upgrade bug
-    - gstreamer-plugins-good
 setup       : |
-    %meson -Ddistributor_logo=%(datadir)/icons/aerynos-logo.svg \
-           -Ddark_mode_distributor_logo=%(datadir)/icons/aerynos-logo-dark.svg
+    %meson \
+        -Ddark_mode_distributor_logo=%(datadir)/icons/aerynos-logo-dark.svg \
+        -Ddistributor_logo=%(datadir)/icons/aerynos-logo.svg
 build       : |
     %meson_build
 install     : |

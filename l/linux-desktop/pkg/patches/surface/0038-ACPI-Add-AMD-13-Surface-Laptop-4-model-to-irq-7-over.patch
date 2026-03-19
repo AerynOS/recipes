@@ -1,7 +1,7 @@
-From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From 0fb8ce91b92a1f4e90a29abb12ef276c3a1c9528 Mon Sep 17 00:00:00 2001
 From: Maximilian Luz <luzmaximilian@gmail.com>
 Date: Thu, 3 Jun 2021 14:04:26 +0200
-Subject: [PATCH 37/40] ACPI: Add AMD 13" Surface Laptop 4 model to irq 7
+Subject: [PATCH 38/41] ACPI: Add AMD 13" Surface Laptop 4 model to irq 7
  override quirk
 
 The 13" version of the Surface Laptop 4 has the same problem as the 15"
@@ -13,10 +13,10 @@ Patchset: amd-gpio
  1 file changed, 8 insertions(+), 1 deletion(-)
 
 diff --git a/arch/x86/kernel/acpi/boot.c b/arch/x86/kernel/acpi/boot.c
-index 8914a922be2bc..c43d0a553867c 100644
+index 67094184c150..9c1d2883e13e 100644
 --- a/arch/x86/kernel/acpi/boot.c
 +++ b/arch/x86/kernel/acpi/boot.c
-@@ -1174,12 +1174,19 @@ static void __init mp_config_acpi_legacy_irqs(void)
+@@ -1178,12 +1178,19 @@ static void __init mp_config_acpi_legacy_irqs(void)
  
  static const struct dmi_system_id surface_quirk[] __initconst = {
  	{
@@ -37,3 +37,6 @@ index 8914a922be2bc..c43d0a553867c 100644
  	{}
  };
  
+-- 
+2.52.0
+

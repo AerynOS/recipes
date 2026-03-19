@@ -64,7 +64,7 @@
 				"soname(libupower-glib.so.3(x86_64))"
 			],
 			"files": [
-				"/usr/lib/gnome-settings-daemon-49/libgsd.so",
+				"/usr/lib/gnome-settings-daemon-50/libgsd.so",
 				"/usr/lib/gnome-settings-daemon/gsd-a11y-settings",
 				"/usr/lib/gnome-settings-daemon/gsd-color",
 				"/usr/lib/gnome-settings-daemon/gsd-datetime",
@@ -232,7 +232,7 @@
 			],
 			"name": "gnome-settings-daemon",
 			"provides": [
-				"soname(gnome-settings-daemon-49/libgsd.so(x86_64))"
+				"soname(gnome-settings-daemon-50/libgsd.so(x86_64))"
 			]
 		},
 		"gnome-settings-daemon-devel": {
@@ -268,7 +268,7 @@
 				"gnome-settings-daemon"
 			],
 			"files": [
-				"/usr/include/gnome-settings-daemon-49/gnome-settings-daemon/gsd-enums.h",
+				"/usr/include/gnome-settings-daemon-50/gnome-settings-daemon/gsd-enums.h",
 				"/usr/lib/pkgconfig/gnome-settings-daemon.pc"
 			],
 			"name": "gnome-settings-daemon-devel",
@@ -278,6 +278,6 @@
 		}
 	},
 	"source-name": "gnome-settings-daemon",
-	"source-release": "15",
-	"source-version": "49.1"
+	"source-release": "16",
+	"source-version": "50.0"
 }

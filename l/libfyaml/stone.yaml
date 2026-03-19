@@ -4,10 +4,10 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : libfyaml
-version     : "0.9.5"
-release     : 5
+version     : "0.9.6"
+release     : 6
 upstreams   :
-    - https://github.com/pantoniou/libfyaml/releases/download/v0.9.5/libfyaml-0.9.5.tar.gz : 9acbc9737808b2833a51be0d4b361987ab6bbbb19cbda7c0c5c83148c8addd8a
+    - https://github.com/pantoniou/libfyaml/releases/download/v0.9.6/libfyaml-0.9.6.tar.gz : a59cc3331e2eb903ec36933ad52a45888041cac31e44f553a00511131242c483
 homepage    : https://github.com/pantoniou/libfyaml
 license     : MIT
 summary     : Fully feature complete YAML parser and emitter
@@ -15,11 +15,12 @@ description : |
     Fully feature complete YAML parser and emitter, supporting the latest YAML spec and passing the full YAML testsuite
 builddeps   :
     - binary(jq)
-    - binary(sphinx-build)
+    # - binary(sphinx-build)
     # - cmake(Clang) libllvm is a pretty heavy dependency, only add it if strictly necessary
     - pkgconfig(check)
     - pkgconfig(yaml-0.1)
 setup       : |
+    # TODO: Fix build with sphinx (needs linuxdoc?)
     %cmake \
         -DENABLE_NETWORK=OFF
 build       : |

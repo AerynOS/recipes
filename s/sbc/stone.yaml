@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : sbc
-version     : "2.1"
-release     : 3
+version     : "2.2"
+release     : 4
 homepage    : https://www.bluez.org/
 upstreams   :
-    - https://www.kernel.org/pub/linux/bluetooth/sbc-2.1.tar.xz : 426633cabd7c798236443516dfa8335b47e004b0ef37ff107e0c7ead3299fcc2
+    - https://www.kernel.org/pub/linux/bluetooth/sbc-2.2.tar.xz : a1ada76ef35e5af9c2fbd063754dc9e37a8d989417c6eb1ecebb089b1383ae9e
 summary     : Bluetooth Subband Codec
 description : |
     Bluetooth Subband Codec
@@ -16,7 +16,8 @@ license     : LGPL-2.1-or-later
 builddeps   :
     - pkgconfig(sndfile)
 setup       : |
-    %configure --disable-static
+    %configure \
+        --disable-static
 build       : |
     %make
 install     : |

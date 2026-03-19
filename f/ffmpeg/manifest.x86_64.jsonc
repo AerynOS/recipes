@@ -5,6 +5,7 @@
 		"ffmpeg": {
 			"build-depends": [
 				"binary(clang)",
+				"binary(clang-21)",
 				"binary(makeinfo)",
 				"binary(nasm)",
 				"binary(pod2man)",
@@ -112,6 +113,7 @@
 		"ffmpeg-devel": {
 			"build-depends": [
 				"binary(clang)",
+				"binary(clang-21)",
 				"binary(makeinfo)",
 				"binary(nasm)",
 				"binary(pod2man)",
@@ -218,6 +220,7 @@
 		"ffmpeg-docs": {
 			"build-depends": [
 				"binary(clang)",
+				"binary(clang-21)",
 				"binary(makeinfo)",
 				"binary(nasm)",
 				"binary(pod2man)",
@@ -285,6 +288,7 @@
 				"/usr/share/doc/ffmpeg/community.html",
 				"/usr/share/doc/ffmpeg/default.css",
 				"/usr/share/doc/ffmpeg/developer.html",
+				"/usr/share/doc/ffmpeg/drawvg-reference.html",
 				"/usr/share/doc/ffmpeg/faq.html",
 				"/usr/share/doc/ffmpeg/fate.html",
 				"/usr/share/doc/ffmpeg/ffmpeg-all.html",
@@ -319,6 +323,7 @@
 		"libavcodec": {
 			"build-depends": [
 				"binary(clang)",
+				"binary(clang-21)",
 				"binary(makeinfo)",
 				"binary(nasm)",
 				"binary(pod2man)",
@@ -403,7 +408,6 @@
 				"soname(libopus.so.0(x86_64))",
 				"soname(librav1e.so.0.8(x86_64))",
 				"soname(librsvg-2.so.2(x86_64))",
-				"soname(libshaderc_shared.so.1(x86_64))",
 				"soname(libsnappy.so.1(x86_64))",
 				"soname(libspeex.so.1(x86_64))",
 				"soname(libswresample.so.5(x86_64))",
@@ -425,7 +429,7 @@
 				"/usr/lib/libavcodec.so.61",
 				"/usr/lib/libavcodec.so.61.19.101",
 				"/usr/lib/libavcodec.so.62",
-				"/usr/lib/libavcodec.so.62.11.100"
+				"/usr/lib/libavcodec.so.62.28.100"
 			],
 			"name": "libavcodec",
 			"provides": [
@@ -436,6 +440,7 @@
 		"libavcodec-devel": {
 			"build-depends": [
 				"binary(clang)",
+				"binary(clang-21)",
 				"binary(makeinfo)",
 				"binary(nasm)",
 				"binary(pod2man)",
@@ -544,6 +549,7 @@
 				"/usr/include/libavcodec/dirac.h",
 				"/usr/include/libavcodec/dv_profile.h",
 				"/usr/include/libavcodec/dxva2.h",
+				"/usr/include/libavcodec/exif.h",
 				"/usr/include/libavcodec/jni.h",
 				"/usr/include/libavcodec/mediacodec.h",
 				"/usr/include/libavcodec/packet.h",
@@ -569,6 +575,7 @@
 		"libavdevice": {
 			"build-depends": [
 				"binary(clang)",
+				"binary(clang-21)",
 				"binary(makeinfo)",
 				"binary(nasm)",
 				"binary(pod2man)",
@@ -661,7 +668,7 @@
 				"/usr/lib/libavdevice.so.61",
 				"/usr/lib/libavdevice.so.61.3.100",
 				"/usr/lib/libavdevice.so.62",
-				"/usr/lib/libavdevice.so.62.1.100"
+				"/usr/lib/libavdevice.so.62.3.100"
 			],
 			"name": "libavdevice",
 			"provides": [
@@ -672,6 +679,7 @@
 		"libavdevice-devel": {
 			"build-depends": [
 				"binary(clang)",
+				"binary(clang-21)",
 				"binary(makeinfo)",
 				"binary(nasm)",
 				"binary(pod2man)",
@@ -772,6 +780,7 @@
 		"libavfilter": {
 			"build-depends": [
 				"binary(clang)",
+				"binary(clang-21)",
 				"binary(makeinfo)",
 				"binary(nasm)",
 				"binary(pod2man)",
@@ -869,7 +878,7 @@
 				"/usr/lib/libavfilter.so.10",
 				"/usr/lib/libavfilter.so.10.4.100",
 				"/usr/lib/libavfilter.so.11",
-				"/usr/lib/libavfilter.so.11.4.100"
+				"/usr/lib/libavfilter.so.11.14.100"
 			],
 			"name": "libavfilter",
 			"provides": [
@@ -880,6 +889,7 @@
 		"libavfilter-devel": {
 			"build-depends": [
 				"binary(clang)",
+				"binary(clang-21)",
 				"binary(makeinfo)",
 				"binary(nasm)",
 				"binary(pod2man)",
@@ -982,6 +992,7 @@
 		"libavformat": {
 			"build-depends": [
 				"binary(clang)",
+				"binary(clang-21)",
 				"binary(makeinfo)",
 				"binary(nasm)",
 				"binary(pod2man)",
@@ -1064,7 +1075,7 @@
 				"/usr/lib/libavformat.so.61",
 				"/usr/lib/libavformat.so.61.7.100",
 				"/usr/lib/libavformat.so.62",
-				"/usr/lib/libavformat.so.62.3.100"
+				"/usr/lib/libavformat.so.62.12.100"
 			],
 			"name": "libavformat",
 			"provides": [
@@ -1075,6 +1086,7 @@
 		"libavformat-devel": {
 			"build-depends": [
 				"binary(clang)",
+				"binary(clang-21)",
 				"binary(makeinfo)",
 				"binary(nasm)",
 				"binary(pod2man)",
@@ -1170,6 +1182,7 @@
 		"libavutil": {
 			"build-depends": [
 				"binary(clang)",
+				"binary(clang-21)",
 				"binary(makeinfo)",
 				"binary(nasm)",
 				"binary(pod2man)",
@@ -1243,13 +1256,14 @@
 				"soname(libva-x11.so.2(x86_64))",
 				"soname(libva.so.2(x86_64))",
 				"soname(libvdpau.so.1(x86_64))",
-				"soname(libvpl.so.2(x86_64))"
+				"soname(libvpl.so.2(x86_64))",
+				"soname(libz.so.1(x86_64))"
 			],
 			"files": [
 				"/usr/lib/libavutil.so.59",
 				"/usr/lib/libavutil.so.59.39.100",
 				"/usr/lib/libavutil.so.60",
-				"/usr/lib/libavutil.so.60.8.100"
+				"/usr/lib/libavutil.so.60.26.100"
 			],
 			"name": "libavutil",
 			"provides": [
@@ -1260,6 +1274,7 @@
 		"libavutil-devel": {
 			"build-depends": [
 				"binary(clang)",
+				"binary(clang-21)",
 				"binary(makeinfo)",
 				"binary(nasm)",
 				"binary(pod2man)",
@@ -1538,6 +1553,7 @@
 		"libpostproc": {
 			"build-depends": [
 				"binary(clang)",
+				"binary(clang-21)",
 				"binary(makeinfo)",
 				"binary(nasm)",
 				"binary(pod2man)",
@@ -1616,6 +1632,7 @@
 		"libpostproc-devel": {
 			"build-depends": [
 				"binary(clang)",
+				"binary(clang-21)",
 				"binary(makeinfo)",
 				"binary(nasm)",
 				"binary(pod2man)",
@@ -1697,6 +1714,7 @@
 		"libswresample": {
 			"build-depends": [
 				"binary(clang)",
+				"binary(clang-21)",
 				"binary(makeinfo)",
 				"binary(nasm)",
 				"binary(pod2man)",
@@ -1770,7 +1788,7 @@
 				"/usr/lib/libswresample.so.5",
 				"/usr/lib/libswresample.so.5.3.100",
 				"/usr/lib/libswresample.so.6",
-				"/usr/lib/libswresample.so.6.1.100"
+				"/usr/lib/libswresample.so.6.3.100"
 			],
 			"name": "libswresample",
 			"provides": [
@@ -1781,6 +1799,7 @@
 		"libswresample-devel": {
 			"build-depends": [
 				"binary(clang)",
+				"binary(clang-21)",
 				"binary(makeinfo)",
 				"binary(nasm)",
 				"binary(pod2man)",
@@ -1870,6 +1889,7 @@
 		"libswscale": {
 			"build-depends": [
 				"binary(clang)",
+				"binary(clang-21)",
 				"binary(makeinfo)",
 				"binary(nasm)",
 				"binary(pod2man)",
@@ -1936,13 +1956,15 @@
 				"soname(libavutil.so.59(x86_64))",
 				"soname(libavutil.so.60(x86_64))",
 				"soname(libc.so.6(x86_64))",
-				"soname(libm.so.6(x86_64))"
+				"soname(libm.so.6(x86_64))",
+				"soname(libshaderc_shared.so.1(x86_64))",
+				"soname(libz.so.1(x86_64))"
 			],
 			"files": [
 				"/usr/lib/libswscale.so.8",
 				"/usr/lib/libswscale.so.8.3.100",
 				"/usr/lib/libswscale.so.9",
-				"/usr/lib/libswscale.so.9.1.100"
+				"/usr/lib/libswscale.so.9.5.100"
 			],
 			"name": "libswscale",
 			"provides": [
@@ -1953,6 +1975,7 @@
 		"libswscale-devel": {
 			"build-depends": [
 				"binary(clang)",
+				"binary(clang-21)",
 				"binary(makeinfo)",
 				"binary(nasm)",
 				"binary(pod2man)",
@@ -2041,6 +2064,6 @@
 		}
 	},
 	"source-name": "ffmpeg",
-	"source-release": "24",
-	"source-version": "8.0.1"
+	"source-release": "25",
+	"source-version": "8.1"
 }

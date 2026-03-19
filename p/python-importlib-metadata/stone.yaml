@@ -4,16 +4,17 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : python-importlib_metadata
-version     : "8.7.0"
-release     : 1
+version     : "8.7.1"
+release     : 2
 homepage    : https://pypi.org/project/importlib_metadata
 upstreams   :
-    - https://files.pythonhosted.org/packages/source/i/importlib_metadata/importlib_metadata-8.7.0.tar.gz : d13b81ad223b890aa16c5471f2ac3056cf76c5f10f82d6f9292f0b415f389000
+    - https://pypi.debian.net/importlib-metadata/importlib_metadata-8.7.1.tar.gz : 49fef1ae6440c182052f407c8d34a68f72efc36db9ca90dc0113398f2fdde8bb
 summary     : Read metadata from Python packages
 description : |
     Library to access the metadata for a Python package.
 license     : Apache-2.0
 builddeps   :
+    - python(coherent-licensed)
     - python(setuptools-scm)
 build       : |
     %pyproject_build

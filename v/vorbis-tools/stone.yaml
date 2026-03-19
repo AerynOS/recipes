@@ -1,0 +1,32 @@
+#
+# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : vorbis-tools
+version     : "1.4.3"
+release     : 1
+upstreams   :
+    - https://ftp.osuosl.org/pub/xiph/releases/vorbis/vorbis-tools-1.4.3.tar.gz : a1fe3ddc6777bdcebf6b797e7edfe0437954b24756ffcc8c6b816b63e0460dde
+homepage    : https://www.xiph.org/vorbis/
+license     : GPL-2.0-only
+summary     : Extra tools for Ogg-Vorbis
+description : |
+    Extra tools for Ogg-Vorbis
+builddeps   :
+    - binary(bison)
+    - binary(msgfmt)
+    - pkgconfig(flac)
+    - pkgconfig(libcurl)
+    - pkgconfig(ogg)
+    - pkgconfig(speex)
+    - pkgconfig(vorbis)
+    # ogg123
+    # libao
+    # libkate
+setup       : |
+    %configure
+build       : |
+    %make
+install     : |
+    %make_install

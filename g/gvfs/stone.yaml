@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : gvfs
-version     : "1.58.2"
-release     : 20
+version     : "1.60.0"
+release     : 21
 homepage    : https://wiki.gnome.org/Projects/gvfs
 upstreams   :
-    - https://download.gnome.org/sources/gvfs/1.58/gvfs-1.58.2.tar.xz : ad9d5bf0b45caf232520df0adee51eb650200b0370680f80a350ead9d1d61ddf
+    - https://download.gnome.org/sources/gvfs/1.60/gvfs-1.60.0.tar.xz : 648273f069e92c7e3c013b92148e82c901f08044e2b3b14c6cfbd52269f6b646
 summary     : Virtual filesystem implementation for GIO
 description : |
     Virtual filesystem implementation for GIO
@@ -54,12 +54,11 @@ builddeps   :
     - docbook
     - docbook-xsl
 environment : |
-    export LDFLAGS="${LDFLAGS} -Wl,--allow-shlib-undefined"
-
     %export_docbook_catalogs
 setup       : |
     %meson \
         -Dbluray=false \
+        -Dgoogle=true \
         -Dman=true
 build       : |
     %meson_build

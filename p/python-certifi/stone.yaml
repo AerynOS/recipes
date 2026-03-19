@@ -8,11 +8,11 @@ name        : python-certifi
 #  We however modify this package so it uses the system certificates instead and not the bundled certs. Thus
 #  most updates are useless, you should just compare the version tags and if the only thing that have changed
 #  are the version string and cacert.pem file then you can skip the update.
-version     : "2025.08.03"
-release     : 2
+version     : "2026.2.25"
+release     : 3
 homepage    : https://github.com/certifi/python-certifi
 upstreams   :
-    - https://github.com/certifi/python-certifi/archive/refs/tags/2025.08.03.tar.gz : fdbe80c4c92fc99449759a62e06508667eabbdb04f1ace6010b88028de8d2c97
+    - https://github.com/certifi/python-certifi/archive/refs/tags/2026.02.25.tar.gz : 37352b989981a636a6c95a24bb057b3a877f2f78215f199b43569239b9a76fc1
 summary     : Python package for providing Mozilla's CA Bundle
 description : |
     Certifi is a carefully curated collection of Root Certificates for validating the trustworthiness of SSL certificates while verifying the identity of TLS hosts. It has been extracted from the Requests project.

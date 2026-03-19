@@ -1,0 +1,34 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"python-parameterized": {
+			"build-depends": [
+				"python(setuptools)"
+			],
+			"files": [
+				"/usr/lib/python3.11/site-packages/parameterized-0.9.0.dist-info/METADATA",
+				"/usr/lib/python3.11/site-packages/parameterized-0.9.0.dist-info/RECORD",
+				"/usr/lib/python3.11/site-packages/parameterized-0.9.0.dist-info/WHEEL",
+				"/usr/lib/python3.11/site-packages/parameterized-0.9.0.dist-info/licenses/LICENSE.txt",
+				"/usr/lib/python3.11/site-packages/parameterized-0.9.0.dist-info/top_level.txt",
+				"/usr/lib/python3.11/site-packages/parameterized/__init__.py",
+				"/usr/lib/python3.11/site-packages/parameterized/__pycache__/__init__.cpython-311.opt-1.pyc",
+				"/usr/lib/python3.11/site-packages/parameterized/__pycache__/__init__.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/parameterized/__pycache__/parameterized.cpython-311.opt-1.pyc",
+				"/usr/lib/python3.11/site-packages/parameterized/__pycache__/parameterized.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/parameterized/__pycache__/test.cpython-311.opt-1.pyc",
+				"/usr/lib/python3.11/site-packages/parameterized/__pycache__/test.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/parameterized/parameterized.py",
+				"/usr/lib/python3.11/site-packages/parameterized/test.py"
+			],
+			"name": "python-parameterized",
+			"provides": [
+				"python(parameterized)"
+			]
+		}
+	},
+	"source-name": "python-parameterized",
+	"source-release": "1",
+	"source-version": "0.9.0"
+}

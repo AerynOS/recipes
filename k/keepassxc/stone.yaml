@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : keepassxc
-version     : "2.7.11"
-release     : 7
+version     : "2.7.12"
+release     : 8
 homepage    : https://keepassxc.org/
 upstreams   :
-    - https://github.com/keepassxreboot/keepassxc/archive/refs/tags/2.7.11.tar.gz : ffde0a566d20587ef076229468631c27e62baffe0a21eb2438d374dd2e5b5148
+    - https://github.com/keepassxreboot/keepassxc/archive/refs/tags/2.7.12.tar.gz : 8a6812a6e24484af77a75bdc9cf36aaa4c5f6852c2ea664180fe6a5c0dbada6e
 summary     : Cross-platform community-driven port of Keepass password manager
 description : |
     Cross-platform community-driven port of Keepass password manager
@@ -29,15 +29,15 @@ builddeps   :
     - pkgconfig(libqrencode)
     - pkgconfig(libusb-1.0)
     - pkgconfig(minizip)
+    - pkgconfig(readline)
     - pkgconfig(xtst)
 rundeps     :
     - qt5-wayland
 setup       : |
     %cmake \
-        -DCMAKE_BUILD_TYPE=Release \
         -DKEEPASSXC_BUILD_TYPE=Release \
-        -DWITH_XC_ALL=ON \
         -DWITH_GUI_TESTS=ON \
+        -DWITH_XC_ALL=ON \
         -DWITH_XC_UPDATECHECK=OFF
 build       : |
     %cmake_build

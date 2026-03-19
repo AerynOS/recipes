@@ -8,6 +8,7 @@
 				"cmake(Qt6CorePrivate)",
 				"cmake(Qt6Multimedia)",
 				"cmake(Qt6Quick)",
+				"pkgconfig(libdmtx)",
 				"pkgconfig(libqrencode)",
 				"pkgconfig(zxing)"
 			],
@@ -19,15 +20,16 @@
 				"soname(libQt6Quick.so.6(x86_64))",
 				"soname(libZXing.so.4(x86_64))",
 				"soname(libc.so.6(x86_64))",
+				"soname(libdmtx.so.0(x86_64))",
 				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libqrencode.so.4(x86_64))",
 				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/lib/libKF6Prison.so.6",
-				"/usr/lib/libKF6Prison.so.6.23.0",
+				"/usr/lib/libKF6Prison.so.6.24.0",
 				"/usr/lib/libKF6PrisonScanner.so.6",
-				"/usr/lib/libKF6PrisonScanner.so.6.23.0",
+				"/usr/lib/libKF6PrisonScanner.so.6.24.0",
 				"/usr/lib/qt6/qml/org/kde/prison/kde-qmlmodule.version",
 				"/usr/lib/qt6/qml/org/kde/prison/libprisonquickplugin.so",
 				"/usr/lib/qt6/qml/org/kde/prison/prisonquickplugin.qmltypes",
@@ -53,6 +55,7 @@
 				"cmake(Qt6CorePrivate)",
 				"cmake(Qt6Multimedia)",
 				"cmake(Qt6Quick)",
+				"pkgconfig(libdmtx)",
 				"pkgconfig(libqrencode)",
 				"pkgconfig(zxing)"
 			],
@@ -91,6 +94,6 @@
 		}
 	},
 	"source-name": "kf6-prison",
-	"source-release": "17",
-	"source-version": "6.23.0"
+	"source-release": "18",
+	"source-version": "6.24.0"
 }

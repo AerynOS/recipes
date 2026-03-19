@@ -1,7 +1,7 @@
-From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From 3bcff82851b221fb8bddd3e085806afe4d32eb89 Mon Sep 17 00:00:00 2001
 From: Maximilian Luz <luzmaximilian@gmail.com>
 Date: Sat, 27 Feb 2021 00:45:52 +0100
-Subject: [PATCH 08/40] ath10k: Add module parameters to override board files
+Subject: [PATCH 08/41] ath10k: Add module parameters to override board files
 
 Some Surface devices, specifically the Surface Go and AMD version of the
 Surface Laptop 3 (wich both come with QCA6174 WiFi chips), work better
@@ -20,7 +20,7 @@ Patchset: ath10k
  1 file changed, 57 insertions(+)
 
 diff --git a/drivers/net/wireless/ath/ath10k/core.c b/drivers/net/wireless/ath/ath10k/core.c
-index 9ae3595fb6986..b26a39c97998b 100644
+index 9ae3595fb698..b26a39c97998 100644
 --- a/drivers/net/wireless/ath/ath10k/core.c
 +++ b/drivers/net/wireless/ath/ath10k/core.c
 @@ -41,6 +41,9 @@ static bool fw_diag_log;
@@ -115,3 +115,6 @@ index 9ae3595fb6986..b26a39c97998b 100644
  	if (ar->board_name) {
  		snprintf(filename, sizeof(filename), "%s/%s/%s",
  			 dir, ar->board_name, file);
+-- 
+2.52.0
+

@@ -4,10 +4,10 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : webkitgtk
-version     : "2.50.5"
-release     : 7
+version     : "2.52.0"
+release     : 9
 upstreams   :
-    - https://webkitgtk.org/releases/webkitgtk-2.50.5.tar.xz : 8737631bac3e9c7ad3e5208f9370e076c09d9c45b39980021ce54edadcc6f94f
+    - https://webkitgtk.org/releases/webkitgtk-2.52.0.tar.xz : b31c55f18194ac83ba08c9b93bbeffef57a7ecff7f41c874d17a9e7853dca19f
 homepage    : https://webkitgtk.org
 license     : LGPL-2.1-only
 summary     : GTK web content engine library
@@ -85,14 +85,12 @@ builddeps   :
     # TODO:
     # - flite ?
 setup       : |
-    # USE_SOUP2=OFF can be dropped in webkitgtk v2.52
     function cmake_webkitgtk() {
         %cmake \
             -DENABLE_SPEECH_SYNTHESIS=OFF \
             -DPORT=GTK \
             -DUSE_FLITE=OFF \
             -DUSE_LIBBACKTRACE=OFF \
-            -DUSE_SOUP2=OFF \
             "$@"
     }
 

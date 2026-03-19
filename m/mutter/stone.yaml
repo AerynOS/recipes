@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : mutter
-version     : "49.4"
-release     : 33
+version     : "50.0"
+release     : 34
 homepage    : https://gnome.org
 upstreams   :
-    - https://download.gnome.org/sources/mutter/49/mutter-49.4.tar.xz : c1666ec50561530be25cb88d939c2bcc2af34f01c63b8b16b82b892ee33d7855
+    - https://download.gnome.org/sources/mutter/50/mutter-50.0.tar.xz : 9870595023a9aafde4bdc11f7a8a6c475d1382ea56b369c76237bdeead72165b
 summary     : A Wayland display server and compositor library.
 description : |
     A Wayland display server and compositor library.
@@ -113,3 +113,4 @@ packages    :
             - /usr/share/glib-2.0/schemas/org.gnome.mutter.devkit.gschema.xml
             - /usr/share/icons/hicolor/*/apps/org.gnome.Mutter.Mdk*
             - /usr/lib/mutter/mutter-devkit
+            - /usr/lib/mutter*/*.gir
