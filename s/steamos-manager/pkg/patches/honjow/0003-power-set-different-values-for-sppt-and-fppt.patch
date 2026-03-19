@@ -1,0 +1,39 @@
+From 4a3097b899c450932ff8f52243f259722820eee7 Mon Sep 17 00:00:00 2001
+From: honjow <honjow311@gmail.com>
+Date: Fri, 13 Mar 2026 02:42:00 +0800
+Subject: [PATCH 03/17] power: set different values for sppt and fppt
+
+---
+ steamos-manager/src/power.rs | 15 +++++++++++++--
+ 1 file changed, 13 insertions(+), 2 deletions(-)
+
+diff --git a/steamos-manager/src/power.rs b/steamos-manager/src/power.rs
+index f36f6f3..d698295 100644
+--- a/steamos-manager/src/power.rs
++++ b/steamos-manager/src/power.rs
+@@ -547,9 +547,20 @@ impl TdpLimitManager for FirmwareAttributeLimitManager {
+             .and_then(|s| s.trim().parse::<u32>().ok())
+             .unwrap_or(0);
+ 
++        let sppt_max = fs::read_to_string(base.join(Self::SPPT_SUFFIX).join("max_value"))
++            .await
++            .ok()
++            .and_then(|s| s.trim().parse::<u32>().ok())
++            .unwrap_or(u32::MAX);
++        let fppt_max = fs::read_to_string(base.join(Self::FPPT_SUFFIX).join("max_value"))
++            .await
++            .ok()
++            .and_then(|s| s.trim().parse::<u32>().ok())
++            .unwrap_or(u32::MAX);
++
+         let spl_value = limit;
+-        let sppt_value = limit.max(sppt_min);
+-        let fppt_value = limit.max(fppt_min);
++        let sppt_value = (limit + 1).clamp(sppt_min, sppt_max);
++        let fppt_value = (limit + 2).clamp(fppt_min, fppt_max);
+ 
+         write_synced(
+             base.join(Self::SPL_SUFFIX).join("current_value"),
+-- 
+2.52.0
+
