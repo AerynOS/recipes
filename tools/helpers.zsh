@@ -1,4 +1,6 @@
 #!/usr/bin/env zsh
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
 
 autoload -U +X compinit && compinit
 autoload -U +X bashcompinit && bashcompinit

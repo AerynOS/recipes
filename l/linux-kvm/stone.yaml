@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
 name        : linux-kvm
 version     : "6.9.12"
 release     : 71
@@ -50,7 +53,7 @@ install     : |
     %install_dir %(installroot)%(libdir)/modules/${kernelVersion}
     %make CC=clang ARCH=x86_64 LLVM=1 WERROR=0 INSTALL_MOD_STRIP=1 INSTALL_MOD_PATH=%(installroot)/usr modules_install KERNELRELEASE="${kernelVersion}" mod-fw= DEPMOD=/usr/bin/true
     /usr/sbin/depmod -b %(installroot)/usr ${kernelVersion} -a
-    
+
     # TODO: Include early microcode
     LD_PRELOAD='' dracut --strip --tmpdir /tmp -N -f \
         --kmoddir %(installroot)%(libdir)/modules/${kernelVersion} --kver ${kernelVersion} --add "dash bash systemd virtiofs" \

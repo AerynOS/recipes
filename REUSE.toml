@@ -1,0 +1,58 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+version = 1
+
+# Annotate files that we cannot edit or comment.
+# We don't report the initial year for simplicity;
+# it is a valid copyright notice anyway.
+[[annotations]]
+path = ["**/manifest.*.bin"]
+SPDX-FileCopyrightText = "AerynOS Developers"
+SPDX-License-Identifier = "MPL-2.0"
+
+# Configuration files usually don't have enough logic
+# to justify a copyright. With regards of their license,
+# it would be silly to ask anyone to re-distribute a conf
+# file just because they edited it.
+# Exceptions can still be tagged though (note the absence
+# of the "override" option below).
+[[annotations]]
+path = ["*/*/pkg/**"]
+SPDX-FileCopyrightText = "NONE"
+SPDX-License-Identifier = "CC0-1.0"
+
+# Patch files are particular: REUSE doesn't easily allow to
+# track copyright and license of downstream modifications.
+# See https://codeberg.org/fsfe/reuse-tool/issues/237
+# Tagging *all patch files* with the correct copyright holder
+# (this depends on the author) and the right license
+# (this depends on the software modified) is a job on its own.
+#
+# Almost all patch files are found in the wild and pulled in by
+# packagers: they didn't write them.
+# In this case we believe the safest approach is to tag patches
+# with no copyright at all, and mark them as public domain.
+# This may not be technically true, because a patch most of the
+# times edits licensed software, but the message is clear:
+#    we don't own them.
+#
+# Developers that instead provide patches they wrote themselves
+# to AerynOS are free to add SPDX headers to the patch, claiming
+# copyright on them. The license though must match the
+# upstream's license(s).
+[[annotations]]
+path = ["**/*.patch", "**/*.diff"]
+precedence = "override"
+SPDX-FileCopyrightText = "NONE"
+SPDX-License-Identifier = "CC0-1.0"
+
+
+# FIXME: we should add SPDX headers to .jsonc files at the moment
+# of creation, but we must teach Boulder how to do that first.
+# For the time being we are going to "annotate" them here, but
+# this eventually needs to change.
+[[annotations]]
+path = ["**/manifest.*.jsonc"]
+SPDX-FileCopyrightText = "AerynOS Developers"
+SPDX-License-Identifier = "MPL-2.0"

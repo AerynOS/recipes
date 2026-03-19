@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 #
-# SPDX-FileCopyrightText: © 2023 Silke Hofstra, 2024 Serpent OS Developers
+# SPDX-FileCopyrightText: 2023 Silke Hofstra
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 #
 # SPDX-License-Identifier: MPL-2.0
-#
+
 import argparse
 import json
 import os
