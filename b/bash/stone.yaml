@@ -5,7 +5,7 @@
 #
 name        : bash
 version     : "5.3.9"
-release     : 29
+release     : 30
 homepage    : http://www.gnu.org/software/bash/bash.html
 upstreams   :
     # Use a mirror because the GNU http server is flaky AF
@@ -68,6 +68,7 @@ install     : |
     %install_file %(pkgdir)/aeryn-stateless-shell-conf.sh %(installroot)%(vendordir)/aeryn-stateless-shell-conf.sh
     %install_file %(pkgdir)/40-prompt.sh %(installroot)%(vendordir)/profile.d/40-prompt.sh
     %install_file %(pkgdir)/41-alias.sh %(installroot)%(vendordir)/profile.d/41-alias.sh
+    %install_file %(pkgdir)/50-history.sh %(installroot)%(vendordir)/profile.d/50-history.sh
 
     # let dash own this for quicker ./configure runs during boulder builds
     # ln -svf bash "%(installroot)%(bindir)/sh"
