@@ -1,4 +1,7 @@
 #!/usr/bin/env fish
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
 function __aos_repo_dir
     realpath (dirname (readlink -m (status -f)))/../
 end

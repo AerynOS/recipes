@@ -1,8 +1,6 @@
-#
-# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : edk2
 version     : "202602"
 release     : 6
@@ -65,7 +63,7 @@ build       : |
         #     -p ShellPkg/ShellPkg.dsc \
         #     -a "${_ARCH}" \
         #     ${_CC_OPTS[@]}
-        
+
         case "${_ARCH}" in
             AARCH64)
                 echo "Building ArmVirtPkg ($_ARCH) with secure boot support"
@@ -147,7 +145,7 @@ install     : |
 
     # AARCH64
     %install_file Build/ArmVirtQemu-AArch64/RELEASE_CLANGDWARF/FV/*.fd -t %(installroot)/usr/share/%(name)/aarch64/
-    
+
     # RISCV64
     %install_file Build/RiscVVirtQemu/RELEASE_CLANGDWARF/FV/*.fd -t %(installroot)/usr/share/%(name)/riscv64/
 

@@ -1,8 +1,6 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : nvidia-graphics-driver
 version     : "595.58.03"
 release     : 39
@@ -148,13 +146,13 @@ install     : |
     # Remove man pages for binaries we don't ship
     rm -v %(installroot)%(mandir)/man1/nvidia-installer* \
           %(installroot)%(mandir)/man1/nvidia-xconfig*
-    
+
     # Lists NVIDIA driver files for container runtimes like nvidia-container-toolkit
     %install_file extracted/sandboxutils-filelist.json -t %(installroot)%(datadir)/nvidia/files.d/
 
     # Finally, documentation files for nvidia-settings
     %install_file extracted/nvidia-application-profiles-%(version)-key-documentation %(installroot)%(datadir)/nvidia/nvidia-application-profiles-%(version)-key-documentation
-    
+
     %install_file extracted/nvidia-application-profiles-%(version)-rc %(installroot)%(datadir)/nvidia/nvidia-application-profiles-%(version)-rc
     # Taken from https://raw.githubusercontent.com/Frogging-Family/nvidia-all/refs/heads/master/system/limit-vram-usage, check that file for updates
     # TODO: This might not actually work according to profiles.html, open an upstream issue to enable that

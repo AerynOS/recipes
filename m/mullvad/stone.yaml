@@ -1,8 +1,6 @@
-#
-# SPDX-FileCopyrightText: © 2025- AerynOS Developers
-#
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : mullvad
 version     : "2025.14"
 release     : 5
@@ -42,4 +40,3 @@ install     : |
 
     %install_file dist-assets/linux/mullvad-daemon.service %(installroot)%(libdir)/systemd/system/mullvad-daemon.service
     sed -i 's|/opt/Mullvad.*VPN|/usr/share/mullvad|g' %(installroot)%(libdir)/systemd/system/mullvad-daemon.service
-

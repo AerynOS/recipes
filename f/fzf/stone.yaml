@@ -1,8 +1,6 @@
-#
-# SPDX-FileCopyrightText: © 2025- AerynOS Developers
-#
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : fzf
 version     : "0.70.0"
 release     : 4
@@ -37,5 +35,3 @@ install     : |
 
     %install_file doc/fzf.txt %(installroot)%(datadir)/vim/vimfiles/doc/fzf.txt
     %install_file plugin/fzf.vim %(installroot)%(datadir)/vim/vimfiles/plugin/fzf.vim
-
-

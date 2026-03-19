@@ -1,8 +1,6 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#                
+
 name        : dmidecode
 version     : "3.7"
 release     : 3
@@ -12,9 +10,9 @@ upstreams   :
 summary     : Dmidecode reports information about your system's hardware
 description : |
     Dmidecode reports information about your system's hardware as described in your system BIOS according to the SMBIOS/DMI standard (see a sample output).
-   
+
     This information typically includes system manufacturer, model name, serial number, BIOS version, asset tag as well as a lot of other details of varying level of interest and reliability depending on the manufacturer.
-    
+
     This will often include usage status for the CPU sockets, expansion slots (e.g. AGP, PCI, ISA) and memory module slots, and the list of I/O ports (e.g. serial, parallel, USB).
 license     : GPL2-or-later
 build       : |

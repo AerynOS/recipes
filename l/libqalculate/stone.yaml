@@ -1,8 +1,6 @@
-#
-# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : libqalculate
 version     : "5.10.0"
 release     : 10
@@ -41,7 +39,7 @@ packages    :
         paths:
             - /usr/bin/qalc
             - /usr/share/man/man1/qalc*
-    
+
     - "%(name)-devel":
         rundeps:
             - pkgconfig(gmp)

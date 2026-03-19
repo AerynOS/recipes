@@ -1,8 +1,6 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : steam
 version     : "1.0.0.85"
 release     : 25
@@ -54,4 +52,3 @@ install     : |
 
     # blank steamdeps because apt-get
     ln -sf true %(installroot)%(bindir)/steamdeps
-

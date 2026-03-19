@@ -1,8 +1,6 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : opengamepadui-installer
 version     : "20240730"
 release     : 3
@@ -21,7 +19,7 @@ builddeps   :
     - binary(wget)
     - sysbinary(setcap)
     - soname(libfontconfig.so.1(x86_64))
-rundeps     : 
+rundeps     :
     - binary(dd)
     - binary(glxinfo)
     - binary(pv)

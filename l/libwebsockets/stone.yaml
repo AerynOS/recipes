@@ -1,8 +1,6 @@
-#
-# SPDX-FileCopyrightText: © 2025- AerynOS Developers
-#
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : libwebsockets
 version     : "4.5.5"
 release     : 6
@@ -27,7 +25,7 @@ builddeps   :
 setup       : |
     # Ensure openssl.cnf can be found in %(vendordir)
     %patch %(pkgdir)/stateless-openssl.cnf-location.patch
-    
+
     %cmake \
         -DLWS_WITH_LIBUV=ON
 build       : |

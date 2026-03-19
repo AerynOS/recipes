@@ -1,8 +1,6 @@
-#
-# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : kf6-kdesu
 version     : "6.24.0"
 release     : 10
@@ -37,7 +35,7 @@ packages    :
     - "%(name)":
         rundeps:
             - binary(sudo)
-    
+
     - "%(name)-devel":
         rundeps:
             - cmake(KF6Pty)

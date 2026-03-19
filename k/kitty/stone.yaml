@@ -1,8 +1,6 @@
-#
-# SPDX-FileCopyrightText: © 2025- AerynOS Developers
-#
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : kitty
 version     : "0.46.2"
 release     : 7
@@ -57,4 +55,3 @@ install     : |
 
     %install_dir %(installroot)%(datadir)/licenses/%(name)
     %install_file LICENSE %(installroot)%(datadir)/licenses/%(name)/LICENSE
-

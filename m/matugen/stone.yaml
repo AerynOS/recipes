@@ -1,8 +1,6 @@
-#
-# SPDX-FileCopyrightText: © 2025- AerynOS Developers
-#
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : matugen
 version     : "3.1.0"
 release     : 1
@@ -26,4 +24,3 @@ build       : |
     cargo build --release --locked
 install     : |
     install -Dm0755 target/release/matugen %(installroot)/usr/bin/matugen
-

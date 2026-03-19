@@ -1,8 +1,6 @@
-#
-# SPDX-FileCopyrightText: © 2025- AerynOS Developers
-#
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : heaptrack
 version     : "1.5.0"
 release     : 1
@@ -18,7 +16,7 @@ description : |
     - find memory leaks, i.e. locations that allocate memory which is never deallocated
     - find allocation hotspots, i.e. code locations that trigger a lot of memory allocation calls
     - find temporary allocations, which are allocations that are directly followed by their deallocation
-license     : 
+license     :
     - Apache-2.0
     - BSD-3-Clause
     - BSL-1.0

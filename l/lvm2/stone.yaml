@@ -1,8 +1,6 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : lvm2
 version     : "2.03.39"
 release     : 15
@@ -59,7 +57,7 @@ setup       : |
         --with-libexecdir=%(libexecdir) \
         --with-modulesdir=/usr/lib/modules
 build       : |
-    %make 
+    %make
 install     : |
     %make_install \
         install_systemd_generators \

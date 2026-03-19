@@ -1,8 +1,6 @@
-#
-# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : webkitgtk
 version     : "2.52.1"
 release     : 10
@@ -197,7 +195,7 @@ packages    :
     - webkitgtk60:
         summary: WebKitGTK for GTK 4
         description: |
-            WebKitGTK is the port of the WebKit web rendering engine to the	
+            WebKitGTK is the port of the WebKit web rendering engine to the
             GTK platform. This package contains WebKitGTK for GTK 4.
         rundeps:
             - binary(bwrap)

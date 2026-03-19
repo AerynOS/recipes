@@ -1,8 +1,6 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : bitwarden
 version     : "2026.2.1"
 release     : 3
@@ -36,7 +34,7 @@ build       : |
         --package desktop_napi \
         --package desktop_proxy \
         --package process_isolation
-    
+
     mv %(cargo_target_dir)/libdesktop_napi.so napi/desktop_napi.node
     popd
 

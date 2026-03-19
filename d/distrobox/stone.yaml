@@ -1,8 +1,6 @@
-#
-# SPDX-FileCopyrightText: © 2025- AerynOS Developers
-#
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : distrobox
 version     : "1.8.2.4"
 release     : 3
@@ -18,4 +16,3 @@ rundeps     :
 install     : |
   ./install --prefix %(installroot)%(prefix)
   find docs -name "*.md" -exec %install_file -t %(installroot)%(docdir)/%(name)/ {} +
-

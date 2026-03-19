@@ -1,8 +1,6 @@
-#
-# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : sratom
 version     : "0.6.22"
 release     : 3
@@ -12,7 +10,7 @@ upstreams   :
 summary     : Library for serialising LV2 atoms
 description : |
     Library for serialising LV2 atoms
-license     : 
+license     :
     - 0BSD
     - BSD-3-Clause
     - ISC
@@ -25,4 +23,3 @@ build       : |
     %meson_build
 install     : |
     %meson_install
-
