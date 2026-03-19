@@ -5,7 +5,7 @@
 #
 name        : gnome-shell
 version     : "50.0"
-release     : 46
+release     : 47
 homepage    : https://gitlab.gnome.org/GNOME/gnome-shell
 upstreams   :
     - https://download.gnome.org/sources/gnome-shell/50/gnome-shell-50.0.tar.xz : 85952fbd4929cfe613b876b2237e0d13464b0c2788b8a9867fb51c260255b0e3
@@ -69,6 +69,7 @@ rundeps     :
     - ibus
     - iso-codes
     - libnma
+    - libnma-gtk4
     - librsvg
     - shared-mime-info
     - webkitgtk60 # For captive portals
