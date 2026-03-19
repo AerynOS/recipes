@@ -10,7 +10,7 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 jobs:
-  Checks:
+  Recipes:
     runs-on: ubuntu-latest
     steps:
     - name: Check out repository code
@@ -21,3 +21,13 @@ jobs:
         sudo apt-get update
         sudo apt-get install python3-ruamel.yaml
         tools/CI/package_checks.py --base=origin/${{ github.event.pull_request.base.ref }}
+  Repository:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      - name: Verify REUSE compliance
+        uses: fsfe/reuse-action@v6.0.0
+        continue-on-error: true
