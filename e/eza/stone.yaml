@@ -1,8 +1,6 @@
-#
-# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : eza
 version     : "0.20.19"
 release     : 4
@@ -10,10 +8,10 @@ homepage    : https://github.com/eza-community/eza
 upstreams   :
     - https://github.com/eza-community/eza/archive/refs/tags/v0.20.19.tar.gz : b749e7b04c173f33cf15f0022d103bb59e79e7d2a88ec00721f2be0316cc9ef9
 license     : EUPL-1.2
-summary     : A modern alternative to ls 
+summary     : A modern alternative to ls
 description : |
-    eza is a modern alternative for the venerable file-listing 
-    command-line program ls that ships with Unix and Linux operating systems, 
+    eza is a modern alternative for the venerable file-listing
+    command-line program ls that ships with Unix and Linux operating systems,
     giving it more features and better defaults.
 builddeps   :
     - binary(cargo)
@@ -38,7 +36,6 @@ install     : |
     for FILENAME in eza.1 eza_colors-explanation.5 eza_colors.5; do
         %install_file man/${FILENAME} %(installroot)%(mandir)/man${FILENAME##*.}/${FILENAME}
     done
-    
+
 check       : |
     %cargo_test
-

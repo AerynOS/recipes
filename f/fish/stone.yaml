@@ -1,8 +1,6 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : fish
 version     : "4.6.0"
 release     : 21
@@ -36,7 +34,7 @@ install     : |
     # (less work in terms of having env-var dropins and what not)
     %install_dir %(installroot)%(vendordir)/profile.d/
     %install_file %(pkgdir)/99-exec-fish-as-interactive-shell.conf %(installroot)%(vendordir)/profile.d/
-    
+
     %tmpfiles "# Fish shell directories"
     %tmpfiles "d /etc/fish/completions 0755 root root -"
     %tmpfiles "d /etc/fish/conf.d 0755 root root -"

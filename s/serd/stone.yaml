@@ -1,8 +1,6 @@
-#
-# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : serd
 version     : "0.32.8"
 release     : 4
@@ -12,7 +10,7 @@ upstreams   :
 summary     : A lightweight C library for reading and writing RDF
 description : |
     A lightweight C library for reading and writing RDF
-license     : 
+license     :
     - 0BSD
     - BSD-3-Clause
     - ISC
@@ -26,4 +24,3 @@ build       : |
     %meson_build
 install     : |
     %meson_install
-

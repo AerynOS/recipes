@@ -1,8 +1,6 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : wireplumber
 version     : "0.5.14"
 release     : 13
@@ -52,12 +50,12 @@ packages    :
             - /usr/lib/wireplumber-0.5/libwireplumber-*.so
             - /usr/lib/libwireplumber-0.5.so.*
             - /usr/lib/girepository-1.0/Wp-0.5.typelib
-    
+
     # Moss upgrade issue
     - "%(name)":
         rundeps:
             - "%(name)-libs"
-    
+
     - "%(name)-devel":
         paths:
             # Remove once https://github.com/AerynOS/os-tools/pull/491 is merged

@@ -1,8 +1,6 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : linux-firmware
 version     : "20260309"
 release     : 38
@@ -27,7 +25,7 @@ setup       : |
     for c in "${_reverts[@]}"; do
         echo Reverting $(git log --oneline -1 "${c}")
         git revert -n "${c}"
-    done  
+    done
 install     : |
     make install-zst FIRMWAREDIR=/usr/lib/firmware DESTDIR=%(installroot)
 

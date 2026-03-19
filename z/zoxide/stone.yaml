@@ -1,8 +1,6 @@
-#
-# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : zoxide
 version     : "0.9.9"
 release     : 6
@@ -31,4 +29,3 @@ install     : |
     cp man/man1/*.1 %(installroot)%(mandir)/man1/.
 check       : |
     %cargo_test
-

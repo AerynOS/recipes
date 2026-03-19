@@ -1,8 +1,6 @@
-#
-# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : haruna
 version     : "1.7.1"
 release     : 13
@@ -64,6 +62,6 @@ install     : |
     patchelf --remove-rpath %(installroot)/%(bindir)/haruna
 
     # Cleaning icons with non-standard resolution
-    for i in 44 150 310; do	
+    for i in 44 150 310; do
         rm -rf %(installroot)/usr/share/icons/hicolor/"${i}x${i}"
     done

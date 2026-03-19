@@ -1,8 +1,6 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : libnma
 version     : "1.10.6"
 release     : 5
@@ -31,7 +29,7 @@ builddeps   :
 setup       : |
     %meson \
         -Dgtk_doc=false \
-        -Dlibnma_gtk4=true 
+        -Dlibnma_gtk4=true
 build       : |
     %meson_build
 install     : |

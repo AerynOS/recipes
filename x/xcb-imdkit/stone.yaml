@@ -1,8 +1,6 @@
-#
-# SPDX-FileCopyrightText: © 2025- AerynOS Developers
-#
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : xcb-imdkit
 version     : "1.0.9"
 release     : 1
@@ -13,7 +11,7 @@ summary     : input method development support for xcb
 description : |
     An implementation of xim protocol in xcb, comparing with the implementation of IMDkit with Xlib,
     and xim inside Xlib, it has less memory foot print, better performance, and safer on malformed client
-license     : 
+license     :
     - LGPL-2.1-only
 builddeps   :
     - cmake(ECM)

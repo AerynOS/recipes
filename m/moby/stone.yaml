@@ -1,8 +1,6 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : moby
 version     : "29.2.1"
 release     : 16
@@ -35,7 +33,7 @@ build      : |
 
     export GOFLAGS="-buildmode=pie -trimpath -mod=readonly -modcacherw -ldflags=-linkmode=external"
     export CGO_CFLAGS="${CFLAGS}"
-    export CGO_LDFLAGS="${CGO_LDFLAGS}"    
+    export CGO_LDFLAGS="${CGO_LDFLAGS}"
 
     # Git commit corresponding to the version tag
     export GITCOMMIT="$(git ls-remote https://github.com/moby/moby.git refs/tags/docker-v%(version)^{} |awk '{print $1}')"

@@ -1,8 +1,6 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : f2fs-tools
 version     : "1.16.0"
 release     : 4
@@ -22,6 +20,6 @@ setup      : |
     %patch %(pkgdir)/add-.libs-sharedlib-search-dir-for-mkfs-target.patch
     %autogen --disable-static
 build       : |
-    %make 
+    %make
 install     : |
     %make_install

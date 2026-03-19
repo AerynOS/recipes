@@ -1,8 +1,6 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : pciutils
 version     : "3.14.0"
 release     : 6
@@ -34,7 +32,7 @@ install     : |
                   CC="$CC" \
                   IDSDIR=/usr/share/hwdata \
                   install-lib
-    
+
     # pci.ids are handled by hwdata
     rm -rf %(installroot)/usr/share/hwdata
 tuning      :

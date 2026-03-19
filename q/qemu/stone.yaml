@@ -1,8 +1,6 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : qemu
 version     : "10.2.2"
 release     : 30
@@ -123,7 +121,7 @@ install     : |
     rm -rv %(installroot)/usr/share/qemu/firmware/ \
            %(installroot)/usr/share/qemu/*.fd \
            %(installroot)/usr/share/qemu/edk2-licenses.txt
-    
+
     # Virtual packages
     for i in %(name)-base %(name)-desktop %(name)-full; do
         %install_dir %(installroot)%(docdir)/${i}/

@@ -1,8 +1,6 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : linux-tools
 version     : "6.18.14"
 release     : 26
@@ -91,7 +89,7 @@ install     : |
 
     %make_install ${_hyperv_args}
     %tmpfiles "d /var/lib/hyperv 0700 root root -"
-    mv %(installroot)/%(tmpfilesdir)/%(name).conf %(installroot)/%(tmpfilesdir)/hyperv-daemons.conf 
+    mv %(installroot)/%(tmpfilesdir)/%(name).conf %(installroot)/%(tmpfilesdir)/hyperv-daemons.conf
     %install_file %(pkgdir)/hyperv-*.rules -t %(installroot)/%(udevrulesdir)
     %install_file %(pkgdir)/hyperv-*.service -t %(installroot)/%(libdir)/systemd/system
 

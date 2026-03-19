@@ -1,8 +1,6 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : jpegxl
 version     : "0.11.2"
 release     : 9
@@ -72,13 +70,13 @@ packages    :
             - /usr/lib/pkgconfig/libjxl*.pc
             - /usr/lib/libjxl*.a
             - /usr/lib/libjxl*.so
-    
+
     - "jxl-pixbuf-loader":
         summary: JPEG-XL image loader for GTK+ applications
         description: JPEG-XL image loader for GTK+ applications
         paths:
             - /usr/share/doc/jxl-pixbuf-loader/README
-    
+
     - "libjxl-utils":
         summary: Utilities for manipulating JPEG XL images
         description: Utilities for manipulating JPEG XL images

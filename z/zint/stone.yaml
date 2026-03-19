@@ -1,8 +1,6 @@
-#
-# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : zint
 version     : "2.16.0"
 release     : 1
@@ -32,7 +30,7 @@ setup       : |
     %patch %(pkgdir)/zint-shared.patch
 
     %cmake \
-        -DZINT_QT6=ON   
+        -DZINT_QT6=ON
 build       : |
     %cmake_build
 install     : |
@@ -44,7 +42,7 @@ packages    :
     - "%(name)-qt":
         summary: Zint Barcode Studio
         description: |
-            Zint Barcode Studio is a Qt-based GUI which allows desktop users to generate 
+            Zint Barcode Studio is a Qt-based GUI which allows desktop users to generate
             barcodes which can then be embedded in documents or HTML pages.
         paths:
             - /usr/bin/zint-qt
@@ -55,7 +53,7 @@ packages    :
     - "%(name)-qt-devel":
         summary: Zint Barcode Studio - Development Files
         description: |
-            Zint Barcode Studio is a Qt-based GUI which allows desktop users to generate 
+            Zint Barcode Studio is a Qt-based GUI which allows desktop users to generate
             barcodes which can then be embedded in documents or HTML pages.
         rundeps:
             - "%(name)-devel"

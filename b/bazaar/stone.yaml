@@ -1,18 +1,16 @@
-#
-# SPDX-FileCopyrightText: © 2025- AerynOS Developers
-#
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : bazaar
 version     : "0.7.10"
 release     : 1
 homepage    : https://github.com/kolunmi/bazaar
 upstreams   :
     - git|https://github.com/kolunmi/bazaar.git : 97d488552ae4d5e81ad1cdf9a7df5edb67b56fed
-summary     : New App Store for GNOME 
+summary     : New App Store for GNOME
 description : |
     Bazaar is a new app store for GNOME with a focus on discovering and installing applications and add-ons from Flatpak remotes, particularly Flathub.
-license     : 
+license     :
     - GPL-3.0-or-later
 builddeps   :
     - binary(meson)

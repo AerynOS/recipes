@@ -1,8 +1,6 @@
-#
-# SPDX-FileCopyrightText: © 2025- AerynOS Developers
-#
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : yubikey-manager
 version     : "5.9.0"
 release     : 2
@@ -46,4 +44,3 @@ install     : |
     _YKMAN_COMPLETE=bash_source %(installroot)/usr/bin/ykman | %install_file /dev/stdin %(installroot)%(bashcompletionsdir)/ykman
     _YKMAN_COMPLETE=zsh_source %(installroot)/usr/bin/ykman | %install_file /dev/stdin %(installroot)%(zshcompletionsdir)/_ykman
     _YKMAN_COMPLETE=fish_source %(installroot)/usr/bin/ykman | %install_file /dev/stdin %(installroot)%(fishcompletionsdir)/ykman.fish
-

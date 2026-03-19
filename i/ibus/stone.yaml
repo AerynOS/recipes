@@ -1,8 +1,6 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : ibus
 version     : "1.5.33"
 release     : 10
@@ -88,7 +86,7 @@ packages    :
             - "%(name)-panel"
             - "%(name)-setup"
             - iso-codes
-    
+
     - "%(name)-devel":
         paths:
             - /usr/share/gettext/its/

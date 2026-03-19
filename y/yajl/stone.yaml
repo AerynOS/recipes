@@ -1,8 +1,6 @@
-#
-# SPDX-FileCopyrightText: © 2025- AerynOS Developers
-#
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : yajl
 version     : "2.1.0+git.5e3a785"
 release     : 1
@@ -26,7 +24,7 @@ setup       : |
 
     %cmake \
         -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
-        -Wno-dev       
+        -Wno-dev
 build       : |
     %cmake_build
 install     : |

@@ -1,8 +1,6 @@
-#
-# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : libmaxminddb
 version     : "1.13.3"
 release     : 3
@@ -18,7 +16,7 @@ setup       : |
     sed -i "s|VERSION \${MAXMINDDB_SOVERSION})|VERSION \${MAXMINDDB_SOVERSION} SOVERSION 0)|" CMakeLists.txt
 
     %patch %(pkgdir)/0001-Fix-pkgconfig.patch
-    
+
     %cmake \
         -DBUILD_SHARED_LIBS=ON
 build       : |

@@ -1,8 +1,6 @@
-#
-# SPDX-FileCopyrightText: © 2026 AerynOS Developers
-#
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : wpa_supplicant
 version     : "2.11"
 release     : 1
@@ -64,7 +62,7 @@ install     : |
 
     # Fix /etc and /run
     %install_file %(pkgdir)/wpa_supplicant.tmpfiles %(installroot)%(tmpfilesdir)/%(name).conf
-    
+
     # Install NetworkManager config
     %install_file %(pkgdir)/nm_wpa_supplicant.conf %(installroot)%(libdir)/NetworkManager/conf.d/wifi_backend.conf
 packages    :

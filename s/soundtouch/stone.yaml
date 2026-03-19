@@ -1,17 +1,15 @@
-#
-# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : soundtouch
 version     : "2.4.0"
 release     : 4
 homepage    : https://www.surina.net/soundtouch/
 upstreams   :
     - https://codeberg.org/soundtouch/soundtouch/archive/2.4.0.tar.gz : 3dda3c9ab1e287f15028c010a66ab7145fa855dfa62763538f341e70b4d10abd
-summary     : SoundTouch Audio Processing Library 
+summary     : SoundTouch Audio Processing Library
 description : |
-    SoundTouch Audio Processing Library 
+    SoundTouch Audio Processing Library
 license     : LGPL-2.1-or-later
 setup       : |
     %cmake \

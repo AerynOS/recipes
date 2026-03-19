@@ -1,8 +1,6 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : shadow
 version     : "4.18.0"
 release     : 7
@@ -45,7 +43,7 @@ install     : |
     # Stateless
     %install_dir %(installroot)%(vendordir)
     mv %(installroot)/etc/login.defs %(installroot)%(vendordir)
-    
+
     # Stateless PAM
     %install_dir %(installroot)/%(vendordir)
     mv %(installroot)/etc/pam.d %(installroot)/%(vendordir)/
