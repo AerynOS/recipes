@@ -1,0 +1,193 @@
+diff --git a/internal/providers/desktopapplications/files.go b/internal/providers/desktopapplications/files.go
+index 9ab5600..421ba7c 100644
+--- a/internal/providers/desktopapplications/files.go
++++ b/internal/providers/desktopapplications/files.go
+@@ -28,18 +28,32 @@ var (
+ 	dirs          []string
+ )
+ 
++// fileSnapshot maps an absolute .desktop path to its last-seen mtime.
++// Used by the polling watcher to detect additions, removals, and modifications.
++type fileSnapshot map[string]time.Time
++
++var (
++	snapshot   fileSnapshot
++	snapshotMu sync.Mutex
++)
++
+ func loadFiles() {
+ 	start := time.Now()
++	poll := usePoll()
+ 	setVars()
+ 	conf := fastwalk.Config{
+ 		Follow: true,
+ 	}
+ 
+-	var err error
+-	watcher, err = fsnotify.NewWatcher()
+-	if err != nil {
+-		slog.Error(Name, "watcher_init", err)
+-		return
++	if poll {
++		snapshot = make(fileSnapshot)
++	} else {
++		var err error
++		watcher, err = fsnotify.NewWatcher()
++		if err != nil {
++			slog.Error(Name, "watcher_init", err)
++			return
++		}
+ 	}
+ 
+ 	for _, root := range dirs {
+@@ -53,12 +67,20 @@ func loadFiles() {
+ 		}
+ 	}
+ 
+-	fileCount := len(files)
+-	slog.Info(Name, "files", fileCount, "time", time.Since(start))
++	slog.Info(Name, "files", len(files), "time", time.Since(start))
+ 
+-	slog.Info(Name, "watcher_dirs", len(watchedDirs))
+-	go watchFiles()
+-	slog.Info(Name, "watcher", "started")
++	if poll {
++		for _, root := range dirs {
++			collectSnapshot(root, snapshot)
++		}
++		slog.Info(Name, "poll_interval", effectivePollInterval())
++		go pollFiles()
++		slog.Info(Name, "watcher", "polling")
++	} else {
++		slog.Info(Name, "watcher_dirs", len(watchedDirs))
++		go watchFiles()
++		slog.Info(Name, "watcher", "inotify")
++	}
+ }
+ 
+ func setVars() {
+@@ -128,6 +150,9 @@ func trackSymlinks(filename string) {
+ }
+ 
+ func addDirToWatcher(dir string, watchedDirs map[string]bool) {
++	if watcher == nil {
++		return
++	}
+ 	watcherDirsMu.Lock()
+ 	defer watcherDirsMu.Unlock()
+ 	if watchedDirs[dir] {
+@@ -334,3 +359,94 @@ func fileExists(path string) bool {
+ 	_, err := os.Stat(path)
+ 	return err == nil
+ }
++
++// mossIsActive reports whether the system is managed by the moss package
++// manager. Moss atomically replaces /usr on every transaction, which
++// invalidates inotify watches bound to the old directory inodes.
++func mossIsActive() bool {
++	_, err := os.Stat("/.moss/db/state")
++	return err == nil
++}
++
++// usePoll reports whether the polling watcher should be used instead of
++// inotify. Polling is forced when poll_interval > 0, or auto-selected when
++// a moss installation is detected.
++func usePoll() bool {
++	if config.PollInterval > 0 {
++		return true
++	}
++	return mossIsActive()
++}
++
++// effectivePollInterval returns the poll interval to use in seconds.
++func effectivePollInterval() int {
++	if config.PollInterval > 0 {
++		return config.PollInterval
++	}
++	return 3
++}
++
++// collectSnapshot walks root and records the mtime of every .desktop file
++// found. Uses filepath.WalkDir which is path-based rather than inode-based,
++// so it correctly reflects the current filesystem state after a moss
++// transaction replaces the /usr directory tree atomically.
++func collectSnapshot(root string, snap fileSnapshot) {
++	filepath.WalkDir(root, func(path string, d fs.DirEntry, err error) error {
++		if err != nil || d.IsDir() || filepath.Ext(path) != ".desktop" {
++			return nil
++		}
++		info, err := d.Info()
++		if err != nil {
++			return nil
++		}
++		snap[path] = info.ModTime()
++		return nil
++	})
++}
++
++// pollFiles replaces watchFiles on systems where inotify is unreliable.
++// It runs for the lifetime of the provider, periodically re-scanning all
++// XDG application dirs by path and diffing against the previous snapshot
++// to detect additions, removals, and modifications.
++func pollFiles() {
++	interval := time.Duration(effectivePollInterval()) * time.Second
++
++	ticker := time.NewTicker(interval)
++	defer ticker.Stop()
++
++	for range ticker.C {
++		newSnap := make(fileSnapshot)
++		for _, root := range dirs {
++			if _, err := os.Stat(root); err != nil {
++				continue
++			}
++			collectSnapshot(root, newSnap)
++		}
++
++		changed := false
++
++		snapshotMu.Lock()
++		for path, newMtime := range newSnap {
++			oldMtime, existed := snapshot[path]
++			if !existed {
++				handleFileCreate(path)
++				changed = true
++			} else if newMtime != oldMtime {
++				handleFileUpdate(path)
++				changed = true
++			}
++		}
++		for path := range snapshot {
++			if _, stillExists := newSnap[path]; !stillExists {
++				handleFileRemove(path)
++				changed = true
++			}
++		}
++		snapshot = newSnap
++		snapshotMu.Unlock()
++
++		if changed {
++			handlers.ProviderUpdated <- Name
++		}
++	}
++}
+diff --git a/internal/providers/desktopapplications/setup.go b/internal/providers/desktopapplications/setup.go
+index 80d9f71..aeaf611 100644
+--- a/internal/providers/desktopapplications/setup.go
++++ b/internal/providers/desktopapplications/setup.go
+@@ -62,6 +62,7 @@ type Config struct {
+ 	WMIntegration                  bool              `koanf:"wm_integration" desc:"Moves apps to the workspace where they were launched at automatically. Currently Niri only." default:"false"`
+ 	ScoreOpenWindows               bool              `koanf:"score_open_windows" desc:"Apps that have open windows, get their score halved. Requires window_integration." default:"true"`
+ 	SingleInstanceApps             []string          `koanf:"single_instance_apps" desc:"application IDs that don't ever spawn a new window. " default:"[\"discord\"]"`
++	PollInterval                   int               `koanf:"poll_interval" desc:"seconds between desktop file rescans; 0 means auto-detect. " default:"0"`
+ }
+ 
+ func loadpinned() []string {
+@@ -135,6 +136,7 @@ func LoadConfig() {
+ 		Aliases:                 map[string]string{},
+ 		WindowIntegration:       false,
+ 		SingleInstanceApps:      []string{"discord"},
++		PollInterval:            0,
+ 	}
+ 
+ 	common.LoadConfig(Name, config)
