@@ -1,0 +1,60 @@
+From 321d631b0ba913a0725a673c77c26fe1517f1a21 Mon Sep 17 00:00:00 2001
+From: honjow <honjow311@gmail.com>
+Date: Fri, 13 Mar 2026 02:47:58 +0800
+Subject: [PATCH 09/17] hardware: add tests for exact match priority and
+ wildcard fallback
+
+---
+ steamos-manager/src/hardware.rs | 36 +++++++++++++++++++++++++++++++++
+ 1 file changed, 36 insertions(+)
+
+diff --git a/steamos-manager/src/hardware.rs b/steamos-manager/src/hardware.rs
+index 1bbbdfd..fa675f2 100644
+--- a/steamos-manager/src/hardware.rs
++++ b/steamos-manager/src/hardware.rs
+@@ -936,6 +936,42 @@ pub mod test {
+         assert!(!DeviceConfig::dmi_glob_match("????", "ZOTAC"));
+     }
+ 
++    #[tokio::test]
++    async fn test_exact_match_priority_over_wildcard_across_files() {
++        let _h = setup_board(
++            "Micro-Star International Co., Ltd.\n", 
++            "MS-1T52\n", 
++            "Claw 8 AI+ A2VM\n"
++        ).await.unwrap();
++
++        // This test verifies that existing MSI Claw config takes priority over any generic config
++        let (device, variant) = device_variant().await.unwrap();
++        
++        // Should match exact config from existing msi-claw-series.toml instead of generic
++        // This proves cross-config exact matching priority works
++        assert_eq!(device, "claw8_a2vm");
++        assert_eq!(variant, "Claw 8 AI+ A2VM");
++    }
++
++    #[tokio::test]
++    async fn test_fallback_to_wildcard_when_no_exact_match() {
++        let _h = setup_board(
++            "Unknown Vendor\n",
++            "Unknown Board\n",
++            "Unknown Product\n" 
++        ).await.unwrap();
++
++        // No need to setup configs - use existing ones in data/devices/
++        // This tests true fallback behavior with real config files
++        
++        let (device, variant) = device_variant().await.unwrap();
++        
++        // Should fallback to wildcard matching when no exact match exists
++        // Should match generic.toml since no other config will match "Unknown Vendor"
++        assert_eq!(device, "generic");
++        assert_eq!(variant, "Generic");
++    }
++
+     #[test]
+     fn fan_control_state_roundtrip() {
+         enum_roundtrip!(FanControlState {
+-- 
+2.52.0
+

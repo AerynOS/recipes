@@ -1,0 +1,50 @@
+#
+# SPDX-FileCopyrightText: © 2026- AerynOS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : steamos-manager
+version     : "26.0.1"
+release     : 1
+homepage    : https://gitlab.steamos.cloud/holo/steamos-manager
+upstreams   :
+    - https://gitlab.steamos.cloud/holo/steamos-manager/-/archive/v26.0.1/steamos-manager-v26.0.1.tar.gz : 519c104492bb6dcc0424c8bac584f05ae41779f5a7c7a31e7cc5362e7f832ccb
+summary     : SteamOS Manager is a system daemon that aims to abstract Steam's interactions with the operating system
+description : |
+    SteamOS Manager is a system daemon that aims to abstract Steam's interactions
+    with the operating system. The goal is to have a standardized interface so that
+    SteamOS specific features in the Steam client, e.g. TDP management, can be
+    exposed in any Linux distro that provides an implementation of this DBus API.
+    This version has been patched with additional compatibility with powerstation.
+license     : MIT
+networking  : true
+rundeps     :
+    - binary(gamescope-session-plus)
+    - binary(powerstation)
+builddeps   :
+    - binary(cmake)
+    - binary(make)
+    - binary(strip)
+    - pkgconfig(gobject-2.0)
+    - pkgconfig(libudev)
+    - pkgconfig(speech-dispatcher)
+    - soname(libspeechd.so.2(x86_64))
+setup       : |
+    if [[ -f %(pkgdir)/patches/series ]]
+    then
+        # This retains patch order while removings blank lines
+        # and lines starting with a # character (with any number of preceding blanks)
+        # which should make the patch series file nicer to maintain due to comment support
+        PATCHES=($(sed -E -e '/^\s*$/d' -e '/^[[:space:]]*#.*$/d' %(pkgdir)/patches/series))
+        for p in "${PATCHES[@]}"
+        do
+            %patch "%(pkgdir)/patches/${p}"
+        done
+    fi
+    %cargo_fetch
+build       : |
+    %cargo_build
+install     : |
+    %make_install
+    rm %(installroot)%(libdir)/systemd/user/orca.service # not used by anyone apparently, steamOS specific(?)
+    #rm %(installroot)%(libdir)/systemd/system/sddm.service.d/reset-oneshot-boot.conf # steamOS specific

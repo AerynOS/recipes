@@ -1,0 +1,39 @@
+From f66503b36c14dd2bf16f81e9fbde2575cf224c3a Mon Sep 17 00:00:00 2001
+From: Matthew Schwartz <matthew.schwartz@linux.dev>
+Date: Fri, 13 Mar 2026 02:46:05 +0800
+Subject: [PATCH 06/17] power: gracefully handle missing FPPT
+
+---
+ steamos-manager/src/power.rs | 16 ++++++++++------
+ 1 file changed, 10 insertions(+), 6 deletions(-)
+
+diff --git a/steamos-manager/src/power.rs b/steamos-manager/src/power.rs
+index f36f6f3..dcb1301 100644
+--- a/steamos-manager/src/power.rs
++++ b/steamos-manager/src/power.rs
+@@ -563,12 +563,16 @@ impl TdpLimitManager for FirmwareAttributeLimitManager {
+         )
+         .await
+         .inspect_err(|message| error!("Error writing to sysfs file: {message}"))?;
+-        write_synced(
+-            base.join(Self::FPPT_SUFFIX).join("current_value"),
+-            fppt_value.to_string().as_bytes(),
+-        )
+-        .await
+-        .inspect_err(|message| error!("Error writing to sysfs file: {message}"))
++
++        // Only write to FPPT if the path exists
++        let fppt_path = base.join(Self::FPPT_SUFFIX).join("current_value");
++        if try_exists(&fppt_path).await.unwrap_or(false) {
++            write_synced(fppt_path, fppt_value.to_string().as_bytes())
++                .await
++                .inspect_err(|message| error!("Error writing to sysfs file: {message}"))?;
++        }
++
++        Ok(())
+     }
+ 
+     async fn get_tdp_limit_range(&self) -> Result<RangeInclusive<u32>> {
+-- 
+2.52.0
+

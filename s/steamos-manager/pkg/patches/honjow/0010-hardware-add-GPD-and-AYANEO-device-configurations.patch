@@ -1,0 +1,32 @@
+From 771978c53e92a9afb3d4c570fee09d212eaf3bb2 Mon Sep 17 00:00:00 2001
+From: honjow <honjow311@gmail.com>
+Date: Fri, 13 Mar 2026 02:47:58 +0800
+Subject: [PATCH 10/17] hardware: add GPD and AYANEO device configurations
+
+---
+ data/devices/generic.toml | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
+
+diff --git a/data/devices/generic.toml b/data/devices/generic.toml
+index 6326bae..6457725 100644
+--- a/data/devices/generic.toml
++++ b/data/devices/generic.toml
+@@ -1,3 +1,15 @@
++[[device]]
++dmi.sys_vendor = "GPD"
++dmi.board_name = "*"
++device = "gpd_generic"
++variant = "GPD_Generic"
++
++[[device]]
++dmi.sys_vendor = "AYANEO"
++dmi.board_name = "*"
++device = "ayaneo_generic"
++variant = "AYANEO_Generic"
++
+ [[device]]
+ dmi.sys_vendor = "*"
+ dmi.board_name = "*"
+-- 
+2.52.0
+

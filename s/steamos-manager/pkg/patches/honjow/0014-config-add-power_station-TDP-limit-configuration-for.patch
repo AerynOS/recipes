@@ -1,0 +1,236 @@
+From cf5207ab84c718812f93a01b72e1189b481c0c32 Mon Sep 17 00:00:00 2001
+From: honjow <honjow311@gmail.com>
+Date: Fri, 13 Mar 2026 02:47:58 +0800
+Subject: [PATCH 14/17] config: add power_station TDP limit configuration for
+ multiple devices
+
+---
+ data/devices/anbernic-win600.toml | 3 +++
+ data/devices/aokzoe-a1.toml       | 3 +++
+ data/devices/ayaneo-2.toml        | 3 +++
+ data/devices/ayaneo-2021.toml     | 3 +++
+ data/devices/ayaneo-3.toml        | 3 +++
+ data/devices/ayaneo-air.toml      | 3 +++
+ data/devices/ayaneo-flip.toml     | 3 +++
+ data/devices/ayaneo-kun.toml      | 3 +++
+ data/devices/ayaneo-next.toml     | 3 +++
+ data/devices/ayaneo-slide.toml    | 3 +++
+ data/devices/ayn-loki.toml        | 3 +++
+ data/devices/gpd-win.toml         | 3 +++
+ data/devices/onexplayer-2.toml    | 3 +++
+ data/devices/onexplayer-f1.toml   | 3 +++
+ data/devices/onexplayer-g1a.toml  | 3 +++
+ data/devices/orangepi-neo.toml    | 3 +++
+ 16 files changed, 48 insertions(+)
+
+diff --git a/data/devices/anbernic-win600.toml b/data/devices/anbernic-win600.toml
+index 834092a..60dce65 100644
+--- a/data/devices/anbernic-win600.toml
++++ b/data/devices/anbernic-win600.toml
+@@ -11,5 +11,8 @@ driver = "amdgpu"
+ [gpu_power_profile]
+ driver = "amdgpu"
+ 
++[tdp_limit]
++method = "power_station"
++
+ [inputplumber]
+ target_devices = ["deck-uhid", "keyboard", "mouse"]
+diff --git a/data/devices/aokzoe-a1.toml b/data/devices/aokzoe-a1.toml
+index c2e27ff..68c25f8 100644
+--- a/data/devices/aokzoe-a1.toml
++++ b/data/devices/aokzoe-a1.toml
+@@ -25,5 +25,8 @@ driver = "amdgpu"
+ [gpu_power_profile]
+ driver = "amdgpu"
+ 
++[tdp_limit]
++method = "power_station"
++
+ [inputplumber]
+ target_devices = ["deck-uhid", "keyboard", "mouse"]
+diff --git a/data/devices/ayaneo-2.toml b/data/devices/ayaneo-2.toml
+index dae6e60..8b2b205 100644
+--- a/data/devices/ayaneo-2.toml
++++ b/data/devices/ayaneo-2.toml
+@@ -39,5 +39,8 @@ driver = "amdgpu"
+ [gpu_power_profile]
+ driver = "amdgpu"
+ 
++[tdp_limit]
++method = "power_station"
++
+ [inputplumber]
+ target_devices = ["deck-uhid", "keyboard", "mouse"]
+diff --git a/data/devices/ayaneo-2021.toml b/data/devices/ayaneo-2021.toml
+index d53808e..8e831dd 100644
+--- a/data/devices/ayaneo-2021.toml
++++ b/data/devices/ayaneo-2021.toml
+@@ -39,5 +39,8 @@ driver = "amdgpu"
+ [gpu_power_profile]
+ driver = "amdgpu"
+ 
++[tdp_limit]
++method = "power_station"
++
+ [inputplumber]
+ target_devices = ["deck-uhid", "keyboard", "mouse"]
+diff --git a/data/devices/ayaneo-3.toml b/data/devices/ayaneo-3.toml
+index 526b72c..a7b9412 100644
+--- a/data/devices/ayaneo-3.toml
++++ b/data/devices/ayaneo-3.toml
+@@ -11,5 +11,8 @@ driver = "amdgpu"
+ [gpu_power_profile]
+ driver = "amdgpu"
+ 
++[tdp_limit]
++method = "power_station"
++
+ [inputplumber]
+ target_devices = ["deck-uhid", "keyboard", "mouse"]
+diff --git a/data/devices/ayaneo-air.toml b/data/devices/ayaneo-air.toml
+index 496570f..fe3dc0a 100644
+--- a/data/devices/ayaneo-air.toml
++++ b/data/devices/ayaneo-air.toml
+@@ -48,5 +48,8 @@ driver = "amdgpu"
+ [gpu_power_profile]
+ driver = "amdgpu"
+ 
++[tdp_limit]
++method = "power_station"
++
+ [inputplumber]
+ target_devices = ["deck-uhid", "keyboard", "mouse"]
+diff --git a/data/devices/ayaneo-flip.toml b/data/devices/ayaneo-flip.toml
+index 7d07d40..3054dcf 100644
+--- a/data/devices/ayaneo-flip.toml
++++ b/data/devices/ayaneo-flip.toml
+@@ -25,5 +25,8 @@ driver = "amdgpu"
+ [gpu_power_profile]
+ driver = "amdgpu"
+ 
++[tdp_limit]
++method = "power_station"
++
+ [inputplumber]
+ target_devices = ["deck-uhid", "keyboard", "mouse"]
+diff --git a/data/devices/ayaneo-kun.toml b/data/devices/ayaneo-kun.toml
+index b306d7f..c7fbf0b 100644
+--- a/data/devices/ayaneo-kun.toml
++++ b/data/devices/ayaneo-kun.toml
+@@ -11,5 +11,8 @@ driver = "amdgpu"
+ [gpu_power_profile]
+ driver = "amdgpu"
+ 
++[tdp_limit]
++method = "power_station"
++
+ [inputplumber]
+ target_devices = ["deck-uhid", "keyboard", "mouse"]
+diff --git a/data/devices/ayaneo-next.toml b/data/devices/ayaneo-next.toml
+index 1e57ded..1be6f1c 100644
+--- a/data/devices/ayaneo-next.toml
++++ b/data/devices/ayaneo-next.toml
+@@ -53,5 +53,8 @@ driver = "amdgpu"
+ [gpu_power_profile]
+ driver = "amdgpu"
+ 
++[tdp_limit]
++method = "power_station"
++
+ [inputplumber]
+ target_devices = ["deck-uhid", "keyboard", "mouse"]
+diff --git a/data/devices/ayaneo-slide.toml b/data/devices/ayaneo-slide.toml
+index 49d9afc..5d0d0cb 100644
+--- a/data/devices/ayaneo-slide.toml
++++ b/data/devices/ayaneo-slide.toml
+@@ -11,5 +11,8 @@ driver = "amdgpu"
+ [gpu_power_profile]
+ driver = "amdgpu"
+ 
++[tdp_limit]
++method = "power_station"
++
+ [inputplumber]
+ target_devices = ["deck-uhid", "keyboard", "mouse"]
+diff --git a/data/devices/ayn-loki.toml b/data/devices/ayn-loki.toml
+index 1351f35..ee3399e 100644
+--- a/data/devices/ayn-loki.toml
++++ b/data/devices/ayn-loki.toml
+@@ -25,5 +25,8 @@ driver = "amdgpu"
+ [gpu_power_profile]
+ driver = "amdgpu"
+ 
++[tdp_limit]
++method = "power_station"
++
+ [inputplumber]
+ target_devices = ["deck-uhid", "keyboard", "mouse"]
+diff --git a/data/devices/gpd-win.toml b/data/devices/gpd-win.toml
+index 5273e79..3e9e471 100644
+--- a/data/devices/gpd-win.toml
++++ b/data/devices/gpd-win.toml
+@@ -39,5 +39,8 @@ driver = "amdgpu"
+ [gpu_power_profile]
+ driver = "amdgpu"
+ 
++[tdp_limit]
++method = "power_station"
++
+ [inputplumber]
+ target_devices = ["deck-uhid", "keyboard", "mouse"]
+diff --git a/data/devices/onexplayer-2.toml b/data/devices/onexplayer-2.toml
+index fd00b91..a7ffa08 100644
+--- a/data/devices/onexplayer-2.toml
++++ b/data/devices/onexplayer-2.toml
+@@ -25,5 +25,8 @@ driver = "amdgpu"
+ [gpu_power_profile]
+ driver = "amdgpu"
+ 
++[tdp_limit]
++method = "power_station"
++
+ [inputplumber]
+ target_devices = ["deck-uhid", "keyboard", "mouse"]
+diff --git a/data/devices/onexplayer-f1.toml b/data/devices/onexplayer-f1.toml
+index d68fb06..4c62921 100644
+--- a/data/devices/onexplayer-f1.toml
++++ b/data/devices/onexplayer-f1.toml
+@@ -18,5 +18,8 @@ driver = "amdgpu"
+ [gpu_power_profile]
+ driver = "amdgpu"
+ 
++[tdp_limit]
++method = "power_station"
++
+ [inputplumber]
+ target_devices = ["deck-uhid", "keyboard", "mouse"]
+diff --git a/data/devices/onexplayer-g1a.toml b/data/devices/onexplayer-g1a.toml
+index 928c55f..cf3be86 100644
+--- a/data/devices/onexplayer-g1a.toml
++++ b/data/devices/onexplayer-g1a.toml
+@@ -11,5 +11,8 @@ driver = "amdgpu"
+ [gpu_power_profile]
+ driver = "amdgpu"
+ 
++[tdp_limit]
++method = "power_station"
++
+ [inputplumber]
+ target_devices = ["deck-uhid", "keyboard", "mouse"]
+diff --git a/data/devices/orangepi-neo.toml b/data/devices/orangepi-neo.toml
+index 25c2dfa..65a431b 100644
+--- a/data/devices/orangepi-neo.toml
++++ b/data/devices/orangepi-neo.toml
+@@ -11,5 +11,8 @@ driver = "amdgpu"
+ [gpu_power_profile]
+ driver = "amdgpu"
+ 
++[tdp_limit]
++method = "power_station"
++
+ [inputplumber]
+ target_devices = ["deck-uhid", "keyboard", "mouse"]
+-- 
+2.52.0
+
