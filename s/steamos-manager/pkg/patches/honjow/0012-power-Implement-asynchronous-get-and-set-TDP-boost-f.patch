@@ -1,0 +1,63 @@
+From d5daba3ca6e3bfb3c1eefd788e1102d375a968f3 Mon Sep 17 00:00:00 2001
+From: honjow <honjow311@gmail.com>
+Date: Fri, 13 Mar 2026 02:47:58 +0800
+Subject: [PATCH 12/17] power: Implement asynchronous get and set TDP boost
+ functionality
+
+- Added `get_max_boost` and `set_tdp_boost` asynchronous methods
+- Call `set_tdp_boost` when setting TDP limits to apply the maximum boost value
+---
+ steamos-manager/src/power.rs | 27 +++++++++++++++------------
+ 1 file changed, 15 insertions(+), 12 deletions(-)
+
+diff --git a/steamos-manager/src/power.rs b/steamos-manager/src/power.rs
+index 1963b77..b96e358 100644
+--- a/steamos-manager/src/power.rs
++++ b/steamos-manager/src/power.rs
+@@ -888,17 +888,17 @@ impl PowerStationTdpLimitManager {
+         Ok(max_tdp.round() as u32)
+     }
+ 
+-    // async fn get_max_boost(&self) -> Result<u32> {
+-    //     let max_boost = self
+-    //         .get_tdp_property("MaxBoost", Self::DBUS_TDP_INTERFACE)
+-    //         .await?;
+-    //     Ok(max_boost.round() as u32)
+-    // }
+-
+-    // async fn set_tdp_boost(&self, boost: u32) -> Result<()> {
+-    //     self.set_tdp_property(Self::DBUS_TDP_INTERFACE, "Boost", boost)
+-    //         .await
+-    // }
++    async fn get_max_boost(&self) -> Result<u32> {
++        let max_boost = self
++            .get_tdp_property("MaxBoost", Self::DBUS_TDP_INTERFACE)
++            .await?;
++        Ok(max_boost.round() as u32)
++    }
++
++    async fn set_tdp_boost(&self, boost: u32) -> Result<()> {
++        self.set_tdp_property(Self::DBUS_TDP_INTERFACE, "Boost", boost)
++            .await
++    }
+ }
+ 
+ #[async_trait]
+@@ -921,10 +921,13 @@ impl TdpLimitManager for PowerStationTdpLimitManager {
+             limit,
+             range
+         );
++        let max_boost = self.get_max_boost().await?;
+ 
+         // Use the common method to set the TDP property
+         self.set_tdp_property(Self::DBUS_TDP_INTERFACE, "TDP", limit)
+-            .await
++            .await?;
++        self.set_tdp_boost(max_boost).await?;
++        Ok(())
+     }
+ 
+     // Implementation of the required get_tdp_limit_range method
+-- 
+2.52.0
+
