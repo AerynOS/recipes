@@ -4,8 +4,8 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : gcc
-version     : "15.2.0+git.6bdd48e5"
-release     : 19
+version     : "15.2.0+git.be9710b7"
+release     : 20
 summary     : GNU C++ standard library and compiler
 license     : GPL-3.0-or-later
 homepage    : https://gcc.gnu.org/
@@ -15,7 +15,7 @@ upstreams   :
     # Use the github mirror since the official git hosting is unreliable and slow
     - git|https://github.com/gcc-mirror/gcc:
         # Should be the latest commit on the releases/gcc-15 branch that isn't a bump to the date
-        ref: 6bdd48e54e9eda9e3642e5e3b01e01ab0549cba1
+        ref: be9710b7e1448770fb2a6488333ad547ec918f79
 builddeps   :
     - binary(bison)
     - binary(cargo)
@@ -153,14 +153,16 @@ install     : |
     # Clang provides c++ on Aeryn
     rm -v %(installroot)%(bindir)/c++ %(installroot)%(bindir)/%(host_platform)-c++
 
-    # Make x86_64-solus-linux a target alias of x86_64-aerynos-linux
+    # Make x86_64-solus-linux a target alias of x86_64-aerynos-linux, and add compat targets for common x86 targets
     pushd %(installroot)/%(bindir)
-    for i in g++ gcc gcc-${major_version} gcc-ar gcc-nm gcc-ranlib gccrs gfortran ; do
-        ln -sv %(host_platform)-${i} x86_64-solus-linux-${i}
+    for compat in x86_64-solus-linux x86_64-linux-gnu x86_64-pc-linux-gnu; do
+        for i in g++ gcc gcc-${major_version} gcc-ar gcc-nm gcc-ranlib gccrs gfortran ; do
+            ln -sv %(host_platform)-${i} ${compat}-${i}
+        done
+        ln -srv %(installroot)/usr/include/c++/${major_version}/%(host_platform) %(installroot)/usr/include/c++/${major_version}/${compat}
+        ln -srv %(installroot)/usr/lib/gcc/%(host_platform) %(installroot)/usr/lib/gcc/${compat}
     done
     popd
-    ln -srv %(installroot)/usr/include/c++/${major_version}/%(host_platform) %(installroot)/usr/include/c++/${major_version}/x86_64-solus-linux
-    ln -srv %(installroot)/usr/lib/gcc/%(host_platform) %(installroot)/usr/lib/gcc/x86_64-solus-linux
 
     # TODO: Remove once we can remove gcc-devel and gcc-32bit-devel from the index
     mkdir -p %(installroot)/usr/share/doc/replace/
@@ -185,8 +187,8 @@ packages    :
             - /usr/lib32/*.spec
             - /usr/lib32/libasan*
             - /usr/lib32/libubsan*
-            - /usr/lib/gcc/*-linux/*/32/*.a
-            - /usr/lib/gcc/*-linux/*/32/*.o
+            - /usr/lib/gcc/*-linux*/*/32/*.a
+            - /usr/lib/gcc/*-linux*/*/32/*.o
         rundeps:
             - libgcc-32bit-static
             - libgomp-32bit
@@ -230,7 +232,7 @@ packages    :
         summary: GCC shared support library - static lib
         description: GCC shared support library - static lib
         paths:
-            - /usr/lib/gcc/x86_64*-linux/*/libgcc*.a
+            - /usr/lib/gcc/x86_64*-linux*/*/libgcc*.a
         rundeps:
             - libgcc
 
@@ -244,7 +246,7 @@ packages    :
         summary: GCC shared support library - 32bit lib
         description: GCC shared support library - 32bit lib
         paths:
-            - /usr/lib/gcc/x86_64*-linux/*/32/libgcc*.a
+            - /usr/lib/gcc/x86_64*-linux*/*/32/libgcc*.a
         rundeps:
             - libgcc-32bit
             - libgcc-static
@@ -403,7 +405,7 @@ packages    :
         description: GCC __float128 shared support library - devel
         paths:
             - /usr/lib/libquadmath*.so
-            - /usr/lib/gcc/*-linux/*/include/quadmath*
+            - /usr/lib/gcc/*-linux*/*/include/quadmath*
         rundeps:
             - libquadmath
 
@@ -504,8 +506,8 @@ packages    :
         description: C++ support for GCC
         paths:
             - /usr/bin/*g++
-            - /usr/lib/gcc/*-linux/*/cc1plus
-            - /usr/lib/gcc/*-linux/*/g++-mapper-server
+            - /usr/lib/gcc/*-linux*/*/cc1plus
+            - /usr/lib/gcc/*-linux*/*/g++-mapper-server
             - /usr/share/man/*/g++*
         rundeps:
             - binary(gcc)
@@ -525,7 +527,7 @@ packages    :
         description: COBOL support for GCC
         paths:
             - /usr/bin/*gcob*
-            - /usr/lib/gcc/*-linux/*/cobol1
+            - /usr/lib/gcc/*-linux*/*/cobol1
             - /usr/lib/libgcobol.spec
             - /usr/share/gcobol
             - /usr/share/man/man1/gcobol.1*
@@ -541,9 +543,9 @@ packages    :
         paths:
             - /usr/bin/*fortran*
             - /usr/lib/*fortran*.spec
-            - /usr/lib/gcc/*-linux/*/f951
-            - /usr/lib/gcc/*-linux/*/finclude/*
-            - /usr/lib/gcc/*-linux/*/include/*Fortran*.h
+            - /usr/lib/gcc/*-linux*/*/f951
+            - /usr/lib/gcc/*-linux*/*/finclude/*
+            - /usr/lib/gcc/*-linux*/*/include/*Fortran*.h
             - /usr/share/info/gfortran.info*
             - /usr/share/man/*/*fortran*
         rundeps:
@@ -554,7 +556,7 @@ packages    :
     - "gfortran-32bit":
         paths:
             - /usr/lib32/*fortran*.spec
-            - /usr/lib/gcc/*-linux/*/32/finclude/*
+            - /usr/lib/gcc/*-linux*/*/32/finclude/*
         rundeps:
             - gfortran
             - libgfortran-32bit

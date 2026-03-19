@@ -39,6 +39,8 @@
 			"files": [
 				"/usr/bin/g++",
 				"/usr/bin/x86_64-aerynos-linux-g++",
+				"/usr/bin/x86_64-linux-gnu-g++",
+				"/usr/bin/x86_64-pc-linux-gnu-g++",
 				"/usr/bin/x86_64-solus-linux-g++",
 				"/usr/lib/gcc/x86_64-aerynos-linux/15/cc1plus",
 				"/usr/lib/gcc/x86_64-aerynos-linux/15/g++-mapper-server",
@@ -48,6 +50,8 @@
 			"provides": [
 				"binary(g++)",
 				"binary(x86_64-aerynos-linux-g++)",
+				"binary(x86_64-linux-gnu-g++)",
+				"binary(x86_64-pc-linux-gnu-g++)",
 				"binary(x86_64-solus-linux-g++)"
 			]
 		},
@@ -131,6 +135,16 @@
 				"/usr/bin/x86_64-aerynos-linux-gcc-ar",
 				"/usr/bin/x86_64-aerynos-linux-gcc-nm",
 				"/usr/bin/x86_64-aerynos-linux-gcc-ranlib",
+				"/usr/bin/x86_64-linux-gnu-gcc",
+				"/usr/bin/x86_64-linux-gnu-gcc-15",
+				"/usr/bin/x86_64-linux-gnu-gcc-ar",
+				"/usr/bin/x86_64-linux-gnu-gcc-nm",
+				"/usr/bin/x86_64-linux-gnu-gcc-ranlib",
+				"/usr/bin/x86_64-pc-linux-gnu-gcc",
+				"/usr/bin/x86_64-pc-linux-gnu-gcc-15",
+				"/usr/bin/x86_64-pc-linux-gnu-gcc-ar",
+				"/usr/bin/x86_64-pc-linux-gnu-gcc-nm",
+				"/usr/bin/x86_64-pc-linux-gnu-gcc-ranlib",
 				"/usr/bin/x86_64-solus-linux-gcc",
 				"/usr/bin/x86_64-solus-linux-gcc-15",
 				"/usr/bin/x86_64-solus-linux-gcc-ar",
@@ -880,6 +894,8 @@
 				"/usr/lib/gcc/x86_64-aerynos-linux/15/plugin/libcp1plugin.so",
 				"/usr/lib/gcc/x86_64-aerynos-linux/15/plugin/libcp1plugin.so.0",
 				"/usr/lib/gcc/x86_64-aerynos-linux/15/plugin/libcp1plugin.so.0.0.0",
+				"/usr/lib/gcc/x86_64-linux-gnu",
+				"/usr/lib/gcc/x86_64-pc-linux-gnu",
 				"/usr/lib/gcc/x86_64-solus-linux",
 				"/usr/lib/libasan.a",
 				"/usr/lib/libasan.so",
@@ -985,6 +1001,16 @@
 				"binary(x86_64-aerynos-linux-gcc-ar)",
 				"binary(x86_64-aerynos-linux-gcc-nm)",
 				"binary(x86_64-aerynos-linux-gcc-ranlib)",
+				"binary(x86_64-linux-gnu-gcc)",
+				"binary(x86_64-linux-gnu-gcc-15)",
+				"binary(x86_64-linux-gnu-gcc-ar)",
+				"binary(x86_64-linux-gnu-gcc-nm)",
+				"binary(x86_64-linux-gnu-gcc-ranlib)",
+				"binary(x86_64-pc-linux-gnu-gcc)",
+				"binary(x86_64-pc-linux-gnu-gcc-15)",
+				"binary(x86_64-pc-linux-gnu-gcc-ar)",
+				"binary(x86_64-pc-linux-gnu-gcc-nm)",
+				"binary(x86_64-pc-linux-gnu-gcc-ranlib)",
 				"binary(x86_64-solus-linux-gcc)",
 				"binary(x86_64-solus-linux-gcc-15)",
 				"binary(x86_64-solus-linux-gcc-ar)",
@@ -1156,6 +1182,8 @@
 			"files": [
 				"/usr/bin/gccrs",
 				"/usr/bin/x86_64-aerynos-linux-gccrs",
+				"/usr/bin/x86_64-linux-gnu-gccrs",
+				"/usr/bin/x86_64-pc-linux-gnu-gccrs",
 				"/usr/bin/x86_64-solus-linux-gccrs",
 				"/usr/lib/gcc/x86_64-aerynos-linux/15/crab1"
 			],
@@ -1163,6 +1191,8 @@
 			"provides": [
 				"binary(gccrs)",
 				"binary(x86_64-aerynos-linux-gccrs)",
+				"binary(x86_64-linux-gnu-gccrs)",
+				"binary(x86_64-pc-linux-gnu-gccrs)",
 				"binary(x86_64-solus-linux-gccrs)"
 			]
 		},
@@ -1258,6 +1288,8 @@
 			"files": [
 				"/usr/bin/gfortran",
 				"/usr/bin/x86_64-aerynos-linux-gfortran",
+				"/usr/bin/x86_64-linux-gnu-gfortran",
+				"/usr/bin/x86_64-pc-linux-gnu-gfortran",
 				"/usr/bin/x86_64-solus-linux-gfortran",
 				"/usr/lib/gcc/x86_64-aerynos-linux/15/f951",
 				"/usr/lib/gcc/x86_64-aerynos-linux/15/finclude/ieee_arithmetic.mod",
@@ -1280,6 +1312,8 @@
 			"provides": [
 				"binary(gfortran)",
 				"binary(x86_64-aerynos-linux-gfortran)",
+				"binary(x86_64-linux-gnu-gfortran)",
+				"binary(x86_64-pc-linux-gnu-gfortran)",
 				"binary(x86_64-solus-linux-gfortran)"
 			]
 		},
@@ -3370,6 +3404,8 @@
 				"/usr/include/c++/15/x86_64-aerynos-linux/bits/stdtr1c++.h",
 				"/usr/include/c++/15/x86_64-aerynos-linux/bits/time_members.h",
 				"/usr/include/c++/15/x86_64-aerynos-linux/ext/opt_random.h",
+				"/usr/include/c++/15/x86_64-linux-gnu",
+				"/usr/include/c++/15/x86_64-pc-linux-gnu",
 				"/usr/include/c++/15/x86_64-solus-linux",
 				"/usr/lib/libstdc++.so"
 			],
@@ -3408,6 +3444,6 @@
 		}
 	},
 	"source-name": "gcc",
-	"source-release": "19",
-	"source-version": "15.2.0+git.6bdd48e5"
+	"source-release": "20",
+	"source-version": "15.2.0+git.be9710b7"
 }
