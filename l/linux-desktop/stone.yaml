@@ -5,11 +5,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : linux-desktop
-version     : "6.18.18"
-release     : 135
+version     : "6.18.19"
+release     : 136
 homepage    : https://kernel.org/
 upstreams   :
-    - https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.18.18.tar.xz : f4855f382c1b735c84072bdef36db5bcd5dc7b0c37e42f5104317149a0a486ef
+    - https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.18.19.tar.xz : eaaf78271cd07c68ad9c4c9a70c72718b33abbd716239d82bac96b1751eb090c
 summary     : The Linux Kernel for desktop systems
 description : |
     The Linux Kernel for desktop systems
@@ -67,6 +67,7 @@ builddeps   :
 packages    :
     - "%(name)-devel":
         paths:
+            - /usr/lib/modules/*/build
             - /usr/src
 environment : |
     # Maximize ccache efficiency as well as make the build fully reproducible, except for the initrd which needs a timestamp to be signed
