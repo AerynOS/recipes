@@ -15,7 +15,7 @@
 			],
 			"files": [
 				"/usr/lib/libmpc.so.3",
-				"/usr/lib/libmpc.so.3.3.1",
+				"/usr/lib/libmpc.so.3.4.0",
 				"/usr/share/info/mpc.info"
 			],
 			"name": "mpc",
@@ -29,16 +29,22 @@
 				"pkgconfig(mpfr)"
 			],
 			"depends": [
-				"mpc"
+				"mpc",
+				"pkgconfig(gmp)",
+				"pkgconfig(mpfr)"
 			],
 			"files": [
 				"/usr/include/mpc.h",
-				"/usr/lib/libmpc.so"
+				"/usr/lib/libmpc.so",
+				"/usr/lib/pkgconfig/mpc.pc"
 			],
-			"name": "mpc-devel"
+			"name": "mpc-devel",
+			"provides": [
+				"pkgconfig(mpc)"
+			]
 		}
 	},
 	"source-name": "mpc",
-	"source-release": "3",
-	"source-version": "1.3.1"
+	"source-release": "4",
+	"source-version": "1.4.0"
 }
