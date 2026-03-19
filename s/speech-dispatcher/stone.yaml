@@ -1,0 +1,52 @@
+#
+# SPDX-FileCopyrightText: © 2026- AerynOS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : speech-dispatcher
+version     : "0.12.1"
+release     : 1
+homepage    : http://www.freebsoft.org/speechd
+upstreams   :
+    - https://github.com/brailcom/speechd/releases/download/0.12.1/speech-dispatcher-0.12.1.tar.gz : b14a5238d287d2dcce4dd42bbd66ca65fa228e7e683708267f7b34036f7ba4b4
+summary     : High-level device independent layer for speech synthesis interface
+description : |
+    High-level device independent layer for speech synthesis interface
+license     :
+    - BSD-2-Clause
+    - GPL-2.0-or-later
+    - GPL-3.0-or-later
+    - LGPL-2.0-or-later
+    - LGPL-2.1-or-later
+packages    :
+    - "libspeechd":
+        paths:
+            - /usr/lib/libspeechd*so*
+    - "libspeechd-devel":
+        paths:
+            - /usr/include
+            - /usr/lib/pkgconfig
+builddeps   :
+    - binary(autoreconf)
+    - binary(msgfmt)
+    - binary(tar)
+    - pkgconfig(dotconf)
+    - pkgconfig(glib-2.0)
+    - pkgconfig(sndfile)
+setup       : |
+    %patch %(pkgdir)/0001-Support-a-stateless-configuration.patch
+    %reconfigure --disable-static \
+    --libexecdir=%(libdir)/speech-dispatcher/ \
+    --with-ibmtts=no --with-kali=no --with-baratinoo=no \
+    --with-voxin=no --without-flite
+build       : |
+    %make
+install     : |
+    %make_install
+    rm %(installroot)%(vendordir)/speech-dispatcher/modules/cicero.conf
+    rm %(installroot)%(vendordir)/speech-dispatcher/modules/espeak.conf
+    rm %(installroot)%(vendordir)/speech-dispatcher/modules/espeak-mbrola-generic.conf
+    rm %(installroot)%(vendordir)/speech-dispatcher/modules/flite.conf
+    rm %(installroot)%(libdir)/speech-dispatcher/speech-dispatcher-modules/sd_cicero
+
+    sed -i 's|includedir=.*|includedir=${prefix}/include/speech-dispatcher|g' "%(installroot)%(libdir)/pkgconfig/speech-dispatcher.pc"
