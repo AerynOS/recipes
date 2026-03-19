@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : wayland
-version     : "1.24.0"
-release     : 8
+version     : "1.25.0"
+release     : 9
 homepage    : https://wayland.freedesktop.org
 upstreams   :
-    - https://gitlab.freedesktop.org/wayland/wayland/-/releases/1.24.0/downloads/wayland-1.24.0.tar.xz : 82892487a01ad67b334eca83b54317a7c86a03a89cfadacfef5211f11a5d0536
+    - https://gitlab.freedesktop.org/wayland/wayland/-/releases/1.25.0/downloads/wayland-1.25.0.tar.xz : c065f040afdff3177680600f249727e41a1afc22fccf27222f15f5306faa1f03
 summary     : Modern protocol which replaces X11
 description : |
     Wayland is a replacement for the X11 window system protocol and architecture with the aim to be easier to develop, extend, and maintain.
@@ -16,10 +16,15 @@ description : |
     Wayland is the language (protocol) that applications can use to talk to a display server in order to make themselves visible and get input from the user (a person). A Wayland server is called a "compositor". Applications are Wayland clients.
 license     : MIT
 builddeps   :
+    - binary(dot)
+    - binary(doxygen)
     - binary(nm)
+    - binary(xmlto)
+    - binary(xsltproc)
     - pkgconfig32(expat)
     - pkgconfig32(libffi)
     - pkgconfig32(libxml-2.0)
+    # mdbook for docs
 emul32      : true
 setup       : |
     %meson \
