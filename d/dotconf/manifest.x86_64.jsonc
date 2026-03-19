@@ -1,0 +1,86 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"dotconf": {
+			"depends": [
+				"soname(libc.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/lib/libdotconf.so.0",
+				"/usr/lib/libdotconf.so.0.0.1",
+				"/usr/share/doc/dotconf/dotconf-api.txt",
+				"/usr/share/doc/dotconf/dotconf-features.txt",
+				"/usr/share/doc/dotconf/examples/README",
+				"/usr/share/doc/dotconf/examples/argdouble/Makefile",
+				"/usr/share/doc/dotconf/examples/argdouble/argdouble.c",
+				"/usr/share/doc/dotconf/examples/argdouble/argdouble.conf",
+				"/usr/share/doc/dotconf/examples/argdouble/output",
+				"/usr/share/doc/dotconf/examples/caseinsensitive/Makefile",
+				"/usr/share/doc/dotconf/examples/caseinsensitive/caseinsensitive.c",
+				"/usr/share/doc/dotconf/examples/caseinsensitive/caseinsensitive.conf",
+				"/usr/share/doc/dotconf/examples/caseinsensitive/output",
+				"/usr/share/doc/dotconf/examples/context/Makefile",
+				"/usr/share/doc/dotconf/examples/context/context.c",
+				"/usr/share/doc/dotconf/examples/context/context.conf",
+				"/usr/share/doc/dotconf/examples/context/output",
+				"/usr/share/doc/dotconf/examples/duplicates/Makefile",
+				"/usr/share/doc/dotconf/examples/duplicates/duplicate.c",
+				"/usr/share/doc/dotconf/examples/duplicates/first_module.c",
+				"/usr/share/doc/dotconf/examples/duplicates/output",
+				"/usr/share/doc/dotconf/examples/duplicates/sample.conf",
+				"/usr/share/doc/dotconf/examples/duplicates/second_module.c",
+				"/usr/share/doc/dotconf/examples/errorhandler/Makefile",
+				"/usr/share/doc/dotconf/examples/errorhandler/errorhandler.c",
+				"/usr/share/doc/dotconf/examples/errorhandler/errorhandler.conf",
+				"/usr/share/doc/dotconf/examples/errorhandler/output",
+				"/usr/share/doc/dotconf/examples/fallback/Makefile",
+				"/usr/share/doc/dotconf/examples/fallback/fallback.c",
+				"/usr/share/doc/dotconf/examples/fallback/fallback.conf",
+				"/usr/share/doc/dotconf/examples/fallback/output",
+				"/usr/share/doc/dotconf/examples/libpool/Makefile",
+				"/usr/share/doc/dotconf/examples/libpool/libpool.h",
+				"/usr/share/doc/dotconf/examples/libpool/pool.c",
+				"/usr/share/doc/dotconf/examples/maketest.sh",
+				"/usr/share/doc/dotconf/examples/modules/Makefile",
+				"/usr/share/doc/dotconf/examples/modules/include.conf",
+				"/usr/share/doc/dotconf/examples/modules/module.c",
+				"/usr/share/doc/dotconf/examples/modules/my_module.c",
+				"/usr/share/doc/dotconf/examples/modules/output",
+				"/usr/share/doc/dotconf/examples/modules/sample.conf",
+				"/usr/share/doc/dotconf/examples/noinline/Makefile",
+				"/usr/share/doc/dotconf/examples/noinline/noinline.c",
+				"/usr/share/doc/dotconf/examples/noinline/noinline.conf",
+				"/usr/share/doc/dotconf/examples/noinline/output",
+				"/usr/share/doc/dotconf/examples/simple/Makefile",
+				"/usr/share/doc/dotconf/examples/simple/included.conf",
+				"/usr/share/doc/dotconf/examples/simple/linecat.conf",
+				"/usr/share/doc/dotconf/examples/simple/output",
+				"/usr/share/doc/dotconf/examples/simple/simple.c",
+				"/usr/share/doc/dotconf/examples/simple/simple.conf"
+			],
+			"name": "dotconf",
+			"provides": [
+				"soname(libdotconf.so.0(x86_64))"
+			]
+		},
+		"dotconf-devel": {
+			"depends": [
+				"dotconf"
+			],
+			"files": [
+				"/usr/include/dotconf.h",
+				"/usr/lib/libdotconf.a",
+				"/usr/lib/libdotconf.so",
+				"/usr/lib/pkgconfig/dotconf.pc"
+			],
+			"name": "dotconf-devel",
+			"provides": [
+				"pkgconfig(dotconf)"
+			]
+		}
+	},
+	"source-name": "dotconf",
+	"source-release": "1",
+	"source-version": "1.4.1"
+}
