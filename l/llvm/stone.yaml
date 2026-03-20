@@ -5,7 +5,7 @@
 #
 name        : llvm
 version     : "22.1.1"
-release     : 48
+release     : 49
 summary     : Low Level Virtual Machine
 license     :
     - Apache-2.0 WITH LLVM-exception
@@ -103,8 +103,15 @@ environment : |
         # Performance-related patches
         %patch %(pkgdir)/patches/perf/0001-Use-mimalloc-for-clang-lld-llvm.patch
 
-        ## Upstream backports
+        ## Upstream backports/reverts
         %patch %(pkgdir)/patches/upstream/0001-Backport-177953.patch
+        %patch %(pkgdir)/patches/upstream/186882.patch
+        %patch %(pkgdir)/patches/upstream/187274.patch
+        # Fix systemd build
+        %patch %(pkgdir)/patches/upstream/0001-Revert-clang-Add-missing-readonly-readnone-annotatio.patch
+        # Fix ffmpeg build
+        %patch %(pkgdir)/patches/upstream/0001-SLP-Support-for-tree-throttling-in-SLP-graphs-with-g.patch
+        %patch %(pkgdir)/patches/upstream/0002-X86-vectorizeExtractedCast-don-t-assume-vector-sourc.patch
     }
 
     # 2025-03-25: Add LIBCXX_TYPEINFO_COMPARISON_IMPLEMENTATION=2 for https://bugs.kde.org/show_bug.cgi?id=479679

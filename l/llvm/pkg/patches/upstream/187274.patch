@@ -1,0 +1,62 @@
+From 80f11cb923ee8551f673ebf59a2ee64dea261fba Mon Sep 17 00:00:00 2001
+From: Victor Chernyakin <chernyakin.victor.j@outlook.com>
+Date: Wed, 18 Mar 2026 06:49:44 -0700
+Subject: [PATCH] release/22.x: Backport workarounds for certain addMatcher
+ overloads ignoring traversal kind
+
+---
+ .../clang-tidy/modernize/TypeTraitsCheck.cpp       |  4 +++-
+ .../readability/RedundantTypenameCheck.cpp         |  2 +-
+ .../clang-tidy/checkers/modernize/type-traits.cpp  | 14 ++++++++++++++
+ 3 files changed, 18 insertions(+), 2 deletions(-)
+
+diff --git a/clang-tools-extra/clang-tidy/modernize/TypeTraitsCheck.cpp b/clang-tools-extra/clang-tidy/modernize/TypeTraitsCheck.cpp
+index 0d03006750d07..eadd3f15c6fde 100644
+--- a/clang-tools-extra/clang-tidy/modernize/TypeTraitsCheck.cpp
++++ b/clang-tools-extra/clang-tidy/modernize/TypeTraitsCheck.cpp
+@@ -195,7 +195,9 @@ void TypeTraitsCheck::registerMatchers(MatchFinder *Finder) {
+                            .bind(Bind),
+                        this);
+   }
+-  Finder->addMatcher(typeLoc(isType()).bind(Bind), this);
++  Finder->addMatcher(
++      traverse(TK_IgnoreUnlessSpelledInSource, typeLoc(isType()).bind(Bind)),
++      this);
+ }
+ 
+ static bool isNamedDeclInStdTraitsSet(const NamedDecl *ND,
+diff --git a/clang-tools-extra/clang-tidy/readability/RedundantTypenameCheck.cpp b/clang-tools-extra/clang-tidy/readability/RedundantTypenameCheck.cpp
+index 01f9177c248ac..525725cade624 100644
+--- a/clang-tools-extra/clang-tidy/readability/RedundantTypenameCheck.cpp
++++ b/clang-tools-extra/clang-tidy/readability/RedundantTypenameCheck.cpp
+@@ -19,7 +19,7 @@ namespace clang::tidy::readability {
+ 
+ void RedundantTypenameCheck::registerMatchers(MatchFinder *Finder) {
+   Finder->addMatcher(
+-      typeLoc(unless(hasAncestor(decl(isInstantiated())))).bind("typeLoc"),
++      traverse(TK_IgnoreUnlessSpelledInSource, typeLoc().bind("typeLoc")),
+       this);
+ 
+   if (!getLangOpts().CPlusPlus20)
+diff --git a/clang-tools-extra/test/clang-tidy/checkers/modernize/type-traits.cpp b/clang-tools-extra/test/clang-tidy/checkers/modernize/type-traits.cpp
+index e5de9e33bccd9..2b2c8e97c3d3b 100644
+--- a/clang-tools-extra/test/clang-tidy/checkers/modernize/type-traits.cpp
++++ b/clang-tools-extra/test/clang-tidy/checkers/modernize/type-traits.cpp
+@@ -150,3 +150,17 @@ struct ImplicitlyInstantiatedConstructor {
+ const ImplicitlyInstantiatedConstructor<int> ImplicitInstantiation(std::remove_reference<int>::type(123));
+ // CHECK-MESSAGES: :[[@LINE-1]]:68: warning: use c++14 style type templates
+ // CHECK-FIXES: const ImplicitlyInstantiatedConstructor<int> ImplicitInstantiation(std::remove_reference_t<int>(123));
++
++#if __cplusplus >= 202002L
++
++template <typename T>
++struct S {
++  typename std::remove_reference<T>::type a; // NOLINT
++};
++
++void f() {
++  auto [a] = S<int>{};
++  [&] { a; }; // This used to cause a false positive.
++}
++
++#endif // __cplusplus >= 202002L
