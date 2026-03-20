@@ -5,7 +5,7 @@
 #
 name        : kcalc
 version     : "25.12.3"
-release     : 11
+release     : 12
 upstreams   :
     - https://download.kde.org/stable/release-service/25.12.3/src/kcalc-25.12.3.tar.xz : c2382c232e06744b2b82ab96797f59d30fd4fe239b2aa0c07fbe7424cf10aafa
 homepage    : https://apps.kde.org/kcalc/
@@ -28,8 +28,8 @@ builddeps   :
     - cmake(KF6Notifications)
     - cmake(KF6XmlGui)
     - pkgconfig(gmp)
+    - pkgconfig(mpc)
     - pkgconfig(mpfr)
-    - mpc-devel
 rundeps     :
     - qt6-wayland
 setup       : |
