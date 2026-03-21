@@ -1,0 +1,164 @@
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : postgresql
+version     : "18.4"
+release     : 1
+homepage    : https://www.postgresql.org/
+upstreams   :
+    - https://ftp.postgresql.org/pub/source/v18.4/postgresql-18.4.tar.gz : 450aa8f2da06c46f8221916e82ae06b04fb1040f8f00643dbf8b7d663caac0b9
+summary     : Advanced open source relational database
+description : |
+    PostgreSQL is an advanced object-relational database management system that supports an extended subset of the SQL standard, including transactions, foreign keys, subqueries, triggers, user-defined types and functions.
+license     : 
+    - PostgreSQL
+builddeps   :
+    - binary(bison)
+    - binary(bzip2)
+    - binary(flex)
+    - binary(gzip)
+    - binary(llvm-config-22)
+    - binary(makeinfo)
+    - binary(msgfmt)
+    - binary(pandoc)
+    - binary(perl)
+    - binary(python3)
+    - binary(tar)
+    - binary(xmllint)
+    - binary(xsltproc)
+    - binary(wget)
+    - cmake(LLVM)
+    - pkgconfig(icu-i18n)
+    - pkgconfig(icu-uc)
+    - pkgconfig(krb5-gssapi)
+    - pkgconfig(ldap)
+    - pkgconfig(libcurl)
+    - pkgconfig(liblz4)
+    - pkgconfig(libsystemd)
+    - pkgconfig(liburing)
+    - pkgconfig(libxml-2.0)
+    - pkgconfig(libxslt)
+    - pkgconfig(libzstd)
+    - pkgconfig(numa)
+    - pkgconfig(openssl)
+    - pkgconfig(readline)
+    - pkgconfig(pam)
+    - pkgconfig(uuid)
+    - pkgconfig(zlib)
+    - docbook
+    - docbook-xsl
+    # libselinux
+    # python3-devel, perl-devel, and tcl currently not built
+# tuning      :
+#     - lto: full
+environment : |
+    %export_docbook_catalogs
+setup       : |
+    %meson \
+        -Ddocs=enabled \
+        -Dllvm=enabled \
+        -Dsystemd=enabled \
+        -Duuid=e2fs
+build       : |
+    %ccache_zero
+    %meson_build
+    %ccache_stats
+
+    # Not built by default
+    %meson_build doc/src/sgml/man:alias
+install     : |
+    %meson_install
+
+    # Why did they do this?
+    DESTDIR=%(installroot) %meson_build doc/src/sgml/install-man:alias
+
+    # No static
+    rm -fv %(installroot)%(libdir)/lib*.a
+packages    :
+    - "libpq":
+        summary: PostgreSQL C client library
+        description: PostgreSQL C client library
+        paths:
+            - /usr/lib/libpq.so.*
+            - /usr/lib/libpq-oauth-*.so # This could be split to remove the dep on libcurl
+            - /usr/share/locale/**/**/LC_MESSAGES/libpq5-*.mo
+
+    - "libpq-devel":
+        summary: PostgreSQL C client library - Devel
+        description: PostgreSQL C client library - Devel
+        rundeps:
+            - libpq
+        paths:
+            - /usr/bin/pg_config
+            - /usr/include/libpq*
+            - /usr/include/pg_config*
+            - /usr/include/postgres_ext.h
+            - /usr/include/postgresql/internal/
+            - /usr/lib/libpq.so
+            - /usr/lib/pkgconfig/libpq.pc
+            - /usr/share/locale/**/**/LC_MESSAGES/pg_config-*.mo
+            - /usr/share/man/man1/pg_config.1*
+
+    - "%(name)-client":
+        summary: front-end programs for PostgreSQL
+        description: front-end programs for PostgreSQL
+        paths:
+            - /usr/bin/clusterdb
+            - /usr/bin/createdb
+            - /usr/bin/createuser
+            - /usr/bin/dropdb
+            - /usr/bin/dropuser
+            - /usr/bin/pg_amcheck
+            - /usr/bin/pg_basebackup
+            - /usr/bin/pg_combinebackup
+            - /usr/bin/pg_dump
+            - /usr/bin/pg_dumpall
+            - /usr/bin/pg_isready
+            - /usr/bin/pg_receivewal
+            - /usr/bin/pg_recvlogical
+            - /usr/bin/pg_restore
+            - /usr/bin/pg_verifybackup
+            - /usr/bin/psql
+            - /usr/bin/reindexdb
+            - /usr/bin/vacuumdb
+            - /usr/lib/postgresql/pgxs/
+            - /usr/share/locale/**/**/LC_MESSAGES/pg_amcheck-*.mo
+            - /usr/share/locale/**/**/LC_MESSAGES/pg_basebackup-*.mo
+            - /usr/share/locale/**/**/LC_MESSAGES/pg_combinebackup-*.mo
+            - /usr/share/locale/**/**/LC_MESSAGES/pg_dump-*.mo
+            - /usr/share/locale/**/**/LC_MESSAGES/pg_verifybackup-*.mo
+            - /usr/share/locale/**/**/LC_MESSAGES/pgscripts-*.mo
+            - /usr/share/locale/**/**/LC_MESSAGES/psql-*.mo
+            - /usr/share/man/man1/clusterdb.1*
+            - /usr/share/man/man1/createdb.1*
+            - /usr/share/man/man1/createuser.1*
+            - /usr/share/man/man1/dropdb.1*
+            - /usr/share/man/man1/dropuser.1*
+            - /usr/share/man/man1/pg_amcheck.1*
+            - /usr/share/man/man1/pg_basebackup.1*
+            - /usr/share/man/man1/pg_combinebackup.1*
+            - /usr/share/man/man1/pg_dump.1*
+            - /usr/share/man/man1/pg_dumpall.1*
+            - /usr/share/man/man1/pg_isready.1*
+            - /usr/share/man/man1/pg_receivewal.1*
+            - /usr/share/man/man1/pg_recvlogical.1*
+            - /usr/share/man/man1/pg_restore.1*
+            - /usr/share/man/man1/pg_verifybackup.1*
+            - /usr/share/man/man1/psql.1*
+            - /usr/share/man/man1/reindexdb.1*
+            - /usr/share/man/man1/vacuumdb.1*
+            - /usr/share/man/man7/
+            - /usr/share/postgresql/psqlrc.sample
+
+    - "%(name)-jit":
+        summary: LLVM JIT support for PostgreSQL
+        description: LLVM JIT support for PostgreSQL
+        rundeps:
+            - "%(name)"
+        paths:
+            - /usr/lib/postgresql/llvmjit.so
+            - /usr/lib/postgresql/llvmjit_types.bc
+
+    - "%(name)":
+        rundeps:
+            - "%(name)-client"
