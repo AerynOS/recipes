@@ -5,7 +5,7 @@
 #
 name        : systemd
 version     : "257.13"
-release     : 77
+release     : 78
 summary     : A System and Service Manager
 license     :
     - GPL-2.0-or-later
@@ -18,7 +18,6 @@ upstreams   :
     - https://github.com/systemd/systemd/archive/refs/tags/v257.13.tar.gz : 1eb7d5f9ff8a426ff880a3cded9ce819613ba8003ac5ddde9eca162f14ddabe7
 builddeps   :
     - binary(bpftool)
-    - binary(clang-21)
     - binary(gcc)
     - binary(gperf)
     - binary(m4)
@@ -98,13 +97,6 @@ setup       : |
     if [[ %(target_triple) = i686* ]]; then
         _IS_64BIT_BOOL="false"
         _IS_64BIT_FEAT="disabled"
-    fi
-
-    # Clang 22 has a segfault when building this
-    # Check if that's fixed in a future build
-    export CC=clang-21
-    if [[ %(target_triple) = i686* ]]; then
-        export CC="clang-21 -m32"
     fi
 
     # TODO:
