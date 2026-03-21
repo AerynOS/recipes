@@ -1,0 +1,4 @@
+#!/bin/bash
+if [ ! -f "$1/PG_VERSION" ]; then
+    initdb --pgdata="$1"
+fi
