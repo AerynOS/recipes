@@ -5,7 +5,7 @@
 #
 name        : gnome-online-accounts
 version     : "3.58.0"
-release     : 25
+release     : 26
 homepage    : https://gitlab.gnome.org/GNOME/gnome-online-accounts
 upstreams   :
     - https://download.gnome.org/sources/gnome-online-accounts/3.58/gnome-online-accounts-3.58.0.tar.xz : 344d4dff9149a1adc4539417193e1eccc2f76ef40ac24e104ccf58072be55999
@@ -37,8 +37,12 @@ builddeps   :
 environment : |
     %export_docbook_catalogs
 setup       : |
+    %patch %(pkgdir)/391.patch
+
+    # TODO: In the next major version google_files won't do anything
     %meson \
-        -Ddocumentation=true
+        -Ddocumentation=true \
+        -Dgoogle_files=true
 build       : |
     %meson_build
 install     : |
