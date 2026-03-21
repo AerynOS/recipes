@@ -5,7 +5,7 @@
 #
 name        : ffmpeg
 version     : "8.1"
-release     : 25
+release     : 26
 homepage    : https://ffmpeg.org/releases
 upstreams   :
     - https://ffmpeg.org/releases/ffmpeg-8.1.tar.xz:
@@ -26,7 +26,6 @@ license     :
     - LGPL-3.0
 builddeps   :
     - binary(clang) # llvm-cuda
-    - binary(clang-21)
     - binary(makeinfo)
     - binary(nasm)
     - binary(pod2man)
@@ -129,11 +128,6 @@ builddeps   :
 # Intentionally not enabled for now
 # - openal
 setup       : |
-    # Clang 22 has a segfault when building this
-    # Check if that's fixed in a future build
-    export CC=clang-21
-    export CXX=clang++-21
-
     if [ -d ../compat ]; then
         pushd ../compat
         %patch %(pkgdir)/0001-Don-t-print-in-columns.patch
