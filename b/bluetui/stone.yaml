@@ -1,0 +1,25 @@
+#
+# SPDX-FileCopyrightText: © 2025- AerynOS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : bluetui
+version     : "0.8.1"
+release     : 1
+homepage    : https://github.com/pythops/bluetui
+upstreams   :
+    - https://github.com/pythops/bluetui/archive/refs/tags/v0.8.1.tar.gz : 9b82b3c268a20bf04e55095cacc3341d46013ccfa7d268c4f225d4a88f9c7138
+summary     : TUI for managing bluetooth on Linux
+description : |
+    TUI for managing bluetooth on Linux
+license     : 
+    - GPL-3.0-only
+networking  : true
+setup       : |
+    %cargo_fetch
+build       : |
+    %cargo_build
+install     : |
+    %cargo_install
+check       : |
+    %cargo_test
