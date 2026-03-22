@@ -5,7 +5,7 @@
 #
 name        : gamescope-session-steam
 version     : "0.r10.1a3fdb7"
-release     : 4
+release     : 5
 homepage    : https://github.com/OpenGamingCollective/gamescope-session-steam
 upstreams   :
     - git|https://github.com/OpenGamingCollective/gamescope-session-steam.git : 1a3fdb7fa15a4bba7204bef69702b7a10a297828
@@ -17,6 +17,7 @@ license     :
     - GPL-3.0-or-later
 rundeps     :
     - gamescope-session
+    - steamos-manager
 install     : |
     %install_dir %(installroot)
     cp -rv %(workdir)/usr %(installroot)
@@ -25,9 +26,10 @@ install     : |
     mkdir -p %(installroot)/usr/share/fonts/truetype/ttf-dejavu
     ln -s /usr/share/fonts/TTF/DejaVuSans.ttf %(installroot)/usr/share/fonts/truetype/ttf-dejavu/DejaVuSans.ttf
 
+    # Note: Not needed when `steamos-manager` is used
     # remove flags not suitable
-    sed -i -e 's/ -steamos3/ -steamos/;s/ -steampal//;s/ -steamdeck//' %(installroot)/usr/share/gamescope-session-plus/sessions.d/steam
+    #sed -i -e 's/ -steamos3/ -steamos/;s/ -steampal//;s/ -steamdeck//' %(installroot)/usr/share/gamescope-session-plus/sessions.d/steam
 
     # We ship our own update file
-    rm %(installroot)/usr/bin/steamos-update
+    rm %(installroot)%(bindir)/steamos-update
 
