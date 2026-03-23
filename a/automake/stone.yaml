@@ -5,7 +5,7 @@
 #
 name        : automake
 version     : "1.18.1"
-release     : 7
+release     : 8
 homepage    : https://www.gnu.org/software/automake/
 upstreams   :
     - https://ftp.gnu.org/gnu/automake/automake-1.18.1.tar.xz : 168aa363278351b89af56684448f525a5bce5079d0b6842bd910fdd3f1646887
@@ -19,7 +19,7 @@ checkdeps   :
     - binary(tar)
     - binary(zstd)
 setup       : |
-    %configure_with_bash
+    %configure
 build       : |
     %make
 install     : |
