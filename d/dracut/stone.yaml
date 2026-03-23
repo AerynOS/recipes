@@ -33,6 +33,7 @@ setup       : |
 
     %patch %(pkgdir)/0005-solus-Allow-for-skipping-firmware-installation.patch
 
+    # Uses bash syntax: ./configure: 26: [[: not found
     %configure_with_bash
 build       : |
     %make
