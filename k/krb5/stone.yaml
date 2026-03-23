@@ -5,7 +5,7 @@
 #
 name        : krb5
 version     : "1.22.2"
-release     : 5
+release     : 6
 homepage    : https://web.mit.edu/kerberos/
 upstreams   :
     - https://web.mit.edu/kerberos/dist/krb5/1.22/krb5-1.22.2.tar.gz : 3243ffbc8ea4d4ac22ddc7dd2a1dc54c57874c40648b60ff97009763554eaf13
@@ -40,7 +40,7 @@ setup       : |
 
     %patch %(pkgdir)/ftbfs-glibc-2.43.patch -p2
 
-    %configure_with_bash \
+    %configure \
         --disable-rpath \
         --enable-dns-for-realm \
         --with-ldap \
