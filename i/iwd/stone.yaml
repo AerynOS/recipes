@@ -5,7 +5,7 @@
 #
 name        : iwd
 version     : "3.12"
-release     : 8
+release     : 9
 homepage    : https://iwd.wiki.kernel.org/
 upstreams   :
     - https://mirrors.edge.kernel.org/pub/linux/network/wireless/iwd-3.12.tar.xz : d89a5e45c7180170e19be828f9e944a768c593758094fc57a358d0e7c4cb1a49
@@ -21,7 +21,7 @@ builddeps   :
     - pkgconfig(readline)
     - pkgconfig(systemd)
 setup       : |
-    %configure_with_bash \
+    %configure \
         --enable-hwsim \
         --enable-libedit \
         --enable-ofono \
