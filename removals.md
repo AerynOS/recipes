@@ -196,3 +196,6 @@
 - spirv-llvm-translator-32bit
 - spirv-llvm-translator-32bit-devel
 - spirv-llvm-translator-32bit-dbginfo
+
+### These were internal build tools all along
+- libde265-examples

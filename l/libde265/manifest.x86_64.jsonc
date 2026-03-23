@@ -4,8 +4,6 @@
 	"packages": {
 		"libde265": {
 			"build-depends": [
-				"pkgconfig(Qt5Gui)",
-				"pkgconfig(libswscale)",
 				"pkgconfig(sdl2-compat)"
 			],
 			"depends": [
@@ -16,7 +14,7 @@
 			],
 			"files": [
 				"/usr/lib/libde265.so.0",
-				"/usr/lib/libde265.so.0.1.9"
+				"/usr/lib/libde265.so.0.1.11"
 			],
 			"name": "libde265",
 			"provides": [
@@ -25,8 +23,6 @@
 		},
 		"libde265-devel": {
 			"build-depends": [
-				"pkgconfig(Qt5Gui)",
-				"pkgconfig(libswscale)",
 				"pkgconfig(sdl2-compat)"
 			],
 			"depends": [
@@ -35,59 +31,49 @@
 			"files": [
 				"/usr/include/libde265/de265-version.h",
 				"/usr/include/libde265/de265.h",
+				"/usr/lib/cmake/libde265/libde265-config-release.cmake",
+				"/usr/lib/cmake/libde265/libde265-config-version.cmake",
+				"/usr/lib/cmake/libde265/libde265-config.cmake",
 				"/usr/lib/libde265.so",
 				"/usr/lib/pkgconfig/libde265.pc"
 			],
 			"name": "libde265-devel",
 			"provides": [
+				"cmake(libde265)",
 				"pkgconfig(libde265)"
 			]
 		},
 		"libde265-examples": {
 			"build-depends": [
-				"pkgconfig(Qt5Gui)",
-				"pkgconfig(libswscale)",
+				"pkgconfig(sdl2-compat)"
+			],
+			"files": [
+				"/usr/share/doc/libde265-examples/README"
+			],
+			"name": "libde265-examples"
+		},
+		"libde265-tools": {
+			"build-depends": [
 				"pkgconfig(sdl2-compat)"
 			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
-				"soname(libQt5Core.so.5(x86_64))",
-				"soname(libQt5Gui.so.5(x86_64))",
-				"soname(libQt5Widgets.so.5(x86_64))",
 				"soname(libSDL2-2.0.so.0(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libde265.so.0(x86_64))",
 				"soname(libgcc_s.so.1(x86_64))",
-				"soname(libm.so.6(x86_64))",
-				"soname(libstdc++.so.6(x86_64))",
-				"soname(libswscale.so.9(x86_64))"
+				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
-				"/usr/bin/de265-bjoentegaard",
-				"/usr/bin/de265-block-rate-estim",
-				"/usr/bin/de265-dec265",
-				"/usr/bin/de265-enc265",
-				"/usr/bin/de265-gen-enc-table",
-				"/usr/bin/de265-rd-curves",
-				"/usr/bin/de265-sherlock265",
-				"/usr/bin/de265-tests",
-				"/usr/bin/de265-yuv-distortion"
+				"/usr/bin/dec265"
 			],
-			"name": "libde265-examples",
+			"name": "libde265-tools",
 			"provides": [
-				"binary(de265-bjoentegaard)",
-				"binary(de265-block-rate-estim)",
-				"binary(de265-dec265)",
-				"binary(de265-enc265)",
-				"binary(de265-gen-enc-table)",
-				"binary(de265-rd-curves)",
-				"binary(de265-sherlock265)",
-				"binary(de265-tests)",
-				"binary(de265-yuv-distortion)"
+				"binary(dec265)"
 			]
 		}
 	},
 	"source-name": "libde265",
-	"source-release": "3",
-	"source-version": "1.0.16"
+	"source-release": "4",
+	"source-version": "1.0.18"
 }
