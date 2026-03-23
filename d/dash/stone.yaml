@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : dash
-version     : "0.5.13.1"
-release     : 16
+version     : "0.5.13.2"
+release     : 17
 homepage    : http://gondor.apana.org.au/~herbert/dash
 upstreams   :
-    - http://gondor.apana.org.au/~herbert/dash/files/dash-0.5.13.1.tar.gz: d9271bce09c127d9866e25c011582ddc75ab988958a04bc4d8553a3b8f30e370
+    - http://gondor.apana.org.au/~herbert/dash/files/dash-0.5.13.2.tar.gz: e7136826b1eed6ce3193e8affa2f70b1b2b9168dd91ffa7ddb4f46e9e62054fe
     # - git|https://git.kernel.org/pub/scm/utils/dash/dash.git : a9012f4078be32012f240c6208c3df53db3b6086
 summary     : Small and fast POSIX-compliant shell
 description : |
@@ -22,7 +22,7 @@ tuning      :
     - nosemantic
 setup       : |
     %patch %(pkgdir)/0001-downstream-Update-default-path.patch
-    %patch %(pkgdir)/upstream-01.patch
+    # TODO: Can this patch be removed? Upstream rejected it
     %patch %(pkgdir)/0001-main.c-initialize-smark.patch
 
     %configure \
