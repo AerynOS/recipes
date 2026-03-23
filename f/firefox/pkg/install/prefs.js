@@ -45,8 +45,6 @@ pref("toolkit.storage.synchronous",         0);
 pref("ui.context_menus.after_mouseup",      true);
 // Override theme to prevent local dark themes affecting how website content is displayed
 pref("widget.content.gtk-theme-override","Adwaita:light");
-// Use XDG Desktop Portals for filepicker by default
-pref("widget.use-xdg-desktop-portal.file-picker", 1);
 // Allow gnome search provider to function by default
 pref("browser.gnome-search-provider.enabled", true);
 // Enable JPEG XL images
