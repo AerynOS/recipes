@@ -5,7 +5,7 @@
 #
 name        : alsa-lib
 version     : "1.2.15.3"
-release     : 16
+release     : 17
 homepage    : https://www.alsa-project.org/wiki/Main_Page
 upstreams   :
     - https://www.alsa-project.org/files/pub/lib/alsa-lib-1.2.15.3.tar.bz2 : 7b079d614d582cade7ab8db2364e65271d0877a37df8757ac4ac0c8970be861e
@@ -17,7 +17,7 @@ license     :
 builddeps   :
     - binary(ar)
 setup       : |
-    %reconfigure_with_bash \
+    %configure \
         --disable-old-symbols \
         --disable-static \
         --with-versioned=yes
