@@ -5,7 +5,7 @@
 #
 name        : lvm2
 version     : "2.03.39"
-release     : 14
+release     : 15
 homepage    : https://sourceware.org/lvm2/
 upstreams   :
     - https://sourceware.org/pub/lvm2/LVM2.2.03.39.tgz : 23bc9067e28fe0d37b3cc441f2865b9e022ce3c624babe22918b8dd90c031ee8
@@ -42,7 +42,7 @@ setup       : |
     %patch %(pkgdir)/add-malloc_trim-call.patch
 
     # TODO: enable dmfilemapd maybe? dbusd/lvmlockd?
-    %configure_with_bash \
+    %configure \
         --enable-blkid_wiping \
         --enable-blkzeroout \
         --enable-cmdlib \
