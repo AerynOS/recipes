@@ -5,7 +5,7 @@
 #
 name        : x264
 version     : "0.165.3222+git.b35605ace"
-release     : 2
+release     : 3
 upstreams   :
     # Note for packagers: must be updated to the latest commits on 'stable' branch.
     - git|https://code.videolan.org/videolan/x264.git : b35605ace3ddf7c1a5d67a2eb553f034aef41d55
@@ -19,7 +19,7 @@ builddeps   :
     - binary(strings)
     - pkgconfig(bash-completion)
 setup       : |
-    %configure_with_bash \
+    %configure \
         --enable-lto \
         --enable-pic \
         --enable-shared \
