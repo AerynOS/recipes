@@ -1,0 +1,24 @@
+#
+# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : libscfg
+version     : "0.2.0"
+release     : 1
+upstreams   :
+    - https://codeberg.org/emersion/libscfg/releases/download/v0.2.0/libscfg-0.2.0.tar.gz : 18bf24666aa77b12347b6dffeec32b2e7d24719698041c372ab27da80d16150c
+homepage    : https://codeberg.org/emersion/libscfg
+license     : MIT
+summary     : A C library for scfg
+description : |
+    A C library for scfg
+setup       : |
+    %meson
+build       : |
+    %meson_build
+install     : |
+    %meson_install
+check       : |
+    %meson_build scfg_test
+    %meson_test

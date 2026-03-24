@@ -1,0 +1,36 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"libscfg": {
+			"depends": [
+				"soname(libc.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/lib/libscfg.so.0.2.0",
+				"/usr/lib/libscfg.so.2"
+			],
+			"name": "libscfg",
+			"provides": [
+				"soname(libscfg.so.2(x86_64))"
+			]
+		},
+		"libscfg-devel": {
+			"depends": [
+				"libscfg"
+			],
+			"files": [
+				"/usr/include/scfg.h",
+				"/usr/lib/libscfg.so",
+				"/usr/lib/pkgconfig/scfg.pc"
+			],
+			"name": "libscfg-devel",
+			"provides": [
+				"pkgconfig(scfg)"
+			]
+		}
+	},
+	"source-name": "libscfg",
+	"source-release": "1",
+	"source-version": "0.2.0"
+}
