@@ -19,22 +19,37 @@ builddeps   :
     - binary(flex)
     - binary(perl)
     - binary(python3)
+    - binary(bzip2)
+    - binary(ccache)
+    - binary(cp)
+    - binary(git)
+    - binary(msgfmt)
+    - binary(wget)
+    - pkgconfig(icu-i18n)
     - pkgconfig(icu-uc)
-    - pkgconfig(libcrypto)
-    - pkgconfig(libssl)
-    - pkgconfig(uuid)
+    - pkgconfig(krb5-gssapi)
+    - pkgconfig(ldap)
+    - pkgconfig(libcurl)
     - pkgconfig(liblz4)
-    - pkgconfig(readline)
-    - pkgconfig(zlib)
+    - pkgconfig(libsystemd)
+    - pkgconfig(liburing)
+    - pkgconfig(libxml-2.0)
+    - pkgconfig(libxslt)
     - pkgconfig(libzstd)
+    - pkgconfig(numa)
+    - pkgconfig(openssl)
+    - pkgconfig(pam)
+    - pkgconfig(uuid)
+    - pkgconfig(zlib)
 setup       : |
-    %meson
+    %meson -Dsystemd=enabled
 build       : |
     %meson_build
 install     : |
     %meson_install
     %install_dir %(installroot)/var/lib/postgresql
-    %sysusers "u postgres 70 'PostgreSQL Database Server' /var/lib/postgresql"
+    %sysusers "u postgres 999 'PostgreSQL Database Server' /var/lib/postgresql"
     %tmpfiles "d /var/lib/postgresql 0700 postgres postgres -"
     %install_exe %(pkgdir)/postgresql-setup %(installroot)%(bindir)/postgresql-check-db-dir
     %install_file %(pkgdir)/postgresql.service %(installroot)%(libdir)/systemd/system/postgresql.service
+    %install_file %(pkgdir)/postgresql.socket %(installroot)%(libdir)/systemd/system/postgresql.socket

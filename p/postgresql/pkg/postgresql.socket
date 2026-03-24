@@ -1,0 +1,14 @@
+[Unit]
+Description=PostgreSQL Database Server Socket
+PartOf=postgresql.service
+
+[Socket]
+ListenStream=/tmp/.s.PGSQL.5432
+SocketMode=0755
+SocketUser=postgres
+SocketGroup=postgres
+DirectoryMode=0755
+RemoveOnStop=yes
+
+[Install]
+WantedBy=sockets.target
