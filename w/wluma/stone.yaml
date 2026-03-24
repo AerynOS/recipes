@@ -1,0 +1,29 @@
+#
+# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : wluma
+version     : "4.10.0"
+release     : 1
+upstreams   :
+    - https://github.com/max-baz/wluma/releases/download/4.10.0/wluma-4.10.0-vendored.tar.gz : 5b3f24ed3f773dfea98afabe31738c7d0d3487166f1d599a5374d198ef46c3e8
+homepage    : https://github.com/maximbaz/wluma
+license     : ISC
+summary     : Automatic brightness adjustment
+description : |
+    Automatic brightness adjustment based on screen contents and ALS
+builddeps   :
+    - pkgconfig(dbus-1)
+    - pkgconfig(libudev)
+    - pkgconfig(libv4l2)
+    - pkgconfig(vulkan)
+    # marked-man for man pages
+build       : |
+    %cargo_build
+install     : |
+    %cargo_install
+
+    %install_file 90-wluma-backlight.rules -t %(installroot)%(udevrulesdir)
+    %install_file wluma.service -t %(installroot)%(libdir)/systemd/user/
+    %install_file config.toml -t %(installroot)%(datadir)/wluma/examples
