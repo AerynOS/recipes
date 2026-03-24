@@ -1,0 +1,38 @@
+#
+# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : system76-scheduler
+version     : "2.0.2"
+release     : 1
+homepage    : https://github.com/pop-os/system76-scheduler
+upstreams   :
+    - https://github.com/pop-os/system76-scheduler/archive/refs/tags/2.0.2.tar.gz : 8fc1845136fd2b346617599d3e01df32584d6d1974381ce36c8e33338d1a2867
+summary     : Auto-configure process priorities for desktop responsiveness
+description : |
+    Auto-configure CFS and process priorities for improved desktop responsiveness
+networking  : yes
+license     : MPL-2.0
+builddeps   :
+    - binary(just)
+    - binary(llvm-config-22)
+    - cmake(Clang)
+    - pkgconfig(libpipewire-0.3)
+rundeps     :
+    - sysbinary(bpf-execsnoop)
+setup       : |
+    %patch %(pkgdir)/0001-aerynos-execsnoop.patch
+
+    %cargo_fetch
+build       : |
+    just build-release
+install     : |
+    just rootdir="%(installroot)" install
+
+    %install_dir %(installroot)%(datadir)/dbus-1/system.d/
+    mv %(installroot)%(sysconfdir)/dbus-1/system.d/* %(installroot)%(datadir)/dbus-1/system.d/
+
+    # Configs
+    %install_file %(pkgdir)/config.kdl -t %(installroot)%(datadir)/system76-scheduler/
+    %install_file %(pkgdir)/aerynos.kdl -t %(installroot)%(datadir)/system76-scheduler/process-scheduler/
