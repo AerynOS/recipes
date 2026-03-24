@@ -1,0 +1,33 @@
+#
+# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : python-magic
+version     : "0.4.27"
+release     : 1
+homepage    : https://github.com/ahupp/python-magic
+upstreams   :
+    - https://github.com/ahupp/python-magic/archive/refs/tags/0.4.27.tar.gz : 3978a25d43d9a7b8a89ae9d726bd4962fc90dc4f69ae852e399f3c56d4b0bd63
+summary     : A python wrapper for libmagic
+description : |
+    A python wrapper for libmagic
+license     : MIT
+builddeps   :
+    - python(setuptools)
+rundeps     :
+    - python-libs
+    - soname(libmagic.so.1(x86_64))
+checkdeps   :
+    - python(pytest)
+    - soname(libmagic.so.1(x86_64))
+setup       : |
+    %patch %(pkgdir)/file-5.45.patch
+build       : |
+    %pyproject_build
+install     : |
+    %pyproject_install
+# check       : |
+#     # TODO replace with pytest macro
+#     PYTHONPATH="$PWD"/build/lib pytest --deselect test/python_magic_test.py::MagicTest::test_extension
+# TODO: Fix this (broken with File 5.47)
