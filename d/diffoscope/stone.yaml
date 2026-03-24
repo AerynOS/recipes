@@ -1,0 +1,21 @@
+#
+# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : diffoscope
+version     : "315"
+release     : 1
+homepage    : https://diffoscope.org/
+upstreams   :
+    - https://diffoscope.org/archive/diffoscope-315.tar.bz2 : 670da0a05803e3bbd9fc04354c45ea7655b1918f69e9d8a076e029efc107b677
+summary     : Tool for in-depth comparison of files, archives, and directories
+description : |
+    Tool for in-depth comparison of files, archives, and directories
+license     : GPL-3.0-or-later
+builddeps   :
+    - python(setuptools)
+build       : |
+    %pyproject_build
+install     : |
+    %pyproject_install
