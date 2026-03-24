@@ -1,0 +1,28 @@
+#
+# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : kanshi
+version     : "1.9.0"
+release     : 1
+upstreams   :
+    - https://gitlab.freedesktop.org/emersion/kanshi/-/releases/v1.9.0/downloads/kanshi-1.9.0.tar.gz : d5dfdaa7fe65d7105fc0ea4b0d7b7bf6a28b4d39c664e31722000bc9afa61108
+homepage    : https://gitlab.freedesktop.org/emersion/kanshi
+license     : MIT
+summary     : Dynamic output configuration for Wayland WMs
+description : |
+    Dynamic output configuration for Wayland WMs
+builddeps   :
+    - binary(scdoc)
+    - pkgconfig(scfg)
+    - pkgconfig(vali)
+    - pkgconfig(wayland-client)
+setup       : |
+    %meson \
+        -Dipc=enabled \
+        -Dman-pages=enabled
+build       : |
+    %meson_build
+install     : |
+    %meson_install
