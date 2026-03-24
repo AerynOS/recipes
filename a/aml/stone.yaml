@@ -1,0 +1,21 @@
+#
+# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : aml
+version     : "1.0.0"
+release     : 1
+upstreams   :
+    - https://github.com/any1/aml/archive/refs/tags/v1.0.0.tar.gz : b2b8f743213af39f40e8bc611147d69e2ea9e010b9b19cb65246582338f28d96
+homepage    : https://github.com/any1/aml
+license     : ISC
+summary     : Another Main Loop
+description : |
+    Another Main Loop
+setup       : |
+    %meson
+build       : |
+    %meson_build
+install     : |
+    %meson_install
