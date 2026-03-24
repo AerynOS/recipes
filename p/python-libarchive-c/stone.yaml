@@ -1,0 +1,35 @@
+#
+# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : python-libarchive-c
+version     : "5.3"
+release     : 1
+homepage    : https://github.com/Changaco/python-libarchive-c
+upstreams   :
+    - https://pypi.debian.net/libarchive-c/libarchive_c-5.3.tar.gz : 5ddb42f1a245c927e7686545da77159859d5d4c6d00163c59daff4df314dae82
+    # - git|https://github.com/Changaco/python-libarchive-c.git : 7e8cb8556e45d4b22ba7b0726fb640ef6253cfcc
+summary     : Python interface to libarchive
+description : |
+    Python interface to libarchive
+license     : CC0-1.0
+builddeps   :
+    - python(setuptools)
+rundeps     :
+    - soname(libarchive.so.13(x86_64))
+    - python-libs
+checkdeps   :
+    - python(pytest)
+    - soname(libarchive.so.13(x86_64))
+build       : |
+    %pyproject_build
+install     : |
+    %pyproject_install
+# check       : |
+#     # TODO replace with pytest macro
+
+#     # This uses ctypes find_library which depends on a working ldconfig cache. Since boulder has a bug where this isn't created we need to do that manually.
+#     mkdir -p /var/cache/ldconfig && /usr/sbin/ldconfig
+#     PYTHONPATH="$PWD"/build/lib pytest
+# TODO: Tests use newer python syntax so skip for now
