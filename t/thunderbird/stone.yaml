@@ -5,12 +5,12 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : thunderbird
-version     : "148.0.1"
-release     : 36
+version     : "149.0"
+release     : 37
 homepage    : https://www.thunderbird.net/
 upstreams   :
-    - https://releases.mozilla.org/pub/thunderbird/releases/148.0.1/source/thunderbird-148.0.1.source.tar.xz:
-        hash: 80b36b172876b62b697ced5995078d73b37fac5323a5e178e3b921f8c35d03e2
+    - https://releases.mozilla.org/pub/thunderbird/releases/149.0/source/thunderbird-149.0.source.tar.xz:
+        hash: edea1dcf73753656dffb2d38b529f6f870ceab01487ac02ce4fe29065c32dbdc
         unpackdir: thunderbird
 summary     : Thunderbird Email Client
 description : |
@@ -66,10 +66,6 @@ setup       : |
     # %patch %(pkgdir)/patches/pgo.patch
     %patch %(pkgdir)/patches/0001-Fix-Firefox-Thunderbird-envvar-conflicts.patch
     %patch %(pkgdir)/patches/0001-Allow-installing-addons-from-user-scope.patch
-
-    %patch %(pkgdir)/patches/ftbfs-glibc-2.43.patch -d security/nss
-    %patch %(pkgdir)/patches/ftbfs-gcc-15.2.1.patch
-    %patch %(pkgdir)/patches/ftbfs-gcc-15.2.1-2.patch
 
     cp %(pkgdir)/build/mozconfig .
     sed -e 's|@@JOBCOUNT@@|%(jobs)|' -e 's|@@LIBDIR@@|%(libdir)|' -i mozconfig
