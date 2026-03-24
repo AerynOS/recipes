@@ -1,0 +1,28 @@
+#
+# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : vali
+version     : "0.1.1"
+release     : 1
+upstreams   :
+    - https://gitlab.freedesktop.org/emersion/vali/-/releases/v0.1.1/downloads/vali-0.1.1.tar.gz : 791785eca66392f91f28ca371ba9cfa2dc11915df0bff9f590a33453f67e5756
+homepage    : https://gitlab.freedesktop.org/emersion/vali
+license     : MIT
+summary     : A C library and code generator for Varlink
+description : |
+    A C library and code generator for Varlink
+builddeps   :
+    - pkgconfig(aml1)
+    - pkgconfig(json-c)
+setup       : |
+    %meson
+build       : |
+    %meson_build
+install     : |
+    %meson_install
+packages    :
+    - "%(name)-devel":
+        paths:
+            - /usr/bin/vali
