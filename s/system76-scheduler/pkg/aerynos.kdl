@@ -1,12 +1,15 @@
 assignments {
 	recording {
 		amsynth
+		discord
 		easyeffects
 		jamesdsp
 		jitsi
 		mumble
 		obs
+		slack
 		teams
+		vesktop
 		wireplumber
 		zoom
 		bitwig-studio
@@ -33,6 +36,7 @@ assignments {
 		gnome-shell
 		i3wm
 		kwin
+		labwc
         mango
         niri
 		sway
@@ -51,12 +55,16 @@ assignments {
 		include name="apt-*"
 		include name="dpkg-*"
 		apt
+		dnf
 		dpkg
+		eopkg
 		flatpak
 		fwupd
         moss
 		packagekitd
+		pacman
 		update-initramfs
+		yum
 	}
 
 	batch {
@@ -69,6 +77,7 @@ assignments {
         boulder
 		c++
 		cargo
+		ccache
 		clang
 		cmake
 		cpp
@@ -80,17 +89,25 @@ assignments {
 		gradle
 		javac
 		ld
+		ld.lld
+		ldc2
+		ldmd2
 		lld
 		make
+		maven
+		meson
 		mold
 		mvn
 		ninja
 		rust-analyzer
 		rustc
 		sbuild
+		sccache
+		solbuild
 		tar
 		tracker-miner-fs-3
 		unrar
+		zig
 		zip
 	}
 }
