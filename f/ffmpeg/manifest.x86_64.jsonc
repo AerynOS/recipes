@@ -385,7 +385,6 @@
 			"depends": [
 				"soname(libSvtAv1Enc.so.4(x86_64))",
 				"soname(libaom.so.3(x86_64))",
-				"soname(libavutil.so.59(x86_64))",
 				"soname(libavutil.so.60(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libcairo.so.2(x86_64))",
@@ -406,7 +405,6 @@
 				"soname(librsvg-2.so.2(x86_64))",
 				"soname(libsnappy.so.1(x86_64))",
 				"soname(libspeex.so.1(x86_64))",
-				"soname(libswresample.so.5(x86_64))",
 				"soname(libswresample.so.6(x86_64))",
 				"soname(libtheoradec.so.2(x86_64))",
 				"soname(libtheoraenc.so.2(x86_64))",
@@ -422,14 +420,11 @@
 				"soname(libz.so.1(x86_64))"
 			],
 			"files": [
-				"/usr/lib/libavcodec.so.61",
-				"/usr/lib/libavcodec.so.61.19.101",
 				"/usr/lib/libavcodec.so.62",
 				"/usr/lib/libavcodec.so.62.28.100"
 			],
 			"name": "libavcodec",
 			"provides": [
-				"soname(libavcodec.so.61(x86_64))",
 				"soname(libavcodec.so.62(x86_64))"
 			]
 		},
@@ -501,35 +496,9 @@
 			"depends": [
 				"libavcodec",
 				"pkgconfig(libavutil)",
-				"pkgconfig(libavutil-7.1)",
-				"pkgconfig(libswresample)",
-				"pkgconfig(libswresample-7.1)"
+				"pkgconfig(libswresample)"
 			],
 			"files": [
-				"/usr/include/ffmpeg-7.1/libavcodec/ac3_parser.h",
-				"/usr/include/ffmpeg-7.1/libavcodec/adts_parser.h",
-				"/usr/include/ffmpeg-7.1/libavcodec/avcodec.h",
-				"/usr/include/ffmpeg-7.1/libavcodec/avdct.h",
-				"/usr/include/ffmpeg-7.1/libavcodec/avfft.h",
-				"/usr/include/ffmpeg-7.1/libavcodec/bsf.h",
-				"/usr/include/ffmpeg-7.1/libavcodec/codec.h",
-				"/usr/include/ffmpeg-7.1/libavcodec/codec_desc.h",
-				"/usr/include/ffmpeg-7.1/libavcodec/codec_id.h",
-				"/usr/include/ffmpeg-7.1/libavcodec/codec_par.h",
-				"/usr/include/ffmpeg-7.1/libavcodec/d3d11va.h",
-				"/usr/include/ffmpeg-7.1/libavcodec/defs.h",
-				"/usr/include/ffmpeg-7.1/libavcodec/dirac.h",
-				"/usr/include/ffmpeg-7.1/libavcodec/dv_profile.h",
-				"/usr/include/ffmpeg-7.1/libavcodec/dxva2.h",
-				"/usr/include/ffmpeg-7.1/libavcodec/jni.h",
-				"/usr/include/ffmpeg-7.1/libavcodec/mediacodec.h",
-				"/usr/include/ffmpeg-7.1/libavcodec/packet.h",
-				"/usr/include/ffmpeg-7.1/libavcodec/qsv.h",
-				"/usr/include/ffmpeg-7.1/libavcodec/vdpau.h",
-				"/usr/include/ffmpeg-7.1/libavcodec/version.h",
-				"/usr/include/ffmpeg-7.1/libavcodec/version_major.h",
-				"/usr/include/ffmpeg-7.1/libavcodec/videotoolbox.h",
-				"/usr/include/ffmpeg-7.1/libavcodec/vorbis_parser.h",
 				"/usr/include/libavcodec/ac3_parser.h",
 				"/usr/include/libavcodec/adts_parser.h",
 				"/usr/include/libavcodec/avcodec.h",
@@ -555,16 +524,13 @@
 				"/usr/include/libavcodec/version_major.h",
 				"/usr/include/libavcodec/videotoolbox.h",
 				"/usr/include/libavcodec/vorbis_parser.h",
-				"/usr/lib/ffmpeg-7.1/libavcodec-7.1.so",
 				"/usr/lib/libavcodec.so",
-				"/usr/lib/pkgconfig/libavcodec-7.1.pc",
 				"/usr/lib/pkgconfig/libavcodec.pc",
 				"/usr/share/man/man3/libavcodec.3"
 			],
 			"name": "libavcodec-devel",
 			"provides": [
-				"pkgconfig(libavcodec)",
-				"pkgconfig(libavcodec-7.1)"
+				"pkgconfig(libavcodec)"
 			]
 		},
 		"libavdevice": {
@@ -633,18 +599,13 @@
 				"pkgconfig(xv)"
 			],
 			"depends": [
-				"soname(libGL.so.1(x86_64))",
 				"soname(libX11.so.6(x86_64))",
 				"soname(libXext.so.6(x86_64))",
 				"soname(libXv.so.1(x86_64))",
 				"soname(libasound.so.2(x86_64))",
-				"soname(libavcodec.so.61(x86_64))",
 				"soname(libavcodec.so.62(x86_64))",
-				"soname(libavfilter.so.10(x86_64))",
 				"soname(libavfilter.so.11(x86_64))",
-				"soname(libavformat.so.61(x86_64))",
 				"soname(libavformat.so.62(x86_64))",
-				"soname(libavutil.so.59(x86_64))",
 				"soname(libavutil.so.60(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libcdio_cdda.so.2(x86_64))",
@@ -659,14 +620,11 @@
 				"soname(libxcb.so.1(x86_64))"
 			],
 			"files": [
-				"/usr/lib/libavdevice.so.61",
-				"/usr/lib/libavdevice.so.61.3.100",
 				"/usr/lib/libavdevice.so.62",
 				"/usr/lib/libavdevice.so.62.3.100"
 			],
 			"name": "libavdevice",
 			"provides": [
-				"soname(libavdevice.so.61(x86_64))",
 				"soname(libavdevice.so.62(x86_64))"
 			]
 		},
@@ -738,36 +696,23 @@
 			"depends": [
 				"libavdevice",
 				"pkgconfig(libavcodec)",
-				"pkgconfig(libavcodec-7.1)",
 				"pkgconfig(libavfilter)",
-				"pkgconfig(libavfilter-7.1)",
 				"pkgconfig(libavformat)",
-				"pkgconfig(libavformat-7.1)",
 				"pkgconfig(libavutil)",
-				"pkgconfig(libavutil-7.1)",
-				"pkgconfig(libpostproc-7.1)",
 				"pkgconfig(libswresample)",
-				"pkgconfig(libswresample-7.1)",
-				"pkgconfig(libswscale)",
-				"pkgconfig(libswscale-7.1)"
+				"pkgconfig(libswscale)"
 			],
 			"files": [
-				"/usr/include/ffmpeg-7.1/libavdevice/avdevice.h",
-				"/usr/include/ffmpeg-7.1/libavdevice/version.h",
-				"/usr/include/ffmpeg-7.1/libavdevice/version_major.h",
 				"/usr/include/libavdevice/avdevice.h",
 				"/usr/include/libavdevice/version.h",
 				"/usr/include/libavdevice/version_major.h",
-				"/usr/lib/ffmpeg-7.1/libavdevice-7.1.so",
 				"/usr/lib/libavdevice.so",
-				"/usr/lib/pkgconfig/libavdevice-7.1.pc",
 				"/usr/lib/pkgconfig/libavdevice.pc",
 				"/usr/share/man/man3/libavdevice.3"
 			],
 			"name": "libavdevice-devel",
 			"provides": [
-				"pkgconfig(libavdevice)",
-				"pkgconfig(libavdevice-7.1)"
+				"pkgconfig(libavdevice)"
 			]
 		},
 		"libavfilter": {
@@ -838,11 +783,8 @@
 			"depends": [
 				"soname(libOpenCL.so.1(x86_64))",
 				"soname(libass.so.9(x86_64))",
-				"soname(libavcodec.so.61(x86_64))",
 				"soname(libavcodec.so.62(x86_64))",
-				"soname(libavformat.so.61(x86_64))",
 				"soname(libavformat.so.62(x86_64))",
-				"soname(libavutil.so.59(x86_64))",
 				"soname(libavutil.so.60(x86_64))",
 				"soname(libbs2b.so.0(x86_64))",
 				"soname(libc.so.6(x86_64))",
@@ -855,26 +797,20 @@
 				"soname(libm.so.6(x86_64))",
 				"soname(libmysofa.so.1(x86_64))",
 				"soname(libplacebo.so.360(x86_64))",
-				"soname(libpostproc.so.58(x86_64))",
 				"soname(libqrencode.so.4(x86_64))",
 				"soname(libshaderc_shared.so.1(x86_64))",
-				"soname(libswresample.so.5(x86_64))",
 				"soname(libswresample.so.6(x86_64))",
-				"soname(libswscale.so.8(x86_64))",
 				"soname(libswscale.so.9(x86_64))",
 				"soname(libva.so.2(x86_64))",
 				"soname(libvpl.so.2(x86_64))",
 				"soname(libz.so.1(x86_64))"
 			],
 			"files": [
-				"/usr/lib/libavfilter.so.10",
-				"/usr/lib/libavfilter.so.10.4.100",
 				"/usr/lib/libavfilter.so.11",
 				"/usr/lib/libavfilter.so.11.14.100"
 			],
 			"name": "libavfilter",
 			"provides": [
-				"soname(libavfilter.so.10(x86_64))",
 				"soname(libavfilter.so.11(x86_64))"
 			]
 		},
@@ -946,38 +882,24 @@
 			"depends": [
 				"libavfilter",
 				"pkgconfig(libavcodec)",
-				"pkgconfig(libavcodec-7.1)",
 				"pkgconfig(libavformat)",
-				"pkgconfig(libavformat-7.1)",
 				"pkgconfig(libavutil)",
-				"pkgconfig(libavutil-7.1)",
-				"pkgconfig(libpostproc-7.1)",
 				"pkgconfig(libswresample)",
-				"pkgconfig(libswresample-7.1)",
-				"pkgconfig(libswscale)",
-				"pkgconfig(libswscale-7.1)"
+				"pkgconfig(libswscale)"
 			],
 			"files": [
-				"/usr/include/ffmpeg-7.1/libavfilter/avfilter.h",
-				"/usr/include/ffmpeg-7.1/libavfilter/buffersink.h",
-				"/usr/include/ffmpeg-7.1/libavfilter/buffersrc.h",
-				"/usr/include/ffmpeg-7.1/libavfilter/version.h",
-				"/usr/include/ffmpeg-7.1/libavfilter/version_major.h",
 				"/usr/include/libavfilter/avfilter.h",
 				"/usr/include/libavfilter/buffersink.h",
 				"/usr/include/libavfilter/buffersrc.h",
 				"/usr/include/libavfilter/version.h",
 				"/usr/include/libavfilter/version_major.h",
-				"/usr/lib/ffmpeg-7.1/libavfilter-7.1.so",
 				"/usr/lib/libavfilter.so",
-				"/usr/lib/pkgconfig/libavfilter-7.1.pc",
 				"/usr/lib/pkgconfig/libavfilter.pc",
 				"/usr/share/man/man3/libavfilter.3"
 			],
 			"name": "libavfilter-devel",
 			"provides": [
-				"pkgconfig(libavfilter)",
-				"pkgconfig(libavfilter-7.1)"
+				"pkgconfig(libavfilter)"
 			]
 		},
 		"libavformat": {
@@ -1046,9 +968,7 @@
 				"pkgconfig(xv)"
 			],
 			"depends": [
-				"soname(libavcodec.so.61(x86_64))",
 				"soname(libavcodec.so.62(x86_64))",
-				"soname(libavutil.so.59(x86_64))",
 				"soname(libavutil.so.60(x86_64))",
 				"soname(libbz2.so.1.0(x86_64))",
 				"soname(libc.so.6(x86_64))",
@@ -1062,14 +982,11 @@
 				"soname(libz.so.1(x86_64))"
 			],
 			"files": [
-				"/usr/lib/libavformat.so.61",
-				"/usr/lib/libavformat.so.61.7.100",
 				"/usr/lib/libavformat.so.62",
 				"/usr/lib/libavformat.so.62.12.100"
 			],
 			"name": "libavformat",
 			"provides": [
-				"soname(libavformat.so.61(x86_64))",
 				"soname(libavformat.so.62(x86_64))"
 			]
 		},
@@ -1141,31 +1058,21 @@
 			"depends": [
 				"libavformat",
 				"pkgconfig(libavcodec)",
-				"pkgconfig(libavcodec-7.1)",
 				"pkgconfig(libavutil)",
-				"pkgconfig(libavutil-7.1)",
-				"pkgconfig(libswresample)",
-				"pkgconfig(libswresample-7.1)"
+				"pkgconfig(libswresample)"
 			],
 			"files": [
-				"/usr/include/ffmpeg-7.1/libavformat/avformat.h",
-				"/usr/include/ffmpeg-7.1/libavformat/avio.h",
-				"/usr/include/ffmpeg-7.1/libavformat/version.h",
-				"/usr/include/ffmpeg-7.1/libavformat/version_major.h",
 				"/usr/include/libavformat/avformat.h",
 				"/usr/include/libavformat/avio.h",
 				"/usr/include/libavformat/version.h",
 				"/usr/include/libavformat/version_major.h",
-				"/usr/lib/ffmpeg-7.1/libavformat-7.1.so",
 				"/usr/lib/libavformat.so",
-				"/usr/lib/pkgconfig/libavformat-7.1.pc",
 				"/usr/lib/pkgconfig/libavformat.pc",
 				"/usr/share/man/man3/libavformat.3"
 			],
 			"name": "libavformat-devel",
 			"provides": [
-				"pkgconfig(libavformat)",
-				"pkgconfig(libavformat-7.1)"
+				"pkgconfig(libavformat)"
 			]
 		},
 		"libavutil": {
@@ -1248,14 +1155,11 @@
 				"soname(libz.so.1(x86_64))"
 			],
 			"files": [
-				"/usr/lib/libavutil.so.59",
-				"/usr/lib/libavutil.so.59.39.100",
 				"/usr/lib/libavutil.so.60",
 				"/usr/lib/libavutil.so.60.26.100"
 			],
 			"name": "libavutil",
 			"provides": [
-				"soname(libavutil.so.59(x86_64))",
 				"soname(libavutil.so.60(x86_64))"
 			]
 		},
@@ -1328,102 +1232,6 @@
 				"libavutil"
 			],
 			"files": [
-				"/usr/include/ffmpeg-7.1/libavutil/adler32.h",
-				"/usr/include/ffmpeg-7.1/libavutil/aes.h",
-				"/usr/include/ffmpeg-7.1/libavutil/aes_ctr.h",
-				"/usr/include/ffmpeg-7.1/libavutil/ambient_viewing_environment.h",
-				"/usr/include/ffmpeg-7.1/libavutil/attributes.h",
-				"/usr/include/ffmpeg-7.1/libavutil/audio_fifo.h",
-				"/usr/include/ffmpeg-7.1/libavutil/avassert.h",
-				"/usr/include/ffmpeg-7.1/libavutil/avconfig.h",
-				"/usr/include/ffmpeg-7.1/libavutil/avstring.h",
-				"/usr/include/ffmpeg-7.1/libavutil/avutil.h",
-				"/usr/include/ffmpeg-7.1/libavutil/base64.h",
-				"/usr/include/ffmpeg-7.1/libavutil/blowfish.h",
-				"/usr/include/ffmpeg-7.1/libavutil/bprint.h",
-				"/usr/include/ffmpeg-7.1/libavutil/bswap.h",
-				"/usr/include/ffmpeg-7.1/libavutil/buffer.h",
-				"/usr/include/ffmpeg-7.1/libavutil/camellia.h",
-				"/usr/include/ffmpeg-7.1/libavutil/cast5.h",
-				"/usr/include/ffmpeg-7.1/libavutil/channel_layout.h",
-				"/usr/include/ffmpeg-7.1/libavutil/common.h",
-				"/usr/include/ffmpeg-7.1/libavutil/cpu.h",
-				"/usr/include/ffmpeg-7.1/libavutil/crc.h",
-				"/usr/include/ffmpeg-7.1/libavutil/csp.h",
-				"/usr/include/ffmpeg-7.1/libavutil/des.h",
-				"/usr/include/ffmpeg-7.1/libavutil/detection_bbox.h",
-				"/usr/include/ffmpeg-7.1/libavutil/dict.h",
-				"/usr/include/ffmpeg-7.1/libavutil/display.h",
-				"/usr/include/ffmpeg-7.1/libavutil/dovi_meta.h",
-				"/usr/include/ffmpeg-7.1/libavutil/downmix_info.h",
-				"/usr/include/ffmpeg-7.1/libavutil/encryption_info.h",
-				"/usr/include/ffmpeg-7.1/libavutil/error.h",
-				"/usr/include/ffmpeg-7.1/libavutil/eval.h",
-				"/usr/include/ffmpeg-7.1/libavutil/executor.h",
-				"/usr/include/ffmpeg-7.1/libavutil/ffversion.h",
-				"/usr/include/ffmpeg-7.1/libavutil/fifo.h",
-				"/usr/include/ffmpeg-7.1/libavutil/file.h",
-				"/usr/include/ffmpeg-7.1/libavutil/film_grain_params.h",
-				"/usr/include/ffmpeg-7.1/libavutil/frame.h",
-				"/usr/include/ffmpeg-7.1/libavutil/hash.h",
-				"/usr/include/ffmpeg-7.1/libavutil/hdr_dynamic_metadata.h",
-				"/usr/include/ffmpeg-7.1/libavutil/hdr_dynamic_vivid_metadata.h",
-				"/usr/include/ffmpeg-7.1/libavutil/hmac.h",
-				"/usr/include/ffmpeg-7.1/libavutil/hwcontext.h",
-				"/usr/include/ffmpeg-7.1/libavutil/hwcontext_cuda.h",
-				"/usr/include/ffmpeg-7.1/libavutil/hwcontext_d3d11va.h",
-				"/usr/include/ffmpeg-7.1/libavutil/hwcontext_d3d12va.h",
-				"/usr/include/ffmpeg-7.1/libavutil/hwcontext_drm.h",
-				"/usr/include/ffmpeg-7.1/libavutil/hwcontext_dxva2.h",
-				"/usr/include/ffmpeg-7.1/libavutil/hwcontext_mediacodec.h",
-				"/usr/include/ffmpeg-7.1/libavutil/hwcontext_opencl.h",
-				"/usr/include/ffmpeg-7.1/libavutil/hwcontext_qsv.h",
-				"/usr/include/ffmpeg-7.1/libavutil/hwcontext_vaapi.h",
-				"/usr/include/ffmpeg-7.1/libavutil/hwcontext_vdpau.h",
-				"/usr/include/ffmpeg-7.1/libavutil/hwcontext_videotoolbox.h",
-				"/usr/include/ffmpeg-7.1/libavutil/hwcontext_vulkan.h",
-				"/usr/include/ffmpeg-7.1/libavutil/iamf.h",
-				"/usr/include/ffmpeg-7.1/libavutil/imgutils.h",
-				"/usr/include/ffmpeg-7.1/libavutil/intfloat.h",
-				"/usr/include/ffmpeg-7.1/libavutil/intreadwrite.h",
-				"/usr/include/ffmpeg-7.1/libavutil/lfg.h",
-				"/usr/include/ffmpeg-7.1/libavutil/log.h",
-				"/usr/include/ffmpeg-7.1/libavutil/lzo.h",
-				"/usr/include/ffmpeg-7.1/libavutil/macros.h",
-				"/usr/include/ffmpeg-7.1/libavutil/mastering_display_metadata.h",
-				"/usr/include/ffmpeg-7.1/libavutil/mathematics.h",
-				"/usr/include/ffmpeg-7.1/libavutil/md5.h",
-				"/usr/include/ffmpeg-7.1/libavutil/mem.h",
-				"/usr/include/ffmpeg-7.1/libavutil/motion_vector.h",
-				"/usr/include/ffmpeg-7.1/libavutil/murmur3.h",
-				"/usr/include/ffmpeg-7.1/libavutil/opt.h",
-				"/usr/include/ffmpeg-7.1/libavutil/parseutils.h",
-				"/usr/include/ffmpeg-7.1/libavutil/pixdesc.h",
-				"/usr/include/ffmpeg-7.1/libavutil/pixelutils.h",
-				"/usr/include/ffmpeg-7.1/libavutil/pixfmt.h",
-				"/usr/include/ffmpeg-7.1/libavutil/random_seed.h",
-				"/usr/include/ffmpeg-7.1/libavutil/rational.h",
-				"/usr/include/ffmpeg-7.1/libavutil/rc4.h",
-				"/usr/include/ffmpeg-7.1/libavutil/replaygain.h",
-				"/usr/include/ffmpeg-7.1/libavutil/ripemd.h",
-				"/usr/include/ffmpeg-7.1/libavutil/samplefmt.h",
-				"/usr/include/ffmpeg-7.1/libavutil/sha.h",
-				"/usr/include/ffmpeg-7.1/libavutil/sha512.h",
-				"/usr/include/ffmpeg-7.1/libavutil/spherical.h",
-				"/usr/include/ffmpeg-7.1/libavutil/stereo3d.h",
-				"/usr/include/ffmpeg-7.1/libavutil/tea.h",
-				"/usr/include/ffmpeg-7.1/libavutil/threadmessage.h",
-				"/usr/include/ffmpeg-7.1/libavutil/time.h",
-				"/usr/include/ffmpeg-7.1/libavutil/timecode.h",
-				"/usr/include/ffmpeg-7.1/libavutil/timestamp.h",
-				"/usr/include/ffmpeg-7.1/libavutil/tree.h",
-				"/usr/include/ffmpeg-7.1/libavutil/twofish.h",
-				"/usr/include/ffmpeg-7.1/libavutil/tx.h",
-				"/usr/include/ffmpeg-7.1/libavutil/uuid.h",
-				"/usr/include/ffmpeg-7.1/libavutil/version.h",
-				"/usr/include/ffmpeg-7.1/libavutil/video_enc_params.h",
-				"/usr/include/ffmpeg-7.1/libavutil/video_hint.h",
-				"/usr/include/ffmpeg-7.1/libavutil/xtea.h",
 				"/usr/include/libavutil/adler32.h",
 				"/usr/include/libavutil/aes.h",
 				"/usr/include/libavutil/aes_ctr.h",
@@ -1525,16 +1333,13 @@
 				"/usr/include/libavutil/video_enc_params.h",
 				"/usr/include/libavutil/video_hint.h",
 				"/usr/include/libavutil/xtea.h",
-				"/usr/lib/ffmpeg-7.1/libavutil-7.1.so",
 				"/usr/lib/libavutil.so",
-				"/usr/lib/pkgconfig/libavutil-7.1.pc",
 				"/usr/lib/pkgconfig/libavutil.pc",
 				"/usr/share/man/man3/libavutil.3"
 			],
 			"name": "libavutil-devel",
 			"provides": [
-				"pkgconfig(libavutil)",
-				"pkgconfig(libavutil-7.1)"
+				"pkgconfig(libavutil)"
 			]
 		},
 		"libpostproc": {
@@ -1602,18 +1407,10 @@
 				"pkgconfig(xcb)",
 				"pkgconfig(xv)"
 			],
-			"depends": [
-				"soname(libavutil.so.59(x86_64))",
-				"soname(libc.so.6(x86_64))"
-			],
 			"files": [
-				"/usr/lib/libpostproc.so.58",
-				"/usr/lib/libpostproc.so.58.3.100"
+				"/usr/share/doc/libpostproc/README"
 			],
-			"name": "libpostproc",
-			"provides": [
-				"soname(libpostproc.so.58(x86_64))"
-			]
+			"name": "libpostproc"
 		},
 		"libpostproc-devel": {
 			"build-depends": [
@@ -1681,20 +1478,12 @@
 				"pkgconfig(xv)"
 			],
 			"depends": [
-				"libpostproc",
-				"pkgconfig(libavutil-7.1)"
+				"libpostproc"
 			],
 			"files": [
-				"/usr/include/ffmpeg-7.1/libpostproc/postprocess.h",
-				"/usr/include/ffmpeg-7.1/libpostproc/version.h",
-				"/usr/include/ffmpeg-7.1/libpostproc/version_major.h",
-				"/usr/lib/ffmpeg-7.1/libpostproc-7.1.so",
-				"/usr/lib/pkgconfig/libpostproc-7.1.pc"
+				"/usr/share/doc/libpostproc-devel/README"
 			],
-			"name": "libpostproc-devel",
-			"provides": [
-				"pkgconfig(libpostproc-7.1)"
-			]
+			"name": "libpostproc-devel"
 		},
 		"libswresample": {
 			"build-depends": [
@@ -1762,21 +1551,17 @@
 				"pkgconfig(xv)"
 			],
 			"depends": [
-				"soname(libavutil.so.59(x86_64))",
 				"soname(libavutil.so.60(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libm.so.6(x86_64))",
 				"soname(libsoxr.so.0(x86_64))"
 			],
 			"files": [
-				"/usr/lib/libswresample.so.5",
-				"/usr/lib/libswresample.so.5.3.100",
 				"/usr/lib/libswresample.so.6",
 				"/usr/lib/libswresample.so.6.3.100"
 			],
 			"name": "libswresample",
 			"provides": [
-				"soname(libswresample.so.5(x86_64))",
 				"soname(libswresample.so.6(x86_64))"
 			]
 		},
@@ -1847,26 +1632,19 @@
 			],
 			"depends": [
 				"libswresample",
-				"pkgconfig(libavutil)",
-				"pkgconfig(libavutil-7.1)"
+				"pkgconfig(libavutil)"
 			],
 			"files": [
-				"/usr/include/ffmpeg-7.1/libswresample/swresample.h",
-				"/usr/include/ffmpeg-7.1/libswresample/version.h",
-				"/usr/include/ffmpeg-7.1/libswresample/version_major.h",
 				"/usr/include/libswresample/swresample.h",
 				"/usr/include/libswresample/version.h",
 				"/usr/include/libswresample/version_major.h",
-				"/usr/lib/ffmpeg-7.1/libswresample-7.1.so",
 				"/usr/lib/libswresample.so",
-				"/usr/lib/pkgconfig/libswresample-7.1.pc",
 				"/usr/lib/pkgconfig/libswresample.pc",
 				"/usr/share/man/man3/libswresample.3"
 			],
 			"name": "libswresample-devel",
 			"provides": [
-				"pkgconfig(libswresample)",
-				"pkgconfig(libswresample-7.1)"
+				"pkgconfig(libswresample)"
 			]
 		},
 		"libswscale": {
@@ -1935,7 +1713,6 @@
 				"pkgconfig(xv)"
 			],
 			"depends": [
-				"soname(libavutil.so.59(x86_64))",
 				"soname(libavutil.so.60(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libm.so.6(x86_64))",
@@ -1943,14 +1720,11 @@
 				"soname(libz.so.1(x86_64))"
 			],
 			"files": [
-				"/usr/lib/libswscale.so.8",
-				"/usr/lib/libswscale.so.8.3.100",
 				"/usr/lib/libswscale.so.9",
 				"/usr/lib/libswscale.so.9.5.100"
 			],
 			"name": "libswscale",
 			"provides": [
-				"soname(libswscale.so.8(x86_64))",
 				"soname(libswscale.so.9(x86_64))"
 			]
 		},
@@ -2021,30 +1795,23 @@
 			],
 			"depends": [
 				"libswscale",
-				"pkgconfig(libavutil)",
-				"pkgconfig(libavutil-7.1)"
+				"pkgconfig(libavutil)"
 			],
 			"files": [
-				"/usr/include/ffmpeg-7.1/libswscale/swscale.h",
-				"/usr/include/ffmpeg-7.1/libswscale/version.h",
-				"/usr/include/ffmpeg-7.1/libswscale/version_major.h",
 				"/usr/include/libswscale/swscale.h",
 				"/usr/include/libswscale/version.h",
 				"/usr/include/libswscale/version_major.h",
-				"/usr/lib/ffmpeg-7.1/libswscale-7.1.so",
 				"/usr/lib/libswscale.so",
-				"/usr/lib/pkgconfig/libswscale-7.1.pc",
 				"/usr/lib/pkgconfig/libswscale.pc",
 				"/usr/share/man/man3/libswscale.3"
 			],
 			"name": "libswscale-devel",
 			"provides": [
-				"pkgconfig(libswscale)",
-				"pkgconfig(libswscale-7.1)"
+				"pkgconfig(libswscale)"
 			]
 		}
 	},
 	"source-name": "ffmpeg",
-	"source-release": "26",
+	"source-release": "27",
 	"source-version": "8.1"
 }

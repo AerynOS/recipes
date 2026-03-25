@@ -199,3 +199,7 @@
 
 ### These were internal build tools all along
 - libde265-examples
+
+### Removed in ffmpeg 8.0
+- libpostproc
+- libpostproc-devel
