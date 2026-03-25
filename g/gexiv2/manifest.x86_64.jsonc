@@ -24,13 +24,17 @@
 				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
+				"/usr/lib/girepository-1.0/GExiv2-0.10.typelib",
 				"/usr/lib/girepository-1.0/GExiv2-0.16.typelib",
 				"/usr/lib/libgexiv2-0.16.so.4",
-				"/usr/lib/libgexiv2-0.16.so.4.16.0"
+				"/usr/lib/libgexiv2-0.16.so.4.16.0",
+				"/usr/lib/libgexiv2.so.2",
+				"/usr/lib/libgexiv2.so.2.14.6"
 			],
 			"name": "gexiv2",
 			"provides": [
-				"soname(libgexiv2-0.16.so.4(x86_64))"
+				"soname(libgexiv2-0.16.so.4(x86_64))",
+				"soname(libgexiv2.so.2(x86_64))"
 			]
 		},
 		"gexiv2-devel": {
@@ -93,6 +97,6 @@
 		}
 	},
 	"source-name": "gexiv2",
-	"source-release": "10",
+	"source-release": "11",
 	"source-version": "0.16.0"
 }
