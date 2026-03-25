@@ -5,10 +5,17 @@
 #
 name        : gexiv2
 version     : "0.16.0"
-release     : 10
+release     : 11
 homepage    : https://wiki.gnome.org/Projects/gexiv2
 upstreams   :
-    - https://download.gnome.org/sources/gexiv2/0.16/gexiv2-0.16.0.tar.xz : d96f895f24539f966f577b2bb2489ae84f8232970a8d0c064e4a007474a77bbb
+    - https://download.gnome.org/sources/gexiv2/0.16/gexiv2-0.16.0.tar.xz:
+        hash: d96f895f24539f966f577b2bb2489ae84f8232970a8d0c064e4a007474a77bbb
+        unpackdir: current
+
+    # Variety needs the old version (for now)
+    - https://download.gnome.org/sources/gexiv2/0.14/gexiv2-0.14.6.tar.xz:
+        hash: 606c28aaae7b1f3ef5c8eabe5e7dffd7c5a1c866d25b7671fb847fe287a72b8b
+        unpackdir: compat
 summary     : gexiv2 is a GObject wrapper around the Exiv2 photo metadata library
 description : |
     gexiv2 is a GObject wrapper around the Exiv2 photo metadata library. It allows for GNOME applications to easily inspect and update EXIF, IPTC, and XMP metadata in photo and video files of various formats.
@@ -24,10 +31,39 @@ builddeps   :
     - pkgconfig(gobject-introspection-1.0)
     - python-pygobject
 setup       : |
+    if [ -d ../compat ]; then
+        pushd ../compat/
+
+        %meson
+        popd
+    fi
+
     %meson
 build       : |
-    %meson_build
+    if [ -d ../compat ]; then
+        pushd ../compat
+            %ccache_zero
+            env CCACHE_BASEDIR="${pwd}" %meson_build
+            %ccache_stats
+        popd
+    fi
+
+    %ccache_zero
+    env CCACHE_BASEDIR="${pwd}" %meson_build
+    %ccache_stats
 install     : |
+    if [ -d ../compat ]; then
+        pushd ../compat/
+        mkdir tmp
+        DESTDIR="${pwd}/tmp" meson install --no-rebuild -C "%(builddir)"
+
+        # Only copy the sonames and type info
+        %install_dir %(installroot)/%(libdir)/girepository-1.0
+        find ${pwd}/tmp/%(libdir) -name "libgexiv2.so.*" -print -exec mv {} %(installroot)/%(libdir) \;
+        find ${pwd}/tmp/%(libdir) -name "GExiv2-0.10.typelib" -print -exec mv {} %(installroot)/%(libdir)/girepository-1.0 \;
+        popd
+    fi
+
     %meson_install
 packages    :
     - "%(name)-devel":
