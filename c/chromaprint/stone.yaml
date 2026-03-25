@@ -1,0 +1,24 @@
+#
+# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : chromaprint
+version     : "1.6.0"
+release     : 1
+upstreams   :
+    - https://github.com/acoustid/chromaprint/releases/download/v1.6.0/chromaprint-1.6.0.tar.gz : 9d33482e56a1389a37a0d6742c376139fa43e3b8a63d29003222b93db2cb40da
+homepage    : https://acoustid.org/chromaprint
+license     : LGPL-2.1-or-later
+summary     : Library for extracting fingerprints from any audio source
+description : |
+    Library for extracting fingerprints from any audio source
+builddeps   :
+    - pkgconfig(fftw3)
+    - pkgconfig(libswresample)
+setup       : |
+    %cmake
+build       : |
+    %cmake_build
+install     : |
+    %cmake_install
