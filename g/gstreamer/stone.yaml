@@ -5,7 +5,7 @@
 #
 name        : gstreamer
 version     : "1.28.1"
-release     : 44
+release     : 45
 homepage    : https://gstreamer.freedesktop.org/
 upstreams   :
     - https://gitlab.freedesktop.org/gstreamer/gstreamer/-/archive/1.28.1/gstreamer-1.28.1.tar.gz : 97fee2ed866d087cd0f0cecbb3b955d18145bda22c8ae4d3a04603c6a055e8a6
@@ -59,6 +59,7 @@ builddeps   :
     - pkgconfig(libbs2b)
     # - pkgconfig(libcap) # Re-enable when we support capabilities
     - pkgconfig(libcdio)
+    - pkgconfig(libchromaprint)
     - pkgconfig(libcurl)
     - pkgconfig(libde265)
     - pkgconfig(libdrm)
@@ -132,7 +133,6 @@ builddeps   :
 # bad:
 # - lcevc
 # - libltc
-# - libchromaprint
 # - libdc1394-2
 # - libfaad
 # - flite
@@ -435,6 +435,7 @@ packages    :
             - /usr/lib/gstreamer-1.0/libgstbluez.so
             - /usr/lib/gstreamer-1.0/libgstbz2.so
             - /usr/lib/gstreamer-1.0/libgstcamerabin.so
+            - /usr/lib/gstreamer-1.0/libgstchromaprint.so
             - /usr/lib/gstreamer-1.0/libgstclosedcaption.so
             - /usr/lib/gstreamer-1.0/libgstcodec2json.so
             - /usr/lib/gstreamer-1.0/libgstcodecalpha.so
