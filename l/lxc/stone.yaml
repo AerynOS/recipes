@@ -5,7 +5,7 @@
 #
 name        : lxc
 version     : "6.0.6"
-release     : 3
+release     : 4
 homepage    : https://linuxcontainers.org/lxc
 upstreams   :
     - https://linuxcontainers.org/downloads/lxc/lxc-6.0.6.tar.gz : b0ba4537258d2b848fd07dedb1044dab132de3fb3f1976d240da40a7dee1b8cf
@@ -29,7 +29,7 @@ setup       : |
 
     # TODO: Figure out why static libcap isn't working
     %meson \
-        -Dapparmor=false \
+        -Dapparmor=true \
         -Ddistrosysconfdir=/etc/default \
         -Dman=false \
         -Dpam-cgroup=true \
