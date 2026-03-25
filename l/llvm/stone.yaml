@@ -4,8 +4,8 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : llvm
-version     : "22.1.1"
-release     : 49
+version     : "22.1.2"
+release     : 50
 summary     : Low Level Virtual Machine
 license     :
     - Apache-2.0 WITH LLVM-exception
@@ -14,7 +14,7 @@ homepage    : https://www.llvm.org
 description : |
     Low Level Virtual Machine
 upstreams   :
-    - https://github.com/llvm/llvm-project/releases/download/llvmorg-22.1.1/llvm-project-22.1.1.src.tar.xz : 9c6f37f6f5f68d38f435d25f770fc48c62d92b2412205767a16dac2c942f0c95
+    - https://github.com/llvm/llvm-project/releases/download/llvmorg-22.1.2/llvm-project-22.1.2.src.tar.xz : 62f2f13ff25b1bb28ea507888e858212d19aafb65e8e72b4a65ee0629ec4ae0c
 builddeps   :
     - binary(perl)
     - binary(python3)
@@ -105,8 +105,6 @@ environment : |
 
         ## Upstream backports/reverts
         %patch %(pkgdir)/patches/upstream/0001-Backport-177953.patch
-        %patch %(pkgdir)/patches/upstream/186882.patch
-        %patch %(pkgdir)/patches/upstream/187274.patch
         # Fix systemd build
         %patch %(pkgdir)/patches/upstream/0001-Revert-clang-Add-missing-readonly-readnone-annotatio.patch
         # Fix ffmpeg build
