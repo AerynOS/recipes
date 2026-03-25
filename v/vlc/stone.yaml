@@ -5,7 +5,7 @@
 #
 name        : vlc
 version     : "3.0.23"
-release     : 17
+release     : 18
 upstreams   :
     - https://download.videolan.org/pub/videolan/vlc/3.0.23/vlc-3.0.23.tar.xz : e891cae6aa3ccda69bf94173d5105cbc55c7a7d9b1d21b9b21666e69eff3e7e0
 homepage    : https://www.videolan.org/
@@ -41,9 +41,9 @@ builddeps   :
     - pkgconfig(ice)
     - pkgconfig(libarchive)
     - pkgconfig(libass)
-    - pkgconfig(libavcodec-7.1)
-    - pkgconfig(libavformat-7.1)
-    - pkgconfig(libavutil-7.1)
+    - pkgconfig(libavcodec)
+    - pkgconfig(libavformat)
+    - pkgconfig(libavutil)
     - pkgconfig(libcddb)
     - pkgconfig(libchromaprint)
     - pkgconfig(libgcrypt)
@@ -55,12 +55,11 @@ builddeps   :
     # Doesn't support libplacebo > 6
     # - pkgconfig(libplacebo)
     - pkgconfig(libpng)
-    - pkgconfig(libpostproc-7.1)
     - pkgconfig(libpulse)
     - pkgconfig(librsvg-2.0)
     - pkgconfig(libsecret-1)
     - pkgconfig(libssh2)
-    - pkgconfig(libswscale-7.1)
+    - pkgconfig(libswscale)
     - pkgconfig(libsystemd)
     - pkgconfig(libva)
     - pkgconfig(libva-drm)
@@ -133,7 +132,6 @@ setup       : |
     export BUILDCC="$CC"
     %patch %(pkgdir)/libidn2.patch
     %patch %(pkgdir)/oneVPL.patch
-    %patch %(pkgdir)/ffmpeg-7.1.patch
     %patch %(pkgdir)/gstreamer-1.28.patch
 
     %reconfigure \
@@ -561,7 +559,6 @@ packages    :
             - /usr/lib/vlc/plugins/stream_out/libstream_out_chromaprint_plugin.so
             - /usr/lib/vlc/plugins/vdpau/libvdpau_avcodec_plugin.so
             - /usr/lib/vlc/plugins/video_chroma/libswscale_plugin.so
-            - /usr/lib/vlc/plugins/video_filter/libpostproc_plugin.so
 
     - "%(name)-plugin-gnome":
         summary: VLC media player Gnome Keyring plugin
