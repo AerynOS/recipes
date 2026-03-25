@@ -5,7 +5,7 @@
 #
 name        : ffmpeg
 version     : "8.1"
-release     : 26
+release     : 27
 homepage    : https://ffmpeg.org/releases
 upstreams   :
     - https://ffmpeg.org/releases/ffmpeg-8.1.tar.xz:
@@ -13,9 +13,9 @@ upstreams   :
         unpackdir: current
 
     # Don't delete this section, just comment it out if it's not needed. The build recipe accounts for it possibly not existing
-    - https://ffmpeg.org/releases/ffmpeg-7.1.3.tar.xz:
-        hash: f0bf043299db9e3caacb435a712fc541fbb07df613c4b893e8b77e67baf3adbe
-        unpackdir: compat
+    # - https://ffmpeg.org/releases/ffmpeg-7.1.3.tar.xz:
+    #     hash: f0bf043299db9e3caacb435a712fc541fbb07df613c4b893e8b77e67baf3adbe
+    #     unpackdir: compat
 summary     : FFmpeg is a complete, cross-platform solution to record, convert and stream audio and video.
 description : |
     FFmpeg is a complete, cross-platform solution to record, convert and stream audio and video.
@@ -131,10 +131,7 @@ setup       : |
     if [ -d ../compat ]; then
         pushd ../compat
         %patch %(pkgdir)/0001-Don-t-print-in-columns.patch
-        %patch %(pkgdir)/0001-configure-explicitly-disable-spirv_compiler.patch
-        %patch %(pkgdir)/CVE-2025-22921.patch
         %patch %(pkgdir)/chromium.patch
-        %patch %(pkgdir)/ftbfs-svt-av1-4.patch
 
         ./configure \
             --prefix=%(prefix) \
@@ -326,6 +323,12 @@ install     : |
     fi
 
     %make_install
+
+    # Deprecated lib(s)
+    for i in libpostproc{,-devel}; do
+        %install_dir %(installroot)%(docdir)/${i}
+        echo "DEPRECATED" > %(installroot)%(docdir)/${i}/README
+    done
 tuning      :
     # - lto: full # Handled by configure flag
     - optimize: speed
@@ -420,24 +423,6 @@ packages    :
             - /usr/lib/pkgconfig/libavutil-*.pc
             - /usr/share/man/man3/libavutil.*
 
-    - "libpostproc":
-        summary: FFmpeg post-processing library
-        paths:
-            - /usr/lib/libpostproc.so.*
-
-    - "libpostproc-devel":
-        summary: FFmpeg post-processing library - Devel files
-        rundeps:
-            - libpostproc
-        paths:
-            - /usr/include/libpostproc/
-            - /usr/include/ffmpeg-*/libpostproc/
-            - /usr/lib/libpostproc.so
-            - /usr/lib/ffmpeg-*/libpostproc-*.so
-            - /usr/lib/pkgconfig/libpostproc.pc
-            - /usr/lib/pkgconfig/libpostproc-*.pc
-            - /usr/share/man/man3/libpostproc.*
-
     - "libswscale":
         summary: FFmpeg image scaling and colorspace/pixel conversion library
         paths:
@@ -490,3 +475,15 @@ packages    :
     - "%(name)-docs":
         paths:
             - /usr/share/doc/
+
+    - "libpostproc":
+        summary: FFmpeg post-processing library
+        paths:
+            - /usr/share/doc/libpostproc/
+
+    - "libpostproc-devel":
+        summary: FFmpeg post-processing library - Devel files
+        rundeps:
+            - libpostproc
+        paths:
+            - /usr/share/doc/libpostproc-devel/README
