@@ -11,7 +11,8 @@ User=postgres
 Group=postgres
 Environment=PGDATA=/var/lib/postgresql/data
 ExecStartPre=/usr/bin/postgresql-check-db-dir ${PGDATA}
-ExecStart=/usr/bin/postgres -D ${PGDATA}
+ExecStart=/usr/bin/postgres -D ${PGDATA} \
+    -c listen_addresses=''
 ExecReload=/bin/kill -HUP $MAINPID
 KillMode=mixed
 KillSignal=SIGINT

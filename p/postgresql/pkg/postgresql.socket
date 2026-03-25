@@ -4,11 +4,14 @@ PartOf=postgresql.service
 
 [Socket]
 ListenStream=/tmp/.s.PGSQL.5432
+ListenStream=127.0.0.1:5432
+ListenStream=[::1]:5432
 SocketMode=0755
 SocketUser=postgres
 SocketGroup=postgres
 DirectoryMode=0755
 RemoveOnStop=yes
+NoDelay=true
 
 [Install]
 WantedBy=sockets.target
