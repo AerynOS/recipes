@@ -15,9 +15,8 @@
 				"sysbinary(depmod)"
 			],
 			"files": [
-				"/usr/lib/kernel/6.18.20-137.desktop/60-nvidia.cmdline",
 				"/usr/lib/kernel/6.18.20-137.desktop/60-nvidia.initrd",
-				"/usr/lib/modprobe.d/nvidia-noview.conf",
+				"/usr/lib/modprobe.d/nvidia-blacklist.conf",
 				"/usr/lib/modules-load.d/nvidia-uvm.conf",
 				"/usr/lib/modules/6.18.20-137.desktop/kernel/drivers/video/nvidia-drm.ko.zst",
 				"/usr/lib/modules/6.18.20-137.desktop/kernel/drivers/video/nvidia-modeset.ko.zst",
@@ -29,6 +28,6 @@
 		}
 	},
 	"source-name": "nvidia-open-gpu-kernel-modules",
-	"source-release": "76",
-	"source-version": "590.48.01"
+	"source-release": "77",
+	"source-version": "595.58.03"
 }

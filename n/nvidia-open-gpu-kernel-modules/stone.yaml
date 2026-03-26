@@ -4,13 +4,13 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : nvidia-open-gpu-kernel-modules
-version     : "590.48.01"
-release     : 76
+version     : "595.58.03"
+release     : 77
 homepage    : https://github.com/NVIDIA/open-gpu-kernel-modules
 upstreams   :
-    - https://download.nvidia.com/XFree86/NVIDIA-kernel-module-source/NVIDIA-kernel-module-source-590.48.01.tar.xz : ffcd948cfe32bb0655fc911b8204ae6df086346025dd644d559a9b148297a80d
-    - https://us.download.nvidia.com/XFree86/Linux-x86_64/590.48.01/NVIDIA-Linux-x86_64-590.48.01.run:
-        hash: b9e2f80693781431cc87f4cd29109e133dcecb50a50d6b68d4b3bf2d696bd689
+    - https://download.nvidia.com/XFree86/NVIDIA-kernel-module-source/NVIDIA-kernel-module-source-595.58.03.tar.xz : 4eb7e85d4ace3699e98e583191744c9bac3cd3637f0a48e12e114d0b3daec0ca
+    - https://us.download.nvidia.com/XFree86/Linux-x86_64/595.58.03/NVIDIA-Linux-x86_64-595.58.03.run:
+        hash: 8c0d4f967b7932c4ab5714272aee8103392b0a702c92afa555176d36205829f9
         unpack: false
         rename: NVIDIA.run
 summary     : NVIDIA open GPU kernel modules
@@ -69,15 +69,15 @@ install     : |
     sh %(sourcedir)/NVIDIA.run --extract-only --target extracted
     mkdir -p initrd/%(libdir)/modules/$KERNEL_UNAME/kernel/drivers/video
     %install_file extracted/firmware/*.bin -t initrd/%(libdir)/firmware/nvidia/%(version)
-    %install_file %(pkgdir)/nvidia-power-management.conf initrd/%(libdir)/modprobe.d/nvidia-power-management.conf
+    %install_file %(pkgdir)/nvidia.conf initrd/%(libdir)/modprobe.d/nvidia.conf
+    %install_file %(pkgdir)/nvidia-blacklist.conf initrd/%(libdir)/modprobe.d/nvidia-blacklist.conf
     find %(installroot)%(libdir)/modules -name '*.ko' -exec cp -v {} initrd/%(libdir)/modules/$KERNEL_UNAME/kernel/drivers/video \;
     touch initrd/.dracut-depmod-invalidate
     pushd initrd
     find . | cpio -o -H newc | zstd -19 -T0 -c > %(installroot)%(libdir)/kernel/$KERNEL_UNAME/60-nvidia.initrd
     popd
 
-    %install_file %(pkgdir)/20-nvidia.cmdline %(installroot)%(libdir)/kernel/$KERNEL_UNAME/60-nvidia.cmdline
-    %install_file %(pkgdir)/nvidia-noview.conf %(installroot)%(libdir)/modprobe.d/nvidia-noview.conf
+    %install_file %(pkgdir)/nvidia-blacklist.conf %(installroot)%(libdir)/modprobe.d/nvidia-blacklist.conf
     %install_file %(pkgdir)/nvidia-uvm.conf %(installroot)%(libdir)/modules-load.d/nvidia-uvm.conf
 
     # Compress modules with zstd
