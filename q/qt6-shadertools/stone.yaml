@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : qt6-shadertools
-version     : "6.10.2"
-release     : 12
+version     : "6.11.0"
+release     : 13
 homepage    : https://www.qt.io
 upstreams   :
-    - https://download.qt.io/official_releases/qt/6.10/6.10.2/submodules/qtshadertools-everywhere-src-6.10.2.tar.xz : 18d9dbbc4f7e6e96e6ed89a9965dc032e2b58158b65156c035537826216716c9
+    - https://download.qt.io/official_releases/qt/6.11/6.11.0/submodules/qtshadertools-everywhere-src-6.11.0.tar.xz : e43cb1ae8809b2a858281ee269f98da59d0fc1bcf958ca5510c81f7ad3d2e14a
 summary     : Qt Shader Tools module
 description : |
     APIs and tools in this module provide the producer functionality for the shader pipeline that allows Qt Quick to operate on Vulkan in addition to OpenGL.
@@ -19,7 +19,7 @@ builddeps   :
 rundeps     :
     - binary(spirv-opt)
 setup       : |
-    # Temporarily disabled until qt updates to glslang 16
+    # Note: Disabled until Qt stops using spvremapper (removed in glslang 16.0, re-added by Qt)
     # %patch %(pkgdir)/0001-Debundle-glslang.patch
     # rm -rf src/3rdparty/glslang
 
