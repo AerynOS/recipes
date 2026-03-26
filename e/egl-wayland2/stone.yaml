@@ -1,0 +1,40 @@
+#
+# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : egl-wayland2
+version     : "1.0.1"
+release     : 1
+homepage    : https://github.com/NVIDIA/egl-wayland2
+upstreams   :
+    - https://github.com/NVIDIA/egl-wayland2/archive/refs/tags/v1.0.1.tar.gz : 1d8f154e69b3055cb20f5eddda0fa438aea292e6ef835b129cd2efaae5eb95fc
+summary     : Dma-buf-based Wayland external platform library
+description : |
+    This is a new implementation of the EGL External Platform Library for Wayland (EGL_KHR_platform_wayland), using the NVIDIA driver's new platform surface interface, which simplifies a lot of the library and improves window resizing.
+license     : Apache-2.0
+emul32      : true
+builddeps   :
+    - pkgconfig(eglexternalplatform)
+    - pkgconfig(wayland-protocols)
+    - pkgconfig(wayland-scanner)
+    - pkgconfig32(egl)
+    - pkgconfig32(gbm)
+    - pkgconfig32(libdrm)
+    - pkgconfig32(wayland-client)
+    - pkgconfig32(wayland-egl-backend)
+setup       : |
+    %meson
+build       : |
+    %meson_build
+install     : |
+    %meson_install
+packages    :
+    # For the moment there are no headers/pkgconfig so just shove the .so in the corresponding package
+    - "%(name)":
+        paths:
+            - /usr/lib/libnvidia-egl-wayland2.so
+
+    - "%(name)-32bit":
+        paths:
+            - /usr/lib32/libnvidia-egl-wayland2.so
