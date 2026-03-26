@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : qt6-tools
-version     : "6.10.2"
-release     : 14
+version     : "6.11.0"
+release     : 15
 homepage    : https://www.qt.io
 upstreams   :
-    - https://download.qt.io/official_releases/qt/6.10/6.10.2/submodules/qttools-everywhere-src-6.10.2.tar.xz : 1e3d2c07c1fd76d2425c6eaeeaa62ffaff5f79210c4e1a5bc2a6a9db668d5b24
+    - https://download.qt.io/official_releases/qt/6.11/6.11.0/submodules/qttools-everywhere-src-6.11.0.tar.xz : cfb1993d7a10848965b01b9cf33a54b8a4ba4e5e3a6d28d59483e73f10d9fc76
 summary     : Qt6 QtTools Module
 description : |
     Qt is a set of libraries for developing applications.  This package contains base tools, like string, xml, and network handling.
@@ -17,23 +17,20 @@ license     :
     - GPL-3.0-or-later
     - LGPL-3.0-or-later
 builddeps   :
-    - binary(llvm-config-21)
+    - binary(llvm-config-22)
     - cmake(Qt6CorePrivate)
     - cmake(Qt6QmlTools)
     - pkgconfig(libzstd)
-    - clang-21-devel
-    # TODO: Check updated versions for LLVM 22 compat
+    - clang-devel
 setup       : |
     %patch %(pkgdir)/ftbfs-zstd.patch
-    %cmake_qt6 \
-        -DCMAKE_PREFIX_PATH="%(libdir)/llvm-21/"
+    %patch %(pkgdir)/ftbfs-llvm-22.patch
+
+    %cmake_qt6
 build       : |
     %cmake_build
 install     : |
     %cmake_install
-
-    # Setup user-facing binaries
-    %qt_user_facing_links
 
     # .desktop and icons for subpackages
     %install_file -t %(installroot)/%(datadir)/applications %(pkgdir)/*.desktop
@@ -47,26 +44,31 @@ packages    :
         paths:
             - /usr/bin
             - /usr/lib/qt6/bin
+            - /usr/lib/objects-Release # ?
         rundeps:
             - qt6-designer
             - qt6-doctools
             - qt6-linguist
+
     - "%(name)":
         paths:
             - /usr/bin/qdbus6
             - /usr/lib/qt6/bin/qdbus
+
     - "qt6-assistant" :
         paths:
             - /usr/bin/assistant6
             - /usr/lib/qt6/bin/assistant
             - /usr/share/applications/assistant6.desktop
             - /usr/share/icons/hicolor/*/apps/assistant6.png
+
     - "qt6-dbusviewer" :
         paths:
             - /usr/bin/qdbusviewer6
             - /usr/lib/qt6/bin/qdbusviewer
             - /usr/share/applications/qdbusviewer6.desktop
             - /usr/share/icons/hicolor/*/apps/qdbusviewer6.png
+
     - "qt6-designer" :
         paths:
             - /usr/bin/designer6
@@ -75,6 +77,7 @@ packages    :
             - /usr/lib/qt6/plugins/designer
             - /usr/share/applications/designer6.desktop
             - /usr/share/icons/hicolor/*/apps/designer6.png
+
     - "qt6-doctools" :
         paths:
             - /usr/bin/qdistancefieldgenerator6
@@ -83,16 +86,25 @@ packages    :
             - /usr/lib/qt6/bin/qdoc
             - /usr/lib/qt6/qhelpgenerator
             - /usr/lib/qt6/qtattributionsscanner
+
     - "qt6-linguist" :
         paths:
+            - /usr/bin/lcheck6
+            - /usr/bin/lconvert6
             - /usr/bin/linguist6
+            - /usr/bin/lrelease6
+            - /usr/bin/lrelease-pro6
+            - /usr/bin/ltext2id6
+            - /usr/bin/lupdate6
+            - /usr/bin/lupdate-pro6
+            - /usr/lib/qt6/bin/lcheck
             - /usr/lib/qt6/bin/lconvert
             - /usr/lib/qt6/bin/linguist
             - /usr/lib/qt6/bin/lrelease
+            - /usr/lib/qt6/bin/lrelease-pro
+            - /usr/lib/qt6/bin/ltext2id
             - /usr/lib/qt6/bin/lupdate
-            - /usr/lib/qt6/lprodump
-            - /usr/lib/qt6/lrelease-pro
-            - /usr/lib/qt6/lupdate-pro
+            - /usr/lib/qt6/bin/lupdate-pro
             - /usr/share/applications/linguist6.desktop
             - /usr/share/icons/hicolor/*/apps/linguist6.png    
             - /usr/share/qt6/phrasebooks
