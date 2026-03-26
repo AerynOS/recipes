@@ -1,6 +1,6 @@
 name       : nextcloud-client
 version    : "4.0.3"
-release    : 5
+release    : 6
 homepage   : https://docs.nextcloud.com/desktop
 upstreams  :
     - https://github.com/nextcloud/desktop/archive/refs/tags/v4.0.3.tar.gz : 05ce3368956a2e5792a3eba242ee2d649e6073d494d81a22f9d8bbba71a92fc9
@@ -8,6 +8,7 @@ summary    : Nextcloud client for nextcloud server
 description: Nextcloud client enables you to connect to your private Nextcloud Server. With it you can create directories in your home directory, and keep the contents of those directories synced with the server
 license    : GPL-2.0-or-later
 builddeps  :
+    - binary(rsvg-convert)
     - cmake(ECM)
     - cmake(KF6Archive)
     - cmake(KF6CoreAddons)
