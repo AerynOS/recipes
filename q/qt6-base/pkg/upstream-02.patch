@@ -1,0 +1,108 @@
+From 0e5abce244f0c0ed7c443586aeb6b8146b10e229 Mon Sep 17 00:00:00 2001
+From: Vlad Zahorodnii <vlad.zahorodnii@kde.org>
+Date: Wed, 11 Mar 2026 14:02:24 +0200
+Subject: [PATCH] Client: Reposition xdg popups when only size changes
+
+At the moment, the xdg-shell integration plugin only overrides the
+setWindowPosition() function.
+
+However, if the client wants to resize popups too, it also needs to call
+the reposition request. In other words, the setWindowSize() function
+should be overriden too.
+
+The setWindowGeometry() function has been overriden (its default
+implementation calls both setWindowPosition() and setWindowSize()) to
+avoid sending a duplication reposition request.
+
+Change-Id: I17d5812004546f827274a26ec55324926a0fdf8f
+Pick-to: 6.10
+Reviewed-by: David Edmundson <davidedmundson@kde.org>
+(cherry picked from commit 3e429810dba8c81ae6ca79e43ae14078c2fb644b)
+Reviewed-by: Qt Cherry-pick Bot <cherrypick_bot@qt-project.org>
+---
+ .../xdg-shell/qwaylandxdgshell.cpp            | 37 ++++++++++++++-----
+ .../xdg-shell/qwaylandxdgshell_p.h            |  4 ++
+ 2 files changed, 32 insertions(+), 9 deletions(-)
+
+diff --git a/src/plugins/platforms/wayland/plugins/shellintegration/xdg-shell/qwaylandxdgshell.cpp b/src/plugins/platforms/wayland/plugins/shellintegration/xdg-shell/qwaylandxdgshell.cpp
+index 6220dfa799d..0a3ae3d65e9 100644
+--- a/src/plugins/platforms/wayland/plugins/shellintegration/xdg-shell/qwaylandxdgshell.cpp
++++ b/src/plugins/platforms/wayland/plugins/shellintegration/xdg-shell/qwaylandxdgshell.cpp
+@@ -311,6 +311,18 @@ void QWaylandXdgSurface::Popup::grab(QWaylandInputDevice *seat, uint serial)
+     m_grabbing = true;
+ }
+ 
++void QWaylandXdgSurface::Popup::reposition()
++{
++    if (version() < XDG_POPUP_REPOSITIONED_SINCE_VERSION)
++        return;
++
++    std::unique_ptr<Positioner> positioner = m_xdgSurface->createPositioner(m_xdgSurface->window()->transientParent());
++    m_waitingForRepositionSerial++;
++    xdg_popup::reposition(positioner->object(), m_waitingForRepositionSerial);
++    m_waitingForReposition = true;
++    m_xdgSurface->window()->updateExposure();
++}
++
+ void QWaylandXdgSurface::Popup::xdg_popup_configure(int32_t x, int32_t y, int32_t width, int32_t height)
+ {
+     m_pendingGeometry = QRect(x, y, width, height);
+@@ -690,17 +702,24 @@ void QWaylandXdgSurface::setWindowPosition(const QPoint &position)
+ {
+     Q_UNUSED(position);
+ 
+-    if (!m_popup)
+-        return;
++    if (m_popup)
++        m_popup->reposition();
++}
+ 
+-    if (m_popup->version() < XDG_POPUP_REPOSITIONED_SINCE_VERSION)
+-        return;
++void QWaylandXdgSurface::setWindowSize(const QSize &size)
++{
++    Q_UNUSED(size);
+ 
+-    std::unique_ptr<Positioner> positioner = createPositioner(m_window->transientParent());
+-    m_popup->m_waitingForRepositionSerial++;
+-    m_popup->reposition(positioner->object(), m_popup->m_waitingForRepositionSerial);
+-    m_popup->m_waitingForReposition = true;
+-    window()->updateExposure();
++    if (m_popup)
++        m_popup->reposition();
++}
++
++void QWaylandXdgSurface::setWindowGeometry(const QRect &rect)
++{
++    Q_UNUSED(rect);
++
++    if (m_popup)
++        m_popup->reposition();
+ }
+ 
+ static QtWayland::xdg_positioner::gravity gravityFromEdge(Qt::Edges edges)
+diff --git a/src/plugins/platforms/wayland/plugins/shellintegration/xdg-shell/qwaylandxdgshell_p.h b/src/plugins/platforms/wayland/plugins/shellintegration/xdg-shell/qwaylandxdgshell_p.h
+index cb81ed6aeda..b66cedcfe6a 100644
+--- a/src/plugins/platforms/wayland/plugins/shellintegration/xdg-shell/qwaylandxdgshell_p.h
++++ b/src/plugins/platforms/wayland/plugins/shellintegration/xdg-shell/qwaylandxdgshell_p.h
+@@ -64,6 +64,8 @@ public:
+     bool isAlertState() const override { return m_alertState; }
+     QString externWindowHandle() override;
+     void setWindowPosition(const QPoint &position) override;
++    void setWindowSize(const QSize &size) override;
++    void setWindowGeometry(const QRect &rect) override;
+     void setIcon(const QIcon &icon) override;
+ 
+     void setSizeHints();
+@@ -128,6 +130,8 @@ private:
+         void resetConfiguration();
+ 
+         void grab(QWaylandInputDevice *seat, uint serial);
++        void reposition();
++
+         void xdg_popup_configure(int32_t x, int32_t y, int32_t width, int32_t height) override;
+         void xdg_popup_popup_done() override;
+         void xdg_popup_repositioned(uint32_t token) override;
+-- 
+GitLab
+

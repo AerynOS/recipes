@@ -4,11 +4,12 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : qt6-base
-version     : "6.10.2"
-release     : 23
+version     : "6.11.0"
+release     : 24
 homepage    : https://www.qt.io
 upstreams   :
-    - https://download.qt.io/official_releases/qt/6.10/6.10.2/submodules/qtbase-everywhere-src-6.10.2.tar.xz : aeb78d29291a2b5fd53cb55950f8f5065b4978c25fb1d77f627d695ab9adf21e
+    - https://download.qt.io/official_releases/qt/6.11/6.11.0/submodules/qtbase-everywhere-src-6.11.0.tar.xz : 231ad85979864d914dc9568a1b71c91d6cf20d7b2021d059103bf0eb51cb755e
+    # - git|https://invent.kde.org/qt/qt/qtbase.git : 1ce2841fc1695325f6213d213f2d8dbf5d653c18
 summary     : Cross platform application and UI framework
 description : |
     Cross platform application and UI framework
@@ -45,6 +46,7 @@ builddeps   :
     - pkgconfig(libproxy-1.0)
     - pkgconfig(libsystemd)
     - pkgconfig(libudev)
+    - pkgconfig(liburing)
     - pkgconfig(libzstd)
     - pkgconfig(md4c)
     - pkgconfig(mtdev)
@@ -72,11 +74,16 @@ setup       : |
     %patch %(pkgdir)/0001-Adjust-build-flags.patch
     %patch %(pkgdir)/0001-Support-stateless-config-directories.patch
 
+    # Qt 6.11 regression (for us)
+    %patch %(pkgdir)/0001-fix-Don-t-install-bindir-if-no-user-facing-tools-exi.patch
+
     # The default Qt6 render loop runs at ~60fps which makes animations look choppy on higher fps monitors. Bump this up to ~120fps
     %patch %(pkgdir)/0001-Run-render-tick-at-120fps.patch
 
     # Upstream backports
-    %patch %(pkgdir)/0001-Drop-CMAKE_SYSTEM_VERSION-from-modules-json-if-Linux.patch
+    %patch %(pkgdir)/upstream-01.patch
+    %patch %(pkgdir)/upstream-02.patch
+    %patch %(pkgdir)/upstream-03.patch
 
     ## 2024-01-18 Note
     # Enabling -DQT_FEATURE_openssl_hash=ON with Qt 6.6.1 seems to break some applications use of TLS.
@@ -111,9 +118,6 @@ build       : |
     %ccache_stats
 install     : |
     %cmake_install
-
-    # Setup user-facing binaries (like qmake6)
-    %qt_user_facing_links
 
     # Avoid debug logging unless overridden by user
     %install_file %(pkgdir)/qtlogging.ini %(installroot)/usr/share/qt6/qtlogging.ini
@@ -200,6 +204,8 @@ packages    :
             - /usr/lib/qt6/tracepointgen
             - /usr/lib/qt6/uic
             - /usr/lib/qt6/qtwaylandscanner
+            - /usr/share/qt6/json_schema/modules.json
+            - /usr/share/qt6/wayland/
         rundeps:
             - "%(name)-gui"
             - "%(name)-mysql"
