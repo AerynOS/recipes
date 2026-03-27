@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : cmake
-version     : "4.2.3"
-release     : 19
+version     : "4.3.1"
+release     : 20
 homepage    : https://cmake.org/
 upstreams   :
-    - https://www.cmake.org/files/v4.2/cmake-4.2.3.tar.gz : 7efaccde8c5a6b2968bad6ce0fe60e19b6e10701a12fce948c2bf79bac8a11e9
+    - https://www.cmake.org/files/v4.3/cmake-4.3.1.tar.gz : 0798f4be7a1a406a419ac32db90c2956936fecbf50db3057d7af47d69a2d7edb
 summary     : Cross-platform build system
 description : |
     CMake is an open-source, cross-platform family of tools designed to build, test and package software. CMake is used to control the software compilation process using simple platform and compiler independent configuration files, and generate native makefiles and workspaces that can be used in the compiler environment of your choice.
@@ -18,13 +18,14 @@ builddeps   :
     - binary(flang)
     - cmake(Qt6Gui)
     - pkgconfig(expat)
+    - pkgconfig(jsoncpp)
     - pkgconfig(libarchive)
     - pkgconfig(libcurl)
     - pkgconfig(libuv)
     - pkgconfig(ncurses)
     - pkgconfig(zlib)
     - python(sphinx)
-    # TODO: system librhash
+    - rhash-devel
 tuning      :
     - icf: all
     - lto: full
@@ -40,7 +41,9 @@ setup       : |
         -DCMAKE_MAN_DIR=share/man \
         -DCMAKE_USE_SYSTEM_CURL=ON \
         -DCMAKE_USE_SYSTEM_EXPAT=ON \
+        -DCMAKE_USE_SYSTEM_JSONCPP=ON \
         -DCMAKE_USE_SYSTEM_LIBARCHIVE=ON \
+        -DCMAKE_USE_SYSTEM_LIBRHASH=ON \
         -DCMAKE_USE_SYSTEM_LIBUV=ON \
         -DCMAKE_USE_SYSTEM_ZLIB=ON \
         -DCMake_TEST_NO_NETWORK=ON \
