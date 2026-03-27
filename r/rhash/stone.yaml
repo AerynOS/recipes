@@ -1,0 +1,32 @@
+#
+# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : rhash
+version     : "1.4.6"
+release     : 1
+upstreams   :
+    - https://github.com/rhash/RHash/archive/refs/tags/v1.4.6.tar.gz : 9f6019cfeeae8ace7067ad22da4e4f857bb2cfa6c2deaa2258f55b2227ec937a
+homepage    : https://rhash.sf.net/
+license     : MIT
+summary     : Utility for verifying hash sums of files
+description : |
+    Utility for verifying hash sums of files
+builddeps   :
+    - pkgconfig(openssl)
+setup       : |
+    ./configure \
+        --prefix=%(prefix) \
+        --sysconfdir=%(sysconfdir) \
+        --extra-cflags="${CFLAGS}" \
+        --extra-ldflags="${LDFLAGS}"
+build       : |
+    %make
+install     : |
+    %make -C librhash DESTDIR="%(installroot)" \
+        install-lib-headers \
+        install-lib-shared \
+        install-so-link
+check     : |
+    %make test test-lib
