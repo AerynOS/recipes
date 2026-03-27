@@ -5,7 +5,7 @@
 #
 name        : firefox
 version     : "149.0"
-release     : 58
+release     : 59
 homepage    : https://www.mozilla.org/
 upstreams   :
     - https://releases.mozilla.org/pub/firefox/releases/149.0/source/firefox-149.0.source.tar.xz:
@@ -68,6 +68,10 @@ setup       : |
     %patch %(pkgdir)/patches/0001-Allow-installing-addons-from-user-scope.patch
 
     # TODO: Figure out if we still need to enable unsigned addon loading considering we switched back to unmodified langpacks
+
+    %patch %(pkgdir)/patches/upstream-01.patch
+    %patch %(pkgdir)/patches/upstream-02.patch
+    %patch %(pkgdir)/patches/upstream-03.patch
 
     cp %(pkgdir)/build/mozconfig .
     sed -e 's|@@JOBCOUNT@@|%(jobs)|' -e 's|@@LIBDIR@@|%(libdir)|' -i mozconfig
