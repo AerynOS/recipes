@@ -9,6 +9,8 @@ release     : 7
 homepage    : https://github.com/open-source-parsers/jsoncpp/
 upstreams   :
     - https://github.com/open-source-parsers/jsoncpp/archive/1.9.7.tar.gz : 830bf352d822d8558e9d0eb19d640d2e38536b4b6699c30a4488da09d5b1df18
+
+    # TODO: Because this package is used by cmake you will need to add compat libraries any time the soname changes
 summary     : JsonCpp is a C++ library that allows manipulating JSON values
 description : |
     JsonCpp is a C++ library that allows manipulating JSON values, including
