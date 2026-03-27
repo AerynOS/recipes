@@ -14,9 +14,13 @@
 			],
 			"files": [
 				"/usr/bin/tailscale",
+				"/usr/lib/systemd/system-preset/20-tailscale.preset",
 				"/usr/lib/systemd/system/tailscaled.service",
 				"/usr/sbin/tailscaled",
-				"/usr/share/defaults/tailscale/tailscaled"
+				"/usr/share/bash-completion/completions/tailscale",
+				"/usr/share/defaults/tailscale/tailscaled",
+				"/usr/share/fish/vendor_completions.d/tailscale.fish",
+				"/usr/share/zsh/site-functions/_tailscale"
 			],
 			"name": "tailscale",
 			"provides": [
@@ -26,6 +30,6 @@
 		}
 	},
 	"source-name": "tailscale",
-	"source-release": "9",
-	"source-version": "1.92.3"
+	"source-release": "10",
+	"source-version": "1.96.4"
 }
