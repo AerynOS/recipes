@@ -31,8 +31,8 @@
 			"files": [
 				"/usr/lib/accountsservice/accounts-daemon",
 				"/usr/lib/girepository-1.0/AccountsService-1.0.typelib",
-				"/usr/lib/libaccountsservice.so.0",
-				"/usr/lib/libaccountsservice.so.0.0.0",
+				"/usr/lib/libaccountsservice.so.1",
+				"/usr/lib/libaccountsservice.so.1.0.0",
 				"/usr/lib/systemd/system/accounts-daemon.service",
 				"/usr/lib/tmpfiles.d/accountsservice.conf",
 				"/usr/share/accountsservice/user-templates/administrator",
@@ -120,7 +120,7 @@
 			],
 			"name": "accountsservice",
 			"provides": [
-				"soname(libaccountsservice.so.0(x86_64))"
+				"soname(libaccountsservice.so.1(x86_64))"
 			]
 		},
 		"accountsservice-devel": {
@@ -163,6 +163,6 @@
 		}
 	},
 	"source-name": "accountsservice",
-	"source-release": "8",
-	"source-version": "26.12.8"
+	"source-release": "9",
+	"source-version": "26.13.3"
 }
