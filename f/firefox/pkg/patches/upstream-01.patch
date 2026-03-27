@@ -1,0 +1,118 @@
+From 361b4916dba1588437fa56d0ee0d98cc63f17f62 Mon Sep 17 00:00:00 2001
+From: stransky <stransky@redhat.com>
+Date: Tue, 24 Mar 2026 14:05:38 +0000
+Subject: [PATCH] Bug 2022238 [Wayland] Revert Bug 2001075 to avoid toolbar
+ freeze r=emilio
+
+Differential Revision: https://phabricator.services.mozilla.com/D288856
+---
+ widget/gtk/nsDragService.cpp | 14 +++-----------
+ widget/gtk/nsDragService.h   | 11 +++++------
+ widget/gtk/nsWindow.cpp      | 14 +++-----------
+ 3 files changed, 11 insertions(+), 28 deletions(-)
+
+diff --git a/widget/gtk/nsDragService.cpp b/widget/gtk/nsDragService.cpp
+index eac0667778239..9422e464bc452 100644
+--- a/widget/gtk/nsDragService.cpp
++++ b/widget/gtk/nsDragService.cpp
+@@ -564,6 +564,9 @@ nsDragSession::nsDragSession() {
+ 
+   // set up our logging module
+   mTempFileTimerID = 0;
++#ifdef MOZ_X11
++  mActive = widget::GdkIsX11Display();
++#endif
+ 
+   static std::once_flag onceFlag;
+   std::call_once(onceFlag, [] {
+@@ -2416,9 +2419,6 @@ void nsDragSession::SourceBeginDrag(GdkDragContext* aContext) {
+     LOGDRAGSERVICE("  FlavorsTransferableCanImport failed!");
+     return;
+   }
+-  if (widget::GdkIsWaylandDisplay()) {
+-    mSourceDragContext = aContext;
+-  }
+ 
+   for (uint32_t i = 0; i < flavors.Length(); ++i) {
+     if (flavors[i].EqualsLiteral(kFilePromiseDestFilename)) {
+@@ -2532,14 +2532,6 @@ void nsDragSession::SetDragIcon(GdkDragContext* aContext) {
+   }
+ }
+ 
+-void nsDragSession::MarkAsActive() { mSourceDragContext = nullptr; }
+-
+-bool nsDragSession::IsActive() const { return !!mSourceDragContext; }
+-
+-RefPtr<GdkDragContext> nsDragSession::GetSourceDragContext() {
+-  return mSourceDragContext;
+-}
+-
+ static void invisibleSourceDragBegin(GtkWidget* aWidget,
+                                      GdkDragContext* aContext, gpointer aData) {
+   LOGDRAGSERVICESTATIC("invisibleSourceDragBegin (%p)", aContext);
+diff --git a/widget/gtk/nsDragService.h b/widget/gtk/nsDragService.h
+index 5253ac3c1bf39..283c74f00042f 100644
+--- a/widget/gtk/nsDragService.h
++++ b/widget/gtk/nsDragService.h
+@@ -330,17 +330,13 @@ class nsDragSession : public nsBaseDragSession, public nsIObserver {
+   // set the drag icon during drag-begin
+   void SetDragIcon(GdkDragContext* aContext);
+ 
+-  void MarkAsActive();
+-  bool IsActive() const;
+-  RefPtr<GdkDragContext> GetSourceDragContext();
++  void MarkAsActive() { mActive = true; }
++  bool IsActive() const { return mActive; }
+ 
+  protected:
+   virtual ~nsDragSession();
+ 
+  private:
+-  // Used to cancel initiated D&D operation from nsWindow.
+-  RefPtr<GdkDragContext> mSourceDragContext;
+-
+   // target/destination side vars
+   // These variables keep track of the state of the current drag.
+ 
+@@ -369,6 +365,9 @@ class nsDragSession : public nsBaseDragSession, public nsIObserver {
+ 
+   // the source of our drags
+   GtkWidget* mHiddenWidget;
++  // Workaround for Bug 1979719. We consider D&D session running only after
++  // first "move" event on Wayland.
++  bool mActive = false;
+ 
+   // get a list of the sources in gtk's format
+   GtkTargetList* GetSourceList(void);
+diff --git a/widget/gtk/nsWindow.cpp b/widget/gtk/nsWindow.cpp
+index 7922f804f0e63..ab4d8f533194e 100644
+--- a/widget/gtk/nsWindow.cpp
++++ b/widget/gtk/nsWindow.cpp
+@@ -7530,11 +7530,8 @@ MOZ_CAN_RUN_SCRIPT static void WaylandDragWorkaround(nsWindow* aWindow,
+   }
+   nsCOMPtr<nsIDragSession> currentDragSession =
+       dragService->GetCurrentSession(aWindow);
+-
+-  RefPtr<nsDragSession> session =
+-      currentDragSession ? static_cast<nsDragSession*>(currentDragSession.get())
+-                         : nullptr;
+-  if (!session || session->IsActive()) {
++  if (!currentDragSession ||
++      static_cast<nsDragSession*>(currentDragSession.get())->IsActive()) {
+     return;
+   }
+ 
+@@ -7542,12 +7539,7 @@ MOZ_CAN_RUN_SCRIPT static void WaylandDragWorkaround(nsWindow* aWindow,
+   NS_WARNING(
+       "Quit unfinished Wayland Drag and Drop operation. Buggy Wayland "
+       "compositor?");
+-
+-  nsDragSession::AutoEventLoop loop(session);
+-  session->SetCanDrop(false);
+-  session->SetDragAction(nsIDragService::DRAGDROP_ACTION_NONE);
+-  session->ScheduleDropEvent(aWindow, session->GetSourceDragContext().get(),
+-                             LayoutDeviceIntPoint(), 0);
++  currentDragSession->EndDragSession(true, 0);
+ }
+ 
+ static nsWindow* get_window_for_gtk_widget(GtkWidget* widget) {
