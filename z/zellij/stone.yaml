@@ -4,24 +4,47 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : zellij
-version     : "0.43.1"
-release     : 4
+version     : "0.44.0"
+release     : 5
 license     : MIT
 homepage    : https://zellij.dev/
 upstreams   :
-    - https://github.com/zellij-org/zellij/archive/refs/tags/v0.43.1.tar.gz : e9fd24190869be6e9e8d731df2ccd0b3b1dd368ae9dbb9d620ec905b83e325ec
+    - https://github.com/zellij-org/zellij/archive/refs/tags/v0.44.0.tar.gz : be413dc49d7bff1be6502a1998664b015b77ad55636d72e0497cfc66d4a4cdf6
 summary     : A terminal workspace with batteries included
 description : |
-    Zellij is a workspace aimed at developers, ops-oriented people and anyone who loves the terminal. Similar programs are sometimes called "Terminal Multiplexers".
+    Zellij is a terminal workspace. It has the base functionality of a terminal multiplexer (similar to tmux or screen) but includes many built-in features that would allow users to extend it and create their own personalized environment.
+networking  : true
+tuning      :
+    - lto : thin
 builddeps   :
     - binary(cargo)
     - pkgconfig(openssl)
-tuning      :
-    - lto : thin
-networking  : true
+    - mandown
 setup       : |
     %cargo_fetch
 build       : |
-    OPENSSL_NO_VENDOR=1 %cargo_build
+    OPENSSL_NO_VENDOR=1 %cargo_build --no-default-features --features "plugins_from_target web_server_capability"
+
+    %(cargo_target_dir)/zellij setup --generate-completion bash > zellij.bash
+    %(cargo_target_dir)/zellij setup --generate-completion fish > zellij.fish
+    %(cargo_target_dir)/zellij setup --generate-completion zsh > zellij.zsh
+
+    mandown docs/MANPAGE.md > assets/zellij.1
 install     : |
     %cargo_install
+
+    %install_dir %(installroot)%(datadir)/licenses/%(name)
+    %install_file LICENSE.md %(installroot)%(datadir)/licenses/%(name)/LICENSE.md
+
+    %install_file zellij.bash %(installroot)%(bashcompletionsdir)/zellij
+    %install_file zellij.fish %(installroot)%(fishcompletionsdir)/zellij.fish
+    %install_file zellij.zsh %(installroot)%(zshcompletionsdir)/_zellij
+
+    %install_file assets/zellij.1 %(installroot)%(mandir)/man1/zellij.1
+
+    %install_file assets/zellij.desktop -t %(installroot)%(datadir)/applications/
+
+    %install_dir %(installroot)%(datadir)/icons/hicolor/scalable/apps
+    %install_file assets/logo.svg %(installroot)%(datadir)/icons/hicolor/scalable/apps/zellij.svg
+
+    %install_file %(pkgdir)/dev.zellij.Zellij.metainfo.xml %(installroot)%(datadir)/metainfo/dev.zellij.Zellij.metainfo.xml
