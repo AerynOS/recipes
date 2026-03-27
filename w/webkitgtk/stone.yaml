@@ -4,10 +4,10 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : webkitgtk
-version     : "2.52.0"
-release     : 9
+version     : "2.52.1"
+release     : 10
 upstreams   :
-    - https://webkitgtk.org/releases/webkitgtk-2.52.0.tar.xz : b31c55f18194ac83ba08c9b93bbeffef57a7ecff7f41c874d17a9e7853dca19f
+    - https://webkitgtk.org/releases/webkitgtk-2.52.1.tar.xz : 238e7d53205b14004add7eeb4293c94d6fbf7097b3efef7cee5519e5c121a904
 homepage    : https://webkitgtk.org
 license     : LGPL-2.1-only
 summary     : GTK web content engine library
@@ -85,6 +85,8 @@ builddeps   :
     # TODO:
     # - flite ?
 setup       : |
+    %patch %(pkgdir)/61521.patch
+
     function cmake_webkitgtk() {
         %cmake \
             -DENABLE_SPEECH_SYNTHESIS=OFF \
