@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : qt6-quick3d
-version     : "6.10.2"
-release     : 12
+version     : "6.11.0"
+release     : 13
 homepage    : https://www.qt.io
 upstreams   :
-    - https://download.qt.io/official_releases/qt/6.10/6.10.2/submodules/qtquick3d-everywhere-src-6.10.2.tar.xz : b95439f31d1e580c379e9828b48b03b932b0bdade4ff09f4dd639eff9da2cd75
+    - https://download.qt.io/official_releases/qt/6.11/6.11.0/submodules/qtquick3d-everywhere-src-6.11.0.tar.xz : b42000bb33e55b6c642657eb7022ee1f74f9e19cf64d52e85d41763f567b8994
 summary     : Qt6 Quick 3D module
 description : |
     Qt Quick 3D provides a high-level API for creating 3D content and 3D user interfaces based on Qt Quick. Rather than using an external engine which creates syncing issues, and additional layers of abstraction, we provide extensions to the existing Qt Quick Scene Graph for spatial content, and a renderer for that extended scene graph. When using the spatial scene graph it is also possible to mix Qt Quick 2D content with 3D content.
@@ -23,7 +23,7 @@ builddeps   :
     - cmake(Qt6ShaderTools)
     - pkgconfig(assimp)
 setup       : |
-    %patch %(pkgdir)/ftbfs-assimp-6.patch
+    %patch %(pkgdir)/0001-assimp-6.patch
 
     %cmake_qt6 \
         -DFEATURE_system_assimp=ON
