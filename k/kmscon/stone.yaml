@@ -4,10 +4,10 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : kmscon
-version     : "9.3.2"
-release     : 5
+version     : "9.3.3"
+release     : 6
 upstreams   :
-    - https://github.com/kmscon/kmscon/archive/refs/tags/v9.3.2.tar.gz : 6ecedaf7eb65052be8286465e3600d09857d4dfb36c6076bce8ea985843bb60d
+    - https://github.com/kmscon/kmscon/archive/refs/tags/v9.3.3.tar.gz : e516dd457e4d4b339541d5ac267122bc19f7fbcf12d596dfbe3370a59f8125b1
 homepage    : https://www.freedesktop.org/wiki/Software/kmscon
 license     :
     - MIT
@@ -18,6 +18,8 @@ description : |
 builddeps   :
     - binary(xsltproc)
     - pkgconfig(egl)
+    - pkgconfig(fontconfig)
+    - pkgconfig(freetype2)
     - pkgconfig(gbm)
     - pkgconfig(glesv2)
     - pkgconfig(libdrm)
