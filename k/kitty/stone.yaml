@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : kitty
-version     : "0.46.1"
-release     : 6
+version     : "0.46.2"
+release     : 7
 homepage    : https://github.com/kovidgoyal/kitty
 upstreams   :
-    - https://github.com/kovidgoyal/kitty/archive/refs/tags/v0.46.1.tar.gz : 18e60ecfbbb224b241057ccce0680e39d0a641bf0ba96b0318295e2ea78a14fa
+    - https://github.com/kovidgoyal/kitty/archive/refs/tags/v0.46.2.tar.gz : 25ca6725da2b09d574e571cad44292adaa278d154a89221207bdb598884c133e
 summary     : Cross-platform, fast, feature-rich, GPU based terminal
 description : |
     kitty the fast, feature-rich, GPU based terminal emulator
@@ -48,10 +48,13 @@ build       : |
     %make
     %make linux-package
 install     : |
-    linux-package/bin/kitten __complete__ setup bash | %install_file /dev/stdin %(installroot)%(datadir)/bash-completion/completions/kitty
-    linux-package/bin/kitten __complete__ setup fish | %install_file /dev/stdin %(installroot)%(datadir)/fish/vendor_completions.d/kitty.fish
-    linux-package/bin/kitten __complete__ setup zsh  | %install_file /dev/stdin %(installroot)%(datadir)/zsh/site-functions/_kitty
+    linux-package/bin/kitten __complete__ setup bash | %install_file /dev/stdin %(installroot)%(bashcompletionsdir)/kitty
+    linux-package/bin/kitten __complete__ setup fish | %install_file /dev/stdin %(installroot)%(fishcompletionsdir)/kitty.fish
+    linux-package/bin/kitten __complete__ setup zsh  | %install_file /dev/stdin %(installroot)%(zshcompletionsdir)/_kitty
 
     %install_dir %(installroot)%(prefix)
     cp -r linux-package/* %(installroot)%(prefix)
+
+    %install_dir %(installroot)%(datadir)/licenses/%(name)
+    %install_file LICENSE %(installroot)%(datadir)/licenses/%(name)/LICENSE
 
