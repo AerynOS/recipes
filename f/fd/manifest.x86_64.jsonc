@@ -3,9 +3,6 @@
 	"manifest-version": "0.2",
 	"packages": {
 		"fd": {
-			"build-depends": [
-				"pkgconfig(bash-completion)"
-			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"soname(ld-linux-x86-64.so.2(x86_64))",
@@ -14,7 +11,12 @@
 			],
 			"files": [
 				"/usr/bin/fd",
-				"/usr/share/bash-completion/completions/fd"
+				"/usr/share/bash-completion/completions/fd",
+				"/usr/share/fish/vendor_completions.d/fd.fish",
+				"/usr/share/licenses/fd/LICENSE-APACHE",
+				"/usr/share/licenses/fd/LICENSE-MIT",
+				"/usr/share/man/man1/fd.1",
+				"/usr/share/zsh/site-functions/_fd"
 			],
 			"name": "fd",
 			"provides": [
@@ -23,6 +25,6 @@
 		}
 	},
 	"source-name": "fd",
-	"source-release": "4",
-	"source-version": "10.4.0"
+	"source-release": "5",
+	"source-version": "10.4.2"
 }
