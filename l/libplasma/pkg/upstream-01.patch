@@ -1,0 +1,77 @@
+From 9429ca67d79454a57cab3de6a97be4733b7c6b4e Mon Sep 17 00:00:00 2001
+From: Nicolas Fella <nicolas.fella@gmx.de>
+Date: Thu, 26 Mar 2026 22:24:29 +0100
+Subject: [PATCH] desktoptheme: Remove duplicate stylesheet from SVGs
+
+Some SVGs randomly have more than one style sheet, with the same id
+
+This is clearly nonsensical and seems to cause issues with Qt 6.11
+
+BUG: 518178
+---
+ src/desktoptheme/breeze/icons/battery.svg     | Bin 41601 -> 40911 bytes
+ src/desktoptheme/breeze/icons/printer.svg     | Bin 5215 -> 4462 bytes
+ src/desktoptheme/breeze/icons/wallet.svg      | Bin 5177 -> 4426 bytes
+ src/desktoptheme/breeze/icons/zoom.svg        | Bin 7703 -> 7013 bytes
+ .../breeze/widgets/translucentbackground.svg  | Bin 20682 -> 19919 bytes
+ 5 files changed, 0 insertions(+), 0 deletions(-)
+
+diff --git a/src/desktoptheme/breeze/icons/battery.svg b/src/desktoptheme/breeze/icons/battery.svg
+index d771e842b3b9f6bfe368a93adfeae3070d3496f5..8f5a80b193f9ed8745c9c80c90c8bf604e0f78b4 100644
+GIT binary patch
+delta 26
+icmZoX%5;7|(}ssklNYi|PkzcII$4l8VzV?`+8h9wRSF~k
+
+delta 197
+zcmX@VpQ-UE(}ssklYcNtig77GKuKjms;yE<YDI~Da&hrw0p`fbS<EJr?=X9dSHsjO
+zB<JVk7g;H%fx+ZPX4%OxEYfTSU;yUMVv%AqO$0$O_d1I|rfyeDR|{7QuzWPDESsT;
+tg=JbAm^+(QM%>8B+{D@38fs-NmyLdLNo7vz<g-lrY+#n@W&!5?a{#LsIWYhL
+
+diff --git a/src/desktoptheme/breeze/icons/printer.svg b/src/desktoptheme/breeze/icons/printer.svg
+index 3469c3db0246f4d7ff2103efc862431f46228761..584485d339295a4c7cb0e136efc5abcbd74b670d 100644
+GIT binary patch
+delta 17
+Ycmcbw@lI)j71L%-*2hen`8Wc306;+n@Bjb+
+
+delta 302
+zcmaE-bYEkG6_ZA0img&|X;D#XUWsmUeolUoZgFx(YHq5MLP=#os;yE<YDI~Da&htG
+zBqkj;b0>3WbJxj&%(9A3iOJdNMfs(9Db-vGPyp6%rR?hFX5eNBQZ@Ml6Q?+ays?X;
+ztE(AM-W*||;^cg0E=;9v&LB8>BC`b>T$keH56oh0hOU-IZf;;pG+AU22FXs&U=hGH
+s2+2)rS!5B0$xeRDA|nnl%o^&ES}q&?;*!do)Xlm~ADA{vvj+130L45|g8%>k
+
+diff --git a/src/desktoptheme/breeze/icons/wallet.svg b/src/desktoptheme/breeze/icons/wallet.svg
+index 3343a8d18bc5234f9fca9de73f7c73d8e50155ee..00253c10edf977e5237370eda3bfa34d355ffe10 100644
+GIT binary patch
+delta 12
+Tcmdm~aY|`}CDUdNRzZFM9{>Zn
+
+delta 285
+zcmX@5v{Pe)C6h*Gimg&|X;D#XUWsmUeolUoZgFx(YHq5MLP=#os;yE<YDI~Da&htG
+zL?#_Jb0>3WbJxiN%(9a=FmZ`hb16UpSf`b;tDBpF+vJN(>f#tu#x9Pou4X{3<_J?1
+zC+9J9VJdZV2EoY_m@U}gx)dkBXBJ~KbhR{ca|7G2!6Jh&NOp2MivVut$W30uB8xCf
+ecJdn*8F7eN)=)3ha@pt?msIAYZq{Lv;|BnE5K9dJ
+
+diff --git a/src/desktoptheme/breeze/icons/zoom.svg b/src/desktoptheme/breeze/icons/zoom.svg
+index 70b0d8071e09e8a8aae76be214ba74a56049cf4f..be6421e5b71cecf1a0fdcbef6ffa72d722dbe7dd 100644
+GIT binary patch
+delta 12
+TcmbPk^VDp^4W`Xqti2KdCg=rV
+
+delta 266
+zcmaEAHr-~!4JM7u6kDa_(xRf&yb|5y{G9wE-Qwho)ZA1hg_6pGR9mHz)QS@Q<l^E<
+z%sOlaU@*CmS$48NGnaTZmjV=kHCidVTDn@eT7c!xFiRmT=Val-RGtO~VC6n6(#XoY
+zSftoY6G0Fxdz?iES(c4e0MjreyS-Uu*$hoAEYs4!y1Q9r#EqQHO`OfGp$@L)ve7Rt
+Nsmw{;e41&N1OWLkNQwXe
+
+diff --git a/src/desktoptheme/breeze/widgets/translucentbackground.svg b/src/desktoptheme/breeze/widgets/translucentbackground.svg
+index d0f4b846dc3c29ecdf0eea0e6785999c16fe5a9b..7670dce58cc6a34f0b4a3ac53e00841ac0b63a64 100644
+GIT binary patch
+delta 14
+VcmX@Lkn#L%#tku|o5LlFEdVhR1;zjX
+
+delta 29
+lcmX><oAJ~_#tku|oC*py`o$%cIjNg-gg!8BjuI`k005_i3eW%m
+
+-- 
+GitLab
+
