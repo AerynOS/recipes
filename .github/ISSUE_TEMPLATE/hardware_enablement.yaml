@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
 name: Hardware Enablement
 description: File a report for the hardware you would like enabled to AerynOS.
 title: "[Hardware Enablement Report]: "
@@ -43,7 +46,7 @@ body:
   - type: textarea
     id: logs-lspci-good
     attributes:
-      label: lspci output from known good distro 
+      label: lspci output from known good distro
       description: Please copy and paste the output of 'sudo lspci -vnn' from a known good distro. It is helpful to understand which drivers are in use. This will be automatically formatted into code, so no need for backticks.
       render: shell
     validations:
@@ -51,7 +54,7 @@ body:
   - type: textarea
     id: logs-lspci-serpent
     attributes:
-      label: lspci output from AerynOS 
+      label: lspci output from AerynOS
       description: Please copy and paste the output of 'sudo lspci -vnn' from AerynOS. If the command does not work, install using 'sudo moss install pciutils'. This will be automatically formatted into code, so no need for backticks.
       render: shell
     validations:

@@ -1,3 +1,7 @@
+---
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+---
 ## Kernel packaging process on AerynOS
 
 This is intended as an introduction to one way of doing kernel maintainenance on AerynOS.
@@ -45,7 +49,7 @@ setup section before:
 setup section that has been prepared for doing a `make oldconfig` run inside the build chroot:
 
 ```
-  
+
     %install_file %(pkgdir)/config-x86_64 .config
 
     # show the command to run this correctly in the chroot
