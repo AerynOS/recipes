@@ -1,0 +1,29 @@
+#
+# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : python-tomli-w
+version     : "1.2.0"
+release     : 1
+homepage    : https://github.com/hukkin/tomli-w
+upstreams   :
+    - https://github.com/hukkin/tomli-w/archive/refs/tags/1.2.0.tar.gz : 3b423098831faf35be897c5018c93e7c67eabf95d3359e1d5e97e5a4c0265ace
+summary     : A lil' TOML writer
+description : |
+    A lil' TOML writer
+license     : MIT
+builddeps   :
+    - python(flit-core)
+checkdeps   :
+    - python(pytest)
+rundeps     :
+    - python-libs
+build       : |
+    %pyproject_build
+install     : |
+    %pyproject_install
+# TODO: Re-enable with python >= 3.13
+# check       : |
+#     # TODO replace with pytest macro
+#     PYTHONPATH="$PWD"/build/lib pytest
