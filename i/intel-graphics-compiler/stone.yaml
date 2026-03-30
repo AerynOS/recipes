@@ -5,7 +5,7 @@
 #
 name        : intel-graphics-compiler
 version     : "2.30.1"
-release     : 2
+release     : 3
 homepage    : https://github.com/intel/intel-graphics-compiler
 upstreams   :
     - https://github.com/intel/intel-graphics-compiler/archive/refs/tags/v2.30.1.tar.gz :
@@ -57,6 +57,7 @@ builddeps   :
 setup       : |
     # PR for replacing `<ciso646>` with `<version>`
     %patch %(pkgdir)/383.patch
+    %patch %(pkgdir)/werror.patch
 
     # Fake-out opencl-clang into thinking its a git repo
     # so that it can apply patches to itself (From Nix)
