@@ -1,0 +1,32 @@
+#
+# SPDX-FileCopyrightText: © 2025- AerynOS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : libgedit-gtksourceview
+version     : "299.7.0"
+release     : 1
+homepage    : https://gitlab.gnome.org/World/gedit/libgedit-gtksourceview
+upstreams   :
+    - git|https://gitlab.gnome.org/World/gedit/libgedit-gtksourceview.git : 9fb56b0afed2d03fb9b166c9273530321e044377
+summary     : Gedit Technology - Source code editing widget
+description : |
+    Gedit Technology - Source code editing widget
+license     : 
+    - LGPL-2.1-or-later
+builddeps   :
+    - binary(gtkdoc-scan)
+    - pkgconfig(gio-2.0)
+    - pkgconfig(gobject-introspection-1.0)
+    - pkgconfig(gtk+-3.0)
+    - pkgconfig(libgedit-amtk-5)
+    - pkgconfig(libgedit-gfls-1)
+    - docbook-xsl
+environment : |
+    %export_docbook_catalogs
+setup       : |
+    %meson
+build       : |
+    %meson_build
+install     : |
+    %meson_install
