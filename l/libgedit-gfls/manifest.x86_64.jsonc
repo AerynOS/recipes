@@ -1,0 +1,106 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"libgedit-gfls": {
+			"build-depends": [
+				"binary(gtkdoc-scan)",
+				"docbook-xsl",
+				"pkgconfig(gobject-introspection-1.0)",
+				"pkgconfig(gtk+-3.0)"
+			],
+			"depends": [
+				"soname(libc.so.6(x86_64))",
+				"soname(libgio-2.0.so.0(x86_64))",
+				"soname(libglib-2.0.so.0(x86_64))",
+				"soname(libgobject-2.0.so.0(x86_64))"
+			],
+			"files": [
+				"/usr/lib/girepository-1.0/Gfls-1.typelib",
+				"/usr/lib/libgedit-gfls-1.so.0"
+			],
+			"name": "libgedit-gfls",
+			"provides": [
+				"soname(libgedit-gfls-1.so.0(x86_64))"
+			]
+		},
+		"libgedit-gfls-devel": {
+			"build-depends": [
+				"binary(gtkdoc-scan)",
+				"docbook-xsl",
+				"pkgconfig(gobject-introspection-1.0)",
+				"pkgconfig(gtk+-3.0)"
+			],
+			"depends": [
+				"libgedit-gfls",
+				"pkgconfig(gio-2.0)"
+			],
+			"files": [
+				"/usr/include/libgedit-gfls-1/gfls/gfls-attribute-keys.h",
+				"/usr/include/libgedit-gfls-1/gfls/gfls-bytes-region-builder.h",
+				"/usr/include/libgedit-gfls-1/gfls/gfls-bytes-region.h",
+				"/usr/include/libgedit-gfls-1/gfls/gfls-encoding-conversion.h",
+				"/usr/include/libgedit-gfls-1/gfls/gfls-encoding-convert.h",
+				"/usr/include/libgedit-gfls-1/gfls/gfls-enum-types.h",
+				"/usr/include/libgedit-gfls-1/gfls/gfls-error.h",
+				"/usr/include/libgedit-gfls-1/gfls/gfls-iconv.h",
+				"/usr/include/libgedit-gfls-1/gfls/gfls-init.h",
+				"/usr/include/libgedit-gfls-1/gfls/gfls-input-stream.h",
+				"/usr/include/libgedit-gfls-1/gfls/gfls-loader-basic.h",
+				"/usr/include/libgedit-gfls-1/gfls/gfls-loader-config-simple.h",
+				"/usr/include/libgedit-gfls-1/gfls/gfls-loader-config.h",
+				"/usr/include/libgedit-gfls-1/gfls/gfls-unsaved-document-titles.h",
+				"/usr/include/libgedit-gfls-1/gfls/gfls-utf8.h",
+				"/usr/include/libgedit-gfls-1/gfls/gfls.h",
+				"/usr/lib/libgedit-gfls-1.so",
+				"/usr/lib/pkgconfig/libgedit-gfls-1.pc",
+				"/usr/share/gir-1.0/Gfls-1.gir"
+			],
+			"name": "libgedit-gfls-devel",
+			"provides": [
+				"pkgconfig(libgedit-gfls-1)"
+			]
+		},
+		"libgedit-gfls-docs": {
+			"build-depends": [
+				"binary(gtkdoc-scan)",
+				"docbook-xsl",
+				"pkgconfig(gobject-introspection-1.0)",
+				"pkgconfig(gtk+-3.0)"
+			],
+			"files": [
+				"/usr/share/gtk-doc/html/libgedit-gfls-1/GflsAttributeKeys.html",
+				"/usr/share/gtk-doc/html/libgedit-gfls-1/GflsLoaderConfig.html",
+				"/usr/share/gtk-doc/html/libgedit-gfls-1/GflsLoaderConfigSimple.html",
+				"/usr/share/gtk-doc/html/libgedit-gfls-1/GflsUnsavedDocumentTitles.html",
+				"/usr/share/gtk-doc/html/libgedit-gfls-1/annexes.html",
+				"/usr/share/gtk-doc/html/libgedit-gfls-1/annotation-glossary.html",
+				"/usr/share/gtk-doc/html/libgedit-gfls-1/api-index-full.html",
+				"/usr/share/gtk-doc/html/libgedit-gfls-1/api-reference.html",
+				"/usr/share/gtk-doc/html/libgedit-gfls-1/home.png",
+				"/usr/share/gtk-doc/html/libgedit-gfls-1/index.html",
+				"/usr/share/gtk-doc/html/libgedit-gfls-1/left-insensitive.png",
+				"/usr/share/gtk-doc/html/libgedit-gfls-1/left.png",
+				"/usr/share/gtk-doc/html/libgedit-gfls-1/libgedit-gfls-1-Gfls-Initialization-and-Finalization.html",
+				"/usr/share/gtk-doc/html/libgedit-gfls-1/libgedit-gfls-1-GflsBytesRegion.html",
+				"/usr/share/gtk-doc/html/libgedit-gfls-1/libgedit-gfls-1-GflsBytesRegionBuilder.html",
+				"/usr/share/gtk-doc/html/libgedit-gfls-1/libgedit-gfls-1-GflsEncodingConvert.html",
+				"/usr/share/gtk-doc/html/libgedit-gfls-1/libgedit-gfls-1-GflsIconv.html",
+				"/usr/share/gtk-doc/html/libgedit-gfls-1/libgedit-gfls-1-GflsInputStream.html",
+				"/usr/share/gtk-doc/html/libgedit-gfls-1/libgedit-gfls-1-GflsLoaderBasic.html",
+				"/usr/share/gtk-doc/html/libgedit-gfls-1/libgedit-gfls-1-GflsUtf8.html",
+				"/usr/share/gtk-doc/html/libgedit-gfls-1/libgedit-gfls-1.devhelp2",
+				"/usr/share/gtk-doc/html/libgedit-gfls-1/object-tree.html",
+				"/usr/share/gtk-doc/html/libgedit-gfls-1/right-insensitive.png",
+				"/usr/share/gtk-doc/html/libgedit-gfls-1/right.png",
+				"/usr/share/gtk-doc/html/libgedit-gfls-1/style.css",
+				"/usr/share/gtk-doc/html/libgedit-gfls-1/up-insensitive.png",
+				"/usr/share/gtk-doc/html/libgedit-gfls-1/up.png"
+			],
+			"name": "libgedit-gfls-docs"
+		}
+	},
+	"source-name": "libgedit-gfls",
+	"source-release": "1",
+	"source-version": "0.4.0"
+}
