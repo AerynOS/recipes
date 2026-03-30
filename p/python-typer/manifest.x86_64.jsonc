@@ -1,0 +1,83 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"python-typer": {
+			"build-depends": [
+				"python(pdm-backend)"
+			],
+			"depends": [
+				"binary(python3)",
+				"python(annotated-doc)",
+				"python(click)",
+				"python(rich)",
+				"python(shellingham)"
+			],
+			"files": [
+				"/usr/bin/typer",
+				"/usr/lib/python3.11/site-packages/typer-0.24.1.dist-info/METADATA",
+				"/usr/lib/python3.11/site-packages/typer-0.24.1.dist-info/RECORD",
+				"/usr/lib/python3.11/site-packages/typer-0.24.1.dist-info/WHEEL",
+				"/usr/lib/python3.11/site-packages/typer-0.24.1.dist-info/entry_points.txt",
+				"/usr/lib/python3.11/site-packages/typer-0.24.1.dist-info/licenses/LICENSE",
+				"/usr/lib/python3.11/site-packages/typer/__init__.py",
+				"/usr/lib/python3.11/site-packages/typer/__main__.py",
+				"/usr/lib/python3.11/site-packages/typer/__pycache__/__init__.cpython-311.opt-1.pyc",
+				"/usr/lib/python3.11/site-packages/typer/__pycache__/__init__.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/typer/__pycache__/__main__.cpython-311.opt-1.pyc",
+				"/usr/lib/python3.11/site-packages/typer/__pycache__/__main__.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/typer/__pycache__/_completion_classes.cpython-311.opt-1.pyc",
+				"/usr/lib/python3.11/site-packages/typer/__pycache__/_completion_classes.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/typer/__pycache__/_completion_shared.cpython-311.opt-1.pyc",
+				"/usr/lib/python3.11/site-packages/typer/__pycache__/_completion_shared.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/typer/__pycache__/_types.cpython-311.opt-1.pyc",
+				"/usr/lib/python3.11/site-packages/typer/__pycache__/_types.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/typer/__pycache__/_typing.cpython-311.opt-1.pyc",
+				"/usr/lib/python3.11/site-packages/typer/__pycache__/_typing.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/typer/__pycache__/cli.cpython-311.opt-1.pyc",
+				"/usr/lib/python3.11/site-packages/typer/__pycache__/cli.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/typer/__pycache__/colors.cpython-311.opt-1.pyc",
+				"/usr/lib/python3.11/site-packages/typer/__pycache__/colors.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/typer/__pycache__/completion.cpython-311.opt-1.pyc",
+				"/usr/lib/python3.11/site-packages/typer/__pycache__/completion.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/typer/__pycache__/core.cpython-311.opt-1.pyc",
+				"/usr/lib/python3.11/site-packages/typer/__pycache__/core.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/typer/__pycache__/main.cpython-311.opt-1.pyc",
+				"/usr/lib/python3.11/site-packages/typer/__pycache__/main.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/typer/__pycache__/models.cpython-311.opt-1.pyc",
+				"/usr/lib/python3.11/site-packages/typer/__pycache__/models.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/typer/__pycache__/params.cpython-311.opt-1.pyc",
+				"/usr/lib/python3.11/site-packages/typer/__pycache__/params.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/typer/__pycache__/rich_utils.cpython-311.opt-1.pyc",
+				"/usr/lib/python3.11/site-packages/typer/__pycache__/rich_utils.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/typer/__pycache__/testing.cpython-311.opt-1.pyc",
+				"/usr/lib/python3.11/site-packages/typer/__pycache__/testing.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/typer/__pycache__/utils.cpython-311.opt-1.pyc",
+				"/usr/lib/python3.11/site-packages/typer/__pycache__/utils.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/typer/_completion_classes.py",
+				"/usr/lib/python3.11/site-packages/typer/_completion_shared.py",
+				"/usr/lib/python3.11/site-packages/typer/_types.py",
+				"/usr/lib/python3.11/site-packages/typer/_typing.py",
+				"/usr/lib/python3.11/site-packages/typer/cli.py",
+				"/usr/lib/python3.11/site-packages/typer/colors.py",
+				"/usr/lib/python3.11/site-packages/typer/completion.py",
+				"/usr/lib/python3.11/site-packages/typer/core.py",
+				"/usr/lib/python3.11/site-packages/typer/main.py",
+				"/usr/lib/python3.11/site-packages/typer/models.py",
+				"/usr/lib/python3.11/site-packages/typer/params.py",
+				"/usr/lib/python3.11/site-packages/typer/py.typed",
+				"/usr/lib/python3.11/site-packages/typer/rich_utils.py",
+				"/usr/lib/python3.11/site-packages/typer/testing.py",
+				"/usr/lib/python3.11/site-packages/typer/utils.py"
+			],
+			"name": "python-typer",
+			"provides": [
+				"binary(typer)",
+				"python(typer)"
+			]
+		}
+	},
+	"source-name": "python-typer",
+	"source-release": "1",
+	"source-version": "0.24.1"
+}

@@ -1,0 +1,23 @@
+#
+# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : python-typer
+version     : "0.24.1"
+release     : 1
+homepage    : https://github.com/fastapi/typer
+upstreams   :
+    - https://pypi.debian.net/typer/typer-0.24.1.tar.gz : e39b4732d65fbdcde189ae76cf7cd48aeae72919dea1fdfc16593be016256b45
+summary     : Typer is a library for building CLI applications
+description : |
+    Typer is a library for building CLI applications
+license     : MIT
+builddeps   :
+    - python(pdm-backend)
+rundeps     :
+    - binary(python3)
+build       : |
+    %pyproject_build
+install     : |
+    %pyproject_install
