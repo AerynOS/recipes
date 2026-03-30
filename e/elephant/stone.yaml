@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : elephant
-version     : "2.19.3"
-release     : 2
+version     : "2.20.3"
+release     : 3
 homepage    : https://github.com/abenz1267/elephant
 upstreams   :
-    - https://github.com/abenz1267/elephant/archive/refs/tags/v2.19.3.tar.gz : 92f6737a717ed489dc041ee377992214ef8d6b3641c1436376d05672c97fc01e
+    - https://github.com/abenz1267/elephant/archive/refs/tags/v2.20.3.tar.gz : abf48f9fd3601e56dd211028f59b9ced9d6979aeb46c1d8b7d8bbd073f8e5a20
 summary     : Elephant - cuz it's phat - is a powerful data provider service and backend for building custom application launchers and desktop utilities.
 description : |
     Elephant acts as a unified backend service that aggregates data from various sources (desktop applications, files, clipboard history, etc.) and provides a consistent interface for frontend applications like custom launchers, productivity tools, or desktop widgets.
@@ -18,7 +18,6 @@ builddeps   :
     - binary(go)
 networking  : true
 setup       : |
-    %patch %(pkgdir)/001-desktopapplications-moss-poll.patch
     go mod download
 build       : |
     go build -o elephant ./cmd/elephant/elephant.go
