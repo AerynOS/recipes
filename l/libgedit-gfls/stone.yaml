@@ -1,0 +1,29 @@
+#
+# SPDX-FileCopyrightText: © 2025- AerynOS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : libgedit-gfls
+version     : "0.4.0"
+release     : 1
+homepage    : https://gitlab.gnome.org/World/gedit/libgedit-gfls
+upstreams   :
+    - git|https://gitlab.gnome.org/World/gedit/libgedit-gfls.git : b292896adfb1c371aa8db0819f4754ff3bf4a848
+summary     : Gedit Technology - File loading and saving
+description : |
+    Gedit Technology - File loading and saving
+license     : 
+    - LGPL-3.0-or-later
+builddeps   :
+    - binary(gtkdoc-scan)
+    - pkgconfig(gtk+-3.0)
+    - pkgconfig(gobject-introspection-1.0)
+    - docbook-xsl
+environment : |
+    %export_docbook_catalogs
+setup       : |
+    %meson
+build       : |
+    %meson_build
+install     : |
+    %meson_install
