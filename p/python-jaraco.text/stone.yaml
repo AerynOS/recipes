@@ -4,17 +4,19 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : python-jaraco.text
-version     : "4.0.0"
-release     : 3
+version     : "4.2.0"
+release     : 4
 homepage    : https://github.com/jaraco/jaraco.text
 upstreams   :
-    - https://pypi.debian.net/jaraco.text/jaraco_text-4.0.0.tar.gz : 5b71fecea69ab6f939d4c906c04fee1eda76500d1641117df6ec45b865f10db0
+    - https://pypi.debian.net/jaraco.text/jaraco_text-4.2.0.tar.gz : 194e386aa5b15a6616019df87a6b29c00fd3c9c8b0475731b64633ca7afd495b
 summary     : Module for text manipulation
 description : |
     Module for text manipulation
 license     : MIT
 builddeps   :
+    - python(coherent-licensed)
     - python(setuptools-scm)
+    - python(typer)
 rundeps     :
     - binary(python3)
 # checkdeps   :
@@ -24,8 +26,7 @@ rundeps     :
 #     - python(pytest)
 # TODO: Add python-inflect for tests
 setup       : |
-    # We need to fix this in Boulder, but make sure we have the correct dependency on more-itertools
-    sed -i "s|more_itertools|more-itertools|g" pyproject.toml
+    %patch %(pkgdir)/0001-typer-only.patch
 build       : |
     %pyproject_build
 install     : |
