@@ -1,0 +1,31 @@
+#
+# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : python-annotated-doc
+version     : "0.0.4"
+release     : 1
+homepage    : https://github.com/fastapi/annotated-doc
+upstreams   :
+    - https://pypi.debian.net/annotated-doc/annotated_doc-0.0.4.tar.gz : fbcda96e87e9c92ad167c2e53839e57503ecfda18804ea28102353485033faa4
+summary     : Document parameters, class attributes, return types, and variables inline
+description : |
+    Document parameters, class attributes, return types, and variables inline
+license     : MIT
+builddeps   :
+    - python(pdm-backend)
+checkdeps   :
+    - python(pytest)
+rundeps     :
+    - python-libs
+build       : |
+    %pyproject_build
+install     : |
+    %pyproject_install
+check       : |
+    site_packages=$(python -c "import site; print(site.getsitepackages()[0])")
+    # install to temporary location, as importlib is used
+    python -m installer --destdir=test_dir dist/*.whl
+    export PYTHONPATH="$PWD/test_dir/$site_packages:$PYTHONPATH"
+    pytest -vv
