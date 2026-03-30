@@ -1,0 +1,51 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"python-shellingham": {
+			"build-depends": [
+				"python(pytest)",
+				"python(setuptools)"
+			],
+			"depends": [
+				"python-libs"
+			],
+			"files": [
+				"/usr/lib/python3.11/site-packages/shellingham-1.5.4.dist-info/METADATA",
+				"/usr/lib/python3.11/site-packages/shellingham-1.5.4.dist-info/RECORD",
+				"/usr/lib/python3.11/site-packages/shellingham-1.5.4.dist-info/WHEEL",
+				"/usr/lib/python3.11/site-packages/shellingham-1.5.4.dist-info/licenses/LICENSE",
+				"/usr/lib/python3.11/site-packages/shellingham-1.5.4.dist-info/top_level.txt",
+				"/usr/lib/python3.11/site-packages/shellingham-1.5.4.dist-info/zip-safe",
+				"/usr/lib/python3.11/site-packages/shellingham/__init__.py",
+				"/usr/lib/python3.11/site-packages/shellingham/__pycache__/__init__.cpython-311.opt-1.pyc",
+				"/usr/lib/python3.11/site-packages/shellingham/__pycache__/__init__.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/shellingham/__pycache__/_core.cpython-311.opt-1.pyc",
+				"/usr/lib/python3.11/site-packages/shellingham/__pycache__/_core.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/shellingham/__pycache__/nt.cpython-311.opt-1.pyc",
+				"/usr/lib/python3.11/site-packages/shellingham/__pycache__/nt.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/shellingham/_core.py",
+				"/usr/lib/python3.11/site-packages/shellingham/nt.py",
+				"/usr/lib/python3.11/site-packages/shellingham/posix/__init__.py",
+				"/usr/lib/python3.11/site-packages/shellingham/posix/__pycache__/__init__.cpython-311.opt-1.pyc",
+				"/usr/lib/python3.11/site-packages/shellingham/posix/__pycache__/__init__.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/shellingham/posix/__pycache__/_core.cpython-311.opt-1.pyc",
+				"/usr/lib/python3.11/site-packages/shellingham/posix/__pycache__/_core.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/shellingham/posix/__pycache__/proc.cpython-311.opt-1.pyc",
+				"/usr/lib/python3.11/site-packages/shellingham/posix/__pycache__/proc.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/shellingham/posix/__pycache__/ps.cpython-311.opt-1.pyc",
+				"/usr/lib/python3.11/site-packages/shellingham/posix/__pycache__/ps.cpython-311.pyc",
+				"/usr/lib/python3.11/site-packages/shellingham/posix/_core.py",
+				"/usr/lib/python3.11/site-packages/shellingham/posix/proc.py",
+				"/usr/lib/python3.11/site-packages/shellingham/posix/ps.py"
+			],
+			"name": "python-shellingham",
+			"provides": [
+				"python(shellingham)"
+			]
+		}
+	},
+	"source-name": "python-shellingham",
+	"source-release": "1",
+	"source-version": "1.5.4"
+}
