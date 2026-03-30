@@ -1,0 +1,44 @@
+#
+# SPDX-FileCopyrightText: © 2025- AerynOS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : qrca
+version     : "25.12.3"
+release     : 1
+homepage    : https://apps.kde.org/qrca/
+upstreams   :
+    - https://download.kde.org/stable/release-service/25.12.3/src/qrca-25.12.3.tar.xz : eb48878a20bf4ac6b294127d9c86acffcbd9312c63858dd68b8784d55173fdcc
+summary     : Scan QR-Codes with your camera on phones and laptops, and create your own for easily sharing data between devices
+description : |
+    Qrca is a simple application for Plasma Desktop and Plasma Mobile that lets you scan many barcode formats and create your own QR code images.
+license     : 
+    - BSD-2-Clause
+    - BSD-3-Clause
+    - CC0-1.0
+    - GPL-2.0-or-later
+    - GPL-3.0-or-later
+    - LGPL-2.0-or-later
+    - LGPL-2.1-or-later
+builddeps   :
+    - binary(python3)
+    - cmake(ECM)
+    - cmake(KF6Contacts)
+    - cmake(KF6Crash)
+    - cmake(KF6DBusAddons)
+    - cmake(KF6KIO)
+    - cmake(KF6Kirigami)
+    - cmake(KF6KirigamiAddons)
+    - cmake(KF6NetworkManagerQt)
+    - cmake(KF6Notifications)
+    - cmake(KF6Prison)
+    - cmake(KF6Service)
+    - cmake(Qt6Multimedia)
+    - cmake(Qt6Quick)
+    - cmake(Qt6Svg)
+setup       : |
+    %cmake_kf6
+build       : |
+    %cmake_build
+install     : |
+    %cmake_install
