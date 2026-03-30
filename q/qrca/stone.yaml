@@ -5,7 +5,7 @@
 #
 name        : qrca
 version     : "25.12.3"
-release     : 1
+release     : 2
 homepage    : https://apps.kde.org/qrca/
 upstreams   :
     - https://download.kde.org/stable/release-service/25.12.3/src/qrca-25.12.3.tar.xz : eb48878a20bf4ac6b294127d9c86acffcbd9312c63858dd68b8784d55173fdcc
@@ -36,6 +36,8 @@ builddeps   :
     - cmake(Qt6Multimedia)
     - cmake(Qt6Quick)
     - cmake(Qt6Svg)
+rundeps     :
+    - qt6-wayland
 setup       : |
     %cmake_kf6
 build       : |
