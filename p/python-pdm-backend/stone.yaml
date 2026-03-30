@@ -1,0 +1,46 @@
+#
+# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : python-pdm-backend
+version     : "2.4.7"
+release     : 1
+homepage    : https://github.com/pdm-project/pdm-backend
+upstreams   :
+    - https://pypi.debian.net/pdm-backend/pdm_backend-2.4.7.tar.gz : a509d083850378ce919d41e7a2faddfc57a1764d376913c66731125d6b14110f
+summary     : The build backend used by PDM
+description : |
+    The build backend used by PDM
+license     : MIT
+builddeps   :
+    - python(pyproject-metadata)
+    - python(tomli-w)
+checkdeps   :
+    - pkgconfig(python3)
+    - python(editables)
+    - python(pytest)
+    - python(setuptools)
+rundeps     :
+    - python-libs
+    - python(packaging)
+    - python(pyproject-metadata)
+    - python(tomli-w)
+setup       : |
+    %patch %(pkgdir)/devendor.patch
+    rm -rfv src/pdm/backend/_vendor
+build       : |
+    %pyproject_build
+install     : |
+    %pyproject_install
+check       : |
+    site_packages=$(python -c "import site; print(site.getsitepackages()[0])")
+    # install to temporary location, as importlib is used
+    python -m installer --destdir=test_dir dist/*.whl
+    export PYTHONPATH="$PWD/test_dir/$site_packages:$PYTHONPATH"
+
+    # set default git config for test
+    export GIT_CONFIG_GLOBAL="$HOME/.gitconfig"
+    git config --global user.email "you@example.com"
+    git config --global user.name "Your Name"
+    pytest -vv
