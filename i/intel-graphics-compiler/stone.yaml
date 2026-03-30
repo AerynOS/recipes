@@ -4,25 +4,25 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : intel-graphics-compiler
-version     : "2.28.4"
-release     : 1
+version     : "2.30.1"
+release     : 2
 homepage    : https://github.com/intel/intel-graphics-compiler
 upstreams   :
-    - https://github.com/intel/intel-graphics-compiler/archive/refs/tags/v2.28.4.tar.gz :
-        hash: 1594e9425246fd9d2947f56f42f0f3676a3be77f0a5291438bca02a7d8520ce2
+    - https://github.com/intel/intel-graphics-compiler/archive/refs/tags/v2.30.1.tar.gz :
+        hash: 4e5f46b20ec5c055f3cbfed16cfa9739b67f0d05786d736f3d10b09b11b171a3
         rename: igc
-    - https://github.com/intel/vc-intrinsics/archive/refs/tags/v0.24.3.tar.gz :
-        hash: d34cc01a07a803d94e93f240f65b0e577bc6db1da22ff64b38a2bcbe9d232723
+    - https://github.com/intel/vc-intrinsics/archive/refs/tags/v0.25.0.tar.gz :
+        hash: 83d6e0528feb6a47f7818e7c1dd3305dd8a48fb1103d279571dad517a93a8d39
         rename: vc-intrinsics
     - https://github.com/llvm/llvm-project/releases/download/llvmorg-16.0.6/llvm-project-16.0.6.src.tar.xz :
         hash: ce5e71081d17ce9e86d7cbcfa28c4b04b9300f8fb7e78422b1feb6bc52c3028e
         rename: llvm-project
     - git|https://github.com/intel/opencl-clang.git :
         ref: 7161d7c6d97da80f12739cebad9bf508555bbfd9
-        clonedir: llvm-project/llvm/projects/opencl-clang
+        unpackdir: llvm-project/llvm/projects/opencl-clang
     - git|https://github.com/KhronosGroup/SPIRV-LLVM-Translator.git :
-        ref: c13fcf6c5072483d50993e9175087bead3b7bf8a
-        clonedir: llvm-project/llvm/projects/llvm-spirv
+        ref: de396f26ade6b0ac1f0f367b741dd5c78a76a2d9
+        unpackdir: llvm-project/llvm/projects/llvm-spirv
 summary     : Intel Graphics Compiler for OpenCL
 description : |
     The Intel® Graphics Compiler for OpenCL™ is an LLVM-based compiler for OpenCL™ targeting Intel® graphics hardware architecture.
@@ -65,15 +65,6 @@ setup       : |
     pushd ../
     %patch %(pkgdir)/use-patch-instead-of-git-am.patch
     popd
-
-    # Fix an error in patched opencl-clang
-    # patch taken from commit 98cd73e ref: PR #363, remove in release 2.29.1
-    %patch %(pkgdir)/363.patch
-
-    # error: first argument in call to 'memset' is a pointer to non-trivially
-    # copyable type 'FINALIZER_INFO' [-Werror,-Wnontrivial-memcall]
-    # patch taken from commit 65895e2, remove in release 2.29.1
-    %patch %(pkgdir)/Fix-sendInfo-management.patch
 
     %cmake \
         -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
