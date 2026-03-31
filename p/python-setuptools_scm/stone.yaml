@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : python-setuptools_scm
-version     : "9.2.2"
-release     : 8
+version     : "10.0.5"
+release     : 9
 homepage    : https://pypi.org/project/setuptools_scm/
 upstreams   :
-    - https://pypi.debian.net/setuptools-scm/setuptools_scm-9.2.2.tar.gz : 1c674ab4665686a0887d7e24c03ab25f24201c213e82ea689d2f3e169ef7ef57
+    - https://pypi.debian.net/setuptools-scm/setuptools_scm-10.0.5.tar.gz : bbba8fe754516cdefd017f4456721775e6ef9662bd7887fb52ae26813d4838c3
 summary     : Handles managing your python package versions in scm metadata
 description : |
     Handles managing your python package versions in scm metadata
@@ -14,6 +14,7 @@ license     :
     - MIT
 builddeps   :
     - python(setuptools)
+    - python(vcs-versioning)
 rundeps     :
     - binary(python3)
 build       : |
