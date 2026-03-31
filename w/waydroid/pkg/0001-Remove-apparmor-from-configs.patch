@@ -1,0 +1,35 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Reilly Brogan <reilly@reillybrogan.com>
+Date: Tue, 31 Mar 2026 11:53:28 -0500
+Subject: [PATCH] Remove apparmor from configs
+
+We need to build lxc with libapparmor for this to work otherwise
+
+---
+ data/configs/config_1 | 1 -
+ data/configs/config_3 | 1 -
+ 2 files changed, 2 deletions(-)
+
+diff --git a/data/configs/config_1 b/data/configs/config_1
+index 365cac3..4511276 100644
+--- a/data/configs/config_1
++++ b/data/configs/config_1
+@@ -2,7 +2,6 @@ lxc.utsname = waydroid
+ 
+ lxc.init_cmd = /init
+ 
+-lxc.aa_profile = unconfined
+ lxc.seccomp = /var/lib/waydroid/lxc/waydroid/waydroid.seccomp
+ 
+ lxc.network.type = veth
+diff --git a/data/configs/config_3 b/data/configs/config_3
+index 3c82226..7e5e44f 100644
+--- a/data/configs/config_3
++++ b/data/configs/config_3
+@@ -1,6 +1,5 @@
+ lxc.uts.name = waydroid
+ 
+-lxc.apparmor.profile = unconfined
+ lxc.seccomp.profile = /var/lib/waydroid/lxc/waydroid/waydroid.seccomp
+ 
+ lxc.no_new_privs = 1

@@ -3,7 +3,7 @@
 
 name        : waydroid
 version     : "1.6.2"
-release     : 4
+release     : 5
 homepage    : https://waydro.id/
 upstreams   :
     - https://github.com/waydroid/waydroid/archive/1.6.2/waydroid-1.6.2.tar.gz : 4b963aceb9de2884020e98b26e40147b3f26a0444606633adc45b63752f57dca
@@ -20,6 +20,7 @@ rundeps     :
     - python(pyclip)
 setup       : |
     %patch %(pkgdir)/0001-Service-tweaks.patch
+    %patch %(pkgdir)/0001-Remove-apparmor-from-configs.patch
 install     : |
     %make_install \
         USE_NFTABLES=1 \
