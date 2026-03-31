@@ -210,3 +210,6 @@
 
 ### Not needed in newer Python
 - python-backports.tarfile
+
+# Renamed to level-zero
+- intel-level-zero
