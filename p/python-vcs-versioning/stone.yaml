@@ -1,0 +1,21 @@
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : python-vcs-versioning
+version     : "3.6.3"
+release     : 1
+homepage    : https://github.com/pypa/setuptools-scm
+upstreams   :
+    - https://pypi.debian.net/vcs-versioning/vcs_versioning-1.1.1.tar.gz : fabd75a3cab7dd8ac02fe24a3a9ba936bf258667b5a62ed468c9a1da0f5775bc
+summary     : the blessed package to manage your versions by vcs metadata
+description : |
+    the blessed package to manage your versions by vcs metadata
+license     : MIT
+builddeps   :
+    - python(setuptools)
+rundeps     :
+    - binary(python3)
+build       : |
+    %pyproject_build
+install     : |
+    %pyproject_install
