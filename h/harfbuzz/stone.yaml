@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : harfbuzz
-version     : "13.2.1"
-release     : 31
+version     : "14.0.0"
+release     : 32
 homepage    : https://harfbuzz.github.io/
 upstreams   :
-    - https://github.com/harfbuzz/harfbuzz/releases/download/13.2.1/harfbuzz-13.2.1.tar.xz : 6695da3eb7e1be0aa3092fe4d81433a33b47f4519259c759d729e3a9a55c1429
+    - https://github.com/harfbuzz/harfbuzz/releases/download/14.0.0/harfbuzz-14.0.0.tar.xz : d4aa312728136e3dc7c3cda47b871614ce0d12bbb19f9dcac2ea70de836dc307
 summary     : HarfBuzz text shaping engine
 description : |
     HarfBuzz is a text shaping library. Using the HarfBuzz library allows programs to convert a sequence of Unicode input into properly formatted and positioned glyph output—for any writing system and language.
@@ -18,6 +18,9 @@ builddeps   :
     - pkgconfig(cairo)
     - pkgconfig(chafa)
     - pkgconfig(freetype2)
+    - pkgconfig(gl)
+    - pkgconfig(glew)
+    - pkgconfig(glfw3)
     - pkgconfig(glib-2.0)
     - pkgconfig(gobject-2.0)
     - pkgconfig(gobject-introspection-1.0)
@@ -37,6 +40,12 @@ packages    :
         description: Harfbuzz cairo support library
         paths:
             - /usr/lib/libharfbuzz-cairo.so.*
+
+    - "%(name)-gpu":
+        summary: Harfbuzz GPU support library
+        description: Harfbuzz GPU support library
+        paths:
+            - /usr/lib/libharfbuzz-gpu.so.*
 
     - "%(name)-icu":
         summary: Harfbuzz ICU support library
@@ -59,6 +68,7 @@ packages    :
     - "%(name)-devel":
         rundeps:
             - "%(name)-cairo"
+            - "%(name)-gpu"
             - "%(name)-icu"
             - "%(name)-raster"
             - "%(name)-vector"
