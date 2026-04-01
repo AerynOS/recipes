@@ -3,7 +3,7 @@
 
 name        : speech-dispatcher
 version     : "0.12.1"
-release     : 1
+release     : 2
 homepage    : http://www.freebsoft.org/speechd
 upstreams   :
     - https://github.com/brailcom/speechd/releases/download/0.12.1/speech-dispatcher-0.12.1.tar.gz : b14a5238d287d2dcce4dd42bbd66ca65fa228e7e683708267f7b34036f7ba4b4
@@ -16,35 +16,67 @@ license     :
     - GPL-3.0-or-later
     - LGPL-2.0-or-later
     - LGPL-2.1-or-later
-packages    :
-    - "libspeechd":
-        paths:
-            - /usr/lib/libspeechd*so*
-    - "libspeechd-devel":
-        paths:
-            - /usr/include
-            - /usr/lib/pkgconfig
 builddeps   :
-    - binary(autoreconf)
+    - binary(bison)
+    # - binary(help2man) # Boulder PTY issue?
     - binary(msgfmt)
+    - binary(python)
     - binary(tar)
+    - pkgconfig(alsa)
     - pkgconfig(dotconf)
     - pkgconfig(glib-2.0)
+    - pkgconfig(libpipewire-0.3)
+    - pkgconfig(libpulse)
+    - pkgconfig(libsystemd)
     - pkgconfig(sndfile)
+    # TODO: flite
 setup       : |
     %patch %(pkgdir)/0001-Support-a-stateless-configuration.patch
-    %reconfigure --disable-static \
-    --libexecdir=%(libdir)/speech-dispatcher/ \
-    --with-ibmtts=no --with-kali=no --with-baratinoo=no \
-    --with-voxin=no --without-flite
+    %patch %(pkgdir)/remove-pyxdg.patch
+
+    %reconfigure \
+        --disable-static \
+        --with-baratinoo=no \
+        --with-default-audio-method=pipewire \
+        --with-ibmtts=no \
+        --with-kali=no \
+        --with-voxin=no \
+        --without-flite \
+        --without-oss
 build       : |
     %make
 install     : |
     %make_install
-    rm %(installroot)%(vendordir)/speech-dispatcher/modules/cicero.conf
-    rm %(installroot)%(vendordir)/speech-dispatcher/modules/espeak.conf
-    rm %(installroot)%(vendordir)/speech-dispatcher/modules/espeak-mbrola-generic.conf
-    rm %(installroot)%(vendordir)/speech-dispatcher/modules/flite.conf
-    rm %(installroot)%(libdir)/speech-dispatcher/speech-dispatcher-modules/sd_cicero
+    rm %(installroot)%(vendordir)/speech-dispatcher/modules/cicero.conf \
+       %(installroot)%(vendordir)/speech-dispatcher/modules/espeak.conf \
+       %(installroot)%(vendordir)/speech-dispatcher/modules/espeak-mbrola-generic.conf \
+       %(installroot)%(vendordir)/speech-dispatcher/modules/flite.conf \
+       %(installroot)%(libdir)/speech-dispatcher/speech-dispatcher-modules/sd_cicero
 
     sed -i 's|includedir=.*|includedir=${prefix}/include/speech-dispatcher|g' "%(installroot)%(libdir)/pkgconfig/speech-dispatcher.pc"
+packages    :
+    - "libspeechd":
+        paths:
+            - /usr/lib/libspeechd*.so.*
+
+    - "libspeechd-devel":
+        paths:
+            - /usr/include
+            - /usr/lib/pkgconfig
+            - /usr/lib/libspeechd*.so
+
+    - "python-speechd":
+        summary: Python 3 Client API for %(name)
+        description: Python 3 Client API for %(name)
+        paths:
+            - /usr/lib/python3.*/site-packages/
+
+    - "%(name)-utils":
+        summary: Various utilities for %(name)
+        description: Various utilities for %(name)
+        rundeps:
+            - python-speechd
+        paths:
+            - /usr/bin/spd-conf
+            - /usr/bin/spd-say
+            - /usr/bin/spdsend

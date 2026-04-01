@@ -4,11 +4,16 @@
 	"packages": {
 		"libspeechd": {
 			"build-depends": [
-				"binary(autoreconf)",
+				"binary(bison)",
 				"binary(msgfmt)",
+				"binary(python)",
 				"binary(tar)",
+				"pkgconfig(alsa)",
 				"pkgconfig(dotconf)",
 				"pkgconfig(glib-2.0)",
+				"pkgconfig(libpipewire-0.3)",
+				"pkgconfig(libpulse)",
+				"pkgconfig(libsystemd)",
 				"pkgconfig(sndfile)"
 			],
 			"depends": [
@@ -17,10 +22,8 @@
 				"soname(libm.so.6(x86_64))"
 			],
 			"files": [
-				"/usr/lib/libspeechd.so",
 				"/usr/lib/libspeechd.so.2",
 				"/usr/lib/libspeechd.so.2.6.0",
-				"/usr/lib/libspeechd_module.so",
 				"/usr/lib/libspeechd_module.so.0",
 				"/usr/lib/libspeechd_module.so.0.0.0"
 			],
@@ -32,11 +35,16 @@
 		},
 		"libspeechd-devel": {
 			"build-depends": [
-				"binary(autoreconf)",
+				"binary(bison)",
 				"binary(msgfmt)",
+				"binary(python)",
 				"binary(tar)",
+				"pkgconfig(alsa)",
 				"pkgconfig(dotconf)",
 				"pkgconfig(glib-2.0)",
+				"pkgconfig(libpipewire-0.3)",
+				"pkgconfig(libpulse)",
+				"pkgconfig(libsystemd)",
 				"pkgconfig(sndfile)"
 			],
 			"depends": [
@@ -49,6 +57,8 @@
 				"/usr/include/speech-dispatcher/spd_module_main.h",
 				"/usr/include/speech-dispatcher/speechd_defines.h",
 				"/usr/include/speech-dispatcher/speechd_types.h",
+				"/usr/lib/libspeechd.so",
+				"/usr/lib/libspeechd_module.so",
 				"/usr/lib/pkgconfig/speech-dispatcher.pc"
 			],
 			"name": "libspeechd-devel",
@@ -56,32 +66,21 @@
 				"pkgconfig(speech-dispatcher)"
 			]
 		},
-		"speech-dispatcher": {
+		"python-speechd": {
 			"build-depends": [
-				"binary(autoreconf)",
+				"binary(bison)",
 				"binary(msgfmt)",
+				"binary(python)",
 				"binary(tar)",
+				"pkgconfig(alsa)",
 				"pkgconfig(dotconf)",
 				"pkgconfig(glib-2.0)",
+				"pkgconfig(libpipewire-0.3)",
+				"pkgconfig(libpulse)",
+				"pkgconfig(libsystemd)",
 				"pkgconfig(sndfile)"
 			],
-			"depends": [
-				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
-				"soname(libc.so.6(x86_64))",
-				"soname(libdotconf.so.0(x86_64))",
-				"soname(libglib-2.0.so.0(x86_64))",
-				"soname(libgmodule-2.0.so.0(x86_64))",
-				"soname(libm.so.6(x86_64))",
-				"soname(libsndfile.so.1(x86_64))",
-				"soname(libspeechd.so.2(x86_64))",
-				"soname(libspeechd_module.so.0(x86_64))",
-				"soname(libsystemd.so.0(x86_64))"
-			],
 			"files": [
-				"/usr/bin/spd-conf",
-				"/usr/bin/spd-say",
-				"/usr/bin/spdsend",
-				"/usr/bin/speech-dispatcher",
 				"/usr/lib/python3.11/site-packages/speechd/__init__.py",
 				"/usr/lib/python3.11/site-packages/speechd/__pycache__/__init__.cpython-311.opt-1.pyc",
 				"/usr/lib/python3.11/site-packages/speechd/__pycache__/__init__.cpython-311.opt-2.pyc",
@@ -109,8 +108,43 @@
 				"/usr/lib/python3.11/site-packages/speechd_config/__pycache__/config.cpython-311.opt-2.pyc",
 				"/usr/lib/python3.11/site-packages/speechd_config/__pycache__/config.cpython-311.pyc",
 				"/usr/lib/python3.11/site-packages/speechd_config/buildconfig.py",
-				"/usr/lib/python3.11/site-packages/speechd_config/config.py",
-				"/usr/lib/speech-dispatcher/spd_oss.so",
+				"/usr/lib/python3.11/site-packages/speechd_config/config.py"
+			],
+			"name": "python-speechd"
+		},
+		"speech-dispatcher": {
+			"build-depends": [
+				"binary(bison)",
+				"binary(msgfmt)",
+				"binary(python)",
+				"binary(tar)",
+				"pkgconfig(alsa)",
+				"pkgconfig(dotconf)",
+				"pkgconfig(glib-2.0)",
+				"pkgconfig(libpipewire-0.3)",
+				"pkgconfig(libpulse)",
+				"pkgconfig(libsystemd)",
+				"pkgconfig(sndfile)"
+			],
+			"depends": [
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(libasound.so.2(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libdotconf.so.0(x86_64))",
+				"soname(libglib-2.0.so.0(x86_64))",
+				"soname(libgmodule-2.0.so.0(x86_64))",
+				"soname(libm.so.6(x86_64))",
+				"soname(libpipewire-0.3.so.0(x86_64))",
+				"soname(libpulse.so.0(x86_64))",
+				"soname(libsndfile.so.1(x86_64))",
+				"soname(libspeechd_module.so.0(x86_64))",
+				"soname(libsystemd.so.0(x86_64))"
+			],
+			"files": [
+				"/usr/bin/speech-dispatcher",
+				"/usr/lib/speech-dispatcher/spd_alsa.so",
+				"/usr/lib/speech-dispatcher/spd_pipewire.so",
+				"/usr/lib/speech-dispatcher/spd_pulse.so",
 				"/usr/lib/speech-dispatcher/speech-dispatcher-modules/sd_dummy",
 				"/usr/lib/speech-dispatcher/speech-dispatcher-modules/sd_festival",
 				"/usr/lib/speech-dispatcher/speech-dispatcher-modules/sd_generic",
@@ -506,15 +540,46 @@
 			],
 			"name": "speech-dispatcher",
 			"provides": [
+				"binary(speech-dispatcher)",
+				"soname(speech-dispatcher/spd_alsa.so(x86_64))",
+				"soname(speech-dispatcher/spd_pipewire.so(x86_64))",
+				"soname(speech-dispatcher/spd_pulse.so(x86_64))"
+			]
+		},
+		"speech-dispatcher-utils": {
+			"build-depends": [
+				"binary(bison)",
+				"binary(msgfmt)",
+				"binary(python)",
+				"binary(tar)",
+				"pkgconfig(alsa)",
+				"pkgconfig(dotconf)",
+				"pkgconfig(glib-2.0)",
+				"pkgconfig(libpipewire-0.3)",
+				"pkgconfig(libpulse)",
+				"pkgconfig(libsystemd)",
+				"pkgconfig(sndfile)"
+			],
+			"depends": [
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"python-speechd",
+				"soname(libc.so.6(x86_64))",
+				"soname(libspeechd.so.2(x86_64))"
+			],
+			"files": [
+				"/usr/bin/spd-conf",
+				"/usr/bin/spd-say",
+				"/usr/bin/spdsend"
+			],
+			"name": "speech-dispatcher-utils",
+			"provides": [
 				"binary(spd-conf)",
 				"binary(spd-say)",
-				"binary(spdsend)",
-				"binary(speech-dispatcher)",
-				"soname(speech-dispatcher/spd_oss.so(x86_64))"
+				"binary(spdsend)"
 			]
 		}
 	},
 	"source-name": "speech-dispatcher",
-	"source-release": "1",
+	"source-release": "2",
 	"source-version": "0.12.1"
 }
