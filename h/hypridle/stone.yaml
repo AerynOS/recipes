@@ -1,0 +1,27 @@
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : hypridle
+version     : "0.1.7"
+release     : 1
+upstreams   :
+    - https://github.com/hyprwm/hypridle/archive/refs/tags/v0.1.7.tar.gz : c4ef2e2894fc2082cfdabe7db086b1f246e3f0de571f7f2c6b26d7c0d9a5f8f3
+homepage    : https://github.com/hyprwm/hypridle
+license     : BSD-3-Clause
+summary     : Hyprland's idle daemon.
+description : |
+    Hyprland's idle daemon.
+builddeps   :
+    - pkgconfig(hyprland-protocols)
+    - pkgconfig(hyprlang)
+    - pkgconfig(hyprutils)
+    - pkgconfig(hyprwayland-scanner)
+    - pkgconfig(sdbus-c++)
+    - pkgconfig(wayland-client)
+    - pkgconfig(wayland-protocols)
+setup       : |
+    %cmake
+build       : |
+    %cmake_build
+install     : |
+    %cmake_install
