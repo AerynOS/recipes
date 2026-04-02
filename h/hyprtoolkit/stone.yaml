@@ -1,0 +1,44 @@
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : hyprtoolkit
+version     : "0.5.3"
+release     : 1
+upstreams   :
+    - https://github.com/hyprwm/hyprtoolkit/archive/refs/tags/v0.5.3.tar.gz : 7e6671fd4bf6f4b1eda0115aa187aa183db40d59049cca1d7546fb46fdb4cdc0
+homepage    : https://github.com/hyprwm/hyprtoolkit
+license     : BSD-3-Clause
+summary     : A modern C++ Wayland-native GUI toolkit
+description : |
+    Hyprtoolkit is designed to be a small, simple, and modern C++ toolkit for making wayland GUI apps, with a few goals:
+    - Simple C++ API for making a GUI app
+    - Smooth animations
+    - Easy usage
+    - Simple system theming
+builddeps   :
+    - pkgconfig(aquamarine)
+    - pkgconfig(cairo)
+    - pkgconfig(gbm)
+    - pkgconfig(hyprgraphics)
+    - pkgconfig(hyprlang)
+    - pkgconfig(hyprutils)
+    - pkgconfig(hyprwayland-scanner)
+    - pkgconfig(iniparser)
+    - pkgconfig(libdrm)
+    - pkgconfig(opengl)
+    - pkgconfig(pango)
+    - pkgconfig(pixman-1)
+    - pkgconfig(wayland-client)
+    - pkgconfig(wayland-protocols)
+    - pkgconfig(xkbcommon)
+setup       : |
+    %cmake
+build       : |
+    %cmake_build
+install     : |
+    %cmake_install
+packages    :
+    - "%(name)-devel":
+        rundeps:
+            - pkgconfig(aquamarine)
+            - pkgconfig(hyprgraphics)
