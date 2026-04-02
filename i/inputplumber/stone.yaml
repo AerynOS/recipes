@@ -4,7 +4,7 @@
 
 name        : inputplumber
 version     : "0.75.2"
-release     : 54
+release     : 55
 homepage    : https://github.com/ShadowBlip/InputPlumber
 upstreams   :
     - https://github.com/ShadowBlip/InputPlumber/archive/refs/tags/v0.75.2.tar.gz : 595dfe58bd45b00a94f468df98ff3bb107870f0a4e45ab5077238902db723f7d
@@ -22,6 +22,8 @@ builddeps   :
     - pkgconfig(libudev)
     - clang-devel
 setup       : |
+    # fix folder permissions due to coreutils 0.7.0+
+    find rootfs -type d -exec chmod 755 {} \;
     %cargo_fetch
 build       : |
     %cargo_build
