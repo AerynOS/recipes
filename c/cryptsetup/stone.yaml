@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : cryptsetup
-version     : "2.8.4"
-release     : 11
+version     : "2.8.6"
+release     : 12
 homepage    : https://gitlab.com/cryptsetup/cryptsetup
 upstreams   :
-    - https://gitlab.com/cryptsetup/cryptsetup/-/archive/v2.8.4/cryptsetup-v2.8.4.tar.gz : 62359f340215c733245c1bf09c4c644d1b73dfeea93d6b67eecd82b2d407869d
+    - https://gitlab.com/cryptsetup/cryptsetup/-/archive/v2.8.6/cryptsetup-v2.8.6.tar.gz : 852efa7ee5dc484da8ca758faebc1e399c97a5b0d9db4c441d2e2777aa20ccfb
 summary     : cryptsetup + LUKS
 description : |
     cryptsetup + LUKS - open source disk encryption
@@ -30,7 +30,6 @@ builddeps   :
     - pkgconfig(uuid)
 setup       : |
     %patch %(pkgdir)/0001-meson-Install-binaries.patch
-    %patch %(pkgdir)/0001-Fix-lockdir-perms.patch
 
     %meson \
         -Dargon-implementation=internal \
