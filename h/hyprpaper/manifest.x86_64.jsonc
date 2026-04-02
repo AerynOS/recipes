@@ -1,0 +1,45 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"hyprpaper": {
+			"build-depends": [
+				"pkgconfig(hyprlang)",
+				"pkgconfig(hyprtoolkit)",
+				"pkgconfig(hyprutils)",
+				"pkgconfig(hyprwayland-scanner)",
+				"pkgconfig(hyprwire)",
+				"pkgconfig(libdrm)",
+				"pkgconfig(libmagic)",
+				"pkgconfig(opengl)",
+				"pkgconfig(pixman-1)",
+				"pkgconfig(wayland-client)",
+				"pkgconfig(wayland-protocols)"
+			],
+			"depends": [
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libhyprlang.so.2(x86_64))",
+				"soname(libhyprtoolkit.so.5(x86_64))",
+				"soname(libhyprutils.so.11(x86_64))",
+				"soname(libhyprwire.so.3(x86_64))",
+				"soname(libm.so.6(x86_64))",
+				"soname(libmagic.so.1(x86_64))",
+				"soname(libstdc++.so.6(x86_64))",
+				"soname(libwayland-client.so.0(x86_64))"
+			],
+			"files": [
+				"/usr/bin/hyprpaper",
+				"/usr/lib/systemd/user/hyprpaper.service"
+			],
+			"name": "hyprpaper",
+			"provides": [
+				"binary(hyprpaper)"
+			]
+		}
+	},
+	"source-name": "hyprpaper",
+	"source-release": "1",
+	"source-version": "0.8.3"
+}
