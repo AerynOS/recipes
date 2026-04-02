@@ -1,0 +1,52 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"xdg-desktop-portal-hyprland": {
+			"build-depends": [
+				"pkgconfig(Qt6Core)",
+				"pkgconfig(gbm)",
+				"pkgconfig(hyprland-protocols)",
+				"pkgconfig(hyprlang)",
+				"pkgconfig(hyprutils)",
+				"pkgconfig(hyprwayland-scanner)",
+				"pkgconfig(libdrm)",
+				"pkgconfig(libpipewire-0.3)",
+				"pkgconfig(libspa-0.2)",
+				"pkgconfig(sdbus-c++)",
+				"pkgconfig(wayland-protocols)"
+			],
+			"depends": [
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(libQt6Core.so.6(x86_64))",
+				"soname(libQt6Gui.so.6(x86_64))",
+				"soname(libQt6Widgets.so.6(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libdrm.so.2(x86_64))",
+				"soname(libgbm.so.1(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libhyprlang.so.2(x86_64))",
+				"soname(libhyprutils.so.11(x86_64))",
+				"soname(libm.so.6(x86_64))",
+				"soname(libpipewire-0.3.so.0(x86_64))",
+				"soname(libsdbus-c++.so.2(x86_64))",
+				"soname(libstdc++.so.6(x86_64))",
+				"soname(libwayland-client.so.0(x86_64))"
+			],
+			"files": [
+				"/usr/bin/hyprland-share-picker",
+				"/usr/lib/systemd/user/xdg-desktop-portal-hyprland.service",
+				"/usr/lib/xdg-desktop-portal-hyprland/xdg-desktop-portal-hyprland",
+				"/usr/share/dbus-1/services/org.freedesktop.impl.portal.desktop.hyprland.service",
+				"/usr/share/xdg-desktop-portal/portals/hyprland.portal"
+			],
+			"name": "xdg-desktop-portal-hyprland",
+			"provides": [
+				"binary(hyprland-share-picker)"
+			]
+		}
+	},
+	"source-name": "xdg-desktop-portal-hyprland",
+	"source-release": "1",
+	"source-version": "1.3.11"
+}
