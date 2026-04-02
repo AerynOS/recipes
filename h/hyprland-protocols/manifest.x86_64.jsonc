@@ -1,0 +1,26 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"hyprland-protocols": {
+			"files": [
+				"/usr/share/hyprland-protocols/protocols/hyprland-ctm-control-v1.xml",
+				"/usr/share/hyprland-protocols/protocols/hyprland-focus-grab-v1.xml",
+				"/usr/share/hyprland-protocols/protocols/hyprland-global-shortcuts-v1.xml",
+				"/usr/share/hyprland-protocols/protocols/hyprland-input-capture-v1.xml",
+				"/usr/share/hyprland-protocols/protocols/hyprland-lock-notify-v1.xml",
+				"/usr/share/hyprland-protocols/protocols/hyprland-surface-v1.xml",
+				"/usr/share/hyprland-protocols/protocols/hyprland-toplevel-export-v1.xml",
+				"/usr/share/hyprland-protocols/protocols/hyprland-toplevel-mapping-v1.xml",
+				"/usr/share/pkgconfig/hyprland-protocols.pc"
+			],
+			"name": "hyprland-protocols",
+			"provides": [
+				"pkgconfig(hyprland-protocols)"
+			]
+		}
+	},
+	"source-name": "hyprland-protocols",
+	"source-release": "1",
+	"source-version": "0.7.0"
+}
