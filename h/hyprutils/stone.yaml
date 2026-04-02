@@ -1,0 +1,21 @@
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : hyprutils
+version     : "0.12.0"
+release     : 1
+upstreams   :
+    - https://github.com/hyprwm/hyprutils/archive/refs/tags/v0.12.0.tar.gz : d9b495cc8c7602fe54148388fe94892a1337be871267dc5e93f4e719fe6ef8f2
+homepage    : https://github.com/hyprwm/hyprutils
+license     : BSD-3-Clause
+summary     : Small C++ library for the Hypr* ecosystem.
+description : |
+    Hyprutils is a small C++ library for utilities used across the Hypr* ecosystem.
+builddeps   :
+    - pkgconfig(pixman-1)
+setup       : |
+    %cmake
+build       : |
+    %cmake_build
+install     : |
+    %cmake_install
