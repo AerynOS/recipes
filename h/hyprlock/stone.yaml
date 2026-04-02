@@ -1,0 +1,41 @@
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : hyprlock
+version     : "0.9.3"
+release     : 1
+upstreams   :
+    - https://github.com/hyprwm/hyprlock/archive/refs/tags/v0.9.3.tar.gz : 22e7346486d0f6a1ab46d9917ae5354de4d3d32350f6947bc7028a9c42859ce8
+homepage    : https://github.com/hyprwm/hyprlock
+license     : BSD-3-Clause
+summary     : Hyprland's simple, yet multi-threaded and GPU-accelerated screen locking utility.
+description : |
+    Hyprland's simple, yet multi-threaded and GPU-accelerated screen locking utility.
+builddeps   :
+    - pkgconfig(cairo)
+    - pkgconfig(gbm)
+    - pkgconfig(hyprgraphics)
+    - pkgconfig(hyprlang)
+    - pkgconfig(hyprutils)
+    - pkgconfig(hyprwayland-scanner)
+    - pkgconfig(libdrm)
+    - pkgconfig(opengl)
+    - pkgconfig(pam)
+    - pkgconfig(pangocairo)
+    - pkgconfig(sdbus-c++)
+    - pkgconfig(wayland-client)
+    - pkgconfig(wayland-egl)
+    - pkgconfig(wayland-protocols)
+    - pkgconfig(xkbcommon)
+setup       : |
+    %cmake
+build       : |
+    %cmake_build
+install     : |
+    %cmake_install
+
+    # Stateless
+    %install_dir %(installroot)%(vendordir)/pam.d
+    mv %(installroot)/etc/pam.d/hyprlock %(installroot)%(vendordir)/pam.d
+    rmdir -v %(installroot)/etc/pam.d \
+             %(installroot)/etc
