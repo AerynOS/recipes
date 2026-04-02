@@ -1,0 +1,72 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"hyprwire": {
+			"build-depends": [
+				"cmake(pugixml)",
+				"pkgconfig(hyprutils)",
+				"pkgconfig(libffi)"
+			],
+			"depends": [
+				"soname(libc.so.6(x86_64))",
+				"soname(libffi.so.8(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libhyprutils.so.11(x86_64))",
+				"soname(libm.so.6(x86_64))",
+				"soname(libstdc++.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/lib/libhyprwire.so.0.3.0",
+				"/usr/lib/libhyprwire.so.3"
+			],
+			"name": "hyprwire",
+			"provides": [
+				"soname(libhyprwire.so.3(x86_64))"
+			]
+		},
+		"hyprwire-devel": {
+			"build-depends": [
+				"cmake(pugixml)",
+				"pkgconfig(hyprutils)",
+				"pkgconfig(libffi)"
+			],
+			"depends": [
+				"hyprwire",
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libm.so.6(x86_64))",
+				"soname(libpugixml.so.1(x86_64))",
+				"soname(libstdc++.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/bin/hyprwire-scanner",
+				"/usr/include/hyprwire/core/ClientSocket.hpp",
+				"/usr/include/hyprwire/core/ServerSocket.hpp",
+				"/usr/include/hyprwire/core/implementation/ClientImpl.hpp",
+				"/usr/include/hyprwire/core/implementation/Object.hpp",
+				"/usr/include/hyprwire/core/implementation/ServerImpl.hpp",
+				"/usr/include/hyprwire/core/implementation/Spec.hpp",
+				"/usr/include/hyprwire/core/implementation/Types.hpp",
+				"/usr/include/hyprwire/core/types/MessageMagic.hpp",
+				"/usr/include/hyprwire/hyprwire.hpp",
+				"/usr/lib/cmake/hyprwire-scanner/hyprwire-scanner-config-version.cmake",
+				"/usr/lib/cmake/hyprwire-scanner/hyprwire-scanner-config.cmake",
+				"/usr/lib/libhyprwire.so",
+				"/usr/lib/pkgconfig/hyprwire-scanner.pc",
+				"/usr/lib/pkgconfig/hyprwire.pc"
+			],
+			"name": "hyprwire-devel",
+			"provides": [
+				"binary(hyprwire-scanner)",
+				"cmake(hyprwire-scanner)",
+				"pkgconfig(hyprwire)",
+				"pkgconfig(hyprwire-scanner)"
+			]
+		}
+	},
+	"source-name": "hyprwire",
+	"source-release": "1",
+	"source-version": "0.3.0"
+}

@@ -1,0 +1,27 @@
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : hyprwire
+version     : "0.3.0"
+release     : 1
+upstreams   :
+    - https://github.com/hyprwm/hyprwire/archive/refs/tags/v0.3.0.tar.gz : ba3ff4b82620209d5680ce0e771d0f2c41f78cdb96d5d84fa66e4f0709ca8de6
+homepage    : https://github.com/hyprwm/hyprwire
+license     : BSD-3-Clause
+summary     : A fast and consistent wire protocol for IPC
+description : |
+    Hyprwire is a fast and consistent wire protocol, and its implementation. This is essentially a "method" for processes to talk to each other. Hyprwire is heavily inspired by Wayland, and heavily anti-inspired by D-Bus.
+builddeps   :
+    - cmake(pugixml)
+    - pkgconfig(hyprutils)
+    - pkgconfig(libffi)
+setup       : |
+    %cmake
+build       : |
+    %cmake_build
+install     : |
+    %cmake_install
+packages    :
+    - "%(name)-devel":
+        paths:
+            - /usr/bin/hyprwire-scanner
