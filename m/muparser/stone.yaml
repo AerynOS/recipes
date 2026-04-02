@@ -1,0 +1,19 @@
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : muparser
+version     : "2.3.5"
+release     : 1
+upstreams   :
+    - https://github.com/beltoforion/muparser/archive/refs/tags/v2.3.5.tar.gz : 20b43cc68c655665db83711906f01b20c51909368973116dfc8d7b3c4ddb5dd4
+homepage    : https://beltoforion.de/en/muparser/
+license     : MIT
+summary     : muParser is an extensible high performance math expression parser library written in C++.
+description : |
+    muParser is an extensible high performance math expression parser library written in C++.
+setup       : |
+    %cmake
+build       : |
+    %cmake_build
+install     : |
+    %cmake_install
