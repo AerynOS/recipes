@@ -1,0 +1,52 @@
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : hyprland
+version     : "0.54.3"
+release     : 1
+upstreams   :
+    - https://github.com/hyprwm/Hyprland/releases/download/v0.54.3/source-v0.54.3.tar.gz : 3c20a191a6f23af75f9a8db636d690c6adc95931447f9d69fb20884ec04c63ee
+homepage    : https://hyprland.org/
+license     : BSD-3-Clause
+summary     : Hyprland is a 100% independent, dynamic tiling Wayland compositor that doesn't sacrifice on its looks.
+description : |
+    Hyprland is a 100% independent, dynamic tiling Wayland compositor that doesn't sacrifice on its looks. It provides the latest Wayland features, is highly customizable, has all the eyecandy, the most powerful plugins, easy IPC, much more QoL stuff than other compositors and more...
+builddeps   :
+    - binary(python3)
+    - cmake(glaze)
+    - pkgconfig(aquamarine)
+    - pkgconfig(gbm)
+    - pkgconfig(gio-2.0)
+    - pkgconfig(hyprcursor)
+    - pkgconfig(hyprgraphics)
+    - pkgconfig(hyprland-protocols)
+    - pkgconfig(hyprlang)
+    - pkgconfig(hyprutils)
+    - pkgconfig(hyprwire)
+    - pkgconfig(hyprwayland-scanner)
+    - pkgconfig(libdrm)
+    - pkgconfig(libinput)
+    - pkgconfig(muparser)
+    - pkgconfig(opengl)
+    - pkgconfig(pango)
+    - pkgconfig(pangocairo)
+    - pkgconfig(re2)
+    - pkgconfig(tomlplusplus)
+    - pkgconfig(uuid)
+    - pkgconfig(wayland-protocols)
+    - pkgconfig(wayland-scanner)
+    - pkgconfig(xcb-errors)
+    - pkgconfig(xcb-icccm)
+    - pkgconfig(xcursor)
+    - pkgconfig(xkbcommon)
+rundeps     :
+    - hyprland-guiutils
+    - xdg-desktop-portal-gtk
+    - xdg-desktop-portal-hyprland
+setup       : |
+    rm -rf subprojects/hyprland-protocols
+    %cmake
+build       : |
+    %cmake_build
+install     : |
+    %cmake_install
