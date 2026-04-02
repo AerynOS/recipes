@@ -1,0 +1,34 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"hyprwayland-scanner": {
+			"build-depends": [
+				"cmake(pugixml)"
+			],
+			"depends": [
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libm.so.6(x86_64))",
+				"soname(libpugixml.so.1(x86_64))",
+				"soname(libstdc++.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/bin/hyprwayland-scanner",
+				"/usr/lib/cmake/hyprwayland-scanner/hyprwayland-scanner-config-version.cmake",
+				"/usr/lib/cmake/hyprwayland-scanner/hyprwayland-scanner-config.cmake",
+				"/usr/lib/pkgconfig/hyprwayland-scanner.pc"
+			],
+			"name": "hyprwayland-scanner",
+			"provides": [
+				"binary(hyprwayland-scanner)",
+				"cmake(hyprwayland-scanner)",
+				"pkgconfig(hyprwayland-scanner)"
+			]
+		}
+	},
+	"source-name": "hyprwayland-scanner",
+	"source-release": "1",
+	"source-version": "0.4.5"
+}
