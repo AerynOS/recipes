@@ -1,0 +1,80 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"sdbus-cpp": {
+			"build-depends": [
+				"binary(doxygen)",
+				"pkgconfig(libsystemd)"
+			],
+			"depends": [
+				"soname(ld-linux-x86-64.so.2(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libstdc++.so.6(x86_64))",
+				"soname(libsystemd.so.0(x86_64))"
+			],
+			"files": [
+				"/usr/lib/libsdbus-c++.so.2",
+				"/usr/lib/libsdbus-c++.so.2.2.1",
+				"/usr/share/doc/sdbus-c++/AUTHORS",
+				"/usr/share/doc/sdbus-c++/COPYING",
+				"/usr/share/doc/sdbus-c++/ChangeLog",
+				"/usr/share/doc/sdbus-c++/NEWS",
+				"/usr/share/doc/sdbus-c++/README",
+				"/usr/share/doc/sdbus-c++/README.md",
+				"/usr/share/doc/sdbus-c++/sdbus-c++-class-diagram.png",
+				"/usr/share/doc/sdbus-c++/sdbus-c++-class-diagram.uml",
+				"/usr/share/doc/sdbus-c++/systemd-dbus-config.md",
+				"/usr/share/doc/sdbus-c++/using-sdbus-c++.md"
+			],
+			"name": "sdbus-cpp",
+			"provides": [
+				"soname(libsdbus-c++.so.2(x86_64))"
+			]
+		},
+		"sdbus-cpp-devel": {
+			"build-depends": [
+				"binary(doxygen)",
+				"pkgconfig(libsystemd)"
+			],
+			"depends": [
+				"pkgconfig(libsystemd)",
+				"sdbus-cpp"
+			],
+			"files": [
+				"/usr/include/sdbus-c++/AdaptorInterfaces.h",
+				"/usr/include/sdbus-c++/ConvenienceApiClasses.h",
+				"/usr/include/sdbus-c++/ConvenienceApiClasses.inl",
+				"/usr/include/sdbus-c++/Error.h",
+				"/usr/include/sdbus-c++/Flags.h",
+				"/usr/include/sdbus-c++/IConnection.h",
+				"/usr/include/sdbus-c++/IObject.h",
+				"/usr/include/sdbus-c++/IProxy.h",
+				"/usr/include/sdbus-c++/Message.h",
+				"/usr/include/sdbus-c++/MethodResult.h",
+				"/usr/include/sdbus-c++/ProxyInterfaces.h",
+				"/usr/include/sdbus-c++/StandardInterfaces.h",
+				"/usr/include/sdbus-c++/TypeTraits.h",
+				"/usr/include/sdbus-c++/Types.h",
+				"/usr/include/sdbus-c++/VTableItems.h",
+				"/usr/include/sdbus-c++/VTableItems.inl",
+				"/usr/include/sdbus-c++/sdbus-c++.h",
+				"/usr/lib/cmake/sdbus-c++/sdbus-c++-config-version.cmake",
+				"/usr/lib/cmake/sdbus-c++/sdbus-c++-config.cmake",
+				"/usr/lib/cmake/sdbus-c++/sdbus-c++-targets-release.cmake",
+				"/usr/lib/cmake/sdbus-c++/sdbus-c++-targets.cmake",
+				"/usr/lib/libsdbus-c++.so",
+				"/usr/lib/pkgconfig/sdbus-c++.pc"
+			],
+			"name": "sdbus-cpp-devel",
+			"provides": [
+				"cmake(sdbus-c++)",
+				"pkgconfig(sdbus-c++)"
+			]
+		}
+	},
+	"source-name": "sdbus-cpp",
+	"source-release": "1",
+	"source-version": "2.2.1"
+}

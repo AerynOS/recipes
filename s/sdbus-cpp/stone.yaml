@@ -1,0 +1,22 @@
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : sdbus-cpp
+version     : "2.2.1"
+release     : 1
+upstreams   :
+    - https://github.com/Kistler-Group/sdbus-cpp/archive/refs/tags/v2.2.1.tar.gz : da69a0104beb6e51415a59f1571a47beb1eacc65cc6027b250eb1cf13ff4f802
+homepage    : https://github.com/Kistler-Group/sdbus-cpp
+license     : LGPL-2.1-only
+summary     : C++ D-Bus library
+description : |
+    sdbus-c++ is a high-level C++ D-Bus library for Linux designed to provide expressive, easy-to-use API in modern C++. It adds another layer of abstraction on top of sd-bus, a nice, fresh C D-Bus implementation by systemd.
+builddeps   :
+    - binary(doxygen)
+    - pkgconfig(libsystemd)
+setup       : |
+    %cmake
+build       : |
+    %cmake_build
+install     : |
+    %cmake_install
