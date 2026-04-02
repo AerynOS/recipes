@@ -1,0 +1,95 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"aquamarine": {
+			"build-depends": [
+				"cmake(hyprwayland-scanner)",
+				"pkgconfig(gbm)",
+				"pkgconfig(hwdata)",
+				"pkgconfig(hyprutils)",
+				"pkgconfig(libdisplay-info)",
+				"pkgconfig(libdrm)",
+				"pkgconfig(libinput)",
+				"pkgconfig(libseat)",
+				"pkgconfig(libudev)",
+				"pkgconfig(opengl)",
+				"pkgconfig(pixman-1)",
+				"pkgconfig(wayland-client)",
+				"pkgconfig(wayland-protocols)"
+			],
+			"depends": [
+				"soname(libEGL.so.1(x86_64))",
+				"soname(libOpenGL.so.0(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libdisplay-info.so.3(x86_64))",
+				"soname(libdrm.so.2(x86_64))",
+				"soname(libgbm.so.1(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libhyprutils.so.11(x86_64))",
+				"soname(libinput.so.10(x86_64))",
+				"soname(libm.so.6(x86_64))",
+				"soname(libseat.so.1(x86_64))",
+				"soname(libstdc++.so.6(x86_64))",
+				"soname(libudev.so.1(x86_64))",
+				"soname(libwayland-client.so.0(x86_64))"
+			],
+			"files": [
+				"/usr/lib/libaquamarine.so.0.10.0",
+				"/usr/lib/libaquamarine.so.9"
+			],
+			"name": "aquamarine",
+			"provides": [
+				"soname(libaquamarine.so.9(x86_64))"
+			]
+		},
+		"aquamarine-devel": {
+			"build-depends": [
+				"cmake(hyprwayland-scanner)",
+				"pkgconfig(gbm)",
+				"pkgconfig(hwdata)",
+				"pkgconfig(hyprutils)",
+				"pkgconfig(libdisplay-info)",
+				"pkgconfig(libdrm)",
+				"pkgconfig(libinput)",
+				"pkgconfig(libseat)",
+				"pkgconfig(libudev)",
+				"pkgconfig(opengl)",
+				"pkgconfig(pixman-1)",
+				"pkgconfig(wayland-client)",
+				"pkgconfig(wayland-protocols)"
+			],
+			"depends": [
+				"aquamarine"
+			],
+			"files": [
+				"/usr/include/aquamarine/allocator/Allocator.hpp",
+				"/usr/include/aquamarine/allocator/DRMDumb.hpp",
+				"/usr/include/aquamarine/allocator/GBM.hpp",
+				"/usr/include/aquamarine/allocator/Swapchain.hpp",
+				"/usr/include/aquamarine/backend/Backend.hpp",
+				"/usr/include/aquamarine/backend/DRM.hpp",
+				"/usr/include/aquamarine/backend/Headless.hpp",
+				"/usr/include/aquamarine/backend/Misc.hpp",
+				"/usr/include/aquamarine/backend/Null.hpp",
+				"/usr/include/aquamarine/backend/Session.hpp",
+				"/usr/include/aquamarine/backend/Wayland.hpp",
+				"/usr/include/aquamarine/backend/drm/Atomic.hpp",
+				"/usr/include/aquamarine/backend/drm/Legacy.hpp",
+				"/usr/include/aquamarine/buffer/Buffer.hpp",
+				"/usr/include/aquamarine/input/Input.hpp",
+				"/usr/include/aquamarine/misc/Attachment.hpp",
+				"/usr/include/aquamarine/output/Output.hpp",
+				"/usr/lib/libaquamarine.so",
+				"/usr/lib/pkgconfig/aquamarine.pc"
+			],
+			"name": "aquamarine-devel",
+			"provides": [
+				"pkgconfig(aquamarine)"
+			]
+		}
+	},
+	"source-name": "aquamarine",
+	"source-release": "1",
+	"source-version": "0.10.0"
+}
