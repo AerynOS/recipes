@@ -1,0 +1,27 @@
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : glaze
+version     : "7.2.2"
+release     : 1
+upstreams   :
+    - https://github.com/stephenberry/glaze/archive/refs/tags/v7.2.2.tar.gz : 2623d70be8de5169d71913caf022a1f08d02ed19b0d96474c0bd4227eba761bc
+homepage    : https://github.com/stephenberry/glaze
+license     : MIT
+summary     : Extremely fast, in memory, JSON and interface library for modern C++
+description : |
+    Extremely fast, in memory, JSON and interface library for modern C++
+setup       : |
+    # TODO: Get tests building
+    %cmake \
+        -DBUILD_TESTING=OFF
+build       : |
+    %cmake_build
+install     : |
+    %cmake_install
+packages    :
+    # Devel-only package
+    - "%(name)":
+        paths:
+            - /usr/include/
+            - /usr/share/glaze/

@@ -1,0 +1,21 @@
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : hyprlang
+version     : "0.6.8"
+release     : 1
+upstreams   :
+    - https://github.com/hyprwm/hyprlang/archive/refs/tags/v0.6.8.tar.gz : d10a0778b646e04d83e8b90cc0f764fb96958c01a15c3c0678d95a40fc647ed5
+homepage    : https://github.com/hyprwm/hyprlang
+license     : LGPL-3.0
+summary     : The hypr configuration language
+description : |
+    The hypr configuration language is an extremely efficient, yet easy to work with, configuration language for linux applications.
+builddeps   :
+    - pkgconfig(hyprutils)
+setup       : |
+    %cmake
+build       : |
+    %cmake_build
+install     : |
+    %cmake_install

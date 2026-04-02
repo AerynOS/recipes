@@ -1,0 +1,40 @@
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : dunst
+version     : "1.13.2"
+release     : 1
+upstreams   :
+    - https://github.com/dunst-project/dunst/archive/refs/tags/v1.13.2.tar.gz : c68645cecef4a45840cd67c19a18a3a21ecae6b331e9864c2b745c31aee5fc85
+homepage    : https://dunst-project.org
+license     : BSD-3-Clause
+summary     : Customizable and lightweight notification-daemon.
+description : |
+    Dunst is a lightweight replacement for the notification-daemons provided by most desktop environments. It's very customizable, doesn't depend on any toolkits and therefore fits in those windowmanager centric setups we all love to customize to perfection.
+builddeps   :
+    - binary(pod2man)
+    - pkgconfig(cairo)
+    - pkgconfig(gdk-pixbuf-2.0)
+    - pkgconfig(glib-2.0)
+    - pkgconfig(gio-2.0)
+    - pkgconfig(libnotify)
+    - pkgconfig(pangocairo)
+    - pkgconfig(systemd)
+    - pkgconfig(wayland-client)
+    - pkgconfig(wayland-cursor)
+    - pkgconfig(wayland-protocols)
+    - pkgconfig(x11)
+    - pkgconfig(xext)
+    - pkgconfig(xinerama)
+    - pkgconfig(xrandr)
+    - pkgconfig(xscrnsaver)
+setup       : |
+    %meson
+build       : |
+    %meson_build
+install     : |
+    %meson_install
+
+    # Stateless
+    %install_dir %(installroot)%(datadir)/xdg/dunst
+    mv %(installroot)%(sysconfdir)/xdg/dunst/dunstrc %(installroot)%(datadir)/xdg/dunst

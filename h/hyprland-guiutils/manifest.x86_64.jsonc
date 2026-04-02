@@ -1,0 +1,43 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"hyprland-guiutils": {
+			"build-depends": [
+				"pkgconfig(hyprlang)",
+				"pkgconfig(hyprtoolkit)",
+				"pkgconfig(hyprutils)",
+				"pkgconfig(libdrm)",
+				"pkgconfig(pixman-1)",
+				"pkgconfig(xkbcommon)"
+			],
+			"depends": [
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libhyprtoolkit.so.5(x86_64))",
+				"soname(libhyprutils.so.11(x86_64))",
+				"soname(libm.so.6(x86_64))",
+				"soname(libstdc++.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/bin/hyprland-dialog",
+				"/usr/bin/hyprland-donate-screen",
+				"/usr/bin/hyprland-run",
+				"/usr/bin/hyprland-update-screen",
+				"/usr/bin/hyprland-welcome"
+			],
+			"name": "hyprland-guiutils",
+			"provides": [
+				"binary(hyprland-dialog)",
+				"binary(hyprland-donate-screen)",
+				"binary(hyprland-run)",
+				"binary(hyprland-update-screen)",
+				"binary(hyprland-welcome)"
+			]
+		}
+	},
+	"source-name": "hyprland-guiutils",
+	"source-release": "1",
+	"source-version": "0.2.1"
+}

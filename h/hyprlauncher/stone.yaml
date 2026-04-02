@@ -1,0 +1,35 @@
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : hyprlauncher
+version     : "0.1.5"
+release     : 1
+upstreams   :
+    - https://github.com/hyprwm/hyprlauncher/archive/refs/tags/v0.1.5.tar.gz : 907bf3ce39699d565d49adff1f9b2baee4b59fbb0c1c2b1ec41814f05065bec7
+homepage    : https://github.com/hyprwm/hyprlauncher
+license     : BSD-3-Clause
+summary     : A multipurpose and versatile launcher / picker for Hyprland
+description : |
+    Hyprland launcher build with hyprtoolkit
+    Features:
+    - Various providers: Desktop, Unicode, Emoji, Math ...
+    - Speedy: Fast, multi-threaded fuzzy searching
+    - Daemon by default: instant opening of the launcher
+    - Entry frequency caching: commonly used entries appear above others
+builddeps   :
+    - pkgconfig(fontconfig)
+    - pkgconfig(hyprlang)
+    - pkgconfig(hyprtoolkit)
+    - pkgconfig(hyprutils)
+    - pkgconfig(hyprwire)
+    - pkgconfig(icu-uc)
+    - pkgconfig(libdrm)
+    - pkgconfig(libqalculate)
+    - pkgconfig(pixman-1)
+    - pkgconfig(xkbcommon)
+setup       : |
+    %cmake
+build       : |
+    %cmake_build
+install     : |
+    %cmake_install

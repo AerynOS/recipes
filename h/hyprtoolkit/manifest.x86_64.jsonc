@@ -1,0 +1,121 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"hyprtoolkit": {
+			"build-depends": [
+				"pkgconfig(aquamarine)",
+				"pkgconfig(cairo)",
+				"pkgconfig(gbm)",
+				"pkgconfig(hyprgraphics)",
+				"pkgconfig(hyprlang)",
+				"pkgconfig(hyprutils)",
+				"pkgconfig(hyprwayland-scanner)",
+				"pkgconfig(iniparser)",
+				"pkgconfig(libdrm)",
+				"pkgconfig(opengl)",
+				"pkgconfig(pango)",
+				"pkgconfig(pixman-1)",
+				"pkgconfig(wayland-client)",
+				"pkgconfig(wayland-protocols)",
+				"pkgconfig(xkbcommon)"
+			],
+			"depends": [
+				"soname(libEGL.so.1(x86_64))",
+				"soname(libOpenGL.so.0(x86_64))",
+				"soname(libaquamarine.so.9(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libcairo.so.2(x86_64))",
+				"soname(libdrm.so.2(x86_64))",
+				"soname(libgbm.so.1(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libglib-2.0.so.0(x86_64))",
+				"soname(libgobject-2.0.so.0(x86_64))",
+				"soname(libhyprgraphics.so.4(x86_64))",
+				"soname(libhyprlang.so.2(x86_64))",
+				"soname(libhyprutils.so.11(x86_64))",
+				"soname(libiniparser.so.4(x86_64))",
+				"soname(libm.so.6(x86_64))",
+				"soname(libpango-1.0.so.0(x86_64))",
+				"soname(libpangocairo-1.0.so.0(x86_64))",
+				"soname(libpixman-1.so.0(x86_64))",
+				"soname(libstdc++.so.6(x86_64))",
+				"soname(libwayland-client.so.0(x86_64))",
+				"soname(libxkbcommon.so.0(x86_64))"
+			],
+			"files": [
+				"/usr/lib/libhyprtoolkit.so.0.5.3",
+				"/usr/lib/libhyprtoolkit.so.5"
+			],
+			"name": "hyprtoolkit",
+			"provides": [
+				"soname(libhyprtoolkit.so.5(x86_64))"
+			]
+		},
+		"hyprtoolkit-devel": {
+			"build-depends": [
+				"pkgconfig(aquamarine)",
+				"pkgconfig(cairo)",
+				"pkgconfig(gbm)",
+				"pkgconfig(hyprgraphics)",
+				"pkgconfig(hyprlang)",
+				"pkgconfig(hyprutils)",
+				"pkgconfig(hyprwayland-scanner)",
+				"pkgconfig(iniparser)",
+				"pkgconfig(libdrm)",
+				"pkgconfig(opengl)",
+				"pkgconfig(pango)",
+				"pkgconfig(pixman-1)",
+				"pkgconfig(wayland-client)",
+				"pkgconfig(wayland-protocols)",
+				"pkgconfig(xkbcommon)"
+			],
+			"depends": [
+				"hyprtoolkit",
+				"pkgconfig(aquamarine)",
+				"pkgconfig(hyprgraphics)"
+			],
+			"files": [
+				"/usr/include/hyprtoolkit/core/Backend.hpp",
+				"/usr/include/hyprtoolkit/core/CoreMacros.hpp",
+				"/usr/include/hyprtoolkit/core/Input.hpp",
+				"/usr/include/hyprtoolkit/core/LogTypes.hpp",
+				"/usr/include/hyprtoolkit/core/Output.hpp",
+				"/usr/include/hyprtoolkit/core/SessionLock.hpp",
+				"/usr/include/hyprtoolkit/core/Timer.hpp",
+				"/usr/include/hyprtoolkit/element/Button.hpp",
+				"/usr/include/hyprtoolkit/element/Checkbox.hpp",
+				"/usr/include/hyprtoolkit/element/ColumnLayout.hpp",
+				"/usr/include/hyprtoolkit/element/Combobox.hpp",
+				"/usr/include/hyprtoolkit/element/Element.hpp",
+				"/usr/include/hyprtoolkit/element/Image.hpp",
+				"/usr/include/hyprtoolkit/element/Line.hpp",
+				"/usr/include/hyprtoolkit/element/Null.hpp",
+				"/usr/include/hyprtoolkit/element/Rectangle.hpp",
+				"/usr/include/hyprtoolkit/element/RowLayout.hpp",
+				"/usr/include/hyprtoolkit/element/ScrollArea.hpp",
+				"/usr/include/hyprtoolkit/element/Slider.hpp",
+				"/usr/include/hyprtoolkit/element/Spinbox.hpp",
+				"/usr/include/hyprtoolkit/element/Text.hpp",
+				"/usr/include/hyprtoolkit/element/Textbox.hpp",
+				"/usr/include/hyprtoolkit/palette/Color.hpp",
+				"/usr/include/hyprtoolkit/palette/Palette.hpp",
+				"/usr/include/hyprtoolkit/system/Icons.hpp",
+				"/usr/include/hyprtoolkit/types/FontTypes.hpp",
+				"/usr/include/hyprtoolkit/types/ImageTypes.hpp",
+				"/usr/include/hyprtoolkit/types/PointerShape.hpp",
+				"/usr/include/hyprtoolkit/types/SizeType.hpp",
+				"/usr/include/hyprtoolkit/window/Window.hpp",
+				"/usr/lib/libhyprtoolkit.so",
+				"/usr/lib/pkgconfig/hyprtoolkit.pc"
+			],
+			"name": "hyprtoolkit-devel",
+			"provides": [
+				"pkgconfig(hyprtoolkit)"
+			]
+		}
+	},
+	"source-name": "hyprtoolkit",
+	"source-release": "1",
+	"source-version": "0.5.3"
+}

@@ -1,0 +1,46 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"hyprlang": {
+			"build-depends": [
+				"pkgconfig(hyprutils)"
+			],
+			"depends": [
+				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libhyprutils.so.11(x86_64))",
+				"soname(libm.so.6(x86_64))",
+				"soname(libstdc++.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/lib/libhyprlang.so.0.6.8",
+				"/usr/lib/libhyprlang.so.2"
+			],
+			"name": "hyprlang",
+			"provides": [
+				"soname(libhyprlang.so.2(x86_64))"
+			]
+		},
+		"hyprlang-devel": {
+			"build-depends": [
+				"pkgconfig(hyprutils)"
+			],
+			"depends": [
+				"hyprlang"
+			],
+			"files": [
+				"/usr/include/hyprlang.hpp",
+				"/usr/lib/libhyprlang.so",
+				"/usr/lib/pkgconfig/hyprlang.pc"
+			],
+			"name": "hyprlang-devel",
+			"provides": [
+				"pkgconfig(hyprlang)"
+			]
+		}
+	},
+	"source-name": "hyprlang",
+	"source-release": "1",
+	"source-version": "0.6.8"
+}
