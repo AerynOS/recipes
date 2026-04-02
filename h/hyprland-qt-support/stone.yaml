@@ -1,0 +1,28 @@
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : hyprland-qt-support
+version     : "0.1.0"
+release     : 1
+upstreams   :
+    - https://github.com/hyprwm/hyprland-qt-support/archive/refs/tags/v0.1.0.tar.gz : cac1f980bd088b890097f3f999cfdf03e73ee94c53f3c92d0b3bc23baa9e7b2c
+homepage    : https://github.com/hyprwm/hyprland-qt-support
+license     : BSD-3-Clause
+summary     : A qt6 qml style provider for hypr* apps
+description : |
+    A qt6 qml style provider for hypr* apps
+builddeps   :
+    - cmake(Qt6Core)
+    - cmake(Qt6Qml)
+    - pkgconfig(hyprlang)
+setup       : |
+    %cmake \
+        -DINSTALL_QML_PREFIX=lib/qt6/qml
+build       : |
+    %cmake_build
+install     : |
+    %cmake_install
+packages    :
+    - "%(name)":
+        paths:
+            - /usr/lib/lib*.so
