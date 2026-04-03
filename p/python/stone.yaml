@@ -3,7 +3,7 @@
 
 name        : python
 version     : "3.14.3"
-release     : 18
+release     : 19
 summary     : Python language interpreter
 license     : Python-2.0
 homepage    : https://www.python.org
@@ -105,8 +105,8 @@ install     : |
 
     # If bootstrapping a new version then it may be required to provide the old soname for a while just until rebuilds are complete
     # This is obviously not ABI compatible but _boulder doesn't know that_
-    cp %(installroot)%(libdir)/libpython3.14.so.1.0 %(installroot)%(libdir)/libpython3.11.so.1.0
-    patchelf --set-soname libpython3.11.so.1.0 %(installroot)%(libdir)/libpython3.11.so.1.0
+    # cp %(installroot)%(libdir)/libpython3.14.so.1.0 %(installroot)%(libdir)/libpython3.11.so.1.0
+    # patchelf --set-soname libpython3.11.so.1.0 %(installroot)%(libdir)/libpython3.11.so.1.0
 
     # Recompile pyc files
     LD_LIBRARY_PATH="%(installroot)/${_dynload_dir}/:%(installroot)%(libdir)" \
