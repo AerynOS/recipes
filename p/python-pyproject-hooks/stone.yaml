@@ -3,17 +3,44 @@
 
 name        : python-pyproject-hooks
 version     : "1.2.0"
-release     : 5
+release     : 6
 homepage    : https://github.com/pypa/pyproject-hooks
 upstreams   :
-    - https://github.com/pypa/pyproject-hooks/archive/refs/tags/v1.2.0.tar.gz : d993cda99f6c41c2679a0cd5528fc15608cc114df26553deb41db62185c11206
+    - https://github.com/pypa/pyproject-hooks/archive/refs/tags/v1.2.0.tar.gz:
+        hash: d993cda99f6c41c2679a0cd5528fc15608cc114df26553deb41db62185c11206
+        rename: pyproject.tar.gz
+
+    # Comment out if not bootstrapping
+    - git|https://gitlab.archlinux.org/archlinux/python-bootstrap.git:
+        ref: 461514b135c5ef77f572037d79b58b9e321d38e9
 summary     : A low-level library for calling build-backends in `pyproject.toml`-based project
 description : |
     This is a low-level library for calling build-backends in pyproject.toml-based project. It provides the basic functionality to help write tooling that generates distribution files from Python projects.
 license     : MIT
 networking  : true
-builddeps   :
-    - binary(pip3)
-# [LATER] Rebootstrap using %pyproject_build, %pyproject_install.
+environment : |
+    # set to 1 if bootstrapping against a new python
+    _bootstrap=1
+
+    if [[ ${_bootstrap} == "1" ]]; then
+        cd ../python-bootstrap.git
+    fi
+setup      : |
+    if [[ ${_bootstrap} == "1" ]]; then
+        rm -rf external/pyproject-hooks
+
+        mkdir external/pyproject-hooks
+        bsdtar-static -xf %(sourcedir)/pyproject.tar.gz --strip-components=1 -C external/pyproject-hooks
+    fi
+build       : |
+    if [[ ${_bootstrap} == "1" ]]; then
+        python -m bootstrap.build
+    else
+        %pyproject_build
+    fi
 install     : |
-    pip3 install pyproject_hooks==%(version) --root=%(installroot) --no-deps
+    if [[ ${_bootstrap} == "1" ]]; then
+        python -m bootstrap.install dist/pyproject_hooks-*-py3-none-any.whl -d "%(installroot)"
+    else
+        %pyproject_install
+    fi
