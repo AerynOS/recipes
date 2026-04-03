@@ -2,12 +2,12 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : vim
-version     : "9.2.0131"
-release     : 20
+version     : "9.2.0287"
+release     : 21
 homepage    : https://github.com/vim/vim
 upstreams   :
-    - https://github.com/vim/vim/archive/refs/tags/v9.2.0131.tar.gz:
-        hash: c2b7d327bb7a03c2f4896795b52c62a0ea2b10adef7c4f972cff645671f68a48
+    - https://github.com/vim/vim/archive/refs/tags/v9.2.0287.tar.gz:
+        hash: b54f182820c68270aff7ae0b5cc10f96b2ed20465d9d07d03a2f2820953a23f8
         unpack: false
         rename: vim.tar.gz
 summary     : Vi IMproved, an advanced text editor
@@ -31,7 +31,11 @@ builddeps   :
     - pkgconfig(xpm)
     - pkgconfig(xt)
     - gpm-devel
-environment : |
+setup       : |
+    mkdir vim gvim
+    bsdtar-static -xf %(sourcedir)/vim.tar.gz --strip-components=1 -C vim
+    bsdtar-static -xf %(sourcedir)/vim.tar.gz --strip-components=1 -C gvim
+
     function vim_configure() {
         %patch %(pkgdir)/0001-Make-vim-stateless.patch
         %patch %(pkgdir)/0001-Read-vimrc-from-etc-vim.patch
@@ -54,10 +58,6 @@ environment : |
             --with-wayland=yes \
             "$@"
     }
-setup       : |
-    mkdir vim gvim
-    bsdtar-static -xf %(sourcedir)/vim.tar.gz --strip-components=1 -C vim
-    bsdtar-static -xf %(sourcedir)/vim.tar.gz --strip-components=1 -C gvim
 
     pushd gvim
     vim_configure \
