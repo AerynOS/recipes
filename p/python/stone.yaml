@@ -3,7 +3,7 @@
 
 name        : python
 version     : "3.14.3"
-release     : 17
+release     : 18
 summary     : Python language interpreter
 license     : Python-2.0
 homepage    : https://www.python.org
@@ -12,7 +12,6 @@ description : |
 upstreams   :
     - https://www.python.org/ftp/python/3.14.3/Python-3.14.3.tar.xz: a97d5549e9ad81fe17159ed02c68774ad5d266c72f8d9a0b5a9c371fe85d902b
 builddeps   :
-    - binary(ld) # Remove after bootstrapping
     # - binary(llvm-bolt)
     - binary(patchelf)
     - binary(which)
@@ -119,7 +118,6 @@ tuning      :
     - nosemantic
     - optimize: speed
     - symbolic
-toolchain   : gnu
 packages    :
     - "%(name)-libs":
         summary: "Library files for %(name)"
