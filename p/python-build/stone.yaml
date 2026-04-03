@@ -3,19 +3,16 @@
 
 name        : python-build
 version     : "1.4.2"
-release     : 9
+release     : 10
 homepage    : https://github.com/pypa/build
 upstreams   :
     - https://pypi.debian.net/build/build-1.4.2.tar.gz:
         hash: 35b14e1ee329c186d3f08466003521ed7685ec15ecffc07e68d706090bf161d1
-        unpackdir: pythonbuild
+        rename: build.tar.gz
 
-    # # Comment both of these out if not bootstrapping
-    # - git|https://gitlab.archlinux.org/archlinux/python-bootstrap.git:
-    #     ref: aff0f1a48c377c419f49b61babd6af78322e86f1
-    # # Bootstrapping seemingly requires git source for build (?)
-    # - git|https://github.com/pypa/build.git:
-    #     ref: 3b0b5d07077473f5da3f038cf7b74cd2b65d2a98 # Should correspond to the tag of the build version
+    # Comment out if not bootstrapping
+    - git|https://gitlab.archlinux.org/archlinux/python-bootstrap.git:
+        ref: 461514b135c5ef77f572037d79b58b9e321d38e9
 summary     : Simple and correct PEP 517 build frontend
 description : |
     python-build is a simple and correct PEP 517 build frontend.
@@ -28,16 +25,17 @@ rundeps     :
     - binary(python)
 environment : |
     # set to 1 if bootstrapping against a new python
-    _bootstrap=0
+    _bootstrap=1
 
     if [[ ${_bootstrap} == "1" ]]; then
         cd ../python-bootstrap.git
     fi
-setuptools  : |
+setup      : |
     if [[ ${_bootstrap} == "1" ]]; then
         rm -rf external/build
 
-        ln -srv %(workdir)/../build.git external/build
+        mkdir external/build
+        bsdtar-static -xf %(sourcedir)/build.tar.gz --strip-components=1 -C external/build
     fi
 build       : |
     if [[ ${_bootstrap} == "1" ]]; then
