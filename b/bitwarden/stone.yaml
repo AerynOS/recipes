@@ -3,7 +3,7 @@
 
 name        : bitwarden
 version     : "2026.3.1"
-release     : 4
+release     : 5
 summary     : A secure and free password manager for all of your devices
 license     : GPL-3.0-only
 homepage    : hhttps://github.com/bitwarden/clients/tree/main/apps/desktop
@@ -51,8 +51,8 @@ build       : |
 install     : |
     bitwardendir=%(libdir)/%(name)
 
-    %install_dir %(installroot)$bitwardendir
-    cp -a apps/desktop/dist/linux-unpacked/* %(installroot)$bitwardendir
+    %install_dir %(installroot)${bitwardendir}
+    cp -a apps/desktop/dist/linux-unpacked/* %(installroot)${bitwardendir}
 
     %install_dir %(installroot)%(bindir)
     %install_exe %(pkgdir)/bitwarden.sh %(installroot)%(bindir)/bitwarden-desktop
@@ -67,3 +67,6 @@ install     : |
         %install_dir %(installroot)/%(datadir)/icons/hicolor/${i}x${i}/apps
         %install_file apps/desktop/resources/icons/${i}x${i}.png %(installroot)/%(datadir)/icons/hicolor/${i}x${i}/apps/bitwarden.png
     done
+
+    # chrome-sandbox needs to be setuid
+    chmod -c u+s %(installroot)${bitwardendir}/chrome-sandbox
