@@ -3,7 +3,7 @@
 
 name        : newt
 version     : "0.52.25"
-release     : 1
+release     : 2
 homepage    : https://pagure.io/newt
 upstreams   :
     - https://releases.pagure.org/newt/newt-0.52.25.tar.gz : ef0ca9ee27850d1a5c863bb7ff9aa08096c9ed312ece9087b30f3a426828de82
@@ -17,7 +17,9 @@ builddeps   :
     - pkgconfig(python3)
     - pkgconfig(slang)
 setup       : |
-    %configure \
+    %patch %(pkgdir)/0001-lld-compat.patch
+
+    %reconfigure \
         --with-python=python3
 build       : |
     %make
