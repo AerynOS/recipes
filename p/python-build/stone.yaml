@@ -3,7 +3,7 @@
 
 name        : python-build
 version     : "1.4.2"
-release     : 11
+release     : 12
 homepage    : https://github.com/pypa/build
 upstreams   :
     - https://pypi.debian.net/build/build-1.4.2.tar.gz:
@@ -11,8 +11,8 @@ upstreams   :
         rename: build.tar.gz
 
     # Comment out if not bootstrapping
-    - git|https://gitlab.archlinux.org/archlinux/python-bootstrap.git:
-        ref: 461514b135c5ef77f572037d79b58b9e321d38e9
+    # - git|https://gitlab.archlinux.org/archlinux/python-bootstrap.git:
+    #     ref: 461514b135c5ef77f572037d79b58b9e321d38e9
 summary     : Simple and correct PEP 517 build frontend
 description : |
     python-build is a simple and correct PEP 517 build frontend.
@@ -25,7 +25,7 @@ rundeps     :
     - binary(python)
 environment : |
     # set to 1 if bootstrapping against a new python
-    _bootstrap=1
+    _bootstrap=0
 
     if [[ ${_bootstrap} == "1" ]]; then
         cd ../python-bootstrap.git
