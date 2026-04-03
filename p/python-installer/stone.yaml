@@ -3,10 +3,16 @@
 
 name        : python-installer
 version     : "1.0.0"
-release     : 4
+release     : 5
 homepage    : https://github.com/pypa/installer
 upstreams   :
-    - https://pypi.debian.net/installer/installer-1.0.0.tar.gz : c6d691331621cf3fec4822f5c6f83cab3705f79b316225dc454127411677c71f
+    - https://pypi.debian.net/installer/installer-1.0.0.tar.gz:
+        hash: c6d691331621cf3fec4822f5c6f83cab3705f79b316225dc454127411677c71f
+        rename: installer.tar.gz
+
+    # Comment out if not bootstrapping
+    - git|https://gitlab.archlinux.org/archlinux/python-bootstrap.git:
+        ref: 461514b135c5ef77f572037d79b58b9e321d38e9
 summary     : Low-level library for installing from a Python wheel distribution
 description : |
     python-installer is a low-level library for installing a Python package from a wheel distribution. It provides basic functionality and abstractions for handling wheels and installing packages from wheels.
@@ -15,7 +21,29 @@ license     :
 builddeps   :
     - python-flit-core
     - python-pyproject-hooks
+environment : |
+    # set to 1 if bootstrapping against a new python
+    _bootstrap=1
+
+    if [[ ${_bootstrap} == "1" ]]; then
+        cd ../python-bootstrap.git
+    fi
+setup      : |
+    if [[ ${_bootstrap} == "1" ]]; then
+        rm -rf external/installer
+
+        mkdir external/installer
+        bsdtar-static -xf %(sourcedir)/installer.tar.gz --strip-components=1 -C external/installer
+    fi
 build       : |
-    %pyproject_build
+    if [[ ${_bootstrap} == "1" ]]; then
+        python -m bootstrap.build
+    else
+        %pyproject_build
+    fi
 install     : |
-    %pyproject_install
+    if [[ ${_bootstrap} == "1" ]]; then
+        python -m bootstrap.install dist/installer-*-py3-none-any.whl -d "%(installroot)"
+    else
+        %pyproject_install
+    fi
