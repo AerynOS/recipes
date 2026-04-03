@@ -207,3 +207,6 @@
 ### Removed in ffmpeg 8.0
 - libpostproc
 - libpostproc-devel
+
+### Not needed in newer Python
+- python-backports.tarfile
