@@ -3,7 +3,7 @@
 
 name        : python-packaging
 version     : "26.0"
-release     : 9
+release     : 10
 homepage    : https://packaging.pypa.io
 upstreams   :
     - https://pypi.debian.net/packaging/packaging-26.0.tar.gz:
@@ -11,8 +11,8 @@ upstreams   :
         rename: packaging.tar.gz
 
     # Comment out if not bootstrapping
-    - git|https://gitlab.archlinux.org/archlinux/python-bootstrap.git:
-        ref: 461514b135c5ef77f572037d79b58b9e321d38e9
+    # - git|https://gitlab.archlinux.org/archlinux/python-bootstrap.git:
+    #     ref: 461514b135c5ef77f572037d79b58b9e321d38e9
 summary     : Core utilities for Python packages
 description : |
     Reusable core utilities for various Python Packaging interoperability specifications.
@@ -26,7 +26,7 @@ rundeps     :
     - binary(python3)
 environment : |
     # set to 1 if bootstrapping against a new python
-    _bootstrap=1
+    _bootstrap=0
 
     if [[ ${_bootstrap} == "1" ]]; then
         cd ../python-bootstrap.git
