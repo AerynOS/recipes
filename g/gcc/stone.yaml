@@ -3,7 +3,7 @@
 
 name        : gcc
 version     : "15.2.0+git.be9710b7"
-release     : 20
+release     : 21
 summary     : GNU C++ standard library and compiler
 license     : GPL-3.0-or-later
 homepage    : https://gcc.gnu.org/
@@ -27,11 +27,11 @@ builddeps   :
     - pkgconfig(isl)
     - pkgconfig(libxcrypt)
     - pkgconfig(libzstd)
+    - pkgconfig(mpc)
     - pkgconfig(mpfr)
     - pkgconfig(zlib)
     - gcc-32bit-devel
     - glibc-32bit-devel
-    - mpc-devel
 toolchain   : gnu
 tuning      :
     - fortify: false
