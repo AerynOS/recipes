@@ -3,7 +3,7 @@
 
 name        : python-setuptools
 version     : "80.9.0"
-release     : 11
+release     : 12
 homepage    : https://setuptools.pypa.io/
 upstreams   :
     - https://pypi.debian.net/setuptools/setuptools-80.9.0.tar.gz:
@@ -61,6 +61,9 @@ build       : |
 install     : |
     if [[ ${_bootstrap} == "1" ]]; then
         python -m bootstrap.install dist/setuptools-*-py3-none-any.whl -d "%(installroot)"
+
+        # Remove extra providers
+        rm -rfv %(installroot)/usr/lib/python3.*/site-packages/setuptools/_vendor/*.dist-info/
     else
         %pyproject_install
 
