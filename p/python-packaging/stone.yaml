@@ -3,10 +3,16 @@
 
 name        : python-packaging
 version     : "26.0"
-release     : 7
+release     : 8
 homepage    : https://packaging.pypa.io
 upstreams   :
-    - https://pypi.debian.net/packaging/packaging-26.0.tar.gz : 00243ae351a257117b6a241061796684b084ed1c516a08c48a3f7e147a9d80b4
+    - https://pypi.debian.net/packaging/packaging-26.0.tar.gz:
+        hash: 00243ae351a257117b6a241061796684b084ed1c516a08c48a3f7e147a9d80b4
+        rename: packaging.tar.gz
+
+    # Comment out if not bootstrapping
+    - git|https://gitlab.archlinux.org/archlinux/python-bootstrap.git:
+        ref: 461514b135c5ef77f572037d79b58b9e321d38e9
 summary     : Core utilities for Python packages
 description : |
     Reusable core utilities for various Python Packaging interoperability specifications.
@@ -14,10 +20,33 @@ license     :
     - Apache-2.0
     - BSD-2-Clause
 builddeps   :
+    - binary(python3) # This exists to establish the build order between python and this package
     - python(flit-core)
 rundeps     :
     - binary(python3)
+environment : |
+    # set to 1 if bootstrapping against a new python
+    _bootstrap=1
+
+    if [[ ${_bootstrap} == "1" ]]; then
+        cd ../python-bootstrap.git
+    fi
+setup      : |
+    if [[ ${_bootstrap} == "1" ]]; then
+        rm -rf external/packaging
+
+        mkdir external/packaging
+        bsdtar-static -xf %(sourcedir)/packaging.tar.gz --strip-components=1 -C external/packaging
+    fi
 build       : |
-    %pyproject_build
+    if [[ ${_bootstrap} == "1" ]]; then
+        python -m bootstrap.build
+    else
+        %pyproject_build
+    fi
 install     : |
-    %pyproject_install
+    if [[ ${_bootstrap} == "1" ]]; then
+        python -m bootstrap.install dist/packaging-*-py3-none-any.whl -d "%(installroot)"
+    else
+        %pyproject_install
+    fi

@@ -2,34 +2,33 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : python
-version     : "3.11.15"
-release     : 15
+version     : "3.14.3"
+release     : 16
 summary     : Python language interpreter
 license     : Python-2.0
 homepage    : https://www.python.org
 description : |
     Python language interpreter
 upstreams   :
-    - https://www.python.org/ftp/python/3.11.15/Python-3.11.15.tar.xz: 272179ddd9a2e41a0fc8e42e33dfbdca0b3711aa5abf372d3f2d51543d09b625
+    - https://www.python.org/ftp/python/3.14.3/Python-3.14.3.tar.xz: a97d5549e9ad81fe17159ed02c68774ad5d266c72f8d9a0b5a9c371fe85d902b
 builddeps   :
+    # - binary(llvm-bolt)
     - binary(which)
     - pkgconfig(bluez)
     - pkgconfig(bzip2)
     - pkgconfig(expat)
-    - pkgconfig(libb2)
-    - pkgconfig(libcrypt)
     - pkgconfig(libffi)
     - pkgconfig(liblzma)
     - pkgconfig(libmpdec)
     - pkgconfig(libssl)
+    - pkgconfig(libzstd)
     - pkgconfig(ncursesw)
     - pkgconfig(readline)
     - pkgconfig(sqlite3)
-    # - pkgconfig(tk)
+    - pkgconfig(tk)
     - pkgconfig(uuid)
     - pkgconfig(zlib)
     - gdbm-devel
-    # TODO: Note: Needs to be at least Python 3.13 to be compatible with Tcl/Tk 9.0
 # FIXME: change to auxdeps, needed for python handlers
 #        this is an exception as it doesn't use python macros
 checkdeps   :
@@ -41,26 +40,30 @@ environment : |
     _dynload_dir="${_pylibdir}/lib-dynload"
 setup       : |
     # De-vendored and shipped externally
-    rm -v Lib/ensurepip/_bundled/setuptools-*-py3-none-any.whl
     rm -v Lib/ensurepip/_bundled/pip-*-py3-none-any.whl
 
-    # TODO: Enable experimental JIT with Python 3.13 (default to off)
+    %patch %(pkgdir)/CVE-2025-15366.patch
+    %patch %(pkgdir)/CVE-2025-15367.patch
+    %patch %(pkgdir)/CVE-2026-4519.patch
+
+    # enable-experimental-jit apparently requires LLVM 19?
+    # enable-bolt has a very high (>64GB) memory requirement
     %configure \
+        --enable-experimental-jit=no \
         --enable-loadable-sqlite-extensions \
         --enable-optimizations \
         --enable-shared \
         --with-computed-gotos \
         --with-dbmliborder=gdbm \
         --with-lto \
+        --with-platlibdir=lib%(libsuffix) \
         --with-ssl-default-suites=openssl \
         --with-system-expat \
         --with-system-libmpdec \
-        --with-platlibdir=lib%(libsuffix) \
         --without-ensurepip
 build       : |
     %make
 install     : |
-    # Bolt section removed until the reason why it segfaults the install is found
     %make_install
 
     # Python 3 is the default Python on AerynOS
@@ -69,20 +72,12 @@ install     : |
     ln -srvf %(installroot)/%(mandir)/man1/python3.1 %(installroot)/%(mandir)/man1/python.1
 
     # Idle desktop and appdata
-    ## TODO: We need tcl/tk so we can actually use idle/tkinter
-    # ln -srvf %(installroot)/%(bindir)/idle3 %(installroot)/%(bindir)/idle
-    # %install_file %(pkgdir)/idle3.desktop -t %(installroot)/usr/share/applications/
-    # %install_file %(pkgdir)/idle3.appdata.xml -t %(installroot)/usr/share/metainfo/
-    # for i in 16 32 48 256; do
-    #     %install_file Lib/idlelib/Icons/idle_${i}.png %(installroot)%(datadir)/icons/hicolor/${i}x${i}/apps/idle3.png
-    # done
-
-    # Because we don't have tcl/tk just delete idle/tkinter
-    rm -rfv %(installroot)%(bindir)/idle* \
-            %(installroot)${_pylibdir}/idlelib \
-            %(installroot)${_pylibdir}/tkinter \
-            %(installroot)${_pylibdir}/turtledemo \
-            %(installroot)${_pylibdir}/turtle.py
+    ln -srvf %(installroot)/%(bindir)/idle3 %(installroot)/%(bindir)/idle
+    %install_file %(pkgdir)/idle3.desktop -t %(installroot)/usr/share/applications/
+    %install_file %(pkgdir)/idle3.appdata.xml -t %(installroot)/usr/share/metainfo/
+    for i in 16 32 48 256; do
+        %install_file Lib/idlelib/Icons/idle_${i}.png %(installroot)%(datadir)/icons/hicolor/${i}x${i}/apps/idle3.png
+    done
 
     # Delete the Python test suite (this is only used for testing Python itself)
     # If it's determined that this is actually needed it should be subpackaged
@@ -104,16 +99,16 @@ install     : |
     # Delete all existing pycache dirs before regenerating them
     find %(installroot) -type d -name "__pycache__" -print -exec rm -rv {} + -depth
 
+    # Cleanup empty dirs
+    find %(installroot) -type d -empty -print -delete
+
     # Recompile pyc files
     LD_LIBRARY_PATH="%(installroot)/${_dynload_dir}/:%(installroot)%(libdir)" \
         %(installroot)%(bindir)/python${_version_major_minor} -s -B -m compileall \
         -f -j %(jobs) -o 0 -o 1 -o 2 -s %(installroot) -p / %(installroot) --invalidation-mode=checked-hash \
         -x 'bad_coding|badsyntax'
 tuning      :
-    - bolt
     - icf: all
-    - lto
-    - frame-pointer: false # Temporary, remove with Python 3.12
     - nosemantic
     - optimize: speed
     - symbolic
@@ -126,19 +121,12 @@ packages    :
             - tzdata
         paths:
             - /usr/lib/python3*
+            # This is a separate shared library
+            - /usr/lib/libpython3.so
             # A few things want the bare .so
             - /usr/lib/libpython3.*.so*
 
-    # Moss upgrade bug
-    - "%(name)":
-        rundeps:
-            - "%(name)-libs"
-
     - "%(name)-devel":
-        rundeps:
-            # python3 /usr/lib/python*/config-*-x86_64-linux-gnu/python-config.py --ldflags
-            # returns "-lcrypt" among the other things. Make sure it's available.
-            - pkgconfig(libcrypt)
         paths:
             - /usr/bin/python*-config
 
@@ -150,23 +138,27 @@ packages    :
         rundeps:
             - "%(name)-devel"
 
-    # - "%(name)-idle":
-    #     summary: Basic graphical development environment for Python
-    #     description: Basic graphical development environment for Python
-    #     rundeps:
-    #         - "%(name)"
-    #         - "%(name)-tkinter"
-    #     paths:
-    #         - /usr/bin/idle*
-    #         - /usr/lib/python3.*/idlelib
-    #         - /usr/share/applications
-    #         - /usr/share/icons
-    #         - /usr/share/metainfo
+    - "%(name)-idle":
+        summary: Basic graphical development environment for Python
+        description: Basic graphical development environment for Python
+        rundeps:
+            - "%(name)"
+            - "%(name)-tkinter"
+        paths:
+            - /usr/bin/idle*
+            - /usr/lib/python3.*/idlelib
+            - /usr/share/applications
+            - /usr/share/icons
+            - /usr/share/metainfo
 
-    # - "%(name)-tkinter":
-    #     summary: Graphical user interface toolkit for Python
-    #     description: Graphical user interface toolkit for Python
-    #     rundeps:
-    #         - "%(name)"
-    #     paths:
-    #         - /usr/lib/python3.*/tkinter
+    - "%(name)-tkinter":
+        summary: Graphical user interface toolkit for Python
+        description: Graphical user interface toolkit for Python
+        rundeps:
+            - "%(name)"
+        paths:
+            - /usr/lib/python3.*/turtle.py
+            - /usr/lib/python3.*/__pycache__/turtle*
+            - /usr/lib/python3.*/tkinter/
+            - /usr/lib/python3.*/lib-dynload/_tkinter*.so
+            - /usr/lib/python3.*/turtledemo/
