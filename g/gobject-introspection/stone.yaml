@@ -3,7 +3,7 @@
 
 name        : gobject-introspection
 version     : "1.86.0"
-release     : 14
+release     : 15
 homepage    : https://gitlab.gnome.org/GNOME/gobject-introspection
 upstreams   :
     - https://download.gnome.org/sources/gobject-introspection/1.86/gobject-introspection-1.86.0.tar.xz : 920d1a3fcedeadc32acff95c2e203b319039dd4b4a08dd1a2dfd283d19c0b9ae
@@ -41,6 +41,7 @@ packages    :
     - "%(name)-devel":
         rundeps:
             - "%(name)-runtime"
+            - python(setuptools) # Required with Python >= 3.12 https://gitlab.gnome.org/GNOME/gobject-introspection/-/issues/468
         paths:
             - /usr/bin/
             - /usr/lib/gobject-introspection/giscanner
