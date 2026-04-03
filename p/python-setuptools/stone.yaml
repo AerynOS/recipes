@@ -2,20 +2,19 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : python-setuptools
-version     : "82.0.1"
-release     : 10
+version     : "80.9.0"
+release     : 11
 homepage    : https://setuptools.pypa.io/
 upstreams   :
-    - https://pypi.debian.net/setuptools/setuptools-82.0.1.tar.gz:
-        hash: 7d872682c5d01cfde07da7bccc7b65469d3dca203318515ada1de5eda35efbf9
-        unpackdir: setuptools
+    - https://pypi.debian.net/setuptools/setuptools-80.9.0.tar.gz:
+        hash: f36b47402ecde768dbfafc46e8e4207b4360c654f1f3bb84475f0a28628fb19c
+        rename: setuptools.tar.gz
 
-    # # Comment both of these out if not bootstrapping
-    # - git|https://gitlab.archlinux.org/archlinux/python-bootstrap.git:
-    #     ref: aff0f1a48c377c419f49b61babd6af78322e86f1
-    # # Bootstrapping seemingly requires git source for setuptools (?)
-    # - git|https://github.com/pypa/setuptools.git:
-    #     ref: 9c4d383631d3951fcae0afd73b5d08ff5a262976 # Should correspond to the tag of the setuptools version
+    # Comment both of these out if not bootstrapping
+    - git|https://gitlab.archlinux.org/archlinux/python-bootstrap.git:
+        ref: 461514b135c5ef77f572037d79b58b9e321d38e9
+    - git|https://github.com/pypa/setuptools.git:
+        ref: 9c4d383631d3951fcae0afd73b5d08ff5a262976 # Should correspond to the tag of the setuptools version
 summary     : Easily download, build, install, upgrade, and uninstall Python packages
 description : |
     Setuptools allows the easy download, build, install, upgrade, and uninstallation of Python packages.
@@ -28,7 +27,7 @@ rundeps     :
     - binary(python3)
 environment : |
     # set to 1 if bootstrapping against a new python
-    _bootstrap=0
+    _bootstrap=1
 
     # Don't want .exe files
     export SETUPTOOLS_INSTALL_WINDOWS_SPECIFIC_FILES=0
