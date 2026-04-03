@@ -23,14 +23,14 @@
 				"/usr/bin/crun",
 				"/usr/lib/libcrun.so.0",
 				"/usr/lib/libcrun.so.0.0.0",
-				"/usr/lib/python3.11/site-packages/python_crun.so",
+				"/usr/lib/python3.14/site-packages/python_crun.so",
 				"/usr/share/man/man1/crun.1"
 			],
 			"name": "crun",
 			"provides": [
 				"binary(crun)",
 				"soname(libcrun.so.0(x86_64))",
-				"soname(python3.11/site-packages/python_crun.so(x86_64))"
+				"soname(python3.14/site-packages/python_crun.so(x86_64))"
 			]
 		},
 		"crun-devel": {
@@ -51,6 +51,6 @@
 		}
 	},
 	"source-name": "crun",
-	"source-release": "1",
+	"source-release": "2",
 	"source-version": "1.26"
 }
