@@ -3,7 +3,7 @@
 
 name        : python-html5lib
 version     : "1.1"
-release     : 3
+release     : 4
 homepage    : https://github.com/html5lib/html5lib-python
 upstreams   :
     - https://github.com/html5lib/html5lib-python/archive/1.1.tar.gz : 66e9e24a53c10c27abb6be8a3cf2cf55824c6ea1cef8570a633cb223ec46e894
@@ -17,6 +17,9 @@ rundeps     :
     - python-libs
 # checkdeps   :
 #     - python(pytest)
+setup       : |
+    %patch %(pkgdir)/ftbfs-python-314.patch
+    %patch %(pkgdir)/ftbfs-setuptools-82.patch
 build       : |
     %pyproject_build
 install     : |
