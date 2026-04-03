@@ -3,7 +3,7 @@
 
 name        : gobject-introspection
 version     : "1.86.0"
-release     : 13
+release     : 14
 homepage    : https://gitlab.gnome.org/GNOME/gobject-introspection
 upstreams   :
     - https://download.gnome.org/sources/gobject-introspection/1.86/gobject-introspection-1.86.0.tar.xz : 920d1a3fcedeadc32acff95c2e203b319039dd4b4a08dd1a2dfd283d19c0b9ae
@@ -22,6 +22,7 @@ builddeps   :
     - pkgconfig(glib-2.0)
     - pkgconfig(libffi)
     - pkgconfig(python3)
+    - python(setuptools)
 setup       : |
     %meson
 build       : |

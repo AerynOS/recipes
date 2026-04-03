@@ -10,7 +10,8 @@
 				"pkgconfig(cairo-gobject)",
 				"pkgconfig(glib-2.0)",
 				"pkgconfig(libffi)",
-				"pkgconfig(python3)"
+				"pkgconfig(python3)",
+				"python(setuptools)"
 			],
 			"depends": [
 				"soname(libc.so.6(x86_64))",
@@ -37,7 +38,8 @@
 				"pkgconfig(cairo-gobject)",
 				"pkgconfig(glib-2.0)",
 				"pkgconfig(libffi)",
-				"pkgconfig(python3)"
+				"pkgconfig(python3)",
+				"python(setuptools)"
 			],
 			"depends": [
 				"gobject-introspection",
@@ -82,7 +84,7 @@
 				"/usr/include/gobject-introspection-1.0/giversionmacros.h",
 				"/usr/include/gobject-introspection-1.0/givfuncinfo.h",
 				"/usr/lib/gobject-introspection/giscanner/__init__.py",
-				"/usr/lib/gobject-introspection/giscanner/_giscanner.cpython-311-x86_64-linux-gnu.so",
+				"/usr/lib/gobject-introspection/giscanner/_giscanner.cpython-314-x86_64-linux-gnu.so",
 				"/usr/lib/gobject-introspection/giscanner/_version.py",
 				"/usr/lib/gobject-introspection/giscanner/annotationmain.py",
 				"/usr/lib/gobject-introspection/giscanner/annotationparser.py",
@@ -228,7 +230,7 @@
 				"binary(g-ir-scanner)",
 				"pkgconfig(gobject-introspection-1.0)",
 				"pkgconfig(gobject-introspection-no-export-1.0)",
-				"soname(gobject-introspection/giscanner/_giscanner.cpython-311-x86_64-linux-gnu.so(x86_64))"
+				"soname(gobject-introspection/giscanner/_giscanner.cpython-314-x86_64-linux-gnu.so(x86_64))"
 			]
 		},
 		"gobject-introspection-runtime": {
@@ -239,7 +241,8 @@
 				"pkgconfig(cairo-gobject)",
 				"pkgconfig(glib-2.0)",
 				"pkgconfig(libffi)",
-				"pkgconfig(python3)"
+				"pkgconfig(python3)",
+				"python(setuptools)"
 			],
 			"depends": [
 				"gobject-introspection"
@@ -264,6 +267,6 @@
 		}
 	},
 	"source-name": "gobject-introspection",
-	"source-release": "13",
+	"source-release": "14",
 	"source-version": "1.86.0"
 }
