@@ -996,7 +996,6 @@
 				"tzdata"
 			],
 			"files": [
-				"/usr/lib/libpython3.11.so.1.0",
 				"/usr/lib/libpython3.14.so",
 				"/usr/lib/libpython3.14.so.1.0",
 				"/usr/lib/libpython3.so",
@@ -3331,7 +3330,6 @@
 			],
 			"name": "python-libs",
 			"provides": [
-				"soname(libpython3.11.so.1.0(x86_64))",
 				"soname(libpython3.14.so.1.0(x86_64))",
 				"soname(libpython3.so(x86_64))",
 				"soname(python3.14/lib-dynload/_asyncio.cpython-314-x86_64-linux-gnu.so(x86_64))",
@@ -3609,6 +3607,6 @@
 		}
 	},
 	"source-name": "python",
-	"source-release": "18",
+	"source-release": "19",
 	"source-version": "3.14.3"
 }
