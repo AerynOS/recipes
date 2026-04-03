@@ -3,7 +3,7 @@
 
 name        : python-installer
 version     : "1.0.0"
-release     : 5
+release     : 6
 homepage    : https://github.com/pypa/installer
 upstreams   :
     - https://pypi.debian.net/installer/installer-1.0.0.tar.gz:
@@ -11,8 +11,8 @@ upstreams   :
         rename: installer.tar.gz
 
     # Comment out if not bootstrapping
-    - git|https://gitlab.archlinux.org/archlinux/python-bootstrap.git:
-        ref: 461514b135c5ef77f572037d79b58b9e321d38e9
+    # - git|https://gitlab.archlinux.org/archlinux/python-bootstrap.git:
+    #     ref: 461514b135c5ef77f572037d79b58b9e321d38e9
 summary     : Low-level library for installing from a Python wheel distribution
 description : |
     python-installer is a low-level library for installing a Python package from a wheel distribution. It provides basic functionality and abstractions for handling wheels and installing packages from wheels.
@@ -23,7 +23,7 @@ builddeps   :
     - python-pyproject-hooks
 environment : |
     # set to 1 if bootstrapping against a new python
-    _bootstrap=1
+    _bootstrap=0
 
     if [[ ${_bootstrap} == "1" ]]; then
         cd ../python-bootstrap.git
