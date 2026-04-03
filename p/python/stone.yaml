@@ -3,7 +3,7 @@
 
 name        : python
 version     : "3.14.3"
-release     : 16
+release     : 17
 summary     : Python language interpreter
 license     : Python-2.0
 homepage    : https://www.python.org
@@ -12,7 +12,9 @@ description : |
 upstreams   :
     - https://www.python.org/ftp/python/3.14.3/Python-3.14.3.tar.xz: a97d5549e9ad81fe17159ed02c68774ad5d266c72f8d9a0b5a9c371fe85d902b
 builddeps   :
+    - binary(ld) # Remove after bootstrapping
     # - binary(llvm-bolt)
+    - binary(patchelf)
     - binary(which)
     - pkgconfig(bluez)
     - pkgconfig(bzip2)
@@ -102,6 +104,11 @@ install     : |
     # Cleanup empty dirs
     find %(installroot) -type d -empty -print -delete
 
+    # If bootstrapping a new version then it may be required to provide the old soname for a while just until rebuilds are complete
+    # This is obviously not ABI compatible but _boulder doesn't know that_
+    cp %(installroot)%(libdir)/libpython3.14.so.1.0 %(installroot)%(libdir)/libpython3.11.so.1.0
+    patchelf --set-soname libpython3.11.so.1.0 %(installroot)%(libdir)/libpython3.11.so.1.0
+
     # Recompile pyc files
     LD_LIBRARY_PATH="%(installroot)/${_dynload_dir}/:%(installroot)%(libdir)" \
         %(installroot)%(bindir)/python${_version_major_minor} -s -B -m compileall \
@@ -112,6 +119,7 @@ tuning      :
     - nosemantic
     - optimize: speed
     - symbolic
+toolchain   : gnu
 packages    :
     - "%(name)-libs":
         summary: "Library files for %(name)"

@@ -4,6 +4,8 @@
 	"packages": {
 		"python": {
 			"build-depends": [
+				"binary(ld)",
+				"binary(patchelf)",
 				"binary(python3)",
 				"binary(which)",
 				"gdbm-devel",
@@ -51,6 +53,8 @@
 		},
 		"python-devel": {
 			"build-depends": [
+				"binary(ld)",
+				"binary(patchelf)",
 				"binary(python3)",
 				"binary(which)",
 				"gdbm-devel",
@@ -376,6 +380,8 @@
 		},
 		"python-idle": {
 			"build-depends": [
+				"binary(ld)",
+				"binary(patchelf)",
 				"binary(python3)",
 				"binary(which)",
 				"gdbm-devel",
@@ -951,6 +957,8 @@
 		},
 		"python-libs": {
 			"build-depends": [
+				"binary(ld)",
+				"binary(patchelf)",
 				"binary(python3)",
 				"binary(which)",
 				"gdbm-devel",
@@ -992,6 +1000,7 @@
 				"tzdata"
 			],
 			"files": [
+				"/usr/lib/libpython3.11.so.1.0",
 				"/usr/lib/libpython3.14.so",
 				"/usr/lib/libpython3.14.so.1.0",
 				"/usr/lib/libpython3.so",
@@ -3326,6 +3335,7 @@
 			],
 			"name": "python-libs",
 			"provides": [
+				"soname(libpython3.11.so.1.0(x86_64))",
 				"soname(libpython3.14.so.1.0(x86_64))",
 				"soname(libpython3.so(x86_64))",
 				"soname(python3.14/lib-dynload/_asyncio.cpython-314-x86_64-linux-gnu.so(x86_64))",
@@ -3396,6 +3406,8 @@
 		},
 		"python-staticlib": {
 			"build-depends": [
+				"binary(ld)",
+				"binary(patchelf)",
 				"binary(python3)",
 				"binary(which)",
 				"gdbm-devel",
@@ -3425,6 +3437,8 @@
 		},
 		"python-tkinter": {
 			"build-depends": [
+				"binary(ld)",
+				"binary(patchelf)",
 				"binary(python3)",
 				"binary(which)",
 				"gdbm-devel",
@@ -3601,6 +3615,6 @@
 		}
 	},
 	"source-name": "python",
-	"source-release": "16",
+	"source-release": "17",
 	"source-version": "3.14.3"
 }
