@@ -3,10 +3,16 @@
 
 name        : python-wheel
 version     : "0.46.3"
-release     : 7
+release     : 8
 homepage    : https://github.com/pypa/wheel
 upstreams   :
-    - https://pypi.debian.net/wheel/wheel-0.46.3.tar.gz : e3e79874b07d776c40bd6033f8ddf76a7dad46a7b8aa1b2787a83083519a1803
+    - https://pypi.debian.net/wheel/wheel-0.46.3.tar.gz:
+        hash: e3e79874b07d776c40bd6033f8ddf76a7dad46a7b8aa1b2787a83083519a1803
+        rename: wheel.tar.gz
+
+    # Comment out if not bootstrapping
+    - git|https://gitlab.archlinux.org/archlinux/python-bootstrap.git:
+        ref: 461514b135c5ef77f572037d79b58b9e321d38e9
 summary     : The official binary distribution format for Python
 description : |
     python-wheel is the reference implementation of the Python wheel packaging standard, as defined in PEP 427.
@@ -15,8 +21,29 @@ builddeps   :
     - python(flit-core)
 rundeps     :
     - binary(python)
-# TODO: Setup this for Python major update bootstrapping
+environment : |
+    # set to 1 if bootstrapping against a new python
+    _bootstrap=1
+
+    if [[ ${_bootstrap} == "1" ]]; then
+        cd ../python-bootstrap.git
+    fi
+setup      : |
+    if [[ ${_bootstrap} == "1" ]]; then
+        rm -rf external/wheel
+
+        mkdir external/wheel
+        bsdtar-static -xf %(sourcedir)/wheel.tar.gz --strip-components=1 -C external/wheel
+    fi
 build       : |
-    %pyproject_build
+    if [[ ${_bootstrap} == "1" ]]; then
+        python -m bootstrap.build
+    else
+        %pyproject_build
+    fi
 install     : |
-    %pyproject_install
+    if [[ ${_bootstrap} == "1" ]]; then
+        python -m bootstrap.install dist/wheel-*-py3-none-any.whl -d "%(installroot)"
+    else
+        %pyproject_install
+    fi
