@@ -3,6 +3,9 @@
 	"manifest-version": "0.2",
 	"packages": {
 		"python-pyproject-hooks": {
+			"build-depends": [
+				"python(flit-core)"
+			],
 			"files": [
 				"/usr/lib/python3.14/site-packages/pyproject_hooks-1.2.0.dist-info/METADATA",
 				"/usr/lib/python3.14/site-packages/pyproject_hooks-1.2.0.dist-info/RECORD",
@@ -29,6 +32,6 @@
 		}
 	},
 	"source-name": "python-pyproject-hooks",
-	"source-release": "6",
+	"source-release": "7",
 	"source-version": "1.2.0"
 }

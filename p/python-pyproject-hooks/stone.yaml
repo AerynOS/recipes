@@ -3,7 +3,7 @@
 
 name        : python-pyproject-hooks
 version     : "1.2.0"
-release     : 6
+release     : 7
 homepage    : https://github.com/pypa/pyproject-hooks
 upstreams   :
     - https://github.com/pypa/pyproject-hooks/archive/refs/tags/v1.2.0.tar.gz:
@@ -11,16 +11,18 @@ upstreams   :
         rename: pyproject.tar.gz
 
     # Comment out if not bootstrapping
-    - git|https://gitlab.archlinux.org/archlinux/python-bootstrap.git:
-        ref: 461514b135c5ef77f572037d79b58b9e321d38e9
+    # - git|https://gitlab.archlinux.org/archlinux/python-bootstrap.git:
+    #     ref: 461514b135c5ef77f572037d79b58b9e321d38e9
 summary     : A low-level library for calling build-backends in `pyproject.toml`-based project
 description : |
     This is a low-level library for calling build-backends in pyproject.toml-based project. It provides the basic functionality to help write tooling that generates distribution files from Python projects.
 license     : MIT
 networking  : true
+builddeps   :
+    - python(flit-core)
 environment : |
     # set to 1 if bootstrapping against a new python
-    _bootstrap=1
+    _bootstrap=0
 
     if [[ ${_bootstrap} == "1" ]]; then
         cd ../python-bootstrap.git
