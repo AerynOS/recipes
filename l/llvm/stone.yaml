@@ -3,7 +3,7 @@
 
 name        : llvm
 version     : "22.1.2"
-release     : 50
+release     : 51
 summary     : Low Level Virtual Machine
 license     :
     - Apache-2.0 WITH LLVM-exception
@@ -18,18 +18,18 @@ builddeps   :
     - binary(python3)
     - binary(sed)
     - binary(swig)
-    - pkgconfig(hwloc)
-    # - pkgconfig(level-zero) # TODO: Check in a future LLVM release if this is supported properly
-    - pkgconfig(libedit)
-    - pkgconfig(liblzma)
-    - pkgconfig(ncurses)
-    - pkgconfig(mimalloc)
-    - pkgconfig(python3)
     - pkgconfig32(libffi)
     - pkgconfig32(libxcrypt)
     - pkgconfig32(libxml-2.0)
     - pkgconfig32(libzstd)
     - pkgconfig32(zlib)
+    - pkgconfig(hwloc)
+    # - pkgconfig(level-zero) # TODO: Check in a future LLVM release if this is supported properly
+    - pkgconfig(libedit)
+    - pkgconfig(liblzma)
+    - pkgconfig(mimalloc)
+    - pkgconfig(ncurses)
+    - pkgconfig(python3)
     - python(myst-parser)
     - python(sphinx)
     - binutils-devel
