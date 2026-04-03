@@ -3,19 +3,51 @@
 
 name        : python-flit-core
 version     : "3.12.0"
-release     : 6
+release     : 7
 homepage    : https://github.com/pypa/flit
 upstreams   :
-    - https://pypi.debian.net/flit-core/flit_core-3.12.0.tar.gz : 18f63100d6f94385c6ed57a72073443e1a71a4acb4339491615d0f16d6ff01b2
+    - https://pypi.debian.net/flit-core/flit_core-3.12.0.tar.gz:
+        hash: 18f63100d6f94385c6ed57a72073443e1a71a4acb4339491615d0f16d6ff01b2
+        rename: flit_core.tar.gz
+
+    # Comment out if not bootstrapping
+    - git|https://gitlab.archlinux.org/archlinux/python-bootstrap.git:
+        ref: 461514b135c5ef77f572037d79b58b9e321d38e9
+    - git|https://github.com/pypa/flit.git: # This can't use the source tar since it builds both flit and flit_core
+        ref: 1c8141722066ffe1497e511982feeea0f091ddb6 # Should correspond to the tag of the flit version
 summary     : Provides a simple way to put Python packages and modules on PyPI
 description : |
     Flit is a simple way to put Python packages and modules on PyPI. It tries to require less thought about packaging and help you avoid common mistakes.
 license     :
     - BSD-3-Clause
-build       : |
-    %pyproject_build
-install     : |
-    %pyproject_install
+environment : |
+    # set to 1 if bootstrapping against a new python
+    _bootstrap=1
 
-    # not needed for python 3.11+
-    rm -frv %(installroot)/usr/lib/python3.11/site-packages/flit_core/vendor/
+    if [[ ${_bootstrap} == "1" ]]; then
+        cd ../python-bootstrap.git
+    fi
+setup      : |
+    if [[ ${_bootstrap} == "1" ]]; then
+        rm -rf external/flit
+
+        ln -srv %(workdir)/../flit.git external/flit
+    fi
+build       : |
+    if [[ ${_bootstrap} == "1" ]]; then
+        python -m bootstrap.build
+    else
+        %pyproject_build
+    fi
+install     : |
+    if [[ ${_bootstrap} == "1" ]]; then
+        python -m bootstrap.install dist/flit_core-*-py3-none-any.whl -d "%(installroot)"
+
+        # Prevent a python(tomli) provider
+        rm -frv %(installroot)/usr/lib/python3.*/site-packages/flit_core/vendor/tomli-*.dist-info
+    else
+        %pyproject_install
+
+        # not needed for python 3.11+
+        rm -frv %(installroot)/usr/lib/python3.*/site-packages/flit_core/vendor/
+    fi
