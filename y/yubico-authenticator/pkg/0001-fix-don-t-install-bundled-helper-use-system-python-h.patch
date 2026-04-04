@@ -1,0 +1,27 @@
+From e20db17731b86f80cfba4270d69d1317b51bc8e5 Mon Sep 17 00:00:00 2001
+From: AnonAlly <193170968+AnonAlly@users.noreply.github.com>
+Date: Sat, 25 Apr 2026 15:53:01 +0200
+Subject: [PATCH] fix: don't install bundled helper (use system python helper
+ instead)
+
+---
+ linux/CMakeLists.txt | 3 ---
+ 1 file changed, 3 deletions(-)
+
+diff --git a/linux/CMakeLists.txt b/linux/CMakeLists.txt
+index 04b44a85..49fedd82 100644
+--- a/linux/CMakeLists.txt
++++ b/linux/CMakeLists.txt
+@@ -123,9 +123,6 @@ if(NOT CMAKE_BUILD_TYPE MATCHES "Debug")
+     COMPONENT Runtime)
+ endif()
+ 
+-# Copy the Helper
+-install(DIRECTORY "../build/linux/helper" DESTINATION "${BUILD_BUNDLE_DIR}" USE_SOURCE_PERMISSIONS)
+-
+ # Copy Linux support files
+ install(DIRECTORY "../resources/linux/linux_support" DESTINATION "${BUILD_BUNDLE_DIR}" USE_SOURCE_PERMISSIONS)
+ install(FILES "../resources/linux/README.adoc" DESTINATION "${BUILD_BUNDLE_DIR}")
+-- 
+2.54.0
+
