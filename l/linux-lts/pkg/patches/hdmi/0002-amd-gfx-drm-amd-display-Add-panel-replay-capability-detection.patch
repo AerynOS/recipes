@@ -1,0 +1,110 @@
+From: Jack Chang <jack.chang at amd.com>
+
+[Why&How]
+For supporting VESA PR, add flow to determine the support capability
+
+Reviewed-by: Robin Chen <robin.chen at amd.com>
+Signed-off-by: Jack Chang <jack.chang at amd.com>
+Signed-off-by: Leon Huang <Leon.Huang1 at amd.com>
+Signed-off-by: Ivan Lipski <ivan.lipski at amd.com>
+---
+ drivers/gpu/drm/amd/display/dc/core/dc.c          |  1 +
+ drivers/gpu/drm/amd/display/dc/dc_types.h         |  9 +++++++++
+ drivers/gpu/drm/amd/display/dc/dce/dmub_replay.c  | 15 +++++++++++++++
+ .../gpu/drm/amd/display/dc/link/link_factory.c    |  2 ++
+ 4 files changed, 27 insertions(+)
+
+diff --git a/drivers/gpu/drm/amd/display/dc/core/dc.c b/drivers/gpu/drm/amd/display/dc/core/dc.c
+index a1b4dc9f5435..0da36b5f5556 100644
+--- a/drivers/gpu/drm/amd/display/dc/core/dc.c
++++ b/drivers/gpu/drm/amd/display/dc/core/dc.c
+@@ -303,6 +303,7 @@ static bool create_links(
+ 		link->link_id.id = CONNECTOR_ID_VIRTUAL;
+ 		link->link_id.enum_id = ENUM_ID_1;
+ 		link->psr_settings.psr_version = DC_PSR_VERSION_UNSUPPORTED;
++		link->replay_settings.config.replay_version = DC_REPLAY_VERSION_UNSUPPORTED;
+ 		link->link_enc = kzalloc(sizeof(*link->link_enc), GFP_KERNEL);
+ 
+ 		if (!link->link_enc) {
+diff --git a/drivers/gpu/drm/amd/display/dc/dc_types.h b/drivers/gpu/drm/amd/display/dc/dc_types.h
+index 0495e6cfcca0..f46039f64203 100644
+--- a/drivers/gpu/drm/amd/display/dc/dc_types.h
++++ b/drivers/gpu/drm/amd/display/dc/dc_types.h
+@@ -941,6 +941,12 @@ enum dc_psr_version {
+ 	DC_PSR_VERSION_UNSUPPORTED		= 0xFFFFFFFF,
+ };
+ 
++enum dc_replay_version {
++	DC_FREESYNC_REPLAY = 0,
++	DC_VESA_PANEL_REPLAY = 1,
++	DC_REPLAY_VERSION_UNSUPPORTED = 0XFF,
++};
++
+ /* Possible values of display_endpoint_id.endpoint */
+ enum display_endpoint_type {
+ 	DISPLAY_ENDPOINT_PHY = 0, /* Physical connector. */
+@@ -1093,6 +1099,7 @@ enum replay_FW_Message_type {
+ 	Replay_Set_Residency_Frameupdate_Timer,
+ 	Replay_Set_Pseudo_VTotal,
+ 	Replay_Disabled_Adaptive_Sync_SDP,
++	Replay_Set_Version,
+ 	Replay_Set_General_Cmd,
+ };
+ 
+@@ -1128,6 +1135,8 @@ union replay_low_refresh_rate_enable_options {
+ };
+ 
+ struct replay_config {
++	/* Replay version */
++	enum dc_replay_version replay_version;
+ 	/* Replay feature is supported */
+ 	bool replay_supported;
+ 	/* Replay caps support DPCD & EDID caps*/
+diff --git a/drivers/gpu/drm/amd/display/dc/dce/dmub_replay.c b/drivers/gpu/drm/amd/display/dc/dce/dmub_replay.c
+index fd8244c94687..16cc3bf1b6d0 100644
+--- a/drivers/gpu/drm/amd/display/dc/dce/dmub_replay.c
++++ b/drivers/gpu/drm/amd/display/dc/dce/dmub_replay.c
+@@ -387,6 +387,21 @@ static void dmub_replay_send_cmd(struct dmub_replay *dmub,
+ 		cmd.replay_disabled_adaptive_sync_sdp.data.force_disabled =
+ 			cmd_element->disabled_adaptive_sync_sdp_data.force_disabled;
+ 		break;
++	case Replay_Set_Version:
++		//Header
++		cmd.replay_set_version.header.sub_type =
++			DMUB_CMD__REPLAY_SET_VERSION;
++		cmd.replay_set_version.header.payload_bytes =
++			sizeof(struct dmub_rb_cmd_replay_set_version) -
++			sizeof(struct dmub_cmd_header);
++		//Cmd Body
++		cmd.replay_set_version.replay_set_version_data.panel_inst =
++			cmd_element->version_data.panel_inst;
++		cmd.replay_set_version.replay_set_version_data.version =
++			cmd_element->version_data.version;
++		cmd.replay_set_version.replay_set_version_data.cmd_version =
++			cmd_element->version_data.cmd_version;
++		break;
+ 	case Replay_Set_General_Cmd:
+ 		//Header
+ 		cmd.replay_set_general_cmd.header.sub_type =
+diff --git a/drivers/gpu/drm/amd/display/dc/link/link_factory.c b/drivers/gpu/drm/amd/display/dc/link/link_factory.c
+index 7989baf3843c..5229f2a9a794 100644
+--- a/drivers/gpu/drm/amd/display/dc/link/link_factory.c
++++ b/drivers/gpu/drm/amd/display/dc/link/link_factory.c
+@@ -787,6 +787,7 @@ static bool construct_phy(struct dc_link *link,
+ 
+ 	link->psr_settings.psr_vtotal_control_support = false;
+ 	link->psr_settings.psr_version = DC_PSR_VERSION_UNSUPPORTED;
++	link->replay_settings.config.replay_version = DC_REPLAY_VERSION_UNSUPPORTED;
+ 
+ 	DC_LOG_DC("BIOS object table - %s finished successfully.\n", __func__);
+ 	return true;
+@@ -868,6 +869,7 @@ static bool construct_dpia(struct dc_link *link,
+ 	/* TODO: Create link encoder */
+ 
+ 	link->psr_settings.psr_version = DC_PSR_VERSION_UNSUPPORTED;
++	link->replay_settings.config.replay_version = DC_REPLAY_VERSION_UNSUPPORTED;
+ 
+ 	return true;
+ 
+-- 
+2.43.0

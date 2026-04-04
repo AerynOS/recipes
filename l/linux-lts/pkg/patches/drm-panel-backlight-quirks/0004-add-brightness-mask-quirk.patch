@@ -1,0 +1,153 @@
+From aef10b1138e995ba9aa4357ed78cd05686cabbe1 Mon Sep 17 00:00:00 2001
+From: Antheas Kapenekakis <lkml@antheas.dev>
+Date: Fri, 29 Aug 2025 16:55:39 +0200
+Subject: drm: panel-backlight-quirks: Add brightness mask quirk
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Certain OLED devices malfunction on specific brightness levels.
+Specifically, when DP_SOURCE_BACKLIGHT_LEVEL is written to with
+the first byte being 0x00 and sometimes 0x01, the panel forcibly
+turns off until the device sleeps again.
+
+Below are some examples. This was found by iterating over brighness
+ranges while printing DP_SOURCE_BACKLIGHT_LEVEL. It was found that
+the screen would malfunction on specific values, and some of them
+were collected.
+
+Therefore, introduce a quirk where the minor byte of brightness is
+OR'd with 0x03 to avoid the range of invalid values.
+
+This quirk was tested by removing the workarounds and iterating
+from 0 to 50_000 value ranges with a cadence of 0.2s/it. The
+range of the panel is 1000...400_000, so the values were slightly
+interpolated during testing. The custom brightness curve added on
+6.15 was disabled.
+
+ 86016:  10101000000000000
+ 86272:  10101000100000000
+ 87808:  10101011100000000
+251648: 111101011100000000
+251649: 111101011100000001
+
+ 86144:  10101000010000000
+ 87809:  10101011100000001
+251650: 111101011100000010
+
+Closes: https://gitlab.freedesktop.org/drm/amd/-/issues/3803
+Tested-by: Philip Müller <philm@manjaro.org>
+Reviewed-by: Mario Limonciello <mario.limonciello@amd.com>
+Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
+Link: https://lore.kernel.org/r/20250829145541.512671-5-lkml@antheas.dev
+Acked-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Mario Limonciello (AMD) <superm1@kernel.org>
+---
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  7 +++++
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h |  5 ++++
+ drivers/gpu/drm/drm_panel_backlight_quirks.c      | 36 +++++++++++++++++++++++
+ include/drm/drm_utils.h                           |  1 +
+ 4 files changed, 49 insertions(+)
+
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index 4ad80ae615a2..156f2aae6828 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -3662,6 +3662,9 @@ static void update_connector_ext_caps(struct amdgpu_dm_connector *aconnector)
+ 		if (panel_backlight_quirk->min_brightness)
+ 			caps->min_input_signal =
+ 				panel_backlight_quirk->min_brightness - 1;
++		if (panel_backlight_quirk->brightness_mask)
++			caps->brightness_mask =
++				panel_backlight_quirk->brightness_mask;
+ 	}
+ }
+ 
+@@ -4862,6 +4865,10 @@ static void amdgpu_dm_backlight_set_level(struct amdgpu_display_manager *dm,
+ 	brightness = convert_brightness_from_user(caps, dm->brightness[bl_idx]);
+ 	link = (struct dc_link *)dm->backlight_link[bl_idx];
+ 
++	/* Apply brightness quirk */
++	if (caps->brightness_mask)
++		brightness |= caps->brightness_mask;
++
+ 	/* Change brightness based on AUX property */
+ 	mutex_lock(&dm->dc_lock);
+ 	if (dm->dc->caps.ips_support && dm->dc->ctx->dmub_srv->idle_allowed) {
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
+index b937da0a4e4a..60ce2ceb653a 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
+@@ -200,6 +200,11 @@ struct amdgpu_dm_backlight_caps {
+ 	 * @aux_support: Describes if the display supports AUX backlight.
+ 	 */
+ 	bool aux_support;
++	/**
++	 * @brightness_mask: After deriving brightness, OR it with this mask.
++	 * Workaround for panels with issues with certain brightness values.
++	 */
++	u32 brightness_mask;
+ 	/**
+ 	 * @ac_level: the default brightness if booted on AC
+ 	 */
+diff --git a/drivers/gpu/drm/drm_panel_backlight_quirks.c b/drivers/gpu/drm/drm_panel_backlight_quirks.c
+index 3d386a96e50e..2bdbd5583d32 100644
+--- a/drivers/gpu/drm/drm_panel_backlight_quirks.c
++++ b/drivers/gpu/drm/drm_panel_backlight_quirks.c
+@@ -45,6 +45,42 @@ static const struct drm_get_panel_backlight_quirk drm_panel_min_backlight_quirks
+ 		.ident.name = "NE135A1M-NY1",
+ 		.quirk = { .min_brightness = 1, },
+ 	},
++	/* Have OLED Panels with brightness issue when last byte is 0/1 */
++	{
++		.dmi_match.field = DMI_SYS_VENDOR,
++		.dmi_match.value = "AYANEO",
++		.dmi_match_other.field = DMI_PRODUCT_NAME,
++		.dmi_match_other.value = "AYANEO 3",
++		.quirk = { .brightness_mask = 3, },
++	},
++	{
++		.dmi_match.field = DMI_SYS_VENDOR,
++		.dmi_match.value = "ZOTAC",
++		.dmi_match_other.field = DMI_BOARD_NAME,
++		.dmi_match_other.value = "G0A1W",
++		.quirk = { .brightness_mask = 3, },
++	},
++	{
++		.dmi_match.field = DMI_SYS_VENDOR,
++		.dmi_match.value = "ZOTAC",
++		.dmi_match_other.field = DMI_BOARD_NAME,
++		.dmi_match_other.value = "G1A1W",
++		.quirk = { .brightness_mask = 3, },
++	},
++	{
++		.dmi_match.field = DMI_SYS_VENDOR,
++		.dmi_match.value = "ONE-NETBOOK",
++		.dmi_match_other.field = DMI_PRODUCT_NAME,
++		.dmi_match_other.value = "ONEXPLAYER F1Pro",
++		.quirk = { .brightness_mask = 3, },
++	},
++	{
++		.dmi_match.field = DMI_SYS_VENDOR,
++		.dmi_match.value = "ONE-NETBOOK",
++		.dmi_match_other.field = DMI_PRODUCT_NAME,
++		.dmi_match_other.value = "ONEXPLAYER F1 EVA-02",
++		.quirk = { .brightness_mask = 3, },
++	},
+ };
+ 
+ static bool drm_panel_min_backlight_quirk_matches(
+diff --git a/include/drm/drm_utils.h b/include/drm/drm_utils.h
+index 82eeee4a58ab..6a46f755daba 100644
+--- a/include/drm/drm_utils.h
++++ b/include/drm/drm_utils.h
+@@ -18,6 +18,7 @@ int drm_get_panel_orientation_quirk(int width, int height);
+ 
+ struct drm_panel_backlight_quirk {
+ 	u16 min_brightness;
++	u32 brightness_mask;
+ };
+ 
+ const struct drm_panel_backlight_quirk *
+-- 
+cgit v1.2.3

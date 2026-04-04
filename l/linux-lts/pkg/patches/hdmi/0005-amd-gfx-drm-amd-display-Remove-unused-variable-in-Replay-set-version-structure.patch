@@ -1,0 +1,28 @@
+From: Jack Chang <jack.chang at amd.com>
+
+[Why]
+Remove unused variable from the DMUB replay command.
+
+Reviewed-by: Robin Chen <robin.chen at amd.com>
+Signed-off-by: Jack Chang <jack.chang at amd.com>
+Signed-off-by: Leon Huang  <Leon.Huang1 at amd.com>
+Signed-off-by: Ivan Lipski <ivan.lipski at amd.com>
+---
+ drivers/gpu/drm/amd/display/dc/dce/dmub_replay.c | 2 --
+ 1 file changed, 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/display/dc/dce/dmub_replay.c b/drivers/gpu/drm/amd/display/dc/dce/dmub_replay.c
+index 16cc3bf1b6d0..cf1372aaff6c 100644
+--- a/drivers/gpu/drm/amd/display/dc/dce/dmub_replay.c
++++ b/drivers/gpu/drm/amd/display/dc/dce/dmub_replay.c
+@@ -399,8 +399,6 @@ static void dmub_replay_send_cmd(struct dmub_replay *dmub,
+ 			cmd_element->version_data.panel_inst;
+ 		cmd.replay_set_version.replay_set_version_data.version =
+ 			cmd_element->version_data.version;
+-		cmd.replay_set_version.replay_set_version_data.cmd_version =
+-			cmd_element->version_data.cmd_version;
+ 		break;
+ 	case Replay_Set_General_Cmd:
+ 		//Header
+-- 
+2.43.0
