@@ -1,0 +1,25 @@
+From 12a2c75af49ca2bdc7e9ae333e60b41277232b8e Mon Sep 17 00:00:00 2001
+From: AnonAlly <193170968+AnonAlly@users.noreply.github.com>
+Date: Sat, 25 Apr 2026 16:09:53 +0200
+Subject: [PATCH] fix: execute authenticator-helper on init
+
+---
+ lib/desktop/init.dart | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/lib/desktop/init.dart b/lib/desktop/init.dart
+index f9bf8d3f..b8b1c39e 100755
+--- a/lib/desktop/init.dart
++++ b/lib/desktop/init.dart
+@@ -206,6 +206,8 @@ Future<Widget> initialize(List<String> argv) async {
+     Uri.file(Platform.resolvedExecutable).resolve('features.json').toFilePath(),
+   );
+ 
++  exe = 'authenticator-helper';
++
+   final rpcFuture = _initHelper(exe!);
+   _initLicenses();
+ 
+-- 
+2.54.0
+
