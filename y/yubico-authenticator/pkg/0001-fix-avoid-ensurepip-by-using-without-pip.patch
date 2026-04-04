@@ -1,0 +1,33 @@
+From 98f7ae94bd7ecc04a30311e653c2665c91665a55 Mon Sep 17 00:00:00 2001
+From: AnonAlly <193170968+AnonAlly@users.noreply.github.com>
+Date: Sat, 4 Apr 2026 17:41:39 +0200
+Subject: [PATCH] fix: avoid ensurepip by using --without-pip
+
+---
+ build-helper.sh | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
+
+diff --git a/build-helper.sh b/build-helper.sh
+index 7629beff..df7ddbb5 100755
+--- a/build-helper.sh
++++ b/build-helper.sh
+@@ -77,10 +77,15 @@ cd helper
+ uv build
+ VENV="../$OUTPUT/helper-license-venv"
+ rm -rf $VENV
+-uv run python -m venv $VENV
+-$VENV/bin/pip install --upgrade pip wheel
+-$VENV/bin/pip install dist/authenticator_helper-0.1.0-py3-none-any.whl pip-licenses
+-$VENV/bin/pip-licenses --format=json --no-license-path --with-license-file --ignore-packages authenticator-helper zxing-cpp --output-file ../assets/licenses/helper.json
++uv run python -m venv --without-pip $VENV
++uv pip install --python $VENV/bin/python --upgrade pip wheel
++uv pip install --python $VENV/bin/python dist/authenticator_helper-0.1.0-py3-none-any.whl pip-licenses
++$VENV/bin/python -m piplicenses \
++    --format=json \
++    --no-license-path \
++    --with-license-file \
++    --ignore-packages authenticator-helper zxing-cpp \
++    --output-file ../assets/licenses/helper.json
+ cd ..
+ 
+ echo "All done, output in $OUTPUT/"
