@@ -1,0 +1,54 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"python-icoextract": {
+			"build-depends": [
+				"python(setuptools)"
+			],
+			"depends": [
+				"python(pefile)",
+				"python(pillow)"
+			],
+			"files": [
+				"/usr/bin/exe-thumbnailer",
+				"/usr/bin/icoextract",
+				"/usr/bin/icolist",
+				"/usr/lib/python3.14/site-packages/icoextract-0.2.0.dist-info/METADATA",
+				"/usr/lib/python3.14/site-packages/icoextract-0.2.0.dist-info/RECORD",
+				"/usr/lib/python3.14/site-packages/icoextract-0.2.0.dist-info/WHEEL",
+				"/usr/lib/python3.14/site-packages/icoextract-0.2.0.dist-info/entry_points.txt",
+				"/usr/lib/python3.14/site-packages/icoextract-0.2.0.dist-info/licenses/LICENSE",
+				"/usr/lib/python3.14/site-packages/icoextract-0.2.0.dist-info/top_level.txt",
+				"/usr/lib/python3.14/site-packages/icoextract/__init__.py",
+				"/usr/lib/python3.14/site-packages/icoextract/__pycache__/__init__.cpython-314.opt-1.pyc",
+				"/usr/lib/python3.14/site-packages/icoextract/__pycache__/__init__.cpython-314.pyc",
+				"/usr/lib/python3.14/site-packages/icoextract/__pycache__/version.cpython-314.opt-1.pyc",
+				"/usr/lib/python3.14/site-packages/icoextract/__pycache__/version.cpython-314.pyc",
+				"/usr/lib/python3.14/site-packages/icoextract/scripts/__init__.py",
+				"/usr/lib/python3.14/site-packages/icoextract/scripts/__pycache__/__init__.cpython-314.opt-1.pyc",
+				"/usr/lib/python3.14/site-packages/icoextract/scripts/__pycache__/__init__.cpython-314.pyc",
+				"/usr/lib/python3.14/site-packages/icoextract/scripts/__pycache__/extract.cpython-314.opt-1.pyc",
+				"/usr/lib/python3.14/site-packages/icoextract/scripts/__pycache__/extract.cpython-314.pyc",
+				"/usr/lib/python3.14/site-packages/icoextract/scripts/__pycache__/icolist.cpython-314.opt-1.pyc",
+				"/usr/lib/python3.14/site-packages/icoextract/scripts/__pycache__/icolist.cpython-314.pyc",
+				"/usr/lib/python3.14/site-packages/icoextract/scripts/__pycache__/thumbnailer.cpython-314.opt-1.pyc",
+				"/usr/lib/python3.14/site-packages/icoextract/scripts/__pycache__/thumbnailer.cpython-314.pyc",
+				"/usr/lib/python3.14/site-packages/icoextract/scripts/extract.py",
+				"/usr/lib/python3.14/site-packages/icoextract/scripts/icolist.py",
+				"/usr/lib/python3.14/site-packages/icoextract/scripts/thumbnailer.py",
+				"/usr/lib/python3.14/site-packages/icoextract/version.py"
+			],
+			"name": "python-icoextract",
+			"provides": [
+				"binary(exe-thumbnailer)",
+				"binary(icoextract)",
+				"binary(icolist)",
+				"python(icoextract)"
+			]
+		}
+	},
+	"source-name": "python-icoextract",
+	"source-release": "1",
+	"source-version": "0.2.0"
+}

@@ -1,0 +1,23 @@
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : python-icoextract
+version     : "0.2.0"
+release     : 1
+homepage    : https://github.com/jlu5/icoextract
+upstreams   :
+    - https://github.com/jlu5/icoextract/archive/refs/tags/0.2.0.tar.gz : 1bbb9fcbd1e5cf584f2d41df83ceb901a9594110487a670d453dabcf453cfacc
+summary     : Extract icons from Windows PE files (.exe/.dll)
+description : |
+    Icon extractor for Windows PE files (.exe/.dll) with optional thumbnailer functionality
+license     :
+    - MIT
+builddeps   :
+    - python(setuptools)
+rundeps     :
+    - python(pefile)
+    - python(pillow)
+build       : |
+    %pyproject_build
+install     : |
+    %pyproject_install
