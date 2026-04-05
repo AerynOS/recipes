@@ -3,7 +3,7 @@
 
 name        : yubikey-manager
 version     : "5.9.0"
-release     : 3
+release     : 4
 homepage    : https://developers.yubico.com/yubikey-manager/
 upstreams   :
     - https://github.com/Yubico/yubikey-manager/releases/download/5.9.0/yubikey_manager-5.9.0.tar.gz : fb97e8013d426d5107602152b151e32a099204617b34e8673497346c902e96f7
@@ -22,14 +22,14 @@ builddeps   :
     - python(pyscard)
     - python(python-pskc)
 rundeps     :
-    - ccid
-    - pcsclite
     - python(click)
     - python(cryptography)
     - python(fido2)
     - python(keyring)
     - python(pyscard)
     - python(python-pskc)
+    - ccid
+    - pcsclite
 build       : |
     %pyproject_build
 install     : |
@@ -39,8 +39,10 @@ install     : |
 
     %install_file COPYING -t %(installroot)/usr/share/licenses/%(name)/
 
-    export PYTHONPATH=/usr/lib/python3.11/site-packages:%(installroot)%(libdir)/python3.11/site-packages
+    python_version=$(python -c 'import sys; print(".".join(map(str, sys.version_info[:2])))')
+    export PYTHONPATH=%(installroot)%(libdir)/python$python_version/site-packages
+    BIN=%(installroot)%(bindir)/ykman
 
-    _YKMAN_COMPLETE=bash_source %(installroot)/usr/bin/ykman | %install_file /dev/stdin %(installroot)%(bashcompletionsdir)/ykman
-    _YKMAN_COMPLETE=zsh_source %(installroot)/usr/bin/ykman | %install_file /dev/stdin %(installroot)%(zshcompletionsdir)/_ykman
-    _YKMAN_COMPLETE=fish_source %(installroot)/usr/bin/ykman | %install_file /dev/stdin %(installroot)%(fishcompletionsdir)/ykman.fish
+    _YKMAN_COMPLETE=bash_source $BIN | %install_file /dev/stdin %(installroot)%(bashcompletionsdir)/ykman
+    _YKMAN_COMPLETE=zsh_source  $BIN | %install_file /dev/stdin %(installroot)%(zshcompletionsdir)/_ykman
+    _YKMAN_COMPLETE=fish_source $BIN | %install_file /dev/stdin %(installroot)%(fishcompletionsdir)/ykman.fish
