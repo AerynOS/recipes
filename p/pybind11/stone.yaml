@@ -1,0 +1,36 @@
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : pybind11
+version     : "3.0.3"
+release     : 1
+homepage    : https://pybind11.readthedocs.org/
+upstreams   :
+    - https://github.com/pybind/pybind11/archive/refs/tags/v3.0.3.tar.gz : 787459e1e186ee82001759508fefa408373eae8a076ffe0078b126c6f8f0ec5e
+summary     : A lightweight header-only library that exposes C++ types in Python and vice versa
+description : |
+    A lightweight header-only library that exposes C++ types in Python and vice versa
+license     : BSD-3-Clause
+builddeps   :
+    - cmake(Boost)
+    - pkgconfig(python3)
+    - python(scikit-build-core)
+rundeps     :
+    - python-libs
+checkdeps   :
+    - python(pytest)
+setup       : |
+    %cmake
+build       : |
+    %pyproject_build
+    %cmake_build
+install     : |
+    %pyproject_install
+    %cmake_install
+check       : |
+    %cmake_build --target check
+packages    :
+    - "%(name)-devel":
+        paths:
+            - /usr/bin/pybind11-config
+            - /usr/share/cmake/
