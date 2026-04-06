@@ -1,0 +1,23 @@
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : python-scikit-build-core
+version     : "0.12.2"
+release     : 1
+homepage    : https://github.com/scikit-build/scikit-build-core
+upstreams   :
+    - https://pypi.debian.net/scikit-build-core/scikit_build_core-0.12.2.tar.gz : 562e0bbc9de1a354c87825ccf732080268d6582a0200f648e8c4a2dcb1e3736d
+summary     : Scikit-build-core is a build backend for Python that uses CMake to build extension modules
+description : |
+    Scikit-build-core is a build backend for Python that uses CMake to build extension modules
+license     : Apache-2.0
+builddeps   :
+    - python(hatch-vcs)
+    - python(hatchling)
+rundeps     :
+    - binary(cmake)
+    - python-libs
+build       : |
+    %pyproject_build
+install     : |
+    %pyproject_install
