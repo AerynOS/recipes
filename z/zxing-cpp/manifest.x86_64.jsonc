@@ -2,9 +2,46 @@
 {
 	"manifest-version": "0.2",
 	"packages": {
+		"python-zxing-cpp": {
+			"build-depends": [
+				"binary(make)",
+				"binary(patchelf)",
+				"cmake(pybind11)",
+				"cmake(zint)",
+				"pkgconfig(python3)",
+				"python(pybind11)",
+				"python(setuptools)"
+			],
+			"depends": [
+				"soname(ld-linux-x86-64.so.2(x86_64))",
+				"soname(libZXing.so.4(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libstdc++.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/lib/python3.14/site-packages/zxing_cpp-3.0.0.dist-info/METADATA",
+				"/usr/lib/python3.14/site-packages/zxing_cpp-3.0.0.dist-info/RECORD",
+				"/usr/lib/python3.14/site-packages/zxing_cpp-3.0.0.dist-info/WHEEL",
+				"/usr/lib/python3.14/site-packages/zxing_cpp-3.0.0.dist-info/licenses/LICENSE",
+				"/usr/lib/python3.14/site-packages/zxing_cpp-3.0.0.dist-info/top_level.txt",
+				"/usr/lib/python3.14/site-packages/zxingcpp.cpython-314-x86_64-linux-gnu.so"
+			],
+			"name": "python-zxing-cpp",
+			"provides": [
+				"python(zxing-cpp)",
+				"soname(python3.14/site-packages/zxingcpp.cpython-314-x86_64-linux-gnu.so(x86_64))"
+			]
+		},
 		"zxing-cpp": {
 			"build-depends": [
-				"cmake(zint)"
+				"binary(make)",
+				"binary(patchelf)",
+				"cmake(pybind11)",
+				"cmake(zint)",
+				"pkgconfig(python3)",
+				"python(pybind11)",
+				"python(setuptools)"
 			],
 			"depends": [
 				"soname(ld-linux-x86-64.so.2(x86_64))",
@@ -25,7 +62,13 @@
 		},
 		"zxing-cpp-devel": {
 			"build-depends": [
-				"cmake(zint)"
+				"binary(make)",
+				"binary(patchelf)",
+				"cmake(pybind11)",
+				"cmake(zint)",
+				"pkgconfig(python3)",
+				"python(pybind11)",
+				"python(setuptools)"
 			],
 			"depends": [
 				"zxing-cpp"
@@ -64,6 +107,6 @@
 		}
 	},
 	"source-name": "zxing-cpp",
-	"source-release": "3",
+	"source-release": "4",
 	"source-version": "3.0.2"
 }
