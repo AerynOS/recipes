@@ -2,12 +2,12 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : firefox
-version     : "149.0"
-release     : 59
+version     : "149.0.2"
+release     : 60
 homepage    : https://www.mozilla.org/
 upstreams   :
-    - https://releases.mozilla.org/pub/firefox/releases/149.0/source/firefox-149.0.source.tar.xz:
-        hash: b861fdee999d9b6404e1e865d6f707c41b4bded1b5ea62affc176288c1484b8a
+    - https://releases.mozilla.org/pub/firefox/releases/149.0.2/source/firefox-149.0.2.source.tar.xz:
+        hash: 6a931a2cf087164c689099c3856b3091a7e156a7b94fab8ab5712affe87870ce
         unpackdir: firefox
 summary     : Firefox web browser
 description : |
@@ -67,7 +67,6 @@ setup       : |
 
     # TODO: Figure out if we still need to enable unsigned addon loading considering we switched back to unmodified langpacks
 
-    %patch %(pkgdir)/patches/upstream-01.patch
     %patch %(pkgdir)/patches/upstream-02.patch
     %patch %(pkgdir)/patches/upstream-03.patch
 
