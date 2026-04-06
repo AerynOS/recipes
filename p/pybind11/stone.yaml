@@ -3,7 +3,7 @@
 
 name        : pybind11
 version     : "3.0.3"
-release     : 1
+release     : 2
 homepage    : https://pybind11.readthedocs.org/
 upstreams   :
     - https://github.com/pybind/pybind11/archive/refs/tags/v3.0.3.tar.gz : 787459e1e186ee82001759508fefa408373eae8a076ffe0078b126c6f8f0ec5e
@@ -30,6 +30,12 @@ install     : |
 check       : |
     %cmake_build --target check
 packages    :
+    - "%(name)":
+        provides-exclude:
+            # We want these to be provided by the devel package
+            - 'pkgconfig\(pybind11\)'
+            - 'cmake\(pybind11\)'
+
     - "%(name)-devel":
         paths:
             - /usr/bin/pybind11-config
