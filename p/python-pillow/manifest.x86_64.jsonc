@@ -16,6 +16,7 @@
 				"pkgconfig(libwebp)",
 				"pkgconfig(python3)",
 				"pkgconfig(zlib)",
+				"python(pybind11)",
 				"python(setuptools)"
 			],
 			"depends": [
@@ -25,6 +26,7 @@
 				"soname(libfreetype.so.6(x86_64))",
 				"soname(libjpeg.so.8(x86_64))",
 				"soname(liblcms2.so.2(x86_64))",
+				"soname(libm.so.6(x86_64))",
 				"soname(libopenjp2.so.7(x86_64))",
 				"soname(libtiff.so.6(x86_64))",
 				"soname(libwebp.so.7(x86_64))",
@@ -81,6 +83,7 @@
 				"/usr/lib/python3.14/site-packages/PIL/ImageSequence.py",
 				"/usr/lib/python3.14/site-packages/PIL/ImageShow.py",
 				"/usr/lib/python3.14/site-packages/PIL/ImageStat.py",
+				"/usr/lib/python3.14/site-packages/PIL/ImageText.py",
 				"/usr/lib/python3.14/site-packages/PIL/ImageTransform.py",
 				"/usr/lib/python3.14/site-packages/PIL/ImageWin.py",
 				"/usr/lib/python3.14/site-packages/PIL/ImtImagePlugin.py",
@@ -214,6 +217,8 @@
 				"/usr/lib/python3.14/site-packages/PIL/__pycache__/ImageShow.cpython-314.pyc",
 				"/usr/lib/python3.14/site-packages/PIL/__pycache__/ImageStat.cpython-314.opt-1.pyc",
 				"/usr/lib/python3.14/site-packages/PIL/__pycache__/ImageStat.cpython-314.pyc",
+				"/usr/lib/python3.14/site-packages/PIL/__pycache__/ImageText.cpython-314.opt-1.pyc",
+				"/usr/lib/python3.14/site-packages/PIL/__pycache__/ImageText.cpython-314.pyc",
 				"/usr/lib/python3.14/site-packages/PIL/__pycache__/ImageTransform.cpython-314.opt-1.pyc",
 				"/usr/lib/python3.14/site-packages/PIL/__pycache__/ImageTransform.cpython-314.pyc",
 				"/usr/lib/python3.14/site-packages/PIL/__pycache__/ImageWin.cpython-314.opt-1.pyc",
@@ -331,12 +336,12 @@
 				"/usr/lib/python3.14/site-packages/PIL/features.py",
 				"/usr/lib/python3.14/site-packages/PIL/py.typed",
 				"/usr/lib/python3.14/site-packages/PIL/report.py",
-				"/usr/lib/python3.14/site-packages/pillow-11.3.0.dist-info/METADATA",
-				"/usr/lib/python3.14/site-packages/pillow-11.3.0.dist-info/RECORD",
-				"/usr/lib/python3.14/site-packages/pillow-11.3.0.dist-info/WHEEL",
-				"/usr/lib/python3.14/site-packages/pillow-11.3.0.dist-info/licenses/LICENSE",
-				"/usr/lib/python3.14/site-packages/pillow-11.3.0.dist-info/top_level.txt",
-				"/usr/lib/python3.14/site-packages/pillow-11.3.0.dist-info/zip-safe"
+				"/usr/lib/python3.14/site-packages/pillow-12.2.0.dist-info/METADATA",
+				"/usr/lib/python3.14/site-packages/pillow-12.2.0.dist-info/RECORD",
+				"/usr/lib/python3.14/site-packages/pillow-12.2.0.dist-info/WHEEL",
+				"/usr/lib/python3.14/site-packages/pillow-12.2.0.dist-info/licenses/LICENSE",
+				"/usr/lib/python3.14/site-packages/pillow-12.2.0.dist-info/top_level.txt",
+				"/usr/lib/python3.14/site-packages/pillow-12.2.0.dist-info/zip-safe"
 			],
 			"name": "python-pillow",
 			"provides": [
@@ -364,6 +369,7 @@
 				"pkgconfig(libwebp)",
 				"pkgconfig(python3)",
 				"pkgconfig(zlib)",
+				"python(pybind11)",
 				"python(setuptools)"
 			],
 			"depends": [
@@ -381,6 +387,7 @@
 				"/usr/include/python3.14/Imaging/ImagingUtils.h",
 				"/usr/include/python3.14/Imaging/Jpeg.h",
 				"/usr/include/python3.14/Imaging/Jpeg2K.h",
+				"/usr/include/python3.14/Imaging/Mode.h",
 				"/usr/include/python3.14/Imaging/QuantHash.h",
 				"/usr/include/python3.14/Imaging/QuantHeap.h",
 				"/usr/include/python3.14/Imaging/QuantOctree.h",
@@ -407,10 +414,12 @@
 				"pkgconfig(libwebp)",
 				"pkgconfig(python3)",
 				"pkgconfig(zlib)",
+				"python(pybind11)",
 				"python(setuptools)"
 			],
 			"depends": [
 				"python-pillow",
+				"python-tkinter",
 				"soname(libc.so.6(x86_64))"
 			],
 			"files": [
@@ -430,6 +439,6 @@
 		}
 	},
 	"source-name": "python-pillow",
-	"source-release": "2",
-	"source-version": "11.3.0"
+	"source-release": "3",
+	"source-version": "12.2.0"
 }
