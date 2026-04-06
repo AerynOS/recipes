@@ -1,6 +1,6 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Reilly Brogan <reilly@reillybrogan.com>
-Date: Fri, 11 Jul 2025 17:42:10 -0500
+Date: Mon, 6 Apr 2026 11:42:59 -0500
 Subject: [PATCH] Disable build-only deps
 
 ---
@@ -8,13 +8,13 @@ Subject: [PATCH] Disable build-only deps
  1 file changed, 3 deletions(-)
 
 diff --git a/pyproject.toml b/pyproject.toml
-index 8a1177f60..568faea5f 100644
+index 3f876316f..c09d94d22 100644
 --- a/pyproject.toml
 +++ b/pyproject.toml
-@@ -9,9 +9,6 @@ requires = [
-     "mypy_extensions>=1.0.0",
-     "pathspec>=0.9.0",
+@@ -10,9 +10,6 @@ requires = [
+     "pathspec>=1.0.0",
      "tomli>=1.1.0; python_version<'3.11'",
+     "librt>=0.8.0; platform_python_implementation != 'PyPy'",
 -    # the following is from build-requirements.txt
 -    "types-psutil",
 -    "types-setuptools",
