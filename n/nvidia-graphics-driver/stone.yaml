@@ -3,7 +3,7 @@
 
 name        : nvidia-graphics-driver
 version     : "595.58.03"
-release     : 39
+release     : 40
 homepage    : https://www.nvidia.com/
 upstreams   :
     - https://us.download.nvidia.com/XFree86/Linux-x86_64/595.58.03/NVIDIA-Linux-x86_64-595.58.03.run:
@@ -22,14 +22,15 @@ strip       : false
 builddeps   :
     - glibc-32bit
     - binary(bzip2)
+    - binary(cpio)
     - binary(tar)
+    - binary(zstd)
     - pkgconfig32(libglvnd)
     - pkgconfig32(vulkan)
     - sysbinary(modprobe)
 install     : |
     sh %(sourcedir)/NVIDIA.run --extract-only --target extracted
-    %install_dir %(installroot)%(libdir)/firmware/nvidia/%(version)
-    %install_file extracted/firmware/*.bin %(installroot)%(libdir)/firmware/nvidia/%(version)/.
+    %install_file extracted/firmware/*.bin -t %(installroot)%(libdir)/firmware/nvidia/%(version)
     sh %(sourcedir)/NVIDIA.run \
         --skip-module-load \
         --no-questions \
@@ -56,6 +57,19 @@ install     : |
         --compat32-prefix=%(installroot)
     cat %(workdir)/nvidia-installer.log
     rm %(installroot)%(bindir)/{nvidia-installer,nvidia-uninstall}
+
+    # Compress firmware
+    pushd %(installroot)%(libdir)/firmware/nvidia/%(version)/
+    find . -name '*.bin' -print -exec zstd -19 {} \; -exec rm -v {} \;
+    popd
+
+    # Create firmware initrd
+    mkdir -p initrd
+    %install_file extracted/firmware/*.bin -t initrd/%(libdir)/firmware/nvidia/%(version)
+    pushd initrd
+    find . | cpio -o -H newc | zstd -19 -T0 -c > ../firmware.initrd
+    popd
+    %install_file firmware.initrd %(installroot)%(libdir)/kernel/initrd.d/55-nvidia-firmware.initrd
 
     # Fix gbm
     rm -v %(installroot)%(libdir)/gbm/nvidia-drm_gbm.so
@@ -180,3 +194,10 @@ packages    :
             - egl-wayland-32bit
             - egl-wayland2-32bit
             - egl-x11-32bit
+
+    - "%(name)-firmware":
+        summary: Firmware for Nvidia GPUs
+        description: Firmware for Nvidia GPUs
+        paths:
+            - /usr/lib/firmware/nvidia/
+            - /usr/lib/kernel/initrd.d/55-nvidia-firmware.initrd

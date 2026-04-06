@@ -5,7 +5,9 @@
 		"nvidia-graphics-driver": {
 			"build-depends": [
 				"binary(bzip2)",
+				"binary(cpio)",
 				"binary(tar)",
+				"binary(zstd)",
 				"glibc-32bit",
 				"pkgconfig32(libglvnd)",
 				"pkgconfig32(vulkan)",
@@ -55,8 +57,6 @@
 				"/usr/bin/nvidia-settings",
 				"/usr/bin/nvidia-sleep.sh",
 				"/usr/bin/nvidia-smi",
-				"/usr/lib/firmware/nvidia/595.58.03/gsp_ga10x.bin",
-				"/usr/lib/firmware/nvidia/595.58.03/gsp_tu10x.bin",
 				"/usr/lib/gbm/nvidia-drm_gbm.so",
 				"/usr/lib/libEGL_nvidia.so.0",
 				"/usr/lib/libEGL_nvidia.so.595.58.03",
@@ -223,7 +223,9 @@
 		"nvidia-graphics-driver-32bit": {
 			"build-depends": [
 				"binary(bzip2)",
+				"binary(cpio)",
 				"binary(tar)",
+				"binary(zstd)",
 				"glibc-32bit",
 				"pkgconfig32(libglvnd)",
 				"pkgconfig32(vulkan)",
@@ -316,9 +318,27 @@
 				"soname(libnvidia-tls.so.595.58.03(386))",
 				"soname(vdpau/libvdpau_nvidia.so.1(386))"
 			]
+		},
+		"nvidia-graphics-driver-firmware": {
+			"build-depends": [
+				"binary(bzip2)",
+				"binary(cpio)",
+				"binary(tar)",
+				"binary(zstd)",
+				"glibc-32bit",
+				"pkgconfig32(libglvnd)",
+				"pkgconfig32(vulkan)",
+				"sysbinary(modprobe)"
+			],
+			"files": [
+				"/usr/lib/firmware/nvidia/595.58.03/gsp_ga10x.bin.zst",
+				"/usr/lib/firmware/nvidia/595.58.03/gsp_tu10x.bin.zst",
+				"/usr/lib/kernel/initrd.d/55-nvidia-firmware.initrd"
+			],
+			"name": "nvidia-graphics-driver-firmware"
 		}
 	},
 	"source-name": "nvidia-graphics-driver",
-	"source-release": "39",
+	"source-release": "40",
 	"source-version": "595.58.03"
 }
