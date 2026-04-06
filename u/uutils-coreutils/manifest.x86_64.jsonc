@@ -21,6 +21,7 @@
 				"pkgconfig(systemd)"
 			],
 			"depends": [
+				"binary(gnu-cp)",
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libacl.so.1(x86_64))",
@@ -657,6 +658,6 @@
 		}
 	},
 	"source-name": "uutils-coreutils",
-	"source-release": "33",
-	"source-version": "0.6.0"
+	"source-release": "34",
+	"source-version": "0.8.0"
 }
