@@ -1,0 +1,174 @@
+From e8c161a568487ee311efa8a9bfae0a7b8e2451d4 Mon Sep 17 00:00:00 2001
+From: Katharina Bogad <katharina@hacked.xyz>
+Date: Wed, 1 Apr 2026 20:31:36 +0200
+Subject: [PATCH 1/2] build: Fix -Wdiscarded-qualifier warnings
+
+Recent (at least >= 15.2) GCC changes enabled -Wdiscarded-qualifier by default.
+Fixing these warnings allows for building with -Werror again.
+---
+ dlls/ntdll/unix/env.c    | 6 +++---
+ dlls/ntdll/unix/server.c | 2 +-
+ dlls/winebth.sys/dbus.c  | 2 +-
+ dlls/winex11.drv/mouse.c | 2 +-
+ tools/makedep.c          | 6 +++---
+ tools/winebuild/parser.c | 2 +-
+ tools/winegcc/winegcc.c  | 2 +-
+ 7 files changed, 11 insertions(+), 11 deletions(-)
+
+diff --git a/dlls/ntdll/unix/env.c b/dlls/ntdll/unix/env.c
+index 9dbfe78d09f..cb8f0e7174f 100644
+--- a/dlls/ntdll/unix/env.c
++++ b/dlls/ntdll/unix/env.c
+@@ -153,7 +153,7 @@ static NTSTATUS open_nls_data_file( const char *path, const WCHAR *sysdir, HANDL
+     OBJECT_ATTRIBUTES attr;
+     UNICODE_STRING valueW;
+     WCHAR buffer[64];
+-    char *p;
++    const char *p;
+ 
+     wcscpy( buffer, system_dir );
+     p = strrchr( path, '/' ) + 1;
+@@ -483,7 +483,7 @@ const WCHAR *ntdll_get_data_dir(void)
+  */
+ static void set_process_name( const char *name )
+ {
+-    char *p;
++    const char *p;
+ 
+ #ifdef HAVE_SETPROCTITLE
+     setproctitle("-%s", name );
+@@ -838,7 +838,7 @@ void init_environment(void)
+ /* check if a WINE_HOST_ prefixed variable already exists in the environment */
+ static BOOL host_var_exists( const char *name )
+ {
+-    char *end = strchr( name, '=' );
++    const char *end = strchr( name, '=' );
+ 
+     if (!end) return FALSE;
+     for (char **e = environ; *e; e++)
+diff --git a/dlls/ntdll/unix/server.c b/dlls/ntdll/unix/server.c
+index 4295a56d77c..7c80a1f5c89 100644
+--- a/dlls/ntdll/unix/server.c
++++ b/dlls/ntdll/unix/server.c
+@@ -1327,7 +1327,7 @@ static int setup_config_dir(void)
+     if (chdir( config_dir ) == -1)
+     {
+         if (errno != ENOENT) fatal_perror( "cannot use directory %s", config_dir );
+-        if ((p = strrchr( config_dir, '/' )) && p != config_dir)
++        if ((p = (char*)strrchr( config_dir, '/' )) && p != config_dir)
+         {
+             while (p > config_dir + 1 && p[-1] == '/') p--;
+             *p = 0;
+diff --git a/dlls/winebth.sys/dbus.c b/dlls/winebth.sys/dbus.c
+index aa2cef1cc0a..71d57b0771e 100644
+--- a/dlls/winebth.sys/dbus.c
++++ b/dlls/winebth.sys/dbus.c
+@@ -947,7 +947,7 @@ bluez_gatt_characteristic_props_from_dict_entry( const char *prop_name, DBusMess
+             struct named_flag name, *flag;
+ 
+             p_dbus_message_iter_get_basic( &flags_iter, &name.name );
+-            if ((flag = bsearch( &name, flags, ARRAY_SIZE( flags ), sizeof( *flags ), named_flag_cmp )))
++            if ((flag = (struct named_flag*)bsearch( &name, flags, ARRAY_SIZE( flags ), sizeof( *flags ), named_flag_cmp )))
+                 *flag->flag = TRUE;
+             else
+                 FIXME( "Unknown characteristic flag: %s\n", debugstr_a( name.name ) );
+diff --git a/dlls/winex11.drv/mouse.c b/dlls/winex11.drv/mouse.c
+index 1ddd3027e88..f66ba639937 100644
+--- a/dlls/winex11.drv/mouse.c
++++ b/dlls/winex11.drv/mouse.c
+@@ -909,7 +909,7 @@ static int fallback_cmp( const void *key, const void *member )
+ 
+ static int find_fallback_shape( const char *name )
+ {
+-    struct cursor_font_fallback *fallback;
++    const struct cursor_font_fallback *fallback;
+ 
+     if ((fallback = bsearch( name, fallbacks, ARRAY_SIZE( fallbacks ),
+                              sizeof(*fallback), fallback_cmp )))
+diff --git a/tools/makedep.c b/tools/makedep.c
+index 1782f3ed79d..90a522640fe 100644
+--- a/tools/makedep.c
++++ b/tools/makedep.c
+@@ -1304,7 +1304,7 @@ static struct file *load_file( const char *name )
+     if (i == ARRAY_SIZE(parse_functions))
+     {
+         /* check for C++ header with no extension */
+-        char *dir = strstr( name, "/msvcrt/" );
++        const char *dir = strstr( name, "/msvcrt/" );
+         if (dir && !strchr( dir, '.' )) parse_cxx_file( file, f );
+     }
+ 
+@@ -3807,8 +3807,8 @@ static void output_module( struct makefile *make, unsigned int arch )
+     struct strarray all_libs = empty_strarray;
+     struct strarray dep_libs = empty_strarray;
+     struct strarray imports = make->imports;
+-    const char *module_name;
+-    char *p, *spec_file = NULL;
++    const char *p, *module_name;
++    char *spec_file = NULL;
+     unsigned int link_arch;
+ 
+     if (!make->is_exe)
+diff --git a/tools/winebuild/parser.c b/tools/winebuild/parser.c
+index 899cd6e233a..6e6724f37fe 100644
+--- a/tools/winebuild/parser.c
++++ b/tools/winebuild/parser.c
+@@ -740,7 +740,7 @@ static void add_apiset_value( struct apiset *apiset, struct apiset_entry *entry,
+     if (entry->val_count < ARRAY_SIZE(entry->values) - 1)
+     {
+         struct apiset_value *val = &entry->values[entry->val_count++];
+-        char *sep = strchr( value, ':' );
++        const char *sep = strchr( value, ':' );
+ 
+         if (sep)
+         {
+diff --git a/tools/winegcc/winegcc.c b/tools/winegcc/winegcc.c
+index 0139855ce95..465858f12ad 100644
+--- a/tools/winegcc/winegcc.c
++++ b/tools/winegcc/winegcc.c
+@@ -505,7 +505,7 @@ static struct strarray get_link_args( const char *output_name )
+ {
+     struct strarray link_args = get_translator();
+     struct strarray flags = empty_strarray;
+-    char *version;
++    const char *version;
+ 
+     strarray_addall( &link_args, linker_args );
+ 
+-- 
+GitLab
+
+
+From a7605ad6e42ce6bfcde5babdb50301a673d7c004 Mon Sep 17 00:00:00 2001
+From: Katharina Bogad <katharina@hacked.xyz>
+Date: Wed, 1 Apr 2026 20:34:48 +0200
+Subject: [PATCH 2/2] build: Allow building with C23 and GLIBC
+
+GLIBC defines wcschr, wcsrchr and wcspbrk in their version of wchar.h if
+C23 is in use. #undef them before ntdll macors are set.
+---
+ include/wine/unixlib.h | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/include/wine/unixlib.h b/include/wine/unixlib.h
+index b0fd9b2604d..503bf755f5b 100644
+--- a/include/wine/unixlib.h
++++ b/include/wine/unixlib.h
+@@ -255,6 +255,14 @@ NTSYSAPI int ntdll_wcstoumbs( const WCHAR *src, DWORD srclen, char *dst, DWORD d
+ NTSYSAPI int ntdll_wcsicmp( const WCHAR *str1, const WCHAR *str2 );
+ NTSYSAPI int ntdll_wcsnicmp( const WCHAR *str1, const WCHAR *str2, int n );
+ 
++/* C23 requires these functions to be defined as macros to dynamically switch const/mut types.
++ * undef them to make use of the ntdll_* implementations.
++ * This intentionally drops the const/mut switching as implementing this requires C11 and
++ * _Generic to be available. */
++#undef wcschr
++#undef wcsrchr
++#undef wcspbrk
++
+ #define iswspace(ch)       ntdll_iswspace(ch)
+ #define wcslen(str)        ntdll_wcslen(str)
+ #define wcscpy(dst,src)    ntdll_wcscpy(dst,src)
+-- 
+GitLab
+
