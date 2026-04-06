@@ -1,0 +1,47 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"python-librt": {
+			"build-depends": [
+				"pkgconfig(python3)",
+				"python(setuptools)"
+			],
+			"depends": [
+				"python-libs",
+				"soname(libc.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/lib/python3.14/site-packages/librt-0.8.1.dist-info/METADATA",
+				"/usr/lib/python3.14/site-packages/librt-0.8.1.dist-info/RECORD",
+				"/usr/lib/python3.14/site-packages/librt-0.8.1.dist-info/WHEEL",
+				"/usr/lib/python3.14/site-packages/librt-0.8.1.dist-info/licenses/LICENSE",
+				"/usr/lib/python3.14/site-packages/librt-0.8.1.dist-info/top_level.txt",
+				"/usr/lib/python3.14/site-packages/librt/__init__.pyi",
+				"/usr/lib/python3.14/site-packages/librt/base64.cpython-314-x86_64-linux-gnu.so",
+				"/usr/lib/python3.14/site-packages/librt/base64.pyi",
+				"/usr/lib/python3.14/site-packages/librt/internal.cpython-314-x86_64-linux-gnu.so",
+				"/usr/lib/python3.14/site-packages/librt/internal.pyi",
+				"/usr/lib/python3.14/site-packages/librt/py.typed",
+				"/usr/lib/python3.14/site-packages/librt/strings.cpython-314-x86_64-linux-gnu.so",
+				"/usr/lib/python3.14/site-packages/librt/strings.pyi",
+				"/usr/lib/python3.14/site-packages/librt/time.cpython-314-x86_64-linux-gnu.so",
+				"/usr/lib/python3.14/site-packages/librt/time.pyi",
+				"/usr/lib/python3.14/site-packages/librt/vecs.cpython-314-x86_64-linux-gnu.so",
+				"/usr/lib/python3.14/site-packages/librt/vecs.pyi"
+			],
+			"name": "python-librt",
+			"provides": [
+				"python(librt)",
+				"soname(python3.14/site-packages/librt/base64.cpython-314-x86_64-linux-gnu.so(x86_64))",
+				"soname(python3.14/site-packages/librt/internal.cpython-314-x86_64-linux-gnu.so(x86_64))",
+				"soname(python3.14/site-packages/librt/strings.cpython-314-x86_64-linux-gnu.so(x86_64))",
+				"soname(python3.14/site-packages/librt/time.cpython-314-x86_64-linux-gnu.so(x86_64))",
+				"soname(python3.14/site-packages/librt/vecs.cpython-314-x86_64-linux-gnu.so(x86_64))"
+			]
+		}
+	},
+	"source-name": "python-librt",
+	"source-release": "1",
+	"source-version": "0.8.1"
+}
