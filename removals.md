@@ -210,3 +210,8 @@
 
 ### Not needed in newer Python
 - python-backports.tarfile
+
+### Replaced by linux-stable
+- linux-desktop
+- linux-desktop-devel
+- linux-desktop-dbginfo
