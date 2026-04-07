@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : alacritty
-version     : "0.16.1"
-release     : 7
+version     : "0.17.0"
+release     : 8
 homepage    : https://alacritty.org/
 upstreams   :
-    - https://github.com/alacritty/alacritty/archive/refs/tags/v0.16.1.tar.gz : b7240df4a52c004470977237a276185fc97395d59319480d67cad3c4347f395e
+    - https://github.com/alacritty/alacritty/archive/refs/tags/v0.17.0.tar.gz : 38d6527d346cda5c6049332a1f3338a89ea66cd7981b54d4c3ce801b392496f8
 summary     : A cross-platform, OpenGL terminal emulator.
 description : |
     Alacritty is a modern terminal emulator that comes with sensible defaults, but allows for extensive configuration.
@@ -31,13 +31,19 @@ build       : |
 install     : |
     %cargo_install
 
-    %install_file extra/completions/alacritty.bash %(installroot)/usr/share/bash-completion/completions/alacritty
-    %install_file extra/completions/_alacritty %(installroot)/usr/share/zsh/site-functions/_alacritty
-    %install_file extra/completions/alacritty.fish %(installroot)/usr/share/fish/vendor_completions.d/alacritty.fish
+    %install_file LICENSE-APACHE %(installroot)%(datadir)/licenses/%(name)/LICENSE-APACHE
+    %install_file LICENSE-MIT %(installroot)%(datadir)/licenses/%(name)/LICENSE-MIT
+
+    %install_file extra/completions/alacritty.bash %(installroot)%(bashcompletionsdir)/alacritty
+    %install_file extra/completions/_alacritty %(installroot)%(zshcompletionsdir)/_alacritty
+    %install_file extra/completions/alacritty.fish %(installroot)%(fishcompletionsdir)/alacritty.fish
 
     for FILENAME in alacritty-bindings.5 alacritty-msg.1 alacritty.1 alacritty.5; do
-        %install_file extra/man/${FILENAME} %(installroot)/usr/share/man/man${FILENAME##*.}/${FILENAME}
+        %install_file extra/man/${FILENAME} %(installroot)%(mandir)/man${FILENAME##*.}/${FILENAME}
     done
 
-    %install_file extra/linux/Alacritty.desktop -t %(installroot)/usr/share/applications/
-    %install_file extra/logo/alacritty-term.svg %(installroot)/usr/share/icons/hicolor/scalable/apps/Alacritty.svg
+    %install_file extra/linux/Alacritty.desktop -t %(installroot)%(datadir)/applications/
+    %install_file extra/logo/alacritty-term.svg %(installroot)%(datadir)/icons/hicolor/scalable/apps/Alacritty.svg
+    %install_file extra/linux/org.alacritty.Alacritty.appdata.xml -t %(installroot)%(datadir)/metainfo/
+check       : |
+    %cargo_test
