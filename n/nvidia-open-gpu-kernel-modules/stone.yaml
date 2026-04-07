@@ -58,7 +58,7 @@ build       : |
     for _kernel in ${kernels[@]}; do
         pushd ${_kernel}
         %ccache_zero
-        export CCACHE_BASEDIR="${pwd}"
+        export CCACHE_BASEDIR="${PWD}"
         %make CC=${CC} LD=${LD} KERNEL_UNAME=${_kernel} NV_VERBOSE=1 modules
         %ccache_stats
         popd
