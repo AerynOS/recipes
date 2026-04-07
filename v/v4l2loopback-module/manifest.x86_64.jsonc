@@ -4,6 +4,7 @@
 	"packages": {
 		"v4l2loopback-module-lts": {
 			"build-depends": [
+				"binary(eu-readelf)",
 				"binary(zstd)",
 				"linux-lts-devel",
 				"linux-stable-devel"
@@ -19,6 +20,7 @@
 		},
 		"v4l2loopback-module-stable": {
 			"build-depends": [
+				"binary(eu-readelf)",
 				"binary(zstd)",
 				"linux-lts-devel",
 				"linux-stable-devel"
@@ -34,6 +36,6 @@
 		}
 	},
 	"source-name": "v4l2loopback-module",
-	"source-release": "2",
+	"source-release": "3",
 	"source-version": "0.15.3"
 }
