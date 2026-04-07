@@ -2,10 +2,10 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : libplasma
-version     : "6.6.3"
-release     : 24
+version     : "6.6.4"
+release     : 25
 upstreams   :
-    - https://download.kde.org/stable/plasma/6.6.3/libplasma-6.6.3.tar.xz : 815ca99f55e68727ffed90b2d0a176f6240a2256454b1089a5a7f266a5a3775c
+    - https://download.kde.org/stable/plasma/6.6.4/libplasma-6.6.4.tar.xz : cc7dfd90b4caba4b2b4da1eb5d6c7aaa20b72b9770f511cbc433eadcc5b8e483
 homepage    : https://kde.org/plasma-desktop/
 license     :
     - BSD-3-Clause
@@ -45,8 +45,6 @@ tuning      :
     - lto: full
     - optimize: speed
 setup       : |
-    git apply %(pkgdir)/upstream-01.patch
-
     %cmake_kf6
 build       : |
     %cmake_build
