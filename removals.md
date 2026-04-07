@@ -1,7 +1,8 @@
----
+<!--
 # SPDX-FileCopyrightText: 2025 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
----
+-->
+
 ## This is a list of packages that should be removed from the repo once moss supports package removal
 
 ### Moved into other gcc packages

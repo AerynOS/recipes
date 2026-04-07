@@ -1,7 +1,8 @@
----
+<!--
 # SPDX-FileCopyrightText: 2025 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
----
+-->
+
 # Firefox PR flow
 
 ## Firefox

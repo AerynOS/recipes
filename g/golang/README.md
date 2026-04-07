@@ -1,7 +1,8 @@
----
+<!--
 # SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
----
+-->
+
 # Suggested test plan for golang
 
 - Install the newly built golang .stone

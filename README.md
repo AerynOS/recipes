@@ -1,7 +1,8 @@
----
+<!--
 # SPDX-FileCopyrightText: 2022 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
----
+-->
+
 # Recipes
 
 This repository contains all of the recipes required to build AerynOS from source.
