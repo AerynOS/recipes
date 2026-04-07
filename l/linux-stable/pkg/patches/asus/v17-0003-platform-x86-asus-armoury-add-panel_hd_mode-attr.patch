@@ -1,0 +1,119 @@
+From mboxrd@z Thu Jan  1 00:00:00 1970
+Received: from out-189.mta1.migadu.com (out-189.mta1.migadu.com [95.215.58.189])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39CFA1EA7EC
+	for <linux-kernel@vger.kernel.org>; Sun,  2 Nov 2025 21:53:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.189
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1762120420; cv=none; b=eNR2+3lVRMwgAG5xrlobYhh2WPGpDGStDVTyjG4ZySjJBOd6ipYvJbBVK7WsXd/sDKfM4SGPnWHi78lRZOYnwY9EvskNmqojJAFf03I0sURhVyYdVvDnHOxH9Ss1kSiNbZbXmsrbZYEifekKkljibUMXZLdHrgwDuSNOmkcFLXc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1762120420; c=relaxed/simple;
+	bh=YT318w6+RjA0aAsE0L7A/5o8TIyoj59ov8/TTy+YF34=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=k74xopD/OcYYnEHcGxuqTWCa+4VBYSmbR8WIeYmTLw9nUV+b/mq9YWtconZCUAIEshto+ryhcPVfiIqT8AOlzcUApMvQZf2cNyEQSPa+HMUK5xDXQX3tz+IRfhN5tyc/AEd1f1kRPqD5gx8BV5/LprnibsirRYQrBYpHu/uqLV8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=xapYoBiR; arc=none smtp.client-ip=95.215.58.189
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="xapYoBiR"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1762120416;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=85HyqfYTSJidaNpE82u0nohWYeslgFmNpkyFRDKVh4s=;
+	b=xapYoBiRF8VuIU5F366GRjLB6X94CvtlTIzSIQz5E8dyoMvTbEZOwbSrOMb9aISWxzjqgi
+	aeDLyNXXVJtDDQ8uZ/fWPJwRcYjibo5246xuxtsgcfhea4uk08Cm6NqjEgqHueiEDWzTQu
+	yhTBAzxFtm2IRYaJ+O+qQczPoBmwvvw=
+From: Denis Benato <denis.benato@linux.dev>
+To: linux-kernel@vger.kernel.org
+Cc: platform-driver-x86@vger.kernel.org,
+	"Hans de Goede" <hansg@kernel.org>,
+	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	"Limonciello, Mario" <mario.limonciello@amd.com>,
+	"Luke D . Jones" <luke@ljones.dev>,
+	"Alok Tiwari" <alok.a.tiwari@oracle.com>,
+	"Derek John Clark" <derekjohn.clark@gmail.com>,
+	"Mateusz Schyboll" <dragonn@op.pl>,
+	porfet828@gmail.com,
+	"Denis Benato" <benato.denis96@gmail.com>,
+	Denis Benato <denis.benato@linux.dev>
+Subject: [PATCH v17 3/9] platform/x86: asus-armoury: add panel_hd_mode attribute
+Date: Sun,  2 Nov 2025 22:53:13 +0100
+Message-ID: <20251102215319.3126879-4-denis.benato@linux.dev>
+In-Reply-To: <20251102215319.3126879-1-denis.benato@linux.dev>
+References: <20251102215319.3126879-1-denis.benato@linux.dev>
+Precedence: bulk
+X-Mailing-List: linux-kernel@vger.kernel.org
+List-Id: <linux-kernel.vger.kernel.org>
+List-Subscribe: <mailto:linux-kernel+subscribe@vger.kernel.org>
+List-Unsubscribe: <mailto:linux-kernel+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
+
+From: "Luke D. Jones" <luke@ljones.dev>
+
+Add panel_hd_mode to toggle the panel mode between single and high
+definition modes.
+
+Signed-off-by: Denis Benato <denis.benato@linux.dev>
+Signed-off-by: Luke D. Jones <luke@ljones.dev>
+Reviewed-by: Mario Limonciello <mario.limonciello@amd.com>
+Reviewed-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
+---
+ drivers/platform/x86/asus-armoury.c        | 6 +++++-
+ include/linux/platform_data/x86/asus-wmi.h | 1 +
+ 2 files changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/platform/x86/asus-armoury.c b/drivers/platform/x86/asus-armoury.c
+index 8294fc8dcdd0..a6b86968fa37 100644
+--- a/drivers/platform/x86/asus-armoury.c
++++ b/drivers/platform/x86/asus-armoury.c
+@@ -96,7 +96,8 @@ static struct kobj_attribute pending_reboot = __ATTR_RO(pending_reboot);
+ 
+ static bool asus_bios_requires_reboot(struct kobj_attribute *attr)
+ {
+-	return !strcmp(attr->attr.name, "gpu_mux_mode");
++	return !strcmp(attr->attr.name, "gpu_mux_mode") ||
++	       !strcmp(attr->attr.name, "panel_hd_mode");
+ }
+ 
+ /**
+@@ -607,6 +608,8 @@ ASUS_ATTR_GROUP_BOOL_RW(mcu_powersave, "mcu_powersave", ASUS_WMI_DEVID_MCU_POWER
+ 			"Set MCU powersaving mode");
+ ASUS_ATTR_GROUP_BOOL_RW(panel_od, "panel_overdrive", ASUS_WMI_DEVID_PANEL_OD,
+ 			"Set the panel refresh overdrive");
++ASUS_ATTR_GROUP_BOOL_RW(panel_hd_mode, "panel_hd_mode", ASUS_WMI_DEVID_PANEL_HD,
++			"Set the panel HD mode to UHD<0> or FHD<1>");
+ ASUS_ATTR_GROUP_BOOL_RO(egpu_connected, "egpu_connected", ASUS_WMI_DEVID_EGPU_CONNECTED,
+ 			"Show the eGPU connection status");
+ 
+@@ -620,6 +623,7 @@ static const struct asus_attr_group armoury_attr_groups[] = {
+ 	{ &boot_sound_attr_group, ASUS_WMI_DEVID_BOOT_SOUND },
+ 	{ &mcu_powersave_attr_group, ASUS_WMI_DEVID_MCU_POWERSAVE },
+ 	{ &panel_od_attr_group, ASUS_WMI_DEVID_PANEL_OD },
++	{ &panel_hd_mode_attr_group, ASUS_WMI_DEVID_PANEL_HD },
+ };
+ 
+ static int asus_fw_attr_add(void)
+diff --git a/include/linux/platform_data/x86/asus-wmi.h b/include/linux/platform_data/x86/asus-wmi.h
+index 8ea8925a0fc5..3cc235b20be4 100644
+--- a/include/linux/platform_data/x86/asus-wmi.h
++++ b/include/linux/platform_data/x86/asus-wmi.h
+@@ -75,6 +75,7 @@
+ #define ASUS_WMI_DEVID_THROTTLE_THERMAL_POLICY_VIVO 0x00110019
+ 
+ /* Misc */
++#define ASUS_WMI_DEVID_PANEL_HD		0x0005001C
+ #define ASUS_WMI_DEVID_PANEL_OD		0x00050019
+ #define ASUS_WMI_DEVID_CAMERA		0x00060013
+ #define ASUS_WMI_DEVID_LID_FLIP		0x00060062
+-- 
+2.51.2
+
+
