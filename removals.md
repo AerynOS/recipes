@@ -215,3 +215,6 @@
 - linux-desktop
 - linux-desktop-devel
 - linux-desktop-dbginfo
+- linux-kvm
+- linux-kvm-devel
+- linux-kvm-dbginfo

@@ -2,8 +2,8 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : linux-kvm
-version     : "6.9.12"
-release     : 71
+version     : "0.0.0"
+release     : 72
 homepage    : https://kernel.org/
 upstreams   :
     - https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.9.12.tar.xz : 5ae7cc4e0e2f6b9ba630f643985ba0522c7d5e5b9571ba478a3cb513edd4cf22
@@ -12,60 +12,20 @@ description : |
     Minimalist kernel configuration supporting KVM host and not much else
 license     :
     - GPL-2.0-only
-builddeps   :
-    - binary(bc)
-    - binary(bison)
-    - binary(dracut)
-    - binary(flex)
-    - binary(grep)
-    - binary(gzip)
-    - binary(kmod)
-    - binary(less)
-    - binary(m4)
-    - binary(perl)
-    - binary(python3)
-    - binary(which)
-    - pkgconfig(gmp)
-    - pkgconfig(libelf)
-    - pkgconfig(libssl)
-    - pkgconfig(libzstd)
-    - pkgconfig(mpfr)
-    - gcc # libgcc_s.so.1 - needed until we get llvm-libgcc
-setup       : |
-    extraVersion="-%(release).kvm"
-    sed -e "s/EXTRAVERSION =.*/EXTRAVERSION = $extraVersion/" -i Makefile
-
-    %install_file %(pkgdir)/config-x86_64 .config
-    %patch %(pkgdir)/more-uarches-for-kernel-6.8-rc4+.patch
-    %make CC=clang ARCH=x86_64 LLVM=1 WERROR=0 oldconfig || exit 1
-build       : |
-    # Do NOT use CONFIG_DEBUG_SECTION_MISMATCH as it is GCC specific
-    %make VERBOSE=0 V=0 CC=clang ARCH=x86_64 LLVM=1 WERROR=0
-    %make -C tools/objtool VERBOSE=0 V=0 CC=clang ARCH=x86_64 LLVM=1 WERROR=0
 install     : |
-    kernelVersion="%(version)-%(release).kvm"
-    %install_exe arch/x86/boot/bzImage %(installroot)%(libdir)/kernel/${kernelVersion}/vmlinuz
+    for i in %(name) %(name)-devel; do
+        %install_dir %(installroot)%(docdir)/${i}
+        echo "DEPRECATED" > %(installroot)%(docdir)/${i}/README
+    done
+packages    :
+    - "%(name)":
+        rundeps:
+            - linux-stable
+        paths:
+            - /usr/share/doc/linux-kvm
 
-    %install_file .config %(installroot)%(libdir)/kernel/${kernelVersion}/config
-    %install_file System.map %(installroot)%(libdir)/kernel/${kernelVersion}/System.map
-
-    # Modules please
-    %install_dir %(installroot)%(libdir)/modules/${kernelVersion}
-    %make CC=clang ARCH=x86_64 LLVM=1 WERROR=0 INSTALL_MOD_STRIP=1 INSTALL_MOD_PATH=%(installroot)/usr modules_install KERNELRELEASE="${kernelVersion}" mod-fw= DEPMOD=/usr/bin/true
-    /usr/sbin/depmod -b %(installroot)/usr ${kernelVersion} -a
-
-    # TODO: Include early microcode
-    LD_PRELOAD='' dracut --strip --tmpdir /tmp -N -f \
-        --kmoddir %(installroot)%(libdir)/modules/${kernelVersion} --kver ${kernelVersion} --add "dash bash systemd virtiofs" \
-        --strip --hardlink --nomdadmconf --nolvmconf --add-drivers "qxl virtio-gpu" --zstd \
-        %(installroot)%(libdir)/kernel/${kernelVersion}/50-default.initrd
-
-    # No building against this kernel pls.
-    rm -rf %(installroot)%(libdir)/modules/${kernelVersion}/build
-    rm -rf %(installroot)%(libdir)/modules/${kernelVersion}/source
-
-    # Temporary: Help with VMs
-    ln -s ${kernelVersion}/50-default.initrd %(installroot)%(libdir)/kernel/current.kvm.initrd
-    ln -s ${kernelVersion}/vmlinuz %(installroot)%(libdir)/kernel/current.kvm.kernel
-    %install_file %(pkgdir)/boot.json %(installroot)%(libdir)/kernel/${kernelVersion}/boot.json
-    sed -e 's/@VERSION@/%(version)-%(release).kvm/g' -i %(installroot)%(libdir)/kernel/${kernelVersion}/boot.json
+    - "%(name)-devel":
+        rundeps:
+            - linux-stable-devel
+        paths:
+            - /usr/share/doc/linux-kvm-devel
