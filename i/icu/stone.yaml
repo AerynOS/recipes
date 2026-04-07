@@ -78,24 +78,24 @@ build       : |
     if [ -d ../compat ]; then
         pushd ../compat/source
             %ccache_zero
-            env CCACHE_BASEDIR="${pwd}" %make
+            env CCACHE_BASEDIR="${PWD}" %make
             %ccache_stats
         popd
     fi
 
     cd source
     %ccache_zero
-    env CCACHE_BASEDIR="${pwd}" %make
+    env CCACHE_BASEDIR="${PWD}" %make
     %ccache_stats
 install     : |
     if [ -d ../compat ]; then
         pushd ../compat/source
             mkdir tmp
-            make install DESTDIR="${pwd}/tmp"
+            make install DESTDIR="${PWD}/tmp"
 
             # Only copy the sonames
             %install_dir %(installroot)/%(libdir)
-            find ${pwd}/tmp/%(libdir) -name "*.so.*" -print -exec mv {} %(installroot)/%(libdir) \;
+            find ${PWD}/tmp/%(libdir) -name "*.so.*" -print -exec mv {} %(installroot)/%(libdir) \;
         popd
     fi
 

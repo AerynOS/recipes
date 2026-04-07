@@ -41,24 +41,24 @@ build       : |
     if [ -d ../compat ]; then
         pushd ../compat
             %ccache_zero
-            env CCACHE_BASEDIR="${pwd}" %meson_build
+            env CCACHE_BASEDIR="${PWD}" %meson_build
             %ccache_stats
         popd
     fi
 
     %ccache_zero
-    env CCACHE_BASEDIR="${pwd}" %meson_build
+    env CCACHE_BASEDIR="${PWD}" %meson_build
     %ccache_stats
 install     : |
     if [ -d ../compat ]; then
         pushd ../compat/
         mkdir tmp
-        DESTDIR="${pwd}/tmp" meson install --no-rebuild -C "%(builddir)"
+        DESTDIR="${PWD}/tmp" meson install --no-rebuild -C "%(builddir)"
 
         # Only copy the sonames and type info
         %install_dir %(installroot)/%(libdir)/girepository-1.0
-        find ${pwd}/tmp/%(libdir) -name "libgexiv2.so.*" -print -exec mv {} %(installroot)/%(libdir) \;
-        find ${pwd}/tmp/%(libdir) -name "GExiv2-0.10.typelib" -print -exec mv {} %(installroot)/%(libdir)/girepository-1.0 \;
+        find ${PWD}/tmp/%(libdir) -name "libgexiv2.so.*" -print -exec mv {} %(installroot)/%(libdir) \;
+        find ${PWD}/tmp/%(libdir) -name "GExiv2-0.10.typelib" -print -exec mv {} %(installroot)/%(libdir)/girepository-1.0 \;
         popd
     fi
 

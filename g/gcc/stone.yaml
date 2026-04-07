@@ -115,8 +115,8 @@ setup       : |
         --enable-libgdiagnostics
     popd
 build       : |
-    env CCACHE_BASEDIR=${pwd}/gcc_build %make -C gcc_build ${_build_step}
-    env CCACHE_BASEDIR=${pwd}/libgccjit_build %make -C libgccjit_build all-gcc
+    env CCACHE_BASEDIR=${PWD}/gcc_build %make -C gcc_build ${_build_step}
+    env CCACHE_BASEDIR=${PWD}/libgccjit_build %make -C libgccjit_build all-gcc
 
     cp -a libgccjit_build/gcc/libgccjit.so* gcc_build/gcc/
 install     : |

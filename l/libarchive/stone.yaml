@@ -70,7 +70,7 @@ build       : |
     for i in libarchive-static libarchive; do
         cat ${i}/Makefile
         %ccache_zero
-        env CCACHE_BASEDIR="${pwd}/${i}" %make -C ${i} V=1
+        env CCACHE_BASEDIR="${PWD}/${i}" %make -C ${i} V=1
         %ccache_stats
     done
 install     : |

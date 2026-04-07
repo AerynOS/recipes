@@ -33,23 +33,23 @@ build       : |
     if [ -d ../compat ]; then
         pushd ../compat
             %ccache_zero
-            env CCACHE_BASEDIR="${pwd}" %cmake_build
+            env CCACHE_BASEDIR="${PWD}" %cmake_build
             %ccache_stats
         popd
     fi
 
     %ccache_zero
-    env CCACHE_BASEDIR="${pwd}" %cmake_build
+    env CCACHE_BASEDIR="${PWD}" %cmake_build
     %ccache_stats
 install     : |
     if [ -d ../compat ]; then
         pushd ../compat
             mkdir tmp
-            DESTDIR="${pwd}/tmp" cmake --install "%(builddir)" --verbose
+            DESTDIR="${PWD}/tmp" cmake --install "%(builddir)" --verbose
 
             # Only copy the sonames
             %install_dir %(installroot)/%(libdir)
-            find ${pwd}/tmp/%(libdir) -name "libfmt.so.*" -print -exec mv {} %(installroot)/%(libdir) \;
+            find ${PWD}/tmp/%(libdir) -name "libfmt.so.*" -print -exec mv {} %(installroot)/%(libdir) \;
         popd
     fi
 

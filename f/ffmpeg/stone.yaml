@@ -268,14 +268,14 @@ build       : |
     if [ -d ../compat ]; then
         pushd ../compat
         %ccache_zero
-        export CCACHE_BASEDIR="${pwd}"
+        export CCACHE_BASEDIR="${PWD}"
         %make V=1
         %ccache_stats
         popd
     fi
 
     %ccache_zero
-    export CCACHE_BASEDIR="${pwd}"
+    export CCACHE_BASEDIR="${PWD}"
     %make V=1
     %ccache_stats
 install     : |

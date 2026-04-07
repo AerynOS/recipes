@@ -53,7 +53,7 @@ setup       : |
 build       : |
     if [ -d ../compat ]; then
         pushd ../compat
-            export CCACHE_BASEDIR="${pwd}"
+            export CCACHE_BASEDIR="${PWD}"
             pushd _build
             %ccache_zero
             %make
@@ -62,7 +62,7 @@ build       : |
         popd
     fi
 
-    export CCACHE_BASEDIR="${pwd}"
+    export CCACHE_BASEDIR="${PWD}"
     pushd _build
     %ccache_zero
     %make
@@ -73,12 +73,12 @@ install     : |
         pushd ../compat
             pushd _build
             mkdir tmp
-            make install DESTDIR="${pwd}/tmp"
+            make install DESTDIR="${PWD}/tmp"
 
             # Only copy the sonames
             %install_dir %(installroot)/%(libdir)
-            find ${pwd}/tmp%(libdir) -name "libvpx.so.*" -type l -print -exec mv {} %(installroot)%(libdir) \;
-            find ${pwd}/tmp%(libdir) -name "libvpx.so.*" -type f -print -exec mv {} %(installroot)%(libdir) \;
+            find ${PWD}/tmp%(libdir) -name "libvpx.so.*" -type l -print -exec mv {} %(installroot)%(libdir) \;
+            find ${PWD}/tmp%(libdir) -name "libvpx.so.*" -type f -print -exec mv {} %(installroot)%(libdir) \;
             popd
         popd
     fi

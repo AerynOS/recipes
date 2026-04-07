@@ -39,7 +39,7 @@ build       : |
     for _kernel in ${kernels[@]}; do
         pushd ${_kernel}
         %ccache_zero
-        export CCACHE_BASEDIR="${pwd}"
+        export CCACHE_BASEDIR="${PWD}"
         %make LLVM=1 KDIR="%(libdir)/modules/${_kernel}" KERNELRELEASE=${_kernel}
         %ccache_stats
         popd

@@ -79,7 +79,7 @@ build       : |
     # The gvim build is a superset of the vim build so we can hit a 100% ccache hit rate with the latter by using CCACHE_BASEDIR
     for build in gvim vim; do
         %ccache_zero
-        env CCACHE_BASEDIR=${pwd}/${build} %make -C ${build}
+        env CCACHE_BASEDIR=${PWD}/${build} %make -C ${build}
         %ccache_stats
     done
 install     : |
