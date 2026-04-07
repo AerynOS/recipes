@@ -2,15 +2,15 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : python
-version     : "3.14.3"
-release     : 19
+version     : "3.14.4"
+release     : 20
 summary     : Python language interpreter
 license     : Python-2.0
 homepage    : https://www.python.org
 description : |
     Python language interpreter
 upstreams   :
-    - https://www.python.org/ftp/python/3.14.3/Python-3.14.3.tar.xz: a97d5549e9ad81fe17159ed02c68774ad5d266c72f8d9a0b5a9c371fe85d902b
+    - https://www.python.org/ftp/python/3.14.4/Python-3.14.4.tar.xz: d923c51303e38e249136fc1bdf3568d56ecb03214efdef48516176d3d7faaef8
 builddeps   :
     # - binary(llvm-bolt)
     - binary(patchelf)
@@ -45,7 +45,6 @@ setup       : |
 
     %patch %(pkgdir)/CVE-2025-15366.patch
     %patch %(pkgdir)/CVE-2025-15367.patch
-    %patch %(pkgdir)/CVE-2026-4519.patch
 
     # enable-experimental-jit apparently requires LLVM 19?
     # enable-bolt has a very high (>64GB) memory requirement
