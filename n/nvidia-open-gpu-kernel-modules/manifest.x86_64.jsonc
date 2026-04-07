@@ -8,24 +8,16 @@
 				"binary(eu-readelf)",
 				"binary(jq)",
 				"binary(zstd)",
-				"linux-desktop",
-				"linux-desktop-devel",
 				"linux-lts",
-				"linux-lts-devel"
+				"linux-lts-devel",
+				"linux-stable",
+				"linux-stable-devel"
 			],
 			"depends": [
-				"linux-desktop",
-				"nvidia-graphics-driver-firmware",
-				"nvidia-open-gpu-kernel-modules-shared",
-				"sysbinary(depmod)"
+				"nvidia-open-gpu-kernel-modules-stable"
 			],
 			"files": [
-				"/usr/lib/kernel/6.18.21-138.desktop/60-nvidia.initrd",
-				"/usr/lib/modules/6.18.21-138.desktop/kernel/drivers/video/nvidia-drm.ko.zst",
-				"/usr/lib/modules/6.18.21-138.desktop/kernel/drivers/video/nvidia-modeset.ko.zst",
-				"/usr/lib/modules/6.18.21-138.desktop/kernel/drivers/video/nvidia-peermem.ko.zst",
-				"/usr/lib/modules/6.18.21-138.desktop/kernel/drivers/video/nvidia-uvm.ko.zst",
-				"/usr/lib/modules/6.18.21-138.desktop/kernel/drivers/video/nvidia.ko.zst"
+				"/usr/share/doc/nvidia-open-gpu-kernel-modules/README"
 			],
 			"name": "nvidia-open-gpu-kernel-modules"
 		},
@@ -35,10 +27,10 @@
 				"binary(eu-readelf)",
 				"binary(jq)",
 				"binary(zstd)",
-				"linux-desktop",
-				"linux-desktop-devel",
 				"linux-lts",
-				"linux-lts-devel"
+				"linux-lts-devel",
+				"linux-stable",
+				"linux-stable-devel"
 			],
 			"depends": [
 				"linux-lts",
@@ -62,19 +54,46 @@
 				"binary(eu-readelf)",
 				"binary(jq)",
 				"binary(zstd)",
-				"linux-desktop",
-				"linux-desktop-devel",
 				"linux-lts",
-				"linux-lts-devel"
+				"linux-lts-devel",
+				"linux-stable",
+				"linux-stable-devel"
 			],
 			"files": [
 				"/usr/lib/modprobe.d/nvidia-blacklist.conf",
 				"/usr/lib/modules-load.d/nvidia-uvm.conf"
 			],
 			"name": "nvidia-open-gpu-kernel-modules-shared"
+		},
+		"nvidia-open-gpu-kernel-modules-stable": {
+			"build-depends": [
+				"binary(cpio)",
+				"binary(eu-readelf)",
+				"binary(jq)",
+				"binary(zstd)",
+				"linux-lts",
+				"linux-lts-devel",
+				"linux-stable",
+				"linux-stable-devel"
+			],
+			"depends": [
+				"linux-stable",
+				"nvidia-graphics-driver-firmware",
+				"nvidia-open-gpu-kernel-modules-shared",
+				"sysbinary(depmod)"
+			],
+			"files": [
+				"/usr/lib/kernel/6.18.22-1.stable/60-nvidia.initrd",
+				"/usr/lib/modules/6.18.22-1.stable/kernel/drivers/video/nvidia-drm.ko.zst",
+				"/usr/lib/modules/6.18.22-1.stable/kernel/drivers/video/nvidia-modeset.ko.zst",
+				"/usr/lib/modules/6.18.22-1.stable/kernel/drivers/video/nvidia-peermem.ko.zst",
+				"/usr/lib/modules/6.18.22-1.stable/kernel/drivers/video/nvidia-uvm.ko.zst",
+				"/usr/lib/modules/6.18.22-1.stable/kernel/drivers/video/nvidia.ko.zst"
+			],
+			"name": "nvidia-open-gpu-kernel-modules-stable"
 		}
 	},
 	"source-name": "nvidia-open-gpu-kernel-modules",
-	"source-release": "79",
+	"source-release": "80",
 	"source-version": "595.58.03"
 }

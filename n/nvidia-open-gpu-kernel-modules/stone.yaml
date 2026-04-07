@@ -3,7 +3,7 @@
 
 name        : nvidia-open-gpu-kernel-modules
 version     : "595.58.03"
-release     : 79
+release     : 80
 homepage    : https://github.com/NVIDIA/open-gpu-kernel-modules
 upstreams   :
     - https://download.nvidia.com/XFree86/NVIDIA-kernel-module-source/NVIDIA-kernel-module-source-595.58.03.tar.xz:
@@ -19,10 +19,12 @@ builddeps   :
     - binary(eu-readelf)
     - binary(jq)
     - binary(zstd)
-    - linux-desktop
-    - linux-desktop-devel
+    # - linux-gaming
+    # - linux-gaming-devel
     - linux-lts
     - linux-lts-devel
+    - linux-stable
+    - linux-stable-devel
 tuning      :
     - asneeded: false
     - base: false
@@ -64,6 +66,9 @@ build       : |
 install     : |
     %install_file %(pkgdir)/nvidia-blacklist.conf %(installroot)%(libdir)/modprobe.d/nvidia-blacklist.conf
     %install_file %(pkgdir)/nvidia-uvm.conf %(installroot)%(libdir)/modules-load.d/nvidia-uvm.conf
+
+    %install_dir %(installroot)%(docdir)/%(name)/
+    echo "VIRTUAL" > %(installroot)%(docdir)/%(name)/README
 
     for _kernel in ${kernels[@]}; do
         pushd ${_kernel}
@@ -120,15 +125,21 @@ packages    :
     # TODO: Make this a virtual package that depends on the correct subpackage (-shared can be merged into it)
     - "%(name)":
         rundeps:
-            - "%(name)-shared"
-            - nvidia-graphics-driver-firmware
-            - sysbinary(depmod)
+            # For backwards compat, remove with conditional deps
+            - "%(name)-stable"
 
-            - linux-desktop
-        paths:
-            # For backwards compat
-            - /usr/lib/kernel/*.desktop/
-            - /usr/lib/modules/*.desktop/
+    # - "%(name)-gaming":
+    #     summary: "%(name) built for gaming kernel"
+    #     description: "%(name) built for gaming kernel"
+    #     rundeps:
+    #         - "%(name)-shared"
+    #         - nvidia-graphics-driver-firmware
+    #         - sysbinary(depmod)
+
+    #         - linux-gaming
+    #     paths:
+    #         - /usr/lib/kernel/*.gaming/
+    #         - /usr/lib/modules/*.gaming/
 
     - "%(name)-lts":
         summary: "%(name) built for LTS kernel"
@@ -142,3 +153,16 @@ packages    :
         paths:
             - /usr/lib/kernel/*.lts/
             - /usr/lib/modules/*.lts/
+
+    - "%(name)-stable":
+        summary: "%(name) built for stable kernel"
+        description: "%(name) built for stable kernel"
+        rundeps:
+            - "%(name)-shared"
+            - nvidia-graphics-driver-firmware
+            - sysbinary(depmod)
+
+            - linux-stable
+        paths:
+            - /usr/lib/kernel/*.stable/
+            - /usr/lib/modules/*.stable/
