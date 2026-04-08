@@ -4,8 +4,6 @@
 	"packages": {
 		"foot": {
 			"build-depends": [
-				"binary(meson)",
-				"binary(ninja)",
 				"binary(scdoc)",
 				"binary(tic)",
 				"pkgconfig(fcft)",
@@ -30,7 +28,8 @@
 				"soname(libpixman-1.so.0(x86_64))",
 				"soname(libwayland-client.so.0(x86_64))",
 				"soname(libwayland-cursor.so.0(x86_64))",
-				"soname(libxkbcommon.so.0(x86_64))"
+				"soname(libxkbcommon.so.0(x86_64))",
+				"terminfo-foot"
 			],
 			"files": [
 				"/usr/bin/foot",
@@ -138,8 +137,6 @@
 				"/usr/share/man/man1/footclient.1",
 				"/usr/share/man/man5/foot.ini.5",
 				"/usr/share/man/man7/foot-ctlseqs.7",
-				"/usr/share/terminfo/f/foot-extra",
-				"/usr/share/terminfo/f/foot-extra-direct",
 				"/usr/share/zsh/site-functions/_foot",
 				"/usr/share/zsh/site-functions/_footclient"
 			],
@@ -148,9 +145,32 @@
 				"binary(foot)",
 				"binary(footclient)"
 			]
+		},
+		"terminfo-foot": {
+			"build-depends": [
+				"binary(scdoc)",
+				"binary(tic)",
+				"pkgconfig(fcft)",
+				"pkgconfig(fontconfig)",
+				"pkgconfig(freetype2)",
+				"pkgconfig(ncurses)",
+				"pkgconfig(pixman-1)",
+				"pkgconfig(systemd)",
+				"pkgconfig(tllist)",
+				"pkgconfig(wayland-client)",
+				"pkgconfig(wayland-cursor)",
+				"pkgconfig(wayland-protocols)",
+				"pkgconfig(wayland-scanner)",
+				"pkgconfig(xkbcommon)"
+			],
+			"files": [
+				"/usr/share/terminfo/f/foot",
+				"/usr/share/terminfo/f/foot-direct"
+			],
+			"name": "terminfo-foot"
 		}
 	},
 	"source-name": "foot",
-	"source-release": "2",
-	"source-version": "1.25.0"
+	"source-release": "3",
+	"source-version": "1.26.1"
 }
