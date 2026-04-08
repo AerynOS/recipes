@@ -1,4 +1,4 @@
-From 4658081050d245b515333e5639b118e3fa6168dd Mon Sep 17 00:00:00 2001
+From aeaafdada4b8052c7929142cb9e4032dd947c84d Mon Sep 17 00:00:00 2001
 From: "Bart Groeneveld | GPX Solutions B.V" <bart@gpxbv.nl>
 Date: Mon, 5 Dec 2022 16:08:46 +0100
 Subject: [PATCH 39/41] acpi: allow usage of acpi_tad on HW-reduced platforms
@@ -21,10 +21,10 @@ Patchset: rtc
  1 file changed, 24 insertions(+), 12 deletions(-)
 
 diff --git a/drivers/acpi/acpi_tad.c b/drivers/acpi/acpi_tad.c
-index 33418dd6768a..f94bbdc1de06 100644
+index 6d870d97ada6..a19cd08e1554 100644
 --- a/drivers/acpi/acpi_tad.c
 +++ b/drivers/acpi/acpi_tad.c
-@@ -433,6 +433,14 @@ static ssize_t caps_show(struct device *dev, struct device_attribute *attr,
+@@ -438,6 +438,14 @@ static ssize_t caps_show(struct device *dev, struct device_attribute *attr,
  
  static DEVICE_ATTR_RO(caps);
  
@@ -39,7 +39,7 @@ index 33418dd6768a..f94bbdc1de06 100644
  static ssize_t ac_alarm_store(struct device *dev, struct device_attribute *attr,
  			      const char *buf, size_t count)
  {
-@@ -481,15 +489,14 @@ static ssize_t ac_status_show(struct device *dev, struct device_attribute *attr,
+@@ -486,15 +494,14 @@ static ssize_t ac_status_show(struct device *dev, struct device_attribute *attr,
  
  static DEVICE_ATTR_RW(ac_status);
  
@@ -58,7 +58,7 @@ index 33418dd6768a..f94bbdc1de06 100644
  };
  
  static ssize_t dc_alarm_store(struct device *dev, struct device_attribute *attr,
-@@ -568,13 +575,18 @@ static void acpi_tad_remove(struct platform_device *pdev)
+@@ -571,14 +578,19 @@ static void acpi_tad_remove(struct platform_device *pdev)
  	if (dd->capabilities & ACPI_TAD_RT)
  		sysfs_remove_group(&dev->kobj, &acpi_tad_time_attr_group);
  
@@ -70,16 +70,17 @@ index 33418dd6768a..f94bbdc1de06 100644
  
  	sysfs_remove_group(&dev->kobj, &acpi_tad_attr_group);
  
--	acpi_tad_disable_timer(dev, ACPI_TAD_AC_TIMER);
--	acpi_tad_clear_status(dev, ACPI_TAD_AC_TIMER);
-+	if (dd->capabilities & ACPI_TAD_AC_WAKE) {
-+		acpi_tad_disable_timer(dev, ACPI_TAD_AC_TIMER);
-+		acpi_tad_clear_status(dev, ACPI_TAD_AC_TIMER);
-+	}
- 	if (dd->capabilities & ACPI_TAD_DC_WAKE) {
- 		acpi_tad_disable_timer(dev, ACPI_TAD_DC_TIMER);
- 		acpi_tad_clear_status(dev, ACPI_TAD_DC_TIMER);
-@@ -616,12 +628,6 @@ static int acpi_tad_probe(struct platform_device *pdev)
+ 	scoped_guard(pm_runtime_noresume, dev) {
+-		acpi_tad_disable_timer(dev, ACPI_TAD_AC_TIMER);
+-		acpi_tad_clear_status(dev, ACPI_TAD_AC_TIMER);
++		if (dd->capabilities & ACPI_TAD_AC_WAKE) {
++			acpi_tad_disable_timer(dev, ACPI_TAD_AC_TIMER);
++			acpi_tad_clear_status(dev, ACPI_TAD_AC_TIMER);
++		}
+ 		if (dd->capabilities & ACPI_TAD_DC_WAKE) {
+ 			acpi_tad_disable_timer(dev, ACPI_TAD_DC_TIMER);
+ 			acpi_tad_clear_status(dev, ACPI_TAD_DC_TIMER);
+@@ -621,12 +633,6 @@ static int acpi_tad_probe(struct platform_device *pdev)
  		goto remove_handler;
  	}
  
@@ -92,7 +93,7 @@ index 33418dd6768a..f94bbdc1de06 100644
  	dd = devm_kzalloc(dev, sizeof(*dd), GFP_KERNEL);
  	if (!dd) {
  		ret = -ENOMEM;
-@@ -652,6 +658,12 @@ static int acpi_tad_probe(struct platform_device *pdev)
+@@ -657,6 +663,12 @@ static int acpi_tad_probe(struct platform_device *pdev)
  	if (ret)
  		goto fail;
  
