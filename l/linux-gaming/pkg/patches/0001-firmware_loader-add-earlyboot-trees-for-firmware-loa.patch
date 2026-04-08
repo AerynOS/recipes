@@ -1,0 +1,32 @@
+From 0a9340a176df158892a369000ccc0319640e27d9 Mon Sep 17 00:00:00 2001
+From: Ikey Doherty <ikey@serpentos.com>
+Date: Thu, 19 Dec 2024 00:43:49 +0000
+Subject: [PATCH] firmware_loader: add earlyboot trees for firmware loading
+
+Credit to Reilly Brogan for his implementation in Solus, which followed
+some design discussions we had on how to nicely handle early boot firmware
+and drivers.
+
+Signed-off-by: Ikey Doherty <ikey@serpentos.com>
+---
+ drivers/base/firmware_loader/main.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/base/firmware_loader/main.c b/drivers/base/firmware_loader/main.c
+index c6664a787..def7f2e97 100644
+--- a/drivers/base/firmware_loader/main.c
++++ b/drivers/base/firmware_loader/main.c
+@@ -474,7 +474,9 @@ static const char * const fw_path[] = {
+ 	"/lib/firmware/updates/" UTS_RELEASE,
+ 	"/lib/firmware/updates",
+ 	"/lib/firmware/" UTS_RELEASE,
+-	"/lib/firmware"
++	"/lib/firmware",
++	"/eb-nvidia-fw",
++	"/eb-fw"
+ };
+ 
+ /*
+-- 
+2.47.1
+
