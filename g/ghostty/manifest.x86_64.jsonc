@@ -37,7 +37,8 @@
 				"soname(libharfbuzz.so.0(x86_64))",
 				"soname(libm.so.6(x86_64))",
 				"soname(libonig.so.5(x86_64))",
-				"soname(libwayland-client.so.0(x86_64))"
+				"soname(libwayland-client.so.0(x86_64))",
+				"terminfo-ghostty"
 			],
 			"files": [
 				"/usr/bin/ghostty",
@@ -571,7 +572,6 @@
 				"/usr/share/nvim/site/ftdetect/ghostty.vim",
 				"/usr/share/nvim/site/ftplugin/ghostty.vim",
 				"/usr/share/nvim/site/syntax/ghostty.vim",
-				"/usr/share/terminfo/x/xterm-ghostty",
 				"/usr/share/vim/vimfiles/compiler/ghostty.vim",
 				"/usr/share/vim/vimfiles/ftdetect/ghostty.vim",
 				"/usr/share/vim/vimfiles/ftplugin/ghostty.vim",
@@ -625,9 +625,34 @@
 			"provides": [
 				"pkgconfig(libghostty-vt)"
 			]
+		},
+		"terminfo-ghostty": {
+			"build-depends": [
+				"binary(gettext)",
+				"binary(pandoc)",
+				"binary(tic)",
+				"binary(zig-0.15)",
+				"glslang-devel",
+				"pkgconfig(blueprint-compiler)",
+				"pkgconfig(freetype2)",
+				"pkgconfig(gtk4)",
+				"pkgconfig(gtk4-layer-shell-0)",
+				"pkgconfig(harfbuzz)",
+				"pkgconfig(libadwaita-1)",
+				"pkgconfig(libhwy)",
+				"pkgconfig(libpng)",
+				"pkgconfig(libxml-2.0)",
+				"pkgconfig(oniguruma)",
+				"pkgconfig(zlib)"
+			],
+			"files": [
+				"/usr/share/terminfo/g/ghostty",
+				"/usr/share/terminfo/x/xterm-ghostty"
+			],
+			"name": "terminfo-ghostty"
 		}
 	},
 	"source-name": "ghostty",
-	"source-release": "6",
+	"source-release": "7",
 	"source-version": "1.3.1"
 }
