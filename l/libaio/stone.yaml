@@ -3,7 +3,7 @@
 
 name        : libaio
 version     : "0.3.113"
-release     : 2
+release     : 3
 homepage    : https://pagure.io/libaio/
 upstreams   :
     - https://pagure.io/libaio/archive/libaio-0.3.113/libaio-libaio-0.3.113.tar.gz : 716c7059703247344eb066b54ecbc3ca2134f0103307192e6c2b7dab5f9528ab
@@ -20,3 +20,6 @@ build       : |
     %make
 install     : |
     %make_install
+
+    # No static
+    rm -rfv %(installroot)%(libdir)/lib*.a
