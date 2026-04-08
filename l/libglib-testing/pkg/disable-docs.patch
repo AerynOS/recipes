@@ -1,0 +1,8 @@
+--- a/libglib-testing/meson.build	2026-03-17 21:33:40.000000000 +0100
++++ b/libglib-testing/meson.build	2026-04-08 04:29:50.088172408 +0200
+@@ -48,5 +48,4 @@ if not meson.is_subproject()
+   )
+ endif
+ 
+-subdir('docs')
+ subdir('tests')
