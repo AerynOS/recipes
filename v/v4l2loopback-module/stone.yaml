@@ -3,7 +3,7 @@
 
 name        : v4l2loopback-module
 version     : "0.15.3"
-release     : 3
+release     : 4
 homepage    : https://github.com/umlaeute/v4l2loopback
 upstreams   :
     - https://github.com/umlaeute/v4l2loopback/archive/refs/tags/v0.15.3.tar.gz:
@@ -19,7 +19,7 @@ license     : GPL-2.0-only
 builddeps   :
     - binary(eu-readelf)
     - binary(zstd)
-    # - linux-gaming-devel
+    - linux-gaming-devel
     - linux-lts-devel
     - linux-stable-devel
 environment : |
@@ -60,7 +60,7 @@ install     : |
             module_list+=("$REPLY")
         done < <(find . -type f -name "*.ko" -print0)
         for module in "${module_list[@]}"; do
-            build_id=$(eu-readelf -n ${module} | grep Bui | awk '{print $3}')
+            build_id=$(eu-readelf -n ${module} | awk '/Bui/ {print $3}')
             debug_path="%(libdir)/debug/.build-id/${build_id:0:2}/${build_id: 2}.debug"
 
             pushd $(dirname ${module})
@@ -84,15 +84,15 @@ install     : |
 packages    :
     # TODO: Make %(name) a virtual package that uses conditional rundeps to pull in the correct package depending on kernel(s) installed
 
-    # - "%(name)-gaming":
-    #     summary: "%(name) built for gaming kernel"
-    #     description: "%(name) built for gaming kernel"
-    #     rundeps:
-    #         - sysbinary(depmod)
-    #         - linux-gaming
-    #     paths:
-    #         - /usr/lib/kernel/*.gaming/
-    #         - /usr/lib/modules/*.gaming/
+    - "%(name)-gaming":
+        summary: "%(name) built for gaming kernel"
+        description: "%(name) built for gaming kernel"
+        rundeps:
+            - sysbinary(depmod)
+            - linux-gaming
+        paths:
+            - /usr/lib/kernel/*.gaming/
+            - /usr/lib/modules/*.gaming/
 
     - "%(name)-lts":
         summary: "%(name) built for LTS kernel"
