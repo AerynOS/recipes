@@ -1,4 +1,4 @@
-From 652839ecc85fc2856d0a6c52498d61c04851c41f Mon Sep 17 00:00:00 2001
+From 68ef8884580b83c5523f3766e86f5d5e9c00cfa7 Mon Sep 17 00:00:00 2001
 From: Tooraj Taraz <tooraj.taraz@yahoo.com>
 Date: Wed, 31 Dec 2025 00:35:50 +0100
 Subject: [PATCH 35/41] Add camera support for Surface Pro 9
@@ -262,7 +262,7 @@ index 162b49046990..85cd0c98af03 100644
  	},
  	.probe = ov13858_probe,
 diff --git a/drivers/media/i2c/ov5693.c b/drivers/media/i2c/ov5693.c
-index d294477f9dd3..46bc6c5b7758 100644
+index 4cc796bbee92..02236f3db19d 100644
 --- a/drivers/media/i2c/ov5693.c
 +++ b/drivers/media/i2c/ov5693.c
 @@ -1396,6 +1396,7 @@ static const struct dev_pm_ops ov5693_pm_ops = {
@@ -274,10 +274,10 @@ index d294477f9dd3..46bc6c5b7758 100644
  };
  MODULE_DEVICE_TABLE(acpi, ov5693_acpi_match);
 diff --git a/drivers/media/pci/intel/ipu-bridge.c b/drivers/media/pci/intel/ipu-bridge.c
-index 4e579352ab2c..ac637207b644 100644
+index b2b710094914..f5456330bbc9 100644
 --- a/drivers/media/pci/intel/ipu-bridge.c
 +++ b/drivers/media/pci/intel/ipu-bridge.c
-@@ -60,6 +60,10 @@ static const struct ipu_sensor_config ipu_supported_sensors[] = {
+@@ -61,6 +61,10 @@ static const struct ipu_sensor_config ipu_supported_sensors[] = {
  	IPU_SENSOR_CONFIG("INT33BE", 1, 419200000),
  	/* Onsemi MT9M114 */
  	IPU_SENSOR_CONFIG("INT33F0", 1, 384000000),
@@ -300,7 +300,7 @@ index 1505fc3ef7a8..20962e8acb26 100644
 +		*con_id = "pwr1";
 +		*gpio_flags = GPIO_ACTIVE_HIGH;
 +		break;
-+	case 0x10:  /* Surface Pro 9 - secondary power rail */
++	case 0x11:  /* Surface Pro 9 - secondary power rail */
 +		*con_id = "pwr2";
 +		*gpio_flags = GPIO_ACTIVE_HIGH;
 +		break;
@@ -312,7 +312,7 @@ index 1505fc3ef7a8..20962e8acb26 100644
  	case INT3472_GPIO_TYPE_POWER_ENABLE:
  	case INT3472_GPIO_TYPE_HANDSHAKE:
 +	case 0x08:  /* Surface Pro 9 power rails */
-+	case 0x10:
++	case 0x11:
  		gpio = skl_int3472_gpiod_get_from_temp_lookup(int3472, agpio, con_id, gpio_flags);
  		if (IS_ERR(gpio)) {
  			ret = PTR_ERR(gpio);
@@ -331,7 +331,7 @@ index 1505fc3ef7a8..20962e8acb26 100644
 +			dev_err(int3472->dev, "Failed to register type 0x02x: %d\n", type, ret);
 +		    }
 +		    break;
-+		case 0x10:
++		case 0x11:
 +		    break;
  		default: /* Never reached */
  			ret = -EINVAL;

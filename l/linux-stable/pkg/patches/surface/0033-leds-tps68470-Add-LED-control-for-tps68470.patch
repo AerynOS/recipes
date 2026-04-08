@@ -1,4 +1,4 @@
-From 86d68e16a7aee5b4f0568b842a5b2b8a7907b916 Mon Sep 17 00:00:00 2001
+From 11206954f33d23fd41dd684869e5a2458871b50d Mon Sep 17 00:00:00 2001
 From: Kate Hsuan <hpa@redhat.com>
 Date: Tue, 21 Mar 2023 23:37:18 +0800
 Subject: [PATCH 33/41] leds: tps68470: Add LED control for tps68470
@@ -21,10 +21,10 @@ Patchset: cameras
  create mode 100644 drivers/leds/leds-tps68470.c
 
 diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
-index 06e6291be11b..8f94924ef379 100644
+index 11e7282dc297..c5665bd5e522 100644
 --- a/drivers/leds/Kconfig
 +++ b/drivers/leds/Kconfig
-@@ -1002,6 +1002,18 @@ config LEDS_TPS6105X
+@@ -998,6 +998,18 @@ config LEDS_TPS6105X
  	  It is a single boost converter primarily for white LEDs and
  	  audio amplifiers.
  

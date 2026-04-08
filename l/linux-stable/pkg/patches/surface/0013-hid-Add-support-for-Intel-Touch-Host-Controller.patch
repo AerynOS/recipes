@@ -1,4 +1,4 @@
-From 6a4e9c31e39e92ca1fea20632d41df7d67f666f3 Mon Sep 17 00:00:00 2001
+From af6640243558fd7ea7d18ddbaee81282df97ed86 Mon Sep 17 00:00:00 2001
 From: quo <tuple@list.ru>
 Date: Sun, 11 Dec 2022 12:10:54 +0100
 Subject: [PATCH 13/41] hid: Add support for Intel Touch Host Controller
@@ -45,10 +45,10 @@ Patchset: ithc
  create mode 100644 drivers/hid/ithc/ithc.h
 
 diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
-index c639bb1f6733..b148be159c6b 100644
+index 5d41410ac567..fb65f49b5f65 100644
 --- a/drivers/hid/Kconfig
 +++ b/drivers/hid/Kconfig
-@@ -1442,6 +1442,8 @@ source "drivers/hid/intel-thc-hid/Kconfig"
+@@ -1445,6 +1445,8 @@ source "drivers/hid/intel-thc-hid/Kconfig"
  
  source "drivers/hid/ipts/Kconfig"
  

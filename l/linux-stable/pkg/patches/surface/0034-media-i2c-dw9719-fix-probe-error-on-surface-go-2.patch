@@ -1,4 +1,4 @@
-From 38402757f9881b3afd7b1b33c9c0a66f9a80379f Mon Sep 17 00:00:00 2001
+From f0906d94b7e147f8e742646c57d67a1839ebb2f3 Mon Sep 17 00:00:00 2001
 From: mojyack <mojyack@gmail.com>
 Date: Tue, 26 Mar 2024 05:55:44 +0900
 Subject: [PATCH 34/41] media: i2c: dw9719: fix probe error on surface go 2
@@ -14,19 +14,19 @@ Patchset: cameras
  1 file changed, 3 insertions(+)
 
 diff --git a/drivers/media/i2c/dw9719.c b/drivers/media/i2c/dw9719.c
-index 032fbcb981f2..e03a1d8cdcb4 100644
+index 59558335989e..b89765521af5 100644
 --- a/drivers/media/i2c/dw9719.c
 +++ b/drivers/media/i2c/dw9719.c
-@@ -87,6 +87,9 @@ static int dw9719_power_up(struct dw9719_device *dw9719, bool detect)
+@@ -121,6 +121,9 @@ static int dw9719_power_up(struct dw9719_device *dw9719, bool detect)
  	if (ret)
  		return ret;
  
 +	/* Wait for device to be acknowledged */
 +	fsleep(10000);
 +
- 	/* Jiggle SCL pin to wake up device */
- 	cci_write(dw9719->regmap, DW9719_CONTROL, DW9719_SHUTDOWN, &ret);
- 	fsleep(100);
+ 	/*
+ 	 * Need 100us to transition from SHUTDOWN to STANDBY.
+ 	 * Jiggle the SCL pin to wake up the device (even when the regulator is
 -- 
 2.52.0
 
