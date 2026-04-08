@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : dankmaterialshell
-version     : "1.4.4"
-release     : 7
+version     : "1.4.4.1"
+release     : 8
 homepage    : https://danklinux.com/
 upstreams   :
-    - https://github.com/AvengeMedia/DankMaterialShell/archive/refs/tags/v1.4.4.tar.gz : 9a23a717eef088da3d25b355d4f13feff7499bbafe5e93c9fa379ee15e962709
+    - https://github.com/AvengeMedia/DankMaterialShell/archive/refs/tags/v1.4.4.1.tar.gz : 61c2d1828d7604b69eced61af43db86bd3349dbe3f2e65fd2f4b65cddd449e55
 summary     : Desktop shell for wayland compositor
 description : |
     DankMaterialShell (dms) is a Wayland desktop shell built with Quickshell and Go. It serves a purpose similar to GNOME Shell or KDE Plasma, providing a unified interface for launching applications, managing windows, managing hardware interfaces, notifications, and much more.
@@ -22,13 +22,10 @@ rundeps     :
     - binary(quickshell)
 networking  : true
 setup       : |
-    %patch %(pkgdir)/0001-Allow-root-check-to-be-overridden.patch
-
     cd core/cmd/dms
     go mod vendor
 build       : |
     pushd core/cmd/dms
-    export CGO_CPPFLAGS="${CPPFLAGS}"
     export CGO_CFLAGS="${CFLAGS}"
     export CGO_CXXFLAGS="${CXXFLAGS}"
     export CGO_LDFLAGS="${LDFLAGS}"
