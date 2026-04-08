@@ -1,0 +1,162 @@
+# Enable x86_64-v2 build optimisations
+more-ISA-levels-and-uarches-for-kernel-6.16+.patch
+
+# Add linux-asus patches
+# https://github.com/OpenGamingCollective/linux/pull/11
+asus/0001-FOR-UPSTREAM-hid-asus-ally-Add-joystick-LED-ring-sup.patch
+asus/0002-FOR-UPSTREAM-hid-asus-ally-do-MCY-FW-validation-in-h.patch
+asus/0003-FOR-UPSTREAM-hid-asus-ally-initial-Ally-X-gamepad-br.patch
+asus/0004-FOR-UPSTREAM-hid-asus-ally-initial-gamepad-configura.patch
+asus/0005-FOR-UPSTREAM-hid-asus-ally-add-button-remap-attribut.patch
+asus/0006-FOR-UPSTREAM-hid-asus-ally-add-gamepad-mode-selectio.patch
+asus/0007-FOR-UPSTREAM-hid-asus-ally-Turbo-settings-for-button.patch
+asus/0008-FOR-UPSTREAM-hid-asus-ally-add-vibration-intensity-s.patch
+asus/0009-FOR-UPSTREAM-hid-asus-ally-add-JS-deadzones.patch
+asus/0010-FOR-UPSTREAM-hid-asus-ally-add-trigger-deadzones.patch
+asus/0011-FOR-UPSTREAM-hid-asus-ally-add-anti-deadzones.patch
+asus/0012-FOR-UPSTREAM-hid-asus-ally-add-JS-response-curves.patch
+asus/0013-FOR-UPSTREAM-hid-asus-ally-mcu_version-attribute.patch
+asus/0014-FOR-UPSTREAM-hid-asus-ally-add-calibrations-wip.patch
+asus/0015-FOR-UPSTREAM-debug-by-default.patch
+asus/0016-FOR-UPSTREAM-hid-asus-ally-grab-short-press-QAM-on-R.patch
+asus/0017-FOR-UPSTREAM-hid-asus-ally-disable-wakeup-attribute-.patch
+
+# Gaming patches from CachyOS and Manjaro
+gaming/0000-usb-vhci-hcd-Unconditionally-allow-system-suspend.patch
+gaming/0001-hwmon-Add-driver-for-Steam-Deck-s-EC-sensors.patch
+gaming/0002-hwmon-steamdeck-hwmon-Add-support-for-max-battery-le.patch
+gaming/0003-leds-steamdeck-Add-support-for-Steam-Deck-LED.patch
+gaming/0004-mfd-Add-MFD-core-driver-for-Steam-Deck.patch
+gaming/0005-mfd-steamdeck-Expose-controller-board-power-in-sysfs.patch
+gaming/0008-Disable-modes-with-1200-MHz-Pixel-clocks-when-connec.patch
+gaming/0009-drm-amdgpu-Don-t-use-doorbells-for-SDMA-5.2.patch
+gaming/0010-Add-2s-delay-before-enabling-DP-link-for-dock.patch
+gaming/0011-drivers-video-backlight-Disable-backlight-notificati.patch
+gaming/0014-ASoC-max98388-Fix-power-on-when-resuming-from-suspen.patch
+gaming/0015-ASoC-amd-acp-Use-correct-DAI-link-ID-for-BT-codec.patch
+gaming/0016-wifi-ath11k-Rename-QCA2066-fw-dir-to-QCA206X.patch
+gaming/0000-HID-Add-Legion-Go-S-Driver.patch
+
+# ZOTAC patches by Luke and Philip
+zotac/0001-zotac-zone-hid-initial-impl.patch
+zotac/0002-xpad-gate-the-zotac-zone-PID-behind-if-IS_REACHABLE-.patch
+zotac/0003-tmp-apply-zotac-screen-quirk.patch
+zotac/0005-zone-fix-6.15-rename-del_timer-to-timer_delete.patch
+
+# MS Surface device patches
+# https://github.com/linux-surface/kernel/tree/v6.19-surface
+surface/0001-Revert-efi-x86-Set-the-PE-COFF-header-s-NX-compat-fl.patch
+surface/0002-PM-hibernate-Add-a-lockdown_hibernate-parameter.patch
+surface/0003-surface3-oemb-add-DMI-matches-for-Surface-3-with-bro.patch
+surface/0004-surface3-spi-workaround-disable-DMA-mode-to-avoid-cr.patch
+surface/0005-mwifiex-Add-quirk-resetting-the-PCI-bridge-on-MS-Sur.patch
+surface/0006-mwifiex-pcie-disable-bridge_d3-for-Surface-gen4.patch
+surface/0007-Bluetooth-btusb-Lower-passive-lescan-interval-on-Mar.patch
+surface/0008-ath10k-Add-module-parameters-to-override-board-files.patch
+surface/0009-mei-me-Add-Icelake-device-ID-for-iTouch.patch
+surface/0010-iommu-Use-IOMMU-passthrough-mode-for-IPTS.patch
+surface/0011-hid-Add-support-for-Intel-Precise-Touch-and-Stylus.patch
+surface/0012-iommu-intel-Disable-source-id-verification-for-ITHC.patch
+surface/0013-hid-Add-support-for-Intel-Touch-Host-Controller.patch
+surface/0014-rtc-Add-basic-support-for-RTC-via-Surface-System-Agg.patch
+surface/0015-platform-surface-aggregator_registry-Add-Surface-Lap.patch
+surface/0016-i2c-acpi-Implement-RawBytes-read-access.patch
+surface/0017-platform-surface-Add-driver-for-Surface-Book-1-dGPU-.patch
+surface/0018-Input-soc_button_array-support-AMD-variant-Surface-d.patch
+surface/0019-platform-surface-surfacepro3_button-don-t-load-on-am.patch
+surface/0020-USB-quirks-Add-USB_QUIRK_DELAY_INIT-for-Surface-Go-3.patch
+surface/0021-hid-multitouch-Turn-off-Type-Cover-keyboard-backligh.patch
+surface/0022-hid-multitouch-Add-support-for-surface-pro-type-cove.patch
+surface/0023-PCI-Add-quirk-to-prevent-calling-shutdown-method.patch
+surface/0024-PCI-Add-Surface-Laptop-Studio-2-devices-to-shutdown-.patch
+surface/0025-platform-surface-gpe-Add-support-for-Surface-Pro-9.patch
+surface/0026-ACPI-delay-enumeration-of-devices-with-a-_DEP-pointi.patch
+surface/0027-iommu-intel-ipu-use-IOMMU-passthrough-mode-for-Intel.patch
+surface/0028-platform-x86-int3472-Enable-I2c-daisy-chain.patch
+surface/0029-media-i2c-Clarify-that-gain-is-Analogue-gain-in-OV72.patch
+surface/0030-media-v4l2-core-Acquire-privacy-led-in-v4l2_async_re.patch
+surface/0031-platform-x86-int3472-Add-MFD-cell-for-tps68470-LED.patch
+surface/0032-include-mfd-tps68470-Add-masks-for-LEDA-and-LEDB.patch
+surface/0033-leds-tps68470-Add-LED-control-for-tps68470.patch
+surface/0034-media-i2c-dw9719-fix-probe-error-on-surface-go-2.patch
+# Modified to 0x11 due to https://github.com/torvalds/linux/commit/2a7b765
+surface/0035-Add-camera-support-for-Surface-Pro-9.patch
+surface/0036-media-ipu-bridge-Add-front-camera-rotation-quirks-fo.patch
+surface/0037-ACPI-Add-quirk-for-Surface-Laptop-4-AMD-missing-irq-.patch
+surface/0038-ACPI-Add-AMD-13-Surface-Laptop-4-model-to-irq-7-over.patch
+surface/0039-acpi-allow-usage-of-acpi_tad-on-HW-reduced-platforms.patch
+surface/0040-HID-Add-hid-surface-driver-to-filter-BTN_0-FN-key.patch
+surface/0041-hid-multitouch-Prevent-mode-set-on-Surface-Laptop-St.patch
+
+# amdgpu patches that make it easier to control
+# whether to use radeon or amdgpu from the kernel cmd-line
+0001-Add-kernel-arg-to-enable-amdgpu-overdrive.patch
+
+# Various amdgpu tweaks
+# [PATCH v4] drm/amd: VRR fixes, HDMI Gaming Features
+# https://patchew.org/linux/20260216164516.36803-1-tomasz.pakula.oficjalny@gmail.com/
+hdmi/0001-drm-amd-display-Return-if-DisplayID-not-found-in-parse_amd_vsdb.patch
+hdmi/0002-drm-amd-display-Refactor-amdgpu_dm_update_freesync_caps.patch
+hdmi/0003-drm-amd-display-Remove-redundant-edid-checks.patch
+hdmi/0004-drm-amd-display-Move-DisplayID-vrr-parsing.patch
+hdmi/0005-drm-amd-display-Always-try-to-parse-AMD-vsdb.patch
+hdmi/0006-drm-amd-display-Check-for-VRR-range-in-CEA-AMD-vsdb.patch
+hdmi/0007-drm-amd-display-Use-bigger-VRR-range-if-found-in-AMD-vsdb.patch
+hdmi/0008-drm-amd-display-Separate-DP-eDP-and-PCON-paths-completely.patch
+hdmi/0009-drm-amd-display-Refactor-PCON-VRR-compatibility-check.patch
+hdmi/0010-drm-amd-display-Add-PCON-VRR-ID-check-override.patch
+hdmi/0011-drm-amd-display-Add-CH7218-PCON-ID.patch
+hdmi/0012-drm-edid-Parse-more-info-from-HDMI-Forum-vsdb.patch
+hdmi/0013-drm-amd-display-Rename-PCON-adaptive-sync-types.patch
+hdmi/0014-drm-amd-display-Enable-HDMI-VRR-over-PCON.patch
+hdmi/0015-drm-amd-display-Support-HDMI-VRRmax-0.patch
+hdmi/0016-drm-amd-display-Build-HDMI-vsif-in-correct-slot.patch
+hdmi/0017-drm-amd-display-Save-HDMI-gaming-info-to-edid-caps.patch
+hdmi/0018-drm-amd-display-Restore-ALLM-support-in-HDMI-vsif.patch
+hdmi/0019-drm-amd-display-Trigger-ALLM-if-it-s-available.patch
+hdmi/0020-drm-amd-display-Reintroduce-VTEM-info-frame.patch
+hdmi/0021-drm-amd-display-Enable-HDMI-VRR.patch
+hdmi/0022-drm-amd-display-freesync_on_desktop-support-for-HDMI-VRR.patch
+hdmi/0023-drm-Add-passive_vrr_disabled-property-to-crtc.patch
+hdmi/0024-drm-Add-passive_vrr_capable-property-to-connector.patch
+hdmi/0025-drm-Add-ALLM-properties-to-connector.patch
+hdmi/0026-drm-amd-display-Use-passive_vrr-properties-in-amdgpu.patch
+hdmi/0027-drm-amd-display-Use-ALLM-properties-in-amdgpu.patch
+
+# Add MT7902 driver
+# https://github.com/nbd168/wireless/commit/4eefc435c985f4dfdba9afb1c705f0e17377c084
+wifi/0000-wifi-mt76-mt7921-Replace-deprecated-PCI-function.patch
+# https://lore.kernel.org/linux-wireless/20260219004007.19733-1-sean.wang@kernel.org
+wifi/0001-wifi-mt76-connac-use-is_connac2-to-replace-is_mt7921-checks.patch
+wifi/0002-wifi-mt76-mt7921-use-mt76_for_each_q_rx-in-reset-path.patch
+wifi/0003-wifi-mt76-mt7921-handle-MT7902-irq_map-quirk-with-mutable-copy.patch
+wifi/0004-wifi-mt76-mt7921-add-MT7902e-DMA-layout-support.patch
+wifi/0005-wifi-mt76-connac-mark-MT7902-as-hw-txp-devices.patch
+wifi/0006-wifi-mt76-mt792x-add-PSE-handling-barrier-for-the-large-MCU-cmd.patch
+wifi/0007-wifi-mt76-mt792x-ensure-MCU-ready-before-ROM-patch-download.patch
+wifi/0008-wifi-mt76-mt7921-add-MT7902-MCU-support.patch
+wifi/0009-wifi-mt76-mt792x-add-MT7902-WFDMA-prefetch-configuration.patch
+wifi/0010-wifi-mt76-mt7921-add-MT7902-PCIe-device-support.patch
+wifi/0011-wifi-mt76-mt7921-add-MT7902-SDIO-device-support.patch
+
+# [PATCH v10] Add AMD ISP4 driver
+# https://patchew.org/linux/20260212083426.216430-1-Bin.Du@amd.com/
+isp4/0001-media-platform-amd-Introduce-amd-isp4-capture-driver.patch
+isp4/0002-media-platform-amd-low-level-support-for-isp4-firmware.patch
+isp4/0003-media-platform-amd-Add-isp4-fw-and-hw-interface.patch
+isp4/0004-media-platform-amd-isp4-subdev-and-firmware-loading-handling-added.patch
+isp4/0005-media-platform-amd-isp4-video-node-and-buffers-handling-added.patch
+isp4/0006-media-platform-amd-isp4-debug-fs-logging-and-more-descriptive-errors.patch
+isp4/0007-Documentation-add-documentation-of-AMD-isp-4-driver.patch
+
+# Upstream patches applied by Arch Linux and Manjaro
+upstream/0000-drm-amdgpu-fix-race-condition-in-amdgpu_vm_wait_idle-during-process-kill.patch
+upstream/0007-iwlwifi-fix.patch
+
+# VRAM https://pixelcluster.github.io/VRAM-Mgmt-fixed/
+vram/9d928b2c5af078304205c12c71fec4904860d8cc.patch
+vram/9a02490c9f7938a4ed8950f0d61bcf677f67c07b.patch
+vram/1f24ddd4ffd04f47a04bd84987f36dc545bc7421.patch
+vram/f6bde8345b0c66e9cd81fa368343d4438ac9b3b0.patch
+vram/68f051af747220ac7d1d74bec8d79f2cb3a58304.patch
+vram/9260440455cd61f2c90cca172bc9d3e83bf1206d.patch
