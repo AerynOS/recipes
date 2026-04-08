@@ -1,0 +1,59 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"libgsystemservice": {
+			"build-depends": [
+				"binary(meson)",
+				"pkgconfig(gio-2.0)",
+				"pkgconfig(polkit-gobject-1)"
+			],
+			"depends": [
+				"soname(libc.so.6(x86_64))",
+				"soname(libgio-2.0.so.0(x86_64))",
+				"soname(libglib-2.0.so.0(x86_64))",
+				"soname(libgobject-2.0.so.0(x86_64))",
+				"soname(libpolkit-gobject-1.so.0(x86_64))",
+				"soname(libsystemd.so.0(x86_64))"
+			],
+			"files": [
+				"/usr/lib/libgsystemservice-0.so.0",
+				"/usr/lib/libgsystemservice-0.so.0.3.0"
+			],
+			"name": "libgsystemservice",
+			"provides": [
+				"soname(libgsystemservice-0.so.0(x86_64))"
+			]
+		},
+		"libgsystemservice-devel": {
+			"build-depends": [
+				"binary(meson)",
+				"pkgconfig(gio-2.0)",
+				"pkgconfig(polkit-gobject-1)"
+			],
+			"depends": [
+				"libgsystemservice",
+				"pkgconfig(gio-2.0)",
+				"pkgconfig(glib-2.0)",
+				"pkgconfig(gobject-2.0)",
+				"pkgconfig(libsystemd)",
+				"pkgconfig(polkit-gobject-1)"
+			],
+			"files": [
+				"/usr/include/gsystemservice-0/libgsystemservice/config-file.h",
+				"/usr/include/gsystemservice-0/libgsystemservice/peer-manager-dbus.h",
+				"/usr/include/gsystemservice-0/libgsystemservice/peer-manager.h",
+				"/usr/include/gsystemservice-0/libgsystemservice/service.h",
+				"/usr/lib/libgsystemservice-0.so",
+				"/usr/lib/pkgconfig/gsystemservice-0.pc"
+			],
+			"name": "libgsystemservice-devel",
+			"provides": [
+				"pkgconfig(gsystemservice-0)"
+			]
+		}
+	},
+	"source-name": "libgsystemservice",
+	"source-release": "1",
+	"source-version": "0.3.0"
+}

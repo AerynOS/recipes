@@ -1,0 +1,25 @@
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : libgsystemservice
+version     : "0.3.0"
+release     : 1
+homepage    : https://gitlab.freedesktop.org/pwithnall/malcontent
+upstreams   :
+    - https://gitlab.gnome.org/pwithnall/libgsystemservice/-/archive/0.3.0/libgsystemservice-0.3.0.tar.gz : 06dc0f8533fdfd6fa6acd96c76e2782a97ebbea9bb55fb7b82356dc065a21dcb
+summary     : Common components for building D-Bus system services
+description : |
+    Common components for building D-Bus system services
+license     : LGPL-2.1-or-later
+#networking  : true
+builddeps   :
+    # - binary(gtkdoc-scan)
+    - binary(meson)
+    - pkgconfig(gio-2.0)
+    - pkgconfig(polkit-gobject-1)
+setup       : |
+    %meson -Dgtk_doc=false
+build       : |
+    %meson_build
+install     : |
+    %meson_install
