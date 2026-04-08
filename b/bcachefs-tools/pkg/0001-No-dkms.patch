@@ -1,0 +1,22 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Reilly Brogan <reilly@reillybrogan.com>
+Date: Wed, 8 Apr 2026 10:45:05 -0500
+Subject: [PATCH] No dkms
+
+---
+ Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Makefile b/Makefile
+index 6df2b274..52b0c617 100644
+--- a/Makefile
++++ b/Makefile
+@@ -206,7 +206,7 @@ BASH_COMPLETION_DIR?=$(shell $(PKG_CONFIG) --variable=completionsdir bash-comple
+ 
+ install: INITRAMFS_HOOK=$(INITRAMFS_DIR)/hooks/bcachefs
+ install: INITRAMFS_SCRIPT=$(INITRAMFS_DIR)/scripts/local-premount/bcachefs
+-install: all install_dkms
++install: all
+ 	$(INSTALL) -m0755 -D $(BUILT_BIN)  -t $(DESTDIR)$(ROOT_SBINDIR)
+ 	$(INSTALL) -m0644 -D bcachefs.8    -t $(DESTDIR)$(PREFIX)/share/man/man8/
+ 	$(INSTALL) -m0755 -D initramfs/hook   $(DESTDIR)$(INITRAMFS_HOOK)

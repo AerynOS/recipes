@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : bcachefs-tools
-version     : "1.31.12"
-release     : 8
+version     : "1.37.5"
+release     : 9
 homepage    : https://bcachefs.org
 upstreams   :
-    - https://evilpiepirate.org/bcachefs-tools/bcachefs-tools-vendored-1.31.12.tar.zst : 0eae292f9bbd95c6cdac720b8b8dcd6a743716af6f9f58256c7fe3a9370a04bf
+    - https://evilpiepirate.org/bcachefs-tools/bcachefs-tools-vendored-1.37.5.tar.zst : 69b867e0566ce980bf75fcf2ee4b98879e7322883c256a9df17469dbc5d3be1e
 summary     : BCacheFS filesystem utilities
 description : |
     BCacheFS filesystem utilities
@@ -26,6 +26,8 @@ builddeps   :
     - libaio-devel
 environment : |
     export MAKE_ARGS="PREFIX=%(prefix) ROOT_SBINDIR=%(sbindir) LIBEXECDIR=%(libdir)/bcachefs-tools"
+setup       : |
+    %patch %(pkgdir)/0001-No-dkms.patch
 build       : |
     %make $MAKE_ARGS
 install     : |
@@ -36,9 +38,6 @@ install     : |
 
     # FUSE support is still experimental
     rm -v %(installroot)/%(sbindir)/*fuse*
-
-    # We don't want DKMS
-    rm -rfv %(installroot)/usr/src
 
     # Shell completions
     %install_dir %(installroot)/usr/share/{bash-completion/completions,fish/vendor_completions.d,zsh/site-functions}
