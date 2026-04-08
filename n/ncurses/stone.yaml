@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : ncurses
-version     : "6.6-20260124"
-release     : 21
+version     : "6.6-20260404"
+release     : 23
 homepage    : https://invisible-island.net/ncurses/ncurses.html
 upstreams   :
-    - https://invisible-island.net/archives/ncurses/current/ncurses-6.6-20260124.tgz : 9d0f6372f836a804989f03dacc88826fde1509a83f18a3f83ae8b381f0ce88c1
+    - https://invisible-island.net/archives/ncurses/current/ncurses-6.6-20260404.tgz : 39e2bed051b64fcc168f7335bc7e4a6781ff2833ed66be6ec7d892985121ad7e
 summary     : Console display library
 description : |
     The ncurses (new curses) library is a free software emulation of curses in System V Release 4.0 (SVr4), and more. It uses terminfo format, supports pads and color and multiple highlights and forms characters and function-key mapping, and has all the other SVr4-curses enhancements over BSD curses. SVr4 curses became the basis of X/Open Curses.
@@ -56,6 +56,13 @@ install     : |
         ln -sv ncursesw.pc %(installroot)/%(libdir)/pkgconfig/${lib}.pc
     done
 
+    # Remove duplicate terminfo that is provided by various terminals. Package-provided terminfo should be preferred over ncurses
+    _terminfodir=%(installroot)%(datadir)/terminfo
+    # terminfo-foot
+    rm -v ${_terminfodir}/f/foot*
+    # terminfo-ghostty
+    rm -v ${_terminfodir}/g/ghostty
+
     # Unused
     rm -r %(installroot)/%(libdir)/terminfo || true
 tuning      :
@@ -69,9 +76,13 @@ packages    :
         summary: Descriptions of common terminals
         description: |
             Descriptions of common terminals
+        rundeps:
+            - terminfo-foot
+            - terminfo-ghostty
+            - terminfo-kitty # Not sure why ncurses has a bare kitty terminfo but it doesn't confict so whatever
         paths:
-            - /usr/share/tabset
-            - /usr/share/terminfo
+            - /usr/share/tabset/
+            - /usr/share/terminfo/
 
     - "%(name)-devel":
         paths:
