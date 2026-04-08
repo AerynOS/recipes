@@ -2,8 +2,8 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : boulder
-version     : "0.26.1+git.9d8057c"
-release     : 144
+version     : "0.26.1+git.e265766"
+release     : 145
 summary     : Modern package building tool
 license     : MPL-2.0
 homepage    : https://github.com/AerynOS/os-tools
@@ -11,7 +11,7 @@ description : |
     Modern package building tool with containerized builds and intelligent package splitting
 upstreams   :
     - git|https://github.com/AerynOS/os-tools.git :
-        ref : 9d8057cca7c8e746656cd4ff7242c8553654a84e
+        ref : e26576646f5109bf851046cf36cd41536feec964
     - git|https://github.com/spdx/license-list-data.git :
         ref : d46e94e2c78ceede1cfc63cfa0396472d2798d4c # v3.27.0
 builddeps   :
@@ -22,7 +22,7 @@ rundeps     :
 networking  : true
 tuning      :
     - optimize: size
-    - lto
+    - lto: full
 environment : |
     export RUSTFLAGS="$RUSTFLAGS -C codegen-units=1"
 check       : |
@@ -38,14 +38,14 @@ install     : |
 
     # Completions
     mkdir compl/
-    ./target/*/release/boulder --generate-completions compl/.
+    ./%(cargo_target_dir)/boulder --generate-completions compl/.
     %install_file compl/_boulder %(installroot)%(datadir)/zsh/site-functions/_boulder
     %install_file compl/boulder.bash %(installroot)%(datadir)/bash-completion/completions/boulder
     %install_file compl/boulder.fish %(installroot)%(datadir)/fish/completions/boulder.fish
 
     # Generate manpages
     mkdir man/
-    ./target/*/release/boulder --generate-manpages man/.
+    ./%(cargo_target_dir)/boulder --generate-manpages man/.
     %install_dir %(installroot)%(mandir)/man1
     cp man/*.1 %(installroot)%(mandir)/man1/.
 
