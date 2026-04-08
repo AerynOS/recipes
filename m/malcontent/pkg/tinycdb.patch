@@ -1,0 +1,13 @@
+--- a/meson.build	2026-04-08 04:05:18.008239086 +0200
++++ b/meson.build	2026-04-08 04:06:55.584333968 +0200
+@@ -163,10 +163,6 @@ libgsystemservice_dep = dependency('gsys
+ subproject('gvdb', default_options: {'tests': false})
+ gvdb_dep = dependency('gvdb')
+ 
+-# We need to build tinycdb as a subproject so we can use its static library;
+-# distributions don’t seem to package the static library.
+-subproject('tinycdb', required: true)
+-
+ # Keep in sync with GTK and libadwaita version dependencies below
+ add_project_arguments([
+   '-DGDK_VERSION_MIN_REQUIRED=GDK_VERSION_4_12',
