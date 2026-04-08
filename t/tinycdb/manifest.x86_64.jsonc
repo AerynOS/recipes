@@ -1,0 +1,50 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"tinycdb": {
+			"build-depends": [
+				"binary(ar)"
+			],
+			"depends": [
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(libc.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/bin/cdb",
+				"/usr/lib/libcdb.so.1",
+				"/usr/share/doc/tinycdb/NEWS",
+				"/usr/share/licenses/tinycdb/LICENSE",
+				"/usr/share/man/man1/cdb.1",
+				"/usr/share/man/man5/cdb.5"
+			],
+			"name": "tinycdb",
+			"provides": [
+				"binary(cdb)",
+				"soname(libcdb.so.1(x86_64))"
+			]
+		},
+		"tinycdb-devel": {
+			"build-depends": [
+				"binary(ar)"
+			],
+			"depends": [
+				"tinycdb"
+			],
+			"files": [
+				"/usr/include/cdb.h",
+				"/usr/lib/libcdb.a",
+				"/usr/lib/libcdb.so",
+				"/usr/lib/pkgconfig/libcdb.pc",
+				"/usr/share/man/man3/cdb.3"
+			],
+			"name": "tinycdb-devel",
+			"provides": [
+				"pkgconfig(libcdb)"
+			]
+		}
+	},
+	"source-name": "tinycdb",
+	"source-release": "1",
+	"source-version": "0.81"
+}
