@@ -2,10 +2,10 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : igt-gpu-tools
-version     : "2.3"
-release     : 2
+version     : "2.4"
+release     : 3
 upstreams   :
-    - https://xorg.freedesktop.org/releases/individual/app/igt-gpu-tools-2.3.tar.xz : 429f2578fb16cff7402e9beb325c5c267ad30a2b7b957343c77e8ea24af03887
+    - https://xorg.freedesktop.org/releases/individual/app/igt-gpu-tools-2.4.tar.xz : a44b7d089a27555944d4cd5da372c9339501539e3cd2735bbdb30e0d802f1cbe
 homepage    : https://gitlab.freedesktop.org/drm/igt-gpu-tools
 license     : MIT
 summary     : Tools for development and testing of the Intel DRM driver
@@ -19,11 +19,12 @@ builddeps   :
     - pkgconfig(cairo)
     - pkgconfig(glib-2.0)
     - pkgconfig(gsl)
-    - pkgconfig(json-c)
+    - pkgconfig(jansson)
     - pkgconfig(libcurl)
     - pkgconfig(libdrm)
     - pkgconfig(libdw)
     - pkgconfig(libkmod)
+    - pkgconfig(libpci)
     - pkgconfig(libproc2)
     - pkgconfig(libudev)
     - pkgconfig(libunwind)
