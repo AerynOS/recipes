@@ -43,12 +43,12 @@
 			"files": [
 				"/usr/bin/syncthingctl",
 				"/usr/bin/syncthingtray",
-				"/usr/lib/libsyncthingconnector.so.2.0.9",
-				"/usr/lib/libsyncthingconnector.so.34",
-				"/usr/lib/libsyncthingmodel.so.2.0.9",
-				"/usr/lib/libsyncthingmodel.so.34",
-				"/usr/lib/libsyncthingwidgets.so.2.0.9",
-				"/usr/lib/libsyncthingwidgets.so.34",
+				"/usr/lib/libsyncthingconnector.so.2.0.10",
+				"/usr/lib/libsyncthingconnector.so.35",
+				"/usr/lib/libsyncthingmodel.so.2.0.10",
+				"/usr/lib/libsyncthingmodel.so.35",
+				"/usr/lib/libsyncthingwidgets.so.2.0.10",
+				"/usr/lib/libsyncthingwidgets.so.35",
 				"/usr/share/applications/syncthingtray.desktop",
 				"/usr/share/bash-completion/completions/syncthingctl",
 				"/usr/share/bash-completion/completions/syncthingtray",
@@ -59,9 +59,9 @@
 			"provides": [
 				"binary(syncthingctl)",
 				"binary(syncthingtray)",
-				"soname(libsyncthingconnector.so.34(x86_64))",
-				"soname(libsyncthingmodel.so.34(x86_64))",
-				"soname(libsyncthingwidgets.so.34(x86_64))"
+				"soname(libsyncthingconnector.so.35(x86_64))",
+				"soname(libsyncthingmodel.so.35(x86_64))",
+				"soname(libsyncthingwidgets.so.35(x86_64))"
 			]
 		},
 		"syncthingtray-devel": {
@@ -133,8 +133,10 @@
 				"/usr/include/syncthingwidgets/misc/internalerrorsdialog.h",
 				"/usr/include/syncthingwidgets/misc/otherdialogs.h",
 				"/usr/include/syncthingwidgets/misc/statusinfo.h",
+				"/usr/include/syncthingwidgets/misc/syncthingdata.h",
 				"/usr/include/syncthingwidgets/misc/syncthingkiller.h",
 				"/usr/include/syncthingwidgets/misc/syncthinglauncher.h",
+				"/usr/include/syncthingwidgets/misc/syncthingmodels.h",
 				"/usr/include/syncthingwidgets/misc/textviewdialog.h",
 				"/usr/include/syncthingwidgets/misc/utils.h",
 				"/usr/include/syncthingwidgets/settings/settings.h",
@@ -223,9 +225,9 @@
 				"soname(libqtquickforkawesome-qt6.so.1(x86_64))",
 				"soname(libqtutilities-qt6.so.6(x86_64))",
 				"soname(libstdc++.so.6(x86_64))",
-				"soname(libsyncthingconnector.so.34(x86_64))",
-				"soname(libsyncthingmodel.so.34(x86_64))",
-				"soname(libsyncthingwidgets.so.34(x86_64))"
+				"soname(libsyncthingconnector.so.35(x86_64))",
+				"soname(libsyncthingmodel.so.35(x86_64))",
+				"soname(libsyncthingwidgets.so.35(x86_64))"
 			],
 			"files": [
 				"/usr/lib/qt6/plugins/kf6/kfileitemaction/libsyncthingfileitemaction.so",
@@ -261,6 +263,6 @@
 		}
 	},
 	"source-name": "syncthingtray",
-	"source-release": "13",
-	"source-version": "2.0.9"
+	"source-release": "14",
+	"source-version": "2.0.10"
 }
