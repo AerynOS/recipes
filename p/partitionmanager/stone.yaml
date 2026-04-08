@@ -3,7 +3,7 @@
 
 name        : partitionmanager
 version     : "25.12.3"
-release     : 13
+release     : 14
 upstreams   :
     - https://download.kde.org/stable/release-service/25.12.3/src/partitionmanager-25.12.3.tar.xz : 7c0fcad429e3e95fcf5c91d043737090e2701cf5d0fe195deec9a8087b4d5e99
 homepage    : https://apps.kde.org/partitionmanager/
@@ -30,7 +30,6 @@ builddeps   :
     - cmake(PolkitQt6-1)
 rundeps     :
     - binary(mkfs.btrfs)
-    - sysbinary(mkfs.bcachefs)
     - sysbinary(mkfs.exfat)
     - sysbinary(mkfs.ext4)
     - sysbinary(mkfs.f2fs)
