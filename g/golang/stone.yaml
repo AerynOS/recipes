@@ -3,7 +3,7 @@
 
 name        : golang
 version     : "1.26.2"
-release     : 31
+release     : 32
 homepage    : https://go.dev
 upstreams   :
     - https://go.dev/dl/go1.26.2.linux-amd64.tar.gz : 990e6b4bbba816dc3ee129eaeaf4b42f17c2800b88a2166c265ac1a200262282
@@ -54,7 +54,7 @@ install     : |
     rm -v %(installroot)/${_goroot}/src/go/doc/Makefile
 
     # This is just data fed into tests, but boulder scans it regardless.
-    find %(installroot)/${_libdir} -type d -name testdata -exec rm -rfv {} +
+    find %(installroot)/%(libdir) -type d -name testdata -exec rm -rfv {} +
 
 # some tests just fail (some need networking)
 # TODO go through and fix them
