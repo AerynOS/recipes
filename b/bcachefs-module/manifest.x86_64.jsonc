@@ -1,0 +1,41 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"bcachefs-module-lts": {
+			"build-depends": [
+				"binary(eu-readelf)",
+				"binary(zstd)",
+				"linux-lts-devel",
+				"linux-stable-devel"
+			],
+			"depends": [
+				"linux-lts",
+				"sysbinary(depmod)"
+			],
+			"files": [
+				"/usr/lib/modules/6.18.21-1.lts/extra/fs/bcachefs/bcachefs.ko.zst"
+			],
+			"name": "bcachefs-module-lts"
+		},
+		"bcachefs-module-stable": {
+			"build-depends": [
+				"binary(eu-readelf)",
+				"binary(zstd)",
+				"linux-lts-devel",
+				"linux-stable-devel"
+			],
+			"depends": [
+				"linux-stable",
+				"sysbinary(depmod)"
+			],
+			"files": [
+				"/usr/lib/modules/6.18.22-1.stable/extra/fs/bcachefs/bcachefs.ko.zst"
+			],
+			"name": "bcachefs-module-stable"
+		}
+	},
+	"source-name": "bcachefs-module",
+	"source-release": "1",
+	"source-version": "1.37.5"
+}
