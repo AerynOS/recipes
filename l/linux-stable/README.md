@@ -1,7 +1,8 @@
----
+<!--
 # SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
----
+-->
+
 ## Kernel packaging process on AerynOS
 
 This is intended as an introduction to one way of doing kernel maintainenance on AerynOS.

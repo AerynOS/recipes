@@ -1,7 +1,8 @@
----
+<!--
 # SPDX-FileCopyrightText: 2026 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
----
+-->
+
 ## Maintainer notes
 
 The main linux-firmware package is intended to be a meta package with no files.

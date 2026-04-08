@@ -1,7 +1,8 @@
----
+<!--
 # SPDX-FileCopyrightText: 2025 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
----
+-->
+
 # Update order
 
 The suggested update order for the docker stack is something like:
