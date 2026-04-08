@@ -3,7 +3,7 @@
 
 name        : kitty
 version     : "0.46.2"
-release     : 8
+release     : 9
 homepage    : https://github.com/kovidgoyal/kitty
 upstreams   :
     - https://github.com/kovidgoyal/kitty/archive/refs/tags/v0.46.2.tar.gz : 25ca6725da2b09d574e571cad44292adaa278d154a89221207bdb598884c133e
@@ -36,7 +36,6 @@ builddeps   :
     - python(pip)
     - font-symbols-nerd
 build       : |
-    export CGO_CPPFLAGS="${CPPFLAGS}"
     export CGO_CFLAGS="${CFLAGS}"
     export CGO_CXXFLAGS="${CXXFLAGS}"
     export CGO_LDFLAGS="${LDFLAGS}"
@@ -55,3 +54,13 @@ install     : |
 
     %install_dir %(installroot)%(datadir)/licenses/%(name)
     %install_file LICENSE %(installroot)%(datadir)/licenses/%(name)/LICENSE
+packages     :
+    - "%(name)":
+        rundeps:
+            - "terminfo-%(name)"
+
+    - "terminfo-%(name)":
+        summary: Terminfo for %(name)
+        description: Terminfo for %(name), split out so that it can be used from ncurses
+        paths:
+            - /usr/share/terminfo/

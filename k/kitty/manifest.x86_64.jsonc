@@ -44,7 +44,8 @@
 				"soname(libxkbcommon-x11.so.0(x86_64))",
 				"soname(libxkbcommon.so.0(x86_64))",
 				"soname(libxxhash.so.0(x86_64))",
-				"soname(libz.so.1(x86_64))"
+				"soname(libz.so.1(x86_64))",
+				"terminfo-kitty"
 			],
 			"files": [
 				"/usr/bin/kitten",
@@ -1157,7 +1158,6 @@
 				"/usr/share/man/man1/kitten.1",
 				"/usr/share/man/man1/kitty.1",
 				"/usr/share/man/man5/kitty.conf.5",
-				"/usr/share/terminfo/x/xterm-kitty",
 				"/usr/share/zsh/site-functions/_kitty"
 			],
 			"name": "kitty",
@@ -1169,9 +1169,38 @@
 				"soname(kitty/kitty/glfw-wayland.so(x86_64))",
 				"soname(kitty/kitty/glfw-x11.so(x86_64))"
 			]
+		},
+		"terminfo-kitty": {
+			"build-depends": [
+				"binary(go)",
+				"binary(sphinx-build)",
+				"binary(tic)",
+				"font-symbols-nerd",
+				"pkgconfig(dbus-1)",
+				"pkgconfig(gl)",
+				"pkgconfig(harfbuzz)",
+				"pkgconfig(lcms2)",
+				"pkgconfig(libcrypto)",
+				"pkgconfig(libxxhash)",
+				"pkgconfig(python3)",
+				"pkgconfig(simde)",
+				"pkgconfig(wayland-protocols)",
+				"pkgconfig(wayland-scanner)",
+				"pkgconfig(xcursor)",
+				"pkgconfig(xi)",
+				"pkgconfig(xinerama)",
+				"pkgconfig(xkbcommon)",
+				"pkgconfig(xkbcommon-x11)",
+				"pkgconfig(xrandr)",
+				"python(pip)"
+			],
+			"files": [
+				"/usr/share/terminfo/x/xterm-kitty"
+			],
+			"name": "terminfo-kitty"
 		}
 	},
 	"source-name": "kitty",
-	"source-release": "8",
+	"source-release": "9",
 	"source-version": "0.46.2"
 }
