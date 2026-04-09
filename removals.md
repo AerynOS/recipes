@@ -219,3 +219,8 @@
 - linux-kvm
 - linux-kvm-devel
 - linux-kvm-dbginfo
+
+### Relpaced by linux-gaming
+- linux-handheld
+- linux-handheld-devel
+- linux-handheld-dbginfo
