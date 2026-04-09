@@ -1,0 +1,28 @@
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : dmemcg-booster
+version     : "0.1.2"
+release     : 1
+homepage    : https://gitlab.steamos.cloud/holo/dmemcg-booster
+upstreams   :
+    - https://gitlab.steamos.cloud/holo/dmemcg-booster/-/archive/0.1.2/dmemcg-booster-0.1.2.tar.gz : e639198903a72c14575adf402c888619977376d5f2a817f66c658fa051a0d46e
+summary     : Service for enabling and controlling dmem cgroup limits for boosting foreground games
+description : |
+    Service for enabling and controlling dmem cgroup limits for boosting foreground games
+license     : Distributable
+networking  : true
+builddeps   :
+    - pkgconfig(dbus-1)
+setup       : |
+    %cargo_fetch
+build       : |
+    %cargo_build
+install     : |
+    %install_exe target/x86_64-unknown-linux-gnu/release/dmemcg-booster %(installroot)%(bindir)/dmemcg-booster
+
+    # Set up systemd services
+    %install_file dmemcg-booster-system.service -t %(installroot)/%(libdir)/systemd/system
+    %install_file dmemcg-booster-user.service -t %(installroot)/%(libdir)/systemd/user
+    %install_file %(pkgdir)/60-dmemcg-booster-system.preset %(installroot)%(libdir)/systemd/system-preset/60-%(name).preset
+    %install_file %(pkgdir)/60-dmemcg-booster-user.preset %(installroot)%(libdir)/systemd/user-preset/60-%(name).preset
