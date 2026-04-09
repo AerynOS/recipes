@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : sqlite
-version     : "3.52.0"
-release     : 18
+version     : "3.53.0"
+release     : 19
 homepage    : https://www.sqlite.org
 upstreams   :
-    - https://www.sqlite.org/2026/sqlite-autoconf-3520000.tar.gz : f6b50b0c103392af32a8be15b2b9d25959de9a00a70c3979128aafeaa5338b3f
+    - https://www.sqlite.org/2026/sqlite-autoconf-3530000.tar.gz : 851e9b38192fe2ceaa65e0baa665e7fa06230c3d9bd1a6a9662d02380d73365a
 summary     : Small, self-contained SQL database engine
 description : |
     SQLite is a C-language library that implements a small, fast, self-contained, high-reliability, full-featured, SQL database engine. SQLite is the most used database engine in the world. SQLite is built into all mobile phones and most computers and comes bundled inside countless other applications that people use every day.
@@ -20,6 +20,9 @@ tuning      :
     - optimize: speed
 emul32      : true
 profiles    :
+    - emul32:
+        environment: |
+            extra_args=""
     - x86_64:
         environment: |
             # Used by sqlite3 command line
@@ -52,15 +55,16 @@ setup       : |
 
     # --enable-session is required for nodejs to use the system sqlite3
     # --soname=legacy ensures that the soname is set to the legacy libsqlite3.so.0 value (https://sqlite.org/src/forumpost/5a3b44f510df8ded)
-    %configure --disable-static \
-               --disable-static-cli-shell \
-               --enable-fts4 \
-               --enable-fts5 \
-               --enable-geopoly \
-               --enable-rtree \
-               --enable-session \
-               --soname=legacy \
-               $extra_args
+    %configure \
+        --disable-static \
+        --disable-static-cli-shell \
+        --enable-fts4 \
+        --enable-fts5 \
+        --enable-geopoly \
+        --enable-rtree \
+        --enable-session \
+        --soname=legacy \
+        $extra_args
 build       : |
     %make
 install     : |
