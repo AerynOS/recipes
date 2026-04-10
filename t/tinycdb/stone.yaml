@@ -1,0 +1,37 @@
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : tinycdb
+version     : "0.81"
+release     : 1
+homepage    : https://www.corpit.ru/mjt/tinycdb.html
+upstreams   :
+    - https://www.corpit.ru/mjt/tinycdb/tinycdb-0.81.tar.gz : 469de2d445bf54880f652f4b6dc95c7cdf6f5502c35524a45b2122d70d47ebc2
+summary     : Very fast and simple package for creating and reading constant data bases
+description : |
+    Very fast and simple package for creating and reading constant data bases
+license     : MIT
+builddeps   :
+    - binary(ar)
+build       : |
+    make_options=(
+      CFLAGS="$CFLAGS"
+      LDFLAGS="$LDFLAGS"
+      all
+      shared
+    )
+
+    %make "${make_options[@]}"
+install     : |
+    make_options=(
+      DESTDIR="%(installroot)"
+      prefix=/usr
+      mandir=/usr/share/man
+      INSTALLPROG=cdb-shared
+      install-{all,sharedlib}
+    )
+
+    %make "${make_options[@]}"
+    %install_file LICENSE -t "%(installroot)%(datadir)/licenses/tinycdb/"
+    %install_file NEWS -t "%(installroot)%(datadir)/doc/tinycdb/"
+    %install_file libcdb.pc -t "%(installroot)%(libdir)/pkgconfig/"

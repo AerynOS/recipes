@@ -1,0 +1,56 @@
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : malcontent
+version     : "0.14.0"
+release     : 1
+homepage    : https://gitlab.freedesktop.org/pwithnall/malcontent
+upstreams   :
+    - git|https://gitlab.freedesktop.org/pwithnall/malcontent : d28f6635359d02d1068d8b21fb5810e5074b7903
+summary     : Parental control support for applications
+description : |
+    libmalcontent implements parental controls support which can be used by applications to filter or limit the access of child accounts to inappropriate content.
+license     : LGPL-2.1-or-later
+networking  : true
+builddeps   :
+    - binary(meson)
+    - binary(msgfmt)
+    - binary(itstool)
+    - binary(update-desktop-database)
+    - pkgconfig(accountsservice)
+    - pkgconfig(dbus-1)
+    - pkgconfig(gi-docgen)
+    - pkgconfig(glib-testing-0)
+    - pkgconfig(gnome-desktop-4)
+    - pkgconfig(gobject-introspection-1.0)
+    - pkgconfig(gsystemservice-0)
+    - pkgconfig(gtk4)
+    - pkgconfig(flatpak)
+    - pkgconfig(libadwaita-1)
+    - pkgconfig(libcdb)
+    - pkgconfig(libsoup-3.0)
+    - pkgconfig(pam)
+setup       : |
+    %patch %(pkgdir)/tinycdb.patch
+    %meson
+build       : |
+    %meson_build
+install     : |
+    %meson_install
+
+packages    :
+#    - "%(name)":
+#        rundeps:
+#            - polkit
+
+    - "lib%(name)":
+        paths:
+            - /usr/include/malcontent-0
+            - /usr/lib/girepository-1.0/Malcontent-0.typelib
+            - /usr/lib/libmalcontent-0.so*
+            - /usr/lib/pkgconfig/malcontent-0.pc
+            - /usr/share/gir-1.0/Malcontent-0.gir
+
+    - "%(name)-docs":
+        paths:
+            - /usr/share/doc/
