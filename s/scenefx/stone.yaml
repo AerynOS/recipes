@@ -3,7 +3,7 @@
 
 name        : scenefx
 version     : "0.4.1"
-release     : 2
+release     : 3
 homepage    : https://github.com/wlrfx/scenefx
 upstreams   :
     - https://github.com/wlrfx/scenefx/archive/refs/tags/0.4.1.tar.gz : fa23f6ff509168d4a5eb0c5a7ef3b8cf3d39e3fba18320c28256e6c91c85d9ff
@@ -16,8 +16,7 @@ description : |
 license     :
     - MIT
 builddeps   :
-  - binary(g++)
-  - binary(meson)
+  - binary(glslangValidator)
   - pkgconfig(libdrm)
   - pkgconfig(libglvnd)
   - pkgconfig(pixman-1)

@@ -4,8 +4,7 @@
 	"packages": {
 		"scenefx": {
 			"build-depends": [
-				"binary(g++)",
-				"binary(meson)",
+				"binary(glslangValidator)",
 				"pkgconfig(libdrm)",
 				"pkgconfig(libglvnd)",
 				"pkgconfig(pixman-1)",
@@ -35,8 +34,7 @@
 		},
 		"scenefx-devel": {
 			"build-depends": [
-				"binary(g++)",
-				"binary(meson)",
+				"binary(glslangValidator)",
 				"pkgconfig(libdrm)",
 				"pkgconfig(libglvnd)",
 				"pkgconfig(pixman-1)",
@@ -75,6 +73,6 @@
 		}
 	},
 	"source-name": "scenefx",
-	"source-release": "2",
+	"source-release": "3",
 	"source-version": "0.4.1"
 }
