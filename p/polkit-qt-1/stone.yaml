@@ -2,10 +2,10 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : polkit-qt-1
-version     : "0.200.0"
-release     : 3
+version     : "0.201.0"
+release     : 4
 upstreams   :
-    - https://download.kde.org/stable/polkit-qt-1/polkit-qt-1-0.200.0.tar.xz : 5d3b611c062d2b76a93750bb10c907bfd21d1ff08d0a15dc2cf63e278e1677fb
+    - https://download.kde.org/stable/polkit-qt-1/polkit-qt-1-0.201.0.tar.xz : d242c727e37552f8da7f70caca779b0c1032e364ff42246027b5d37b6040bbb1
 homepage    : https://api.kde.org/polkit-qt-1/html/
 license     : LGPL-2.1-or-later
 summary     : Qt wrapper around polkit-1
@@ -15,7 +15,8 @@ builddeps   :
     - cmake(Qt6)
     - pkgconfig(polkit-agent-1)
 setup       : |
-    %cmake -DQT_MAJOR_VERSION=6
+    %cmake \
+        -DQT_MAJOR_VERSION=6
 build       : |
     %cmake_build
 install     : |
@@ -26,6 +27,7 @@ packages    :
         description: Qt wrapper around polkit-1 - Qt6 bindings
         paths:
             - /usr/lib/libpolkit-qt6-*.so.*
+
     - "%(name)-qt6-devel":
         summary: Development files for %(name)-qt6
         description: Development files for %(name)-qt6
