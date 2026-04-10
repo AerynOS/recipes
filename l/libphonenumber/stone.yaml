@@ -1,0 +1,44 @@
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : libphonenumber
+version     : "9.0.27"
+release     : 1
+upstreams   :
+    - https://github.com/google/libphonenumber/archive/refs/tags/v9.0.27.tar.gz : ef218661f1a3ed531580e851eb4524c2203ca04243852719621d3cd9285f89b4
+homepage    : https://github.com/googlei18n/libphonenumber
+license     :
+    - Apache-2.0
+    - BSD-3-Clause
+summary     : library for working with international phone numbers
+description : |
+    Google's common library for parsing, formatting, and validating international phone numbers
+builddeps   :
+    - binary(java-25)
+    - cmake(Boost)
+    - cmake(absl)
+    - cmake(protobuf)
+    - pkgconfig(icu-i18n)
+    - pkgconfig(icu-uc)
+environment : |
+    export JAVA_HOME=%(libdir)/openjdk-25
+    export PATH=$JAVA_HOME/bin:$PATH
+setup       : |
+    %patch %(pkgdir)/remove-werror.patch
+    %patch %(pkgdir)/0003-Fix-BUILD_STATIC_LIB-OFF.patch
+    %patch %(pkgdir)/ftbfs-boost-1.89.patch
+
+    %cmake -S cpp \
+        -DBUILD_STATIC_LIB=OFF
+build       : |
+    %cmake_build
+install     : |
+    %cmake_install
+check       : |
+    cmake --build %(builddir) --target tests
+packages    :
+    - "%(name)-devel":
+        rundeps:
+            - cmake(Boost)
+            - cmake(absl)
+            - cmake(protobuf)
