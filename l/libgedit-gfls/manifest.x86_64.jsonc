@@ -5,6 +5,7 @@
 		"libgedit-gfls": {
 			"build-depends": [
 				"binary(gtkdoc-scan)",
+				"binary(msgfmt)",
 				"docbook-xsl",
 				"pkgconfig(gobject-introspection-1.0)",
 				"pkgconfig(gtk+-3.0)"
@@ -17,7 +18,28 @@
 			],
 			"files": [
 				"/usr/lib/girepository-1.0/Gfls-1.typelib",
-				"/usr/lib/libgedit-gfls-1.so.0"
+				"/usr/lib/libgedit-gfls-1.so.0",
+				"/usr/share/locale/be/LC_MESSAGES/libgedit-gfls-1.mo",
+				"/usr/share/locale/bg/LC_MESSAGES/libgedit-gfls-1.mo",
+				"/usr/share/locale/cs/LC_MESSAGES/libgedit-gfls-1.mo",
+				"/usr/share/locale/da/LC_MESSAGES/libgedit-gfls-1.mo",
+				"/usr/share/locale/de/LC_MESSAGES/libgedit-gfls-1.mo",
+				"/usr/share/locale/el/LC_MESSAGES/libgedit-gfls-1.mo",
+				"/usr/share/locale/eu/LC_MESSAGES/libgedit-gfls-1.mo",
+				"/usr/share/locale/hu/LC_MESSAGES/libgedit-gfls-1.mo",
+				"/usr/share/locale/ka/LC_MESSAGES/libgedit-gfls-1.mo",
+				"/usr/share/locale/kk/LC_MESSAGES/libgedit-gfls-1.mo",
+				"/usr/share/locale/kw/LC_MESSAGES/libgedit-gfls-1.mo",
+				"/usr/share/locale/lt/LC_MESSAGES/libgedit-gfls-1.mo",
+				"/usr/share/locale/pl/LC_MESSAGES/libgedit-gfls-1.mo",
+				"/usr/share/locale/pt_BR/LC_MESSAGES/libgedit-gfls-1.mo",
+				"/usr/share/locale/ru/LC_MESSAGES/libgedit-gfls-1.mo",
+				"/usr/share/locale/sl/LC_MESSAGES/libgedit-gfls-1.mo",
+				"/usr/share/locale/sr/LC_MESSAGES/libgedit-gfls-1.mo",
+				"/usr/share/locale/sv/LC_MESSAGES/libgedit-gfls-1.mo",
+				"/usr/share/locale/tr/LC_MESSAGES/libgedit-gfls-1.mo",
+				"/usr/share/locale/uk/LC_MESSAGES/libgedit-gfls-1.mo",
+				"/usr/share/locale/zh_CN/LC_MESSAGES/libgedit-gfls-1.mo"
 			],
 			"name": "libgedit-gfls",
 			"provides": [
@@ -27,6 +49,7 @@
 		"libgedit-gfls-devel": {
 			"build-depends": [
 				"binary(gtkdoc-scan)",
+				"binary(msgfmt)",
 				"docbook-xsl",
 				"pkgconfig(gobject-introspection-1.0)",
 				"pkgconfig(gtk+-3.0)"
@@ -64,6 +87,7 @@
 		"libgedit-gfls-docs": {
 			"build-depends": [
 				"binary(gtkdoc-scan)",
+				"binary(msgfmt)",
 				"docbook-xsl",
 				"pkgconfig(gobject-introspection-1.0)",
 				"pkgconfig(gtk+-3.0)"
@@ -101,6 +125,6 @@
 		}
 	},
 	"source-name": "libgedit-gfls",
-	"source-release": "1",
-	"source-version": "0.4.0"
+	"source-release": "2",
+	"source-version": "0.4.1"
 }
