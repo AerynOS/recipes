@@ -3,7 +3,7 @@
 
 name        : accountsservice
 version     : "26.13.3"
-release     : 9
+release     : 10
 homepage    : https://www.freedesktop.org/wiki/Software/AccountsService/
 upstreams   :
     - https://gitlab.freedesktop.org/-/project/838/uploads/fbd268e2b5f5bab08b61fade596ef2db/accountsservice-26.13.3.tar.xz : 448941e38013894a9f20c1502a334674d5d0e0fc050b317bc086058eb314016a
@@ -47,7 +47,3 @@ install     : |
              %(installroot)/var/lib/AccountsService/ \
              %(installroot)/var/lib/ \
              %(installroot)/var/
-packages    :
-    - "%(name)-devel":
-        paths:
-            - /usr/share/vala/
