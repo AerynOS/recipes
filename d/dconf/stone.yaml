@@ -3,7 +3,7 @@
 
 name        : dconf
 version     : "0.49.0"
-release     : 4
+release     : 5
 homepage    : https://wiki.gnome.org/Projects/dconf
 upstreams   :
     - https://download.gnome.org/sources/dconf/0.49/dconf-0.49.0.tar.xz : 16a47e49a58156dbb96578e1708325299e4c19eea9be128d5bd12fd0963d6c36
@@ -31,7 +31,3 @@ build       : |
     %meson_build
 install     : |
     %meson_install
-packages    :
-    - "%(name)-devel":
-        paths:
-            - /usr/share/vala/vapi
