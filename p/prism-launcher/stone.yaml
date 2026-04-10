@@ -3,7 +3,7 @@
 
 name        : prism-launcher
 version     : "11.0.0"
-release     : 6
+release     : 7
 homepage    : https://github.com/PrismLauncher/PrismLauncher
 upstreams   :
     - https://github.com/PrismLauncher/PrismLauncher/releases/download/11.0.0/PrismLauncher-11.0.0.tar.gz : e6ec10c6e537ffaf020a20353f02de09fbe006c131090b4db6ff961bd5f2cd27
@@ -27,7 +27,7 @@ builddeps   :
     - pkgconfig(libqrencode)
 rundeps     :
     - binary(gamemoderun)
-    - binary(java-21)
+    - binary(java-25) # This will always track whatever is used by the latest released version of Minecraft
     - soname(libglfw.so.3(x86_64))
     - soname(libopenal.so.1(x86_64))
     - qt6-wayland
