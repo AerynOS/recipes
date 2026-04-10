@@ -3,7 +3,7 @@
 
 name        : gtksourceview
 version     : "5.20.0"
-release     : 11
+release     : 12
 homepage    : https://wiki.gnome.org/Projects/GtkSourceView
 upstreams   :
     - https://download.gnome.org/sources/gtksourceview/5.20/gtksourceview-5.20.0.tar.xz : e38bcd23f52b86eadf0fe4d8bde698e3a8ca102322b8b4cf1a51ac294a448c1b
@@ -17,7 +17,6 @@ description : |
 license     :
     - LGPL-2.1-only
 builddeps   :
-    - binary(cmake)
     - binary(g-ir-scanner)
     - binary(gi-docgen)
     - binary(msgfmt)
@@ -37,7 +36,3 @@ build       : |
     %meson_build
 install     : |
     %meson_install
-packages    :
-    - "%(name)-devel":
-        paths:
-            - /usr/share/vala/
