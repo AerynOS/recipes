@@ -3,7 +3,7 @@
 
 name        : libgedit-amtk
 version     : "5.10.0"
-release     : 1
+release     : 2
 homepage    : https://gitlab.gnome.org/World/gedit/libgedit-amtk
 upstreams   :
     - git|https://gitlab.gnome.org/World/gedit/libgedit-amtk.git : 8420fb89b340e33576a50f3ee2d69df417b16e5a
@@ -14,6 +14,7 @@ license     :
     - LGPL-3.0-or-later
 builddeps   :
     - binary(gtkdoc-scan)
+    - binary(msgfmt)
     - pkgconfig(gobject-introspection-1.0)
     - pkgconfig(gtk+-3.0)
     - docbook-xsl
