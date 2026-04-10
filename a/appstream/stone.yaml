@@ -3,7 +3,7 @@
 
 name        : appstream
 version     : "1.1.2"
-release     : 14
+release     : 15
 homepage    : https://www.freedesktop.org/wiki/Distributions/AppStream/
 upstreams   :
     - https://www.freedesktop.org/software/appstream/releases/AppStream-1.1.2.tar.xz : 46b4257100e25a6468ceed7b3ab82441f47b119da3398d30aea6d7b91174b586
@@ -14,7 +14,6 @@ license     :
     - LGPL-2.1-or-later
 builddeps   :
     # TODO: steamming, docs
-    - binary(cmake)
     - binary(gperf)
     - binary(itstool)
     - binary(msgfmt)
