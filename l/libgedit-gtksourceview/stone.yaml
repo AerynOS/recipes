@@ -3,7 +3,7 @@
 
 name        : libgedit-gtksourceview
 version     : "299.7.0"
-release     : 1
+release     : 2
 homepage    : https://gitlab.gnome.org/World/gedit/libgedit-gtksourceview
 upstreams   :
     - git|https://gitlab.gnome.org/World/gedit/libgedit-gtksourceview.git : 9fb56b0afed2d03fb9b166c9273530321e044377
@@ -14,6 +14,7 @@ license     :
     - LGPL-2.1-or-later
 builddeps   :
     - binary(gtkdoc-scan)
+    - binary(msgfmt)
     - pkgconfig(gio-2.0)
     - pkgconfig(gobject-introspection-1.0)
     - pkgconfig(gtk+-3.0)
