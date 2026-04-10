@@ -3,7 +3,7 @@
 
 name        : libgedit-tepl
 version     : "6.14.0"
-release     : 1
+release     : 2
 homepage    : https://gitlab.gnome.org/World/gedit/libgedit-tepl
 upstreams   :
     - git|https://gitlab.gnome.org/World/gedit/libgedit-tepl.git : d60f7ded17b52ea42091c073ea81090e91f38620
@@ -14,6 +14,7 @@ license     :
     - LGPL-3.0-or-later
 builddeps   :
     - binary(gtkdoc-scan)
+    - binary(msgfmt)
     - pkgconfig(gio-2.0)
     - pkgconfig(gobject-introspection-1.0)
     - pkgconfig(gtk+-3.0)

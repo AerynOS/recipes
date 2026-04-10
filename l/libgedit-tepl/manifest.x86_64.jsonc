@@ -5,6 +5,7 @@
 		"libgedit-tepl": {
 			"build-depends": [
 				"binary(gtkdoc-scan)",
+				"binary(msgfmt)",
 				"docbook-xsl",
 				"pkgconfig(gio-2.0)",
 				"pkgconfig(gobject-introspection-1.0)",
@@ -31,7 +32,34 @@
 			],
 			"files": [
 				"/usr/lib/girepository-1.0/Tepl-6.typelib",
-				"/usr/lib/libgedit-tepl-6.so.4"
+				"/usr/lib/libgedit-tepl-6.so.4",
+				"/usr/share/locale/be/LC_MESSAGES/libgedit-tepl-6.mo",
+				"/usr/share/locale/ca/LC_MESSAGES/libgedit-tepl-6.mo",
+				"/usr/share/locale/cs/LC_MESSAGES/libgedit-tepl-6.mo",
+				"/usr/share/locale/da/LC_MESSAGES/libgedit-tepl-6.mo",
+				"/usr/share/locale/de/LC_MESSAGES/libgedit-tepl-6.mo",
+				"/usr/share/locale/el/LC_MESSAGES/libgedit-tepl-6.mo",
+				"/usr/share/locale/en_GB/LC_MESSAGES/libgedit-tepl-6.mo",
+				"/usr/share/locale/es/LC_MESSAGES/libgedit-tepl-6.mo",
+				"/usr/share/locale/eu/LC_MESSAGES/libgedit-tepl-6.mo",
+				"/usr/share/locale/fr/LC_MESSAGES/libgedit-tepl-6.mo",
+				"/usr/share/locale/fur/LC_MESSAGES/libgedit-tepl-6.mo",
+				"/usr/share/locale/hr/LC_MESSAGES/libgedit-tepl-6.mo",
+				"/usr/share/locale/hu/LC_MESSAGES/libgedit-tepl-6.mo",
+				"/usr/share/locale/id/LC_MESSAGES/libgedit-tepl-6.mo",
+				"/usr/share/locale/ja/LC_MESSAGES/libgedit-tepl-6.mo",
+				"/usr/share/locale/ka/LC_MESSAGES/libgedit-tepl-6.mo",
+				"/usr/share/locale/nl/LC_MESSAGES/libgedit-tepl-6.mo",
+				"/usr/share/locale/pl/LC_MESSAGES/libgedit-tepl-6.mo",
+				"/usr/share/locale/pt_BR/LC_MESSAGES/libgedit-tepl-6.mo",
+				"/usr/share/locale/ro/LC_MESSAGES/libgedit-tepl-6.mo",
+				"/usr/share/locale/ru/LC_MESSAGES/libgedit-tepl-6.mo",
+				"/usr/share/locale/sl/LC_MESSAGES/libgedit-tepl-6.mo",
+				"/usr/share/locale/sr/LC_MESSAGES/libgedit-tepl-6.mo",
+				"/usr/share/locale/sv/LC_MESSAGES/libgedit-tepl-6.mo",
+				"/usr/share/locale/tr/LC_MESSAGES/libgedit-tepl-6.mo",
+				"/usr/share/locale/uk/LC_MESSAGES/libgedit-tepl-6.mo",
+				"/usr/share/locale/zh_CN/LC_MESSAGES/libgedit-tepl-6.mo"
 			],
 			"name": "libgedit-tepl",
 			"provides": [
@@ -41,6 +69,7 @@
 		"libgedit-tepl-devel": {
 			"build-depends": [
 				"binary(gtkdoc-scan)",
+				"binary(msgfmt)",
 				"docbook-xsl",
 				"pkgconfig(gio-2.0)",
 				"pkgconfig(gobject-introspection-1.0)",
@@ -129,6 +158,7 @@
 		"libgedit-tepl-docs": {
 			"build-depends": [
 				"binary(gtkdoc-scan)",
+				"binary(msgfmt)",
 				"docbook-xsl",
 				"pkgconfig(gio-2.0)",
 				"pkgconfig(gobject-introspection-1.0)",
@@ -234,6 +264,6 @@
 		}
 	},
 	"source-name": "libgedit-tepl",
-	"source-release": "1",
+	"source-release": "2",
 	"source-version": "6.14.0"
 }
