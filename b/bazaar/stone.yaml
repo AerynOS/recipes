@@ -3,7 +3,7 @@
 
 name        : bazaar
 version     : "0.7.10"
-release     : 1
+release     : 2
 homepage    : https://github.com/kolunmi/bazaar
 upstreams   :
     - git|https://github.com/kolunmi/bazaar.git : 97d488552ae4d5e81ad1cdf9a7df5edb67b56fed
@@ -13,9 +13,7 @@ description : |
 license     :
     - GPL-3.0-or-later
 builddeps   :
-    - binary(meson)
     - binary(msgfmt)
-    - binary(ninja)
     - binary(update-desktop-database)
     - pkgconfig(blueprint-compiler)
     - pkgconfig(flatpak)
@@ -33,7 +31,9 @@ builddeps   :
     - pkgconfig(xmlb)
     - pkgconfig(yaml-0.1)
 setup       : |
+    # Fixes build failure
     export CFLAGS="${CFLAGS} -Wno-format-nonliteral"
+
     %meson
 build       : |
     %ninja
