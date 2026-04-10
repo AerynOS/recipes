@@ -21,7 +21,7 @@
 			],
 			"files": [
 				"/usr/lib/libKF6Archive.so.6",
-				"/usr/lib/libKF6Archive.so.6.24.0",
+				"/usr/lib/libKF6Archive.so.6.25.0",
 				"/usr/share/locale/ar/LC_MESSAGES/karchive6_qt.qm",
 				"/usr/share/locale/ast/LC_MESSAGES/karchive6_qt.qm",
 				"/usr/share/locale/bg/LC_MESSAGES/karchive6_qt.qm",
@@ -81,7 +81,8 @@
 				"pkgconfig(openssl)"
 			],
 			"depends": [
-				"kf6-karchive"
+				"kf6-karchive",
+				"pkgconfig(Qt6Core)"
 			],
 			"files": [
 				"/usr/include/KF6/KArchive/K7Zip",
@@ -114,15 +115,17 @@
 				"/usr/lib/cmake/KF6Archive/KF6ArchiveConfigVersion.cmake",
 				"/usr/lib/cmake/KF6Archive/KF6ArchiveTargets-release.cmake",
 				"/usr/lib/cmake/KF6Archive/KF6ArchiveTargets.cmake",
-				"/usr/lib/libKF6Archive.so"
+				"/usr/lib/libKF6Archive.so",
+				"/usr/lib/pkgconfig/KF6Archive.pc"
 			],
 			"name": "kf6-karchive-devel",
 			"provides": [
-				"cmake(KF6Archive)"
+				"cmake(KF6Archive)",
+				"pkgconfig(KF6Archive)"
 			]
 		}
 	},
 	"source-name": "kf6-karchive",
-	"source-release": "18",
-	"source-version": "6.24.0"
+	"source-release": "19",
+	"source-version": "6.25.0"
 }
