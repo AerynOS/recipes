@@ -2,8 +2,8 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : gpu-screen-recorder
-version     : "5.12.2"
-release     : 1
+version     : "5.12.5"
+release     : 2
 homepage    : https://git.dec05eba.com/gpu-screen-recorder/about/
 license     : GPL-3.0-only
 summary     : An extremely fast hardware-accelerated screen recorder
@@ -12,12 +12,14 @@ description : |
     minimizes system overhead by leveraging GPU hardware encoding. It can be
     used for local recording, streaming, and instant-replay workflows.
 upstreams   :
-    - git|https://repo.dec05eba.com/gpu-screen-recorder : c1af14340657daa39aa177e301bbde01aafa62fd
+    - https://dec05eba.com/snapshot/gpu-screen-recorder.git.5.12.5.tar.gz:
+        hash: 3207bef976d130f8df465f4290304e226f82ce0c226b6a8cb9756e6316e15b79
+        stripdirs: 0
 builddeps   :
-    - binary(meson)
-    - binary(ninja)
-    - binary(pkgconf)
     - pkgconfig(dbus-1)
+    - pkgconfig(libavcodec)
+    - pkgconfig(libavfilter)
+    - pkgconfig(libavformat)
     - pkgconfig(libcap)
     - pkgconfig(libdrm)
     - pkgconfig(libglvnd)
@@ -30,11 +32,9 @@ builddeps   :
     - pkgconfig(xcomposite)
     - pkgconfig(xdamage)
     - pkgconfig(xrandr)
-    - libavcodec-devel
-    - libavfilter-devel
-    - libavformat-devel
 setup       : |
-    %meson -Dcapabilities=false
+    %meson \
+        -Dcapabilities=false
 build       : |
     %meson_build
 install     : |

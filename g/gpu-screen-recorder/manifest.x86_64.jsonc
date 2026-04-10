@@ -4,13 +4,10 @@
 	"packages": {
 		"gpu-screen-recorder": {
 			"build-depends": [
-				"binary(meson)",
-				"binary(ninja)",
-				"binary(pkgconf)",
-				"libavcodec-devel",
-				"libavfilter-devel",
-				"libavformat-devel",
 				"pkgconfig(dbus-1)",
+				"pkgconfig(libavcodec)",
+				"pkgconfig(libavfilter)",
+				"pkgconfig(libavformat)",
 				"pkgconfig(libcap)",
 				"pkgconfig(libdrm)",
 				"pkgconfig(libglvnd)",
@@ -55,6 +52,22 @@
 				"/usr/bin/gsr-kms-server",
 				"/usr/lib/modprobe.d/gsr-nvidia.conf",
 				"/usr/lib/systemd/user/gpu-screen-recorder.service",
+				"/usr/share/gpu-screen-recorder/scripts/interactive.sh",
+				"/usr/share/gpu-screen-recorder/scripts/list-sinks.sh",
+				"/usr/share/gpu-screen-recorder/scripts/record-application-name.sh",
+				"/usr/share/gpu-screen-recorder/scripts/record-save-application-name.sh",
+				"/usr/share/gpu-screen-recorder/scripts/replay-application-name.sh",
+				"/usr/share/gpu-screen-recorder/scripts/save-recording.sh",
+				"/usr/share/gpu-screen-recorder/scripts/save-replay.sh",
+				"/usr/share/gpu-screen-recorder/scripts/start-recording.sh",
+				"/usr/share/gpu-screen-recorder/scripts/start-replay.sh",
+				"/usr/share/gpu-screen-recorder/scripts/start-stop-recording.sh",
+				"/usr/share/gpu-screen-recorder/scripts/stop-replay.sh",
+				"/usr/share/gpu-screen-recorder/scripts/toggle-recording-selected.sh",
+				"/usr/share/gpu-screen-recorder/scripts/toggle-recording.sh",
+				"/usr/share/gpu-screen-recorder/scripts/twitch-stream-local-copy.sh",
+				"/usr/share/gpu-screen-recorder/scripts/twitch-stream.sh",
+				"/usr/share/gpu-screen-recorder/scripts/youtube-hls-stream.sh",
 				"/usr/share/man/man1/gpu-screen-recorder.1",
 				"/usr/share/man/man1/gsr-kms-server.1"
 			],
@@ -66,13 +79,10 @@
 		},
 		"gpu-screen-recorder-devel": {
 			"build-depends": [
-				"binary(meson)",
-				"binary(ninja)",
-				"binary(pkgconf)",
-				"libavcodec-devel",
-				"libavfilter-devel",
-				"libavformat-devel",
 				"pkgconfig(dbus-1)",
+				"pkgconfig(libavcodec)",
+				"pkgconfig(libavfilter)",
+				"pkgconfig(libavformat)",
 				"pkgconfig(libcap)",
 				"pkgconfig(libdrm)",
 				"pkgconfig(libglvnd)",
@@ -96,6 +106,6 @@
 		}
 	},
 	"source-name": "gpu-screen-recorder",
-	"source-release": "1",
-	"source-version": "5.12.2"
+	"source-release": "2",
+	"source-version": "5.12.5"
 }
