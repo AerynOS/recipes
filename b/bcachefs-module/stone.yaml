@@ -3,7 +3,7 @@
 
 name        : bcachefs-module
 version     : "1.37.5"
-release     : 1
+release     : 2
 homepage    : https://bcachefs.org
 upstreams   :
     - https://evilpiepirate.org/bcachefs-tools/bcachefs-tools-vendored-1.37.5.tar.zst : 69b867e0566ce980bf75fcf2ee4b98879e7322883c256a9df17469dbc5d3be1e
@@ -12,8 +12,13 @@ description : |
     bcachefs kernel module
 license     : GPL-2.0-only
 builddeps   :
+    - binary(awk)
+    - binary(cargo)
+    - binary(cpio)
     - binary(eu-readelf)
+    - binary(jq)
     - binary(zstd)
+    - sysbinary(bcachefs)
     # - linux-gaming-devel
     - linux-lts-devel
     - linux-stable-devel
@@ -43,6 +48,52 @@ build       : |
         popd
     done
 install     : |
+    # Construct a shared initrd containing the bcachefs/mkfs/fsck bins.
+    #  We do this hear because we need to copy additional libs into the initrd,
+    #  and those libs ABSOLUTELY MUST be ABI compatible with the libraries in the
+    #  base initrd. The safest way to achieve that is to create the initd here
+    #  instead of in the bcachefs-tools build. By doing this the bcachefs tools
+    #  initrd is guaranteed to be rebuilt immediately after the root initrd is
+    #  built, guaranteeing ABI compatibility.
+    %install_dir initrd/%(libdir)
+    %install_exe %(sbindir)/bcachefs initrd/%(sbindir)/bcachefs
+    for i in fsck.bcachefs mount.bcachefs; do
+        ln -srv initrd/%(sbindir)/bcachefs initrd/%(sbindir)/${i}
+    done
+
+    # We need to copy in the libs that are needed to run the binary
+    function copy_or_symlink() {
+        file=$1
+
+        if test -h %(libdir)/${file}; then
+            link=$(readlink %(libdir)/${file})
+
+            ln -s ${link} initrd/%(libdir)/${file}
+            copy_or_symlink ${link}
+        else
+            cp -a %(libdir)/${file} initrd/%(libdir)/${file}
+        fi
+    }
+
+    readarray -t libs <<<"$(eu-readelf -d %(sbindir)/bcachefs | grep "NEEDED" | awk '{print $4}' | sed -e 's|\[||g' -e 's|]||g')"
+    for i in ${libs[@]}; do
+        case $i in
+            # We know for sure these are in the root initrd. Many of the rest are as well
+            #  but there's very little space wasted by including duplicates
+            libzstd.so.1|libz.so.1|libgcc_s.so.1|libc.so.6|ld-linux-x86-64.so.2)
+                continue
+                ;;
+            *)
+                copy_or_symlink ${i}
+                ;;
+        esac
+    done
+
+    pushd initrd
+    find . | cpio -o -H newc | zstd -19 -T0 -c > ../bcachefs-tools.initrd
+    popd
+    %install_file bcachefs-tools.initrd %(installroot)%(libdir)/kernel/initrd.d/65-%(name)-shared.initrd
+
     for _kernel in ${kernels[@]}; do
         pushd ${_kernel}
         %install_file src/fs/bcachefs/bcachefs.ko -t %(installroot)%(libdir)/modules/${_kernel}/extra/fs/bcachefs
@@ -71,6 +122,15 @@ install     : |
         done
         popd
 
+        # Create an initrd for .ko files
+        mkdir -p initrd/%(libdir)/modules/${_kernel}/extra/fs/bcachefs
+        find %(installroot)%(libdir)/modules -name '*.ko' -exec cp -v {} initrd/%(libdir)/modules/${_kernel}/extra/fs/bcachefs \;
+        touch initrd/.dracut-depmod-invalidate
+        pushd initrd
+        %install_dir %(installroot)%(libdir)/kernel/${_kernel}
+        find . | cpio -o -H newc | zstd -19 -T0 -c > %(installroot)%(libdir)/kernel/${_kernel}/70-%(name).initrd
+        popd
+
         # Compress modules with zstd
         find "%(installroot)%(libdir)/modules/${_kernel}/" -name '*.ko' -print -exec zstd {} \; -exec rm -v {} \;
 
@@ -79,10 +139,17 @@ install     : |
 packages    :
     # TODO: Make %(name) a virtual package that uses conditional rundeps to pull in the correct package depending on kernel(s) installed
 
+    - "%(name)-shared":
+        summary: "initrd extension containing bcachefs-tools"
+        description: "initrd extension containing bcachefs-tools"
+        paths:
+            - /usr/lib/kernel/initrd.d/
+
     # - "%(name)-gaming":
     #     summary: "%(name) built for gaming kernel"
     #     description: "%(name) built for gaming kernel"
     #     rundeps:
+    #         - bcachefs-tools-initrd
     #         - sysbinary(depmod)
     #         - linux-gaming
     #     paths:
@@ -93,6 +160,7 @@ packages    :
         summary: "%(name) built for LTS kernel"
         description: "%(name) built for LTS kernel"
         rundeps:
+            - "%(name)-shared"
             - sysbinary(depmod)
             - linux-lts
         paths:
@@ -103,6 +171,7 @@ packages    :
         summary: "%(name) built for stable kernel"
         description: "%(name) built for stable kernel"
         rundeps:
+            - "%(name)-shared"
             - sysbinary(depmod)
             - linux-stable
         paths:

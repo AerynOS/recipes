@@ -4,38 +4,69 @@
 	"packages": {
 		"bcachefs-module-lts": {
 			"build-depends": [
+				"binary(awk)",
+				"binary(cargo)",
+				"binary(cpio)",
 				"binary(eu-readelf)",
+				"binary(jq)",
 				"binary(zstd)",
 				"linux-lts-devel",
-				"linux-stable-devel"
+				"linux-stable-devel",
+				"sysbinary(bcachefs)"
 			],
 			"depends": [
+				"bcachefs-module-shared",
 				"linux-lts",
 				"sysbinary(depmod)"
 			],
 			"files": [
+				"/usr/lib/kernel/6.18.21-1.lts/70-bcachefs-module.initrd",
 				"/usr/lib/modules/6.18.21-1.lts/extra/fs/bcachefs/bcachefs.ko.zst"
 			],
 			"name": "bcachefs-module-lts"
 		},
-		"bcachefs-module-stable": {
+		"bcachefs-module-shared": {
 			"build-depends": [
+				"binary(awk)",
+				"binary(cargo)",
+				"binary(cpio)",
 				"binary(eu-readelf)",
+				"binary(jq)",
 				"binary(zstd)",
 				"linux-lts-devel",
-				"linux-stable-devel"
+				"linux-stable-devel",
+				"sysbinary(bcachefs)"
+			],
+			"files": [
+				"/usr/lib/kernel/initrd.d/65-bcachefs-module-shared.initrd"
+			],
+			"name": "bcachefs-module-shared"
+		},
+		"bcachefs-module-stable": {
+			"build-depends": [
+				"binary(awk)",
+				"binary(cargo)",
+				"binary(cpio)",
+				"binary(eu-readelf)",
+				"binary(jq)",
+				"binary(zstd)",
+				"linux-lts-devel",
+				"linux-stable-devel",
+				"sysbinary(bcachefs)"
 			],
 			"depends": [
+				"bcachefs-module-shared",
 				"linux-stable",
 				"sysbinary(depmod)"
 			],
 			"files": [
+				"/usr/lib/kernel/6.18.22-1.stable/70-bcachefs-module.initrd",
 				"/usr/lib/modules/6.18.22-1.stable/extra/fs/bcachefs/bcachefs.ko.zst"
 			],
 			"name": "bcachefs-module-stable"
 		}
 	},
 	"source-name": "bcachefs-module",
-	"source-release": "1",
+	"source-release": "2",
 	"source-version": "1.37.5"
 }
