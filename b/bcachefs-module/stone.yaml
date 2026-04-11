@@ -3,7 +3,7 @@
 
 name        : bcachefs-module
 version     : "1.37.5"
-release     : 2
+release     : 3
 homepage    : https://bcachefs.org
 upstreams   :
     - https://evilpiepirate.org/bcachefs-tools/bcachefs-tools-vendored-1.37.5.tar.zst : 69b867e0566ce980bf75fcf2ee4b98879e7322883c256a9df17469dbc5d3be1e
@@ -133,6 +133,9 @@ install     : |
 
         # Compress modules with zstd
         find "%(installroot)%(libdir)/modules/${_kernel}/" -name '*.ko' -print -exec zstd {} \; -exec rm -v {} \;
+
+        # This is a stupid hack because blsforme doesn't seem to support version-independent initrds yet
+        cp -a %(installroot)%(libdir)/kernel/initrd.d/65-bcachefs-module-shared.initrd %(installroot)%(libdir)/kernel/${_kernel}/65-bcachefs-module-shared.initrd
 
         popd
     done
