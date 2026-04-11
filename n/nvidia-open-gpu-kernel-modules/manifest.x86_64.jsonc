@@ -8,10 +8,9 @@
 				"binary(eu-readelf)",
 				"binary(jq)",
 				"binary(zstd)",
-				"linux-lts",
 				"linux-lts-devel",
-				"linux-stable",
-				"linux-stable-devel"
+				"linux-stable-devel",
+				"nvidia-graphics-driver-firmware"
 			],
 			"depends": [
 				"nvidia-open-gpu-kernel-modules-stable"
@@ -27,10 +26,9 @@
 				"binary(eu-readelf)",
 				"binary(jq)",
 				"binary(zstd)",
-				"linux-lts",
 				"linux-lts-devel",
-				"linux-stable",
-				"linux-stable-devel"
+				"linux-stable-devel",
+				"nvidia-graphics-driver-firmware"
 			],
 			"depends": [
 				"linux-lts",
@@ -39,6 +37,7 @@
 				"sysbinary(depmod)"
 			],
 			"files": [
+				"/usr/lib/kernel/6.18.21-1.lts/55-nvidia-firmware.initrd",
 				"/usr/lib/kernel/6.18.21-1.lts/60-nvidia.initrd",
 				"/usr/lib/modules/6.18.21-1.lts/extra/drivers/video/nvidia-drm.ko.zst",
 				"/usr/lib/modules/6.18.21-1.lts/extra/drivers/video/nvidia-modeset.ko.zst",
@@ -54,10 +53,9 @@
 				"binary(eu-readelf)",
 				"binary(jq)",
 				"binary(zstd)",
-				"linux-lts",
 				"linux-lts-devel",
-				"linux-stable",
-				"linux-stable-devel"
+				"linux-stable-devel",
+				"nvidia-graphics-driver-firmware"
 			],
 			"files": [
 				"/usr/lib/modprobe.d/nvidia-blacklist.conf",
@@ -71,10 +69,9 @@
 				"binary(eu-readelf)",
 				"binary(jq)",
 				"binary(zstd)",
-				"linux-lts",
 				"linux-lts-devel",
-				"linux-stable",
-				"linux-stable-devel"
+				"linux-stable-devel",
+				"nvidia-graphics-driver-firmware"
 			],
 			"depends": [
 				"linux-stable",
@@ -83,6 +80,7 @@
 				"sysbinary(depmod)"
 			],
 			"files": [
+				"/usr/lib/kernel/6.18.22-1.stable/55-nvidia-firmware.initrd",
 				"/usr/lib/kernel/6.18.22-1.stable/60-nvidia.initrd",
 				"/usr/lib/modules/6.18.22-1.stable/extra/drivers/video/nvidia-drm.ko.zst",
 				"/usr/lib/modules/6.18.22-1.stable/extra/drivers/video/nvidia-modeset.ko.zst",
@@ -94,6 +92,6 @@
 		}
 	},
 	"source-name": "nvidia-open-gpu-kernel-modules",
-	"source-release": "81",
+	"source-release": "82",
 	"source-version": "595.58.03"
 }
