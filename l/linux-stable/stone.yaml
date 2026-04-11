@@ -122,7 +122,7 @@ install     : |
         module_list+=("$REPLY")
     done < <(find .%(libdir)/modules -type f -name "*.ko" -print0)
     for module in "${module_list[@]}"; do
-        build_id=$(eu-readelf -n ${module} | grep Bui | awk '{print $3}')
+        build_id=$(eu-readelf -n ${module} | awk '/Bui/ {print $3}')
         debug_path="%(libdir)/debug/.build-id/${build_id:0:2}/${build_id: 2}.debug"
         %install_dir $(dirname .${debug_path})
         llvm-objcopy --only-keep-debug "${module}" ".${debug_path}"
