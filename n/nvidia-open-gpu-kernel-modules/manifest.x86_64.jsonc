@@ -8,6 +8,7 @@
 				"binary(eu-readelf)",
 				"binary(jq)",
 				"binary(zstd)",
+				"linux-gaming-devel",
 				"linux-lts-devel",
 				"linux-stable-devel",
 				"nvidia-graphics-driver-firmware"
@@ -20,12 +21,41 @@
 			],
 			"name": "nvidia-open-gpu-kernel-modules"
 		},
+		"nvidia-open-gpu-kernel-modules-gaming": {
+			"build-depends": [
+				"binary(cpio)",
+				"binary(eu-readelf)",
+				"binary(jq)",
+				"binary(zstd)",
+				"linux-gaming-devel",
+				"linux-lts-devel",
+				"linux-stable-devel",
+				"nvidia-graphics-driver-firmware"
+			],
+			"depends": [
+				"linux-gaming",
+				"nvidia-graphics-driver-firmware",
+				"nvidia-open-gpu-kernel-modules-shared",
+				"sysbinary(depmod)"
+			],
+			"files": [
+				"/usr/lib/kernel/7.0-1.gaming/55-nvidia-firmware.initrd",
+				"/usr/lib/kernel/7.0-1.gaming/60-nvidia.initrd",
+				"/usr/lib/modules/7.0-1.gaming/extra/drivers/video/nvidia-drm.ko.zst",
+				"/usr/lib/modules/7.0-1.gaming/extra/drivers/video/nvidia-modeset.ko.zst",
+				"/usr/lib/modules/7.0-1.gaming/extra/drivers/video/nvidia-peermem.ko.zst",
+				"/usr/lib/modules/7.0-1.gaming/extra/drivers/video/nvidia-uvm.ko.zst",
+				"/usr/lib/modules/7.0-1.gaming/extra/drivers/video/nvidia.ko.zst"
+			],
+			"name": "nvidia-open-gpu-kernel-modules-gaming"
+		},
 		"nvidia-open-gpu-kernel-modules-lts": {
 			"build-depends": [
 				"binary(cpio)",
 				"binary(eu-readelf)",
 				"binary(jq)",
 				"binary(zstd)",
+				"linux-gaming-devel",
 				"linux-lts-devel",
 				"linux-stable-devel",
 				"nvidia-graphics-driver-firmware"
@@ -37,13 +67,13 @@
 				"sysbinary(depmod)"
 			],
 			"files": [
-				"/usr/lib/kernel/6.18.21-1.lts/55-nvidia-firmware.initrd",
-				"/usr/lib/kernel/6.18.21-1.lts/60-nvidia.initrd",
-				"/usr/lib/modules/6.18.21-1.lts/extra/drivers/video/nvidia-drm.ko.zst",
-				"/usr/lib/modules/6.18.21-1.lts/extra/drivers/video/nvidia-modeset.ko.zst",
-				"/usr/lib/modules/6.18.21-1.lts/extra/drivers/video/nvidia-peermem.ko.zst",
-				"/usr/lib/modules/6.18.21-1.lts/extra/drivers/video/nvidia-uvm.ko.zst",
-				"/usr/lib/modules/6.18.21-1.lts/extra/drivers/video/nvidia.ko.zst"
+				"/usr/lib/kernel/6.18.22-2.lts/55-nvidia-firmware.initrd",
+				"/usr/lib/kernel/6.18.22-2.lts/60-nvidia.initrd",
+				"/usr/lib/modules/6.18.22-2.lts/extra/drivers/video/nvidia-drm.ko.zst",
+				"/usr/lib/modules/6.18.22-2.lts/extra/drivers/video/nvidia-modeset.ko.zst",
+				"/usr/lib/modules/6.18.22-2.lts/extra/drivers/video/nvidia-peermem.ko.zst",
+				"/usr/lib/modules/6.18.22-2.lts/extra/drivers/video/nvidia-uvm.ko.zst",
+				"/usr/lib/modules/6.18.22-2.lts/extra/drivers/video/nvidia.ko.zst"
 			],
 			"name": "nvidia-open-gpu-kernel-modules-lts"
 		},
@@ -53,6 +83,7 @@
 				"binary(eu-readelf)",
 				"binary(jq)",
 				"binary(zstd)",
+				"linux-gaming-devel",
 				"linux-lts-devel",
 				"linux-stable-devel",
 				"nvidia-graphics-driver-firmware"
@@ -69,6 +100,7 @@
 				"binary(eu-readelf)",
 				"binary(jq)",
 				"binary(zstd)",
+				"linux-gaming-devel",
 				"linux-lts-devel",
 				"linux-stable-devel",
 				"nvidia-graphics-driver-firmware"
@@ -80,18 +112,18 @@
 				"sysbinary(depmod)"
 			],
 			"files": [
-				"/usr/lib/kernel/6.18.22-1.stable/55-nvidia-firmware.initrd",
-				"/usr/lib/kernel/6.18.22-1.stable/60-nvidia.initrd",
-				"/usr/lib/modules/6.18.22-1.stable/extra/drivers/video/nvidia-drm.ko.zst",
-				"/usr/lib/modules/6.18.22-1.stable/extra/drivers/video/nvidia-modeset.ko.zst",
-				"/usr/lib/modules/6.18.22-1.stable/extra/drivers/video/nvidia-peermem.ko.zst",
-				"/usr/lib/modules/6.18.22-1.stable/extra/drivers/video/nvidia-uvm.ko.zst",
-				"/usr/lib/modules/6.18.22-1.stable/extra/drivers/video/nvidia.ko.zst"
+				"/usr/lib/kernel/7.0-2.stable/55-nvidia-firmware.initrd",
+				"/usr/lib/kernel/7.0-2.stable/60-nvidia.initrd",
+				"/usr/lib/modules/7.0-2.stable/extra/drivers/video/nvidia-drm.ko.zst",
+				"/usr/lib/modules/7.0-2.stable/extra/drivers/video/nvidia-modeset.ko.zst",
+				"/usr/lib/modules/7.0-2.stable/extra/drivers/video/nvidia-peermem.ko.zst",
+				"/usr/lib/modules/7.0-2.stable/extra/drivers/video/nvidia-uvm.ko.zst",
+				"/usr/lib/modules/7.0-2.stable/extra/drivers/video/nvidia.ko.zst"
 			],
 			"name": "nvidia-open-gpu-kernel-modules-stable"
 		}
 	},
 	"source-name": "nvidia-open-gpu-kernel-modules",
-	"source-release": "82",
+	"source-release": "83",
 	"source-version": "595.58.03"
 }
