@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : linux-lts
-version     : "6.18.21"
-release     : 1
+version     : "6.18.22"
+release     : 2
 homepage    : https://kernel.org/
 upstreams   :
-    - https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.18.21.tar.xz : 1c38214fb137bae85b82b82537b5987358621b915ab2a8e4f09e60697c19474f
+    - https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.18.22.tar.xz : a23c92faf3657385c2c6b5f4edd8f81b808907ebe603fa30699eae224da55f59
 summary     : The Linux Kernel - LTS
 description : |
     The Linux Kernel - LTS
@@ -123,12 +123,19 @@ install     : |
         module_list+=("$REPLY")
     done < <(find .%(libdir)/modules -type f -name "*.ko" -print0)
     for module in "${module_list[@]}"; do
-        build_id=$(eu-readelf -n ${module} | grep Bui | awk '{print $3}')
+        build_id=$(eu-readelf -n ${module} | awk '/Bui/ {print $3}')
         debug_path="%(libdir)/debug/.build-id/${build_id:0:2}/${build_id: 2}.debug"
-        %install_dir $(dirname .${debug_path})
-        llvm-objcopy --only-keep-debug "${module}" ".${debug_path}"
-        llvm-objcopy --add-gnu-debuglink ".${debug_path}" "${module}"
-        llvm-strip -g --strip-unneeded "${module}"
+
+        pushd $(dirname ${module})
+        file=$(basename ${module})
+
+        llvm-objcopy --only-keep-debug "${file}" "${file}.debug"
+        llvm-objcopy --add-gnu-debuglink "${file}.debug" "${file}"
+        llvm-strip -g --strip-unneeded "${file}"
+        %install_file "${file}.debug" "%(installroot)/${debug_path}"
+        rm -v "${file}.debug"
+
+        popd
     done
     popd
     /usr/sbin/depmod -b %(installroot)/usr ${kernelVersion} -a
