@@ -1,0 +1,71 @@
+# SPDX-FileCopyrightText: © 2025- AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : yubico-authenticator
+version     : "7.3.2"
+release     : 1
+homepage    : https://github.com/Yubico/yubioath-flutter
+upstreams   :
+    - https://github.com/Yubico/yubioath-flutter/archive/refs/tags/7.3.2.tar.gz : 6aba677eb4f2705201bdee0ca3a56711fcba94b42e679c4040c32d566c332f20
+    - https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.41.2-stable.tar.xz#flutter.tar.xz :
+        hash: 4a04f8a6152986d14fc137ffaf98106ca743c0f9ab66f1bc2f20ee84eb573e5c
+        unpack: false
+        rename: flutter.tar.xz
+summary     : Yubico Authenticator for Desktop (Windows, macOS and Linux) and Android
+description : |
+    Manage your YubiKey and access one-time passwords with this full-featured companion app to the YubiKey.
+license     :
+    - Apache-2.0
+builddeps  :
+    - binary(cmake)
+    - binary(make)
+    - binary(ninja)
+    - binary(swig)
+    - binary(uv)
+    - binary(which)
+    - pkgconfig(ayatana-appindicator3-0.1)
+    - pkgconfig(gtk+-3.0)
+    - pkgconfig(libnotify)
+    - pkgconfig(libpcsclite)
+    - pkgconfig(python3)
+    - pkgconfig(zxing)
+    - python(pip)
+    - binutils
+    - python-setuptools_scm
+    - python-vcs-versioning
+    - tar
+rundeps    :
+    - ccid
+    - pcsclite
+networking : true
+environment: |
+    # Flutter
+    export PATH="$PATH:%(sourcedir)/flutter/bin"
+setup      : |
+    %patch %(pkgdir)/0001-fix-avoid-ensurepip-by-using-without-pip.patch
+
+    # Extract Flutter
+    tar -xf %(sourcedir)/flutter.tar.xz -C %(sourcedir)/
+    # Flutter detects the version of itself through git
+    git config --global --add safe.directory %(sourcedir)/flutter
+build       : |
+    ./build-helper.sh
+
+    # Then, build the Flutter GUI
+    flutter pub get
+    flutter build linux --release
+install     : |
+    _yubico_authenticator_root=%(libdir)/yubico-authenticator
+    _yubico_authenticator_install=%(installroot)/$_yubico_authenticator_root
+
+    %install_dir $_yubico_authenticator_install
+    cp -R build/linux/x64/release/bundle/* $_yubico_authenticator_install
+
+    sed -i 's|Exec="@EXEC_PATH/authenticator"|Exec=yubico-authenticator|' $_yubico_authenticator_install/linux_support/com.yubico.yubioath.desktop
+    sed -i 's|Icon=@EXEC_PATH/linux_support/com.yubico.yubioath.png|Icon=com.yubico.yubioath|' $_yubico_authenticator_install/linux_support/com.yubico.yubioath.desktop
+
+    %install_file $_yubico_authenticator_install/linux_support/com.yubico.yubioath.desktop %(installroot)/%(datadir)/applications/com.yubico.yubioath.desktop
+    %install_file $_yubico_authenticator_install/linux_support/com.yubico.yubioath.png %(installroot)/%(datadir)/icons/hicolor/128x128/apps/com.yubico.yubioath.png
+
+    %install_dir %(installroot)%(bindir)
+    ln -svf $_yubico_authenticator_root/authenticator %(installroot)%(bindir)/yubico-authenticator
