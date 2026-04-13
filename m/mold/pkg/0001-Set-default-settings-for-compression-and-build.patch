@@ -4,15 +4,19 @@ Date: Thu, 12 Dec 2024 19:13:16 -0600
 Subject: [PATCH] Set default settings for compression and build-id
 
 Set the default to compress debug sections with zstd, and also set the default to create a build-id using BLAKE3 that's 160 bits long.
+
+Origin: vendor
+Forwarded: not-needed
+Last-Update: 2026-04-13
 ---
  src/mold.h | 6 +++---
  1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/src/mold.h b/src/mold.h
-index 382a6f78..59dc84a7 100644
+index 3e4d36e6..205fb28e 100644
 --- a/src/mold.h
 +++ b/src/mold.h
-@@ -2075,9 +2075,9 @@ struct BuildId {
+@@ -2212,9 +2212,9 @@ struct BuildId {
      }
    }
  
@@ -24,10 +28,10 @@ index 382a6f78..59dc84a7 100644
  };
  
  typedef enum {
-@@ -2282,7 +2282,7 @@ struct Context {
-     bool z_shstk = false;
+@@ -2419,7 +2419,7 @@ struct Context {
      bool z_start_stop_visibility_protected = false;
      bool z_text = false;
+     bool zero_to_bss = false;
 -    i64 compress_debug_sections = ELFCOMPRESS_NONE;
 +    i64 compress_debug_sections = ELFCOMPRESS_ZSTD;
      i64 filler = -1;
