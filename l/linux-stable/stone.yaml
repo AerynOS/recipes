@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : linux-stable
-version     : "6.18.22"
-release     : 1
+version     : "7.0"
+release     : 2
 homepage    : https://kernel.org/
 upstreams   :
-    - https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.18.21.tar.xz : 1c38214fb137bae85b82b82537b5987358621b915ab2a8e4f09e60697c19474f
+    - https://cdn.kernel.org/pub/linux/kernel/v7.x/linux-7.0.tar.xz : bb7f6d80b387c757b7d14bb93028fcb90f793c5c0d367736ee815a100b3891f0
 summary     : The Linux Kernel - Stable
 description : |
     The Linux Kernel - Stable
@@ -124,10 +124,17 @@ install     : |
     for module in "${module_list[@]}"; do
         build_id=$(eu-readelf -n ${module} | awk '/Bui/ {print $3}')
         debug_path="%(libdir)/debug/.build-id/${build_id:0:2}/${build_id: 2}.debug"
-        %install_dir $(dirname .${debug_path})
-        llvm-objcopy --only-keep-debug "${module}" ".${debug_path}"
-        llvm-objcopy --add-gnu-debuglink ".${debug_path}" "${module}"
-        llvm-strip -g --strip-unneeded "${module}"
+
+        pushd $(dirname ${module})
+        file=$(basename ${module})
+
+        llvm-objcopy --only-keep-debug "${file}" "${file}.debug"
+        llvm-objcopy --add-gnu-debuglink "${file}.debug" "${file}"
+        llvm-strip -g --strip-unneeded "${file}"
+        %install_file "${file}.debug" "%(installroot)/${debug_path}"
+        rm -v "${file}.debug"
+
+        popd
     done
     popd
     /usr/sbin/depmod -b %(installroot)/usr ${kernelVersion} -a

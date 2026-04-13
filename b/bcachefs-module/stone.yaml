@@ -3,7 +3,7 @@
 
 name        : bcachefs-module
 version     : "1.37.5"
-release     : 3
+release     : 4
 homepage    : https://bcachefs.org
 upstreams   :
     - https://evilpiepirate.org/bcachefs-tools/bcachefs-tools-vendored-1.37.5.tar.zst : 69b867e0566ce980bf75fcf2ee4b98879e7322883c256a9df17469dbc5d3be1e
@@ -19,7 +19,7 @@ builddeps   :
     - binary(jq)
     - binary(zstd)
     - sysbinary(bcachefs)
-    # - linux-gaming-devel
+    - linux-gaming-devel
     - linux-lts-devel
     - linux-stable-devel
 environment : |
@@ -106,7 +106,7 @@ install     : |
             module_list+=("$REPLY")
         done < <(find . -type f -name "*.ko" -print0)
         for module in "${module_list[@]}"; do
-            build_id=$(eu-readelf -n ${module} | grep Bui | awk '{print $3}')
+            build_id=$(eu-readelf -n ${module} | awk '/Bui/ {print $3}')
             debug_path="%(libdir)/debug/.build-id/${build_id:0:2}/${build_id: 2}.debug"
 
             pushd $(dirname ${module})
@@ -148,16 +148,16 @@ packages    :
         paths:
             - /usr/lib/kernel/initrd.d/
 
-    # - "%(name)-gaming":
-    #     summary: "%(name) built for gaming kernel"
-    #     description: "%(name) built for gaming kernel"
-    #     rundeps:
-    #         - bcachefs-tools-initrd
-    #         - sysbinary(depmod)
-    #         - linux-gaming
-    #     paths:
-    #         - /usr/lib/kernel/*.gaming/
-    #         - /usr/lib/modules/*.gaming/
+    - "%(name)-gaming":
+        summary: "%(name) built for gaming kernel"
+        description: "%(name) built for gaming kernel"
+        rundeps:
+            - bcachefs-tools-initrd
+            - sysbinary(depmod)
+            - linux-gaming
+        paths:
+            - /usr/lib/kernel/*.gaming/
+            - /usr/lib/modules/*.gaming/
 
     - "%(name)-lts":
         summary: "%(name) built for LTS kernel"

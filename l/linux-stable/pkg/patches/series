@@ -1,11 +1,8 @@
-# Firmware
-0001-drivers-firmware-skip-simpledrm-if-nvidia-drm.modese.patch
-
 # Enable x86_64-v2 build optimisations
 more-ISA-levels-and-uarches-for-kernel-6.16+.patch
 
 # MS Surface device patches
-# https://github.com/linux-surface/kernel/tree/v6.18-surface
+# https://github.com/linux-surface/kernel/tree/v6.19-surface
 surface/0001-Revert-efi-x86-Set-the-PE-COFF-header-s-NX-compat-fl.patch
 surface/0002-PM-hibernate-Add-a-lockdown_hibernate-parameter.patch
 surface/0003-surface3-oemb-add-DMI-matches-for-Surface-3-with-bro.patch
@@ -40,6 +37,7 @@ surface/0031-platform-x86-int3472-Add-MFD-cell-for-tps68470-LED.patch
 surface/0032-include-mfd-tps68470-Add-masks-for-LEDA-and-LEDB.patch
 surface/0033-leds-tps68470-Add-LED-control-for-tps68470.patch
 surface/0034-media-i2c-dw9719-fix-probe-error-on-surface-go-2.patch
+# Modified to 0x11 due to https://github.com/torvalds/linux/commit/2a7b765
 surface/0035-Add-camera-support-for-Surface-Pro-9.patch
 surface/0036-media-ipu-bridge-Add-front-camera-rotation-quirks-fo.patch
 surface/0037-ACPI-Add-quirk-for-Surface-Laptop-4-AMD-missing-irq-.patch
@@ -48,36 +46,11 @@ surface/0039-acpi-allow-usage-of-acpi_tad-on-HW-reduced-platforms.patch
 surface/0040-HID-Add-hid-surface-driver-to-filter-BTN_0-FN-key.patch
 surface/0041-hid-multitouch-Prevent-mode-set-on-Surface-Laptop-St.patch
 
-# Add linux-asus patches
-asus/0002-hid-add-VID-PID-for-ASUS-ROG-RAIKIRI-PRO.patch
-# https://lkml.org/lkml/2025/11/2/427
-asus/v17-0001-platform-x86-asus-wmi-export-symbols-used-for-re.patch
-asus/v17-0002-platform-x86-asus-armoury-move-existing-tunings-.patch
-asus/v17-0003-platform-x86-asus-armoury-add-panel_hd_mode-attr.patch
-asus/v17-0004-platform-x86-asus-armoury-add-apu-mem-control-su.patch
-asus/v17-0005-platform-x86-asus-armoury-add-core-count-control.patch
-asus/v17-0006-platform-x86-asus-armoury-add-screen-auto-bright.patch
-asus/v17-0007-platform-x86-asus-wmi-deprecate-bios-features.patch
-asus/v17-0008-platform-x86-asus-wmi-rename-ASUS_WMI_DEVID_PPT_.patch
-asus/v17-0009-platform-x86-asus-armoury-add-ppt_-and-nv_-tunin.patch
-
 # amdgpu patches that make it easier to control
 # whether to use radeon or amdgpu from the kernel cmd-line
-0001-drm-amdgpu-enable-SI-and-CIK-support-by-default.patch
 0001-Add-kernel-arg-to-enable-amdgpu-overdrive.patch
 
 # Various amdgpu tweaks
-# Backport some "DC Patches November 10, 2025"
-# https://lists.freedesktop.org/archives/amd-gfx/2025-November/133757.html
-hdmi/0002-amd-gfx-drm-amd-display-Add-panel-replay-capability-detection.patch
-hdmi/0003-amd-gfx-drm-amd-display-Get-panel-replay-capability-from-DPCD.patch
-hdmi/0004-amd-gfx-drm-amd-display-Add-panel-replay-enablement-option-and-logic.patch
-hdmi/0005-amd-gfx-drm-amd-display-Remove-unused-variable-in-Replay-set-version-structure.patch
-hdmi/0006-amd-gfx-drm-amd-display-Re-check-seamless-boot-can-be-enabled-or-not.patch
-# From https://gitlab.freedesktop.org/agd5f/linux
-hdmi/0001-amd-staging-drm-next-drm-amd-display-Add-AS-SDP-v2-support-for-eDP-feature.patch
-hdmi/0002-amd-staging-drm-next-drm-amd-display-Revise-VSC-SDP-header-for-Panel-Replay.patch
-hdmi/0004-amd-staging-drm-next-drm-amd-display-parse-all-extension-blocks-for-VSDB.patch
 # [PATCH v4] drm/amd: VRR fixes, HDMI Gaming Features
 # https://patchew.org/linux/20260216164516.36803-1-tomasz.pakula.oficjalny@gmail.com/
 hdmi/0001-drm-amd-display-Return-if-DisplayID-not-found-in-parse_amd_vsdb.patch
@@ -108,9 +81,6 @@ hdmi/0025-drm-Add-ALLM-properties-to-connector.patch
 hdmi/0026-drm-amd-display-Use-passive_vrr-properties-in-amdgpu.patch
 hdmi/0027-drm-amd-display-Use-ALLM-properties-in-amdgpu.patch
 
-# Use a nicer kernel console font
-0001-lib-fonts-Add-Terminus-10x18-console-font.patch
-
 # Add MT7902 driver
 # https://github.com/nbd168/wireless/commit/4eefc435c985f4dfdba9afb1c705f0e17377c084
 wifi/0000-wifi-mt76-mt7921-Replace-deprecated-PCI-function.patch
@@ -126,3 +96,13 @@ wifi/0008-wifi-mt76-mt7921-add-MT7902-MCU-support.patch
 wifi/0009-wifi-mt76-mt792x-add-MT7902-WFDMA-prefetch-configuration.patch
 wifi/0010-wifi-mt76-mt7921-add-MT7902-PCIe-device-support.patch
 wifi/0011-wifi-mt76-mt7921-add-MT7902-SDIO-device-support.patch
+
+# [PATCH v10] Add AMD ISP4 driver
+# https://patchew.org/linux/20260212083426.216430-1-Bin.Du@amd.com/
+isp4/0001-media-platform-amd-Introduce-amd-isp4-capture-driver.patch
+isp4/0002-media-platform-amd-low-level-support-for-isp4-firmware.patch
+isp4/0003-media-platform-amd-Add-isp4-fw-and-hw-interface.patch
+isp4/0004-media-platform-amd-isp4-subdev-and-firmware-loading-handling-added.patch
+isp4/0005-media-platform-amd-isp4-video-node-and-buffers-handling-added.patch
+isp4/0006-media-platform-amd-isp4-debug-fs-logging-and-more-descriptive-errors.patch
+isp4/0007-Documentation-add-documentation-of-AMD-isp-4-driver.patch
