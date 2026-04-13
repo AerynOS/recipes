@@ -22,6 +22,9 @@ environment : |
     export UUTILS_FEATURES="feat_acl,feat_systemd_logind,unix,uudoc"
     export RUSTFLAGS="$RUSTFLAGS -C codegen-units=1"
 setup       : |
+    # https://github.com/uutils/coreutils/issues/10862
+    %patch %(pkgdir)/10904.patch
+    # https://github.com/uutils/coreutils/issues/11693
     %patch %(pkgdir)/11686.patch
     %cargo_fetch
 build       : |

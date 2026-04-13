@@ -1,0 +1,2342 @@
+From 6234f87901fd8294fff7b2b558be2c210f52664a Mon Sep 17 00:00:00 2001
+From: Michael Yang <michaely4ng@proton.me>
+Date: Thu, 12 Feb 2026 20:18:52 +1100
+Subject: [PATCH 1/6] fix(cp): permissions mode and umask aware
+
+---
+ src/uu/cp/src/copydir.rs |  80 +++------
+ src/uu/cp/src/cp.rs      | 213 +++++++++++++++---------
+ tests/by-util/test_cp.rs | 338 ++++++++++++++++++++++++++++++++++++++-
+ 3 files changed, 494 insertions(+), 137 deletions(-)
+
+diff --git a/src/uu/cp/src/copydir.rs b/src/uu/cp/src/copydir.rs
+index 0c0b10af60e..83124bb45ac 100644
+--- a/src/uu/cp/src/copydir.rs
++++ b/src/uu/cp/src/copydir.rs
+@@ -267,6 +267,7 @@ fn copy_direntry(
+     copied_destinations: &HashSet<PathBuf>,
+     copied_files: &mut HashMap<FileInformation, PathBuf>,
+     created_parent_dirs: &mut HashSet<PathBuf>,
++    #[cfg(unix)] orig_umask: u32,
+ ) -> CopyResult<bool> {
+     let source_is_symlink = entry_is_symlink;
+     let source_is_dir = if source_is_symlink && !options.dereference {
+@@ -283,12 +284,7 @@ fn copy_direntry(
+         return if entry.target_is_file {
+             Err(translate!("cp-error-cannot-overwrite-non-directory-with-directory").into())
+         } else {
+-            build_dir(
+-                &entry.local_to_target,
+-                false,
+-                options,
+-                Some(&entry.source_absolute),
+-            )?;
++            build_dir(&entry.local_to_target, false)?;
+             if options.verbose {
+                 println!(
+                     "{}",
+@@ -311,6 +307,8 @@ fn copy_direntry(
+             copied_files,
+             created_parent_dirs,
+             false,
++            #[cfg(unix)]
++            orig_umask,
+         )
+     {
+         if preserve_hard_links {
+@@ -364,6 +362,7 @@ pub(crate) fn copy_directory(
+     copied_files: &mut HashMap<FileInformation, PathBuf>,
+     created_parent_dirs: &mut HashSet<PathBuf>,
+     source_in_command_line: bool,
++    #[cfg(unix)] orig_umask: u32,
+ ) -> CopyResult<()> {
+     // if no-dereference is enabled and this is a symlink, copy it as a file
+     if !options.dereference(source_in_command_line) && root.is_symlink() {
+@@ -377,6 +376,8 @@ pub(crate) fn copy_directory(
+             copied_files,
+             created_parent_dirs,
+             source_in_command_line,
++            #[cfg(unix)]
++            orig_umask,
+         );
+     }
+ 
+@@ -402,7 +403,7 @@ pub(crate) fn copy_directory(
+     let tmp = if options.parents {
+         if let Some(parent) = root.parent() {
+             let new_target = target.join(parent);
+-            build_dir(&new_target, true, options, None)?;
++            build_dir(&new_target, true)?;
+             if options.verbose {
+                 // For example, if copying file `a/b/c` and its parents
+                 // to directory `d/`, then print
+@@ -472,6 +473,8 @@ pub(crate) fn copy_directory(
+                     copied_destinations,
+                     copied_files,
+                     created_parent_dirs,
++                    #[cfg(unix)]
++                    orig_umask,
+                 )?;
+ 
+                 // We omit certain permissions when creating directories
+@@ -496,6 +499,8 @@ pub(crate) fn copy_directory(
+                             &options.attributes,
+                             false,
+                             options.set_selinux_context,
++                            #[cfg(unix)]
++                            orig_umask,
+                         )?;
+                         continue;
+                     }
+@@ -539,6 +544,8 @@ pub(crate) fn copy_directory(
+                                 &options.attributes,
+                                 false,
+                                 options.set_selinux_context,
++                                #[cfg(unix)]
++                                orig_umask,
+                             )?;
+                         }
+                     }
+@@ -561,6 +568,8 @@ pub(crate) fn copy_directory(
+             &options.attributes,
+             dir.was_created,
+             options.set_selinux_context,
++            #[cfg(unix)]
++            orig_umask,
+         )?;
+ 
+         #[cfg(all(feature = "selinux", target_os = "linux"))]
+@@ -581,6 +590,8 @@ pub(crate) fn copy_directory(
+                     &options.attributes,
+                     false,
+                     options.set_selinux_context,
++                    #[cfg(unix)]
++                    orig_umask,
+                 )?;
+ 
+                 #[cfg(all(feature = "selinux", target_os = "linux"))]
+@@ -620,59 +631,12 @@ pub fn path_has_prefix(p1: &Path, p2: &Path) -> io::Result<bool> {
+ 
+ /// Builds a directory at the specified path with the given options.
+ ///
+-/// # Notes
+-/// - If `copy_attributes_from` is `Some`, the new directory's attributes will be
+-///   copied from the provided file. Otherwise, the new directory will have the default
+-///   attributes for the current user.
+-/// - This method excludes certain permissions if ownership or special mode bits could
+-///   potentially change. (See `test_dir_perm_race_with_preserve_mode_and_ownership`)
+-/// - The `recursive` flag determines whether parent directories should be created
+-///   if they do not already exist.
+-// we need to allow unused_variable since `options` might be unused in non unix systems
+-#[allow(unused_variables)]
+-fn build_dir(
+-    path: &PathBuf,
+-    recursive: bool,
+-    options: &Options,
+-    copy_attributes_from: Option<&Path>,
+-) -> CopyResult<()> {
++/// The `recursive` flag determines whether parent directories should be created if they do not
++/// already exist.
++#[inline]
++fn build_dir(path: &PathBuf, recursive: bool) -> CopyResult<()> {
+     let mut builder = fs::DirBuilder::new();
+     builder.recursive(recursive);
+-
+-    // To prevent unauthorized access before the folder is ready,
+-    // exclude certain permissions if ownership or special mode bits
+-    // could potentially change.
+-    #[cfg(unix)]
+-    {
+-        use crate::Preserve;
+-        use std::os::unix::fs::PermissionsExt;
+-
+-        // we need to allow trivial casts here because some systems like linux have u32 constants in
+-        // in libc while others don't.
+-        #[allow(clippy::unnecessary_cast)]
+-        let mut excluded_perms = if matches!(options.attributes.ownership, Preserve::Yes { .. }) {
+-            libc::S_IRWXG | libc::S_IRWXO // exclude rwx for group and other
+-        } else if matches!(options.attributes.mode, Preserve::Yes { .. }) {
+-            libc::S_IWGRP | libc::S_IWOTH //exclude w for group and other
+-        } else {
+-            0
+-        } as u32;
+-
+-        let umask = if let (Some(from), Preserve::Yes { .. }) =
+-            (copy_attributes_from, options.attributes.mode)
+-        {
+-            !fs::symlink_metadata(from)?.permissions().mode()
+-        } else {
+-            uucore::mode::get_umask()
+-        };
+-
+-        excluded_perms |= umask;
+-        // Always keep the owner write bit so we can copy files into the directory.
+-        // The correct final permissions are applied afterward by dirs_needing_permissions.
+-        let mode = (!excluded_perms & 0o777) | 0o200; // mask to permission bits, always keep owner write
+-        std::os::unix::fs::DirBuilderExt::mode(&mut builder, mode);
+-    }
+-
+     builder.create(path)?;
+     Ok(())
+ }
+diff --git a/src/uu/cp/src/cp.rs b/src/uu/cp/src/cp.rs
+index 403a8892da5..ad21507c08e 100644
+--- a/src/uu/cp/src/cp.rs
++++ b/src/uu/cp/src/cp.rs
+@@ -829,7 +829,19 @@ pub fn uumain(args: impl uucore::Args) -> UResult<()> {
+ 
+     let (sources, target) = parse_path_args(paths, &options)?;
+ 
+-    if let Err(error) = copy(&sources, &target, &options) {
++    // GNU's implementation is able to create directories and files even when umask is set to 0o777.
++    // We follow it here by setting it to permit all user modes, and passing the original down
++    // functions such that it is used when creating new dir/file and not preserving mode.
++    #[cfg(unix)]
++    let orig_umask = unsafe { libc::umask(!0o700) as u32 };
++
++    if let Err(error) = copy(
++        &sources,
++        &target,
++        &options,
++        #[cfg(unix)]
++        orig_umask,
++    ) {
+         if let CpError::NotAllFilesCopied = error {
+             // Error::NotAllFilesCopied is non-fatal, but the error
+             // code should still be EXIT_ERR as does GNU cp
+@@ -840,6 +852,12 @@ pub fn uumain(args: impl uucore::Args) -> UResult<()> {
+         set_exit_code(EXIT_ERR);
+     }
+ 
++    #[cfg(unix)]
++    #[allow(clippy::unnecessary_cast)]
++    unsafe {
++        libc::umask(orig_umask as mode_t);
++    }
++
+     Ok(())
+ }
+ 
+@@ -1253,20 +1271,6 @@ impl Options {
+         }
+     }
+ 
+-    #[cfg(unix)]
+-    fn preserve_mode(&self) -> (bool, bool) {
+-        match self.attributes.mode {
+-            Preserve::No { explicit } => {
+-                if explicit {
+-                    (false, true)
+-                } else {
+-                    (false, false)
+-                }
+-            }
+-            Preserve::Yes { .. } => (true, false),
+-        }
+-    }
+-
+     /// Whether to force overwriting the destination file.
+     fn force(&self) -> bool {
+         matches!(self.overwrite, OverwriteMode::Clobber(ClobberMode::Force))
+@@ -1375,7 +1379,12 @@ fn show_error_if_needed(error: &CpError) {
+ /// was encountered.
+ ///
+ /// Behavior is determined by the `options` parameter, see [`Options`] for details.
+-pub fn copy(sources: &[PathBuf], target: &Path, options: &Options) -> CopyResult<()> {
++pub fn copy(
++    sources: &[PathBuf],
++    target: &Path,
++    options: &Options,
++    #[cfg(unix)] orig_umask: u32,
++) -> CopyResult<()> {
+     let target_type = TargetType::determine(sources, target);
+     verify_target_type(target, target_type)?;
+ 
+@@ -1460,6 +1469,8 @@ pub fn copy(sources: &[PathBuf], target: &Path, options: &Options) -> CopyResult
+                 &copied_destinations,
+                 &mut copied_files,
+                 &mut created_parent_dirs,
++                #[cfg(unix)]
++                orig_umask,
+             ) {
+                 show_error_if_needed(&error);
+                 if !matches!(error, CpError::Skipped(false)) {
+@@ -1535,6 +1546,7 @@ fn copy_source(
+     copied_destinations: &HashSet<PathBuf>,
+     copied_files: &mut HashMap<FileInformation, PathBuf>,
+     created_parent_dirs: &mut HashSet<PathBuf>,
++    #[cfg(unix)] orig_umask: u32,
+ ) -> CopyResult<()> {
+     let source_path = Path::new(&source);
+     if source_path.is_dir() && (options.dereference || !source_path.is_symlink()) {
+@@ -1549,6 +1561,8 @@ fn copy_source(
+             copied_files,
+             created_parent_dirs,
+             true,
++            #[cfg(unix)]
++            orig_umask,
+         )
+     } else {
+         // Copy as file
+@@ -1563,6 +1577,8 @@ fn copy_source(
+             copied_files,
+             created_parent_dirs,
+             true,
++            #[cfg(unix)]
++            orig_umask,
+         );
+         if options.parents {
+             for (x, y) in aligned_ancestors(source, dest.as_path()) {
+@@ -1573,6 +1589,8 @@ fn copy_source(
+                         &options.attributes,
+                         false,
+                         options.set_selinux_context,
++                        #[cfg(unix)]
++                        orig_umask,
+                     )?;
+                 }
+             }
+@@ -1764,22 +1782,14 @@ pub(crate) fn copy_attributes(
+     source: &Path,
+     dest: &Path,
+     attributes: &Attributes,
+-    dest_is_freshly_created_dir: bool,
++    was_created: bool,
+     skip_selinux_xattr: bool,
++    #[cfg(unix)] orig_umask: u32,
+ ) -> CopyResult<()> {
+     let context = &*format!("{} -> {}", source.quote(), dest.quote());
+     let source_metadata =
+         fs::symlink_metadata(source).map_err(|e| CpError::IoErrContext(e, context.to_owned()))?;
+ 
+-    let mode_explicitly_disabled = matches!(attributes.mode, Preserve::No { explicit: true });
+-
+-    // preserve is true by default if the destination is created by us and it's a directory
+-    let mode = if !mode_explicitly_disabled && dest_is_freshly_created_dir {
+-        Preserve::Yes { required: false }
+-    } else {
+-        attributes.mode
+-    };
+-
+     // Ownership must be changed first to avoid interfering with mode change.
+     #[cfg(unix)]
+     handle_preserve(attributes.ownership, || -> CopyResult<()> {
+@@ -1817,6 +1827,16 @@ pub(crate) fn copy_attributes(
+         Ok(())
+     })?;
+ 
++    // always try to set permission to the correct one if newly created
++    #[cfg(unix)]
++    let mode = if was_created {
++        Preserve::Yes { required: true }
++    } else {
++        attributes.mode
++    };
++    #[cfg(not(unix))]
++    let mode = attributes.mode;
++
+     handle_preserve(mode, || -> CopyResult<()> {
+         // The `chmod()` system call that underlies the
+         // `fs::set_permissions()` call is unable to change the
+@@ -1824,8 +1844,21 @@ pub(crate) fn copy_attributes(
+         // do nothing, since every symbolic link has the same
+         // permissions.
+         if !dest.is_symlink() {
+-            fs::set_permissions(dest, source_metadata.permissions())
+-                .map_err(|e| CpError::IoErrContext(e, context.to_owned()))?;
++            #[cfg(unix)]
++            let permissions = handle_mode(
++                attributes.mode,
++                dest.is_dir(),
++                was_created,
++                source_metadata.permissions().mode(),
++                orig_umask,
++            )
++            .map(Permissions::from_mode);
++            #[cfg(not(unix))]
++            let permissions = Some(source_metadata.permissions());
++            if let Some(permissions) = permissions {
++                fs::set_permissions(dest, permissions)
++                    .map_err(|e| CpError::IoErrContext(e, context.to_owned()))?;
++            }
+             // FIXME: Implement this for windows as well
+             #[cfg(feature = "feat_acl")]
+             exacl::getfacl(source, None)
+@@ -2349,16 +2382,6 @@ fn handle_copy_mode(
+ }
+ 
+ /// Calculates the permissions for the destination file in a copy operation.
+-///
+-/// If the destination file already exists, its current permissions are returned.
+-/// If the destination file does not exist, the source file's permissions are used,
+-/// with the `no-preserve` option and the umask taken into account on Unix platforms.
+-/// # Returns
+-///
+-/// * `Ok(Permissions)` - The calculated permissions for the destination file.
+-/// * `Err(CopyError)` - An error occurred while getting the metadata of the destination file.
+-///
+-// Allow unused variables for Windows (on options)
+ #[allow(unused_variables)]
+ fn calculate_dest_permissions(
+     dest_metadata: Option<&Metadata>,
+@@ -2366,23 +2389,28 @@ fn calculate_dest_permissions(
+     source_metadata: &Metadata,
+     options: &Options,
+     context: &str,
++    #[cfg(unix)] orig_umask: u32,
+ ) -> Permissions {
+-    if let Some(metadata) = dest_metadata {
+-        metadata.permissions()
+-    } else {
+-        #[cfg(unix)]
+-        {
+-            let mut permissions = source_metadata.permissions();
+-            let mode = handle_no_preserve_mode(options, permissions.mode());
++    #[cfg(unix)]
++    {
++        handle_mode(
++            options.attributes.mode,
++            false,
++            dest_metadata.is_none(),
++            source_metadata.permissions().mode(),
++            orig_umask,
++        )
++        .map_or_else(
++            || dest_metadata.unwrap().permissions(), // existing destination and not preserving mode
++            Permissions::from_mode,
++        )
++    }
+ 
+-            // Apply umask
+-            use uucore::mode::get_umask;
+-            let mode = mode & !get_umask();
+-            permissions.set_mode(mode);
+-            permissions
+-        }
+-        #[cfg(not(unix))]
+-        {
++    #[cfg(not(unix))]
++    {
++        if let Some(metadata) = dest_metadata {
++            metadata.permissions()
++        } else {
+             source_metadata.permissions()
+         }
+     }
+@@ -2409,6 +2437,7 @@ fn copy_file(
+     copied_files: &mut HashMap<FileInformation, PathBuf>,
+     created_parent_dirs: &mut HashSet<PathBuf>,
+     source_in_command_line: bool,
++    #[cfg(unix)] orig_umask: u32,
+ ) -> CopyResult<()> {
+     let source_is_symlink = source.is_symlink();
+     let initial_dest_metadata = dest.symlink_metadata().ok();
+@@ -2561,6 +2590,8 @@ fn copy_file(
+         &source_metadata,
+         options,
+         context,
++        #[cfg(unix)]
++        orig_umask,
+     );
+ 
+     let source_is_stream = is_stream(&source_metadata);
+@@ -2604,6 +2635,8 @@ fn copy_file(
+             &options.attributes,
+             false,
+             options.set_selinux_context,
++            #[cfg(unix)]
++            orig_umask,
+         )
+     } else if source_is_stream && !source.exists() {
+         // Some stream files may not exist after we have copied it,
+@@ -2618,6 +2651,8 @@ fn copy_file(
+             &options.attributes,
+             false,
+             options.set_selinux_context,
++            #[cfg(unix)]
++            orig_umask,
+         )
+     };
+ 
+@@ -2661,13 +2696,44 @@ fn is_stream(metadata: &Metadata) -> bool {
+ }
+ 
+ #[cfg(unix)]
+-fn handle_no_preserve_mode(options: &Options, org_mode: u32) -> u32 {
+-    let (is_preserve_mode, is_explicit_no_preserve_mode) = options.preserve_mode();
+-    if !is_preserve_mode {
+-        use libc::{
+-            S_IRGRP, S_IROTH, S_IRUSR, S_IRWXG, S_IRWXO, S_IRWXU, S_IWGRP, S_IWOTH, S_IWUSR,
+-        };
++/// Calculate the final permissions mode.
++///
++/// If the dir/file was not created, then returns `None` except when preserving mode in which case
++/// the source mode is returned.
++///
++/// Otherwise, see [`handle_created_mode`].
++fn handle_mode(
++    mode: Preserve,
++    is_dir: bool,
++    was_created: bool,
++    source_mode: u32,
++    umask: u32,
++) -> Option<u32> {
++    if was_created {
++        Some(handle_created_mode(mode, is_dir, source_mode, umask))
++    } else {
++        match mode {
++            Preserve::Yes { required: true } => Some(source_mode),
++            _ => None,
++        }
++    }
++}
+ 
++#[cfg(unix)]
++#[inline]
++/// Calculate the final permissions mode when the dir/file is newly created.
++///
++/// If no preserving mode, return 0o777(dir)/0o666(file) & !umask.
++/// If default, return source_mode & 0o777 & !umask.
++/// If preserving mode, return source_mode & 0o777.
++fn handle_created_mode(mode: Preserve, is_dir: bool, source_mode: u32, umask: u32) -> u32 {
++    use libc::{S_IRGRP, S_IROTH, S_IRUSR, S_IRWXG, S_IRWXO, S_IRWXU, S_IWGRP, S_IWOTH, S_IWUSR};
++    #[allow(clippy::unnecessary_cast)]
++    const MODE_RW_UGO: u32 = (S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH) as u32;
++    #[allow(clippy::unnecessary_cast)]
++    const S_IRWXUGO: u32 = (S_IRWXU | S_IRWXG | S_IRWXO) as u32;
++
++    if let Preserve::No { explicit } = mode {
+         #[cfg(not(any(
+             target_os = "android",
+             target_os = "macos",
+@@ -2675,13 +2741,11 @@ fn handle_no_preserve_mode(options: &Options, org_mode: u32) -> u32 {
+             target_os = "redox",
+         )))]
+         {
+-            const MODE_RW_UGO: u32 = S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH;
+-            const S_IRWXUGO: u32 = S_IRWXU | S_IRWXG | S_IRWXO;
+-            return if is_explicit_no_preserve_mode {
+-                MODE_RW_UGO
++            (if explicit {
++                if is_dir { S_IRWXUGO } else { MODE_RW_UGO }
+             } else {
+-                org_mode & S_IRWXUGO
+-            };
++                source_mode & S_IRWXUGO
++            }) & !umask
+         }
+ 
+         #[cfg(any(
+@@ -2691,20 +2755,15 @@ fn handle_no_preserve_mode(options: &Options, org_mode: u32) -> u32 {
+             target_os = "redox",
+         ))]
+         {
+-            #[allow(clippy::unnecessary_cast)]
+-            const MODE_RW_UGO: u32 =
+-                (S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH) as u32;
+-            #[allow(clippy::unnecessary_cast)]
+-            const S_IRWXUGO: u32 = (S_IRWXU | S_IRWXG | S_IRWXO) as u32;
+-            return if is_explicit_no_preserve_mode {
+-                MODE_RW_UGO
++            (if explicit {
++                if is_dir { S_IRWXUGO } else { MODE_RW_UGO }
+             } else {
+-                org_mode & S_IRWXUGO
+-            };
++                source_mode & S_IRWXUGO
++            }) & !umask
+         }
++    } else {
++        source_mode & S_IRWXUGO
+     }
+-
+-    org_mode
+ }
+ 
+ /// Copy the file from `source` to `dest` either using the normal `fs::copy` or a
+@@ -2829,6 +2888,8 @@ fn copy_link(
+         &options.attributes,
+         false,
+         options.set_selinux_context,
++        #[cfg(unix)]
++        0,
+     )
+ }
+ 
+diff --git a/tests/by-util/test_cp.rs b/tests/by-util/test_cp.rs
+index 28af3075eef..b89719e549d 100644
+--- a/tests/by-util/test_cp.rs
++++ b/tests/by-util/test_cp.rs
+@@ -3073,7 +3073,9 @@ fn test_cp_dangling_symlink_inside_directory() {
+ }
+ 
+ /// Test for copying a dangling symbolic link and its permissions.
+-#[cfg(not(any(target_os = "freebsd", target_os = "openbsd")))] // FIXME: fix this test for FreeBSD/OpenBSD
++// FIXME: fix this test for FreeBSD/OpenBSD
++// FIXME: macos use umask permission mode
++#[cfg(not(any(target_os = "freebsd", target_os = "openbsd", target_os = "macos")))]
+ #[test]
+ fn test_copy_through_dangling_symlink_no_dereference_permissions() {
+     let (at, mut ucmd) = at_and_ucmd!();
+@@ -3093,9 +3095,9 @@ fn test_copy_through_dangling_symlink_no_dereference_permissions() {
+         .no_stdout();
+     assert!(at.symlink_exists("d2"), "symlink wasn't created");
+ 
+-    // `-p` means `--preserve=mode,ownership,timestamps`
+-    #[cfg(all(unix, not(target_os = "freebsd"), not(target_os = "openbsd")))]
++    #[cfg(unix)]
+     {
++        // `-p` means `--preserve=mode,ownership,timestamps`
+         let metadata1 = at.symlink_metadata("dangle");
+         let metadata2 = at.symlink_metadata("d2");
+         assert_metadata_eq!(metadata1, metadata2);
+@@ -7877,3 +7879,333 @@ fn test_cp_recursive_non_utf8_source() {
+ 
+     assert!(at.plus("dir2").join("a").exists());
+ }
++
++#[test]
++#[cfg(unix)]
++fn test_cp_existing_no_preserve_file() {
++    use std::io;
++
++    let scene = TestScenario::new(util_name!());
++    let at = &scene.fixtures;
++
++    scene.cmd("touch").arg("f1").succeeds();
++    scene.cmd("touch").arg("f2").succeeds();
++    scene.cmd("chmod").arg("770").arg("f1").succeeds();
++    scene.cmd("chmod").arg("666").arg("f2").succeeds();
++    let f2_mode = at.metadata("f2").mode();
++
++    scene
++        .ucmd()
++        // umask should have no effect
++        .umask(0o700)
++        .arg("--no-preserve=mode")
++        .arg("f1")
++        .arg("f2")
++        .set_stdout(io::stdout())
++        .succeeds();
++
++    let f2_new_mode = at.metadata("f2").mode();
++
++    assert_eq!(f2_mode, f2_new_mode);
++}
++
++#[test]
++#[cfg(unix)]
++fn test_cp_existing_no_preserve_dir() {
++    use std::io;
++
++    let scene = TestScenario::new(util_name!());
++    let at = &scene.fixtures;
++
++    scene.cmd("mkdir").arg("d1").succeeds();
++    scene.cmd("mkdir").arg("d2").succeeds();
++    scene.cmd("chmod").arg("770").arg("d1").succeeds();
++    scene.cmd("chmod").arg("700").arg("d2").succeeds();
++    let d2_mode = at.metadata("d2").mode();
++
++    scene
++        .ucmd()
++        // umask should have no effect
++        .umask(0o700)
++        .arg("--no-preserve=mode")
++        .arg("-r")
++        .arg("d1/.")
++        .arg("d2")
++        .set_stdout(io::stdout())
++        .succeeds();
++
++    let d2_new_mode = at.metadata("d2").mode();
++
++    assert_eq!(d2_mode, d2_new_mode);
++}
++
++#[test]
++#[cfg(unix)]
++fn test_cp_existing_default_file() {
++    use std::io;
++
++    let scene = TestScenario::new(util_name!());
++    let at = &scene.fixtures;
++
++    scene.cmd("touch").arg("f1").succeeds();
++    scene.cmd("touch").arg("f2").succeeds();
++    scene.cmd("chmod").arg("770").arg("f1").succeeds();
++    scene.cmd("chmod").arg("666").arg("f2").succeeds();
++    let f2_mode = at.metadata("f2").mode();
++
++    scene
++        .ucmd()
++        // umask should have no effect
++        .umask(0o700)
++        .arg("f1")
++        .arg("f2")
++        .set_stdout(io::stdout())
++        .succeeds();
++
++    let f2_new_mode = at.metadata("f2").mode();
++
++    assert_eq!(f2_mode, f2_new_mode);
++}
++
++#[test]
++#[cfg(unix)]
++fn test_cp_existing_default_dir() {
++    use std::io;
++
++    let scene = TestScenario::new(util_name!());
++    let at = &scene.fixtures;
++
++    scene.cmd("mkdir").arg("d1").succeeds();
++    scene.cmd("mkdir").arg("d2").succeeds();
++    scene.cmd("chmod").arg("770").arg("d1").succeeds();
++    scene.cmd("chmod").arg("700").arg("d2").succeeds();
++    let d2_mode = at.metadata("d2").mode();
++
++    scene
++        .ucmd()
++        // umask should have no effect
++        .umask(0o700)
++        .arg("-r")
++        .arg("d1/.")
++        .arg("d2")
++        .set_stdout(io::stdout())
++        .succeeds();
++
++    let d2_new_mode = at.metadata("d2").mode();
++
++    assert_eq!(d2_mode, d2_new_mode);
++}
++
++#[test]
++#[cfg(unix)]
++fn test_cp_existing_preserve_file() {
++    use std::io;
++
++    let scene = TestScenario::new(util_name!());
++    let at = &scene.fixtures;
++
++    scene.cmd("touch").arg("f1").succeeds();
++    scene.cmd("touch").arg("f2").succeeds();
++    scene.cmd("chmod").arg("770").arg("f1").succeeds();
++    scene.cmd("chmod").arg("666").arg("f2").succeeds();
++    let f1_mode = at.metadata("f1").mode();
++
++    scene
++        .ucmd()
++        // umask should have no effect
++        .umask(0o700)
++        .arg("--preserve=mode")
++        .arg("f1")
++        .arg("f2")
++        .set_stdout(io::stdout())
++        .succeeds();
++
++    let f2_mode = at.metadata("f2").mode();
++
++    assert_eq!(f1_mode, f2_mode);
++}
++
++#[test]
++#[cfg(unix)]
++fn test_cp_existing_preserve_dir() {
++    use std::io;
++
++    let scene = TestScenario::new(util_name!());
++    let at = &scene.fixtures;
++
++    scene.cmd("mkdir").arg("d1").succeeds();
++    scene.cmd("mkdir").arg("d2").succeeds();
++    scene.cmd("chmod").arg("770").arg("d1").succeeds();
++    scene.cmd("chmod").arg("700").arg("d2").succeeds();
++    let d1_mode = at.metadata("d1").mode();
++
++    scene
++        .ucmd()
++        // umask should have no effect
++        .umask(0o700)
++        .arg("--preserve=mode")
++        .arg("-r")
++        .arg("d1/.")
++        .arg("d2")
++        .set_stdout(io::stdout())
++        .succeeds();
++
++    let d2_mode = at.metadata("d2").mode();
++
++    assert_eq!(d1_mode, d2_mode);
++}
++
++#[test]
++#[cfg(unix)]
++fn test_cp_not_existing_no_preserve_file() {
++    use std::io;
++
++    let scene = TestScenario::new(util_name!());
++    let at = &scene.fixtures;
++
++    scene.cmd("touch").arg("f1").succeeds();
++    scene.cmd("chmod").arg("770").arg("f1").succeeds();
++
++    scene
++        .ucmd()
++        .umask(0o700)
++        .arg("--no-preserve=mode")
++        .arg("f1")
++        .arg("f2")
++        .set_stdout(io::stdout())
++        .succeeds();
++
++    let f2_mode = at.metadata("f2").mode();
++
++    assert_eq!(0o666 & !0o700, f2_mode & 0o777);
++}
++
++#[test]
++#[cfg(unix)]
++fn test_cp_not_existing_no_preserve_dir() {
++    use std::io;
++
++    let scene = TestScenario::new(util_name!());
++    let at = &scene.fixtures;
++
++    scene.cmd("mkdir").arg("d1").succeeds();
++    scene.cmd("chmod").arg("770").arg("d1").succeeds();
++
++    scene
++        .ucmd()
++        .umask(0o700)
++        .arg("--no-preserve=mode")
++        .arg("-r")
++        .arg("d1")
++        .arg("d2")
++        .set_stdout(io::stdout())
++        .succeeds();
++
++    let d2_mode = at.metadata("d2").mode();
++
++    assert_eq!(0o777 & !0o700, d2_mode & 0o777);
++}
++
++#[test]
++#[cfg(unix)]
++fn test_cp_not_existing_default_file() {
++    use std::io;
++
++    let scene = TestScenario::new(util_name!());
++    let at = &scene.fixtures;
++
++    scene.cmd("touch").arg("f1").succeeds();
++    scene.cmd("chmod").arg("770").arg("f1").succeeds();
++
++    scene
++        .ucmd()
++        .umask(0o700)
++        .arg("f1")
++        .arg("f2")
++        .set_stdout(io::stdout())
++        .succeeds();
++
++    let f2_mode = at.metadata("f2").mode();
++
++    assert_eq!(0o770 & !0o700, f2_mode & 0o777);
++}
++
++#[test]
++#[cfg(unix)]
++fn test_cp_not_existing_default_dir() {
++    use std::io;
++
++    let scene = TestScenario::new(util_name!());
++    let at = &scene.fixtures;
++
++    scene.cmd("mkdir").arg("d1").succeeds();
++    scene.cmd("chmod").arg("770").arg("d1").succeeds();
++
++    scene
++        .ucmd()
++        .umask(0o700)
++        .arg("-r")
++        .arg("d1")
++        .arg("d2")
++        .set_stdout(io::stdout())
++        .succeeds();
++
++    let d2_mode = at.metadata("d2").mode();
++
++    assert_eq!(0o770 & !0o700, d2_mode & 0o777);
++}
++
++#[test]
++#[cfg(unix)]
++fn test_cp_not_existing_preserve_file() {
++    use std::io;
++
++    let scene = TestScenario::new(util_name!());
++    let at = &scene.fixtures;
++
++    scene.cmd("touch").arg("f1").succeeds();
++    scene.cmd("chmod").arg("770").arg("f1").succeeds();
++    let f1_mode = at.metadata("f1").mode();
++
++    scene
++        .ucmd()
++        // umask should have no effect
++        .umask(0o700)
++        .arg("--preserve=mode")
++        .arg("f1")
++        .arg("f2")
++        .set_stdout(io::stdout())
++        .succeeds();
++
++    let f2_mode = at.metadata("f2").mode();
++
++    assert_eq!(f1_mode, f2_mode);
++}
++
++#[test]
++#[cfg(unix)]
++fn test_cp_not_existing_preserve_dir() {
++    use std::io;
++
++    let scene = TestScenario::new(util_name!());
++    let at = &scene.fixtures;
++
++    scene.cmd("mkdir").arg("d1").succeeds();
++    scene.cmd("chmod").arg("770").arg("d1").succeeds();
++    let d1_mode = at.metadata("d1").mode();
++
++    scene
++        .ucmd()
++        // umask should have no effect
++        .umask(0o700)
++        .arg("--preserve=mode")
++        .arg("-r")
++        .arg("d1")
++        .arg("d2")
++        .set_stdout(io::stdout())
++        .succeeds();
++
++    let d2_mode = at.metadata("d2").mode();
++
++    assert_eq!(d1_mode, d2_mode);
++}
+
+From e927f492eb1f1c81d7b7013860849982de1b508e Mon Sep 17 00:00:00 2001
+From: Michael Yang <michaely4ng@proton.me>
+Date: Sat, 14 Feb 2026 01:25:54 +1100
+Subject: [PATCH 2/6] fix(cp): copy attributes for parents dirs
+
+---
+ src/uu/cp/src/cp.rs      |  2 +-
+ tests/by-util/test_cp.rs | 42 +++++++++++++++++++++++++++++++++++++---
+ 2 files changed, 40 insertions(+), 4 deletions(-)
+
+diff --git a/src/uu/cp/src/cp.rs b/src/uu/cp/src/cp.rs
+index ad21507c08e..af296187e1a 100644
+--- a/src/uu/cp/src/cp.rs
++++ b/src/uu/cp/src/cp.rs
+@@ -1587,7 +1587,7 @@ fn copy_source(
+                         &src,
+                         y,
+                         &options.attributes,
+-                        false,
++                        true,
+                         options.set_selinux_context,
+                         #[cfg(unix)]
+                         orig_umask,
+diff --git a/tests/by-util/test_cp.rs b/tests/by-util/test_cp.rs
+index b89719e549d..36fd155d162 100644
+--- a/tests/by-util/test_cp.rs
++++ b/tests/by-util/test_cp.rs
+@@ -8103,7 +8103,7 @@ fn test_cp_not_existing_no_preserve_dir() {
+ 
+     let d2_mode = at.metadata("d2").mode();
+ 
+-    assert_eq!(0o777 & !0o700, d2_mode & 0o777);
++    assert_eq!(!0o700 & 0o777, d2_mode & 0o777);
+ }
+ 
+ #[test]
+@@ -8127,7 +8127,7 @@ fn test_cp_not_existing_default_file() {
+ 
+     let f2_mode = at.metadata("f2").mode();
+ 
+-    assert_eq!(0o770 & !0o700, f2_mode & 0o777);
++    assert_eq!(!0o700 & 0o770, f2_mode & 0o777);
+ }
+ 
+ #[test]
+@@ -8152,7 +8152,7 @@ fn test_cp_not_existing_default_dir() {
+ 
+     let d2_mode = at.metadata("d2").mode();
+ 
+-    assert_eq!(0o770 & !0o700, d2_mode & 0o777);
++    assert_eq!(!0o700 & 0o770, d2_mode & 0o777);
+ }
+ 
+ #[test]
+@@ -8209,3 +8209,39 @@ fn test_cp_not_existing_preserve_dir() {
+ 
+     assert_eq!(d1_mode, d2_mode);
+ }
++
++#[test]
++#[cfg(unix)]
++// adapted from GNU tests/cp/cp-parents
++fn test_cp_not_existing_no_preserve_file_parents() {
++    use std::io;
++
++    let scene = TestScenario::new(util_name!());
++    let at = &scene.fixtures;
++
++    scene.cmd("mkdir").arg("d1").succeeds();
++    scene.cmd("mkdir").arg("d1/d2").succeeds();
++    scene.cmd("touch").arg("d1/d2/f").succeeds();
++    scene.cmd("chmod").arg("770").arg("d1").succeeds();
++    scene.cmd("chmod").arg("700").arg("d1/d2").succeeds();
++    scene.cmd("chmod").arg("775").arg("d1/d2/f").succeeds();
++    scene.cmd("mkdir").arg("d3").succeeds();
++
++    scene
++        .ucmd()
++        .umask(0o022)
++        .arg("--no-preserve=mode")
++        .arg("--parents")
++        .arg("d1/d2/f")
++        .arg("d3")
++        .set_stdout(io::stdout())
++        .succeeds();
++
++    let d1_mode = at.metadata("d3/d1").mode();
++    let d2_mode = at.metadata("d3/d1/d2").mode();
++    let f_mode = at.metadata("d3/d1/d2/f").mode();
++
++    assert_eq!(!0o022 & 0o777, d1_mode & 0o777);
++    assert_eq!(!0o022 & 0o777, d2_mode & 0o777);
++    assert_eq!(!0o022 & 0o666, f_mode & 0o777);
++}
+
+From b99cb276f0b0ba53f800838a7aae10ee7bef3eef Mon Sep 17 00:00:00 2001
+From: Michael Yang <michaely4ng@proton.me>
+Date: Sat, 14 Feb 2026 16:24:33 +1100
+Subject: [PATCH 3/6] refactor(cp): simplify mode consts
+
+---
+ src/uu/cp/src/cp.rs      | 34 ++++++----------------------------
+ tests/by-util/test_cp.rs |  6 +++---
+ 2 files changed, 9 insertions(+), 31 deletions(-)
+
+diff --git a/src/uu/cp/src/cp.rs b/src/uu/cp/src/cp.rs
+index af296187e1a..7f9096d1e0e 100644
+--- a/src/uu/cp/src/cp.rs
++++ b/src/uu/cp/src/cp.rs
+@@ -833,7 +833,7 @@ pub fn uumain(args: impl uucore::Args) -> UResult<()> {
+     // We follow it here by setting it to permit all user modes, and passing the original down
+     // functions such that it is used when creating new dir/file and not preserving mode.
+     #[cfg(unix)]
+-    let orig_umask = unsafe { libc::umask(!0o700) as u32 };
++    let orig_umask = unsafe { libc::umask(!libc::S_IRWXU) as u32 };
+ 
+     if let Err(error) = copy(
+         &sources,
+@@ -2734,33 +2734,11 @@ fn handle_created_mode(mode: Preserve, is_dir: bool, source_mode: u32, umask: u3
+     const S_IRWXUGO: u32 = (S_IRWXU | S_IRWXG | S_IRWXO) as u32;
+ 
+     if let Preserve::No { explicit } = mode {
+-        #[cfg(not(any(
+-            target_os = "android",
+-            target_os = "macos",
+-            target_os = "freebsd",
+-            target_os = "redox",
+-        )))]
+-        {
+-            (if explicit {
+-                if is_dir { S_IRWXUGO } else { MODE_RW_UGO }
+-            } else {
+-                source_mode & S_IRWXUGO
+-            }) & !umask
+-        }
+-
+-        #[cfg(any(
+-            target_os = "android",
+-            target_os = "macos",
+-            target_os = "freebsd",
+-            target_os = "redox",
+-        ))]
+-        {
+-            (if explicit {
+-                if is_dir { S_IRWXUGO } else { MODE_RW_UGO }
+-            } else {
+-                source_mode & S_IRWXUGO
+-            }) & !umask
+-        }
++        (if explicit {
++            if is_dir { S_IRWXUGO } else { MODE_RW_UGO }
++        } else {
++            source_mode & S_IRWXUGO
++        }) & !umask
+     } else {
+         source_mode & S_IRWXUGO
+     }
+diff --git a/tests/by-util/test_cp.rs b/tests/by-util/test_cp.rs
+index 36fd155d162..a32d18167a0 100644
+--- a/tests/by-util/test_cp.rs
++++ b/tests/by-util/test_cp.rs
+@@ -7920,7 +7920,7 @@ fn test_cp_existing_no_preserve_dir() {
+     scene.cmd("mkdir").arg("d1").succeeds();
+     scene.cmd("mkdir").arg("d2").succeeds();
+     scene.cmd("chmod").arg("770").arg("d1").succeeds();
+-    scene.cmd("chmod").arg("700").arg("d2").succeeds();
++    scene.cmd("chmod").arg("707").arg("d2").succeeds();
+     let d2_mode = at.metadata("d2").mode();
+ 
+     scene
+@@ -7978,7 +7978,7 @@ fn test_cp_existing_default_dir() {
+     scene.cmd("mkdir").arg("d1").succeeds();
+     scene.cmd("mkdir").arg("d2").succeeds();
+     scene.cmd("chmod").arg("770").arg("d1").succeeds();
+-    scene.cmd("chmod").arg("700").arg("d2").succeeds();
++    scene.cmd("chmod").arg("707").arg("d2").succeeds();
+     let d2_mode = at.metadata("d2").mode();
+ 
+     scene
+@@ -8036,7 +8036,7 @@ fn test_cp_existing_preserve_dir() {
+     scene.cmd("mkdir").arg("d1").succeeds();
+     scene.cmd("mkdir").arg("d2").succeeds();
+     scene.cmd("chmod").arg("770").arg("d1").succeeds();
+-    scene.cmd("chmod").arg("700").arg("d2").succeeds();
++    scene.cmd("chmod").arg("707").arg("d2").succeeds();
+     let d1_mode = at.metadata("d1").mode();
+ 
+     scene
+
+From 9b5a9b7bfd702fcf8d06840c24260a427748dffe Mon Sep 17 00:00:00 2001
+From: Michael Yang <michaely4ng@proton.me>
+Date: Fri, 20 Feb 2026 02:41:50 +1100
+Subject: [PATCH 4/6] refactor(cp): remove unnecessary allocations
+
+---
+ src/uu/cp/src/copydir.rs             | 161 ++++++++-------------------
+ src/uu/cp/src/cp.rs                  |  70 +++++-------
+ src/uu/cp/src/platform/linux.rs      |   5 +-
+ src/uu/cp/src/platform/macos.rs      |   8 +-
+ src/uu/cp/src/platform/other.rs      |   4 +-
+ src/uu/cp/src/platform/other_unix.rs |   7 +-
+ 6 files changed, 86 insertions(+), 169 deletions(-)
+
+diff --git a/src/uu/cp/src/copydir.rs b/src/uu/cp/src/copydir.rs
+index 83124bb45ac..7f49eae801f 100644
+--- a/src/uu/cp/src/copydir.rs
++++ b/src/uu/cp/src/copydir.rs
+@@ -6,7 +6,6 @@
+ //! Recursively copy the contents of a directory.
+ //!
+ //! See the [`copy_directory`] function for more information.
+-#[cfg(windows)]
+ use std::borrow::Cow;
+ use std::collections::{HashMap, HashSet};
+ use std::convert::identity;
+@@ -24,7 +23,7 @@ use uucore::fs::{
+ use uucore::show;
+ use uucore::translate;
+ use uucore::uio_error;
+-use walkdir::{DirEntry, WalkDir};
++use walkdir::WalkDir;
+ 
+ #[cfg(all(feature = "selinux", target_os = "linux"))]
+ use crate::set_selinux_context;
+@@ -44,7 +43,7 @@ struct DirNeedingPermissions {
+ }
+ 
+ /// Ensure a Windows path starts with a `\\?`.
+-#[cfg(target_os = "windows")]
++#[cfg(windows)]
+ fn adjust_canonicalization(p: &Path) -> Cow<'_, Path> {
+     // In some cases, \\? can be missing on some Windows paths.  Add it at the
+     // beginning unless the path is prefixed with a device namespace.
+@@ -66,39 +65,6 @@ fn adjust_canonicalization(p: &Path) -> Cow<'_, Path> {
+     }
+ }
+ 
+-/// Get a descendant path relative to the given parent directory.
+-///
+-/// If `root_parent` is `None`, then this just returns the `path`
+-/// itself. Otherwise, this function strips the parent prefix from the
+-/// given `path`, leaving only the portion of the path relative to the
+-/// parent.
+-fn get_local_to_root_parent(
+-    path: &Path,
+-    root_parent: Option<&Path>,
+-) -> Result<PathBuf, StripPrefixError> {
+-    match root_parent {
+-        Some(parent) => {
+-            // On Windows, some paths are starting with \\?
+-            // but not always, so, make sure that we are consistent for strip_prefix
+-            // See https://docs.microsoft.com/en-us/windows/win32/fileio/naming-a-file for more info
+-            #[cfg(windows)]
+-            let (path, parent) = (
+-                adjust_canonicalization(path),
+-                adjust_canonicalization(parent),
+-            );
+-            let path = path.strip_prefix(parent)?;
+-            Ok(path.to_path_buf())
+-        }
+-        None => Ok(path.to_path_buf()),
+-    }
+-}
+-
+-/// Given an iterator, return all its items except the last.
+-fn skip_last<T>(mut iter: impl Iterator<Item = T>) -> impl Iterator<Item = T> {
+-    let last = iter.next();
+-    iter.scan(last, Option::replace)
+-}
+-
+ /// Paths that are invariant throughout the traversal when copying a directory.
+ struct Context<'a> {
+     /// The current working directory at the time of starting the traversal.
+@@ -120,11 +86,11 @@ struct Context<'a> {
+ impl<'a> Context<'a> {
+     fn new(root: &'a Path, target: &'a Path) -> io::Result<Self> {
+         let current_dir = env::current_dir()?;
+-        let root_path = current_dir.join(root);
++        let mut root_path = current_dir.join(root);
+         let target_is_file = target.is_file();
+         let root_parent =
+             if target.exists() && !root.as_os_str().as_encoded_bytes().ends_with(b"/.") {
+-                root_path.parent().map(ToOwned::to_owned)
++                root_path.pop().then_some(root_path)
+             } else if root == Path::new(".") && target.is_dir() {
+                 // Special case: when copying current directory (.) to an existing directory,
+                 // we don't want to use the parent path as root_parent because we want to
+@@ -179,12 +145,12 @@ impl<'a> Context<'a> {
+ ///     }
+ /// ];
+ /// ```
+-struct Entry {
++struct Entry<'a> {
+     /// The absolute path to file or directory to copy.
+     source_absolute: PathBuf,
+ 
+     /// The relative path to file or directory to copy.
+-    source_relative: PathBuf,
++    source_relative: &'a Path,
+ 
+     /// The path to the destination, relative to the target.
+     local_to_target: PathBuf,
+@@ -193,24 +159,44 @@ struct Entry {
+     target_is_file: bool,
+ }
+ 
+-impl Entry {
+-    fn new<A: AsRef<Path>>(
++impl<'a> Entry<'a> {
++    fn new(
+         context: &Context,
+-        source: A,
++        source: &'a Path,
+         no_target_dir: bool,
+     ) -> Result<Self, StripPrefixError> {
+-        let source = source.as_ref();
+-        let source_relative = source.to_path_buf();
+-        let source_absolute = context.current_dir.join(&source_relative);
+-        let mut descendant =
+-            get_local_to_root_parent(&source_absolute, context.root_parent.as_deref())?;
++        let source_relative = source;
++        let source_absolute = context.current_dir.join(source_relative);
++
++        // Get a descendant path relative to the given parent directory.
++        // On Windows, some paths are starting with \\?
++        // but not always, so, make sure that we are consistent for strip_prefix
++        // See https://docs.microsoft.com/en-us/windows/win32/fileio/naming-a-file for more info
++        #[cfg(windows)]
++        let (path, parent) = (
++            adjust_canonicalization(&source_absolute),
++            context
++                .root_parent
++                .as_deref()
++                .map(|p| adjust_canonicalization(p)),
++        );
++        #[cfg(not(windows))]
++        let (path, parent) = (
++            Cow::from(&source_absolute),
++            context.root_parent.as_deref().map(Cow::from),
++        );
++        let mut descendant = match parent {
++            Some(parent) => path.strip_prefix(parent)?,
++            None => &path,
++        };
++
+         if no_target_dir {
+             let source_is_dir = source.is_dir();
+             if path_ends_with_terminator(context.target)
+                 && source_is_dir
+                 && !exists(context.target).is_ok_and(identity)
+             {
+-                if let Err(e) = fs::create_dir_all(context.target) {
++                if let Err(e) = fs::create_dir(context.target) {
+                     eprintln!(
+                         "{}",
+                         translate!("cp-error-failed-to-create-directory", "error" => e)
+@@ -222,7 +208,7 @@ impl Entry {
+                 .next_back()
+                 .and_then(|stripped| descendant.strip_prefix(stripped).ok())
+             {
+-                descendant = stripped.to_path_buf();
++                descendant = stripped;
+             }
+         } else if context.root == Path::new(".") && context.target.is_dir() {
+             // Special case: when copying current directory (.) to an existing directory,
+@@ -233,7 +219,7 @@ impl Entry {
+             if let Some(current_dir_name) = context.current_dir.file_name()
+                 && let Ok(stripped) = descendant.strip_prefix(current_dir_name)
+             {
+-                descendant = stripped.to_path_buf();
++                descendant = stripped;
+             }
+         }
+ 
+@@ -288,7 +274,7 @@ fn copy_direntry(
+             if options.verbose {
+                 println!(
+                     "{}",
+-                    context_for(&entry.source_relative, &entry.local_to_target)
++                    context_for(entry.source_relative, &entry.local_to_target)
+                 );
+             }
+             Ok(true)
+@@ -299,7 +285,7 @@ fn copy_direntry(
+     if !source_is_dir
+         && let Err(err) = copy_file(
+             progress_bar,
+-            &entry.source_relative,
++            entry.source_relative,
+             entry.local_to_target.as_path(),
+             options,
+             symlinked_files,
+@@ -400,7 +386,7 @@ pub(crate) fn copy_directory(
+     // a -> d/a
+     // a/b -> d/a/b
+     //
+-    let tmp = if options.parents {
++    let target = if options.parents {
+         if let Some(parent) = root.parent() {
+             let new_target = target.join(parent);
+             build_dir(&new_target, true)?;
+@@ -415,31 +401,26 @@ pub(crate) fn copy_directory(
+                     println!("{} -> {}", x.display(), y.display());
+                 }
+             }
+-
+-            new_target
++            Cow::from(new_target)
+         } else {
+-            target.to_path_buf()
++            Cow::from(target)
+         }
+     } else {
+-        target.to_path_buf()
++        Cow::from(target)
+     };
+-    let target = tmp.as_path();
+ 
+     let preserve_hard_links = options.preserve_hard_links();
+ 
+     // Collect some paths here that are invariant during the traversal
+     // of the given directory, like the current working directory and
+     // the target directory.
+-    let context = match Context::new(root, target) {
++    let context = match Context::new(root, &target) {
+         Ok(c) => c,
+         Err(e) => {
+             return Err(translate!("cp-error-failed-get-current-dir", "error" => e).into());
+         }
+     };
+ 
+-    // The directory we were in during the previous iteration
+-    let mut last_iter: Option<DirEntry> = None;
+-
+     // Keep track of all directories we've created that need permission fixes
+     let mut dirs_needing_permissions: Vec<DirNeedingPermissions> = Vec::new();
+ 
+@@ -481,13 +462,6 @@ pub(crate) fn copy_directory(
+                 // to prevent other users from accessing them before they're done.
+                 // We thus need to fix the permissions of each directory we copy
+                 // once it's contents are ready.
+-                // This "fixup" is implemented here in a memory-efficient manner.
+-                //
+-                // We detect iterations where we "walk up" the directory tree,
+-                // and fix permissions on all the directories we exited.
+-                // (Note that there can be more than one! We might step out of
+-                // `./a/b/c` into `./a/`, in which case we'll need to fix the
+-                // permissions of both `./a/b/c` and `./a/b`, in that order.)
+                 let is_dir_for_permissions =
+                     entry_is_dir_no_follow || (options.dereference && direntry_path.is_dir());
+                 if is_dir_for_permissions {
+@@ -506,51 +480,10 @@ pub(crate) fn copy_directory(
+                     }
+                     // Add this directory to our list for permission fixing later
+                     dirs_needing_permissions.push(DirNeedingPermissions {
+-                        source: entry.source_absolute.clone(),
+-                        dest: entry.local_to_target.clone(),
++                        source: entry.source_absolute,
++                        dest: entry.local_to_target,
+                         was_created: created,
+                     });
+-
+-                    // If true, last_iter is not a parent of this iter.
+-                    // The means we just exited a directory.
+-                    let went_up = if let Some(last_iter) = &last_iter {
+-                        last_iter.path().strip_prefix(direntry_path).is_ok()
+-                    } else {
+-                        false
+-                    };
+-
+-                    if went_up {
+-                        // Compute the "difference" between `last_iter` and `direntry`.
+-                        // For example, if...
+-                        // - last_iter = `a/b/c/d`
+-                        // - direntry = `a/b`
+-                        // then diff = `c/d`
+-                        //
+-                        // All the unwraps() here are unreachable.
+-                        let last_iter = last_iter.as_ref().unwrap();
+-                        let diff = last_iter.path().strip_prefix(direntry_path).unwrap();
+-
+-                        // Fix permissions for every entry in `diff`, inside-out.
+-                        // We skip the last directory (which will be `.`) because
+-                        // its permissions will be fixed when we walk _out_ of it.
+-                        // (at this point, we might not be done copying `.`!)
+-                        for p in skip_last(diff.ancestors()) {
+-                            let src = direntry_path.join(p);
+-                            let entry = Entry::new(&context, &src, options.no_target_dir)?;
+-
+-                            copy_attributes(
+-                                &entry.source_absolute,
+-                                &entry.local_to_target,
+-                                &options.attributes,
+-                                false,
+-                                options.set_selinux_context,
+-                                #[cfg(unix)]
+-                                orig_umask,
+-                            )?;
+-                        }
+-                    }
+-
+-                    last_iter = Some(direntry);
+                 }
+             }
+ 
+@@ -588,7 +521,7 @@ pub(crate) fn copy_directory(
+                     &src,
+                     y,
+                     &options.attributes,
+-                    false,
++                    true,
+                     options.set_selinux_context,
+                     #[cfg(unix)]
+                     orig_umask,
+diff --git a/src/uu/cp/src/cp.rs b/src/uu/cp/src/cp.rs
+index 7f9096d1e0e..f57440c5aa5 100644
+--- a/src/uu/cp/src/cp.rs
++++ b/src/uu/cp/src/cp.rs
+@@ -1786,9 +1786,8 @@ pub(crate) fn copy_attributes(
+     skip_selinux_xattr: bool,
+     #[cfg(unix)] orig_umask: u32,
+ ) -> CopyResult<()> {
+-    let context = &*format!("{} -> {}", source.quote(), dest.quote());
+-    let source_metadata =
+-        fs::symlink_metadata(source).map_err(|e| CpError::IoErrContext(e, context.to_owned()))?;
++    let source_metadata = fs::symlink_metadata(source)
++        .map_err(|e| CpError::IoErrContext(e, context_for(source, dest)))?;
+ 
+     // Ownership must be changed first to avoid interfering with mode change.
+     #[cfg(unix)]
+@@ -1802,7 +1801,7 @@ pub(crate) fn copy_attributes(
+         let dest_gid = source_metadata.gid();
+         let meta = &dest
+             .symlink_metadata()
+-            .map_err(|e| CpError::IoErrContext(e, context.to_owned()))?;
++            .map_err(|e| CpError::IoErrContext(e, context_for(source, dest)))?;
+ 
+         let try_chown = {
+             |uid| {
+@@ -1827,6 +1826,30 @@ pub(crate) fn copy_attributes(
+         Ok(())
+     })?;
+ 
++    // before mode change since newly created dir/file are not read-only.
++    handle_preserve(attributes.xattr, || -> CopyResult<()> {
++        #[cfg(all(unix, not(target_os = "android")))]
++        {
++            copy_extended_attrs(source, dest, skip_selinux_xattr)?;
++        }
++        #[cfg(not(all(unix, not(target_os = "android"))))]
++        #[allow(unused_variables)]
++        {
++            // The documentation for GNU cp states:
++            //
++            // > Try to preserve SELinux security context and
++            // > extended attributes (xattr), but ignore any failure
++            // > to do that and print no corresponding diagnostic.
++            //
++            // so we simply do nothing here.
++            //
++            // TODO Silently ignore failures in the `#[cfg(unix)]`
++            // block instead of terminating immediately on errors.
++        }
++
++        Ok(())
++    })?;
++
+     // always try to set permission to the correct one if newly created
+     #[cfg(unix)]
+     let mode = if was_created {
+@@ -1857,7 +1880,7 @@ pub(crate) fn copy_attributes(
+             let permissions = Some(source_metadata.permissions());
+             if let Some(permissions) = permissions {
+                 fs::set_permissions(dest, permissions)
+-                    .map_err(|e| CpError::IoErrContext(e, context.to_owned()))?;
++                    .map_err(|e| CpError::IoErrContext(e, context_for(source, dest)))?;
+             }
+             // FIXME: Implement this for windows as well
+             #[cfg(feature = "feat_acl")]
+@@ -1900,29 +1923,6 @@ pub(crate) fn copy_attributes(
+         Ok(())
+     })?;
+ 
+-    handle_preserve(attributes.xattr, || -> CopyResult<()> {
+-        #[cfg(all(unix, not(target_os = "android")))]
+-        {
+-            copy_extended_attrs(source, dest, skip_selinux_xattr)?;
+-        }
+-        #[cfg(not(all(unix, not(target_os = "android"))))]
+-        #[allow(unused_variables)]
+-        {
+-            // The documentation for GNU cp states:
+-            //
+-            // > Try to preserve SELinux security context and
+-            // > extended attributes (xattr), but ignore any failure
+-            // > to do that and print no corresponding diagnostic.
+-            //
+-            // so we simply do nothing here.
+-            //
+-            // TODO Silently ignore failures in the `#[cfg(unix)]`
+-            // block instead of terminating immediately on errors.
+-        }
+-
+-        Ok(())
+-    })?;
+-
+     Ok(())
+ }
+ 
+@@ -2258,7 +2258,6 @@ fn handle_copy_mode(
+     source: &Path,
+     dest: &Path,
+     options: &Options,
+-    context: &str,
+     source_metadata: &Metadata,
+     symlinked_files: &mut HashSet<FileInformation>,
+     source_in_command_line: bool,
+@@ -2296,7 +2295,6 @@ fn handle_copy_mode(
+                 source,
+                 dest,
+                 options,
+-                context,
+                 source_metadata,
+                 symlinked_files,
+                 created_parent_dirs,
+@@ -2316,7 +2314,6 @@ fn handle_copy_mode(
+                             source,
+                             dest,
+                             options,
+-                            context,
+                             source_metadata,
+                             symlinked_files,
+                             created_parent_dirs,
+@@ -2349,7 +2346,6 @@ fn handle_copy_mode(
+                             source,
+                             dest,
+                             options,
+-                            context,
+                             source_metadata,
+                             symlinked_files,
+                             created_parent_dirs,
+@@ -2361,7 +2357,6 @@ fn handle_copy_mode(
+                     source,
+                     dest,
+                     options,
+-                    context,
+                     source_metadata,
+                     symlinked_files,
+                     created_parent_dirs,
+@@ -2388,7 +2383,6 @@ fn calculate_dest_permissions(
+     dest: &Path,
+     source_metadata: &Metadata,
+     options: &Options,
+-    context: &str,
+     #[cfg(unix)] orig_umask: u32,
+ ) -> Permissions {
+     #[cfg(unix)]
+@@ -2563,10 +2557,6 @@ fn copy_file(
+         }
+     }
+ 
+-    // Calculate the context upfront before canonicalizing the path
+-    let context = context_for(source, dest);
+-    let context = context.as_str();
+-
+     let source_metadata = {
+         let result = if options.dereference(source_in_command_line) {
+             fs::metadata(source)
+@@ -2589,7 +2579,6 @@ fn copy_file(
+         dest,
+         &source_metadata,
+         options,
+-        context,
+         #[cfg(unix)]
+         orig_umask,
+     );
+@@ -2600,7 +2589,6 @@ fn copy_file(
+         source,
+         dest,
+         options,
+-        context,
+         &source_metadata,
+         symlinked_files,
+         source_in_command_line,
+@@ -2750,7 +2738,6 @@ fn copy_helper(
+     source: &Path,
+     dest: &Path,
+     options: &Options,
+-    context: &str,
+     source_metadata: &Metadata,
+     symlinked_files: &mut HashSet<FileInformation>,
+     created_parent_dirs: &mut HashSet<PathBuf>,
+@@ -2788,7 +2775,6 @@ fn copy_helper(
+             dest,
+             options.reflink_mode,
+             options.sparse_mode,
+-            context,
+             #[cfg(unix)]
+             is_stream(source_metadata),
+         )?;
+diff --git a/src/uu/cp/src/platform/linux.rs b/src/uu/cp/src/platform/linux.rs
+index 427593ae25d..d94b65c45b0 100644
+--- a/src/uu/cp/src/platform/linux.rs
++++ b/src/uu/cp/src/platform/linux.rs
+@@ -18,7 +18,7 @@ use uucore::translate;
+ 
+ use crate::{
+     CopyDebug, CopyResult, CpError, OffloadReflinkDebug, ReflinkMode, SparseDebug, SparseMode,
+-    is_stream,
++    context_for, is_stream,
+ };
+ 
+ /// The fallback behavior for [`clone`] on failed system call.
+@@ -262,7 +262,6 @@ pub(crate) fn copy_on_write(
+     dest: &Path,
+     reflink_mode: ReflinkMode,
+     sparse_mode: SparseMode,
+-    context: &str,
+     source_is_stream: bool,
+ ) -> CopyResult<CopyDebug> {
+     let mut copy_debug = CopyDebug {
+@@ -392,7 +391,7 @@ pub(crate) fn copy_on_write(
+             return Err(translate!("cp-error-reflink-always-sparse-auto").into());
+         }
+     };
+-    result.map_err(|e| CpError::IoErrContext(e, context.to_owned()))?;
++    result.map_err(|e| CpError::IoErrContext(e, context_for(source, dest)))?;
+     Ok(copy_debug)
+ }
+ 
+diff --git a/src/uu/cp/src/platform/macos.rs b/src/uu/cp/src/platform/macos.rs
+index a545c552ba4..71fd4858486 100644
+--- a/src/uu/cp/src/platform/macos.rs
++++ b/src/uu/cp/src/platform/macos.rs
+@@ -17,7 +17,7 @@ use uucore::mode::get_umask;
+ 
+ use crate::{
+     CopyDebug, CopyResult, CpError, OffloadReflinkDebug, ReflinkMode, SparseDebug, SparseMode,
+-    is_stream,
++    context_for, is_stream,
+ };
+ 
+ /// Copies `source` to `dest` using copy-on-write if possible.
+@@ -26,7 +26,6 @@ pub(crate) fn copy_on_write(
+     dest: &Path,
+     reflink_mode: ReflinkMode,
+     sparse_mode: SparseMode,
+-    context: &str,
+     source_is_stream: bool,
+ ) -> CopyResult<CopyDebug> {
+     if sparse_mode != SparseMode::Auto {
+@@ -107,9 +106,10 @@ pub(crate) fn copy_on_write(
+ 
+             buf_copy::copy_stream(&mut src_file, &mut dst_file)
+                 .map_err(|_| std::io::Error::from(std::io::ErrorKind::Other))
+-                .map_err(|e| CpError::IoErrContext(e, context.to_owned()))?;
++                .map_err(|e| CpError::IoErrContext(e, context_for(source, dest)))?;
+         } else {
+-            fs::copy(source, dest).map_err(|e| CpError::IoErrContext(e, context.to_owned()))?;
++            fs::copy(source, dest)
++                .map_err(|e| CpError::IoErrContext(e, context_for(source, dest)))?;
+         }
+     }
+ 
+diff --git a/src/uu/cp/src/platform/other.rs b/src/uu/cp/src/platform/other.rs
+index 143c35e185b..dcb19451d08 100644
+--- a/src/uu/cp/src/platform/other.rs
++++ b/src/uu/cp/src/platform/other.rs
+@@ -9,6 +9,7 @@ use uucore::translate;
+ 
+ use crate::{
+     CopyDebug, CopyResult, CpError, OffloadReflinkDebug, ReflinkMode, SparseDebug, SparseMode,
++    context_for,
+ };
+ 
+ /// Copies `source` to `dest` for systems without copy-on-write
+@@ -17,7 +18,6 @@ pub(crate) fn copy_on_write(
+     dest: &Path,
+     reflink_mode: ReflinkMode,
+     sparse_mode: SparseMode,
+-    context: &str,
+ ) -> CopyResult<CopyDebug> {
+     if reflink_mode != ReflinkMode::Never {
+         return Err(translate!("cp-error-reflink-not-supported")
+@@ -34,7 +34,7 @@ pub(crate) fn copy_on_write(
+         reflink: OffloadReflinkDebug::Unsupported,
+         sparse_detection: SparseDebug::Unsupported,
+     };
+-    fs::copy(source, dest).map_err(|e| CpError::IoErrContext(e, context.to_owned()))?;
++    fs::copy(source, dest).map_err(|e| CpError::IoErrContext(e, context_for(source, dest)))?;
+ 
+     Ok(copy_debug)
+ }
+diff --git a/src/uu/cp/src/platform/other_unix.rs b/src/uu/cp/src/platform/other_unix.rs
+index 2db85c56af1..88f108f7c16 100644
+--- a/src/uu/cp/src/platform/other_unix.rs
++++ b/src/uu/cp/src/platform/other_unix.rs
+@@ -13,7 +13,7 @@ use uucore::translate;
+ 
+ use crate::{
+     CopyDebug, CopyResult, CpError, OffloadReflinkDebug, ReflinkMode, SparseDebug, SparseMode,
+-    is_stream,
++    context_for, is_stream,
+ };
+ 
+ /// Copies `source` to `dest` for systems without copy-on-write
+@@ -22,7 +22,6 @@ pub(crate) fn copy_on_write(
+     dest: &Path,
+     reflink_mode: ReflinkMode,
+     sparse_mode: SparseMode,
+-    context: &str,
+     source_is_stream: bool,
+ ) -> CopyResult<CopyDebug> {
+     if reflink_mode != ReflinkMode::Never {
+@@ -58,12 +57,12 @@ pub(crate) fn copy_on_write(
+ 
+         buf_copy::copy_stream(&mut src_file, &mut dst_file)
+             .map_err(|_| std::io::Error::from(std::io::ErrorKind::Other))
+-            .map_err(|e| CpError::IoErrContext(e, context.to_owned()))?;
++            .map_err(|e| CpError::IoErrContext(e, context_for(source, dest)))?;
+ 
+         return Ok(copy_debug);
+     }
+ 
+-    fs::copy(source, dest).map_err(|e| CpError::IoErrContext(e, context.to_owned()))?;
++    fs::copy(source, dest).map_err(|e| CpError::IoErrContext(e, context_for(source, dest)))?;
+ 
+     Ok(copy_debug)
+ }
+
+From 72914bcb6ef29eb9dbe4fc7a68f52dd86598fe11 Mon Sep 17 00:00:00 2001
+From: Michael Yang <michaely4ng@proton.me>
+Date: Sat, 21 Feb 2026 20:25:24 +1100
+Subject: [PATCH 5/6] fix(cp): setuid/setgid/sticky bits
+
+---
+ src/uu/cp/src/cp.rs | 80 ++++++++++++++++++++++++---------------------
+ 1 file changed, 43 insertions(+), 37 deletions(-)
+
+diff --git a/src/uu/cp/src/cp.rs b/src/uu/cp/src/cp.rs
+index f57440c5aa5..08a841a8f63 100644
+--- a/src/uu/cp/src/cp.rs
++++ b/src/uu/cp/src/cp.rs
+@@ -1693,7 +1693,7 @@ impl OverwriteMode {
+ /// Note: ENOTSUP/EOPNOTSUPP errors are silently ignored when not required, as per GNU cp
+ /// documentation: "Try to preserve SELinux security context and extended attributes (xattr),
+ /// but ignore any failure to do that and print no corresponding diagnostic."
+-fn handle_preserve<F: Fn() -> CopyResult<()>>(p: Preserve, f: F) -> CopyResult<()> {
++fn handle_preserve<F: FnMut() -> CopyResult<()>>(p: Preserve, mut f: F) -> CopyResult<()> {
+     match p {
+         Preserve::No { .. } => {}
+         Preserve::Yes { required } => {
+@@ -1789,6 +1789,8 @@ pub(crate) fn copy_attributes(
+     let source_metadata = fs::symlink_metadata(source)
+         .map_err(|e| CpError::IoErrContext(e, context_for(source, dest)))?;
+ 
++    let mut failed_to_set_ownership = false;
++
+     // Ownership must be changed first to avoid interfering with mode change.
+     #[cfg(unix)]
+     handle_preserve(attributes.ownership, || -> CopyResult<()> {
+@@ -1821,6 +1823,7 @@ pub(crate) fn copy_attributes(
+         // gnu compatibility: cp doesn't report an error if it fails to set the ownership,
+         // and will fall back to changing only the gid if possible.
+         if try_chown(Some(dest_uid)).is_err() {
++            failed_to_set_ownership = true;
+             let _ = try_chown(None);
+         }
+         Ok(())
+@@ -1872,6 +1875,7 @@ pub(crate) fn copy_attributes(
+                 attributes.mode,
+                 dest.is_dir(),
+                 was_created,
++                failed_to_set_ownership,
+                 source_metadata.permissions().mode(),
+                 orig_umask,
+             )
+@@ -2391,6 +2395,7 @@ fn calculate_dest_permissions(
+             options.attributes.mode,
+             false,
+             dest_metadata.is_none(),
++            false,
+             source_metadata.permissions().mode(),
+             orig_umask,
+         )
+@@ -2684,51 +2689,52 @@ fn is_stream(metadata: &Metadata) -> bool {
+ }
+ 
+ #[cfg(unix)]
++#[allow(clippy::unnecessary_cast)]
+ /// Calculate the final permissions mode.
+-///
+-/// If the dir/file was not created, then returns `None` except when preserving mode in which case
+-/// the source mode is returned.
+-///
+-/// Otherwise, see [`handle_created_mode`].
+ fn handle_mode(
+     mode: Preserve,
+     is_dir: bool,
+     was_created: bool,
++    failed_to_set_ownership: bool,
+     source_mode: u32,
+     umask: u32,
+ ) -> Option<u32> {
+-    if was_created {
+-        Some(handle_created_mode(mode, is_dir, source_mode, umask))
+-    } else {
+-        match mode {
+-            Preserve::Yes { required: true } => Some(source_mode),
+-            _ => None,
+-        }
+-    }
+-}
+-
+-#[cfg(unix)]
+-#[inline]
+-/// Calculate the final permissions mode when the dir/file is newly created.
+-///
+-/// If no preserving mode, return 0o777(dir)/0o666(file) & !umask.
+-/// If default, return source_mode & 0o777 & !umask.
+-/// If preserving mode, return source_mode & 0o777.
+-fn handle_created_mode(mode: Preserve, is_dir: bool, source_mode: u32, umask: u32) -> u32 {
+-    use libc::{S_IRGRP, S_IROTH, S_IRUSR, S_IRWXG, S_IRWXO, S_IRWXU, S_IWGRP, S_IWOTH, S_IWUSR};
+-    #[allow(clippy::unnecessary_cast)]
+-    const MODE_RW_UGO: u32 = (S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH) as u32;
+-    #[allow(clippy::unnecessary_cast)]
+-    const S_IRWXUGO: u32 = (S_IRWXU | S_IRWXG | S_IRWXO) as u32;
++    match (was_created, mode) {
++        // If preserving mode, return Some source_mode.
++        (_, Preserve::Yes { .. }) => {
++            use libc::{S_ISGID, S_ISUID};
++            const UID_GID_MASK: u32 = !(S_ISGID | S_ISUID) as u32;
++
++            Some(if failed_to_set_ownership {
++                // "Additionally, the -p option explicitly requires that all set-user-ID and
++                // set-group-ID permissions be discarded if any of the owner or group IDs cannot be
++                // set. This is to keep users from unintentionally giving away special privilege
++                // when copying programs."
++                source_mode & UID_GID_MASK
++            } else {
++                source_mode
++            })
++        }
++        // If was not created (destination existed), return None
++        (false, _) => None,
++        // If was created (destination did not exist), return Some
++        // If no preserving mode, return 0o777(dir)/0o666(file) & !umask.
++        // If default, return source_mode & 0o777 & !umask.
++        (true, Preserve::No { explicit }) => {
++            use libc::{
++                S_IRGRP, S_IROTH, S_IRUSR, S_IRWXG, S_IRWXO, S_IRWXU, S_IWGRP, S_IWOTH, S_IWUSR,
++            };
++            const MODE_RW_UGO: u32 =
++                (S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH) as u32;
++            const S_IRWXUGO: u32 = (S_IRWXU | S_IRWXG | S_IRWXO) as u32;
+ 
+-    if let Preserve::No { explicit } = mode {
+-        (if explicit {
+-            if is_dir { S_IRWXUGO } else { MODE_RW_UGO }
+-        } else {
+-            source_mode & S_IRWXUGO
+-        }) & !umask
+-    } else {
+-        source_mode & S_IRWXUGO
++            let mode = if explicit {
++                if is_dir { S_IRWXUGO } else { MODE_RW_UGO }
++            } else {
++                source_mode & S_IRWXUGO
++            };
++            Some(mode & !umask)
++        }
+     }
+ }
+ 
+
+From 63d08f38d509a4c6b9e27d6990c77a002bd100b5 Mon Sep 17 00:00:00 2001
+From: Michael Yang <michaely4ng@proton.me>
+Date: Wed, 18 Mar 2026 09:25:15 +1100
+Subject: [PATCH 6/6] test: condense mode tests with rstest
+
+Fix CI-failing checks.
+---
+ src/uu/cp/src/copydir.rs |   2 +-
+ src/uu/cp/src/cp.rs      |   1 +
+ tests/by-util/test_cp.rs | 365 +++++++--------------------------------
+ 3 files changed, 67 insertions(+), 301 deletions(-)
+
+diff --git a/src/uu/cp/src/copydir.rs b/src/uu/cp/src/copydir.rs
+index 7f49eae801f..6f6ee1bd152 100644
+--- a/src/uu/cp/src/copydir.rs
++++ b/src/uu/cp/src/copydir.rs
+@@ -114,7 +114,7 @@ impl<'a> Context<'a> {
+ ///
+ /// For convenience while traversing a directory, the [`Entry::new`]
+ /// function allows creating an entry from a [`Context`] and a
+-/// [`DirEntry`].
++/// [`Path`].
+ ///
+ /// # Examples
+ ///
+diff --git a/src/uu/cp/src/cp.rs b/src/uu/cp/src/cp.rs
+index 08a841a8f63..f39514140ff 100644
+--- a/src/uu/cp/src/cp.rs
++++ b/src/uu/cp/src/cp.rs
+@@ -1789,6 +1789,7 @@ pub(crate) fn copy_attributes(
+     let source_metadata = fs::symlink_metadata(source)
+         .map_err(|e| CpError::IoErrContext(e, context_for(source, dest)))?;
+ 
++    #[cfg(unix)]
+     let mut failed_to_set_ownership = false;
+ 
+     // Ownership must be changed first to avoid interfering with mode change.
+diff --git a/tests/by-util/test_cp.rs b/tests/by-util/test_cp.rs
+index a32d18167a0..48a27ca3b6b 100644
+--- a/tests/by-util/test_cp.rs
++++ b/tests/by-util/test_cp.rs
+@@ -7880,259 +7880,59 @@ fn test_cp_recursive_non_utf8_source() {
+     assert!(at.plus("dir2").join("a").exists());
+ }
+ 
+-#[test]
+-#[cfg(unix)]
+-fn test_cp_existing_no_preserve_file() {
+-    use std::io;
+-
+-    let scene = TestScenario::new(util_name!());
+-    let at = &scene.fixtures;
+-
+-    scene.cmd("touch").arg("f1").succeeds();
+-    scene.cmd("touch").arg("f2").succeeds();
+-    scene.cmd("chmod").arg("770").arg("f1").succeeds();
+-    scene.cmd("chmod").arg("666").arg("f2").succeeds();
+-    let f2_mode = at.metadata("f2").mode();
+-
+-    scene
+-        .ucmd()
+-        // umask should have no effect
+-        .umask(0o700)
+-        .arg("--no-preserve=mode")
+-        .arg("f1")
+-        .arg("f2")
+-        .set_stdout(io::stdout())
+-        .succeeds();
+-
+-    let f2_new_mode = at.metadata("f2").mode();
+-
+-    assert_eq!(f2_mode, f2_new_mode);
+-}
+-
+-#[test]
+-#[cfg(unix)]
+-fn test_cp_existing_no_preserve_dir() {
+-    use std::io;
+-
+-    let scene = TestScenario::new(util_name!());
+-    let at = &scene.fixtures;
+-
+-    scene.cmd("mkdir").arg("d1").succeeds();
+-    scene.cmd("mkdir").arg("d2").succeeds();
+-    scene.cmd("chmod").arg("770").arg("d1").succeeds();
+-    scene.cmd("chmod").arg("707").arg("d2").succeeds();
+-    let d2_mode = at.metadata("d2").mode();
+-
+-    scene
+-        .ucmd()
+-        // umask should have no effect
+-        .umask(0o700)
+-        .arg("--no-preserve=mode")
+-        .arg("-r")
+-        .arg("d1/.")
+-        .arg("d2")
+-        .set_stdout(io::stdout())
+-        .succeeds();
+-
+-    let d2_new_mode = at.metadata("d2").mode();
+-
+-    assert_eq!(d2_mode, d2_new_mode);
+-}
+-
+-#[test]
++#[rstest]
+ #[cfg(unix)]
+-fn test_cp_existing_default_file() {
++fn test_cp_file_mode(
++    #[values(true, false)] is_existing: bool,
++    #[values(Some(true), None, Some(false))] preserve: Option<bool>,
++) {
+     use std::io;
+ 
+     let scene = TestScenario::new(util_name!());
+     let at = &scene.fixtures;
+ 
+     scene.cmd("touch").arg("f1").succeeds();
+-    scene.cmd("touch").arg("f2").succeeds();
+     scene.cmd("chmod").arg("770").arg("f1").succeeds();
+-    scene.cmd("chmod").arg("666").arg("f2").succeeds();
+-    let f2_mode = at.metadata("f2").mode();
+-
+-    scene
+-        .ucmd()
+-        // umask should have no effect
+-        .umask(0o700)
+-        .arg("f1")
+-        .arg("f2")
+-        .set_stdout(io::stdout())
+-        .succeeds();
+-
+-    let f2_new_mode = at.metadata("f2").mode();
+-
+-    assert_eq!(f2_mode, f2_new_mode);
+-}
+-
+-#[test]
+-#[cfg(unix)]
+-fn test_cp_existing_default_dir() {
+-    use std::io;
+-
+-    let scene = TestScenario::new(util_name!());
+-    let at = &scene.fixtures;
+-
+-    scene.cmd("mkdir").arg("d1").succeeds();
+-    scene.cmd("mkdir").arg("d2").succeeds();
+-    scene.cmd("chmod").arg("770").arg("d1").succeeds();
+-    scene.cmd("chmod").arg("707").arg("d2").succeeds();
+-    let d2_mode = at.metadata("d2").mode();
+-
+-    scene
+-        .ucmd()
+-        // umask should have no effect
+-        .umask(0o700)
+-        .arg("-r")
+-        .arg("d1/.")
+-        .arg("d2")
+-        .set_stdout(io::stdout())
+-        .succeeds();
+ 
+-    let d2_new_mode = at.metadata("d2").mode();
+-
+-    assert_eq!(d2_mode, d2_new_mode);
+-}
+-
+-#[test]
+-#[cfg(unix)]
+-fn test_cp_existing_preserve_file() {
+-    use std::io;
+-
+-    let scene = TestScenario::new(util_name!());
+-    let at = &scene.fixtures;
+-
+-    scene.cmd("touch").arg("f1").succeeds();
+-    scene.cmd("touch").arg("f2").succeeds();
+-    scene.cmd("chmod").arg("770").arg("f1").succeeds();
+-    scene.cmd("chmod").arg("666").arg("f2").succeeds();
+     let f1_mode = at.metadata("f1").mode();
++    let f2_mode = if is_existing {
++        scene.cmd("touch").arg("f2").succeeds();
++        scene.cmd("chmod").arg("666").arg("f2").succeeds();
++        Some(at.metadata("f2").mode())
++    } else {
++        None
++    };
+ 
+-    scene
+-        .ucmd()
+-        // umask should have no effect
+-        .umask(0o700)
+-        .arg("--preserve=mode")
+-        .arg("f1")
+-        .arg("f2")
+-        .set_stdout(io::stdout())
+-        .succeeds();
+-
+-    let f2_mode = at.metadata("f2").mode();
+-
+-    assert_eq!(f1_mode, f2_mode);
+-}
+-
+-#[test]
+-#[cfg(unix)]
+-fn test_cp_existing_preserve_dir() {
+-    use std::io;
+-
+-    let scene = TestScenario::new(util_name!());
+-    let at = &scene.fixtures;
+-
+-    scene.cmd("mkdir").arg("d1").succeeds();
+-    scene.cmd("mkdir").arg("d2").succeeds();
+-    scene.cmd("chmod").arg("770").arg("d1").succeeds();
+-    scene.cmd("chmod").arg("707").arg("d2").succeeds();
+-    let d1_mode = at.metadata("d1").mode();
+-
+-    scene
+-        .ucmd()
+-        // umask should have no effect
+-        .umask(0o700)
+-        .arg("--preserve=mode")
+-        .arg("-r")
+-        .arg("d1/.")
+-        .arg("d2")
+-        .set_stdout(io::stdout())
+-        .succeeds();
+-
+-    let d2_mode = at.metadata("d2").mode();
+-
+-    assert_eq!(d1_mode, d2_mode);
+-}
+-
+-#[test]
+-#[cfg(unix)]
+-fn test_cp_not_existing_no_preserve_file() {
+-    use std::io;
+-
+-    let scene = TestScenario::new(util_name!());
+-    let at = &scene.fixtures;
+-
+-    scene.cmd("touch").arg("f1").succeeds();
+-    scene.cmd("chmod").arg("770").arg("f1").succeeds();
+-
+-    scene
+-        .ucmd()
+-        .umask(0o700)
+-        .arg("--no-preserve=mode")
+-        .arg("f1")
+-        .arg("f2")
+-        .set_stdout(io::stdout())
+-        .succeeds();
+-
+-    let f2_mode = at.metadata("f2").mode();
+-
+-    assert_eq!(0o666 & !0o700, f2_mode & 0o777);
+-}
+-
+-#[test]
+-#[cfg(unix)]
+-fn test_cp_not_existing_no_preserve_dir() {
+-    use std::io;
+-
+-    let scene = TestScenario::new(util_name!());
+-    let at = &scene.fixtures;
+-
+-    scene.cmd("mkdir").arg("d1").succeeds();
+-    scene.cmd("chmod").arg("770").arg("d1").succeeds();
+-
+-    scene
+-        .ucmd()
+-        .umask(0o700)
+-        .arg("--no-preserve=mode")
+-        .arg("-r")
+-        .arg("d1")
+-        .arg("d2")
+-        .set_stdout(io::stdout())
+-        .succeeds();
+-
+-    let d2_mode = at.metadata("d2").mode();
+-
+-    assert_eq!(!0o700 & 0o777, d2_mode & 0o777);
+-}
+-
+-#[test]
+-#[cfg(unix)]
+-fn test_cp_not_existing_default_file() {
+-    use std::io;
+-
+-    let scene = TestScenario::new(util_name!());
+-    let at = &scene.fixtures;
+-
+-    scene.cmd("touch").arg("f1").succeeds();
+-    scene.cmd("chmod").arg("770").arg("f1").succeeds();
+-
+-    scene
+-        .ucmd()
+-        .umask(0o700)
+-        .arg("f1")
+-        .arg("f2")
+-        .set_stdout(io::stdout())
+-        .succeeds();
++    let mut command = scene.ucmd();
++    match preserve {
++        Some(true) => command.arg("--preserve=mode"),
++        Some(false) => command.arg("--no-preserve=mode"),
++        _ => &mut command,
++    }
++    .umask(0o700)
++    .arg("f1")
++    .arg("f2")
++    .set_stdout(io::stdout())
++    .succeeds();
+ 
+-    let f2_mode = at.metadata("f2").mode();
++    let f2_new_mode = at.metadata("f2").mode();
+ 
+-    assert_eq!(!0o700 & 0o770, f2_mode & 0o777);
++    match (is_existing, preserve) {
++        (true, Some(false) | None) => {
++            assert_eq!(f2_mode.unwrap(), f2_new_mode);
++        }
++        (false, Some(false)) => assert_eq!(0o666 & !0o700, f2_new_mode & 0o777),
++        (false, None) => assert_eq!(!0o700 & 0o770, f2_new_mode & 0o777),
++        (_, Some(true)) => assert_eq!(f1_mode, f2_new_mode),
++    }
+ }
+ 
+-#[test]
++#[rstest]
+ #[cfg(unix)]
+-fn test_cp_not_existing_default_dir() {
++fn test_cp_dir_mode(
++    #[values(true, false)] is_existing: bool,
++    #[values(Some(true), None, Some(false))] preserve: Option<bool>,
++) {
+     use std::io;
+ 
+     let scene = TestScenario::new(util_name!());
+@@ -8141,73 +7941,38 @@ fn test_cp_not_existing_default_dir() {
+     scene.cmd("mkdir").arg("d1").succeeds();
+     scene.cmd("chmod").arg("770").arg("d1").succeeds();
+ 
+-    scene
+-        .ucmd()
+-        .umask(0o700)
+-        .arg("-r")
+-        .arg("d1")
+-        .arg("d2")
+-        .set_stdout(io::stdout())
+-        .succeeds();
+-
+-    let d2_mode = at.metadata("d2").mode();
+-
+-    assert_eq!(!0o700 & 0o770, d2_mode & 0o777);
+-}
+-
+-#[test]
+-#[cfg(unix)]
+-fn test_cp_not_existing_preserve_file() {
+-    use std::io;
+-
+-    let scene = TestScenario::new(util_name!());
+-    let at = &scene.fixtures;
+-
+-    scene.cmd("touch").arg("f1").succeeds();
+-    scene.cmd("chmod").arg("770").arg("f1").succeeds();
+-    let f1_mode = at.metadata("f1").mode();
+-
+-    scene
+-        .ucmd()
+-        // umask should have no effect
+-        .umask(0o700)
+-        .arg("--preserve=mode")
+-        .arg("f1")
+-        .arg("f2")
+-        .set_stdout(io::stdout())
+-        .succeeds();
+-
+-    let f2_mode = at.metadata("f2").mode();
+-
+-    assert_eq!(f1_mode, f2_mode);
+-}
+-
+-#[test]
+-#[cfg(unix)]
+-fn test_cp_not_existing_preserve_dir() {
+-    use std::io;
+-
+-    let scene = TestScenario::new(util_name!());
+-    let at = &scene.fixtures;
+-
+-    scene.cmd("mkdir").arg("d1").succeeds();
+-    scene.cmd("chmod").arg("770").arg("d1").succeeds();
+     let d1_mode = at.metadata("d1").mode();
++    let d2_mode = if is_existing {
++        scene.cmd("mkdir").arg("d2").succeeds();
++        scene.cmd("chmod").arg("707").arg("d2").succeeds();
++        Some(at.metadata("d2").mode())
++    } else {
++        None
++    };
+ 
+-    scene
+-        .ucmd()
+-        // umask should have no effect
+-        .umask(0o700)
+-        .arg("--preserve=mode")
+-        .arg("-r")
+-        .arg("d1")
+-        .arg("d2")
+-        .set_stdout(io::stdout())
+-        .succeeds();
++    let mut command = scene.ucmd();
++    match preserve {
++        Some(true) => command.arg("--preserve=mode"),
++        Some(false) => command.arg("--no-preserve=mode"),
++        _ => &mut command,
++    }
++    .umask(0o700)
++    .arg("-r")
++    .arg("d1/.")
++    .arg("d2")
++    .set_stdout(io::stdout())
++    .succeeds();
+ 
+-    let d2_mode = at.metadata("d2").mode();
++    let d2_new_mode = at.metadata("d2").mode();
+ 
+-    assert_eq!(d1_mode, d2_mode);
++    match (is_existing, preserve) {
++        (true, Some(false) | None) => {
++            assert_eq!(d2_mode.unwrap(), d2_new_mode);
++        }
++        (false, Some(false)) => assert_eq!(!0o700 & 0o777, d2_new_mode & 0o777),
++        (false, None) => assert_eq!(!0o700 & 0o770, d2_new_mode & 0o777),
++        (_, Some(true)) => assert_eq!(d1_mode, d2_new_mode),
++    }
+ }
+ 
+ #[test]

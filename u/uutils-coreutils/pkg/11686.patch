@@ -1,11 +1,12 @@
-From ca6d35cc5f4a3e0508d2786cafb67146b5669475 Mon Sep 17 00:00:00 2001
+From 0a636f16919dda24c2b020ebceff54d60dc582e1 Mon Sep 17 00:00:00 2001
 From: oech3 <79379754+oech3@users.noreply.github.com>
 Date: Tue, 7 Apr 2026 04:54:34 +0900
 Subject: [PATCH] tee: fix input with sleep
 
 ---
  src/uu/tee/src/tee.rs | 34 +++++++++++++++++++---------------
- 1 file changed, 19 insertions(+), 15 deletions(-)
+ util/fetch-gnu.sh     |  1 +
+ 2 files changed, 20 insertions(+), 15 deletions(-)
 
 diff --git a/src/uu/tee/src/tee.rs b/src/uu/tee/src/tee.rs
 index 272083b5c41..9bb4cbd8e05 100644
@@ -64,3 +65,15 @@ index 272083b5c41..9bb4cbd8e05 100644
      loop {
          match input.read(&mut buffer) {
              Ok(0) => return Ok(len), // end of file
+diff --git a/util/fetch-gnu.sh b/util/fetch-gnu.sh
+index ae6de16e7fc..f5bfc167bea 100755
+--- a/util/fetch-gnu.sh
++++ b/util/fetch-gnu.sh
+@@ -6,6 +6,7 @@ curl -L "${repo}/releases/download/v${ver}/coreutils-${ver}.tar.xz" | tar --stri
+ # TODO stop backporting tests from master at GNU coreutils > $ver
+  backport=(
+   misc/coreutils.sh # enable test
++  tee/tee.sh # input containing sleep
+   misc/yes.sh # zero-copy
+ )
+  for f in "${backport[@]}"
