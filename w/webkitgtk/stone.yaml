@@ -2,10 +2,10 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : webkitgtk
-version     : "2.52.1"
-release     : 10
+version     : "2.52.2"
+release     : 11
 upstreams   :
-    - https://webkitgtk.org/releases/webkitgtk-2.52.1.tar.xz : 238e7d53205b14004add7eeb4293c94d6fbf7097b3efef7cee5519e5c121a904
+    - https://webkitgtk.org/releases/webkitgtk-2.52.2.tar.xz : 05de2b44874ba2dada5755f898cfb53783c3173f91b46368fa2dccc584972abb
 homepage    : https://webkitgtk.org
 license     : LGPL-2.1-only
 summary     : GTK web content engine library
@@ -83,8 +83,6 @@ builddeps   :
     # TODO:
     # - flite ?
 setup       : |
-    %patch %(pkgdir)/61521.patch
-
     function cmake_webkitgtk() {
         %cmake \
             -DENABLE_SPEECH_SYNTHESIS=OFF \
@@ -126,10 +124,10 @@ install     : |
     done
 packages    :
     - webkit2gtk41:
-        summary: WebKitGTK for GTK 3 and libsoup 3
+        summary: WebKitGTK for GTK 3
         description: |
             WebKitGTK is the port of the WebKit web rendering engine to the
-            GTK platform. This package contains WebKitGTK for GTK 3 and libsoup 3.
+            GTK platform. This package contains WebKitGTK for GTK 3.
         rundeps:
             - binary(bwrap)
             - binary(xdg-dbus-proxy)
