@@ -1,4 +1,4 @@
-From 94d61f62aff23b9d8f14383a9bf5372999c2431c Mon Sep 17 00:00:00 2001
+From ff05b4a2d832e9a55acb4247dafc2ded0b5c550d Mon Sep 17 00:00:00 2001
 From: Dorian Stoll <dorian.stoll@tmsp.io>
 Date: Sun, 11 Dec 2022 12:00:59 +0100
 Subject: [PATCH 11/41] hid: Add support for Intel Precise Touch and Stylus
@@ -65,10 +65,10 @@ Patchset: ipts
  create mode 100644 drivers/hid/ipts/thread.h
 
 diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
-index 03ad8b5c29a4..c639bb1f6733 100644
+index 6ff4a3ad34cb..5d41410ac567 100644
 --- a/drivers/hid/Kconfig
 +++ b/drivers/hid/Kconfig
-@@ -1440,6 +1440,8 @@ source "drivers/hid/surface-hid/Kconfig"
+@@ -1443,6 +1443,8 @@ source "drivers/hid/surface-hid/Kconfig"
  
  source "drivers/hid/intel-thc-hid/Kconfig"
  

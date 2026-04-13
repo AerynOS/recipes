@@ -1,4 +1,4 @@
-From 3ba7fa6e5236b7ea4141f9f85d8636066d81dc0a Mon Sep 17 00:00:00 2001
+From 142c12d9de06adcf65db41a5ecd3a2fd9d4de138 Mon Sep 17 00:00:00 2001
 From: Maximilian Luz <luzmaximilian@gmail.com>
 Date: Fri, 17 Jun 2022 02:14:00 +0200
 Subject: [PATCH 14/41] rtc: Add basic support for RTC via Surface System
@@ -14,10 +14,10 @@ Patchset: surface-sam
  create mode 100644 drivers/rtc/rtc-surface.c
 
 diff --git a/drivers/rtc/Kconfig b/drivers/rtc/Kconfig
-index 2933c41c77c8..050eba74d8a2 100644
+index 50ba48609d74..c0afe893e8bf 100644
 --- a/drivers/rtc/Kconfig
 +++ b/drivers/rtc/Kconfig
-@@ -1399,6 +1399,13 @@ config RTC_DRV_NTXEC
+@@ -1424,6 +1424,13 @@ config RTC_DRV_NTXEC
  	  embedded controller found in certain e-book readers designed by the
  	  original design manufacturer Netronix.
  
@@ -32,10 +32,10 @@ index 2933c41c77c8..050eba74d8a2 100644
  
  config RTC_DRV_ASM9260
 diff --git a/drivers/rtc/Makefile b/drivers/rtc/Makefile
-index 8221bda6e6dc..8932df6e03ed 100644
+index 6cf7e066314e..18bd33b84d13 100644
 --- a/drivers/rtc/Makefile
 +++ b/drivers/rtc/Makefile
-@@ -183,6 +183,7 @@ obj-$(CONFIG_RTC_DRV_SUN4V)	+= rtc-sun4v.o
+@@ -186,6 +186,7 @@ obj-$(CONFIG_RTC_DRV_SUN4V)	+= rtc-sun4v.o
  obj-$(CONFIG_RTC_DRV_SUN6I)	+= rtc-sun6i.o
  obj-$(CONFIG_RTC_DRV_SUNPLUS)	+= rtc-sunplus.o
  obj-$(CONFIG_RTC_DRV_SUNXI)	+= rtc-sunxi.o

@@ -3,7 +3,7 @@
 
 name        : nvidia-open-gpu-kernel-modules
 version     : "595.58.03"
-release     : 82
+release     : 83
 homepage    : https://github.com/NVIDIA/open-gpu-kernel-modules
 upstreams   :
     - https://download.nvidia.com/XFree86/NVIDIA-kernel-module-source/NVIDIA-kernel-module-source-595.58.03.tar.xz:
@@ -19,7 +19,7 @@ builddeps   :
     - binary(eu-readelf)
     - binary(jq)
     - binary(zstd)
-    # - linux-gaming-devel
+    - linux-gaming-devel
     - linux-lts-devel
     - linux-stable-devel
     - nvidia-graphics-driver-firmware
@@ -54,6 +54,7 @@ setup       : |
 
         pushd ${_kernel}
         # This is where patches would go
+        [[ "${_kernel}" =~ "7.0" ]] && %patch %(pkgdir)/linux70.patch
         popd
     done
 build       : |
@@ -133,18 +134,18 @@ packages    :
             # For backwards compat, remove with conditional deps
             - "%(name)-stable"
 
-    # - "%(name)-gaming":
-    #     summary: "%(name) built for gaming kernel"
-    #     description: "%(name) built for gaming kernel"
-    #     rundeps:
-    #         - "%(name)-shared"
-    #         - nvidia-graphics-driver-firmware
-    #         - sysbinary(depmod)
+    - "%(name)-gaming":
+        summary: "%(name) built for gaming kernel"
+        description: "%(name) built for gaming kernel"
+        rundeps:
+            - "%(name)-shared"
+            - nvidia-graphics-driver-firmware
+            - sysbinary(depmod)
 
-    #         - linux-gaming
-    #     paths:
-    #         - /usr/lib/kernel/*.gaming/
-    #         - /usr/lib/modules/*.gaming/
+            - linux-gaming
+        paths:
+            - /usr/lib/kernel/*.gaming/
+            - /usr/lib/modules/*.gaming/
 
     - "%(name)-lts":
         summary: "%(name) built for LTS kernel"
