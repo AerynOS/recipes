@@ -8,7 +8,8 @@
 				"binary(flex)",
 				"pkgconfig(libbpf)",
 				"pkgconfig(libcap)",
-				"pkgconfig(libmnl)"
+				"pkgconfig(libmnl)",
+				"pkgconfig(libtirpc)"
 			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
@@ -17,7 +18,8 @@
 				"soname(libcap.so.2(x86_64))",
 				"soname(libelf.so.1(x86_64))",
 				"soname(libm.so.6(x86_64))",
-				"soname(libmnl.so.0(x86_64))"
+				"soname(libmnl.so.0(x86_64))",
+				"soname(libtirpc.so.3(x86_64))"
 			],
 			"files": [
 				"/usr/lib/tmpfiles.d/iproute2.conf",
@@ -226,7 +228,8 @@
 				"binary(flex)",
 				"pkgconfig(libbpf)",
 				"pkgconfig(libcap)",
-				"pkgconfig(libmnl)"
+				"pkgconfig(libmnl)",
+				"pkgconfig(libtirpc)"
 			],
 			"depends": [
 				"iproute2"
@@ -239,6 +242,6 @@
 		}
 	},
 	"source-name": "iproute2",
-	"source-release": "12",
-	"source-version": "6.19.0"
+	"source-release": "13",
+	"source-version": "7.0.0"
 }
