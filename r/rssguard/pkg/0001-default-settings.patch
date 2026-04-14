@@ -4,17 +4,33 @@ Date: Fri, 6 Oct 2023 10:46:21 -0500
 Subject: [PATCH] Downstream default settings
 
 Changes:
-- qt6-webengine sandboxing works fine on Downstream, don't disable it
+- Default to system theme
 - Toast notifications don't integrate as well as native ones
 ---
+ src/librssguard/definitions/definitions.h  | 4 ++--
  src/librssguard/miscellaneous/settings.cpp | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
+diff --git a/src/librssguard/definitions/definitions.h b/src/librssguard/definitions/definitions.h
+index f1479b789..a9a34915b 100644
+--- a/src/librssguard/definitions/definitions.h
++++ b/src/librssguard/definitions/definitions.h
+@@ -247,8 +247,8 @@
+ #define APP_LOCAL_ICON_THEME_FOLDER "icons"
+ #define APP_NO_THEME                ""
+ 
+-// Use OS default style everywhere.
+-#define APP_STYLE_DEFAULT "Fusion"
++// Default to system-style
++#define APP_STYLE_DEFAULT APP_NO_THEME
+ 
+ // Column indexes for the model.
+ #define MSG_MDL_ID_INDEX          0
 diff --git a/src/librssguard/miscellaneous/settings.cpp b/src/librssguard/miscellaneous/settings.cpp
-index b0ae74c7d..193d73ed5 100644
+index 5e919b5a9..a40d88391 100644
 --- a/src/librssguard/miscellaneous/settings.cpp
 +++ b/src/librssguard/miscellaneous/settings.cpp
-@@ -329,7 +329,7 @@ DKEY GUI::EnableNotifications = "enable_notifications";
+@@ -318,7 +318,7 @@ DKEY GUI::EnableNotifications = "enable_notifications";
  DVALUE(bool) GUI::EnableNotificationsDef = true;
  
  DKEY GUI::UseToastNotifications = "use_toast_notifications";
@@ -23,12 +39,12 @@ index b0ae74c7d..193d73ed5 100644
  
  DKEY GUI::ToastNotificationsPosition = "toast_notifications_position";
  DVALUE(ToastNotificationsManager::NotificationPosition)
-@@ -491,7 +491,7 @@ DVALUE(bool) Browser::DisableCacheDef = false;
- DKEY Browser::WebEngineChromiumFlags = "webengine_chromium_flags";
+@@ -357,7 +357,7 @@ DKEY GUI::ColoredBusyTrayIcon = "colored_busy_tray_icon";
+ DVALUE(bool) GUI::ColoredBusyTrayIconDef = false;
  
- #if defined(Q_OS_LINUX) && !defined(IS_FLATPAK_BUILD)
--DVALUE(QString) Browser::WebEngineChromiumFlagsDef = QSL("--no-sandbox --enable-smooth-scrolling");
-+DVALUE(QString) Browser::WebEngineChromiumFlagsDef = QSL("--enable-smooth-scrolling");
- #else
- DVALUE(QString) Browser::WebEngineChromiumFlagsDef = QSL("--enable-smooth-scrolling");
- #endif
+ DKEY GUI::ForcedSkinColors = "forced_skin_colors";
+-DVALUE(bool) GUI::ForcedSkinColorsDef = true;
++DVALUE(bool) GUI::ForcedSkinColorsDef = false;
+ 
+ DKEY GUI::UnreadNumbersInTrayIcon = "show_unread_numbers_in_tray_icon";
+ DVALUE(bool) GUI::UnreadNumbersInTrayIconDef = true;

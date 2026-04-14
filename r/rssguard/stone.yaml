@@ -2,24 +2,23 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : rssguard
-version     : "4.8.6"
-release     : 3
+version     : "5.0.4"
+release     : 4
 upstreams   :
-    - https://github.com/martinrotter/rssguard/archive/refs/tags/4.8.6.tar.gz : c29bdda08ece8de113dbdb87e8e23491221ba9ddbacd26141d6a00e04888972e
+    - https://github.com/martinrotter/rssguard/releases/download/5.0.4/rssguard-5.0.4-src.tar.gz : 0a8750da59a3c9c245db604bd71fa23aa7d10e4ce6d502eaee343f1796c9d1a1
 homepage    : https://github.com/martinrotter/rssguard
 license     : GPL-3.0-or-later
 summary     : Simple (yet powerful) Qt feed reader
 description : |
     Simple (yet powerful) Qt feed reader
 builddeps   :
-    - cmake(Qt6Core5Compat)
+    - binary(go)
+    - cmake(Qt6CorePrivate)
     - cmake(Qt6Designer)
     - cmake(Qt6Multimedia)
     - cmake(Qt6Qml)
-    - cmake(Qt6WebEngineWidgets)
-    - pkgconfig(dbus-1)
+    - cmake(Qt6Sql)
     - pkgconfig(mpv)
-    - pkgconfig(sqlite3)
 setup       : |
     %patch %(pkgdir)/0001-default-settings.patch
 
@@ -30,5 +29,7 @@ install     : |
     %cmake_install
 packages    :
     - "%(name)":
+        rundeps:
+            - qt6-wayland
         paths:
             - /usr/lib/lib*.so

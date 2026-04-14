@@ -4,20 +4,19 @@
 	"packages": {
 		"rssguard": {
 			"build-depends": [
-				"cmake(Qt6Core5Compat)",
+				"binary(go)",
+				"cmake(Qt6CorePrivate)",
 				"cmake(Qt6Designer)",
 				"cmake(Qt6Multimedia)",
 				"cmake(Qt6Qml)",
-				"cmake(Qt6WebEngineWidgets)",
-				"pkgconfig(dbus-1)",
-				"pkgconfig(mpv)",
-				"pkgconfig(sqlite3)"
+				"cmake(Qt6Sql)",
+				"pkgconfig(mpv)"
 			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"qt6-wayland",
 				"soname(libQt6Concurrent.so.6(x86_64))",
 				"soname(libQt6Core.so.6(x86_64))",
-				"soname(libQt6Core5Compat.so.6(x86_64))",
 				"soname(libQt6DBus.so.6(x86_64))",
 				"soname(libQt6Gui.so.6(x86_64))",
 				"soname(libQt6Multimedia.so.6(x86_64))",
@@ -26,53 +25,50 @@
 				"soname(libQt6Qml.so.6(x86_64))",
 				"soname(libQt6Quick.so.6(x86_64))",
 				"soname(libQt6Sql.so.6(x86_64))",
-				"soname(libQt6WebEngineCore.so.6(x86_64))",
-				"soname(libQt6WebEngineWidgets.so.6(x86_64))",
 				"soname(libQt6Widgets.so.6(x86_64))",
 				"soname(libQt6Xml.so.6(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libm.so.6(x86_64))",
 				"soname(libmpv.so.2(x86_64))",
-				"soname(libsqlite3.so.0(x86_64))",
 				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/bin/rssguard",
+				"/usr/bin/rssguard-article-extractor",
 				"/usr/lib/librssguard.so",
 				"/usr/lib/rssguard/librssguard-feedly.so",
 				"/usr/lib/rssguard/librssguard-gmail.so",
 				"/usr/lib/rssguard/librssguard-greader.so",
 				"/usr/lib/rssguard/librssguard-nextcloud.so",
-				"/usr/lib/rssguard/librssguard-reddit.so",
 				"/usr/lib/rssguard/librssguard-standard.so",
 				"/usr/lib/rssguard/librssguard-ttrss.so",
 				"/usr/share/applications/io.github.martinrotter.rssguard.desktop",
-				"/usr/share/icons/hicolor/256x256/apps/io.github.martinrotter.rssguard.png",
+				"/usr/share/icons/hicolor/512x512/apps/io.github.martinrotter.rssguard.png",
 				"/usr/share/metainfo/io.github.martinrotter.rssguard.metainfo.xml"
 			],
 			"name": "rssguard",
 			"provides": [
 				"binary(rssguard)",
+				"binary(rssguard-article-extractor)",
 				"soname(librssguard.so(x86_64))",
 				"soname(rssguard/librssguard-feedly.so(x86_64))",
 				"soname(rssguard/librssguard-gmail.so(x86_64))",
 				"soname(rssguard/librssguard-greader.so(x86_64))",
 				"soname(rssguard/librssguard-nextcloud.so(x86_64))",
-				"soname(rssguard/librssguard-reddit.so(x86_64))",
 				"soname(rssguard/librssguard-standard.so(x86_64))",
 				"soname(rssguard/librssguard-ttrss.so(x86_64))"
 			]
 		},
 		"rssguard-devel": {
 			"build-depends": [
-				"cmake(Qt6Core5Compat)",
+				"binary(go)",
+				"cmake(Qt6CorePrivate)",
 				"cmake(Qt6Designer)",
 				"cmake(Qt6Multimedia)",
 				"cmake(Qt6Qml)",
-				"cmake(Qt6WebEngineWidgets)",
-				"pkgconfig(dbus-1)",
-				"pkgconfig(mpv)",
-				"pkgconfig(sqlite3)"
+				"cmake(Qt6Sql)",
+				"pkgconfig(mpv)"
 			],
 			"depends": [
 				"rssguard"
@@ -80,10 +76,11 @@
 			"files": [
 				"/usr/include/librssguard/core/feedsmodel.h",
 				"/usr/include/librssguard/core/message.h",
-				"/usr/include/librssguard/core/messagefilter.h",
 				"/usr/include/librssguard/database/databasedriver.h",
 				"/usr/include/librssguard/database/databasefactory.h",
 				"/usr/include/librssguard/database/databasequeries.h",
+				"/usr/include/librssguard/database/databaseworker.h",
+				"/usr/include/librssguard/database/sqlquery.h",
 				"/usr/include/librssguard/exceptions/applicationexception.h",
 				"/usr/include/librssguard/exceptions/feedfetchexception.h",
 				"/usr/include/librssguard/exceptions/feedrecognizedbutfailedexception.h",
@@ -92,9 +89,12 @@
 				"/usr/include/librssguard/exceptions/networkexception.h",
 				"/usr/include/librssguard/exceptions/processexception.h",
 				"/usr/include/librssguard/exceptions/scriptexception.h",
+				"/usr/include/librssguard/exceptions/sqlexception.h",
+				"/usr/include/librssguard/filtering/messagefilter.h",
 				"/usr/include/librssguard/gui/dialogs/filedialog.h",
 				"/usr/include/librssguard/gui/dialogs/formabout.h",
 				"/usr/include/librssguard/gui/dialogs/formmain.h",
+				"/usr/include/librssguard/gui/dialogs/formprogressworker.h",
 				"/usr/include/librssguard/gui/dialogs/formupdate.h",
 				"/usr/include/librssguard/gui/feedmessageviewer.h",
 				"/usr/include/librssguard/gui/feedsview.h",
@@ -110,11 +110,12 @@
 				"/usr/include/librssguard/gui/reusable/networkproxydetails.h",
 				"/usr/include/librssguard/gui/reusable/plaintoolbutton.h",
 				"/usr/include/librssguard/gui/reusable/resizablestackedwidget.h",
+				"/usr/include/librssguard/gui/reusable/texteditwithstatus.h",
 				"/usr/include/librssguard/gui/reusable/widgetwithstatus.h",
 				"/usr/include/librssguard/gui/webbrowser.h",
-				"/usr/include/librssguard/gui/webviewers/qtextbrowser/textbrowserviewer.h",
-				"/usr/include/librssguard/gui/webviewers/webengine/webengineviewer.h",
+				"/usr/include/librssguard/gui/webviewers/qlitehtml/qlitehtmlarticleviewer.h",
 				"/usr/include/librssguard/miscellaneous/application.h",
+				"/usr/include/librssguard/miscellaneous/domdocument.h",
 				"/usr/include/librssguard/miscellaneous/feedreader.h",
 				"/usr/include/librssguard/miscellaneous/iconfactory.h",
 				"/usr/include/librssguard/miscellaneous/iofactory.h",
@@ -124,7 +125,9 @@
 				"/usr/include/librssguard/miscellaneous/skinfactory.h",
 				"/usr/include/librssguard/miscellaneous/systemfactory.h",
 				"/usr/include/librssguard/miscellaneous/textfactory.h",
-				"/usr/include/librssguard/network-web/downloadmanager.h",
+				"/usr/include/librssguard/miscellaneous/thread.h",
+				"/usr/include/librssguard/miscellaneous/xmlencodingdetector.h",
+				"/usr/include/librssguard/network-web/downloader.h",
 				"/usr/include/librssguard/network-web/httpresponse.h",
 				"/usr/include/librssguard/network-web/networkfactory.h",
 				"/usr/include/librssguard/network-web/oauth2service.h",
@@ -141,7 +144,6 @@
 				"/usr/include/librssguard/services/abstract/gui/formaddeditprobe.h",
 				"/usr/include/librssguard/services/abstract/gui/formcategorydetails.h",
 				"/usr/include/librssguard/services/abstract/gui/formfeeddetails.h",
-				"/usr/include/librssguard/services/abstract/gui/httpheadersdetails.h",
 				"/usr/include/librssguard/services/abstract/gui/multifeededitcheckbox.h",
 				"/usr/include/librssguard/services/abstract/importantnode.h",
 				"/usr/include/librssguard/services/abstract/label.h",
@@ -158,6 +160,6 @@
 		}
 	},
 	"source-name": "rssguard",
-	"source-release": "3",
-	"source-version": "4.8.6"
+	"source-release": "4",
+	"source-version": "5.0.4"
 }
