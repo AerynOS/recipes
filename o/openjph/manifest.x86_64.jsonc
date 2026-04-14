@@ -7,18 +7,19 @@
 				"pkgconfig(libtiff-4)"
 			],
 			"depends": [
+				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libm.so.6(x86_64))",
 				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
-				"/usr/lib/libopenjph.so.0.26",
-				"/usr/lib/libopenjph.so.0.26.3"
+				"/usr/lib/libopenjph.so.0.27",
+				"/usr/lib/libopenjph.so.0.27.0"
 			],
 			"name": "libopenjph",
 			"provides": [
-				"soname(libopenjph.so.0.26(x86_64))"
+				"soname(libopenjph.so.0.27(x86_64))"
 			]
 		},
 		"openjph": {
@@ -29,7 +30,7 @@
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libgcc_s.so.1(x86_64))",
-				"soname(libopenjph.so.0.26(x86_64))",
+				"soname(libopenjph.so.0.27(x86_64))",
 				"soname(libstdc++.so.6(x86_64))",
 				"soname(libtiff.so.6(x86_64))"
 			],
@@ -76,6 +77,6 @@
 		}
 	},
 	"source-name": "openjph",
-	"source-release": "8",
-	"source-version": "0.26.3"
+	"source-release": "9",
+	"source-version": "0.27.0"
 }
