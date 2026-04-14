@@ -4,7 +4,6 @@
 	"packages": {
 		"eza": {
 			"build-depends": [
-				"binary(cargo)",
 				"binary(go-md2man)"
 			],
 			"depends": [
@@ -17,11 +16,11 @@
 			"files": [
 				"/usr/bin/eza",
 				"/usr/share/bash-completion/completions/eza",
-				"/usr/share/fish/completions/eza.fish",
+				"/usr/share/fish/vendor_completions.d/eza.fish",
 				"/usr/share/man/man1/eza.1",
 				"/usr/share/man/man5/eza_colors-explanation.5",
 				"/usr/share/man/man5/eza_colors.5",
-				"/usr/share/zsh/site-funtions/_eza"
+				"/usr/share/zsh/site-functions/_eza"
 			],
 			"name": "eza",
 			"provides": [
@@ -30,6 +29,6 @@
 		}
 	},
 	"source-name": "eza",
-	"source-release": "4",
-	"source-version": "0.20.19"
+	"source-release": "5",
+	"source-version": "0.23.4"
 }

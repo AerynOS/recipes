@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : eza
-version     : "0.20.19"
-release     : 4
+version     : "0.23.4"
+release     : 5
 homepage    : https://github.com/eza-community/eza
 upstreams   :
-    - https://github.com/eza-community/eza/archive/refs/tags/v0.20.19.tar.gz : b749e7b04c173f33cf15f0022d103bb59e79e7d2a88ec00721f2be0316cc9ef9
+    - https://github.com/eza-community/eza/archive/refs/tags/v0.23.4.tar.gz : 9fbcad518b8a2095206ac385329ca62d216bf9fdc652dde2d082fcb37c309635
 license     : EUPL-1.2
 summary     : A modern alternative to ls
 description : |
@@ -14,7 +14,6 @@ description : |
     command-line program ls that ships with Unix and Linux operating systems,
     giving it more features and better defaults.
 builddeps   :
-    - binary(cargo)
     - binary(go-md2man)
 networking  : true
 setup       : |
@@ -29,13 +28,12 @@ install     : |
     %cargo_install
 
     # completions
-    %install_file completions/zsh/_eza %(installroot)%(datadir)/zsh/site-funtions/_eza
-    %install_file completions/bash/eza %(installroot)%(datadir)/bash-completion/completions/eza
-    %install_file completions/fish/eza.fish %(installroot)%(datadir)/fish/completions/eza.fish
+    %install_file completions/zsh/_eza %(installroot)%(zshcompletionsdir)/_eza
+    %install_file completions/bash/eza %(installroot)%(bashcompletionsdir)/eza
+    %install_file completions/fish/eza.fish %(installroot)%(fishcompletionsdir)/eza.fish
 
     for FILENAME in eza.1 eza_colors-explanation.5 eza_colors.5; do
         %install_file man/${FILENAME} %(installroot)%(mandir)/man${FILENAME##*.}/${FILENAME}
     done
-
 check       : |
     %cargo_test
