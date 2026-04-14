@@ -23,7 +23,10 @@ environment : |
     export RUSTFLAGS="$RUSTFLAGS -C codegen-units=1"
 setup       : |
     # https://github.com/uutils/coreutils/issues/10862
-    %patch %(pkgdir)/10904.patch
+    # Upstream patch is not accounting umask 0022 yet, hence disable it
+    #%patch %(pkgdir)/10904.patch
+    # Use HACK to revert to 0.6.0 behaviour
+    %patch %(pkgdir)/0001-preserve-false-by-default.patch
     # https://github.com/uutils/coreutils/issues/11693
     %patch %(pkgdir)/11686.patch
     %cargo_fetch

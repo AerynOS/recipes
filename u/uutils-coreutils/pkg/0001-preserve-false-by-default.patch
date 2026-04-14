@@ -1,0 +1,16 @@
+diff --git a/src/uu/cp/src/cp.rs b/src/uu/cp/src/cp.rs
+index fa6ddcfc6..44843a6e6 100644
+--- a/src/uu/cp/src/cp.rs
++++ b/src/uu/cp/src/cp.rs
+@@ -1773,9 +1773,9 @@ pub(crate) fn copy_attributes(
+ 
+     let mode_explicitly_disabled = matches!(attributes.mode, Preserve::No { explicit: true });
+ 
+-    // preserve is true by default if the destination is created by us and it's a directory
++    // preserve is false by default if the destination is created by us and it's a directory
+     let mode = if !mode_explicitly_disabled && dest_is_freshly_created_dir {
+-        Preserve::Yes { required: false }
++        Preserve::No { explicit: false }
+     } else {
+         attributes.mode
+     };
