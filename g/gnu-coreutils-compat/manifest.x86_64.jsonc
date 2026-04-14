@@ -13,9 +13,12 @@
 			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(libacl.so.1(x86_64))",
+				"soname(libattr.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))"
 			],
 			"files": [
+				"/usr/bin/gnu-cp",
 				"/usr/bin/gnu-sort",
 				"/usr/bin/gnu-stty",
 				"/usr/share/info/coreutils.info",
@@ -111,17 +114,19 @@
 				"/usr/share/locale/zh_CN/LC_TIME/coreutils.mo",
 				"/usr/share/locale/zh_TW/LC_MESSAGES/coreutils.mo",
 				"/usr/share/locale/zh_TW/LC_TIME/coreutils.mo",
+				"/usr/share/man/man1/gnu-cp.1",
 				"/usr/share/man/man1/gnu-sort.1",
 				"/usr/share/man/man1/gnu-stty.1"
 			],
 			"name": "gnu-coreutils-compat",
 			"provides": [
+				"binary(gnu-cp)",
 				"binary(gnu-sort)",
 				"binary(gnu-stty)"
 			]
 		}
 	},
 	"source-name": "gnu-coreutils-compat",
-	"source-release": "4",
+	"source-release": "5",
 	"source-version": "9.10"
 }
