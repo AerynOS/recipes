@@ -2,6 +2,62 @@
 {
 	"manifest-version": "0.2",
 	"packages": {
+		"$(name)-devel": {
+			"build-depends": [
+				"binary(xmlto)",
+				"binary(xsltproc)",
+				"pkgconfig(bigreqsproto)",
+				"pkgconfig(compositeproto)",
+				"pkgconfig(damageproto)",
+				"pkgconfig(dri)",
+				"pkgconfig(dri3proto)",
+				"pkgconfig(epoxy)",
+				"pkgconfig(fixesproto)",
+				"pkgconfig(fontsproto)",
+				"pkgconfig(fontutil)",
+				"pkgconfig(gbm)",
+				"pkgconfig(inputproto)",
+				"pkgconfig(kbproto)",
+				"pkgconfig(libdecor-0)",
+				"pkgconfig(libdrm)",
+				"pkgconfig(libei-1.0)",
+				"pkgconfig(libgcrypt)",
+				"pkgconfig(liboeffis-1.0)",
+				"pkgconfig(libsystemd)",
+				"pkgconfig(libtirpc)",
+				"pkgconfig(libunwind)",
+				"pkgconfig(libxcvt)",
+				"pkgconfig(nettle)",
+				"pkgconfig(openssl)",
+				"pkgconfig(pixman-1)",
+				"pkgconfig(presentproto)",
+				"pkgconfig(randrproto)",
+				"pkgconfig(recordproto)",
+				"pkgconfig(renderproto)",
+				"pkgconfig(resourceproto)",
+				"pkgconfig(scrnsaverproto)",
+				"pkgconfig(videoproto)",
+				"pkgconfig(wayland-client)",
+				"pkgconfig(wayland-protocols)",
+				"pkgconfig(xcmiscproto)",
+				"pkgconfig(xdmcp)",
+				"pkgconfig(xextproto)",
+				"pkgconfig(xf86bigfontproto)",
+				"pkgconfig(xf86vidmodeproto)",
+				"pkgconfig(xfont2)",
+				"pkgconfig(xineramaproto)",
+				"pkgconfig(xkbcomp)",
+				"pkgconfig(xkbfile)",
+				"pkgconfig(xproto)",
+				"pkgconfig(xshmfence)",
+				"pkgconfig(xtrans)",
+				"pkgconfig(xwaylandproto)"
+			],
+			"files": [
+				"/usr/lib/xorg/protocol.txt"
+			],
+			"name": "$(name)-devel"
+		},
 		"xwayland": {
 			"build-depends": [
 				"binary(xmlto)",
@@ -78,9 +134,7 @@
 			],
 			"files": [
 				"/usr/bin/Xwayland",
-				"/usr/lib/xorg/protocol.txt",
 				"/usr/share/applications/org.freedesktop.Xwayland.desktop",
-				"/usr/share/man/man1/Xserver.1",
 				"/usr/share/man/man1/Xwayland.1"
 			],
 			"name": "xwayland",
@@ -152,6 +206,6 @@
 		}
 	},
 	"source-name": "xwayland",
-	"source-release": "13",
-	"source-version": "24.1.9"
+	"source-release": "14",
+	"source-version": "24.1.10"
 }
