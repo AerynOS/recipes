@@ -5,14 +5,14 @@ name        : mesa
 ### IMPORTANT: Use the update-mesa.py script to update this package
 
 ##@@BEGIN_VERSION
-version     : "26.0.4"
+version     : "26.0.5"
 ##@@END_VERSION
 # Note: keep mesa-clc in-sync with this package version-wise
-release     : 72
+release     : 73
 homepage    : https://mesa3d.org/
 upstreams   :
 ##@@BEGIN_SOURCE
-    - https://mesa.freedesktop.org/archive/mesa-26.0.4.tar.xz : 6d91541e086f29bb003602d2c81070f2be4c0693a90b181ca91e46fa3953fe78
+    - https://mesa.freedesktop.org/archive/mesa-26.0.5.tar.xz : d229c9937d9a25ca0a8958c59f425174563d300ec42acbea2dbe84a055023368
 ##@@END_SOURCE
 
 ##@@BEGIN_CRATES
@@ -179,6 +179,7 @@ builddeps   :
     - pkgconfig32(xxf86vm)
     - pkgconfig32(zlib)
     - python(mako)
+    - python(packaging)
     - python(ply)
     - python(pyyaml)
     - clang-32bit
@@ -230,14 +231,14 @@ setup       : |
         -Dglvnd=enabled \
         -Dllvm=enabled \
         -Dmesa-clc=system \
-        -Dsysprof=${_IS_64BIT_BOOL} \
-        -Dzstd=enabled \
+        -Dmicrosoft-clc=disabled \
         -Dplatforms=x11,wayland \
         -Dshared-llvm=enabled \
+        -Dsysprof=${_IS_64BIT_BOOL} \
         -Dvideo-codecs=all \
-        -Dmicrosoft-clc=disabled \
         -Dvulkan-drivers=amd,intel,intel_hasvk,swrast,virtio$EXTRA_VK_DRIVERS \
-        -Dvulkan-layers=anti-lag,device-select,overlay,screenshot,vram-report-limit
+        -Dvulkan-layers=anti-lag,device-select,overlay,screenshot,vram-report-limit \
+        -Dzstd=enabled
 build       : |
     %meson_build
 install     : |
