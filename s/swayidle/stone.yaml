@@ -3,7 +3,7 @@
 
 name        : swayidle
 version     : "1.9.0"
-release     : 2
+release     : 3
 homepage    : https://github.com/swaywm/swayidle
 upstreams   :
     - https://github.com/swaywm/swayidle/releases/download/v1.9.0/swayidle-1.9.0.tar.gz : 6c1b769038b60250c88e47380cbb021cfa57a65f872bf4d6c340b5e3057096ac
@@ -14,6 +14,7 @@ license     :
     - MIT
 builddeps   :
     - binary(scdoc)
+    - pkgconfig(libsystemd)
     - pkgconfig(wayland-client)
     - pkgconfig(wayland-protocols)
     - pkgconfig(wayland-scanner)
