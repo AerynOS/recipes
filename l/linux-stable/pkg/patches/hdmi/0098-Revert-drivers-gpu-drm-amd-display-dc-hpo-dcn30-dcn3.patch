@@ -1,0 +1,24 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Micha=C5=82=20Kope=C4=87?= <michal@nozomi.space>
+Date: Tue, 24 Feb 2026 00:41:21 +0100
+Subject: [PATCH 098/109] Revert
+ "drivers/gpu/drm/amd/display/dc/hpo/dcn30/dcn30_hpo_hdmi_stream_encoder.c:
+ set HDMI_AUDIO_INFO_CONT"
+
+This reverts commit cb823648ef035d0886a3a1a4d2b9ba465a76635e.
+---
+ .../drm/amd/display/dc/hpo/dcn30/dcn30_hpo_hdmi_stream_encoder.c | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/amd/display/dc/hpo/dcn30/dcn30_hpo_hdmi_stream_encoder.c b/drivers/gpu/drm/amd/display/dc/hpo/dcn30/dcn30_hpo_hdmi_stream_encoder.c
+index 1eb1ce557ac2..3cc437683b2c 100644
+--- a/drivers/gpu/drm/amd/display/dc/hpo/dcn30/dcn30_hpo_hdmi_stream_encoder.c
++++ b/drivers/gpu/drm/amd/display/dc/hpo/dcn30/dcn30_hpo_hdmi_stream_encoder.c
+@@ -371,7 +371,6 @@ static void dcn30_hpo_hdmi_stream_enc_setup_stream_attribute(
+ 	/* following belongs to audio */
+ 	/* Enable Audio InfoFrame packet transmission. */
+ 	REG_UPDATE(HDMI_TB_ENC_VBI_PACKET_CONTROL1, HDMI_AUDIO_INFO_SEND, 1);
+-	REG_UPDATE(HDMI_TB_ENC_VBI_PACKET_CONTROL1, HDMI_AUDIO_INFO_CONT, 1);
+ 
+ 	/* update double-buffered AUDIO_INFO registers immediately */
+ 	ASSERT(enc->afmt);

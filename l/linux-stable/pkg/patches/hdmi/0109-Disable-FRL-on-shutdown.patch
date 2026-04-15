@@ -1,0 +1,84 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Micha=C5=82=20Kope=C4=87?= <michal@nozomi.space>
+Date: Sun, 15 Mar 2026 23:55:00 +0100
+Subject: [PATCH 109/109] Disable FRL on shutdown
+
+---
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c   | 17 +++++++++++++++++
+ .../gpu/drm/amd/display/dc/inc/link_service.h   |  3 +++
+ .../gpu/drm/amd/display/dc/link/link_factory.c  |  7 +++++++
+ 3 files changed, 27 insertions(+)
+
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index 149d52833260..ac6a6a0667cd 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -3240,6 +3240,23 @@ static int dm_suspend(struct amdgpu_ip_block *ip_block)
+ 
+ 	hpd_rx_irq_work_suspend(dm);
+ 
++	/* On a full machine shutdown (not suspend/resume), notify any connected
++	 * HDMI FRL sinks to stop expecting an FRL signal. This allows the sink
++	 * to fall back to TMDS immediately rather than waiting for a timeout.
++	 * Skip during suspend/resume — we will retrain FRL on resume anyway.
++	 */
++	if (adev->mp1_state == PP_MP1_STATE_UNLOAD) {
++		int i;
++
++		for (i = 0; i < dm->dc->link_count; i++) {
++			struct dc_link *link = dm->dc->links[i];
++
++			if (dc_is_hdmi_frl_signal(link->connector_signal) &&
++			    link->local_sink)
++				dm->dc->link_srv->hdmi_frl_disable(link);
++		}
++	}
++
+ 	dc_set_power_state(dm->dc, DC_ACPI_CM_POWER_STATE_D3);
+ 
+ 	if (dm->dc->caps.ips_support && adev->in_s0ix)
+diff --git a/drivers/gpu/drm/amd/display/dc/inc/link_service.h b/drivers/gpu/drm/amd/display/dc/inc/link_service.h
+index 57bb82e94942..b47e50b8cadd 100644
+--- a/drivers/gpu/drm/amd/display/dc/inc/link_service.h
++++ b/drivers/gpu/drm/amd/display/dc/inc/link_service.h
+@@ -347,5 +347,8 @@ struct link_service {
+ 	uint64_t (*dp_trace_get_edp_poweroff_timestamp)(struct dc_link *link);
+ 	void (*dp_trace_source_sequence)(
+ 			struct dc_link *link, uint8_t dp_test_mode);
++
++	/*************************** HDMI FRL *********************************/
++	void (*hdmi_frl_disable)(struct dc_link *link);
+ };
+ #endif /* __DC_LINK_HPD_H__ */
+diff --git a/drivers/gpu/drm/amd/display/dc/link/link_factory.c b/drivers/gpu/drm/amd/display/dc/link/link_factory.c
+index 21815ad01a29..c3e284787fec 100644
+--- a/drivers/gpu/drm/amd/display/dc/link/link_factory.c
++++ b/drivers/gpu/drm/amd/display/dc/link/link_factory.c
+@@ -43,6 +43,7 @@
+ #include "protocols/link_edp_panel_control.h"
+ #include "protocols/link_dp_panel_replay.h"
+ #include "protocols/link_hpd.h"
++#include "protocols/link_frl_training.h"
+ #include "gpio_service_interface.h"
+ #include "atomfirmware.h"
+ 
+@@ -259,6 +260,11 @@ static void construct_link_service_dp_cts(struct link_service *link_srv)
+ /* link dp trace implements tracing interfaces for tracking major dp sequences
+  * including execution status and timestamps
+  */
++static void construct_link_service_hdmi_frl(struct link_service *link_srv)
++{
++	link_srv->hdmi_frl_disable = dc_link_disable_frl;
++}
++
+ static void construct_link_service_dp_trace(struct link_service *link_srv)
+ {
+ 	link_srv->dp_trace_is_initialized = dp_trace_is_initialized;
+@@ -298,6 +304,7 @@ static void construct_link_service(struct link_service *link_srv)
+ 	construct_link_service_dp_panel_replay(link_srv);
+ 	construct_link_service_dp_cts(link_srv);
+ 	construct_link_service_dp_trace(link_srv);
++	construct_link_service_hdmi_frl(link_srv);
+ }
+ 
+ struct link_service *link_create_link_service(void)

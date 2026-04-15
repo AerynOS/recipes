@@ -1,0 +1,24 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Micha=C5=82=20Kope=C4=87?= <michal@nozomi.space>
+Date: Sun, 15 Feb 2026 10:26:41 +0100
+Subject: [PATCH 025/109] 
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c: fix check for FRL
+ max rate
+
+---
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
+index f138ef4ba616..f66bd7d8ef6a 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
+@@ -1000,7 +1000,7 @@ void populate_hdmi_info_from_connector(struct drm_hdmi_info *hdmi, struct dc_edi
+ 	edid_caps->scdc_present = hdmi->scdc.supported;
+ 
+ 	/* FRL */
+-	if (edid_caps->frl_caps.max_rate == 0)
++	if (hdmi->frl_cap.max_rate == 0)
+ 		return;
+ 
+ 	edid_caps->frl_caps.max_rate = hdmi->frl_cap.max_rate;

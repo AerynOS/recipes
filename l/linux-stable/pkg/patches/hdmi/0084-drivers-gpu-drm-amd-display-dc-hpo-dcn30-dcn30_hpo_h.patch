@@ -1,0 +1,30 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Micha=C5=82=20Kope=C4=87?= <michal@nozomi.space>
+Date: Fri, 20 Feb 2026 06:58:27 +0100
+Subject: [PATCH 084/109] 
+ drivers/gpu/drm/amd/display/dc/hpo/dcn30/dcn30_hpo_hdmi_stream_encoder.c: fix
+ pixel encoding
+
+---
+ .../display/dc/hpo/dcn30/dcn30_hpo_hdmi_stream_encoder.c    | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/display/dc/hpo/dcn30/dcn30_hpo_hdmi_stream_encoder.c b/drivers/gpu/drm/amd/display/dc/hpo/dcn30/dcn30_hpo_hdmi_stream_encoder.c
+index d57a760c6e50..9a661b36e00b 100644
+--- a/drivers/gpu/drm/amd/display/dc/hpo/dcn30/dcn30_hpo_hdmi_stream_encoder.c
++++ b/drivers/gpu/drm/amd/display/dc/hpo/dcn30/dcn30_hpo_hdmi_stream_encoder.c
+@@ -298,12 +298,10 @@ static void dcn30_hpo_hdmi_stream_enc_setup_stream_attribute(
+ 	case PIXEL_ENCODING_YCBCR422:
+ 		pixel_encoding = 1;
+ 		break;
+-	case PIXEL_ENCODING_YCBCR444:
+-		pixel_encoding = 2;
+-		break;
+ 	case PIXEL_ENCODING_YCBCR420:
+-		pixel_encoding = 3;
++		pixel_encoding = 2;
+ 		break;
++	case PIXEL_ENCODING_YCBCR444:
+ 	default: /* RGB */
+ 		pixel_encoding = 0;
+ 		break;

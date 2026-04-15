@@ -1,0 +1,167 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Tomasz=20Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>
+Date: Sun, 15 Feb 2026 01:43:51 +0100
+Subject: [PATCH 021/109] drm/edid: Improve HDMI FRL caps saving/parsing
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+[Why]
+With a real client for these caps, there was a need to slightly modify
+how they are saved and what info they contain.
+
+[How]
+Save FRL info in renamed parsing function + save raw max_rate value.
+Eject FRL data into separate struct, reused in dsc_caps.
+
+Signed-off-by: Tomasz Pakuła <tomasz.pakula.oficjalny@gmail.com>
+---
+ drivers/gpu/drm/drm_edid.c  | 42 ++++++++++++++++++++-----------------
+ include/drm/drm_connector.h | 34 ++++++++++++++++++++----------
+ 2 files changed, 46 insertions(+), 30 deletions(-)
+
+diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+index ff432ac6b569..65deae217aef 100644
+--- a/drivers/gpu/drm/drm_edid.c
++++ b/drivers/gpu/drm/drm_edid.c
+@@ -6108,38 +6108,44 @@ static void drm_parse_vcdb(struct drm_connector *connector, const u8 *db)
+ }
+ 
+ static
+-void drm_get_max_frl_rate(int max_frl_rate, u8 *max_lanes, u8 *max_rate_per_lane)
++void drm_parse_max_frl_rate(int max_frl_rate, struct drm_hdmi_frl_cap *frl)
+ {
++	u8 max_lanes, max_rate_per_lane;
++
+ 	switch (max_frl_rate) {
+ 	case 1:
+-		*max_lanes = 3;
+-		*max_rate_per_lane = 3;
++		max_lanes = 3;
++		max_rate_per_lane = 3;
+ 		break;
+ 	case 2:
+-		*max_lanes = 3;
+-		*max_rate_per_lane = 6;
++		max_lanes = 3;
++		max_rate_per_lane = 6;
+ 		break;
+ 	case 3:
+-		*max_lanes = 4;
+-		*max_rate_per_lane = 6;
++		max_lanes = 4;
++		max_rate_per_lane = 6;
+ 		break;
+ 	case 4:
+-		*max_lanes = 4;
+-		*max_rate_per_lane = 8;
++		max_lanes = 4;
++		max_rate_per_lane = 8;
+ 		break;
+ 	case 5:
+-		*max_lanes = 4;
+-		*max_rate_per_lane = 10;
++		max_lanes = 4;
++		max_rate_per_lane = 10;
+ 		break;
+ 	case 6:
+-		*max_lanes = 4;
+-		*max_rate_per_lane = 12;
++		max_lanes = 4;
++		max_rate_per_lane = 12;
+ 		break;
+ 	case 0:
+ 	default:
+-		*max_lanes = 0;
+-		*max_rate_per_lane = 0;
++		max_lanes = 0;
++		max_rate_per_lane = 0;
+ 	}
++
++	frl->max_lanes = max_lanes;
++	frl->max_rate = max_frl_rate;
++	frl->max_rate_per_lane = max_rate_per_lane;
+ }
+ 
+ static void drm_parse_ycbcr420_deep_color_info(struct drm_connector *connector,
+@@ -6178,8 +6184,7 @@ static void drm_parse_dsc_info(struct drm_hdmi_dsc_cap *hdmi_dsc,
+ 		u8 dsc_max_frl_rate;
+ 
+ 		dsc_max_frl_rate = (hf_scds[12] & DRM_EDID_DSC_MAX_FRL_RATE_MASK) >> 4;
+-		drm_get_max_frl_rate(dsc_max_frl_rate, &hdmi_dsc->max_lanes,
+-				     &hdmi_dsc->max_frl_rate_per_lane);
++		drm_parse_max_frl_rate(dsc_max_frl_rate, &hdmi_dsc->frl_cap);
+ 
+ 		dsc_max_slices = hf_scds[12] & DRM_EDID_DSC_MAX_SLICES;
+ 
+@@ -6272,8 +6277,7 @@ static void drm_parse_hdmi_forum_scds(struct drm_connector *connector,
+ 
+ 	if (hf_scds[7]) {
+ 		max_frl_rate = (hf_scds[7] & DRM_EDID_MAX_FRL_RATE_MASK) >> 4;
+-		drm_get_max_frl_rate(max_frl_rate, &hdmi->max_lanes,
+-				     &hdmi->max_frl_rate_per_lane);
++		drm_parse_max_frl_rate(max_frl_rate, &hdmi->frl_cap);
+ 	}
+ 
+ 	drm_parse_ycbcr420_deep_color_info(connector, hf_scds);
+diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+index 7eaec37ae1c7..7a8a7938a9db 100644
+--- a/include/drm/drm_connector.h
++++ b/include/drm/drm_connector.h
+@@ -254,6 +254,24 @@ struct drm_scdc {
+ 	struct drm_scrambling scrambling;
+ };
+ 
++/**
++ * struct drm_hdmi_frl_cap - FRL capabilities of HDMI sink
++ *
++ * Describes the FRL support provided by HDMI 2.1 sink.
++ * The information is fetched fom additional HFVSDB blocks defined
++ * for HDMI 2.1.
++ */
++struct drm_hdmi_frl_cap {
++	/** @max_rate: raw max rate value without parsing */
++	u8 max_rate;
++
++	/** @max_frl_rate_per_lane: support fixed rate link */
++	u8 max_rate_per_lane;
++
++	/** @max_lanes: supported by sink */
++	u8 max_lanes;
++};
++
+ /**
+  * struct drm_hdmi_dsc_cap - DSC capabilities of HDMI sink
+  *
+@@ -285,14 +303,11 @@ struct drm_hdmi_dsc_cap {
+ 	/** @clk_per_slice : max pixel clock in MHz supported per slice */
+ 	int clk_per_slice;
+ 
+-	/** @max_lanes : dsc max lanes supported for Fixed rate Link training */
+-	u8 max_lanes;
+-
+-	/** @max_frl_rate_per_lane : maximum frl rate with DSC per lane */
+-	u8 max_frl_rate_per_lane;
+-
+ 	/** @total_chunk_kbytes: max size of chunks in KBs supported per line*/
+ 	u8 total_chunk_kbytes;
++
++	/** @frl_cap: FRL under DSC capabilities of the sink */
++	struct drm_hdmi_frl_cap frl_cap;
+ };
+ 
+ /**
+@@ -324,11 +339,8 @@ struct drm_hdmi_info {
+ 	/** @y420_dc_modes: bitmap of deep color support index */
+ 	u8 y420_dc_modes;
+ 
+-	/** @max_frl_rate_per_lane: support fixed rate link */
+-	u8 max_frl_rate_per_lane;
+-
+-	/** @max_lanes: supported by sink */
+-	u8 max_lanes;
++	/** @frl_cap: FRL capabilities of the sink */
++	struct drm_hdmi_frl_cap frl_cap;
+ 
+ 	/** @dsc_cap: DSC capabilities of the sink */
+ 	struct drm_hdmi_dsc_cap dsc_cap;

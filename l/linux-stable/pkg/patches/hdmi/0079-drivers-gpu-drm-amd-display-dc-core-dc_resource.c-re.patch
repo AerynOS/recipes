@@ -1,0 +1,31 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Micha=C5=82=20Kope=C4=87?= <michal@nozomi.space>
+Date: Thu, 19 Feb 2026 19:07:41 +0100
+Subject: [PATCH 079/109] drivers/gpu/drm/amd/display/dc/core/dc_resource.c:
+ resolve some compilation warnings
+
+---
+ drivers/gpu/drm/amd/display/dc/core/dc_resource.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_resource.c b/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
+index efc2adacf0f2..f38d9b0175a8 100644
+--- a/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
++++ b/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
+@@ -4044,7 +4044,6 @@ struct dfm_results {
+ 
+ 
+ #define CEILING(x, y) (((x) + (y) - 1) / (y))
+-#define MAX(a, b) ((a) > (b) ? (a) : (b))
+ 
+ static uint32_t calc_overhead_ppm(uint8_t lanes)
+ {
+@@ -4274,7 +4273,7 @@ static bool hdmi_decide_link_settings(
+             pipe_ctx->link_config.dp_link_settings.frl_rate = frl_rate;
+             pipe_ctx->link_config.dp_link_settings.lane_count = cfg.lanes;
+ 
+-             pr_info("HDMI FRL: Rate %d Supported. Borrowed: %lu, Margin: %d ppm\n",
++             pr_info("HDMI FRL: Rate %d Supported. Borrowed: %llu, Margin: %d ppm\n",
+              	frl_rate, res.tb_borrowed, res.margin_ppm);
+             return true;
+         }

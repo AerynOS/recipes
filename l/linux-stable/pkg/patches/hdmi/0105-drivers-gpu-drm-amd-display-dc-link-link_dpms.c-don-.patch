@@ -1,0 +1,25 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Micha=C5=82=20Kope=C4=87?= <michal@nozomi.space>
+Date: Wed, 25 Feb 2026 19:18:17 +0100
+Subject: [PATCH 105/109] drivers/gpu/drm/amd/display/dc/link/link_dpms.c:
+ don't disable FRL on dpms off
+
+Causes issues for LG users
+---
+ drivers/gpu/drm/amd/display/dc/link/link_dpms.c | 3 ---
+ 1 file changed, 3 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/display/dc/link/link_dpms.c b/drivers/gpu/drm/amd/display/dc/link/link_dpms.c
+index a831a055e88f..c998e7830d4c 100644
+--- a/drivers/gpu/drm/amd/display/dc/link/link_dpms.c
++++ b/drivers/gpu/drm/amd/display/dc/link/link_dpms.c
+@@ -2412,9 +2412,6 @@ void link_set_dpms_off(struct pipe_ctx *pipe_ctx)
+ 		}
+ 	}
+ 
+-	if (dc_is_hdmi_signal(pipe_ctx->stream->signal))
+-		dc_link_disable_frl(pipe_ctx->stream->link);
+-
+ 	if (pipe_ctx->stream->signal == SIGNAL_TYPE_DISPLAY_PORT &&
+ 			!dp_is_128b_132b_signal(pipe_ctx)) {
+ 

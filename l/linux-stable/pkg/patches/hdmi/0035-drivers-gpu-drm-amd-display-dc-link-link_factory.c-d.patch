@@ -1,0 +1,23 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Micha=C5=82=20Kope=C4=87?= <michal@nozomi.space>
+Date: Sun, 15 Feb 2026 21:52:19 +0100
+Subject: [PATCH 035/109] drivers/gpu/drm/amd/display/dc/link/link_factory.c:
+ don't force FRL signal
+
+---
+ drivers/gpu/drm/amd/display/dc/link/link_factory.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/amd/display/dc/link/link_factory.c b/drivers/gpu/drm/amd/display/dc/link/link_factory.c
+index 3a2ba8ca26be..21815ad01a29 100644
+--- a/drivers/gpu/drm/amd/display/dc/link/link_factory.c
++++ b/drivers/gpu/drm/amd/display/dc/link/link_factory.c
+@@ -604,7 +604,7 @@ static bool construct_phy(struct dc_link *link,
+ 
+ 	switch (link->link_id.id) {
+ 	case CONNECTOR_ID_HDMI_TYPE_A:
+-		link->connector_signal = SIGNAL_TYPE_HDMI_FRL;
++		link->connector_signal = SIGNAL_TYPE_HDMI_TYPE_A;
+ 
+ 		if (link->link_enc->hpd_gpio)
+ 			link->irq_source_read_request =
