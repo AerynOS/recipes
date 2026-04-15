@@ -1,0 +1,19 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Micha=C5=82=20Kope=C4=87?= <michal@nozomi.space>
+Date: Fri, 20 Feb 2026 15:15:44 +0100
+Subject: [PATCH 085/109] .github/workflows/genpatch.yml: Update branch
+
+---
+ .github/workflows/genpatch.yml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/.github/workflows/genpatch.yml b/.github/workflows/genpatch.yml
+index 75731cf60b2e..a0dcad457f93 100644
+--- a/.github/workflows/genpatch.yml
++++ b/.github/workflows/genpatch.yml
+@@ -1,4 +1,4 @@
+-name: Generate patch
++name: Generate patch - Master branch
+ on:
+   push:
+     branches: hdmi_frl

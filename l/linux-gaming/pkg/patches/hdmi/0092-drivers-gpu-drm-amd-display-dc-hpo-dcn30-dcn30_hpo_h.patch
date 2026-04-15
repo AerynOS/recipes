@@ -1,0 +1,23 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Micha=C5=82=20Kope=C4=87?= <michal@nozomi.space>
+Date: Sun, 22 Feb 2026 17:34:44 +0100
+Subject: [PATCH 092/109] 
+ drivers/gpu/drm/amd/display/dc/hpo/dcn30/dcn30_hpo_hdmi_link_encoder.h: add
+ missing enable field
+
+---
+ .../drm/amd/display/dc/hpo/dcn30/dcn30_hpo_hdmi_link_encoder.h   | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/gpu/drm/amd/display/dc/hpo/dcn30/dcn30_hpo_hdmi_link_encoder.h b/drivers/gpu/drm/amd/display/dc/hpo/dcn30/dcn30_hpo_hdmi_link_encoder.h
+index 2e32a0e09ad0..134d2ca1dc17 100644
+--- a/drivers/gpu/drm/amd/display/dc/hpo/dcn30/dcn30_hpo_hdmi_link_encoder.h
++++ b/drivers/gpu/drm/amd/display/dc/hpo/dcn30/dcn30_hpo_hdmi_link_encoder.h
+@@ -32,6 +32,7 @@ struct dcn30_hpo_hdmi_link_encoder_registers {
+ };
+ 
+ #define DCN3_0_HPO_HDMI_LINK_ENC_MASK_SH_LIST(mask_sh)                     \
++	SE_SF(HDMI_LINK_ENC_CONTROL, HDMI_LINK_ENC_ENABLE, mask_sh),           \
+ 	SE_SF(HDMI_LINK_ENC_CONTROL, HDMI_LINK_ENC_SOFT_RESET, mask_sh),       \
+ 	SE_SF(HDMI_LINK_ENC_CLK_CTRL, HDMI_LINK_ENC_CLOCK_EN,                  \
+ 		  mask_sh),                                                        \

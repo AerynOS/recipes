@@ -1,0 +1,38 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Micha=C5=82=20Kope=C4=87?= <michal@nozomi.space>
+Date: Sun, 15 Feb 2026 07:01:16 +0100
+Subject: [PATCH 027/109] 
+ drivers/gpu/drm/amd/display/dc/hpo/dcn30/dcn30_hpo_hdmi_link_encoder.c: fix
+ FRL lane count
+
+---
+ .../drm/amd/display/dc/hpo/dcn30/dcn30_hpo_hdmi_link_encoder.c  | 2 +-
+ drivers/gpu/drm/amd/display/dc/link/hwss/link_hwss_hpo_frl.c    | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/display/dc/hpo/dcn30/dcn30_hpo_hdmi_link_encoder.c b/drivers/gpu/drm/amd/display/dc/hpo/dcn30/dcn30_hpo_hdmi_link_encoder.c
+index b13a818eef72..7373d8a135f8 100644
+--- a/drivers/gpu/drm/amd/display/dc/hpo/dcn30/dcn30_hpo_hdmi_link_encoder.c
++++ b/drivers/gpu/drm/amd/display/dc/hpo/dcn30/dcn30_hpo_hdmi_link_encoder.c
+@@ -110,7 +110,7 @@ static void dcn30_hpo_hdmi_link_enc_configure_transmitter(
+ 	cntl.engine_id = enc3->base.preferred_engine;
+ 	cntl.transmitter = enc3->base.transmitter;
+ 	cntl.signal = SIGNAL_TYPE_HDMI_FRL;
+-	cntl.lanes_number = (frl_rate <= 3) ? 3 : 4;
++	cntl.lanes_number = (frl_rate <= 2) ? 3 : 4;
+ 	cntl.hpd_sel = enc3->base.hpd_source;
+ 	cntl.pixel_clock = hdmi_frl_rate_to_pixel_clock(frl_rate);
+ 	cntl.color_depth = COLOR_DEPTH_UNDEFINED;
+diff --git a/drivers/gpu/drm/amd/display/dc/link/hwss/link_hwss_hpo_frl.c b/drivers/gpu/drm/amd/display/dc/link/hwss/link_hwss_hpo_frl.c
+index 2059102c28b9..0122d0dfd19f 100644
+--- a/drivers/gpu/drm/amd/display/dc/link/hwss/link_hwss_hpo_frl.c
++++ b/drivers/gpu/drm/amd/display/dc/link/hwss/link_hwss_hpo_frl.c
+@@ -27,7 +27,7 @@ static void enable_hpo_hdmi_frl_link_output(
+ 
+ 	enc = link_res->hpo_hdmi_link_enc;
+ 	frl_rate = link_settings->frl_rate;
+-	lane_count = (frl_rate <= 3) ? 3 : 4;
++	lane_count = (frl_rate <= 2) ? 3 : 4;
+ 
+ 	enc->funcs->configure_transmitter(enc, link, frl_rate,
+ 					  link->link_enc->transmitter,

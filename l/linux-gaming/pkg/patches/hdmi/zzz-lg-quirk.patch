@@ -1,0 +1,82 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: test <test@test.com>
+Date: Wed, 8 Apr 2026 15:00:45 +0200
+Subject: [PATCH] fix_with_retry
+
+---
+ .../dc/link/protocols/link_frl_training.c     | 41 ++++++++++++++++++-
+ 1 file changed, 40 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/amd/display/dc/link/protocols/link_frl_training.c b/drivers/gpu/drm/amd/display/dc/link/protocols/link_frl_training.c
+index fac7bd979bdc..6f33b8f037b9 100644
+--- a/drivers/gpu/drm/amd/display/dc/link/protocols/link_frl_training.c
++++ b/drivers/gpu/drm/amd/display/dc/link/protocols/link_frl_training.c
+@@ -85,6 +85,20 @@ bool dc_link_perform_frl_training(struct dc_link *link,
+ 		return false;
+ 	}
+ 
++        /* LG quirk: sometimes the first sink version read fails after PHY reprogram */
++        if (link->local_sink && link->local_sink->edid_caps.manufacturer_id == 0x6D1E) {
++                int retry;
++                for (retry = 0; retry < 10; retry++) {
++                        if (frl_read_scdc(link, HDMI_SCDC_SINK_VERSION, &sink_version, 1))
++                                break;
++                        msleep(20);
++                }
++                if (retry == 10) {
++                        DC_LOG_ERROR("FRL: failed to read sink version (LG quirk retry failed)\n");
++                        return false;
++                }
++        }
++
+ 	if (sink_version == 0) {
+ 		DC_LOG_HW_LINK_TRAINING("FRL: sink does not support FRL\n");
+ 		return false;
+@@ -196,6 +210,15 @@ bool dc_link_perform_frl_training(struct dc_link *link,
+ 				DC_LOG_HW_LINK_TRAINING("HDMI FRL: training successful\n");
+ 				return true;
+ 			} else if (update & SCDC_FLT_UPDATE_BIT) {
++                        /* LG-specific quirk: after LTP PASS the TV often asserts
++                         * FLT_UPDATE again instead of FRL_START. The training
++                         * succeeded (we saw all lanes PASS), so treat it as success.
++                         */
++                        if (link->local_sink &&
++                            link->local_sink->edid_caps.manufacturer_id == 0x6D1E) {
++                                DC_LOG_HW_LINK_TRAINING("LG TV quirk: ignoring retraining request after PASS - treating as success\n");
++                                return true;
++                        }
+ 				DC_LOG_HW_LINK_TRAINING("HDMI FRL: retraining needed\n");
+ 				return false;
+ 			} else {
+@@ -265,6 +288,22 @@ bool dc_link_perform_frl_training_with_retries(struct dc_link *link,
+ 	link->cur_link_settings.frl_rate = link->local_sink->edid_caps.frl_caps.max_rate;
+ 	link->cur_link_settings.lane_count = link->cur_link_settings.frl_rate <= 2 ? 3 : 4;
+ 
++        /* LG-specific quirk (EDID manufacturer ID 0x6D1E = LG Electronics).
++         * LG OLEDs fail when we start from max_rate and fall back.
++         * Use the DFM-selected rate directly.
++         */
++        bool is_lg = false;
++        if (link->local_sink && link->local_sink->edid_caps.manufacturer_id == 0x6D1E) {
++                is_lg = true;
++                DC_LOG_HW_LINK_TRAINING("LG TV quirk: using DFM-selected FRL rate directly (rate %u)\n",
++                                        min_rate);
++                link->cur_link_settings.frl_rate = min_rate;
++                link->cur_link_settings.lane_count = min_rate <= 2 ? 3 : 4;
++        }
++ 
++        if (is_lg) {
++                success = dc_link_perform_frl_training(link, link_res);
++        } else {
+ 	for (i = 0; i < FRL_TRAINING_RETRIES; ++i) {
+ 		/* Reprogram the PHY for the current rate attempt. The caller
+ 		 * (enable_link_hdmi) already called enable_hdmi_link_output once
+@@ -292,7 +331,7 @@ bool dc_link_perform_frl_training_with_retries(struct dc_link *link,
+ 
+ 		DC_LOG_HW_LINK_TRAINING("FRL: Training attempt %d failed! Will attempt rate %d next",
+ 			i + 1, link->cur_link_settings.frl_rate);
+-	}
++	}}
+ 
+ 	return success;
+ }

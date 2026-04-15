@@ -1,0 +1,32 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Micha=C5=82=20Kope=C4=87?= <michal@nozomi.space>
+Date: Sat, 14 Feb 2026 23:25:53 +0100
+Subject: [PATCH 004/109] 
+ drivers/gpu/drm/amd/display/dc/hpo/dcn30/dcn30_hpo_hdmi_stream_encoder.h:
+ drop unused registers
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+These don't exist on earlier DCN. Drop to make the encoder compatible with all DCN gens.
+
+Signed-off-by: Michał Kopeć <michal@nozomi.space>
+---
+ .../amd/display/dc/hpo/dcn30/dcn30_hpo_hdmi_stream_encoder.h  | 4 ----
+ 1 file changed, 4 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/display/dc/hpo/dcn30/dcn30_hpo_hdmi_stream_encoder.h b/drivers/gpu/drm/amd/display/dc/hpo/dcn30/dcn30_hpo_hdmi_stream_encoder.h
+index 0aa737efd3fa..ba97e0c0e346 100644
+--- a/drivers/gpu/drm/amd/display/dc/hpo/dcn30/dcn30_hpo_hdmi_stream_encoder.h
++++ b/drivers/gpu/drm/amd/display/dc/hpo/dcn30/dcn30_hpo_hdmi_stream_encoder.h
+@@ -164,10 +164,6 @@ struct dcn30_hpo_hdmi_stream_encoder_registers {
+ 	      FIFO_RESET, mask_sh),                                                \
+ 	SE_SF(HDMI_STREAM_ENC_CLOCK_RAMP_ADJUSTER_FIFO_STATUS_CONTROL0,            \
+ 	      FIFO_PIXEL_ENCODING_TYPE, mask_sh),                                  \
+-	SE_SF(HDMI_STREAM_ENC_CLOCK_RAMP_ADJUSTER_FIFO_STATUS_CONTROL0,            \
+-	      FIFO_UNCOMPRESSED_PIXEL_FORMAT, mask_sh),                            \
+-	SE_SF(HDMI_STREAM_ENC_CLOCK_RAMP_ADJUSTER_FIFO_STATUS_CONTROL0,            \
+-	      FIFO_COMPRESSED_PIXEL_FORMAT, mask_sh),                              \
+ 	SE_SF(HDMI_STREAM_ENC_CLOCK_RAMP_ADJUSTER_FIFO_STATUS_CONTROL0,            \
+ 	      FIFO_RESET_DONE, mask_sh),                                           \
+ 	SE_SF(HDMI_STREAM_ENC_CLOCK_RAMP_ADJUSTER_FIFO_STATUS_CONTROL0,            \
