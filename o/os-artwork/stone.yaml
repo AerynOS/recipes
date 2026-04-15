@@ -2,29 +2,25 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : os-artwork
-version     : "1"
-release     : 5
+version     : "2"
+release     : 6
 summary     : Operating System Artwork
 license     : Distributable
 homepage    : https://www.aerynos.com/
 upstreams   :
     - https://github.com/AerynOS/artwork/archive/refs/tags/v2.tar.gz : e77cae21fba3770ae9fd399a8b6018bf83dfa90d3e5a3f773688c8dd39011802
-    - git|https://github.com/AerynOS/brand.git : 0c1fa98ceb4d68cb61771349bd330285783210d8
+    - git|https://github.com/AerynOS/brand.git : eb7e3d22084a85991e88c1a694aae528f0571a2c
 description : |
     Default artwork for AerynOS
 builddeps   :
     - binary(just)
 install     : |
     DESTDIR=%(installroot) just install
-    %install_file %(pkgdir)/logo/black_notext_2x.png %(installroot)%(datadir)/icons/serpent-logo.png
-    %install_file %(pkgdir)/logo/white_notext_2x.png %(installroot)%(datadir)/icons/serpent-logo-dark.png
-    %install_file %(pkgdir)/logo/logo.svg %(installroot)%(datadir)/icons/serpentos-logo.svg
-
     # TODO: Install 24x24 and 48x48 icons for the system logo by mutating the SVG
 
     cd ../brand.git
-    %install_file png/logo-black_128.png %(installroot)%(datadir)/icons/aerynos-logo.png
-    %install_file png/logo-white_128.png %(installroot)%(datadir)/icons/aerynos-logo-dark.png
+    %install_file png/logo-light_128.png %(installroot)%(datadir)/icons/aerynos-logo.png
+    %install_file png/logo-dark_128.png %(installroot)%(datadir)/icons/aerynos-logo-dark.png
 
 
     %install_dir %(installroot)%(datadir)/pixmaps
@@ -32,12 +28,12 @@ install     : |
     ln -s /usr/share/icons/aerynos-logo-dark.png %(installroot)/usr/share/pixmaps/system-logo-white.png
     ln -s /usr/share/icons/aerynos-logo.png %(installroot)/usr/share/pixmaps/system-logo-black.png
 
-    %install_file svg/logo-black.svg %(installroot)%(datadir)/icons/aerynos-logo.svg
-    %install_file svg/logo-white.svg %(installroot)%(datadir)/icons/aerynos-logo-dark.svg
+    %install_file svg/logo-light.svg %(installroot)%(datadir)/icons/aerynos-logo.svg
+    %install_file svg/logo-dark.svg %(installroot)%(datadir)/icons/aerynos-logo-dark.svg
 
     ln -s /usr/share/icons/aerynos-logo-dark.svg %(installroot)/usr/share/pixmaps/system-logo-white.svg
     ln -s /usr/share/icons/aerynos-logo.svg %(installroot)/usr/share/pixmaps/system-logo-black.svg
 
-    # This could be part of plasma-defaults instead, but if the Aeryn artwork is present we always want the
+    # This could be part of plasma-defaults instead, but if the AerynOS artwork is present we always want the
     # logo to show up in kcminfocenter even if the plasma-defaults package is uninstalled
     %install_file %(pkgdir)/kcm-about-distrorc -t %(installroot)%(datadir)/xdg
