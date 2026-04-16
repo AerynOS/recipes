@@ -3,7 +3,7 @@
 
 name        : kscreen
 version     : "6.6.4"
-release     : 22
+release     : 23
 upstreams   :
     - https://download.kde.org/stable/plasma/6.6.4/kscreen-6.6.4.tar.xz : 2f123691ac25da7f5166894ebaddda9615ddbaf949ebbb6c9829196b0615c250
 homepage    : https://kde.org/plasma-desktop/
@@ -33,6 +33,7 @@ builddeps   :
     - pkgconfig(xi)
 rundeps     :
     - kf6-kimageformats # Required to load HDR test image
+    - kf6-kirigami # QML dep for HDR calibrator
 tuning      :
     - lto: full
     - optimize: speed
