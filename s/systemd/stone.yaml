@@ -3,7 +3,7 @@
 
 name        : systemd
 version     : "257.13"
-release     : 78
+release     : 79
 summary     : A System and Service Manager
 license     :
     - GPL-2.0-or-later
@@ -127,6 +127,7 @@ setup       : |
         -Denvironment-d=${_IS_64BIT_BOOL} \
         -Dfdisk=${_IS_64BIT_FEAT} \
         -Dfirstboot=${_IS_64BIT_BOOL} \
+        -Dfirst-boot-full-preset=true \
         -Dfuzz-tests=false \
         -Dgshadow=${_IS_64BIT_BOOL} \
         -Dhibernate=${_IS_64BIT_BOOL} \
