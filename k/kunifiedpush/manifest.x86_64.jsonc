@@ -6,6 +6,7 @@
 			"build-depends": [
 				"cmake(ECM)",
 				"cmake(KF6CoreAddons)",
+				"cmake(KF6Crash)",
 				"cmake(KF6I18n)",
 				"cmake(KF6KCMUtils)",
 				"cmake(KF6Service)",
@@ -16,6 +17,7 @@
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"soname(libKF6CoreAddons.so.6(x86_64))",
+				"soname(libKF6Crash.so.6(x86_64))",
 				"soname(libKF6I18n.so.6(x86_64))",
 				"soname(libKF6KCMUtilsCore.so.6(x86_64))",
 				"soname(libKF6KCMUtilsQuick.so.6(x86_64))",
@@ -34,7 +36,7 @@
 			"files": [
 				"/usr/bin/kunifiedpush-distributor",
 				"/usr/lib/libKUnifiedPush.so.1",
-				"/usr/lib/libKUnifiedPush.so.25.12.3",
+				"/usr/lib/libKUnifiedPush.so.26.04.0",
 				"/usr/lib/qt6/plugins/plasma/kcms/systemsettings/kcm_push_notifications.so",
 				"/usr/lib/systemd/user/graphical-session.target.wants/kunifiedpush-distributor.service",
 				"/usr/lib/systemd/user/kunifiedpush-distributor.service",
@@ -96,6 +98,7 @@
 			"build-depends": [
 				"cmake(ECM)",
 				"cmake(KF6CoreAddons)",
+				"cmake(KF6Crash)",
 				"cmake(KF6I18n)",
 				"cmake(KF6KCMUtils)",
 				"cmake(KF6Service)",
@@ -124,6 +127,6 @@
 		}
 	},
 	"source-name": "kunifiedpush",
-	"source-release": "11",
-	"source-version": "25.12.3"
+	"source-release": "12",
+	"source-version": "26.04.0"
 }

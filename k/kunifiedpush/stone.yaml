@@ -2,10 +2,10 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : kunifiedpush
-version     : "25.12.3"
-release     : 11
+version     : "26.04.0"
+release     : 12
 upstreams   :
-    - https://download.kde.org/stable/release-service/25.12.3/src/kunifiedpush-25.12.3.tar.xz : 3ebd6ef38fafb0abd3ec434ccf79468453ea53897f69dccf18226dd5f122c229
+    - https://download.kde.org/stable/release-service/26.04.0/src/kunifiedpush-26.04.0.tar.xz : 0756dfc94de2bc065542e5c1e366dec2226615bfecc2993381a45051b1c24f03
 homepage    : https://invent.kde.org/libraries/kunifiedpush
 license     : LGPL-2.0-or-later
 summary     : UnifiedPush client library
@@ -15,6 +15,7 @@ builddeps   :
     # Temporary, boulder doesn't handle build ordering resolution correctly when builddeps are added by macros, so add ECM manually
     - cmake(ECM)
     - cmake(KF6CoreAddons)
+    - cmake(KF6Crash)
     - cmake(KF6I18n)
     - cmake(KF6KCMUtils)
     - cmake(KF6Service)
