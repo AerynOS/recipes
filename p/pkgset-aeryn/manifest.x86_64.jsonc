@@ -13,8 +13,10 @@
 				"kmod",
 				"linux-pam",
 				"lvm2",
+				"ntpd-rs",
 				"shadow",
 				"systemd",
+				"systemd-preset-aeryn",
 				"tzdata",
 				"util-linux",
 				"uutils-coreutils"
@@ -26,7 +28,6 @@
 		},
 		"pkgset-aeryn-base-desktop": {
 			"depends": [
-				"kmscon-gl",
 				"libva-intel-hybrid-driver",
 				"libva-intel-media-driver",
 				"mesa-dri-drivers",
@@ -40,6 +41,7 @@
 				"pipewire",
 				"pkgset-aeryn-base",
 				"polkit",
+				"systemd-preset-aeryn-desktop",
 				"wireplumber"
 			],
 			"files": [
@@ -85,6 +87,6 @@
 		}
 	},
 	"source-name": "pkgset-aeryn",
-	"source-release": "21",
+	"source-release": "22",
 	"source-version": "2025.12"
 }
