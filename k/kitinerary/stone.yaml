@@ -2,10 +2,10 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : kitinerary
-version     : "25.12.3"
-release     : 21
+version     : "26.04.0"
+release     : 22
 upstreams   :
-    - https://download.kde.org/stable/release-service/25.12.3/src/kitinerary-25.12.3.tar.xz : dd8374be2e4c488902f6c0b4b9fd12ad7f808de23b7df4561ef30b3f79b44d13
+    - https://download.kde.org/stable/release-service/26.04.0/src/kitinerary-26.04.0.tar.xz : 75a310debea448774265e312a71b5f3043d4e52d6f6f88a75aa4740bf3446f05
 homepage    : https://invent.kde.org/pim/kitinerary
 license     : LGPL-2.1-or-later
 summary     : Data Model and Extraction System for Travel Reservation information
@@ -29,7 +29,6 @@ builddeps   :
     - pkgconfig(zxing)
     - pkgconfig(zlib)
 setup       : |
-    %patch %(pkgdir)/ftbfs-poppler-26.04.patch
     %cmake_kf6
 build       : |
     %cmake_build

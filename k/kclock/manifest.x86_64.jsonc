@@ -18,6 +18,7 @@
 				"cmake(KF6StatusNotifierItem)",
 				"cmake(KF6Svg)",
 				"cmake(Plasma)",
+				"cmake(PlasmaWaylandProtocols)",
 				"cmake(Qt6CorePrivate)",
 				"cmake(Qt6Multimedia)",
 				"cmake(Qt6QuickControls2)",
@@ -41,6 +42,7 @@
 				"soname(libKF6Service.so.6(x86_64))",
 				"soname(libKF6StatusNotifierItem.so.6(x86_64))",
 				"soname(libKF6Svg.so.6(x86_64))",
+				"soname(libKF6WindowSystem.so.6(x86_64))",
 				"soname(libPlasma.so.7(x86_64))",
 				"soname(libQt6Core.so.6(x86_64))",
 				"soname(libQt6DBus.so.6(x86_64))",
@@ -71,7 +73,7 @@
 				"/usr/share/icons/hicolor/scalable/apps/kclock_plasmoid.svg",
 				"/usr/share/icons/hicolor/scalable/apps/org.kde.kclock.svg",
 				"/usr/share/knotifications6/kclockd.notifyrc",
-				"/usr/share/krunner/dbusplugins/kclock-runner.desktop",
+				"/usr/share/krunner/dbusplugins/org.kde.kclock.desktop",
 				"/usr/share/locale/ar/LC_MESSAGES/kclock.mo",
 				"/usr/share/locale/ar/LC_MESSAGES/kclockd.mo",
 				"/usr/share/locale/ast/LC_MESSAGES/kclock.mo",
@@ -176,6 +178,6 @@
 		}
 	},
 	"source-name": "kclock",
-	"source-release": "19",
-	"source-version": "25.12.3"
+	"source-release": "20",
+	"source-version": "26.04.0"
 }
