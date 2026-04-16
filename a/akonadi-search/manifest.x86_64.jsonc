@@ -53,20 +53,19 @@
 				"/usr/bin/akonadi_html_to_text",
 				"/usr/bin/akonadi_indexing_agent",
 				"/usr/lib/libKPim6AkonadiSearchCore.so.6",
-				"/usr/lib/libKPim6AkonadiSearchCore.so.6.6.3",
+				"/usr/lib/libKPim6AkonadiSearchCore.so.6.7.0",
 				"/usr/lib/libKPim6AkonadiSearchDebug.so.6",
-				"/usr/lib/libKPim6AkonadiSearchDebug.so.6.6.3",
+				"/usr/lib/libKPim6AkonadiSearchDebug.so.6.7.0",
 				"/usr/lib/libKPim6AkonadiSearchPIM.so.6",
-				"/usr/lib/libKPim6AkonadiSearchPIM.so.6.6.3",
+				"/usr/lib/libKPim6AkonadiSearchPIM.so.6.7.0",
 				"/usr/lib/libKPim6AkonadiSearchXapian.so.6",
-				"/usr/lib/libKPim6AkonadiSearchXapian.so.6.6.3",
+				"/usr/lib/libKPim6AkonadiSearchXapian.so.6.7.0",
 				"/usr/lib/qt6/plugins/kf6/krunner/kcms/kcm_krunner_pimcontacts.so",
 				"/usr/lib/qt6/plugins/kf6/krunner/krunner_pimcontacts.so",
 				"/usr/lib/qt6/plugins/pim6/akonadi/akonadi_search_plugin.so",
 				"/usr/lib/qt6/plugins/pim6/akonadi/calendarsearchstore.so",
 				"/usr/lib/qt6/plugins/pim6/akonadi/contactsearchstore.so",
 				"/usr/lib/qt6/plugins/pim6/akonadi/emailsearchstore.so",
-				"/usr/lib/qt6/plugins/pim6/akonadi/notesearchstore.so",
 				"/usr/share/akonadi/agents/akonadiindexingagent.desktop",
 				"/usr/share/locale/ar/LC_MESSAGES/akonadi_search.mo",
 				"/usr/share/locale/ast/LC_MESSAGES/akonadi_search.mo",
@@ -135,8 +134,7 @@
 				"soname(qt6/plugins/pim6/akonadi/akonadi_search_plugin.so(x86_64))",
 				"soname(qt6/plugins/pim6/akonadi/calendarsearchstore.so(x86_64))",
 				"soname(qt6/plugins/pim6/akonadi/contactsearchstore.so(x86_64))",
-				"soname(qt6/plugins/pim6/akonadi/emailsearchstore.so(x86_64))",
-				"soname(qt6/plugins/pim6/akonadi/notesearchstore.so(x86_64))"
+				"soname(qt6/plugins/pim6/akonadi/emailsearchstore.so(x86_64))"
 			]
 		},
 		"akonadi-search-devel": {
@@ -194,15 +192,12 @@
 				"/usr/include/KPim6/AkonadiSearch/search_core_export.h",
 				"/usr/lib/cmake/KPim6AkonadiSearch/KPim6AkonadiSearchConfig.cmake",
 				"/usr/lib/cmake/KPim6AkonadiSearch/KPim6AkonadiSearchConfigVersion.cmake",
-				"/usr/lib/cmake/KPim6AkonadiSearch/KPim6AkonadiSearchPIMQchTargets.cmake",
 				"/usr/lib/cmake/KPim6AkonadiSearch/KPim6AkonadiSearchTargets-release.cmake",
 				"/usr/lib/cmake/KPim6AkonadiSearch/KPim6AkonadiSearchTargets.cmake",
 				"/usr/lib/libKPim6AkonadiSearchCore.so",
 				"/usr/lib/libKPim6AkonadiSearchDebug.so",
 				"/usr/lib/libKPim6AkonadiSearchPIM.so",
-				"/usr/lib/libKPim6AkonadiSearchXapian.so",
-				"/usr/share/doc/qt6/KPim6AkonadiSearchPIM.qch",
-				"/usr/share/doc/qt6/KPim6AkonadiSearchPIM.tags"
+				"/usr/lib/libKPim6AkonadiSearchXapian.so"
 			],
 			"name": "akonadi-search-devel",
 			"provides": [
@@ -211,6 +206,6 @@
 		}
 	},
 	"source-name": "akonadi-search",
-	"source-release": "13",
-	"source-version": "25.12.3"
+	"source-release": "14",
+	"source-version": "26.04.0"
 }
