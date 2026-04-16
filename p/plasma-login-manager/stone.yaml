@@ -3,7 +3,7 @@
 
 name        : plasma-login-manager
 version     : "6.6.4"
-release     : 16
+release     : 17
 homepage    : https://kde.org/plasma-desktop/
 upstreams   :
     - https://download.kde.org/stable/plasma/6.6.4/plasma-login-manager-6.6.4.tar.xz : 3b4a3838459011115a97a4563be20907070cace91ba9679dc7fa43dced44cd1e
@@ -35,6 +35,7 @@ builddeps   :
     - pkgconfig(xau)
 rundeps     :
     - kwin # Doesn't support any other compositor AFAIK
+    - plasma-workspace # QML dep
     - qt6-wayland
 setup       : |
     %patch %(pkgdir)/0001-downstream-Update-defaults-conf-dir.patch
