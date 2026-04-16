@@ -3,7 +3,7 @@
 
 name        : openssh
 version     : "10.3p1"
-release     : 18
+release     : 19
 summary     : OpenSSH (OpenBSD Secure Shell)
 license     :
     - BSD-2-Clause
@@ -59,10 +59,9 @@ install     : |
     # systemd unit files (enabled by default)
     %install_file %(pkgdir)/sshd*.service -t %(installroot)/%(libdir)/systemd/system/
 
-    # ssh-agent service. Socket-activated, so enable the socket but not the service
+    # ssh-agent service
     %install_file %(pkgdir)/ssh-agent.{service,socket} -t %(installroot)/%(libdir)/systemd/user/
-    %install_file %(pkgdir)/ssh-agent.preset -t %(installroot)/%(libdir)/systemd/user-preset/
-
+    
     # PAM configuration
     %install_file %(pkgdir)/sshd.pam %(installroot)/%(vendordir)/pam.d/sshd
 
