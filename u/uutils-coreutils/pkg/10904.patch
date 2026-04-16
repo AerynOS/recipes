@@ -1,4 +1,4 @@
-From 6234f87901fd8294fff7b2b558be2c210f52664a Mon Sep 17 00:00:00 2001
+From 8237a285b8979c8ff99814f4d8397503084659cb Mon Sep 17 00:00:00 2001
 From: Michael Yang <michaely4ng@proton.me>
 Date: Thu, 12 Feb 2026 20:18:52 +1100
 Subject: [PATCH 1/6] fix(cp): permissions mode and umask aware
@@ -180,7 +180,7 @@ index 0c0b10af60e..83124bb45ac 100644
      Ok(())
  }
 diff --git a/src/uu/cp/src/cp.rs b/src/uu/cp/src/cp.rs
-index 403a8892da5..ad21507c08e 100644
+index 9f023a3937f..19833fc3642 100644
 --- a/src/uu/cp/src/cp.rs
 +++ b/src/uu/cp/src/cp.rs
 @@ -829,7 +829,19 @@ pub fn uumain(args: impl uucore::Args) -> UResult<()> {
@@ -362,7 +362,7 @@ index 403a8892da5..ad21507c08e 100644
              // FIXME: Implement this for windows as well
              #[cfg(feature = "feat_acl")]
              exacl::getfacl(source, None)
-@@ -2349,16 +2382,6 @@ fn handle_copy_mode(
+@@ -2359,16 +2392,6 @@ fn handle_copy_mode(
  }
  
  /// Calculates the permissions for the destination file in a copy operation.
@@ -379,7 +379,7 @@ index 403a8892da5..ad21507c08e 100644
  #[allow(unused_variables)]
  fn calculate_dest_permissions(
      dest_metadata: Option<&Metadata>,
-@@ -2366,23 +2389,28 @@ fn calculate_dest_permissions(
+@@ -2376,23 +2399,28 @@ fn calculate_dest_permissions(
      source_metadata: &Metadata,
      options: &Options,
      context: &str,
@@ -423,7 +423,7 @@ index 403a8892da5..ad21507c08e 100644
              source_metadata.permissions()
          }
      }
-@@ -2409,6 +2437,7 @@ fn copy_file(
+@@ -2419,6 +2447,7 @@ fn copy_file(
      copied_files: &mut HashMap<FileInformation, PathBuf>,
      created_parent_dirs: &mut HashSet<PathBuf>,
      source_in_command_line: bool,
@@ -431,7 +431,7 @@ index 403a8892da5..ad21507c08e 100644
  ) -> CopyResult<()> {
      let source_is_symlink = source.is_symlink();
      let initial_dest_metadata = dest.symlink_metadata().ok();
-@@ -2561,6 +2590,8 @@ fn copy_file(
+@@ -2571,6 +2600,8 @@ fn copy_file(
          &source_metadata,
          options,
          context,
@@ -440,7 +440,7 @@ index 403a8892da5..ad21507c08e 100644
      );
  
      let source_is_stream = is_stream(&source_metadata);
-@@ -2604,6 +2635,8 @@ fn copy_file(
+@@ -2614,6 +2645,8 @@ fn copy_file(
              &options.attributes,
              false,
              options.set_selinux_context,
@@ -449,7 +449,7 @@ index 403a8892da5..ad21507c08e 100644
          )
      } else if source_is_stream && !source.exists() {
          // Some stream files may not exist after we have copied it,
-@@ -2618,6 +2651,8 @@ fn copy_file(
+@@ -2628,6 +2661,8 @@ fn copy_file(
              &options.attributes,
              false,
              options.set_selinux_context,
@@ -458,7 +458,7 @@ index 403a8892da5..ad21507c08e 100644
          )
      };
  
-@@ -2661,13 +2696,44 @@ fn is_stream(metadata: &Metadata) -> bool {
+@@ -2671,13 +2706,44 @@ fn is_stream(metadata: &Metadata) -> bool {
  }
  
  #[cfg(unix)]
@@ -509,7 +509,7 @@ index 403a8892da5..ad21507c08e 100644
          #[cfg(not(any(
              target_os = "android",
              target_os = "macos",
-@@ -2675,13 +2741,11 @@ fn handle_no_preserve_mode(options: &Options, org_mode: u32) -> u32 {
+@@ -2685,13 +2751,11 @@ fn handle_no_preserve_mode(options: &Options, org_mode: u32) -> u32 {
              target_os = "redox",
          )))]
          {
@@ -527,7 +527,7 @@ index 403a8892da5..ad21507c08e 100644
          }
  
          #[cfg(any(
-@@ -2691,20 +2755,15 @@ fn handle_no_preserve_mode(options: &Options, org_mode: u32) -> u32 {
+@@ -2701,20 +2765,15 @@ fn handle_no_preserve_mode(options: &Options, org_mode: u32) -> u32 {
              target_os = "redox",
          ))]
          {
@@ -554,7 +554,7 @@ index 403a8892da5..ad21507c08e 100644
  }
  
  /// Copy the file from `source` to `dest` either using the normal `fs::copy` or a
-@@ -2829,6 +2888,8 @@ fn copy_link(
+@@ -2839,6 +2898,8 @@ fn copy_link(
          &options.attributes,
          false,
          options.set_selinux_context,
@@ -925,7 +925,7 @@ index 28af3075eef..b89719e549d 100644
 +    assert_eq!(d1_mode, d2_mode);
 +}
 
-From e927f492eb1f1c81d7b7013860849982de1b508e Mon Sep 17 00:00:00 2001
+From 3539e32e65cd5b97a38fbc4055a94a335f9c3355 Mon Sep 17 00:00:00 2001
 From: Michael Yang <michaely4ng@proton.me>
 Date: Sat, 14 Feb 2026 01:25:54 +1100
 Subject: [PATCH 2/6] fix(cp): copy attributes for parents dirs
@@ -936,7 +936,7 @@ Subject: [PATCH 2/6] fix(cp): copy attributes for parents dirs
  2 files changed, 40 insertions(+), 4 deletions(-)
 
 diff --git a/src/uu/cp/src/cp.rs b/src/uu/cp/src/cp.rs
-index ad21507c08e..af296187e1a 100644
+index 19833fc3642..5db246a0bcf 100644
 --- a/src/uu/cp/src/cp.rs
 +++ b/src/uu/cp/src/cp.rs
 @@ -1587,7 +1587,7 @@ fn copy_source(
@@ -1020,7 +1020,7 @@ index b89719e549d..36fd155d162 100644
 +    assert_eq!(!0o022 & 0o666, f_mode & 0o777);
 +}
 
-From b99cb276f0b0ba53f800838a7aae10ee7bef3eef Mon Sep 17 00:00:00 2001
+From 1f6acdb3ae933688ea26ea1964560a5453161ca3 Mon Sep 17 00:00:00 2001
 From: Michael Yang <michaely4ng@proton.me>
 Date: Sat, 14 Feb 2026 16:24:33 +1100
 Subject: [PATCH 3/6] refactor(cp): simplify mode consts
@@ -1031,7 +1031,7 @@ Subject: [PATCH 3/6] refactor(cp): simplify mode consts
  2 files changed, 9 insertions(+), 31 deletions(-)
 
 diff --git a/src/uu/cp/src/cp.rs b/src/uu/cp/src/cp.rs
-index af296187e1a..7f9096d1e0e 100644
+index 5db246a0bcf..476d98a9cfb 100644
 --- a/src/uu/cp/src/cp.rs
 +++ b/src/uu/cp/src/cp.rs
 @@ -833,7 +833,7 @@ pub fn uumain(args: impl uucore::Args) -> UResult<()> {
@@ -1043,7 +1043,7 @@ index af296187e1a..7f9096d1e0e 100644
  
      if let Err(error) = copy(
          &sources,
-@@ -2734,33 +2734,11 @@ fn handle_created_mode(mode: Preserve, is_dir: bool, source_mode: u32, umask: u3
+@@ -2744,33 +2744,11 @@ fn handle_created_mode(mode: Preserve, is_dir: bool, source_mode: u32, umask: u3
      const S_IRWXUGO: u32 = (S_IRWXU | S_IRWXG | S_IRWXO) as u32;
  
      if let Preserve::No { explicit } = mode {
@@ -1114,7 +1114,7 @@ index 36fd155d162..a32d18167a0 100644
  
      scene
 
-From 9b5a9b7bfd702fcf8d06840c24260a427748dffe Mon Sep 17 00:00:00 2001
+From 124d55a87afea5f77978aa75eccd3f101b8a5e62 Mon Sep 17 00:00:00 2001
 From: Michael Yang <michaely4ng@proton.me>
 Date: Fri, 20 Feb 2026 02:41:50 +1100
 Subject: [PATCH 4/6] refactor(cp): remove unnecessary allocations
@@ -1440,7 +1440,7 @@ index 83124bb45ac..7f49eae801f 100644
                      #[cfg(unix)]
                      orig_umask,
 diff --git a/src/uu/cp/src/cp.rs b/src/uu/cp/src/cp.rs
-index 7f9096d1e0e..f57440c5aa5 100644
+index 476d98a9cfb..77e36306651 100644
 --- a/src/uu/cp/src/cp.rs
 +++ b/src/uu/cp/src/cp.rs
 @@ -1786,9 +1786,8 @@ pub(crate) fn copy_attributes(
@@ -1534,7 +1534,7 @@ index 7f9096d1e0e..f57440c5aa5 100644
      Ok(())
  }
  
-@@ -2258,7 +2258,6 @@ fn handle_copy_mode(
+@@ -2268,7 +2268,6 @@ fn handle_copy_mode(
      source: &Path,
      dest: &Path,
      options: &Options,
@@ -1542,7 +1542,7 @@ index 7f9096d1e0e..f57440c5aa5 100644
      source_metadata: &Metadata,
      symlinked_files: &mut HashSet<FileInformation>,
      source_in_command_line: bool,
-@@ -2296,7 +2295,6 @@ fn handle_copy_mode(
+@@ -2306,7 +2305,6 @@ fn handle_copy_mode(
                  source,
                  dest,
                  options,
@@ -1550,7 +1550,7 @@ index 7f9096d1e0e..f57440c5aa5 100644
                  source_metadata,
                  symlinked_files,
                  created_parent_dirs,
-@@ -2316,7 +2314,6 @@ fn handle_copy_mode(
+@@ -2326,7 +2324,6 @@ fn handle_copy_mode(
                              source,
                              dest,
                              options,
@@ -1558,7 +1558,7 @@ index 7f9096d1e0e..f57440c5aa5 100644
                              source_metadata,
                              symlinked_files,
                              created_parent_dirs,
-@@ -2349,7 +2346,6 @@ fn handle_copy_mode(
+@@ -2359,7 +2356,6 @@ fn handle_copy_mode(
                              source,
                              dest,
                              options,
@@ -1566,7 +1566,7 @@ index 7f9096d1e0e..f57440c5aa5 100644
                              source_metadata,
                              symlinked_files,
                              created_parent_dirs,
-@@ -2361,7 +2357,6 @@ fn handle_copy_mode(
+@@ -2371,7 +2367,6 @@ fn handle_copy_mode(
                      source,
                      dest,
                      options,
@@ -1574,7 +1574,7 @@ index 7f9096d1e0e..f57440c5aa5 100644
                      source_metadata,
                      symlinked_files,
                      created_parent_dirs,
-@@ -2388,7 +2383,6 @@ fn calculate_dest_permissions(
+@@ -2398,7 +2393,6 @@ fn calculate_dest_permissions(
      dest: &Path,
      source_metadata: &Metadata,
      options: &Options,
@@ -1582,7 +1582,7 @@ index 7f9096d1e0e..f57440c5aa5 100644
      #[cfg(unix)] orig_umask: u32,
  ) -> Permissions {
      #[cfg(unix)]
-@@ -2563,10 +2557,6 @@ fn copy_file(
+@@ -2573,10 +2567,6 @@ fn copy_file(
          }
      }
  
@@ -1593,7 +1593,7 @@ index 7f9096d1e0e..f57440c5aa5 100644
      let source_metadata = {
          let result = if options.dereference(source_in_command_line) {
              fs::metadata(source)
-@@ -2589,7 +2579,6 @@ fn copy_file(
+@@ -2599,7 +2589,6 @@ fn copy_file(
          dest,
          &source_metadata,
          options,
@@ -1601,7 +1601,7 @@ index 7f9096d1e0e..f57440c5aa5 100644
          #[cfg(unix)]
          orig_umask,
      );
-@@ -2600,7 +2589,6 @@ fn copy_file(
+@@ -2610,7 +2599,6 @@ fn copy_file(
          source,
          dest,
          options,
@@ -1609,7 +1609,7 @@ index 7f9096d1e0e..f57440c5aa5 100644
          &source_metadata,
          symlinked_files,
          source_in_command_line,
-@@ -2750,7 +2738,6 @@ fn copy_helper(
+@@ -2760,7 +2748,6 @@ fn copy_helper(
      source: &Path,
      dest: &Path,
      options: &Options,
@@ -1617,7 +1617,7 @@ index 7f9096d1e0e..f57440c5aa5 100644
      source_metadata: &Metadata,
      symlinked_files: &mut HashSet<FileInformation>,
      created_parent_dirs: &mut HashSet<PathBuf>,
-@@ -2788,7 +2775,6 @@ fn copy_helper(
+@@ -2798,7 +2785,6 @@ fn copy_helper(
              dest,
              options.reflink_mode,
              options.sparse_mode,
@@ -1755,7 +1755,7 @@ index 2db85c56af1..88f108f7c16 100644
      Ok(copy_debug)
  }
 
-From 72914bcb6ef29eb9dbe4fc7a68f52dd86598fe11 Mon Sep 17 00:00:00 2001
+From c022fbc391670cd94be7db3969f06aa0e57e5d78 Mon Sep 17 00:00:00 2001
 From: Michael Yang <michaely4ng@proton.me>
 Date: Sat, 21 Feb 2026 20:25:24 +1100
 Subject: [PATCH 5/6] fix(cp): setuid/setgid/sticky bits
@@ -1765,7 +1765,7 @@ Subject: [PATCH 5/6] fix(cp): setuid/setgid/sticky bits
  1 file changed, 43 insertions(+), 37 deletions(-)
 
 diff --git a/src/uu/cp/src/cp.rs b/src/uu/cp/src/cp.rs
-index f57440c5aa5..08a841a8f63 100644
+index 77e36306651..35c8df9f543 100644
 --- a/src/uu/cp/src/cp.rs
 +++ b/src/uu/cp/src/cp.rs
 @@ -1693,7 +1693,7 @@ impl OverwriteMode {
@@ -1802,7 +1802,7 @@ index f57440c5aa5..08a841a8f63 100644
                  source_metadata.permissions().mode(),
                  orig_umask,
              )
-@@ -2391,6 +2395,7 @@ fn calculate_dest_permissions(
+@@ -2401,6 +2405,7 @@ fn calculate_dest_permissions(
              options.attributes.mode,
              false,
              dest_metadata.is_none(),
@@ -1810,7 +1810,7 @@ index f57440c5aa5..08a841a8f63 100644
              source_metadata.permissions().mode(),
              orig_umask,
          )
-@@ -2684,51 +2689,52 @@ fn is_stream(metadata: &Metadata) -> bool {
+@@ -2694,51 +2699,52 @@ fn is_stream(metadata: &Metadata) -> bool {
  }
  
  #[cfg(unix)]
@@ -1900,7 +1900,7 @@ index f57440c5aa5..08a841a8f63 100644
  }
  
 
-From 63d08f38d509a4c6b9e27d6990c77a002bd100b5 Mon Sep 17 00:00:00 2001
+From 8d082ea675468b891e30d5c7fd16ada803becc51 Mon Sep 17 00:00:00 2001
 From: Michael Yang <michaely4ng@proton.me>
 Date: Wed, 18 Mar 2026 09:25:15 +1100
 Subject: [PATCH 6/6] test: condense mode tests with rstest
@@ -1926,7 +1926,7 @@ index 7f49eae801f..6f6ee1bd152 100644
  /// # Examples
  ///
 diff --git a/src/uu/cp/src/cp.rs b/src/uu/cp/src/cp.rs
-index 08a841a8f63..f39514140ff 100644
+index 35c8df9f543..718966751a6 100644
 --- a/src/uu/cp/src/cp.rs
 +++ b/src/uu/cp/src/cp.rs
 @@ -1789,6 +1789,7 @@ pub(crate) fn copy_attributes(

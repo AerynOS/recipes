@@ -6,7 +6,8 @@ version     : "0.8.0"
 release     : 34
 homepage    : https://uutils.github.io/coreutils/
 upstreams   :
-    - https://github.com/uutils/coreutils/archive/refs/tags/0.8.0.tar.gz : 03f765fd23e9cc66f8789edc6928644d8eae5e5a7962d83795739d0a8a85eaef
+    #- https://github.com/uutils/coreutils/archive/refs/tags/0.8.0.tar.gz : 03f765fd23e9cc66f8789edc6928644d8eae5e5a7962d83795739d0a8a85eaef
+    - https://github.com/uutils/coreutils/archive/4e68e67.tar.gz : ebcb9bb4c7ab332a9770c7a677d578835ee758b5481d1079e93c1f14e4cdd087
 summary     : Cross-platform Rust rewrite of the GNU coreutils
 description : |
     Cross-platform Rust rewrite of the GNU coreutils
@@ -22,13 +23,12 @@ environment : |
     export UUTILS_FEATURES="feat_acl,feat_systemd_logind,unix,uudoc"
     export RUSTFLAGS="$RUSTFLAGS -C codegen-units=1"
 setup       : |
+    %break_continue
     # https://github.com/uutils/coreutils/issues/10862
     # Upstream patch is not accounting umask 0022 yet, hence disable it
-    #%patch %(pkgdir)/10904.patch
+    %patch %(pkgdir)/10904.patch
     # Use HACK to revert to 0.6.0 behaviour
-    %patch %(pkgdir)/0001-preserve-false-by-default.patch
-    # https://github.com/uutils/coreutils/issues/11693
-    %patch %(pkgdir)/11686.patch
+    #%patch %(pkgdir)/0001-preserve-false-by-default.patch
     %cargo_fetch
 build       : |
     %cargo_build --features $UUTILS_FEATURES
