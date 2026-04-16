@@ -1,0 +1,22 @@
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : systemd-preset-aeryn
+version     : "2026.03" # I guess let's just match the OS version for now
+release     : 1
+homepage    : https://aerynos.com/
+# No upstreams!
+summary     : AerynOS systemd presets
+description : |
+    AerynOS systemd presets
+license     : MPL-2.0
+install     : |
+    %install_file %(pkgdir)/system/*.conf -t %(installroot)%(libdir)/systemd/system-preset/
+    %install_file %(pkgdir)/user/*.conf -t %(installroot)%(libdir)/systemd/user-preset/
+packages    :
+    - "%(name)-desktop":
+        # Preset changes for desktops
+        # Note that we still install configs for user services and the like in the main package
+        # this is only for _overrides_ to those
+        paths:
+            - /usr/lib/systemd/system-preset/80-desktop.conf
