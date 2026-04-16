@@ -4,6 +4,7 @@
 	"packages": {
 		"taglib": {
 			"build-depends": [
+				"cmake(utf8cpp)",
 				"pkgconfig(cppunit)",
 				"pkgconfig(zlib)"
 			],
@@ -28,6 +29,7 @@
 		},
 		"taglib-devel": {
 			"build-depends": [
+				"cmake(utf8cpp)",
 				"pkgconfig(cppunit)",
 				"pkgconfig(zlib)"
 			],
@@ -183,6 +185,6 @@
 		}
 	},
 	"source-name": "taglib",
-	"source-release": "5",
+	"source-release": "6",
 	"source-version": "2.2.1"
 }

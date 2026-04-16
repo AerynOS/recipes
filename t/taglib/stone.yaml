@@ -3,7 +3,7 @@
 
 name        : taglib
 version     : "2.2.1"
-release     : 5
+release     : 6
 upstreams   :
     - https://github.com/taglib/taglib/releases/download/v2.2.1/taglib-2.2.1.tar.gz : 7e76b5299dcef427c486bffe455098470c8da91cf3ccb9ea804893df57389b5e
 homepage    : https://taglib.github.io/
@@ -14,8 +14,8 @@ summary     : Library to read metadata from a variety of multimedia formats
 description : |
     TagLib is a library for reading and editing the meta-data of several popular audio formats. Currently it supports both ID3v1 and ID3v2 for MP3 files, Ogg Vorbis comments and ID3 tags and Vorbis comments in FLAC, MPC, Speex, WavPack TrueAudio, WAV, AIFF, MP4 and ASF files.
 builddeps   :
+    - cmake(utf8cpp)
     - pkgconfig(zlib)
-    # utf8cpp
 checkdeps   :
     - pkgconfig(cppunit)
 setup       : |
