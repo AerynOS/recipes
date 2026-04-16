@@ -2,19 +2,22 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : elfutils
-version     : "0.194"
-release     : 12
+version     : "0.195"
+release     : 13
 homepage    : https://sourceware.org/elfutils
 upstreams   :
-    - https://sourceware.org/elfutils/ftp/0.194/elfutils-0.194.tar.bz2 : 09e2ff033d39baa8b388a2d7fbc5390bfde99ae3b7c67c7daaf7433fbcf0f01e
+    - https://sourceware.org/elfutils/ftp/0.195/elfutils-0.195.tar.bz2 : 37629fdf7f1f3dc2818e138fca2b8094177d6c2d0f701d3bb650a561218dc026
 summary     : Collection of utilities and libraries to read, create and modify ELF binary files
 description : |
     elfutils is a collection of utilities and libraries to read, create and modify ELF binary files, find and handle DWARF debug data, symbols, thread state and stacktraces for processes and core files on GNU/Linux.
 license     :
     - GPL-2.0-or-later
 builddeps   :
+    - binary(bison)
+    - binary(flex)
     - binary(makeinfo)
     - binary(msgfmt)
+    - binary(readelf)
     - pkgconfig(json-c)
     - pkgconfig(libarchive)
     - pkgconfig(libcurl)
@@ -29,8 +32,12 @@ setup       : |
     %patch %(pkgdir)/rename-stack.patch
     %patch %(pkgdir)/0001-config-Hardcode-profile-to-look-in-usr-share-default.patch
 
+    # Autoconf fix for using clang
+    export CC_FOR_BUILD="$CC"
+
     %configure \
         --disable-static \
+        --enable-deterministic-archives \
         --enable-debuginfod \
         --with-zlib \
         --with-bzlib \

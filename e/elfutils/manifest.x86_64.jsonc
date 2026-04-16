@@ -4,8 +4,11 @@
 	"packages": {
 		"debuginfod": {
 			"build-depends": [
+				"binary(bison)",
+				"binary(flex)",
 				"binary(makeinfo)",
 				"binary(msgfmt)",
+				"binary(readelf)",
 				"pkgconfig(json-c)",
 				"pkgconfig(libarchive)",
 				"pkgconfig(libcurl)",
@@ -46,8 +49,11 @@
 		},
 		"elfutils": {
 			"build-depends": [
+				"binary(bison)",
+				"binary(flex)",
 				"binary(makeinfo)",
 				"binary(msgfmt)",
+				"binary(readelf)",
 				"pkgconfig(json-c)",
 				"pkgconfig(libarchive)",
 				"pkgconfig(libcurl)",
@@ -124,8 +130,11 @@
 		},
 		"elfutils-32bit": {
 			"build-depends": [
+				"binary(bison)",
+				"binary(flex)",
 				"binary(makeinfo)",
 				"binary(msgfmt)",
+				"binary(readelf)",
 				"pkgconfig(json-c)",
 				"pkgconfig(libarchive)",
 				"pkgconfig(libcurl)",
@@ -148,9 +157,9 @@
 				"soname(libzstd.so.1(386))"
 			],
 			"files": [
-				"/usr/lib32/libasm-0.194.so",
+				"/usr/lib32/libasm-0.195.so",
 				"/usr/lib32/libasm.so.1",
-				"/usr/lib32/libdw-0.194.so",
+				"/usr/lib32/libdw-0.195.so",
 				"/usr/lib32/libdw.so.1"
 			],
 			"name": "elfutils-32bit",
@@ -161,8 +170,11 @@
 		},
 		"elfutils-32bit-devel": {
 			"build-depends": [
+				"binary(bison)",
+				"binary(flex)",
 				"binary(makeinfo)",
 				"binary(msgfmt)",
+				"binary(readelf)",
 				"pkgconfig(json-c)",
 				"pkgconfig(libarchive)",
 				"pkgconfig(libcurl)",
@@ -193,8 +205,11 @@
 		},
 		"elfutils-devel": {
 			"build-depends": [
+				"binary(bison)",
+				"binary(flex)",
 				"binary(makeinfo)",
 				"binary(msgfmt)",
+				"binary(readelf)",
 				"pkgconfig(json-c)",
 				"pkgconfig(libarchive)",
 				"pkgconfig(libcurl)",
@@ -233,8 +248,11 @@
 		},
 		"elfutils-libs": {
 			"build-depends": [
+				"binary(bison)",
+				"binary(flex)",
 				"binary(makeinfo)",
 				"binary(msgfmt)",
+				"binary(readelf)",
 				"pkgconfig(json-c)",
 				"pkgconfig(libarchive)",
 				"pkgconfig(libcurl)",
@@ -255,9 +273,9 @@
 				"soname(libzstd.so.1(x86_64))"
 			],
 			"files": [
-				"/usr/lib/libasm-0.194.so",
+				"/usr/lib/libasm-0.195.so",
 				"/usr/lib/libasm.so.1",
-				"/usr/lib/libdw-0.194.so",
+				"/usr/lib/libdw-0.195.so",
 				"/usr/lib/libdw.so.1"
 			],
 			"name": "elfutils-libs",
@@ -268,8 +286,11 @@
 		},
 		"libdebuginfod": {
 			"build-depends": [
+				"binary(bison)",
+				"binary(flex)",
 				"binary(makeinfo)",
 				"binary(msgfmt)",
+				"binary(readelf)",
 				"pkgconfig(json-c)",
 				"pkgconfig(libarchive)",
 				"pkgconfig(libcurl)",
@@ -287,7 +308,7 @@
 				"soname(libjson-c.so.5(x86_64))"
 			],
 			"files": [
-				"/usr/lib/libdebuginfod-0.194.so",
+				"/usr/lib/libdebuginfod-0.195.so",
 				"/usr/lib/libdebuginfod.so.1",
 				"/usr/share/defaults/debuginfod/aerynos.urls",
 				"/usr/share/defaults/profile.d/debuginfod.csh",
@@ -302,8 +323,11 @@
 		},
 		"libdebuginfod-devel": {
 			"build-depends": [
+				"binary(bison)",
+				"binary(flex)",
 				"binary(makeinfo)",
 				"binary(msgfmt)",
+				"binary(readelf)",
 				"pkgconfig(json-c)",
 				"pkgconfig(libarchive)",
 				"pkgconfig(libcurl)",
@@ -342,8 +366,11 @@
 		},
 		"libelf": {
 			"build-depends": [
+				"binary(bison)",
+				"binary(flex)",
 				"binary(makeinfo)",
 				"binary(msgfmt)",
+				"binary(readelf)",
 				"pkgconfig(json-c)",
 				"pkgconfig(libarchive)",
 				"pkgconfig(libcurl)",
@@ -361,7 +388,7 @@
 				"soname(libzstd.so.1(x86_64))"
 			],
 			"files": [
-				"/usr/lib/libelf-0.194.so",
+				"/usr/lib/libelf-0.195.so",
 				"/usr/lib/libelf.so.1"
 			],
 			"name": "libelf",
@@ -371,8 +398,11 @@
 		},
 		"libelf-32bit": {
 			"build-depends": [
+				"binary(bison)",
+				"binary(flex)",
 				"binary(makeinfo)",
 				"binary(msgfmt)",
+				"binary(readelf)",
 				"pkgconfig(json-c)",
 				"pkgconfig(libarchive)",
 				"pkgconfig(libcurl)",
@@ -391,7 +421,7 @@
 				"soname(libzstd.so.1(386))"
 			],
 			"files": [
-				"/usr/lib32/libelf-0.194.so",
+				"/usr/lib32/libelf-0.195.so",
 				"/usr/lib32/libelf.so.1"
 			],
 			"name": "libelf-32bit",
@@ -401,8 +431,11 @@
 		},
 		"libelf-32bit-devel": {
 			"build-depends": [
+				"binary(bison)",
+				"binary(flex)",
 				"binary(makeinfo)",
 				"binary(msgfmt)",
+				"binary(readelf)",
 				"pkgconfig(json-c)",
 				"pkgconfig(libarchive)",
 				"pkgconfig(libcurl)",
@@ -430,8 +463,11 @@
 		},
 		"libelf-devel": {
 			"build-depends": [
+				"binary(bison)",
+				"binary(flex)",
 				"binary(makeinfo)",
 				"binary(msgfmt)",
+				"binary(readelf)",
 				"pkgconfig(json-c)",
 				"pkgconfig(libarchive)",
 				"pkgconfig(libcurl)",
@@ -517,8 +553,51 @@
 				"/usr/share/man/man3/elf_strptr.3",
 				"/usr/share/man/man3/elf_update.3",
 				"/usr/share/man/man3/elf_version.3",
+				"/usr/share/man/man3/gelf.3",
+				"/usr/share/man/man3/gelf_checksum.3",
+				"/usr/share/man/man3/gelf_fsize.3",
+				"/usr/share/man/man3/gelf_getauxv.3",
+				"/usr/share/man/man3/gelf_getchdr.3",
 				"/usr/share/man/man3/gelf_getclass.3",
+				"/usr/share/man/man3/gelf_getdyn.3",
 				"/usr/share/man/man3/gelf_getehdr.3",
+				"/usr/share/man/man3/gelf_getlib.3",
+				"/usr/share/man/man3/gelf_getmove.3",
+				"/usr/share/man/man3/gelf_getnote.3",
+				"/usr/share/man/man3/gelf_getphdr.3",
+				"/usr/share/man/man3/gelf_getrel.3",
+				"/usr/share/man/man3/gelf_getrela.3",
+				"/usr/share/man/man3/gelf_getshdr.3",
+				"/usr/share/man/man3/gelf_getsym.3",
+				"/usr/share/man/man3/gelf_getsyminfo.3",
+				"/usr/share/man/man3/gelf_getsymshndx.3",
+				"/usr/share/man/man3/gelf_getverdaux.3",
+				"/usr/share/man/man3/gelf_getverdef.3",
+				"/usr/share/man/man3/gelf_getvernaux.3",
+				"/usr/share/man/man3/gelf_getverneed.3",
+				"/usr/share/man/man3/gelf_getversym.3",
+				"/usr/share/man/man3/gelf_newehdr.3",
+				"/usr/share/man/man3/gelf_newphdr.3",
+				"/usr/share/man/man3/gelf_offscn.3",
+				"/usr/share/man/man3/gelf_update_auxv.3",
+				"/usr/share/man/man3/gelf_update_dyn.3",
+				"/usr/share/man/man3/gelf_update_ehdr.3",
+				"/usr/share/man/man3/gelf_update_lib.3",
+				"/usr/share/man/man3/gelf_update_move.3",
+				"/usr/share/man/man3/gelf_update_phdr.3",
+				"/usr/share/man/man3/gelf_update_rel.3",
+				"/usr/share/man/man3/gelf_update_rela.3",
+				"/usr/share/man/man3/gelf_update_shdr.3",
+				"/usr/share/man/man3/gelf_update_sym.3",
+				"/usr/share/man/man3/gelf_update_syminfo.3",
+				"/usr/share/man/man3/gelf_update_symshndx.3",
+				"/usr/share/man/man3/gelf_update_verdaux.3",
+				"/usr/share/man/man3/gelf_update_verdef.3",
+				"/usr/share/man/man3/gelf_update_vernaux.3",
+				"/usr/share/man/man3/gelf_update_verneed.3",
+				"/usr/share/man/man3/gelf_update_versym.3",
+				"/usr/share/man/man3/gelf_xlatetof.3",
+				"/usr/share/man/man3/gelf_xlatetom.3",
 				"/usr/share/man/man3/libelf.3"
 			],
 			"name": "libelf-devel",
@@ -528,6 +607,6 @@
 		}
 	},
 	"source-name": "elfutils",
-	"source-release": "12",
-	"source-version": "0.194"
+	"source-release": "13",
+	"source-version": "0.195"
 }
