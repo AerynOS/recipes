@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : rust
-version     : "1.94.1"
-release     : 35
+version     : "1.95.0"
+release     : 36
 homepage    : https://www.rust-lang.org/
 upstreams   :
-    - https://static.rust-lang.org/dist/rustc-1.94.1-src.tar.xz : 174fce10ce012317ca995810296d8af199318838180b03d68a853e0f02d4b571
+    - https://static.rust-lang.org/dist/rustc-1.95.0-src.tar.xz : 62b67230754da642a264ca0cb9fc08820c54e2ed7b3baba0289876d4cdb48c08
 summary     : Rust programming language compiler + tools
 description : |
     Rust programming language compiler + tools
@@ -27,7 +27,7 @@ builddeps   :
     - binary(FileCheck)
     - binary(cargo)
     - binary(cmake)
-    - binary(llvm-config-21)
+    - binary(llvm-config-22)
     - binary(ln)
     - binary(ninja)
     - binary(python)
@@ -43,7 +43,6 @@ builddeps   :
     - pkgconfig(sqlite3)
     - pkgconfig(zlib)
     - clang-32bit
-    - compiler-rt-21-32bit
 environment : |
     # Don't set these here, all configuration should come from config.toml or the package.yml
     unset RUSTFLAGS
@@ -59,7 +58,7 @@ environment : |
 
     # This needs to match which llvm we're building against. This should generally be `/usr/bin/llvm-config` but if we're using a versioned
     # package that will need to point to the versioned llvm-config
-    LLVM_CONFIG=%(bindir)/llvm-config-21
+    LLVM_CONFIG=%(bindir)/llvm-config-22
 setup       : |
     # Ensure that we use the system sqlite3
     %patch %(pkgdir)/0001-unbundle-sqlite.patch -d src/tools/cargo
@@ -142,7 +141,7 @@ packages    :
         rundeps:
             - binary(clang)
             - binary(lld)
-            - compiler-rt-21
+            - compiler-rt
 
     - "%(name)-32bit":
         paths:
@@ -150,7 +149,7 @@ packages    :
         rundeps:
             - "%(name)"
             - clang-32bit
-            - compiler-rt-21-32bit
+            - compiler-rt-32bit
 
     - "%(name)-devel":
         paths:
