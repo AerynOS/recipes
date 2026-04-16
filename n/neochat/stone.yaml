@@ -2,10 +2,10 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : neochat
-version     : "25.12.3"
-release     : 18
+version     : "26.04.0"
+release     : 19
 upstreams   :
-    - https://download.kde.org/stable/release-service/25.12.3/src/neochat-25.12.3.tar.xz : 58f7a58d577466277ed96be7ca10481c52645241400afafd49ba8dc46120a6d9
+    - https://download.kde.org/stable/release-service/26.04.0/src/neochat-26.04.0.tar.xz : 890e46495784cb1d9109c235e5e9b808320f5fd581f6bc4ef8001e294cce893a
 homepage    : https://apps.kde.org/neochat/
 license     :
     - BSD-2-Clause
@@ -33,8 +33,6 @@ builddeps   :
     - cmake(KF6Notifications)
     - cmake(KF6QQC2DesktopStyle)
     - cmake(KF6Purpose)
-    - cmake(KF6Sonnet)
-    - cmake(KF6StatusNotifierItem)
     - cmake(KF6SyntaxHighlighting)
     - cmake(KF6WindowSystem)
     - cmake(KQuickImageEditor)
@@ -51,6 +49,7 @@ builddeps   :
     - cmake(cmark)
     - pkgconfig(icu-uc)
     - kf6-kquickcharts
+    - kf6-sonnet
     - qt6-location
 rundeps     :
     - breeze-icons
@@ -59,6 +58,7 @@ rundeps     :
     - kf6-kitemmodels
     - kf6-kquickcharts
     - kf6-prison
+    - kf6-sonnet
     - kquickimageeditor
     - qt6-location
     - qt6-wayland
