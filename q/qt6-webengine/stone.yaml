@@ -3,7 +3,7 @@
 
 name        : qt6-webengine
 version     : "6.11.0"
-release     : 22
+release     : 23
 homepage    : https://www.qt.io
 upstreams   :
     - https://download.qt.io/official_releases/qt/6.11/6.11.0/submodules/qtwebengine-everywhere-src-6.11.0.tar.xz: 63b921c8b2dd59152ced9a796676010166df044588ee00ef9429dc2fd2146736
@@ -13,7 +13,7 @@ upstreams   :
 # Don't edit anything between the BEGIN_UPSTREAMS and END_UPSTREAMS tags
 ##@@BEGIN_UPSTREAMS
     - git|https://invent.kde.org/qt/qt/qtwebengine-chromium.git:
-        ref: b4159fdd0079dfea2cf5b8f38a4abecd1571b05f
+        ref: 000be97c500c7142eab845571fe3f3ba227d5b3f
 ##@@END_UPSTREAMS
 summary     : Qt6 Webengine Module
 description : |
@@ -121,6 +121,9 @@ build       : |
     %cmake_build
 install     : |
     %cmake_install
+
+    # Breaks corrosion
+    rm -v %(installroot)%(libdir)/cmake/Qt6/FindRust.cmake
 packages    :
     - "qt6-pdf":
         summary: Qt6 - QtPdf components
