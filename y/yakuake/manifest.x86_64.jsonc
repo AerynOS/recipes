@@ -22,8 +22,14 @@
 				"cmake(KF6WidgetsAddons)",
 				"cmake(KF6WindowSystem)",
 				"cmake(KWayland)",
+				"cmake(PlasmaWaylandProtocols)",
 				"cmake(Qt6CorePrivate)",
-				"cmake(Qt6Svg)"
+				"cmake(Qt6Svg)",
+				"cmake(Qt6WaylandClient)",
+				"pkgconfig(wayland-client)",
+				"pkgconfig(xcb)",
+				"pkgconfig(xcb-randr)",
+				"pkgconfig(xcb-util)"
 			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
@@ -54,10 +60,14 @@
 				"soname(libQt6Core.so.6(x86_64))",
 				"soname(libQt6DBus.so.6(x86_64))",
 				"soname(libQt6Gui.so.6(x86_64))",
+				"soname(libQt6WaylandClient.so.6(x86_64))",
 				"soname(libQt6Widgets.so.6(x86_64))",
 				"soname(libX11.so.6(x86_64))",
 				"soname(libc.so.6(x86_64))",
-				"soname(libstdc++.so.6(x86_64))"
+				"soname(libstdc++.so.6(x86_64))",
+				"soname(libwayland-client.so.0(x86_64))",
+				"soname(libxcb-randr.so.0(x86_64))",
+				"soname(libxcb.so.1(x86_64))"
 			],
 			"files": [
 				"/usr/bin/yakuake",
@@ -266,6 +276,6 @@
 		}
 	},
 	"source-name": "yakuake",
-	"source-release": "17",
-	"source-version": "25.12.3"
+	"source-release": "18",
+	"source-version": "26.04.0"
 }
