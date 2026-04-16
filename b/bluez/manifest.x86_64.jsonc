@@ -39,7 +39,6 @@
 				"/usr/bin/mpris-proxy",
 				"/usr/lib/bluetooth",
 				"/usr/lib/bluez/bluetooth/bluetoothd",
-				"/usr/lib/systemd/system-preset/bluetooth.preset",
 				"/usr/lib/systemd/system/bluetooth.service",
 				"/usr/lib/systemd/user/mpris-proxy.service",
 				"/usr/share/dbus-1/system-services/org.bluez.service",
@@ -292,7 +291,6 @@
 				"/usr/bin/mesh-cfgclient",
 				"/usr/bin/mesh-cfgtest",
 				"/usr/lib/bluez/bluetooth/bluetooth-meshd",
-				"/usr/lib/systemd/system-preset/bluetooth-mesh.preset",
 				"/usr/lib/systemd/system/bluetooth-mesh.service",
 				"/usr/share/dbus-1/system-services/org.bluez.mesh.service",
 				"/usr/share/dbus-1/system.d/bluetooth-mesh.conf",
@@ -333,7 +331,6 @@
 			],
 			"files": [
 				"/usr/lib/bluez/bluetooth/obexd",
-				"/usr/lib/systemd/user-preset/obex.preset",
 				"/usr/lib/systemd/user/dbus-org.bluez.obex.service",
 				"/usr/lib/systemd/user/obex.service",
 				"/usr/share/dbus-1/services/org.bluez.obex.service",
@@ -355,6 +352,6 @@
 		}
 	},
 	"source-name": "bluez",
-	"source-release": "10",
+	"source-release": "11",
 	"source-version": "5.86"
 }

@@ -3,7 +3,7 @@
 
 name        : bluez
 version     : "5.86"
-release     : 10
+release     : 11
 homepage    : https://www.bluez.org/
 upstreams   :
     - https://www.kernel.org/pub/linux/bluetooth/bluez-5.86.tar.xz : 99f144540c6070591e4c53bcb977eb42664c62b7b36cb35a29cf72ded339621d
@@ -59,12 +59,6 @@ install     : |
 
     # Is this actually needed?
     ln -srv %(installroot)%(libdir)/bluez/bluetooth %(installroot)%(libdir)/bluetooth
-
-    # Enable system-wide upon install
-    %install_file %(pkgdir)/bluetooth{,-mesh}.preset -t %(installroot)/%(libdir)/systemd/system-preset
-
-    # Enable at user level
-    %install_file %(pkgdir)/obex.preset -t %(installroot)%(libdir)/systemd/user-preset
 tuning      :
     - lto: full
 packages    :
@@ -119,7 +113,6 @@ packages    :
             - /usr/bin/mesh-*
             - /usr/lib/bluez/bluetooth/bluetooth-meshd
             - /usr/lib/systemd/system/bluetooth-mesh.service
-            - /usr/lib/systemd/system-preset/bluetooth-mesh.preset
             - /usr/share/defaults/bluetooth/mesh-main.conf
             - /usr/share/dbus-1/system-services/org.bluez.mesh.service
             - /usr/share/dbus-1/system.d/bluetooth-mesh.conf
@@ -132,7 +125,6 @@ packages    :
             - "%(name)"
         paths:
             - /usr/lib/bluez/bluetooth/obexd
-            - /usr/lib/systemd/user-preset/obex.preset
             - /usr/lib/systemd/user/obex.service
             - /usr/lib/systemd/user/dbus-org.bluez.obex.service
             - /usr/share/dbus-1/services/org.bluez.obex.service
