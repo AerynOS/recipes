@@ -4,22 +4,22 @@
 	"packages": {
 		"systemd-preset-aeryn": {
 			"files": [
-				"/usr/lib/systemd/system-preset/80-display-manager.conf",
-				"/usr/lib/systemd/system-preset/85-default.conf",
-				"/usr/lib/systemd/system-preset/99-default-disable.conf",
-				"/usr/lib/systemd/user-preset/85-default-user.conf",
-				"/usr/lib/systemd/user-preset/99-default-disable.conf"
+				"/usr/lib/systemd/system-preset/80-display-manager.preset",
+				"/usr/lib/systemd/system-preset/85-default.preset",
+				"/usr/lib/systemd/system-preset/99-default-disable.preset",
+				"/usr/lib/systemd/user-preset/85-default-user.preset",
+				"/usr/lib/systemd/user-preset/99-default-disable.preset"
 			],
 			"name": "systemd-preset-aeryn"
 		},
 		"systemd-preset-aeryn-desktop": {
 			"files": [
-				"/usr/lib/systemd/system-preset/80-desktop.conf"
+				"/usr/lib/systemd/system-preset/80-desktop.preset"
 			],
 			"name": "systemd-preset-aeryn-desktop"
 		}
 	},
 	"source-name": "systemd-preset-aeryn",
-	"source-release": "2",
+	"source-release": "3",
 	"source-version": "2026.03"
 }
