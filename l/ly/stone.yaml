@@ -1,0 +1,54 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : ly
+version     : "1.4.0"
+release     : 1
+homepage    : https://github.com/fairyglade/ly
+upstreams   :
+    - https://github.com/fairyglade/ly/archive/eec83179b93d63b18cb253e1ad8c41d8a9b155d8.tar.gz :
+        hash: db60ef1b6dcbaf60f71afd0ac0c57514f63164f4f3923b297ed42fd0ebc23f55
+        unpackdir: ly
+summary     : TUI display manager
+description : |
+    Ly is a lightweight TUI display manager for Linux.
+license     : WTFPL
+networking  : true
+builddeps   :
+    - binary(zig)
+    - pkgconfig(xcb)
+    - linux-pam-devel
+rundeps     :
+    - linux-pam-libs
+setup       : |
+    zig build -Doptimize=ReleaseSafe --fetch
+build       : |
+    zig build -Doptimize=ReleaseSafe \
+        -Ddest_directory=%(installroot) \
+        -Dprefix_directory=%(prefix) \
+        -Dconfig_directory=%(vendordir) \
+        -Dinit_system=systemd
+install     : |
+    zig build installexe \
+        -Ddest_directory=%(installroot) \
+        -Dprefix_directory=%(prefix) \
+        -Dconfig_directory=%(vendordir) \
+        -Dinit_system=systemd
+
+    # Config files → /usr/share/defaults/ly/
+    %install_dir %(installroot)%(vendordir)/ly/lang
+    install -Dm0644 %(pkgdir)/config.ini %(installroot)%(vendordir)/ly/config.ini
+    install -Dm0755 %(pkgdir)/startup.sh %(installroot)%(vendordir)/ly/startup.sh
+    install -Dm0755 res/setup.sh %(installroot)%(vendordir)/ly/setup.sh
+
+    # tmpfiles.d: ensure /etc/ly/ directory exists at boot
+    install -Dm0644 %(pkgdir)/tmpfiles.d/ly.conf %(installroot)/usr/lib/tmpfiles.d/ly.conf
+    %install_file res/example.dur %(installroot)%(vendordir)/ly/example.dur
+    for lang in res/lang/*; do
+        %install_file $lang %(installroot)%(vendordir)/ly/lang/$(basename $lang)
+    done
+
+    # PAM (AerynOS: /usr/share/defaults/pam.d/)
+    %install_dir %(installroot)%(vendordir)/pam.d
+    %install_file res/pam.d/ly-linux %(installroot)%(vendordir)/pam.d/ly
+    %install_file res/pam.d/ly-linux-autologin %(installroot)%(vendordir)/pam.d/ly-autologin
