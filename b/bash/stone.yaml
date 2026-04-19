@@ -3,7 +3,7 @@
 
 name        : bash
 version     : "5.3.9"
-release     : 30
+release     : 31
 homepage    : http://www.gnu.org/software/bash/bash.html
 upstreams   :
     # Use a mirror because the GNU http server is flaky AF
@@ -74,6 +74,10 @@ install     : |
 
     # These are useless
     rm -rfv %(installroot)%(libdir)/bash/Makefile.*
+
+    # Valid login shells list
+    %install_file %(pkgdir)/shells %(installroot)%(vendordir)/shells
+    %tmpfiles "L /etc/shells - - - - /usr/share/defaults/shells"
 check       : |
     %make check
 workload    : |
