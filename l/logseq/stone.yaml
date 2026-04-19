@@ -1,0 +1,49 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : logseq
+version     : "0.10.15"
+release     : 1
+homepage    : https://logseq.com
+upstreams   :
+    - https://github.com/logseq/logseq/releases/download/0.10.15/Logseq-linux-x64-0.10.15.zip:
+        hash: cfa7afc2d4311efedb1d21508858ebeaff2f3eb896254c2b569a5dc8e2aa3803
+        unpackdir: logseq
+summary     : Privacy-first, open-source knowledge management platform
+description : |
+    A privacy-first, open-source platform for knowledge management and
+    collaboration. Logseq lets you create outlines, notes, and knowledge
+    graphs entirely in plain text files on your local device.
+license     : AGPL-3.0-only
+# Prebuilt Electron/Chromium binaries — stripping corrupts extension
+# signatures and the sandbox. Mirror the vscodium recipe's approach.
+debug       : false
+strip       : false
+builddeps   :
+    - binary(unzip)
+setup       : |
+    :
+build       : |
+    :
+install     : |
+    logseqdir=%(libdir)/%(name)
+
+    # Source tree layout (after bsdtar --strip-components=1): files of
+    # Logseq-linux-x64/ land directly under %(workdir)/logseq/.
+    %install_dir %(installroot)${logseqdir}
+    cp -a . %(installroot)${logseqdir}/
+
+    # Launcher
+    %install_dir %(installroot)%(bindir)
+    %install_exe %(pkgdir)/logseq.sh %(installroot)%(bindir)/logseq
+
+    # Icon
+    %install_dir %(installroot)%(datadir)/icons/hicolor/256x256/apps
+    %install_file resources/app/icons/canary/logseq.png \
+        %(installroot)%(datadir)/icons/hicolor/256x256/apps/logseq.png
+
+    # Desktop entry
+    %install_file %(pkgdir)/logseq.desktop -t %(installroot)%(datadir)/applications/
+
+    # chrome-sandbox must be setuid for Chromium sandboxing to work
+    chmod -c u+s %(installroot)${logseqdir}/chrome-sandbox
