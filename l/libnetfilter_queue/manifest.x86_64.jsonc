@@ -1,0 +1,53 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"libnetfilter_queue": {
+			"build-depends": [
+				"pkgconfig(libmnl)",
+				"pkgconfig(libnfnetlink)"
+			],
+			"depends": [
+				"soname(libc.so.6(x86_64))",
+				"soname(libmnl.so.0(x86_64))",
+				"soname(libnfnetlink.so.0(x86_64))"
+			],
+			"files": [
+				"/usr/lib/libnetfilter_queue.so.1",
+				"/usr/lib/libnetfilter_queue.so.1.5.0"
+			],
+			"name": "libnetfilter_queue",
+			"provides": [
+				"soname(libnetfilter_queue.so.1(x86_64))"
+			]
+		},
+		"libnetfilter_queue-devel": {
+			"build-depends": [
+				"pkgconfig(libmnl)",
+				"pkgconfig(libnfnetlink)"
+			],
+			"depends": [
+				"libnetfilter_queue",
+				"pkgconfig(libnfnetlink)"
+			],
+			"files": [
+				"/usr/include/libnetfilter_queue/libnetfilter_queue.h",
+				"/usr/include/libnetfilter_queue/libnetfilter_queue_ipv4.h",
+				"/usr/include/libnetfilter_queue/libnetfilter_queue_ipv6.h",
+				"/usr/include/libnetfilter_queue/libnetfilter_queue_tcp.h",
+				"/usr/include/libnetfilter_queue/libnetfilter_queue_udp.h",
+				"/usr/include/libnetfilter_queue/linux_nfnetlink_queue.h",
+				"/usr/include/libnetfilter_queue/pktbuff.h",
+				"/usr/lib/libnetfilter_queue.so",
+				"/usr/lib/pkgconfig/libnetfilter_queue.pc"
+			],
+			"name": "libnetfilter_queue-devel",
+			"provides": [
+				"pkgconfig(libnetfilter_queue)"
+			]
+		}
+	},
+	"source-name": "libnetfilter_queue",
+	"source-release": "1",
+	"source-version": "1.0.5"
+}
