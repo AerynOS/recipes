@@ -1,0 +1,42 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : wayvr
+version     : "26.2.1"
+release     : 1
+homepage    : https://wayvr.org/
+upstreams   :
+    - git|https://github.com/wayvr-org/wayvr.git : 1238808d87e136c9b44649f1e9ff00cb58abfad2
+summary     : A lightweight OpenXR/OpenVR overlay for Wayland and X11 desktops
+description : |
+    Your way to enjoy VR on Linux. Run apps inside VR & access your Wayland/X11 screens from Monado/WiVRn/SteamVR.
+license     : GPL-3.0-or-later
+builddeps   :
+    - binary(cmake)
+    - binary(clang)
+    - binary(python3)
+    - pkgconfig(alsa)
+    - pkgconfig(shaderc)
+    - pkgconfig(dbus-1)
+    - pkgconfig(openssl)
+    - pkgconfig(openxr)
+    - pkgconfig(wayland-client)
+    - pkgconfig(x11)
+    - pkgconfig(xext)
+    - pkgconfig(xrandr)
+    - pkgconfig(xkbcommon)
+    - pkgconfig(xkbcommon-x11)
+    - pkgconfig(udev)
+    - pkgconfig(libspa-0.2)
+    - pkgconfig(libpipewire-0.3)
+networking  : true
+setup       : |
+    %cargo_fetch
+build       : |
+    %cargo_build --no-default-features --features=wayland,x11,openxr,pipewire,osc
+install     : |
+    %cargo_install wayvr
+    %cargo_install wayvrctl
+    install -Dm0644 wayvr/wayvr.desktop -t "%(installroot)/usr/share/applications/"
+    install -Dm0644 wayvr/wayvr.png -t "%(installroot)/usr/share/icons/hicolor/128x128/apps/"
+    install -Dm0644 wayvr/wayvr.svg -t "%(installroot)/usr/share/icons/hicolor/scalable/apps/"
