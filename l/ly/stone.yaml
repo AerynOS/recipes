@@ -1,0 +1,50 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : ly
+version     : "1.3.2"
+release     : 1
+homepage    : https://github.com/fairyglade/ly
+upstreams   :
+    - https://codeberg.org/fairyglade/ly/archive/v1.3.2.tar.gz : db069cc2dcacc64b2890552a10ec8547aee4f9b9e5b0bc6b07c3d5d431a757e6
+summary     : TUI display manager
+description : |
+    Ly is a lightweight TUI display manager for Linux.
+license     : WTFPL
+networking  : true
+builddeps   :
+    - binary(zig-0.15)
+    - pkgconfig(xcb)
+    - pkgconfig(pam)
+environment : |
+    _zig=zig-0.15
+build       : |
+    ${_zig} build \
+        --summary all \
+        --verbose \
+        -Doptimize=ReleaseFast \
+        -Dcpu=x86_64_v2 \
+        -Ddest_directory=%(installroot) \
+        -Dprefix_directory=%(prefix) \
+        -Dconfig_directory=%(vendordir) \
+        -Dinit_system=systemd
+install     : |
+    ${_zig} build installexe \
+        -Ddest_directory=%(installroot) \
+        -Dprefix_directory=%(prefix) \
+        -Dconfig_directory=%(vendordir) \
+        -Dinit_system=systemd
+
+    # Config files → /usr/share/defaults/ly/
+    %install_dir %(installroot)%(vendordir)/ly/lang
+    install -Dm0644 %(pkgdir)/config.ini %(installroot)%(vendordir)/ly/config.ini
+    install -Dm0755 %(pkgdir)/startup.sh %(installroot)%(vendordir)/ly/startup.sh
+    install -Dm0755 res/setup.sh %(installroot)%(vendordir)/ly/setup.sh
+
+    %tmpfiles "# Create /etc/ly/ override directory for ly display manager config"
+    %tmpfiles "d /etc/ly 0755 root root -"
+
+    # PAM (AerynOS: /usr/share/defaults/pam.d/)
+    %install_dir %(installroot)%(vendordir)/pam.d
+    %install_file res/pam.d/ly-linux %(installroot)%(vendordir)/pam.d/ly
+    %install_file res/pam.d/ly-linux-autologin %(installroot)%(vendordir)/pam.d/ly-autologin
