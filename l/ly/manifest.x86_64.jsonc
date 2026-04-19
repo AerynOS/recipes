@@ -1,0 +1,66 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"ly": {
+			"build-depends": [
+				"binary(zig)",
+				"linux-pam-devel",
+				"pkgconfig(xcb)"
+			],
+			"depends": [
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"linux-pam-libs",
+				"soname(ld-linux-x86-64.so.2(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libpam.so.0(x86_64))",
+				"soname(libxcb.so.1(x86_64))"
+			],
+			"files": [
+				"/usr/bin/ly",
+				"/usr/lib/systemd/system/ly-kmsconvt@.service",
+				"/usr/lib/systemd/system/ly@.service",
+				"/usr/lib/tmpfiles.d/ly.conf",
+				"/usr/share/defaults/ly/config.ini",
+				"/usr/share/defaults/ly/config.ini.example",
+				"/usr/share/defaults/ly/custom-sessions/README",
+				"/usr/share/defaults/ly/example.dur",
+				"/usr/share/defaults/ly/lang/ar.ini",
+				"/usr/share/defaults/ly/lang/bg.ini",
+				"/usr/share/defaults/ly/lang/cat.ini",
+				"/usr/share/defaults/ly/lang/cs.ini",
+				"/usr/share/defaults/ly/lang/de.ini",
+				"/usr/share/defaults/ly/lang/en.ini",
+				"/usr/share/defaults/ly/lang/eo.ini",
+				"/usr/share/defaults/ly/lang/es.ini",
+				"/usr/share/defaults/ly/lang/fr.ini",
+				"/usr/share/defaults/ly/lang/it.ini",
+				"/usr/share/defaults/ly/lang/ja_JP.ini",
+				"/usr/share/defaults/ly/lang/ku.ini",
+				"/usr/share/defaults/ly/lang/lv.ini",
+				"/usr/share/defaults/ly/lang/normalize_lang_files.py",
+				"/usr/share/defaults/ly/lang/pl.ini",
+				"/usr/share/defaults/ly/lang/pt.ini",
+				"/usr/share/defaults/ly/lang/pt_BR.ini",
+				"/usr/share/defaults/ly/lang/ro.ini",
+				"/usr/share/defaults/ly/lang/ru.ini",
+				"/usr/share/defaults/ly/lang/sr.ini",
+				"/usr/share/defaults/ly/lang/sv.ini",
+				"/usr/share/defaults/ly/lang/tr.ini",
+				"/usr/share/defaults/ly/lang/uk.ini",
+				"/usr/share/defaults/ly/lang/zh_CN.ini",
+				"/usr/share/defaults/ly/setup.sh",
+				"/usr/share/defaults/ly/startup.sh",
+				"/usr/share/defaults/pam.d/ly",
+				"/usr/share/defaults/pam.d/ly-autologin"
+			],
+			"name": "ly",
+			"provides": [
+				"binary(ly)"
+			]
+		}
+	},
+	"source-name": "ly",
+	"source-release": "1",
+	"source-version": "1.4.0"
+}
