@@ -1,0 +1,37 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : envision
+version     : "3.2.0"
+release     : 1
+homepage    : https://gitlab.com/gabmus/envision
+upstreams   :
+    - git|https://gitlab.com/gabmus/envision.git : 0149a82705e97b2f9cdccbc6076b4f213c9dc890
+summary     : Orchestrator for the free XR stack
+description : |
+    Envision is a graphical app that acts as an orchestrator to get a full Monado setup up and running with a few clicks
+license     : AGPL-3.0-or-later
+rundeps     :
+    - monado
+    - wayvr
+builddeps   :
+    - binary(appstreamcli)
+    - binary(cargo)
+    - binary(desktop-file-validate)
+    - binary(glib-compile-resources)
+    - binary(glib-compile-schemas)
+    - binary(msgfmt)
+    - pkgconfig(gio-2.0)
+    - pkgconfig(glib-2.0)
+    - pkgconfig(gtk4)
+    - pkgconfig(libadwaita-1)
+    - pkgconfig(openxr)
+    - pkgconfig(vte-2.91-gtk4)
+networking  : true
+setup       : |
+    %meson \
+      -Dprofile=release
+build       : |
+    %meson_build
+install     : |
+    %meson_install

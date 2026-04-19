@@ -1,0 +1,59 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"envision": {
+			"build-depends": [
+				"binary(appstreamcli)",
+				"binary(cargo)",
+				"binary(desktop-file-validate)",
+				"binary(glib-compile-resources)",
+				"binary(glib-compile-schemas)",
+				"binary(msgfmt)",
+				"pkgconfig(gio-2.0)",
+				"pkgconfig(glib-2.0)",
+				"pkgconfig(gtk4)",
+				"pkgconfig(libadwaita-1)",
+				"pkgconfig(openxr)",
+				"pkgconfig(vte-2.91-gtk4)"
+			],
+			"depends": [
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"monado",
+				"soname(ld-linux-x86-64.so.2(x86_64))",
+				"soname(libadwaita-1.so.0(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libcrypto.so.3(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libgio-2.0.so.0(x86_64))",
+				"soname(libglib-2.0.so.0(x86_64))",
+				"soname(libgobject-2.0.so.0(x86_64))",
+				"soname(libgtk-4.so.1(x86_64))",
+				"soname(libm.so.6(x86_64))",
+				"soname(libopenxr_loader.so.1(x86_64))",
+				"soname(libpango-1.0.so.0(x86_64))",
+				"soname(libssl.so.3(x86_64))",
+				"soname(libudev.so.1(x86_64))",
+				"soname(libvte-2.91-gtk4.so.0(x86_64))",
+				"soname(libz.so.1(x86_64))"
+			],
+			"files": [
+				"/usr/bin/envision",
+				"/usr/share/applications/org.gabmus.envision.desktop",
+				"/usr/share/envision/resources.gresource",
+				"/usr/share/envision/scripts/_clone_or_pull.sh",
+				"/usr/share/envision/scripts/build_mercury.sh",
+				"/usr/share/icons/hicolor/scalable/apps/org.gabmus.envision.svg",
+				"/usr/share/icons/hicolor/symbolic/apps/org.gabmus.envision-symbolic.svg",
+				"/usr/share/metainfo/org.gabmus.envision.appdata.xml"
+			],
+			"name": "envision",
+			"provides": [
+				"binary(envision)"
+			]
+		}
+	},
+	"source-name": "envision",
+	"source-release": "1",
+	"source-version": "3.2.0"
+}
