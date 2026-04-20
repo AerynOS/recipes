@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : gtk-4
-version     : "4.22.2"
-release     : 34
+version     : "4.22.3"
+release     : 35
 homepage    : https://www.gtk.org/
 upstreams   :
-    - https://download.gnome.org/sources/gtk/4.22/gtk-4.22.2.tar.xz : b1c987370a0c30780cde351bdbee02eef816728f1c1c2ec7c8093281c0709ee8
+    - https://download.gnome.org/sources/gtk/4.22/gtk-4.22.3.tar.xz : 0145a4a243b283303d90bdfd2d8a0c6b9106b880390b63c161d9505672f9df38
 summary     : The GTK 4 libraries for developing user interfaces
 description : |
     The GTK 4 libraries are used for developing user interfaces
@@ -58,6 +58,7 @@ setup       : |
     # https://gitlab.gnome.org/GNOME/glib/-/issues/1833
     export CFLAGS+=" -DG_DISABLE_CAST_CHECKS -DG_DISABLE_ASSERT"
 
+    # Broadway?
     %meson \
         -Dcloudproviders=enabled \
         -Dcolord=enabled \
