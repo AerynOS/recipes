@@ -2,12 +2,12 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : intel-graphics-compiler
-version     : "2.30.1"
-release     : 3
+version     : "2.32.7"
+release     : 4
 homepage    : https://github.com/intel/intel-graphics-compiler
 upstreams   :
-    - https://github.com/intel/intel-graphics-compiler/archive/refs/tags/v2.30.1.tar.gz :
-        hash: 4e5f46b20ec5c055f3cbfed16cfa9739b67f0d05786d736f3d10b09b11b171a3
+    - https://github.com/intel/intel-graphics-compiler/archive/refs/tags/v2.32.7.tar.gz :
+        hash: 6309d5d00711fcdb712049c0a56546369ace316f9547b4715747cc687ebcada2
         rename: igc
     - https://github.com/intel/vc-intrinsics/archive/refs/tags/v0.25.0.tar.gz :
         hash: 83d6e0528feb6a47f7818e7c1dd3305dd8a48fb1103d279571dad517a93a8d39
@@ -16,10 +16,10 @@ upstreams   :
         hash: ce5e71081d17ce9e86d7cbcfa28c4b04b9300f8fb7e78422b1feb6bc52c3028e
         rename: llvm-project
     - git|https://github.com/intel/opencl-clang.git :
-        ref: 7161d7c6d97da80f12739cebad9bf508555bbfd9
+        ref: 897ba7f885fe34c9ae9818f205e67f7b0a8628c0
         unpackdir: llvm-project/llvm/projects/opencl-clang
     - git|https://github.com/KhronosGroup/SPIRV-LLVM-Translator.git :
-        ref: de396f26ade6b0ac1f0f367b741dd5c78a76a2d9
+        ref: 5ce79a51725fdca7f12045a51c01956663b4cec8
         unpackdir: llvm-project/llvm/projects/llvm-spirv
 summary     : Intel Graphics Compiler for OpenCL
 description : |
