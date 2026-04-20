@@ -2,26 +2,28 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : jemalloc
-version     : "5.3.0"
-release     : 4
+version     : "5.3.1"
+release     : 5
 upstreams   :
-    - https://github.com/jemalloc/jemalloc/releases/download/5.3.0/jemalloc-5.3.0.tar.bz2: 2db82d1e7119df3e71b7640219b6dfe84789bc0537983c3b7ac4f7189aecfeaa
+    - https://github.com/jemalloc/jemalloc/releases/download/5.3.1/jemalloc-5.3.1.tar.bz2: 3826bc80232f22ed5c4662f3034f799ca316e819103bdc7bb99018a421706f92
 homepage    : https://jemalloc.net/
 license     : BSD-2-Clause
 summary     : jemalloc is a general purpose malloc(3) implementation that emphasizes fragmentation avoidance and scalable concurrency support.
 description : |
     jemalloc is a general purpose malloc(3) implementation that emphasizes fragmentation avoidance and scalable concurrency support.
+builddeps   :
+    - binary(xsltproc)
 setup       : |
     # Note: We need static libjemalloc for rust
     %configure \
-               --disable-fill
+        --disable-fill
 build       : |
     %make
 install     : |
     %make_install
 tuning      :
     - icf: all
-    - lto
+    - lto: full
     - nosemantic
     - symbolic
 packages    :
