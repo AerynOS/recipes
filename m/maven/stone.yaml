@@ -2,18 +2,18 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : maven
-version     : 3.9.14
-release     : 1
+version     : 3.9.15
+release     : 2
 homepage    : https://maven.apache.org
 upstreams   :
-    - https://dlcdn.apache.org/maven/maven-3/3.9.14/source/apache-maven-3.9.14-src.tar.gz:
-        hash: 09cc6ae6fd22c16f3fbb6bf4d730ad02eb53e78a3af35fd45a77cdf369853e7a
+    - https://dlcdn.apache.org/maven/maven-3/3.9.15/source/apache-maven-3.9.15-src.tar.gz:
+        hash: 1a6dcd849a3eefdd975ca0ce8f00f2778b892136352680e78573a0a1280728da
         unpackdir: "maven"
 
     # Comment out this section if bootstrapping isn't necessary
-    - https://dlcdn.apache.org/maven/maven-3/3.9.14/binaries/apache-maven-3.9.14-bin.tar.gz :
-        hash: 126ed3233e569bd0add9e889d226139acd3de9005876a01fe6108fbf4246f515
-        unpackdir: "maven/bootstrap"
+    # - https://dlcdn.apache.org/maven/maven-3/3.9.14/binaries/apache-maven-3.9.14-bin.tar.gz :
+    #     hash: 126ed3233e569bd0add9e889d226139acd3de9005876a01fe6108fbf4246f515
+    #     unpackdir: "maven/bootstrap"
 summary     : Build automation tool for Java Projects
 description : |
     Apache Maven is a build tool for Java projects. Using a project object model (POM), Maven manages a project's compilation, testing, and documentation.
@@ -21,6 +21,7 @@ license     : Apache-2.0
 networking  : true
 builddeps   :
     - binary(java-21)
+    - binary(mvn)
     - binary(tar)
 rundeps     :
     - binary(java-21)
@@ -36,9 +37,15 @@ environment : |
 setup       : |
     mvn dependency:go-offline
 build       : |
-    mvn compile -DdistributionTargetDir="%(installroot)${_maven_dir}" -Drat.skip=true -DskipTests
+    mvn compile \
+        -DdistributionTargetDir="%(installroot)${_maven_dir}" \
+        -Drat.skip=true \
+        -DskipTests
 install     : |
-    mvn install javadoc:aggregate -DdistributionTargetDir="%(installroot)${_maven_dir}" -Drat.skip=true -DskipTests
+    mvn install javadoc:aggregate \
+        -DdistributionTargetDir="%(installroot)${_maven_dir}" \
+        -Drat.skip=true \
+        -DskipTests
 
     %install_dir %(installroot)/usr/bin
     ln -srv %(installroot)${_maven_dir}/bin/mvn %(installroot)%(bindir)/mvn
