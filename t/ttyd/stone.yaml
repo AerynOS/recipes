@@ -3,7 +3,7 @@
 
 name        : ttyd
 version     : "1.7.7"
-release     : 2
+release     : 3
 homepage    : https://github.com/tsl0922/ttyd
 upstreams   :
     - https://github.com/tsl0922/ttyd/archive/refs/tags/1.7.7.tar.gz : 039dd995229377caee919898b7bd54484accec3bba49c118e2d5cd6ec51e3650
@@ -20,9 +20,9 @@ builddeps   :
     - pkgconfig(libwebsockets)
     - pkgconfig(openssl)
     - pkgconfig(zlib)
-rundeps     :
-    - libwebsockets
 setup       : |
+    %patch %(pkgdir)/cmake-websockets.patch -p0
+
     %cmake
 build       : |
     %cmake_build
