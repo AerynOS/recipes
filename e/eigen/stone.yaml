@@ -1,0 +1,21 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : eigen
+version     : "5.0.1"
+release     : 1
+homepage    : https://gitlab.com/libeigen/eigen
+upstreams   :
+    - https://gitlab.com/libeigen/eigen/-/archive/5.0.1/eigen-5.0.1.tar.gz : e9c326dc8c05cd1e044c71f30f1b2e34a6161a3b6ecf445d56b53ff1669e3dec
+summary     : C++ template library for linear algebra
+description : |
+    Eigen is a C++ template library for linear algebra: matrices, vectors, numerical solvers, and related algorithms.
+license     : MPL-2.0
+builddeps   :
+    - suitesparse-devel
+setup       : |
+    %cmake
+build       : |
+    %cmake_build
+install     : |
+    %cmake_install
