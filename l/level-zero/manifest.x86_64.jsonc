@@ -4,6 +4,7 @@
 	"packages": {
 		"level-zero": {
 			"build-depends": [
+				"cmake(GTest)",
 				"cmake(spdlog)",
 				"pkgconfig(OpenCL-Headers)"
 			],
@@ -16,11 +17,11 @@
 			],
 			"files": [
 				"/usr/lib/libze_loader.so.1",
-				"/usr/lib/libze_loader.so.1.28.0",
+				"/usr/lib/libze_loader.so.1.28.2",
 				"/usr/lib/libze_tracing_layer.so.1",
-				"/usr/lib/libze_tracing_layer.so.1.28.0",
+				"/usr/lib/libze_tracing_layer.so.1.28.2",
 				"/usr/lib/libze_validation_layer.so.1",
-				"/usr/lib/libze_validation_layer.so.1.28.0"
+				"/usr/lib/libze_validation_layer.so.1.28.2"
 			],
 			"name": "level-zero",
 			"provides": [
@@ -31,6 +32,7 @@
 		},
 		"level-zero-devel": {
 			"build-depends": [
+				"cmake(GTest)",
 				"cmake(spdlog)",
 				"pkgconfig(OpenCL-Headers)"
 			],
@@ -65,6 +67,6 @@
 		}
 	},
 	"source-name": "level-zero",
-	"source-release": "1",
-	"source-version": "1.28.0"
+	"source-release": "2",
+	"source-version": "1.28.2"
 }

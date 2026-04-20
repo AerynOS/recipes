@@ -1,0 +1,119 @@
+From b62852e90dfd0e7e388c2141a8495b9b42eafd76 Mon Sep 17 00:00:00 2001
+From: "Neil R. Spruit" <neil.r.spruit@intel.com>
+Date: Wed, 8 Apr 2026 12:42:51 -0700
+Subject: [PATCH] Ignore clang build warning given empty tracer params (#438)
+
+Signed-off-by: Neil R. Spruit <neil.r.spruit@intel.com>
+---
+ .github/workflows/build-clang.yml            | 43 ++++++++++++++++++++
+ include/layers/zel_tracing_register_cb.h     |  7 ++++
+ scripts/templates/tracing/trc_setters.h.mako | 15 ++++++-
+ 3 files changed, 64 insertions(+), 1 deletion(-)
+ create mode 100644 .github/workflows/build-clang.yml
+
+diff --git a/.github/workflows/build-clang.yml b/.github/workflows/build-clang.yml
+new file mode 100644
+index 00000000..03360f79
+--- /dev/null
++++ b/.github/workflows/build-clang.yml
+@@ -0,0 +1,43 @@
++on:
++  push:
++    branches: [ master,release_branch* ]
++  pull_request:
++    branches: [ master,release_branch* ]
++  workflow_dispatch:
++
++permissions: read-all
++
++jobs:
++  build-clang-linux:
++    if: github.repository_owner == 'oneapi-src'
++    runs-on: ubuntu-latest
++    strategy:
++      fail-fast: false
++      matrix:
++        container:
++          - ubuntu:22.04
++          - ubuntu:24.04
++        build_type:
++          - static
++          - dynamic
++    container:
++      image: ${{ matrix.container }}
++    steps:
++      - name: Install dependencies
++        run: |
++          apt-get update
++          apt-get install -y clang cmake make git
++      - uses: actions/checkout@v4
++      - name: Build Loader (${{ matrix.build_type }}) with Clang on ${{ matrix.container }}
++        run: |
++          mkdir build
++          cd build
++          cmake \
++            -D CMAKE_C_COMPILER=clang \
++            -D CMAKE_CXX_COMPILER=clang++ \
++            -D CMAKE_BUILD_TYPE=Release \
++            -D BUILD_L0_LOADER_TESTS=1 \
++            -D INSTALL_NULL_DRIVER=1 \
++            -D BUILD_STATIC=${{ matrix.build_type == 'static' && '1' || '0' }} \
++            ..
++          cmake --build . --config Release
+diff --git a/include/layers/zel_tracing_register_cb.h b/include/layers/zel_tracing_register_cb.h
+index d76d77fd..b9b975c2 100644
+--- a/include/layers/zel_tracing_register_cb.h
++++ b/include/layers/zel_tracing_register_cb.h
+@@ -2726,9 +2726,16 @@ typedef void (ZE_APICALL *zer_pfnTranslateIdentifierToDeviceHandleCb_t)(
+ /// @details Each entry is a pointer to the parameter passed to the function;
+ ///     allowing the callback the ability to modify the parameter's value
+ 
++#ifdef __clang__
++#pragma clang diagnostic push
++#pragma clang diagnostic ignored "-Wextern-c-compat"
++#endif
+ typedef struct _zer_get_default_context_params_t
+ {
+ } zer_get_default_context_params_t;
++#ifdef __clang__
++#pragma clang diagnostic pop
++#endif
+ 
+ 
+ ///////////////////////////////////////////////////////////////////////////////
+diff --git a/scripts/templates/tracing/trc_setters.h.mako b/scripts/templates/tracing/trc_setters.h.mako
+index e05bffcb..94e0ed3d 100644
+--- a/scripts/templates/tracing/trc_setters.h.mako
++++ b/scripts/templates/tracing/trc_setters.h.mako
+@@ -44,17 +44,30 @@ typedef struct _zel_tracer_handle_t *zel_tracer_handle_t;
+ %for obj in tbl['functions']:
+ <%
+     ret_type = obj['return_type']
++    params_list = th.make_param_lines(n, tags, obj, format=["type*", "name"])
++    is_void_params = len(params_list) == 0
+ %>///////////////////////////////////////////////////////////////////////////////
+ /// @brief Callback function parameters for ${th.make_func_name(n, tags, obj)}
+ /// @details Each entry is a pointer to the parameter passed to the function;
+ ///     allowing the callback the ability to modify the parameter's value
+ 
++%if is_void_params:
++#ifdef __clang__
++#pragma clang diagnostic push
++#pragma clang diagnostic ignored "-Wextern-c-compat"
++#endif
++%endif
+ typedef struct _${th.make_pfncb_param_type(n, tags, obj)}
+ {
+-    %for line in th.make_param_lines(n, tags, obj, format=["type*", "name"]):
++    %for line in params_list:
+     ${line};
+     %endfor
+ } ${th.make_pfncb_param_type(n, tags, obj)};
++%if is_void_params:
++#ifdef __clang__
++#pragma clang diagnostic pop
++#endif
++%endif
+ 
+ 
+ ///////////////////////////////////////////////////////////////////////////////
