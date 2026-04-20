@@ -11,6 +11,7 @@
 				"pkgconfig(libbrotlidec)",
 				"pkgconfig(libcares)",
 				"pkgconfig(libevent)",
+				"pkgconfig(libnghttp3)",
 				"pkgconfig(libxml-2.0)",
 				"pkgconfig(openssl)",
 				"pkgconfig(systemd)"
@@ -48,6 +49,7 @@
 				"pkgconfig(libbrotlidec)",
 				"pkgconfig(libcares)",
 				"pkgconfig(libevent)",
+				"pkgconfig(libnghttp3)",
 				"pkgconfig(libxml-2.0)",
 				"pkgconfig(openssl)",
 				"pkgconfig(systemd)"
@@ -58,7 +60,7 @@
 			],
 			"files": [
 				"/usr/lib32/libnghttp2.so.14",
-				"/usr/lib32/libnghttp2.so.14.29.3"
+				"/usr/lib32/libnghttp2.so.14.29.4"
 			],
 			"name": "nghttp2-32bit",
 			"provides": [
@@ -74,6 +76,7 @@
 				"pkgconfig(libbrotlidec)",
 				"pkgconfig(libcares)",
 				"pkgconfig(libevent)",
+				"pkgconfig(libnghttp3)",
 				"pkgconfig(libxml-2.0)",
 				"pkgconfig(openssl)",
 				"pkgconfig(systemd)"
@@ -83,11 +86,16 @@
 				"nghttp2-devel"
 			],
 			"files": [
+				"/usr/lib32/cmake/nghttp2/nghttp2Config.cmake",
+				"/usr/lib32/cmake/nghttp2/nghttp2ConfigVersion.cmake",
+				"/usr/lib32/cmake/nghttp2/nghttp2Targets-release.cmake",
+				"/usr/lib32/cmake/nghttp2/nghttp2Targets.cmake",
 				"/usr/lib32/libnghttp2.so",
 				"/usr/lib32/pkgconfig/libnghttp2.pc"
 			],
 			"name": "nghttp2-32bit-devel",
 			"provides": [
+				"cmake(nghttp2)",
 				"pkgconfig32(libnghttp2)"
 			]
 		},
@@ -100,6 +108,7 @@
 				"pkgconfig(libbrotlidec)",
 				"pkgconfig(libcares)",
 				"pkgconfig(libevent)",
+				"pkgconfig(libnghttp3)",
 				"pkgconfig(libxml-2.0)",
 				"pkgconfig(openssl)",
 				"pkgconfig(systemd)"
@@ -132,6 +141,7 @@
 				"pkgconfig(libbrotlidec)",
 				"pkgconfig(libcares)",
 				"pkgconfig(libevent)",
+				"pkgconfig(libnghttp3)",
 				"pkgconfig(libxml-2.0)",
 				"pkgconfig(openssl)",
 				"pkgconfig(systemd)"
@@ -141,7 +151,7 @@
 			],
 			"files": [
 				"/usr/lib/libnghttp2.so.14",
-				"/usr/lib/libnghttp2.so.14.29.3"
+				"/usr/lib/libnghttp2.so.14.29.4"
 			],
 			"name": "nghttp2-libs",
 			"provides": [
@@ -150,6 +160,6 @@
 		}
 	},
 	"source-name": "nghttp2",
-	"source-release": "14",
-	"source-version": "1.68.1"
+	"source-release": "15",
+	"source-version": "1.69.0"
 }
