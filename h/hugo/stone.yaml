@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : hugo
-version     : "0.159.1"
-release     : 6
+version     : "0.160.1"
+release     : 7
 homepage    : https://gohugo.io/
 upstreams   :
-    - https://github.com/gohugoio/hugo/archive/refs/tags/v0.159.1.tar.gz : 4a32bf9e896fb6575aec409d5e2d3988841f593cd91d77276abeb3b5a125794c
+    - https://github.com/gohugoio/hugo/archive/refs/tags/v0.160.1.tar.gz : aaab9991fcc691aba35f8702c3cec65e2ba074408de70a9f66f7b868c28b8cdf
 summary     : Fast and flexible static site generator written in Go
 description : |
     Hugo is a fast and flexible static site generator written in Go
@@ -19,7 +19,7 @@ builddeps   :
 setup       : |
     go mod download
 build       : |
-    export CGO_CPPFLAGS="${CPPFLAGS}"
+    # export CGO_CPPFLAGS="${CPPFLAGS}"
     export CGO_CFLAGS="${CFLAGS}"
     export CGO_CXXFLAGS="${CXXFLAGS}"
     export CGO_LDFLAGS="${LDFLAGS}"
