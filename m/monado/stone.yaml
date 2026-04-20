@@ -1,0 +1,70 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : monado
+version     : "25.1.0"
+release     : 1
+homepage    : https://gitlab.freedesktop.org/monado/monado
+upstreams   :
+    - git|https://gitlab.freedesktop.org/monado/monado.git : c32301dd1a6784d90c1375b7f9b895606bea6a4e
+summary     : The open source XR runtime
+description : |
+    Monado is an open source XR runtime delivering immersive experiences such as VR and AR on mobile, PC/desktop,
+    and any other device (because gosh darn people come up with a lot of weird hardware).
+    Monado aims to be a complete and conforming implementation of the OpenXR API made by Khronos.
+    The project is primarily developed on GNU/Linux, but also runs on Android and Windows.
+    "Monado" has no specific meaning and is just a name.
+license     : BSL-1.0
+rundeps     :
+    - xrizer
+    - xr-hardware
+builddeps   :
+    - binary(glslangValidator)
+    - pkgconfig(bluez)
+    - pkgconfig(dbus-1)
+    - pkgconfig(egl)
+    - pkgconfig(eigen3)
+    - pkgconfig(gl)
+    - pkgconfig(gstreamer-1.0)
+    - pkgconfig(gstreamer-app-1.0)
+    - pkgconfig(gstreamer-video-1.0)
+    - pkgconfig(hidapi-libusb)
+    - pkgconfig(libavcodec)
+    - pkgconfig(libbsd)
+    - pkgconfig(libcap)
+    - pkgconfig(libdrm)
+    - pkgconfig(libjpeg)
+    - pkgconfig(libusb-1.0)
+    - pkgconfig(libv4l2)
+    - pkgconfig(libglvnd)
+    - pkgconfig(python3)
+    - pkgconfig(sdl2)
+    - pkgconfig(shaderc)
+    - pkgconfig(SPIRV-Tools)
+    - pkgconfig(udev)
+    - pkgconfig(vulkan)
+    - pkgconfig(wayland-egl)
+    - pkgconfig(wayland-client)
+    - pkgconfig(wayland-protocols)
+    - pkgconfig(wayland-scanner)
+    - pkgconfig(x11)
+    - pkgconfig(xrandr)
+    - pkgconfig(zlib)
+    # - pkgconfig(LeapSDK)
+    # - pkgconfig(LeapV2)
+    # - pkgconfig(ONNXRuntime)
+    # - pkgconfig(OpenHMD)
+    # - pkgconfig(Percetto)
+    # - pkgconfig(depthai)
+    # - pkgconfig(opencv4)
+    # - pkgconfig(realsense2)
+setup       : |
+    %cmake
+build       : |
+    %cmake_build
+install     : |
+    %cmake_install
+paths:
+    - /usr/include/monado/monado.h
+    - /usr/lib/libmonado.so
+    - /usr/lib/libopenxr_monado.so

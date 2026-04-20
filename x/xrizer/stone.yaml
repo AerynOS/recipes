@@ -1,0 +1,28 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : xrizer
+version     : "0.5"
+release     : 1
+homepage    : https://github.com/Supreeeme/xrizer
+upstreams   :
+    - git|https://github.com/Supreeeme/xrizer.git : dd7f12103ed27359a60f0ce8c00c8db1dc22099e
+summary     : XR-ize your favorite OpenVR games
+description : |
+    xrizer is a reimplementation of OpenVR on top of OpenXR. This enables you to run OpenVR games through any OpenXR runtime without running SteamVR.
+license     : GPL-3.0-or-later
+builddeps   :
+    - binary(cmake)
+    - binary(glslc)
+    - binary(make)
+    - binary(python3)
+    - pkgconfig(x11)
+    - pkgconfig(wayland-client)
+networking  : true
+setup       : |
+    %cargo_fetch
+build       : |
+    %cargo_build
+install     : |
+    install -Dm00755 target/x86_64-unknown-linux-gnu/release/libxrizer.so \
+      /mason/install/usr/lib/xrizer/bin/linux64/vrclient.so
