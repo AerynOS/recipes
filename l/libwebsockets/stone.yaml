@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : libwebsockets
-version     : "4.5.5"
-release     : 6
+version     : "4.5.8"
+release     : 7
 homepage    : https://github.com/warmcat/libwebsockets
 upstreams   :
-    - https://github.com/warmcat/libwebsockets/archive/refs/tags/v4.5.5.tar.gz : 150ff2ff3222d94c141ad0dd2fe3b9daeae14afc460a536db2fd3137a0a381a3
+    - https://github.com/warmcat/libwebsockets/archive/refs/tags/v4.5.8.tar.gz : b6ade658f4af3a823d0dc806ae5ef0623f0f4f5e2aeb895a0f77c4783840c30e
 summary     : Lightweight C networking library
 description : |
     Libwebsockets (LWS) is a flexible, lightweight pure C library for implementing modern network protocols easily with a tiny footprint, using a nonblocking event loop.
@@ -19,15 +19,27 @@ license     :
     - OFL-1.1
     - Zlib
 builddeps   :
+    - pkgconfig(glib-2.0)
     - pkgconfig(libuv)
     - pkgconfig(openssl)
     - pkgconfig(zlib)
+    # libev
 setup       : |
     # Ensure openssl.cnf can be found in %(vendordir)
     %patch %(pkgdir)/stateless-openssl.cnf-location.patch
 
     %cmake \
-        -DLWS_WITH_LIBUV=ON
+        -DLWS_WITH_GLIB=ON \
+        -DLWS_WITH_LIBUV=ON \
+        -DLWS_LINK_TESTAPPS_DYNAMIC=ON \
+        -DLWS_USE_BUNDLED_ZLIB=OFF \
+        -DLWS_WITHOUT_CLIENT=OFF \
+        -DLWS_WITHOUT_SERVER=OFF \
+        -DLWS_WITHOUT_TEST_CLIENT=ON \
+        -DLWS_WITHOUT_TEST_PING=ON \
+        -DLWS_WITHOUT_TEST_SERVER_EXTPOLL=ON \
+        -DLWS_WITHOUT_TEST_SERVER=ON \
+        -DLWS_WITHOUT_TESTAPPS=ON
 build       : |
     %cmake_build
 install     : |
@@ -36,4 +48,4 @@ packages:
     - "%(name)":
         paths:
             # This is not a development library
-            - /usr/lib/libwebsockets-evlib_uv.so
+            - /usr/lib/libwebsockets-evlib_*.so

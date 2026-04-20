@@ -4,59 +4,40 @@
 	"packages": {
 		"libwebsockets": {
 			"build-depends": [
+				"pkgconfig(glib-2.0)",
 				"pkgconfig(libuv)",
 				"pkgconfig(openssl)",
 				"pkgconfig(zlib)"
 			],
 			"depends": [
-				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libcrypto.so.3(x86_64))",
+				"soname(libglib-2.0.so.0(x86_64))",
 				"soname(libssl.so.3(x86_64))",
 				"soname(libuv.so.1(x86_64))"
 			],
 			"files": [
-				"/usr/bin/libwebsockets-test-client",
-				"/usr/bin/libwebsockets-test-lejp",
-				"/usr/bin/libwebsockets-test-server",
-				"/usr/bin/libwebsockets-test-server-extpoll",
+				"/usr/lib/libwebsockets-evlib_glib.so",
 				"/usr/lib/libwebsockets-evlib_uv.so",
-				"/usr/lib/libwebsockets.so.21",
-				"/usr/share/libwebsockets-test-server/candide-uncompressed.zip",
-				"/usr/share/libwebsockets-test-server/candide.zip",
-				"/usr/share/libwebsockets-test-server/favicon.ico",
-				"/usr/share/libwebsockets-test-server/http2.png",
-				"/usr/share/libwebsockets-test-server/leaf.jpg",
-				"/usr/share/libwebsockets-test-server/libwebsockets-test-server.key.pem",
-				"/usr/share/libwebsockets-test-server/libwebsockets-test-server.pem",
-				"/usr/share/libwebsockets-test-server/libwebsockets.org-logo.svg",
-				"/usr/share/libwebsockets-test-server/lws-common.js",
-				"/usr/share/libwebsockets-test-server/lws-ssh-test-keys",
-				"/usr/share/libwebsockets-test-server/lws-ssh-test-keys.pub",
-				"/usr/share/libwebsockets-test-server/private/index.html",
-				"/usr/share/libwebsockets-test-server/test.css",
-				"/usr/share/libwebsockets-test-server/test.html",
-				"/usr/share/libwebsockets-test-server/test.js",
-				"/usr/share/libwebsockets-test-server/wss-over-h2.png"
+				"/usr/lib/libwebsockets.so.21"
 			],
 			"name": "libwebsockets",
 			"provides": [
-				"binary(libwebsockets-test-client)",
-				"binary(libwebsockets-test-lejp)",
-				"binary(libwebsockets-test-server)",
-				"binary(libwebsockets-test-server-extpoll)",
+				"soname(libwebsockets-evlib_glib.so(x86_64))",
 				"soname(libwebsockets-evlib_uv.so(x86_64))",
 				"soname(libwebsockets.so.21(x86_64))"
 			]
 		},
 		"libwebsockets-devel": {
 			"build-depends": [
+				"pkgconfig(glib-2.0)",
 				"pkgconfig(libuv)",
 				"pkgconfig(openssl)",
 				"pkgconfig(zlib)"
 			],
 			"depends": [
-				"libwebsockets"
+				"libwebsockets",
+				"pkgconfig(libsystemd)"
 			],
 			"files": [
 				"/usr/include/libwebsockets.h",
@@ -169,6 +150,6 @@
 		}
 	},
 	"source-name": "libwebsockets",
-	"source-release": "6",
-	"source-version": "4.5.5"
+	"source-release": "7",
+	"source-version": "4.5.8"
 }
