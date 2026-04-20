@@ -3,7 +3,7 @@
 
 name        : libdrm
 version     : "2.4.131"
-release     : 15
+release     : 16
 homepage    : https://gitlab.freedesktop.org/mesa/drm
 upstreams   :
     - https://dri.freedesktop.org/libdrm/libdrm-2.4.131.tar.xz : 45ba9983b51c896406a3d654de81d313b953b76e6391e2797073d543c5f617d5
@@ -23,3 +23,12 @@ build       : |
     %meson_build
 install     : |
     %meson_install
+packages    :
+    - "%(name)":
+        paths:
+            # DLopened by SteamVR
+            - /usr/lib/libdrm*.so
+
+    - "%(name)-32bit":
+        paths:
+            - /usr/lib32/libdrm*.so

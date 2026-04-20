@@ -13,14 +13,19 @@
 				"soname(libpciaccess.so.0(x86_64))"
 			],
 			"files": [
+				"/usr/lib/libdrm.so",
 				"/usr/lib/libdrm.so.2",
 				"/usr/lib/libdrm.so.2.131.0",
+				"/usr/lib/libdrm_amdgpu.so",
 				"/usr/lib/libdrm_amdgpu.so.1",
 				"/usr/lib/libdrm_amdgpu.so.1.131.0",
+				"/usr/lib/libdrm_intel.so",
 				"/usr/lib/libdrm_intel.so.1",
 				"/usr/lib/libdrm_intel.so.1.131.0",
+				"/usr/lib/libdrm_nouveau.so",
 				"/usr/lib/libdrm_nouveau.so.2",
 				"/usr/lib/libdrm_nouveau.so.2.131.0",
+				"/usr/lib/libdrm_radeon.so",
 				"/usr/lib/libdrm_radeon.so.1",
 				"/usr/lib/libdrm_radeon.so.1.131.0",
 				"/usr/share/libdrm/amdgpu.ids",
@@ -50,14 +55,19 @@
 				"soname(libpciaccess.so.0(386))"
 			],
 			"files": [
+				"/usr/lib32/libdrm.so",
 				"/usr/lib32/libdrm.so.2",
 				"/usr/lib32/libdrm.so.2.131.0",
+				"/usr/lib32/libdrm_amdgpu.so",
 				"/usr/lib32/libdrm_amdgpu.so.1",
 				"/usr/lib32/libdrm_amdgpu.so.1.131.0",
+				"/usr/lib32/libdrm_intel.so",
 				"/usr/lib32/libdrm_intel.so.1",
 				"/usr/lib32/libdrm_intel.so.1.131.0",
+				"/usr/lib32/libdrm_nouveau.so",
 				"/usr/lib32/libdrm_nouveau.so.2",
 				"/usr/lib32/libdrm_nouveau.so.2.131.0",
+				"/usr/lib32/libdrm_radeon.so",
 				"/usr/lib32/libdrm_radeon.so.1",
 				"/usr/lib32/libdrm_radeon.so.1.131.0"
 			],
@@ -82,11 +92,6 @@
 				"pkgconfig32(pciaccess)"
 			],
 			"files": [
-				"/usr/lib32/libdrm.so",
-				"/usr/lib32/libdrm_amdgpu.so",
-				"/usr/lib32/libdrm_intel.so",
-				"/usr/lib32/libdrm_nouveau.so",
-				"/usr/lib32/libdrm_radeon.so",
 				"/usr/lib32/pkgconfig/libdrm.pc",
 				"/usr/lib32/pkgconfig/libdrm_amdgpu.pc",
 				"/usr/lib32/pkgconfig/libdrm_intel.pc",
@@ -156,11 +161,6 @@
 				"/usr/include/libsync.h",
 				"/usr/include/xf86drm.h",
 				"/usr/include/xf86drmMode.h",
-				"/usr/lib/libdrm.so",
-				"/usr/lib/libdrm_amdgpu.so",
-				"/usr/lib/libdrm_intel.so",
-				"/usr/lib/libdrm_nouveau.so",
-				"/usr/lib/libdrm_radeon.so",
 				"/usr/lib/pkgconfig/libdrm.pc",
 				"/usr/lib/pkgconfig/libdrm_amdgpu.pc",
 				"/usr/lib/pkgconfig/libdrm_intel.pc",
@@ -181,6 +181,6 @@
 		}
 	},
 	"source-name": "libdrm",
-	"source-release": "15",
+	"source-release": "16",
 	"source-version": "2.4.131"
 }
