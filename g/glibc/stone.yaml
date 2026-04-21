@@ -2,8 +2,8 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : glibc
-version     : "2.43+git.ce1013a1"
-release     : 36
+version     : "2.43+git.8362e8ce"
+release     : 37
 summary     : The GNU libc libraries
 license     :
     - GPL-2.0-or-later
@@ -14,7 +14,7 @@ description : |
     The GNU libc libraries
 upstreams   :
     - git|https://sourceware.org/git/glibc.git :
-        ref : ce1013a197eb4a3b8ff2b07e0672f4d0b976ce7c
+        ref : 8362e8ce10b24068bacc19552c128dd10e082fd9
 builddeps   :
     - binary(bison)
     - binary(gperf)
@@ -62,6 +62,8 @@ setup       : |
     %patch %(pkgdir)/stateless/Use-a-stateless-ld.so.conf.patch
     #%patch %(pkgdir)/stateless/make-locale-cache-stateless.patch
     %patch %(pkgdir)/stateless/ld-so-cache-in-var.patch
+
+    %patch %(pkgdir)/upstream-01.patch
 
     mkdir build && cd build
     echo "LD_SO_CACHE=/var/cache/ldconfig/ld.so.cache" >> configparms
@@ -119,6 +121,8 @@ profiles    :
             %patch %(pkgdir)/stateless/Use-a-stateless-ld.so.conf.patch
             #%patch %(pkgdir)/stateless/make-locale-cache-stateless.patch
             %patch %(pkgdir)/stateless/ld-so-cache-in-var.patch
+
+            %patch %(pkgdir)/upstream-01.patch
 
             mkdir build && cd build
             echo "LD_SO_CACHE=/var/cache/ldconfig/ld.so.cache" >> configparms
