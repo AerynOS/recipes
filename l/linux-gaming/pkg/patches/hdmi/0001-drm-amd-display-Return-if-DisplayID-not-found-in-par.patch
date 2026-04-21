@@ -17,6 +17,7 @@ Add a return if DisplayID extension block wasn't found
 
 Signed-off-by: Tomasz Pakuła <tomasz.pakula.oficjalny@gmail.com>
 Reviewed-by: Harry Wentland <harry.wentland@amd.com>
+Modified-by: Philip Mueller <philm@manjaro.org> # to fit 7.0
 ---
  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 3 +++
  1 file changed, 3 insertions(+)
@@ -25,16 +26,16 @@ diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm
 index 62622aa62206..f2b47b91e47e 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -13131,6 +13131,9 @@ static int parse_amd_vsdb(struct amdgpu_dm_connector *aconnector,
+@@ -13177,6 +13177,9 @@ static int parse_amd_vsdb(struct amdgpu_
  			break;
  	}
  
 +	if (i == edid->extensions)
 +		return false;
 +
- 	while (j < EDID_LENGTH - sizeof(struct amd_vsdb_block)) {
+ 	total_ext_block_len = EDID_LENGTH * edid->extensions;
+ 	while (j < total_ext_block_len - sizeof(struct amd_vsdb_block)) {
  		struct amd_vsdb_block *amd_vsdb = (struct amd_vsdb_block *)&edid_ext[j];
- 		unsigned int ieeeId = (amd_vsdb->ieee_id[2] << 16) | (amd_vsdb->ieee_id[1] << 8) | (amd_vsdb->ieee_id[0]);
 -- 
 2.52.0
 

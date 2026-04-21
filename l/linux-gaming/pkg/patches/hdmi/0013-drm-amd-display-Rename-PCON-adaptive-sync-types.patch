@@ -17,6 +17,7 @@ implementation
 Signed-off-by: Tomasz Pakuła <tomasz.pakula.oficjalny@gmail.com>
 Tested-by: Bernhard Berger <bernhard.berger@gmail.com>
 Reviewed-by: Harry Wentland <harry.wentland@amd.com>
+Modified-by: Philip Mueller <philm@manjaro.org> # to fit 7.0
 ---
  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c      |  5 +++--
  .../gpu/drm/amd/display/modules/inc/mod_info_packet.h  | 10 +++++-----
@@ -71,14 +72,17 @@ diff --git a/drivers/gpu/drm/amd/display/modules/info_packet/info_packet.c b/dri
 index b3d55cac3569..b50fb75236e9 100644
 --- a/drivers/gpu/drm/amd/display/modules/info_packet/info_packet.c
 +++ b/drivers/gpu/drm/amd/display/modules/info_packet/info_packet.c
-@@ -535,12 +535,12 @@ void mod_build_adaptive_sync_infopacket(const struct dc_stream_state *stream,
+@@ -590,7 +590,7 @@ void mod_build_adaptive_sync_infopacket(
  		if (stream != NULL)
  			mod_build_adaptive_sync_infopacket_v2(stream, param, info_packet);
  		break;
 -	case FREESYNC_TYPE_PCON_IN_WHITELIST:
 +	case ADAPTIVE_SYNC_TYPE_PCON_ALLOWED:
  	case ADAPTIVE_SYNC_TYPE_EDP:
- 		mod_build_adaptive_sync_infopacket_v1(info_packet);
+ 		if (stream && stream->link->replay_settings.config.replay_supported &&
+ 			stream->link->replay_settings.config.replay_version == DC_VESA_PANEL_REPLAY)
+@@ -599,7 +599,7 @@ void mod_build_adaptive_sync_infopacket(
+ 			mod_build_adaptive_sync_infopacket_v1(info_packet);
  		break;
  	case ADAPTIVE_SYNC_TYPE_NONE:
 -	case FREESYNC_TYPE_PCON_NOT_IN_WHITELIST:
