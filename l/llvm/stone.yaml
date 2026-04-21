@@ -69,6 +69,7 @@ environment : |
         _RUNTIME_TARGETS="default;amdgcn-amd-amdhsa;nvptx64-nvidia-cuda"
     fi
 
+    declare EXTRA_LLVM_FLAGS
     if [[ " ${PATH[*]} " =~ "ccache" ]]; then
         EXTRA_LLVM_FLAGS="-DLLVM_CCACHE_BUILD=ON"
     fi
