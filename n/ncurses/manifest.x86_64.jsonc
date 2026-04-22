@@ -3,6 +3,10 @@
 	"manifest-version": "0.2",
 	"packages": {
 		"ncurses": {
+			"build-depends": [
+				"binary(tic)",
+				"gpm-devel"
+			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"ncurses-libs",
@@ -51,6 +55,10 @@
 			]
 		},
 		"ncurses-32bit": {
+			"build-depends": [
+				"binary(tic)",
+				"gpm-devel"
+			],
 			"depends": [
 				"ncurses",
 				"ncurses-base",
@@ -77,6 +85,10 @@
 			]
 		},
 		"ncurses-32bit-c++-libs": {
+			"build-depends": [
+				"binary(tic)",
+				"gpm-devel"
+			],
 			"depends": [
 				"ncurses-32bit",
 				"soname(libc.so.6(386))",
@@ -97,6 +109,10 @@
 			]
 		},
 		"ncurses-32bit-devel": {
+			"build-depends": [
+				"binary(tic)",
+				"gpm-devel"
+			],
 			"depends": [
 				"ncurses-32bit",
 				"ncurses-32bit-c++-libs",
@@ -145,6 +161,10 @@
 			]
 		},
 		"ncurses-32bit-static": {
+			"build-depends": [
+				"binary(tic)",
+				"gpm-devel"
+			],
 			"depends": [
 				"ncurses-32bit-devel"
 			],
@@ -158,6 +178,10 @@
 			"name": "ncurses-32bit-static"
 		},
 		"ncurses-base": {
+			"build-depends": [
+				"binary(tic)",
+				"gpm-devel"
+			],
 			"depends": [
 				"terminfo-foot",
 				"terminfo-ghostty",
@@ -3080,6 +3104,10 @@
 			"name": "ncurses-base"
 		},
 		"ncurses-c++-libs": {
+			"build-depends": [
+				"binary(tic)",
+				"gpm-devel"
+			],
 			"depends": [
 				"ncurses-libs",
 				"soname(libc.so.6(x86_64))",
@@ -3100,6 +3128,10 @@
 			]
 		},
 		"ncurses-devel": {
+			"build-depends": [
+				"binary(tic)",
+				"gpm-devel"
+			],
 			"depends": [
 				"ncurses",
 				"ncurses-c++-libs"
@@ -4065,6 +4097,10 @@
 			]
 		},
 		"ncurses-libs": {
+			"build-depends": [
+				"binary(tic)",
+				"gpm-devel"
+			],
 			"depends": [
 				"ncurses-base",
 				"soname(libc.so.6(x86_64))"
@@ -4090,6 +4126,10 @@
 			]
 		},
 		"ncurses-static": {
+			"build-depends": [
+				"binary(tic)",
+				"gpm-devel"
+			],
 			"depends": [
 				"ncurses-devel"
 			],
@@ -4104,6 +4144,6 @@
 		}
 	},
 	"source-name": "ncurses",
-	"source-release": "23",
-	"source-version": "6.6-20260404"
+	"source-release": "24",
+	"source-version": "6.6-20260418"
 }
