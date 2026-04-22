@@ -1,0 +1,22 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Reilly Brogan <reilly@reillybrogan.com>
+Date: Wed, 22 Apr 2026 16:30:24 -0500
+Subject: [PATCH] Use versioned zig
+
+---
+ nix/build-support/fetch-zig-cache.sh | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/nix/build-support/fetch-zig-cache.sh b/nix/build-support/fetch-zig-cache.sh
+index 9cc3dce2a..aade0169d 100755
+--- a/nix/build-support/fetch-zig-cache.sh
++++ b/nix/build-support/fetch-zig-cache.sh
+@@ -20,7 +20,7 @@ SCRIPT_PATH="$(CDPATH='' cd -- "$(dirname -- "$0")" && pwd)"
+ ZON_TXT_FILE="$SCRIPT_PATH/../../build.zig.zon.txt"
+ while IFS= read -r url; do
+   echo "Fetching: $url"
+-  zig fetch "$url" >/dev/null 2>&1 || {
++  zig-0.15 fetch "$url" >/dev/null 2>&1 || {
+     echo "Failed to fetch: $url" >&2
+     exit 1
+   }

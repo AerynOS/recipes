@@ -3,7 +3,7 @@
 
 name        : ghostty
 version     : "1.3.1"
-release     : 7
+release     : 8
 homepage    : https://github.com/ghostty-org/ghostty
 upstreams   :
     - https://github.com/ghostty-org/ghostty/archive/refs/tags/v1.3.1.tar.gz : 265837d3026b433f0e6b4e49d43153b915b0a19513f7edd8a8e693c559bd415b
@@ -35,10 +35,13 @@ environment : |
 setup       : |
     %patch %(pkgdir)/11449.patch
     %patch %(pkgdir)/11965.patch
+    %patch %(pkgdir)/12025.patch
+
+    %patch %(pkgdir)/0001-Use-versioned-zig.patch
 
     ./nix/build-support/fetch-zig-cache.sh
 build       : |
-    zig build \
+    zig-0.15 build \
       -j%(jobs) \
       --prefix %(prefix) \
       --system "$ZIG_GLOBAL_CACHE_DIR/p" \
