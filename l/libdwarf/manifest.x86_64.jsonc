@@ -1,0 +1,82 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"libdwarf": {
+			"build-depends": [
+				"binary(python3)",
+				"pkgconfig(libzstd)",
+				"pkgconfig(zlib)"
+			],
+			"depends": [
+				"soname(libc.so.6(x86_64))",
+				"soname(libz.so.1(x86_64))",
+				"soname(libzstd.so.1(x86_64))"
+			],
+			"files": [
+				"/usr/lib/libdwarf.so.2",
+				"/usr/lib/libdwarf.so.2.3.1",
+				"/usr/lib/libdwarfp.so.2",
+				"/usr/lib/libdwarfp.so.2.3.1"
+			],
+			"name": "libdwarf",
+			"provides": [
+				"soname(libdwarf.so.2(x86_64))",
+				"soname(libdwarfp.so.2(x86_64))"
+			]
+		},
+		"libdwarf-devel": {
+			"build-depends": [
+				"binary(python3)",
+				"pkgconfig(libzstd)",
+				"pkgconfig(zlib)"
+			],
+			"depends": [
+				"libdwarf",
+				"pkgconfig(libzstd)"
+			],
+			"files": [
+				"/usr/include/libdwarf-2/dwarf.h",
+				"/usr/include/libdwarf-2/libdwarf.h",
+				"/usr/include/libdwarf-2/libdwarfp.h",
+				"/usr/lib/libdwarf.so",
+				"/usr/lib/libdwarfp.so",
+				"/usr/lib/pkgconfig/libdwarf.pc"
+			],
+			"name": "libdwarf-devel",
+			"provides": [
+				"pkgconfig(libdwarf)"
+			]
+		},
+		"libdwarf-tools": {
+			"build-depends": [
+				"binary(python3)",
+				"pkgconfig(libzstd)",
+				"pkgconfig(zlib)"
+			],
+			"depends": [
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libdwarf.so.2(x86_64))",
+				"soname(libdwarfp.so.2(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libstdc++.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/bin/dwarfdump",
+				"/usr/bin/dwarfgen",
+				"/usr/share/dwarfdump/dwarfdump.conf",
+				"/usr/share/man/man1/dwarfdump.1",
+				"/usr/share/man/man1/dwarfgen.1"
+			],
+			"name": "libdwarf-tools",
+			"provides": [
+				"binary(dwarfdump)",
+				"binary(dwarfgen)"
+			]
+		}
+	},
+	"source-name": "libdwarf",
+	"source-release": "1",
+	"source-version": "2.3.1"
+}
