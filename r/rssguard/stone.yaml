@@ -3,7 +3,7 @@
 
 name        : rssguard
 version     : "5.0.4"
-release     : 4
+release     : 5
 upstreams   :
     - https://github.com/martinrotter/rssguard/releases/download/5.0.4/rssguard-5.0.4-src.tar.gz : 0a8750da59a3c9c245db604bd71fa23aa7d10e4ce6d502eaee343f1796c9d1a1
 homepage    : https://github.com/martinrotter/rssguard
@@ -22,7 +22,9 @@ builddeps   :
 setup       : |
     %patch %(pkgdir)/0001-default-settings.patch
 
-    %cmake
+    %cmake \
+        -DNO_UPDATE_CHECK=ON \
+        -DREVISION_FROM_GIT=OFF
 build       : |
     %cmake_build
 install     : |
