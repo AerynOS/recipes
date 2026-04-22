@@ -3,7 +3,7 @@
 
 name        : cpp-utilities
 version     : "5.34.0"
-release     : 9
+release     : 10
 upstreams   :
     - https://github.com/Martchus/cpp-utilities/archive/refs/tags/v5.34.0.tar.gz : 7cb228606e79b9a33244cea062674d6339b0db00081f6cae9b3b7d12619fa7db
 homepage    : https://github.com/Martchus/cpp-utilities
@@ -13,7 +13,6 @@ description : |
     Common C++ classes and routines such as argument parser, IO and conversion utilities
 builddeps   :
     - binary(doxygen)
-    - cmake(Boost)
     # - pkgconfig(libarchive)
     - pkgconfig(openssl)
 checkdeps   :
