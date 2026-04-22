@@ -1,0 +1,28 @@
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : cpptrace
+version     : "1.0.4"
+release     : 1
+upstreams   :
+    - https://github.com/jeremy-rifkin/cpptrace/archive/refs/tags/v1.0.4.tar.gz : 5c9f5b301e903714a4d01f1057b9543fa540f7bfcc5e3f8bd1748e652e24f9ea
+homepage    : https://github.com/jeremy-rifkin/cpptrace
+license     : MIT
+summary     : Simple, portable, and self-contained stacktrace library for C++11 and newer
+description : |
+    Simple, portable, and self-contained stacktrace library for C++11 and newer
+builddeps   :
+    - pkgconfig(libdwarf)
+    - pkgconfig(libunwind)
+    - pkgconfig(libzstd)
+setup       : |
+    %cmake \
+        -DBUILD_SHARED_LIBS=ON \
+        -DCPPTRACE_FIND_LIBDWARF_WITH_PKGCONFIG=ON \
+        -DCPPTRACE_UNWIND_WITH_LIBUNWIND=ON \
+        -DCPPTRACE_USE_EXTERNAL_LIBDWARF=ON \
+        -DCPPTRACE_USE_EXTERNAL_ZSTD=ON
+build       : |
+    %cmake_build
+install     : |
+    %cmake_install
