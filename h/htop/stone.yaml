@@ -3,7 +3,7 @@
 
 name        : htop
 version     : "3.5.0"
-release     : 8
+release     : 9
 homepage    : https://htop.dev/
 upstreams   :
     - https://github.com/htop-dev/htop/releases/download/3.5.0/htop-3.5.0.tar.xz : b6586e405c5223ebe5ac7828df21edad45cbf90288088bd1b18ad8fa700ffa05
@@ -15,13 +15,15 @@ license     : GPL-2.0-or-later
 builddeps   :
     - pkgconfig(hwloc)
     - pkgconfig(libcap)
+    - pkgconfig(libnl-3.0)
     - pkgconfig(ncursesw)
     - lm_sensors-devel
 rundeps     :
     - lm_sensors
 setup       : |
     %configure \
-        --enable-hwloc
+        --enable-hwloc \
+        --enable-unicode
 build       : |
     %make
 install     : |
