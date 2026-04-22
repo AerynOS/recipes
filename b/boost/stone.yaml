@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : boost
-version     : "1.90.0"
-release     : 10
+version     : "1.91.0"
+release     : 11
 homepage    : https://boost.org
 upstreams   :
-    - https://archives.boost.io/release/1.90.0/source/boost_1_90_0.tar.gz: 5e93d582aff26868d581a52ae78c7d8edf3f3064742c6e77901a1f18a437eea9
+    - https://archives.boost.io/release/1.91.0/source/boost_1_91_0.tar.gz: 5734305f40a76c30f951c9abd409a45a2a19fb546efe4162119250bbe4d3a463
 summary     : Boost provides free peer-reviewed portable C++ source libraries.
 description : |
     The Boost organization and wider Boost community supports research and education into the best possible uses of C++ and libraries developed for it, particularly, but not exclusively those contained in the Boost Library.
@@ -25,8 +25,8 @@ environment : |
         ./b2  \
             -j%(jobs) \
             --layout=system \
-            cflags="${CPPFLAGS} ${CFLAGS}" \
-            cxxflags="${CPPFLAGS} ${CXXFLAGS}" \
+            cflags="${CFLAGS}" \
+            cxxflags="${CXXFLAGS}" \
             debug-symbols=off \
             linkflags="${LDFLAGS}" \
             link=shared,static \
@@ -38,8 +38,8 @@ environment : |
     }
 setup       : |
     ./bootstrap.sh \
-      --prefix=%(installroot)/usr \
-      --with-python=/usr/bin/python3
+        --prefix=%(installroot)/usr \
+        --with-python=/usr/bin/python3
 build       : |
     run_b2
 install     : |
