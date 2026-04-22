@@ -2,15 +2,19 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : sed
-version     : "4.9"
-release     : 3
+version     : "4.10"
+release     : 4
 summary     : GNU stream editor
 license     : GPL-3.0-or-later
 homepage    : https://www.gnu.org/software/sed
 description : |
     GNU stream editor
 upstreams   :
-    - https://ftp.gnu.org/gnu/sed/sed-4.9.tar.xz: 6e226b732e1cd739464ad6862bd1a1aba42d7982922da7a53519631d24975181
+    - https://ftp.gnu.org/gnu/sed/sed-4.10.tar.xz: b8e72182b2ec96a3574e2998c47b7aaa64cc20ce000d8e9ac313cc07cecf28c7
+builddeps   :
+    - binary(msgfmt)
+    - pkgconfig(libacl)
+    - pkgconfig(libattr)
 setup       : |
     %configure
 build       : |
