@@ -1,7 +1,7 @@
-From 4f4154b40de3068d323e5d37bbe70d669cb803ac Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: David Faure <faure@kde.org>
 Date: Sun, 5 Oct 2025 12:27:29 +0200
-Subject: [PATCH 3/3] Fix build with boost 1.89
+Subject: [PATCH 3/5] Fix build with boost 1.89
 
 boost_system has become a headers-only library, there is nothing to link
 to and nothing to find_package against (e.g. on OpenSUSE Tumbleweed
@@ -48,6 +48,3 @@ index d93c0d6..7cd095e 100644
  
  configure_file(analyze_config.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/analyze_config.h)
  
--- 
-2.52.0
-
