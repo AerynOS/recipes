@@ -2,16 +2,15 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : pipewire
-version     : "1.6.3"
-release     : 29
+version     : "1.6.4"
+release     : 30
 homepage    : https://pipewire.org/
 upstreams   :
-   - https://gitlab.freedesktop.org/pipewire/pipewire/-/archive/1.6.3/pipewire-1.6.3.tar.gz : 93db72dc06768db548d48ae2b8e96e7c299c89a47f5c4426f152221aa90b0f2d
+   - https://gitlab.freedesktop.org/pipewire/pipewire/-/archive/1.6.4/pipewire-1.6.4.tar.gz : e31ae906dc7fee1c56ccc4279247b385685b926b3f900cebd910d4bd4403d86b
 summary     : Linux audio + video multiplexing
 description : |
     PipeWire is a project that aims to greatly improve handling of audio and video under Linux. It provides a low-latency, graph-based processing engine on top of audio and video devices that can be used to support the use cases currently handled by both PulseAudio and JACK. PipeWire was designed with a powerful security model that makes interacting with audio and video devices from containerized applications easy, with support for Flatpak applications being the primary goal.
-license     :
-    - MIT
+license     : MIT
 builddeps   :
     - binary(doxygen)
     - binary(gettext)
@@ -60,10 +59,9 @@ builddeps   :
     # libcamera
     # jack
     # ldacbt-dec
+    # libapparmor
+    # libselinux
 setup       : |
-    # glibc 2.43 build failure
-    export CFLAGS+=" -Wno-error=incompatible-pointer-types-discards-qualifiers"
-
     %meson \
         -Dbluez5=enabled \
         -Dffmpeg=enabled \
