@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : intel-media-driver
-version     : "25.4.6" # Update-checker will return additional tags, but these are testing releases. Only use versions that are in the "releases"
-release     : 5
+version     : "26.1.5" # Update-checker will return additional tags, but these are testing releases. Only use versions that are in the "releases"
+release     : 6
 homepage    : https://github.com/intel/media-driver
 upstreams   :
-    - https://github.com/intel/media-driver/archive/refs/tags/intel-media-25.4.6.tar.gz : e5cf57c66e22359d1ec07d766b04e5da43677b9330999ce0dbf686aac60cf6bb
+    - https://github.com/intel/media-driver/archive/refs/tags/intel-media-26.1.5.tar.gz : c56899fecc003d047ce6afbdf471851512e0ceac66c2ef22ac36f1e6ce46170c
 summary     : VA-API driver for Intel Gen graphics
 description : |
     VA-API driver for Intel Gen graphics
@@ -36,7 +36,7 @@ packages    :
         summary: The Intel Media Driver for VAAPI
         description: The Intel Media Driver for VAAPI
         paths:
-            - /usr/lib/dri
+            - /usr/lib/dri/
 
     - "libigfxcmrt":
         summary: Intel library to load GPU kernels
