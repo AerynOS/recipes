@@ -2,11 +2,12 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : quickshell
-version     : "0.2.1"
-release     : 4
+version     : "0.2.1+git.783c9539"
+release     : 5
 homepage    : https://github.com/quickshell-mirror/quickshell
 upstreams   :
-    - https://github.com/quickshell-mirror/quickshell/archive/refs/tags/v0.2.1.tar.gz : 337bab5d4badb92e51d01ac1cfbeaeb784478bad82f3c8297fd7be42a6995af2
+    # - https://github.com/quickshell-mirror/quickshell/archive/refs/tags/v0.2.1.tar.gz : 337bab5d4badb92e51d01ac1cfbeaeb784478bad82f3c8297fd7be42a6995af2
+    - git|https://git.outfoxxed.me/quickshell/quickshell.git : 783c953987dc56ff0601abe6845ed96f1d00495a
 summary     : Flexible QtQuick based desktop shell toolkit
 description : |
     Quickshell is a toolkit for building status bars, widgets, lockscreens, and other desktop components using QtQuick. It can be used alongside your wayland compositor or window manager to build a complete desktop environment.
@@ -16,24 +17,25 @@ license     :
     - GPL-3.0-only
     - LGPL-3.0-only
 builddeps   :
-    - binary(pkgconf)
     - cmake(Qt6Qml)
     - cmake(Qt6ShaderTools)
     - cmake(Qt6Svg)
     - cmake(Qt6WaylandClientPrivate)
+    - cmake(cpptrace)
     - pkgconfig(CLI11)
     - pkgconfig(gbm)
     - pkgconfig(jemalloc)
     - pkgconfig(libdrm)
     - pkgconfig(libpipewire-0.3)
     - pkgconfig(pam)
+    - pkgconfig(polkit-agent-1)
     - pkgconfig(wayland-protocols)
 rundeps     :
-    # Both of these are for the upower/ppd service integration
+    # Required for integrations
+    - polkit # Need the server
     - power-profiles-daemon
     - upower
 setup       : |
-    # Remove NO_PCH in next version
     %cmake \
         -DCRASH_REPORTER=OFF \
         -DDISTRIBUTOR="AerynOS" \
