@@ -1,0 +1,43 @@
+# SPDX-FileCopyrightText: © 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : heroic-games-launcher
+version     : "2.21.0"
+release     : 1
+homepage    : https://heroicgameslauncher.com 
+upstreams   :
+    - git|https://github.com/Heroic-Games-Launcher/HeroicGamesLauncher.git : 38d09ff2f34dab121a73adf97f1d209e29e60f3f
+summary     : A games launcher for GOG, Amazon and Epic Games for Linux, Windows and macOS. 
+description : |
+    Heroic is an Open Source Game Launcher for Linux, Windows and macOS. Right now it supports launching games from the Epic Games Store using Legendary, GOG Games using our custom implementation with gogdl and Amazon Games using Nile.
+license     : 
+    - GPL-3.0-or-later
+builddeps   :
+    - binary(pnpm)
+    - pkgconfig(alsa)
+    - pkgconfig(cups)
+    - pkgconfig(gbm)
+    - pkgconfig(gtk+-3.0)
+networking  : true
+setup       : |
+    # Fix Add-to-Steam
+    %patch %(pkgdir)/fix-exec-heroic-add-to-steam.patch
+    # Fix Desktop file
+    %patch %(pkgdir)/fix-exec-heroic-desktop-file.patch
+    pnpm install
+    pnpm run download-helper-binaries
+build       : |
+    pnpm dist:linux tar.xz
+install     : |
+    _heroic_root=%(libdir)/heroic
+    _heroic_install=%(installroot)/$_heroic_root
+
+    %install_dir $_heroic_install
+    cp -R dist/linux-unpacked/* $_heroic_install
+
+    %install_dir %(installroot)%(bindir)
+    ln -rsv $_heroic_root/heroic %(installroot)%(bindir)/heroic
+
+    # Desktop file, icon
+    %install_file flatpak/com.heroicgameslauncher.hgl.desktop %(installroot)/%(datadir)/applications/com.heroicgameslauncher.hgl.desktop
+    %install_file flatpak/com.heroicgameslauncher.hgl.png %(installroot)%(datadir)/icons/hicolor/128x128/apps/com.heroicgameslauncher.hgl.png
