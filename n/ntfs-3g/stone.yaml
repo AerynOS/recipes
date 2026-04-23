@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : ntfs-3g
-version     : "2022.10.3+git.71ecccf"
-release     : 2
+version     : "2026.2.25"
+release     : 3
 homepage    : https://github.com/tuxera/ntfs-3g
 upstreams   :
-    - git|https://github.com/tuxera/ntfs-3g.git : 71ecccf279d3660812b18803a75f368d2f76eea6
+    - https://github.com/tuxera/ntfs-3g/archive/refs/tags/2026.2.25.tar.gz : 47de1260fa3fb1aa27d239a637f1178d29a04dd6add6ddff4ea5e47b806731f8
 summary     : NTFS filesystem support
 description : |
     NTFS-3G is an open source cross-platform implementation of the Microsoft Windows NTFS file system with read-write support.
@@ -20,22 +20,28 @@ builddeps   :
     - pkgconfig(libgcrypt)
     - pkgconfig(gpg-error)
     - pkgconfig(uuid)
+    # hd.h (whatever that is)
 setup       : |
     %patch %(pkgdir)/build.patch
-    %reconfigure --disable-warnings \
-                 --disable-library \
-                 --enable-posix-acls \
-                 --enable-extras \
-                 --enable-crypto \
-                 --exec-prefix=%(prefix) \
-                 --with-fuse=external \
-                 --enable-xattr-mappings \
-                 --disable-static \
-                 --disable-ldconfig \
-                 --sbin=%(sbindir) \
-                 CFLAGS="-lgcrypt -Wno-implicit-function-declaration"
+
+    %reconfigure \
+        --disable-ldconfig \
+        --disable-library \
+        --disable-static \
+        --disable-warnings \
+        --enable-crypto \
+        --enable-extras \
+        --enable-posix-acls \
+        --enable-xattr-mappings \
+        --exec-prefix=%(prefix) \
+        --sbin=%(sbindir) \
+        --with-fuse=external
 build       : |
     %make
 install     : |
     %make_install rootsbindir=%(sbindir) rootbindir=%(bindir)
     rmdir %(installroot)/sbin -v
+
+    # Various compat symlinks
+    ln -srv %(installroot)%(bindir)/ntfs-3g %(installroot)%(sbindir)/mount.ntfs
+    ln -srv %(installroot)%(bindir)/ntfs-3g %(installroot)%(sbindir)/mount.ntfs-fuse
