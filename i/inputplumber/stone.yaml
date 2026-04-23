@@ -3,7 +3,7 @@
 
 name        : inputplumber
 version     : "0.76.1"
-release     : 56
+release     : 57
 homepage    : https://github.com/ShadowBlip/InputPlumber
 upstreams   :
     - https://github.com/ShadowBlip/InputPlumber/archive/refs/tags/v0.76.1.tar.gz : e28b631cfa28ab37314bdc80e89a3b1aed546bd0e18c2f70e0099dba20cce179
@@ -31,6 +31,3 @@ install     : |
     %install_dir %(installroot)/usr
     cp -R rootfs/usr/* %(installroot)/usr/.
     rm -rf %(installroot)%(datadir)/dbus-1/system-services
-
-    # Disable system-wide upon install
-    %install_file %(pkgdir)/inputplumber.preset -t %(installroot)/%(libdir)/systemd/system-preset
