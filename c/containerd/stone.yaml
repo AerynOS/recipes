@@ -3,7 +3,7 @@
 
 name        : containerd
 version     : "2.2.3"
-release     : 15
+release     : 16
 homepage    : https://containerd.io/
 upstreams   :
     - https://github.com/containerd/containerd/archive/refs/tags/v2.2.3.tar.gz : b97780bde4b01ed3596b0b0c6f55bfb130794a3db4e6fe2e0fc9719244933945
@@ -43,7 +43,6 @@ install     : |
 
     # systemd
     %install_file containerd.service -t %(installroot)%(libdir)/systemd/system
-    %install_file %(pkgdir)/containerd.preset -t %(installroot)/%(libdir)/systemd/system-preset
 
     # Completions
     %install_file contrib/autocomplete/ctr %(installroot)/%(completionsdir)/ctr
