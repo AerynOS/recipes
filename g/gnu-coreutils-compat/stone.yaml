@@ -3,7 +3,7 @@
 
 name        : gnu-coreutils-compat
 version     : "9.11"
-release     : 6
+release     : 7
 homepage    : https://www.gnu.org/software/coreutils/
 upstreams   :
     - https://ftp.gnu.org/gnu/coreutils/coreutils-9.11.tar.xz : 394024eda0a5955217ceda9cd1201e65dc8fa3aa29c2951135a49521d57c3cc3
@@ -25,8 +25,8 @@ setup       : |
     export FORCE_UNSAFE_CONFIGURE=1
     # There HAS to be a better way to do this
     %configure \
-        --enable-install-program=cp,sort,stty \
-        --enable-no-install-program=[,b2sum,base32,base64,basename,basenc,cat,chcon,chgrp,chmod,chown,chroot,cksum,comm,csplit,cut,date,dd,df,dir,dircolors,dirname,du,echo,env,expand,expr,factor,false,fmt,fold,groups,head,hostid,id,install,join,kill,link,ln,logname,ls,md5sum,mkdir,mkfifo,mknod,mktemp,mv,nice,nl,nohup,nproc,numfmt,od,paste,pathchk,pinky,pr,printenv,printf,ptx,pwd,readlink,realpath,rm,rmdir,runcon,seq,sha1sum,sha224sum,sha256sum,sha384sum,sha512sum,shred,shuf,sleep,split,stat,stdbuf,sum,sync,tac,tail,tee,test,timeout,touch,tr,true,truncate,tsort,tty,uname,unexpand,uniq,unlink,uptime,users,vdir,wc,who,whoami,yes,
+        --enable-install-program=cp,mv,rm,rmdir,sort,stty \
+        --enable-no-install-program=[,b2sum,base32,base64,basename,basenc,cat,chcon,chgrp,chmod,chown,chroot,cksum,comm,csplit,cut,date,dd,df,dir,dircolors,dirname,du,echo,env,expand,expr,factor,false,fmt,fold,groups,head,hostid,id,install,join,kill,link,ln,logname,ls,md5sum,mkdir,mkfifo,mknod,mktemp,nice,nl,nohup,nproc,numfmt,od,paste,pathchk,pinky,pr,printenv,printf,ptx,pwd,readlink,realpath,runcon,seq,sha1sum,sha224sum,sha256sum,sha384sum,sha512sum,shred,shuf,sleep,split,stat,stdbuf,sum,sync,tac,tail,tee,test,timeout,touch,tr,true,truncate,tsort,tty,uname,unexpand,uniq,unlink,uptime,users,vdir,wc,who,whoami,yes,
 build       : |
     %make
 install     : |
