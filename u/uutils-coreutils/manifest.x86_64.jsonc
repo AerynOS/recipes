@@ -22,6 +22,9 @@
 			],
 			"depends": [
 				"binary(gnu-cp)",
+				"binary(gnu-mv)",
+				"binary(gnu-rm)",
+				"binary(gnu-rmdir)",
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libacl.so.1(x86_64))",
@@ -658,6 +661,6 @@
 		}
 	},
 	"source-name": "uutils-coreutils",
-	"source-release": "34",
+	"source-release": "35",
 	"source-version": "0.8.0"
 }
