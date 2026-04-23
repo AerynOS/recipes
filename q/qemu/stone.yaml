@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : qemu
-version     : "10.2.2"
-release     : 31
+version     : "11.0.0"
+release     : 32
 homepage    : http://www.qemu.org/
 upstreams   :
-    - https://download.qemu.org/qemu-10.2.2.tar.xz : 784b296ff29c1417aa72323abcb2d2ea9ab9771724f577dcd785c3b04f21e176
+    - https://download.qemu.org/qemu-11.0.0.tar.xz : c04ca36012653f32d11c674d370cf52a710e7d3f18c2d8b63e4932052a4854d6
 summary     :  A generic and open source machine emulator and virtualizer
 description : |
      A generic and open source machine emulator and virtualizer
@@ -76,9 +76,6 @@ builddeps   :
     # - libcacard
     # - libxdp
 setup       : |
-    %patch %(pkgdir)/0002-nfs-Add-support-for-libnfs-v2-api.patch
-    %patch %(pkgdir)/0008-Revert-meson.build-Disallow-libnfs-v6-to-fix-the-bro.patch
-
     %configure \
         --target-list=aarch64-softmmu,aarch64-linux-user,arm-softmmu,arm-linux-user,i386-softmmu,i386-linux-user,riscv64-softmmu,riscv64-linux-user,x86_64-softmmu,x86_64-linux-user \
         -Db_lto=true \
@@ -456,7 +453,7 @@ packages    :
         summary: QEMU tests
         description: QEMU tests
         paths:
-            - /usr/lib/qemu/accel-qtest-*.so
+            - /usr/lib/qemu/accel-qtest*.so
 
     - "%(name)-tools":
         summary: QEMU tools

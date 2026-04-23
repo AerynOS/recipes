@@ -1525,6 +1525,7 @@
 				"/usr/share/doc/qemu/devel/migration/uadk-compression.html",
 				"/usr/share/doc/qemu/devel/migration/vfio.html",
 				"/usr/share/doc/qemu/devel/migration/virtio.html",
+				"/usr/share/doc/qemu/devel/migration/xbzrle.html",
 				"/usr/share/doc/qemu/devel/modules.html",
 				"/usr/share/doc/qemu/devel/multi-process.html",
 				"/usr/share/doc/qemu/devel/multi-thread-tcg.html",
@@ -1613,6 +1614,7 @@
 				"/usr/share/doc/qemu/specs/fsi.html",
 				"/usr/share/doc/qemu/specs/fw_cfg.html",
 				"/usr/share/doc/qemu/specs/index.html",
+				"/usr/share/doc/qemu/specs/iommu-testdev.html",
 				"/usr/share/doc/qemu/specs/ivshmem-spec.html",
 				"/usr/share/doc/qemu/specs/pci-ids.html",
 				"/usr/share/doc/qemu/specs/pci-serial.html",
@@ -1647,7 +1649,6 @@
 				"/usr/share/doc/qemu/system/arm/emulation.html",
 				"/usr/share/doc/qemu/system/arm/exynos.html",
 				"/usr/share/doc/qemu/system/arm/fby35.html",
-				"/usr/share/doc/qemu/system/arm/highbank.html",
 				"/usr/share/doc/qemu/system/arm/imx25-pdk.html",
 				"/usr/share/doc/qemu/system/arm/imx8mp-evk.html",
 				"/usr/share/doc/qemu/system/arm/integratorcp.html",
@@ -1693,6 +1694,8 @@
 				"/usr/share/doc/qemu/system/devices/keyboard.html",
 				"/usr/share/doc/qemu/system/devices/net.html",
 				"/usr/share/doc/qemu/system/devices/nvme.html",
+				"/usr/share/doc/qemu/system/devices/scsi/index.html",
+				"/usr/share/doc/qemu/system/devices/scsi/migrate-pr.html",
 				"/usr/share/doc/qemu/system/devices/usb-u2f.html",
 				"/usr/share/doc/qemu/system/devices/usb.html",
 				"/usr/share/doc/qemu/system/devices/vfio-user.html",
@@ -1728,10 +1731,11 @@
 				"/usr/share/doc/qemu/system/monitor.html",
 				"/usr/share/doc/qemu/system/multi-process.html",
 				"/usr/share/doc/qemu/system/mux-chardev.html",
-				"/usr/share/doc/qemu/system/openrisc/cpu-features.html",
-				"/usr/share/doc/qemu/system/openrisc/emulation.html",
-				"/usr/share/doc/qemu/system/openrisc/or1k-sim.html",
-				"/usr/share/doc/qemu/system/openrisc/virt.html",
+				"/usr/share/doc/qemu/system/nitro.html",
+				"/usr/share/doc/qemu/system/or1k/cpu-features.html",
+				"/usr/share/doc/qemu/system/or1k/emulation.html",
+				"/usr/share/doc/qemu/system/or1k/or1k-sim.html",
+				"/usr/share/doc/qemu/system/or1k/virt.html",
 				"/usr/share/doc/qemu/system/ppc/amigang.html",
 				"/usr/share/doc/qemu/system/ppc/embedded.html",
 				"/usr/share/doc/qemu/system/ppc/powermac.html",
@@ -1741,11 +1745,13 @@
 				"/usr/share/doc/qemu/system/ppc/pseries.html",
 				"/usr/share/doc/qemu/system/pr-manager.html",
 				"/usr/share/doc/qemu/system/qemu-block-drivers.html",
+				"/usr/share/doc/qemu/system/qemu-colo.html",
 				"/usr/share/doc/qemu/system/qemu-cpu-models.html",
 				"/usr/share/doc/qemu/system/qemu-manpage.html",
 				"/usr/share/doc/qemu/system/replay.html",
 				"/usr/share/doc/qemu/system/riscv/microblaze-v-generic.html",
 				"/usr/share/doc/qemu/system/riscv/microchip-icicle-kit.html",
+				"/usr/share/doc/qemu/system/riscv/mips.html",
 				"/usr/share/doc/qemu/system/riscv/shakti-c.html",
 				"/usr/share/doc/qemu/system/riscv/sifive_u.html",
 				"/usr/share/doc/qemu/system/riscv/virt.html",
@@ -1767,7 +1773,7 @@
 				"/usr/share/doc/qemu/system/target-loongarch.html",
 				"/usr/share/doc/qemu/system/target-m68k.html",
 				"/usr/share/doc/qemu/system/target-mips.html",
-				"/usr/share/doc/qemu/system/target-openrisc.html",
+				"/usr/share/doc/qemu/system/target-or1k.html",
 				"/usr/share/doc/qemu/system/target-ppc.html",
 				"/usr/share/doc/qemu/system/target-riscv.html",
 				"/usr/share/doc/qemu/system/target-rx.html",
@@ -1780,6 +1786,7 @@
 				"/usr/share/doc/qemu/system/virtio-net-failover.html",
 				"/usr/share/doc/qemu/system/vm-templating.html",
 				"/usr/share/doc/qemu/system/vnc-security.html",
+				"/usr/share/doc/qemu/system/whpx.html",
 				"/usr/share/doc/qemu/tools/index.html",
 				"/usr/share/doc/qemu/tools/qemu-img.html",
 				"/usr/share/doc/qemu/tools/qemu-nbd.html",
@@ -3809,8 +3816,6 @@
 			],
 			"files": [
 				"/usr/share/qemu/kvmvapic.bin",
-				"/usr/share/qemu/linuxboot.bin",
-				"/usr/share/qemu/multiboot.bin",
 				"/usr/share/qemu/multiboot_dma.bin",
 				"/usr/share/qemu/pvh.bin",
 				"/usr/share/qemu/qboot.rom"
@@ -3881,19 +3886,11 @@
 				"soname(libc.so.6(x86_64))"
 			],
 			"files": [
-				"/usr/lib/qemu/accel-qtest-aarch64.so",
-				"/usr/lib/qemu/accel-qtest-arm.so",
-				"/usr/lib/qemu/accel-qtest-i386.so",
-				"/usr/lib/qemu/accel-qtest-riscv64.so",
-				"/usr/lib/qemu/accel-qtest-x86_64.so"
+				"/usr/lib/qemu/accel-qtest.so"
 			],
 			"name": "qemu-tests",
 			"provides": [
-				"soname(qemu/accel-qtest-aarch64.so(x86_64))",
-				"soname(qemu/accel-qtest-arm.so(x86_64))",
-				"soname(qemu/accel-qtest-i386.so(x86_64))",
-				"soname(qemu/accel-qtest-riscv64.so(x86_64))",
-				"soname(qemu/accel-qtest-x86_64.so(x86_64))"
+				"soname(qemu/accel-qtest.so(x86_64))"
 			]
 		},
 		"qemu-tools": {
@@ -4193,7 +4190,6 @@
 				"qemu-common",
 				"qemu-ui-opengl",
 				"soname(libc.so.6(x86_64))",
-				"soname(libepoxy.so.0(x86_64))",
 				"soname(libpixman-1.so.0(x86_64))"
 			],
 			"files": [
@@ -4431,6 +4427,7 @@
 				"soname(libSDL2_image-2.0.so.0(x86_64))",
 				"soname(libX11.so.6(x86_64))",
 				"soname(libc.so.6(x86_64))",
+				"soname(libepoxy.so.0(x86_64))",
 				"soname(libglib-2.0.so.0(x86_64))",
 				"soname(libpixman-1.so.0(x86_64))"
 			],
@@ -5085,6 +5082,6 @@
 		}
 	},
 	"source-name": "qemu",
-	"source-release": "31",
-	"source-version": "10.2.2"
+	"source-release": "32",
+	"source-version": "11.0.0"
 }
