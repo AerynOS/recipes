@@ -1,0 +1,121 @@
+From 4acfcf8a7074d84ba94f6b15fcfe0ce77bd8d093 Mon Sep 17 00:00:00 2001
+From: Fabian Kosmale <fabian.kosmale@qt.io>
+Date: Thu, 5 Mar 2026 07:52:39 +0100
+Subject: [PATCH] Fix default alias property after alias sorting
+
+When we reorder aliases topologically, we need to also update the
+indexOfDefaultPropertyOrAlias, as that could otherwise point to the
+wrong alias.
+Amends 2dc11fd23c4607174878af6025b84ba5052650b8, which introduced the
+topological alias sort to fix a crash.
+
+Fixes: QTBUG-144701
+Pick-to: 6.11.0
+Change-Id: Icf733ca954ab346be9b94157a179a2c46439692d
+Reviewed-by: Ulf Hermann <ulf.hermann@qt.io>
+(cherry picked from commit 5b775e96c067995bf21cdf5a3641c50d5b7b272d)
+Reviewed-by: Sami Shalayel <sami.shalayel@qt.io>
+---
+ src/qml/qml/qqmltypecompiler.cpp                | 17 +++++++++++++++--
+ .../data/aliasesAndDefaultProperty.qml          | 16 ++++++++++++++++
+ .../auto/qml/qqmllanguage/tst_qqmllanguage.cpp  | 15 +++++++++++++++
+ 3 files changed, 46 insertions(+), 2 deletions(-)
+ create mode 100644 tests/auto/qml/qqmllanguage/data/aliasesAndDefaultProperty.qml
+
+diff --git a/src/qml/qml/qqmltypecompiler.cpp b/src/qml/qml/qqmltypecompiler.cpp
+index be9561f0e9..619987f72f 100644
+--- a/src/qml/qml/qqmltypecompiler.cpp
++++ b/src/qml/qml/qqmltypecompiler.cpp
+@@ -851,9 +851,17 @@ static bool sortAliasDependencies(
+     AliasArray ordered;
+     ordered.reserve(obj->aliasCount());
+ 
++    // if the default property is an alias, we need to later update the default property index
++    QmlIR::Alias *defaultPropertyAlias = nullptr;
++    qsizetype aliasCounter = 0;
++
++
+     // Collect aliases as nodes in a graph. Non-local ones are already ordered.
+     AliasArray nodes;
+-    for (QmlIR::Alias *a = obj->firstAlias(); a; a = a->next) {
++    for (QmlIR::Alias *a = obj->firstAlias(); a; ++aliasCounter, a = a->next) {
++        if (obj->defaultPropertyIsAlias && aliasCounter == obj->indexOfDefaultPropertyOrAlias) {
++            defaultPropertyAlias = a;
++        }
+         const int targetObjIdx = idToObjectIndex.value(a->idIndex(), -1);
+         if (targetObjIdx == objectIndex)
+             nodes.append(a);
+@@ -910,8 +918,13 @@ static bool sortAliasDependencies(
+ 
+     // Apply the ordering in the IR
+     obj->setFirstAlias(ordered[0]);
+-    for (qsizetype i = 0, end = ordered.size() - 1; i < end; ++i)
++    if (ordered[0] == defaultPropertyAlias)
++        obj->indexOfDefaultPropertyOrAlias = 0;
++    for (qsizetype i = 0, end = ordered.size() - 1; i < end; ++i) {
+         ordered[i]->next = ordered[i + 1];
++        if (ordered[i] == defaultPropertyAlias)
++            obj->indexOfDefaultPropertyOrAlias = i;
++    }
+     ordered.last()->next = nullptr;
+ 
+     return true;
+diff --git a/tests/auto/qml/qqmllanguage/data/aliasesAndDefaultProperty.qml b/tests/auto/qml/qqmllanguage/data/aliasesAndDefaultProperty.qml
+new file mode 100644
+index 0000000000..11808997bd
+--- /dev/null
++++ b/tests/auto/qml/qqmllanguage/data/aliasesAndDefaultProperty.qml
+@@ -0,0 +1,16 @@
++import QtQuick
++
++Foo {
++
++    component Foo: Item {
++        id: root
++
++        property alias label: root.text
++        default property alias foo: it.data
++
++        Item {
++            id: it
++        }
++        property string text: "should not change"
++    }
++}
+diff --git a/tests/auto/qml/qqmllanguage/tst_qqmllanguage.cpp b/tests/auto/qml/qqmllanguage/tst_qqmllanguage.cpp
+index 0cfcfaa82d..a59a21cd40 100644
+--- a/tests/auto/qml/qqmllanguage/tst_qqmllanguage.cpp
++++ b/tests/auto/qml/qqmllanguage/tst_qqmllanguage.cpp
+@@ -523,6 +523,7 @@ private slots:
+ 
+     void aliasToLargeRevision();
+     void aliasToPropertyOfAlias();
++    void aliasesAndDefaultProperty();
+     void propertyCycle();
+ 
+     void urlWithFragment();
+@@ -9920,7 +9921,21 @@ void tst_qqmllanguage::aliasToPropertyOfAlias()
+     QVERIFY(!o.isNull());
+ 
+     QCOMPARE(o->property("bar").toString(), "bar"_L1);
++}
++
++void tst_qqmllanguage::aliasesAndDefaultProperty()
++{
++    // This test is meant to capture the case where the reordering of aliases
++    // in the IR necessiates an update of the default property index
++
++    QQmlEngine engine;
++    QQmlComponent c(&engine, testFileUrl("aliasesAndDefaultProperty.qml"));
++
++    QVERIFY2(c.isReady(), qPrintable(c.errorString()));
++    QScopedPointer<QObject> o(c.create());
++    QVERIFY(!o.isNull());
+ 
++    QCOMPARE(o->property("label"), "should not change"_L1);
+ }
+ 
+ void tst_qqmllanguage::urlWithFragment()
+-- 
+GitLab
+
