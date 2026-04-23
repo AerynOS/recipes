@@ -3,7 +3,7 @@
 
 name        : gnome-session
 version     : "50.0"
-release     : 28
+release     : 29
 homepage    : https://gitlab.gnome.org/GNOME/gnome-session
 upstreams   :
     - https://download.gnome.org/sources/gnome-session/50/gnome-session-50.0.tar.xz : be7708cd9d260e1ac183815313dbb620b1876ead5ba39ce7ea2e6dc7adbd7246
@@ -42,8 +42,6 @@ build      : |
     %meson_build
 install    : |
     %meson_install
-
-    %install_file %(pkgdir)/50-gnome.preset %(installroot)%(libdir)/systemd/system-preset/50-gnome.preset
 
     # Default mimeapps for GNOME
     %install_file %(pkgdir)/gnome-mimeapps.list -t %(installroot)/usr/share/applications
