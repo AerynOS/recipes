@@ -2,33 +2,36 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : minizip-ng
-version     : "4.1.0"
-release     : 5
+version     : "4.1.1"
+release     : 6
 summary     : Fork of the zlib zip library
 license     : Zlib
 homepage    : https://github.com/zlib-ng/minizip-ng
 description : |
     Fork of the popular zip manipulation library found in the zlib distribution
 upstreams   :
-    - https://github.com/zlib-ng/minizip-ng/archive/refs/tags/4.1.0.tar.gz : 85417229bb0cd56403e811c316150eea1a3643346d9cec7512ddb7ea291b06f2
+    - https://github.com/zlib-ng/minizip-ng/archive/refs/tags/4.1.1.tar.gz : ecc1a514f9e455cb627a768e1219369c576a761bc04196941590906c8b622d7e
 builddeps   :
     - pkgconfig(bzip2)
     - pkgconfig(libcrypto)
     - pkgconfig(liblzma)
     - pkgconfig(libzstd)
     - pkgconfig(zlib-ng)
+    # TODO: Figure out MZ_PPMD
 tuning      :
     - lto : full
 setup       : |
     %cmake -B compat \
         -DBUILD_SHARED_LIBS=ON \
         -DMZ_COMPAT=ON \
-        -DMZ_LIBBSD=OFF
+        -DMZ_LIBBSD=OFF \
+        -DMZ_PPMD=OFF
 
     %cmake -B ng \
         -DBUILD_SHARED_LIBS=ON \
         -DMZ_COMPAT=OFF \
-        -DMZ_LIBBSD=OFF
+        -DMZ_LIBBSD=OFF \
+        -DMZ_PPMD=OFF
 build       : |
     for b in compat ng; do
         %ccache_zero
