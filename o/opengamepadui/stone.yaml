@@ -3,7 +3,7 @@
 
 name        : opengamepadui
 version     : "0.45.0"
-release     : 27
+release     : 28
 homepage    : https://github.com/ShadowBlip/OpenGamepadUI
 upstreams   :
     - https://github.com/ShadowBlip/OpenGamepadUI/archive/refs/tags/v0.45.0.tar.gz : 16f583a453afe021dd590ef7cc2b6fcc58c914024a6da7d67dfa1087987dcfde
@@ -46,6 +46,3 @@ build       : |
     %make
 install     : |
     %make_install PREFIX=%(installroot)/usr
-
-    #Don't enable service files
-    %install_file %(pkgdir)/opengamepadui-user.preset %(installroot)%(libdir)/systemd/user-preset/%(name).preset
