@@ -18,16 +18,19 @@
 				"pkgconfig(alsa)",
 				"pkgconfig(cups)",
 				"pkgconfig(fontconfig)",
+				"pkgconfig(freetype2)",
 				"pkgconfig(harfbuzz)",
 				"pkgconfig(ice)",
 				"pkgconfig(lcms2)",
 				"pkgconfig(libjpeg)",
+				"pkgconfig(libpng)",
 				"pkgconfig(x11)",
 				"pkgconfig(xext)",
 				"pkgconfig(xrandr)",
 				"pkgconfig(xrender)",
 				"pkgconfig(xt)",
-				"pkgconfig(xtst)"
+				"pkgconfig(xtst)",
+				"pkgconfig(zlib)"
 			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
@@ -366,16 +369,19 @@
 				"pkgconfig(alsa)",
 				"pkgconfig(cups)",
 				"pkgconfig(fontconfig)",
+				"pkgconfig(freetype2)",
 				"pkgconfig(harfbuzz)",
 				"pkgconfig(ice)",
 				"pkgconfig(lcms2)",
 				"pkgconfig(libjpeg)",
+				"pkgconfig(libpng)",
 				"pkgconfig(x11)",
 				"pkgconfig(xext)",
 				"pkgconfig(xrandr)",
 				"pkgconfig(xrender)",
 				"pkgconfig(xt)",
-				"pkgconfig(xtst)"
+				"pkgconfig(xtst)",
+				"pkgconfig(zlib)"
 			],
 			"depends": [
 				"openjdk-17"
@@ -394,6 +400,6 @@
 		}
 	},
 	"source-name": "openjdk-17",
-	"source-release": "3",
-	"source-version": "17.0.18"
+	"source-release": "4",
+	"source-version": "17.0.19"
 }

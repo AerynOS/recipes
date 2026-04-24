@@ -2,14 +2,14 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : openjdk-17
-version     : "17.0.18"
-release     : 3
+version     : "17.0.19"
+release     : 4
 upstreams   :
-    - https://github.com/openjdk/jdk17u/archive/refs/tags/jdk-17.0.18-ga.tar.gz:
-        hash: 15c4fbd1d69254d362c24e82f4e9ab7ed69c8ebc7daf996500210698c944230a
+    - https://github.com/openjdk/jdk17u/archive/refs/tags/jdk-17.0.19-ga.tar.gz:
+        hash: b165f0dd120f4455904b76cf87dd9352fd23f88c2e9a33c2532fabacc3cca962
         unpackdir: "jdk"
     # BOOTSTRAPPIN
-    # - https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.18%2B8/OpenJDK17U-jdk_x64_linux_hotspot_17.0.18_10.tar.gz:
+    # - https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.19%2B8/OpenJDK17U-jdk_x64_linux_hotspot_17.0.19_10.tar.gz:
     #     hash: 992f96e7995075ac7636bb1a8de52b0c61d71ed3137fafc979ab96b4ab78dd75
     #     unpackdir: "jdk/bootstrap-jdk"
     # Detection seems broken, we can't use system gtest (TODO fix this)
@@ -36,16 +36,19 @@ builddeps   :
     - pkgconfig(alsa)
     - pkgconfig(cups)
     - pkgconfig(fontconfig)
+    - pkgconfig(freetype2)
     - pkgconfig(harfbuzz)
     - pkgconfig(ice)
     - pkgconfig(lcms2)
     - pkgconfig(libjpeg)
+    - pkgconfig(libpng)
     - pkgconfig(x11)
     - pkgconfig(xext)
     - pkgconfig(xrandr)
     - pkgconfig(xrender)
     - pkgconfig(xt)
     - pkgconfig(xtst)
+    - pkgconfig(zlib)
     - giflib-devel
     - openjdk-17
 rundeps-exclude:
