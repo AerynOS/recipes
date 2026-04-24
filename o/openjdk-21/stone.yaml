@@ -2,14 +2,14 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : openjdk-21
-version     : "21.0.10"
-release     : 3
+version     : "21.0.11"
+release     : 4
 upstreams   :
-    - https://github.com/openjdk/jdk21u/archive/refs/tags/jdk-21.0.10-ga.tar.gz:
-        hash: 133a864987b4732d46cca5084b7cde8ffef168bde4e4b0118ebd2b38c1fda2f1
+    - https://github.com/openjdk/jdk21u/archive/refs/tags/jdk-21.0.11-ga.tar.gz:
+        hash: 76b8310966649ea8a6340f92d4f19f6f84e3083b682a514c8f1999c93373385f
         unpackdir: "jdk"
     # BOOTSTRAPPIN
-    # - https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.10%2B10/OpenJDK21U-jdk_x64_linux_hotspot_21.0.10_10.tar.gz:
+    # - https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.11%2B10/OpenJDK21U-jdk_x64_linux_hotspot_21.0.11_10.tar.gz:
     #     hash: 810d3773df7e0d6c4394e4e244b264c8b30e0b05a0acf542d065fd78a6b65c2f
     #     unpackdir: "jdk/bootstrap-jdk"
     # Detection seems broken, we can't use system gtest (TODO fix this)
@@ -36,16 +36,19 @@ builddeps   :
     - pkgconfig(alsa)
     - pkgconfig(cups)
     - pkgconfig(fontconfig)
+    - pkgconfig(freetype2)
     - pkgconfig(harfbuzz)
     - pkgconfig(ice)
     - pkgconfig(lcms2)
     - pkgconfig(libjpeg)
+    - pkgconfig(libpng)
     - pkgconfig(x11)
     - pkgconfig(xext)
     - pkgconfig(xrandr)
     - pkgconfig(xrender)
     - pkgconfig(xt)
     - pkgconfig(xtst)
+    - pkgconfig(zlib)
     - giflib-devel
     - openjdk-21
 rundeps-exclude:

@@ -18,16 +18,19 @@
 				"pkgconfig(alsa)",
 				"pkgconfig(cups)",
 				"pkgconfig(fontconfig)",
+				"pkgconfig(freetype2)",
 				"pkgconfig(harfbuzz)",
 				"pkgconfig(ice)",
 				"pkgconfig(lcms2)",
 				"pkgconfig(libjpeg)",
+				"pkgconfig(libpng)",
 				"pkgconfig(x11)",
 				"pkgconfig(xext)",
 				"pkgconfig(xrandr)",
 				"pkgconfig(xrender)",
 				"pkgconfig(xt)",
-				"pkgconfig(xtst)"
+				"pkgconfig(xtst)",
+				"pkgconfig(zlib)"
 			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
@@ -372,16 +375,19 @@
 				"pkgconfig(alsa)",
 				"pkgconfig(cups)",
 				"pkgconfig(fontconfig)",
+				"pkgconfig(freetype2)",
 				"pkgconfig(harfbuzz)",
 				"pkgconfig(ice)",
 				"pkgconfig(lcms2)",
 				"pkgconfig(libjpeg)",
+				"pkgconfig(libpng)",
 				"pkgconfig(x11)",
 				"pkgconfig(xext)",
 				"pkgconfig(xrandr)",
 				"pkgconfig(xrender)",
 				"pkgconfig(xt)",
-				"pkgconfig(xtst)"
+				"pkgconfig(xtst)",
+				"pkgconfig(zlib)"
 			],
 			"depends": [
 				"openjdk-21"
@@ -400,6 +406,6 @@
 		}
 	},
 	"source-name": "openjdk-21",
-	"source-release": "3",
-	"source-version": "21.0.10"
+	"source-release": "4",
+	"source-version": "21.0.11"
 }
