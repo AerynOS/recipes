@@ -3,7 +3,7 @@
 
 name        : moby
 version     : "29.4.1"
-release     : 18
+release     : 19
 homepage    : https://www.docker.com
 upstreams   :
     - https://github.com/moby/moby/archive/refs/tags/docker-v29.4.1.tar.gz : 89ef4a0f681ae2c9f7449591243e1e932d86e6086ac3392a47da80c10b1a3d58
@@ -61,7 +61,7 @@ install    : |
     # systemd
     %install_file %(pkgdir)/docker.service -t %(installroot)%(libdir)/systemd/system
     %install_file contrib/init/systemd/docker.socket -t %(installroot)%(libdir)/systemd/system
-    %install_file %(pkgdir)/docker.preset -t %(installroot)/%(libdir)/systemd/system-preset
+    %install_file %(pkgdir)/60-docker.preset -t %(installroot)/%(libdir)/systemd/system-preset
 
     # sysusers configuration
     %sysusers '# Docker daemon user'
