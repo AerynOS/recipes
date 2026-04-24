@@ -2,12 +2,12 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : fftw
-version     : "3.3.10"
-release     : 3
+version     : "3.3.11"
+release     : 4
 homepage    : http://www.fftw.org
 upstreams   :
-    - http://www.fftw.org/fftw-3.3.10.tar.gz :
-        hash: 56c932549852cddcfafdab3820b0200c7742675be92179e59e6215b340e26467
+    - http://www.fftw.org/fftw-3.3.11.tar.gz :
+        hash: 5630c24cdeb33b131612f7eb4b1a9934234754f9f388ff8617458d0be6f239a1
         unpack: false
         rename: fftw.tar.gz
 summary     : C subroutine library for computing the discrete Fourier transform (DFT)
@@ -28,7 +28,7 @@ setup       : |
 
     pushd fftwf
     %configure $_shared_args \
-               --enable-float
+        --enable-float
     popd
 build       : |
     %make -C fftw
