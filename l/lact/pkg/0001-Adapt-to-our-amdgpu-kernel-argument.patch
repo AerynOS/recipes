@@ -269,27 +269,27 @@ diff --git a/lact-gui/src/app/pages/oc_page.rs b/lact-gui/src/app/pages/oc_page.
 index 22c45e1..a9a97cf 100644
 --- a/lact-gui/src/app/pages/oc_page.rs
 +++ b/lact-gui/src/app/pages/oc_page.rs
-@@ -78,21 +78,6 @@ impl relm4::Component for OcPage {
-                         set_orientation: gtk::Orientation::Vertical,
-                         set_spacing: 2,
-                         set_margin_all: 10,
+@@ -77,21 +77,6 @@ impl relm4::Component for OcPage {
+                     set_orientation: gtk::Orientation::Vertical,
+                     set_spacing: 2,
+                     set_margin_all: 10,
 -
--                        gtk::Label {
--                            set_markup: &fl!(I18N, "amd-oc-disabled"),
--                            set_wrap: true,
--                            set_wrap_mode: pango::WrapMode::Word,
--                        },
+-                    gtk::Label {
+-                        set_markup: &fl!(I18N, "amd-oc-disabled"),
+-                        set_wrap: true,
+-                        set_wrap_mode: pango::WrapMode::Word,
+-                    },
 -
--                        gtk::Button {
--                            set_label: &fl!(I18N, "enable-amd-oc"),
--                            set_halign: gtk::Align::End,
+-                    gtk::Button {
+-                        set_label: &fl!(I18N, "enable-amd-oc"),
+-                        set_halign: gtk::Align::End,
 -
--                            connect_clicked[sender] => move |_| {
--                                sender.output(AppMsg::ShowOverdriveDialog).expect("Channel closed");
--                            }
--                        },
-                     },
+-                        connect_clicked[sender] => move |_| {
+-                            sender.output(AppMsg::ShowOverdriveDialog).expect("Channel closed");
+-                        }
+-                    },
                  },
+             },
  
 diff --git a/lact-schema/src/request.rs b/lact-schema/src/request.rs
 index 5bec83a..fc148d1 100644

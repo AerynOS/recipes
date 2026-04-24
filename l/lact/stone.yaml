@@ -2,10 +2,10 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : lact
-version     : "0.8.3"
-release     : 1
+version     : "0.9.0"
+release     : 2
 upstreams   :
-    - https://github.com/ilya-zlobintsev/LACT/archive/refs/tags/v0.8.3.tar.gz : f604b26fadfa4a53d5aaa7c8d8953dc8989710a8d68b3778efbde29ad7889bb0
+    - https://github.com/ilya-zlobintsev/LACT/archive/refs/tags/v0.9.0.tar.gz : 4a422ef394351704b6506d97e1a8ff262b8cd9af4b81ef1e096bc60c22797bf8
 homepage    : https://github.com/ilya-zlobintsev/LACT
 license     : MIT
 summary     : Linux GPU Configuration Tool
@@ -18,14 +18,12 @@ builddeps   :
     - pkgconfig(OpenCL)
     - pkgconfig(gobject-2.0)
     - pkgconfig(graphene-gobject-1.0)
-    - pkgconfig(gtk4)
+    - pkgconfig(libadwaita-1)
     - pkgconfig(libdrm)
 rundeps     :
     - binary(vulkaninfo)
     - hwdata
 setup       : |
-    %patch %(pkgdir)/0001-Adapt-to-our-amdgpu-kernel-argument.patch
-    %patch %(pkgdir)/862.patch
     %patch %(pkgdir)/863.patch
 build       : |
     %make build-release
@@ -34,4 +32,4 @@ install     : |
     %install_file %(pkgdir)/kernel-lact.cmdline %(installroot)%(libdir)/kernel/cmdline.d/70-lact.cmdline
 
     # Enable system-wide upon install
-    %install_file %(pkgdir)/lact.preset -t %(installroot)/%(libdir)/systemd/system-preset
+    %install_file %(pkgdir)/60-lact.preset -t %(installroot)/%(libdir)/systemd/system-preset
