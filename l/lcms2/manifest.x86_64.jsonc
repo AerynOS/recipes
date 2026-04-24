@@ -13,11 +13,11 @@
 			],
 			"files": [
 				"/usr/lib/liblcms2.so.2",
-				"/usr/lib/liblcms2.so.2.0.18",
+				"/usr/lib/liblcms2.so.2.0.19",
 				"/usr/lib/liblcms2_fast_float.so.2",
-				"/usr/lib/liblcms2_fast_float.so.2.0.18",
+				"/usr/lib/liblcms2_fast_float.so.2.0.19",
 				"/usr/lib/liblcms2_threaded.so.2",
-				"/usr/lib/liblcms2_threaded.so.2.0.18"
+				"/usr/lib/liblcms2_threaded.so.2.0.19"
 			],
 			"name": "lcms2",
 			"provides": [
@@ -59,12 +59,14 @@
 				"soname(libc.so.6(x86_64))",
 				"soname(libjpeg.so.8(x86_64))",
 				"soname(liblcms2.so.2(x86_64))",
+				"soname(libm.so.6(x86_64))",
 				"soname(libtiff.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/bin/jpgicc",
 				"/usr/bin/linkicc",
 				"/usr/bin/psicc",
+				"/usr/bin/tifdiff",
 				"/usr/bin/tificc",
 				"/usr/bin/transicc",
 				"/usr/share/man/man1/jpgicc.1",
@@ -78,12 +80,13 @@
 				"binary(jpgicc)",
 				"binary(linkicc)",
 				"binary(psicc)",
+				"binary(tifdiff)",
 				"binary(tificc)",
 				"binary(transicc)"
 			]
 		}
 	},
 	"source-name": "lcms2",
-	"source-release": "6",
-	"source-version": "2.18"
+	"source-release": "7",
+	"source-version": "2.19"
 }
