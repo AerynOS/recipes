@@ -14,9 +14,9 @@
 			],
 			"files": [
 				"/usr/lib/libhwy.so.1",
-				"/usr/lib/libhwy.so.1.3.0",
+				"/usr/lib/libhwy.so.1.4.0",
 				"/usr/lib/libhwy_contrib.so.1",
-				"/usr/lib/libhwy_contrib.so.1.3.0"
+				"/usr/lib/libhwy_contrib.so.1.4.0"
 			],
 			"name": "highway",
 			"provides": [
@@ -40,13 +40,17 @@
 				"/usr/include/hwy/aligned_allocator.h",
 				"/usr/include/hwy/auto_tune.h",
 				"/usr/include/hwy/base.h",
+				"/usr/include/hwy/bit_set.h",
 				"/usr/include/hwy/cache_control.h",
 				"/usr/include/hwy/contrib/algo/copy-inl.h",
+				"/usr/include/hwy/contrib/algo/count-inl.h",
 				"/usr/include/hwy/contrib/algo/find-inl.h",
+				"/usr/include/hwy/contrib/algo/minmax-inl.h",
 				"/usr/include/hwy/contrib/algo/transform-inl.h",
 				"/usr/include/hwy/contrib/bit_pack/bit_pack-inl.h",
 				"/usr/include/hwy/contrib/dot/dot-inl.h",
 				"/usr/include/hwy/contrib/image/image.h",
+				"/usr/include/hwy/contrib/math/fast_math-inl.h",
 				"/usr/include/hwy/contrib/math/math-inl.h",
 				"/usr/include/hwy/contrib/matvec/matvec-inl.h",
 				"/usr/include/hwy/contrib/random/random-inl.h",
@@ -104,7 +108,7 @@
 				"/usr/lib/libhwy_contrib.so",
 				"/usr/lib/libhwy_test.so",
 				"/usr/lib/libhwy_test.so.1",
-				"/usr/lib/libhwy_test.so.1.3.0",
+				"/usr/lib/libhwy_test.so.1.4.0",
 				"/usr/lib/pkgconfig/libhwy-contrib.pc",
 				"/usr/lib/pkgconfig/libhwy-test.pc",
 				"/usr/lib/pkgconfig/libhwy.pc"
@@ -120,6 +124,6 @@
 		}
 	},
 	"source-name": "highway",
-	"source-release": "6",
-	"source-version": "1.3.0"
+	"source-release": "7",
+	"source-version": "1.4.0"
 }
