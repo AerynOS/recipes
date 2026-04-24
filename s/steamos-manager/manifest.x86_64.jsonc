@@ -28,8 +28,10 @@
 			"files": [
 				"/usr/bin/steamosctl",
 				"/usr/lib/steamos-manager",
+				"/usr/lib/systemd/system-preset/60-steamos-manager.preset",
 				"/usr/lib/systemd/system/sddm.service.d/reset-oneshot-boot.conf",
 				"/usr/lib/systemd/system/steamos-manager.service",
+				"/usr/lib/systemd/user-preset/60-steamos-manager.preset",
 				"/usr/lib/systemd/user/steamos-manager-configure-cecd.service",
 				"/usr/lib/systemd/user/steamos-manager-session-cleanup.service",
 				"/usr/lib/systemd/user/steamos-manager.service",
@@ -75,6 +77,6 @@
 		}
 	},
 	"source-name": "steamos-manager",
-	"source-release": "1",
+	"source-release": "2",
 	"source-version": "26.0.1"
 }
