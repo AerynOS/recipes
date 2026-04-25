@@ -1,0 +1,31 @@
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : rapidjson
+version     : "1.1.0"
+release     : 1
+upstreams   :
+    - https://github.com/miloyip/rapidjson/archive/v1.1.0.tar.gz : bf7ced29704a1e696fbccf2a2b4ea068e7774fa37f6d7dd4039d0787f8bed98e
+homepage    : https://github.com/miloyip/rapidjson
+license     : MIT
+summary     : RapidJSON is a C++ library for parsing and generating JSON
+description : |
+    RapidJSON is a C++ library for parsing and generating JSON. It supports both SOX and DOM style API.
+setup       : |
+    %patch %(pkgdir)/upstream-01.patch
+
+    %cmake \
+        -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
+        -DRAPIDJSON_BUILD_CXX17=ON \
+        -DRAPIDJSON_BUILD_DOCS=OFF \
+        -DRAPIDJSON_BUILD_EXAMPLES=OFF
+build       : |
+    %cmake_build
+install     : |
+    %cmake_install
+packages    :
+    - "%(name)":
+        paths:
+            - /usr/include/
+            - /usr/lib/cmake/
+            - /usr/lib/pkgconfig/
