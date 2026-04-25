@@ -1,0 +1,48 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"python-gpep517": {
+			"build-depends": [
+				"python(flit-core)"
+			],
+			"depends": [
+				"python(installer)"
+			],
+			"files": [
+				"/usr/bin/gpep517",
+				"/usr/lib/python3.14/site-packages/gpep517-19.dist-info/METADATA",
+				"/usr/lib/python3.14/site-packages/gpep517-19.dist-info/RECORD",
+				"/usr/lib/python3.14/site-packages/gpep517-19.dist-info/WHEEL",
+				"/usr/lib/python3.14/site-packages/gpep517-19.dist-info/entry_points.txt",
+				"/usr/lib/python3.14/site-packages/gpep517-19.dist-info/licenses/COPYING",
+				"/usr/lib/python3.14/site-packages/gpep517/__init__.py",
+				"/usr/lib/python3.14/site-packages/gpep517/__main__.py",
+				"/usr/lib/python3.14/site-packages/gpep517/__pycache__/__init__.cpython-314.opt-1.pyc",
+				"/usr/lib/python3.14/site-packages/gpep517/__pycache__/__init__.cpython-314.pyc",
+				"/usr/lib/python3.14/site-packages/gpep517/__pycache__/__main__.cpython-314.opt-1.pyc",
+				"/usr/lib/python3.14/site-packages/gpep517/__pycache__/__main__.cpython-314.pyc",
+				"/usr/lib/python3.14/site-packages/gpep517/__pycache__/build.cpython-314.opt-1.pyc",
+				"/usr/lib/python3.14/site-packages/gpep517/__pycache__/build.cpython-314.pyc",
+				"/usr/lib/python3.14/site-packages/gpep517/__pycache__/install.cpython-314.opt-1.pyc",
+				"/usr/lib/python3.14/site-packages/gpep517/__pycache__/install.cpython-314.pyc",
+				"/usr/lib/python3.14/site-packages/gpep517/__pycache__/qa.cpython-314.opt-1.pyc",
+				"/usr/lib/python3.14/site-packages/gpep517/__pycache__/qa.cpython-314.pyc",
+				"/usr/lib/python3.14/site-packages/gpep517/__pycache__/utils.cpython-314.opt-1.pyc",
+				"/usr/lib/python3.14/site-packages/gpep517/__pycache__/utils.cpython-314.pyc",
+				"/usr/lib/python3.14/site-packages/gpep517/build.py",
+				"/usr/lib/python3.14/site-packages/gpep517/install.py",
+				"/usr/lib/python3.14/site-packages/gpep517/qa.py",
+				"/usr/lib/python3.14/site-packages/gpep517/utils.py"
+			],
+			"name": "python-gpep517",
+			"provides": [
+				"binary(gpep517)",
+				"python(gpep517)"
+			]
+		}
+	},
+	"source-name": "python-gpep517",
+	"source-release": "1",
+	"source-version": "19"
+}

@@ -1,0 +1,20 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : python-gpep517
+version     : "19"
+release     : 1
+homepage    : https://github.com/gentoo/gpep517
+upstreams   :
+    - git|https://github.com/gentoo/gpep517.git: ace02abe8d637e65ee721c74a65608f11d902f6b
+summary     :  A backend script to aid installing Python packages
+description : |
+     A backend script to aid installing Python packages
+license     : 
+    - GPL-2.0-or-later
+builddeps   :
+    - python(flit-core)
+build       : |
+    %pyproject_build
+install     : |
+    %pyproject_install
