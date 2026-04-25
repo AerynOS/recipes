@@ -1,0 +1,20 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : python-mss
+version     : "10.2.0"
+release     : 1
+homepage    : https://github.com/BoboTiG/python-mss
+upstreams   :
+    - https://github.com/BoboTiG/python-mss/archive/refs/heads/main.zip : 9bd005a5e4fdd94ffeaeb6f0c2c6dc3676853979b15341462d36ed0f21a434c9
+summary     :  An ultra fast cross-platform multiple screenshots module in pure Python using ctypes. 
+description : |
+    An ultra fast cross-platform multiple screenshots module in pure Python using ctypes. 
+license     : 
+    - MIT
+builddeps   :
+    - python(hatchling)
+build       : |
+    %pyproject_build
+install     : |
+    %pyproject_install
