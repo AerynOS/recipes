@@ -1,0 +1,57 @@
+#
+# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : strawberry
+version     : 1.2.19
+release     : 1
+upstreams   :
+    - https://github.com/strawberrymusicplayer/strawberry/releases/download/1.2.19/strawberry-1.2.19.tar.xz : a4490de1ce5c1ce327ced1e6a7554f052ead4182a4f492fb6214747336fd9ab7
+homepage    : https://www.strawberrymusicplayer.org
+license     : GPL-3.0-or-later
+summary     : Strawberry is a audio player and music collection organizer.
+description : |
+    Strawberry is a audio player and music collection organizer. It is a fork of Clementine released in 2018 aimed at music collectors, audio enthusiasts and audiophiles.
+builddeps   :
+    - cmake(Boost)
+    - cmake(KDSingleApplication-qt6)
+    - cmake(Qt6)
+    - cmake(Qt6GuiPrivate)
+    - cmake(Qt6LinguistTools)
+    - pkgconfig(alsa)
+    - pkgconfig(fftw3)
+    - pkgconfig(gdk-pixbuf-2.0)
+    - pkgconfig(glib-2.0)
+    - pkgconfig(gio-2.0)
+    - pkgconfig(gstreamer-1.0)
+    - pkgconfig(gstreamer-app-1.0)
+    - pkgconfig(gstreamer-audio-1.0)
+    - pkgconfig(gstreamer-base-1.0)
+    - pkgconfig(gstreamer-pbutils-1.0)
+    - pkgconfig(gstreamer-tag-1.0)
+    - pkgconfig(icu-uc)
+    - pkgconfig(libcdio)
+    - pkgconfig(libchromaprint)
+    - pkgconfig(libebur128)
+    - pkgconfig(libmtp)
+    - pkgconfig(libpulse)
+    - pkgconfig(libsparsehash)
+    - pkgconfig(sqlite3)
+    - pkgconfig(taglib)
+    - pkgconfig(x11)
+    - pkgconfig(xcb)
+    - pkgconfig(xkbcommon)
+    # libgpod-1.0
+checkdeps   :
+    - cmake(GTest)
+rundeps     :
+    - gstreamer-plugin-qt6
+setup       : |
+    %cmake \
+        -DENABLE_GPOD=OFF
+build       : |
+    %cmake_build
+install     : |
+    %cmake_install
+# TODO: Enable checks
