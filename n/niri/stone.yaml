@@ -2,13 +2,13 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : niri
-version     : "25.11"
-release     : 15
+version     : "26.4"
+release     : 16
 summary     : Niri Desktop Compositor
 license     : GPL-3.0
 homepage    : https://github.com/YaLTeR/niri
 upstreams   :
-    - https://github.com/YaLTeR/niri/archive/refs/tags/v25.11.tar.gz : 9a9a58dbe12e065776cc80424f22c89489f2662e881152ceae46e68bb8677d8c
+    - git|https://github.com/niri-wm/niri.git : 8ed0da44d974c32c6877d2f4630c314da0717ecb
 description : |
     A scrollable-tiling Wayland compositor
 builddeps   :
@@ -33,9 +33,6 @@ rundeps    :
     - xdg-desktop-portal-gtk
 networking  : true
 setup       : |
-    %patch %(pkgdir)/0001-Increase-default-Wayland-buffer-size.patch
-    %patch %(pkgdir)/0001-Fix-dead-surface-hook-VRAM-leak-3404.patch
-
     %cargo_fetch
 build       : |
     RUST_BACKTRACE=1 nice %cargo_build
