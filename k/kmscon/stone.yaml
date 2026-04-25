@@ -3,7 +3,7 @@
 
 name        : kmscon
 version     : "9.3.5"
-release     : 8
+release     : 9
 upstreams   :
     - https://github.com/kmscon/kmscon/archive/refs/tags/v9.3.5.tar.gz : 14975a8c1ddcc163b1afecd2207c9fd2e05b88e8a00246701fabf9dffce52ee9
 homepage    : https://www.freedesktop.org/wiki/Software/kmscon
@@ -33,8 +33,6 @@ build       : |
     %meson_build
 install     : |
     %meson_install
-
-    %install_file %(pkgdir)/kmscon.preset %(installroot)%(libdir)/systemd/system-preset/kmscon.preset
 
     # Make it the default
     # - we need to undo this until the issue with kmscon hogging the display
