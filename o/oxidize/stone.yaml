@@ -1,0 +1,22 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : oxidize
+version     : "0.2.0"
+release     : 1
+homepage    : https://github.com/christian-bendiksen/oxidize
+upstreams   :
+    - https://github.com/christian-bendiksen/oxidize/archive/refs/tags/v0.2.0.tar.gz : 14ca41bcaad94aedf8e8964a4e3dbe0d122eccefbe7480b9ca20ebbd8dcec2c6
+summary     : Oxidize is a tool for atomically changing themes in window managers.
+description : |
+    Oxidize is a tool for atomically changing themes in window managers.
+license     : MIT
+networking  : true
+setup       : |
+    %cargo_fetch
+build       : |
+    %cargo_build
+install     : |
+    %cargo_install
+check       : |
+    %cargo_test
