@@ -1,0 +1,50 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : wayvr
+version     : "26.2.1"
+release     : 1
+homepage    : https://wayvr.org/
+upstreams   :
+    - https://github.com/wayvr-org/wayvr/archive/refs/tags/v26.2.1.tar.gz : c81824f9a2855d01ac4c97165338cb24133febd17211b17aa302b8e8c7596c70
+summary     : A lightweight OpenXR/OpenVR overlay for Wayland and X11 desktops
+description : |
+    Your way to enjoy VR on Linux. Run apps inside VR & access your Wayland/X11 screens from Monado/WiVRn/SteamVR.
+license     : GPL-3.0-or-later
+builddeps   :
+    - pkgconfig(alsa)
+    - pkgconfig(dbus-1)
+    - pkgconfig(libpipewire-0.3)
+    - pkgconfig(libspa-0.2)
+    - pkgconfig(openssl)
+    - pkgconfig(openxr)
+    - pkgconfig(shaderc)
+    - pkgconfig(udev)
+    - pkgconfig(wayland-client)
+    - pkgconfig(x11)
+    - pkgconfig(xext)
+    - pkgconfig(xkbcommon)
+    - pkgconfig(xkbcommon-x11)
+    - pkgconfig(xrandr)
+networking  : true
+setup       : |
+    # Fix build breaking (from galister): https://aur.archlinux.org/packages/wayvr
+    %patch %(pkgdir)/0001-update-pipewire-rs-to-fix-build-on-aerynos.patch
+    %patch %(pkgdir)/0002-Updated-the-pipewire-reference-in-Cargo.lock.patch
+
+    %cargo_fetch
+build       : |
+    # Enable all features except native OpenVR support. OpenXR is the
+    # standard for Monado and SteamVR, while xrizer translates legacy
+    # OpenVR calls to OpenXR, making native OpenVR support unnecessary.
+    %cargo_build \
+      --package wayvr \
+      --package wayvrctl \
+      --no-default-features \
+      --features=openxr,osc,pipewire,wayland,x11
+install     : |
+    %cargo_install wayvr
+    %cargo_install wayvrctl
+    %install_file wayvr/wayvr.desktop %(installroot)%(datadir)/applications/wayvr.desktop
+    %install_file wayvr/wayvr.png %(installroot)%(datadir)/icons/hicolor/128x128/apps/wayvr.png
+    %install_file wayvr/wayvr.svg %(installroot)%(datadir)/icons/hicolor/scalable/apps/wayvr.svg
