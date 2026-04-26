@@ -1,0 +1,72 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : monado
+version     : "25.1.0"
+release     : 1
+homepage    : https://gitlab.freedesktop.org/monado/monado
+upstreams   :
+    - git|https://gitlab.freedesktop.org/monado/monado.git : 628c83b4eb173250ed7f305b3bce6a0b41a54791
+summary     : The open source XR runtime
+description : |
+    Monado is an open source XR runtime delivering immersive experiences such as VR and AR on mobile, PC/desktop,
+    and any other device (because gosh darn people come up with a lot of weird hardware).
+    Monado aims to be a complete and conforming implementation of the OpenXR API made by Khronos.
+    The project is primarily developed on GNU/Linux, but also runs on Android and Windows.
+    "Monado" has no specific meaning and is just a name.
+license     : BSL-1.0
+rundeps     :
+    - xr-hardware
+builddeps   :
+    - binary(glslangValidator)
+    - pkgconfig(SPIRV-Tools)
+    - pkgconfig(bluez)
+    - pkgconfig(dbus-1)
+    - pkgconfig(egl)
+    - pkgconfig(eigen3)
+    - pkgconfig(gl)
+    - pkgconfig(gstreamer-1.0)
+    - pkgconfig(gstreamer-app-1.0)
+    - pkgconfig(gstreamer-video-1.0)
+    - pkgconfig(hidapi-libusb)
+    - pkgconfig(libavcodec)
+    - pkgconfig(libbsd)
+    - pkgconfig(libcap)
+    - pkgconfig(libdrm)
+    - pkgconfig(libglvnd)
+    - pkgconfig(libjpeg)
+    - pkgconfig(libusb-1.0)
+    - pkgconfig(libv4l2)
+    - pkgconfig(opencv4)
+    - pkgconfig(python3)
+    - pkgconfig(sdl2)
+    - pkgconfig(shaderc)
+    - pkgconfig(udev)
+    - pkgconfig(vulkan)
+    - pkgconfig(wayland-client)
+    - pkgconfig(wayland-egl)
+    - pkgconfig(wayland-protocols)
+    - pkgconfig(wayland-scanner)
+    - pkgconfig(x11)
+    - pkgconfig(xrandr)
+    - pkgconfig(zlib)
+    # - pkgconfig(LeapSDK)
+    # - pkgconfig(LeapV2)
+    # - pkgconfig(ONNXRuntime)
+    # - pkgconfig(OpenHMD)
+    # - pkgconfig(Percetto)
+    # - pkgconfig(depthai)
+    # - pkgconfig(realsense2)
+setup       : |
+    # Fix Pavlov VR broken controller mappings: https://discord.com/channels/1065291958328758352/1093090359464165470/1495868738992341113
+    sed -i 's/XRT_MAX_HANDLE_CHILDREN 256/XRT_MAX_HANDLE_CHILDREN 512/' src/xrt/state_trackers/oxr/oxr_objects.h
+
+    %cmake
+build       : |
+    %cmake_build
+install     : |
+    %cmake_install
+paths:
+    - /usr/include/monado/monado.h
+    - /usr/lib/libmonado.so
+    - /usr/lib/libopenxr_monado.so
