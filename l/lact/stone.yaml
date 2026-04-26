@@ -24,6 +24,7 @@ rundeps     :
     - binary(vulkaninfo)
     - hwdata
 setup       : |
+    %patch %(pkgdir)/0001-Adapt-to-our-amdgpu-kernel-argument.patch
     %patch %(pkgdir)/863.patch
 build       : |
     %make build-release
