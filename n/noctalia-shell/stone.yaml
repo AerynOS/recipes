@@ -1,0 +1,31 @@
+#
+# SPDX-FileCopyrightText: © 2025- AerynOS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : noctalia-shell
+version     : "4.7.1"
+release     : 3
+homepage    : https://github.com/noctalia-dev/noctalia-shell
+upstreams   :
+    - https://github.com/noctalia-dev/noctalia-shell/archive/refs/tags/v4.7.1.tar.gz : 1c0944947abd01f76dd575e7d86200a4b4e0e1037d940a1f79c8342405fd60da
+summary     : niri shell
+description : |
+    A sleek and minimal desktop shell thoughtfully crafted for Wayland.
+license     :
+    - MIT
+rundeps     :
+    - brightnessctl
+    - ffmpeg
+    - imagemagick
+    - noctalia-qs
+    - python
+setup       : |
+    %patch %(pkgdir)/0001-Change-pamConfigDirectory.patch
+build       : |
+    true
+install     : |
+    %install_dir %(installroot)%(datadir)/quickshell/noctalia-shell
+    cp -r . %(installroot)%(datadir)/quickshell/noctalia-shell/
+    rm -rf %(installroot)%(datadir)/quickshell/noctalia-shell/.git* \
+           %(installroot)%(datadir)/quickshell/noctalia-shell/.github
