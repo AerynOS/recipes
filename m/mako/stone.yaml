@@ -1,0 +1,31 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : mako
+version     : "1.11.0"
+release     : 1
+homepage    : https://github.com/emersion/mako
+upstreams   :
+    - https://github.com/emersion/mako/archive/refs/tags/v1.11.0.tar.gz : 72d11d3fca20a3dfbca0107ff875eace479751be0cf2ddd1dd5bafa131ac7282
+summary     : A lightweight Wayland notification daemon 
+description : |
+    A lightweight Wayland notification daemon
+license     : 
+    - MIT
+builddeps   :
+    - pkgconfig(cairo)
+    - pkgconfig(gdk-pixbuf-2.0)
+    - pkgconfig(glib-2.0)
+    - pkgconfig(gobject-2.0)
+    - pkgconfig(libsystemd)
+    - pkgconfig(pango)
+    - pkgconfig(pangocairo)
+    - pkgconfig(wayland-client)
+    - pkgconfig(wayland-cursor)
+    - pkgconfig(wayland-protocols)
+setup       : |
+    %meson
+build       : |
+    %meson_build
+install     : |
+    %meson_install
