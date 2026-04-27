@@ -20,7 +20,7 @@
 			],
 			"files": [
 				"/usr/lib/libminizip.so.1",
-				"/usr/lib/libminizip.so.4.1.1"
+				"/usr/lib/libminizip.so.4.1.2"
 			],
 			"name": "minizip",
 			"provides": [
@@ -40,8 +40,10 @@
 				"pkgconfig(zlib-ng)"
 			],
 			"files": [
+				"/usr/include/minizip/crypt.h",
 				"/usr/include/minizip/ioapi.h",
 				"/usr/include/minizip/mz.h",
+				"/usr/include/minizip/mz_config.h",
 				"/usr/include/minizip/mz_crypt.h",
 				"/usr/include/minizip/mz_os.h",
 				"/usr/include/minizip/mz_strm.h",
@@ -61,8 +63,8 @@
 				"/usr/include/minizip/zip.h",
 				"/usr/lib/cmake/minizip/minizip-config-version.cmake",
 				"/usr/lib/cmake/minizip/minizip-config.cmake",
-				"/usr/lib/cmake/minizip/minizip-release.cmake",
-				"/usr/lib/cmake/minizip/minizip.cmake",
+				"/usr/lib/cmake/minizip/minizip-targets-release.cmake",
+				"/usr/lib/cmake/minizip/minizip-targets.cmake",
 				"/usr/lib/libminizip.so",
 				"/usr/lib/pkgconfig/minizip.pc"
 			],
@@ -90,7 +92,7 @@
 			],
 			"files": [
 				"/usr/lib/libminizip-ng.so.4",
-				"/usr/lib/libminizip-ng.so.4.1.1"
+				"/usr/lib/libminizip-ng.so.4.1.2"
 			],
 			"name": "minizip-ng",
 			"provides": [
@@ -111,6 +113,7 @@
 			],
 			"files": [
 				"/usr/include/minizip-ng/mz.h",
+				"/usr/include/minizip-ng/mz_config.h",
 				"/usr/include/minizip-ng/mz_crypt.h",
 				"/usr/include/minizip-ng/mz_os.h",
 				"/usr/include/minizip-ng/mz_strm.h",
@@ -128,8 +131,8 @@
 				"/usr/include/minizip-ng/mz_zip_rw.h",
 				"/usr/lib/cmake/minizip-ng/minizip-ng-config-version.cmake",
 				"/usr/lib/cmake/minizip-ng/minizip-ng-config.cmake",
-				"/usr/lib/cmake/minizip-ng/minizip-ng-release.cmake",
-				"/usr/lib/cmake/minizip-ng/minizip-ng.cmake",
+				"/usr/lib/cmake/minizip-ng/minizip-ng-targets-release.cmake",
+				"/usr/lib/cmake/minizip-ng/minizip-ng-targets.cmake",
 				"/usr/lib/libminizip-ng.so",
 				"/usr/lib/pkgconfig/minizip-ng.pc"
 			],
@@ -141,6 +144,6 @@
 		}
 	},
 	"source-name": "minizip-ng",
-	"source-release": "6",
-	"source-version": "4.1.1"
+	"source-release": "7",
+	"source-version": "4.1.2"
 }
