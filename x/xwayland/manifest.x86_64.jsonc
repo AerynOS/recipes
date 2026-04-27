@@ -2,62 +2,6 @@
 {
 	"manifest-version": "0.2",
 	"packages": {
-		"$(name)-devel": {
-			"build-depends": [
-				"binary(xmlto)",
-				"binary(xsltproc)",
-				"pkgconfig(bigreqsproto)",
-				"pkgconfig(compositeproto)",
-				"pkgconfig(damageproto)",
-				"pkgconfig(dri)",
-				"pkgconfig(dri3proto)",
-				"pkgconfig(epoxy)",
-				"pkgconfig(fixesproto)",
-				"pkgconfig(fontsproto)",
-				"pkgconfig(fontutil)",
-				"pkgconfig(gbm)",
-				"pkgconfig(inputproto)",
-				"pkgconfig(kbproto)",
-				"pkgconfig(libdecor-0)",
-				"pkgconfig(libdrm)",
-				"pkgconfig(libei-1.0)",
-				"pkgconfig(libgcrypt)",
-				"pkgconfig(liboeffis-1.0)",
-				"pkgconfig(libsystemd)",
-				"pkgconfig(libtirpc)",
-				"pkgconfig(libunwind)",
-				"pkgconfig(libxcvt)",
-				"pkgconfig(nettle)",
-				"pkgconfig(openssl)",
-				"pkgconfig(pixman-1)",
-				"pkgconfig(presentproto)",
-				"pkgconfig(randrproto)",
-				"pkgconfig(recordproto)",
-				"pkgconfig(renderproto)",
-				"pkgconfig(resourceproto)",
-				"pkgconfig(scrnsaverproto)",
-				"pkgconfig(videoproto)",
-				"pkgconfig(wayland-client)",
-				"pkgconfig(wayland-protocols)",
-				"pkgconfig(xcmiscproto)",
-				"pkgconfig(xdmcp)",
-				"pkgconfig(xextproto)",
-				"pkgconfig(xf86bigfontproto)",
-				"pkgconfig(xf86vidmodeproto)",
-				"pkgconfig(xfont2)",
-				"pkgconfig(xineramaproto)",
-				"pkgconfig(xkbcomp)",
-				"pkgconfig(xkbfile)",
-				"pkgconfig(xproto)",
-				"pkgconfig(xshmfence)",
-				"pkgconfig(xtrans)",
-				"pkgconfig(xwaylandproto)"
-			],
-			"files": [
-				"/usr/lib/xorg/protocol.txt"
-			],
-			"name": "$(name)-devel"
-		},
 		"xwayland": {
 			"build-depends": [
 				"binary(xmlto)",
@@ -197,7 +141,8 @@
 				"xwayland"
 			],
 			"files": [
-				"/usr/lib/pkgconfig/xwayland.pc"
+				"/usr/lib/pkgconfig/xwayland.pc",
+				"/usr/lib/xorg/protocol.txt"
 			],
 			"name": "xwayland-devel",
 			"provides": [
@@ -206,6 +151,6 @@
 		}
 	},
 	"source-name": "xwayland",
-	"source-release": "14",
-	"source-version": "24.1.10"
+	"source-release": "15",
+	"source-version": "24.1.11"
 }

@@ -224,3 +224,6 @@
 - linux-handheld
 - linux-handheld-devel
 - linux-handheld-dbginfo
+
+### Whoops
+- "$(name)-devel"
