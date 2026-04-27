@@ -3,7 +3,7 @@
 
 name        : steamos-manager
 version     : "26.0.1"
-release     : 1
+release     : 2
 homepage    : https://gitlab.steamos.cloud/holo/steamos-manager
 upstreams   :
     - https://gitlab.steamos.cloud/holo/steamos-manager/-/archive/v26.0.1/steamos-manager-v26.0.1.tar.gz : 519c104492bb6dcc0424c8bac584f05ae41779f5a7c7a31e7cc5362e7f832ccb
@@ -46,3 +46,7 @@ install     : |
     %make_install
     rm %(installroot)%(libdir)/systemd/user/orca.service # not used by anyone apparently, steamOS specific(?)
     #rm %(installroot)%(libdir)/systemd/system/sddm.service.d/reset-oneshot-boot.conf # steamOS specific
+
+    # Enable system-wide upon install
+    %install_file %(pkgdir)/60-steamos-manager.preset -t %(installroot)/%(libdir)/systemd/system-preset
+    %install_file %(pkgdir)/60-steamos-manager.preset -t %(installroot)/%(libdir)/systemd/user-preset
