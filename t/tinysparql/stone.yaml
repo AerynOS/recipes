@@ -3,7 +3,7 @@
 
 name        : tinysparql
 version     : "3.11.1"
-release     : 15
+release     : 16
 homepage    : https://tracker.gnome.org/overview/
 upstreams   :
     - https://download.gnome.org/sources/tinysparql/3.11/tinysparql-3.11.1.tar.xz : cfd46021ee1514ad435e714f7aa1ec7a787c7f516a94f4c7438897ee3d6eca1e
@@ -47,7 +47,7 @@ build       : |
 install     : |
     %meson_install
 
-    %install_file %(pkgdir)/tinysparql.preset %(installroot)%(libdir)/systemd/user-preset/%(name).preset
+    %install_file %(pkgdir)/60-tinysparql.preset %(installroot)%(libdir)/systemd/user-preset/60-%(name).preset
 packages    :
     - libtinysparql:
         paths:
