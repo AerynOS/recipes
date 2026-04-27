@@ -27,6 +27,11 @@ enable avahi-daemon.*
 enable cups.socket
 enable cups.path
 
+# Nvidia driver defaults
+enable nvidia-hibernate.service
+enable nvidia-resume.service
+enable nvidia-suspend.service
+
 # Virtualization driver specific daemons. Start by default at boot for VM
 # autostart, but shutdown after 2 mins and socket activated thereafter
 enable virtqemud.service
@@ -117,6 +122,10 @@ enable power-profiles-daemon.service
 # Support for dual-GPU systems
 enable switcheroo-control.service
 
+# Gaming related
+enable powerstation.service
+enable steamos-manager.service
+
 # Enable the Docker daemon socket
 enable docker.socket
 
@@ -130,5 +139,12 @@ enable waydroid-container.service
 enable nfs-client.target
 
 # For out of the box configuration
-enable scx_loader.service
+enable blk-availability.service
 enable com.system76.Scheduler.service
+enable lactd.service
+enable lxcfs.service
+enable netavark-dhcp-proxy.service
+enable netavark-nftables-reload.service
+enable scx_loader.service
+enable tinysparql-xdg-portal-3.service
+enable xwayland-satellite.service
