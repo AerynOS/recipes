@@ -3,7 +3,7 @@
 
 name        : powerstation
 version     : "0.8.1"
-release     : 11
+release     : 12
 homepage    : https://github.com/ShadowBlip/PowerStation
 upstreams   :
     - https://github.com/ShadowBlip/PowerStation/archive/refs/tags/v0.8.1.tar.gz : 8cd83d570a6e4d3ae3178a9073329c31526e8cd5e5900e8309a57d1db3c83ab4
@@ -29,3 +29,5 @@ install     : |
     %install_dir %(installroot)/usr
     cp -R rootfs/usr/* %(installroot)/usr/.
     rm -rf %(installroot)%(datadir)/dbus-1/system-services
+    # Enable system-wide upon install
+    %install_file %(pkgdir)/60-powerstation.preset -t %(installroot)/%(libdir)/systemd/system-preset
