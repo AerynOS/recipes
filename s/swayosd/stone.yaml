@@ -1,0 +1,32 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : swayosd
+version     : "0.3.1"
+release     : 1
+homepage    : https://github.com/ErikReider/SwayOSD
+upstreams   :
+    - https://github.com/ErikReider/SwayOSD/archive/refs/tags/v0.3.1.tar.gz : c8ba093637d21c25db7bccdb0009362aa712b173a1c403e87ab678a84dae9b32
+summary     :  A OSD window for common actions like volume, playback and capslock.
+description : |
+    A OSD window for common actions like volume, playback and capslock.
+license     : 
+    - GPL-3.0
+networking  : true
+builddeps   :
+    - binary(glib-compile-resources)
+    - binary(rustc)
+    - binary(sassc)
+    - pkgconfig(dbus-1)
+    - pkgconfig(gdk-pixbuf-2.0)
+    - pkgconfig(gtk4)
+    - pkgconfig(gtk4-layer-shell-0)
+    - pkgconfig(libevdev)
+    - pkgconfig(libpulse)
+    - pkgconfig(libinput)
+setup       : |
+    %meson
+build       : |
+    %meson_build
+install     : |
+    %meson_install
