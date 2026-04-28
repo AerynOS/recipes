@@ -4,6 +4,7 @@
 	"packages": {
 		"rsync": {
 			"build-depends": [
+				"binary(python3)",
 				"pkgconfig(libacl)",
 				"pkgconfig(liblz4)",
 				"pkgconfig(libxxhash)",
@@ -38,6 +39,6 @@
 		}
 	},
 	"source-name": "rsync",
-	"source-release": "3",
-	"source-version": "3.4.1"
+	"source-release": "4",
+	"source-version": "3.4.2"
 }
