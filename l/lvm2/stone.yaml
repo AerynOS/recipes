@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : lvm2
-version     : "2.03.39"
-release     : 15
+version     : "2.03.40"
+release     : 16
 homepage    : https://sourceware.org/lvm2/
 upstreams   :
-    - https://sourceware.org/pub/lvm2/LVM2.2.03.39.tgz : 23bc9067e28fe0d37b3cc441f2865b9e022ce3c624babe22918b8dd90c031ee8
+    - https://sourceware.org/pub/lvm2/LVM2.2.03.40.tgz : 60c9bb5c0a109f20267bb40ba50c00c84a110fc14c129f21afb5566929bf5645
 summary     : Linux logical volume management userspace tools
 description : |
     LVM2 is a logical volume management facility for the Linux kernel:
@@ -37,7 +37,6 @@ setup       : |
     # export RUN_DIR=/run
 
     %patch %(pkgdir)/stateless/0001-Fix-cache-dirs.patch
-    %patch %(pkgdir)/add-malloc_trim-call.patch
 
     # TODO: enable dmfilemapd maybe? dbusd/lvmlockd?
     %configure \
@@ -120,9 +119,11 @@ packages    :
             - /usr/sbin/blkdeactivate
             - /usr/sbin/dmsetup
             - /usr/sbin/dmstats
+            - /usr/sbin/dmvdostats
             - /usr/share/man/man8/blkdeactivate.8*
             - /usr/share/man/man8/dmsetup.8
             - /usr/share/man/man8/dmstats.8
+            - /usr/share/man/man8/dmvdostats.8
 
     - "device-mapper-libs":
         summary: Device mapper utility - library

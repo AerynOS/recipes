@@ -29,15 +29,18 @@
 				"/usr/sbin/blkdeactivate",
 				"/usr/sbin/dmsetup",
 				"/usr/sbin/dmstats",
+				"/usr/sbin/dmvdostats",
 				"/usr/share/man/man8/blkdeactivate.8",
 				"/usr/share/man/man8/dmsetup.8",
-				"/usr/share/man/man8/dmstats.8"
+				"/usr/share/man/man8/dmstats.8",
+				"/usr/share/man/man8/dmvdostats.8"
 			],
 			"name": "device-mapper",
 			"provides": [
 				"sysbinary(blkdeactivate)",
 				"sysbinary(dmsetup)",
-				"sysbinary(dmstats)"
+				"sysbinary(dmstats)",
+				"sysbinary(dmvdostats)"
 			]
 		},
 		"device-mapper-devel": {
@@ -464,6 +467,6 @@
 		}
 	},
 	"source-name": "lvm2",
-	"source-release": "15",
-	"source-version": "2.03.39"
+	"source-release": "16",
+	"source-version": "2.03.40"
 }
