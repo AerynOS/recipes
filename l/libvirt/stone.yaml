@@ -3,7 +3,7 @@
 
 name        : libvirt
 version     : "12.2.0"
-release     : 13
+release     : 14
 homepage    : https://gitlab.com/libvirt/libvirt
 upstreams   :
     - https://libvirt.org/sources/libvirt-12.2.0.tar.xz : ac93cd0da743a6c231911fb549399b415102ecfee775329bebbf61ed843b9786
@@ -81,7 +81,7 @@ install     : |
     %sysusers "u qemu libvirt:qemu "qemu user" - -"
     %sysusers "m qemu kvm"
 
-    %install_file %(pkgdir)/libvirt.preset %(installroot)%(libdir)/systemd/system-preset/50-libvirt.preset
+    %install_file %(pkgdir)/*.preset -t %(installroot)%(libdir)/systemd/system-preset/
     %install_file %(pkgdir)/libvirt.tmpfiles %(installroot)%(libdir)/tmpfiles.d/libvirt.conf
 packages    :
     - "%(name)":
