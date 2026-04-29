@@ -33,4 +33,4 @@ install     : |
     %install_file %(pkgdir)/kernel-lact.cmdline %(installroot)%(libdir)/kernel/cmdline.d/70-lact.cmdline
 
     # Enable system-wide upon install
-    %install_file %(pkgdir)/60-lact.preset -t %(installroot)/%(libdir)/systemd/system-preset
+    %install_file %(pkgdir)/98-lact.preset -t %(installroot)/%(libdir)/systemd/system-preset
