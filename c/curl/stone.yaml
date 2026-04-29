@@ -2,19 +2,20 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : curl
-version     : "8.19.0"
-release     : 30
+version     : "8.20.0"
+release     : 31
 summary     : A utility for fetching files from remote servers
 license     : MIT
 homepage    : https://curl.se/
 description : |
     A utility for fetching files from remote servers.
 upstreams   :
-    - https://curl.se/download/curl-8.18.0.tar.gz: e9274a5f8ab5271c0e0e6762d2fce194d5f98acc568e4ce816845b2dcc0cf88f
+    - https://curl.se/download/curl-8.20.0.tar.gz: fc5819cad3f9f5482669adcdc49a782c15f36d2a0715b395b06d9173593d2dc0
 builddeps:
     - pkgconfig(krb5-gssapi)
     - pkgconfig(ldap)
     - pkgconfig(libnghttp3)
+    - pkgconfig(libngtcp2)
     - pkgconfig(libssh2)
     - pkgconfig32(jansson)
     - pkgconfig32(libbrotlidec)
@@ -27,10 +28,10 @@ emul32      : true
 profiles    :
     - emul32:
         environment: |
-            _extra_args="--disable-libssh2 --disable-ldap"
+            _extra_args="--disable-ldap"
     - x86_64:
         environment: |
-            _extra_args="--with-ldap --with-libssh2 --with-gssapi"
+            _extra_args="--with-ldap --with-libssh2 --with-gssapi --with-ngtcp2 --with-nghttp3"
 setup       : |
     %configure \
         --disable-static \
@@ -38,7 +39,6 @@ setup       : |
         --with-ca-bundle="/etc/ssl/certs/ca-certificates.crt" \
         --with-fish-functions-dir=/usr/share/fish/vendor_completions.d/ \
         --with-openssl \
-        --with-openssl-quic \
         --with-zsh-functions-dir=/usr/share/zsh/site-functions/ \
         $_extra_args
 build       : |
