@@ -3,7 +3,7 @@
 
 name        : xwayland-satellite
 version     : "0.8.1"
-release     : 4
+release     : 5
 upstreams   :
     - https://github.com/Supreeeme/xwayland-satellite/archive/refs/tags/v0.8.1.tar.gz : 44d4ed941f99b88be6655d9c31db90d2a44e2deec52da7446237354508369caf
 homepage    : https://github.com/Supreeeme/xwayland-satellite
@@ -29,4 +29,4 @@ install     : |
     %cargo_install
 
     %install_file resources/xwayland-satellite.service -t %(installroot)%(libdir)/systemd/user
-    %install_file %(pkgdir)/xwayland-satellite.preset -t %(installroot)%(libdir)/systemd/user-preset
+    %install_file %(pkgdir)/*.preset -t %(installroot)%(libdir)/systemd/user-preset/
