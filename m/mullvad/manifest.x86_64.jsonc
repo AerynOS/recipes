@@ -10,6 +10,8 @@
 				"binary(protoc)",
 				"binary(rustc)",
 				"pkgconfig(dbus-1)",
+				"pkgconfig(libmnl)",
+				"pkgconfig(libnftnl)",
 				"soname(libgcc_s.so.1(x86_64))"
 			],
 			"depends": [
@@ -40,6 +42,8 @@
 				"soname(libgobject-2.0.so.0(x86_64))",
 				"soname(libgtk-3.so.0(x86_64))",
 				"soname(libm.so.6(x86_64))",
+				"soname(libmnl.so.0(x86_64))",
+				"soname(libnftnl.so.11(x86_64))",
 				"soname(libnspr4.so(x86_64))",
 				"soname(libnss3.so(x86_64))",
 				"soname(libnssutil3.so(x86_64))",
@@ -152,6 +156,6 @@
 		}
 	},
 	"source-name": "mullvad",
-	"source-release": "6",
-	"source-version": "2026.1"
+	"source-release": "7",
+	"source-version": "2026.2"
 }
