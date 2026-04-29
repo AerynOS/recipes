@@ -3,7 +3,7 @@
 
 name        : ntpd-rs
 version     : "1.7.2"
-release     : 9
+release     : 10
 homepage    : https://github.com/pendulum-project/ntpd-rs
 upstreams   :
     - https://github.com/pendulum-project/ntpd-rs/archive/refs/tags/v1.7.2.tar.gz : f375018e496d0d268dc5ed3c362566afafa239d67369546f9c04b8d2e3163dda
@@ -32,7 +32,7 @@ install     : |
     %install_file docs/examples/conf/ntp.toml.default %(installroot)%(docdir)/%(name)/.
     %install_file docs/examples/conf/ntpd-rs.service %(installroot)%(libdir)/systemd/system/ntpd-rs.service
     %install_file docs/examples/conf/ntpd-rs-metrics.service %(installroot)%(libdir)/systemd/system/ntpd-rs-metrics.service
-    %install_file docs/examples/conf/ntpd-rs.preset %(installroot)%(libdir)/systemd/system-preset/50-ntpd-rs.preset
+    %install_file docs/examples/conf/ntpd-rs.preset %(installroot)%(libdir)/systemd/system-preset/98-ntpd-rs.preset
     %install_file COPYRIGHT %(installroot)%(docdir)/%(name)/.
     %install_file LICENSE-APACHE %(installroot)%(docdir)/%(name)/.
     %install_file LICENSE-MIT %(installroot)%(docdir)/%(name)/.
