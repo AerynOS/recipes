@@ -91,7 +91,6 @@
 				"soname(libdevmapper.so.1.02(x86_64))"
 			],
 			"files": [
-				"/usr/lib/systemd/system-preset/device-mapper-event.preset",
 				"/usr/lib/systemd/system/dm-event.service",
 				"/usr/lib/systemd/system/dm-event.socket",
 				"/usr/sbin/dmeventd",
@@ -209,7 +208,8 @@
 			],
 			"files": [
 				"/usr/lib/lvm2/lvresize_fs_helper",
-				"/usr/lib/systemd/system-preset/lvm2.preset",
+				"/usr/lib/systemd/system-preset/98-device-mapper-event.preset",
+				"/usr/lib/systemd/system-preset/98-lvm2.preset",
 				"/usr/lib/systemd/system/blk-availability.service",
 				"/usr/lib/systemd/system/lvm-devices-import.path",
 				"/usr/lib/systemd/system/lvm-devices-import.service",
@@ -467,6 +467,6 @@
 		}
 	},
 	"source-name": "lvm2",
-	"source-release": "16",
+	"source-release": "17",
 	"source-version": "2.03.40"
 }
