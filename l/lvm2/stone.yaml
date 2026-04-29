@@ -3,7 +3,7 @@
 
 name        : lvm2
 version     : "2.03.40"
-release     : 16
+release     : 17
 homepage    : https://sourceware.org/lvm2/
 upstreams   :
     - https://sourceware.org/pub/lvm2/LVM2.2.03.40.tgz : 60c9bb5c0a109f20267bb40ba50c00c84a110fc14c129f21afb5566929bf5645
@@ -65,9 +65,7 @@ install     : |
 
     %install_file %(pkgdir)/lvm2-etc.tmpfiles %(installroot)%(tmpfilesdir)/lvm2-etc.conf
 
-    for i in device-mapper-event lvm2; do
-        %install_file %(pkgdir)/${i}.preset -t %(installroot)%(libdir)/systemd/system-preset/
-    done
+    %install_file %(pkgdir)/*.preset -t %(installroot)%(libdir)/systemd/system-preset/
 
     # Stateless
     rm -fv %(installroot)/etc/lvm/lvm.conf \
