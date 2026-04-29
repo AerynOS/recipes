@@ -3,7 +3,7 @@
 
 name        : cosmic-greeter
 version     : "1.0.11.git+619910c"
-release     : 46
+release     : 47
 summary     : Cosmic Desktop Greeter
 license     : GPL-3.0
 homepage    : https://github.com/pop-os/cosmic-greeter
@@ -30,7 +30,7 @@ rundeps     :
 networking  : true
 setup       : |
     # Override fallback background
-    cp /usr/share/backgrounds/aerynos/marc-markstein-0kD1eHgyuPI-unsplash.jpg res/background.jpg
+    cp /usr/share/backgrounds/aerynos/DreamyBrno.jpg res/background.jpg
 
     %cargo_fetch
     %patch %(pkgdir)/0001-debian-Port-sample-service-pam-to-Serpent-OS.patch
