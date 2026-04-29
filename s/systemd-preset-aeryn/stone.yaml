@@ -2,8 +2,8 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : systemd-preset-aeryn
-version     : "2026.03" # I guess let's just match the OS version for now
-release     : 5
+version     : "2026.05" # I guess let's just match the OS version for now
+release     : 6
 homepage    : https://aerynos.com/
 # No upstreams!
 summary     : AerynOS systemd presets
@@ -19,4 +19,4 @@ packages    :
         # Note that we still install configs for user services and the like in the main package
         # this is only for _overrides_ to those
         paths:
-            - /usr/lib/systemd/system-preset/80-desktop.preset
+            - /usr/lib/systemd/system-preset/96-desktop.preset
