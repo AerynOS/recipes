@@ -3,7 +3,7 @@
 
 name        : qemu
 version     : "11.0.0"
-release     : 32
+release     : 33
 homepage    : http://www.qemu.org/
 upstreams   :
     - https://download.qemu.org/qemu-11.0.0.tar.xz : c04ca36012653f32d11c674d370cf52a710e7d3f18c2d8b63e4932052a4854d6
@@ -103,7 +103,7 @@ install     : |
         -type f -exec rm -v {} +
 
     %install_file %(pkgdir)/qemu-guest-agent.service -t %(installroot)/%(libdir)/systemd/system/
-    %install_file %(pkgdir)/qemu-guest-agent.preset %(installroot)/%(libdir)/systemd/system-preset/99-qemu-guest-agent.preset
+    %install_file %(pkgdir)/*.preset -t %(installroot)/%(libdir)/systemd/system-preset/
     %install_file %(pkgdir)/99-qemu-guest-agent.rules -t %(installroot)/%(libdir)/udev/rules.d/
 
     # TODO: Enable name override in %%tmpfiles macro
@@ -133,7 +133,7 @@ packages    :
         paths:
             - /usr/bin/qemu-ga
             - /usr/lib/systemd/system/qemu-guest-agent.service
-            - /usr/lib/systemd/system-preset/99-qemu-guest-agent.preset
+            - /usr/lib/systemd/system-preset/*-qemu-guest-agent.preset
             - /usr/lib/udev/rules.d/99-qemu-guest-agent.rules
             - /usr/lib/tmpfiles.d/qemu-guest-agent.conf
             - /usr/share/man/man8/qemu-ga.8*
