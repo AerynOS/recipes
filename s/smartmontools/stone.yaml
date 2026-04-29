@@ -3,7 +3,7 @@
 
 name        : smartmontools
 version     : "7.5"
-release     : 2
+release     : 3
 upstreams   :
     - https://sourceforge.net/projects/smartmontools/files/smartmontools/7.5/smartmontools-7.5.tar.gz : 690b83ca331378da9ea0d9d61008c4b22dde391387b9bbad7f29387f2595f76e
 homepage    : https://www.smartmontools.org/
@@ -22,6 +22,6 @@ install     : |
     %make_install
 
     # Enable system-wide upon install
-    %install_file %(pkgdir)/%(name).preset -t %(installroot)/%(libdir)/systemd/system-preset
+    %install_file %(pkgdir)/*.preset -t %(installroot)/%(libdir)/systemd/system-preset/
 
     # Files in /etc/ are ignored if not present
