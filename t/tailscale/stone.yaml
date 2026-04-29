@@ -3,7 +3,7 @@
 
 name        : tailscale
 version     : "1.96.4"
-release     : 10
+release     : 11
 homepage    : https://github.com/tailscale/tailscale
 upstreams   :
     - https://github.com/tailscale/tailscale/archive/refs/tags/v1.96.4.tar.gz : 57b70731af7ae0ed167519924905fd032ddd8559a65bc8a3329d9da495f0feb2
@@ -31,7 +31,7 @@ install     : |
    %install_file %(workdir)/cmd/tailscaled/tailscaled.service %(installroot)/%(libdir)/systemd/system/tailscaled.service
    %install_file %(workdir)/cmd/tailscaled/tailscaled.defaults %(installroot)%(vendordir)/tailscale/tailscaled
 
-   %install_file %(pkgdir)/20-tailscale.preset %(installroot)/%(libdir)/systemd/system-preset/20-tailscale.preset
+   %install_file %(pkgdir)/*.preset -t %(installroot)/%(libdir)/systemd/system-preset/
 
    %(workdir)/tailscale completion bash | %install_file /dev/stdin %(installroot)%(bashcompletionsdir)/tailscale
    %(workdir)/tailscale completion zsh | %install_file /dev/stdin %(installroot)%(zshcompletionsdir)/_tailscale
