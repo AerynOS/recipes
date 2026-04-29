@@ -14,7 +14,7 @@
 				"/usr/bin/ntp-ctl",
 				"/usr/bin/ntp-daemon",
 				"/usr/bin/ntp-metrics-exporter",
-				"/usr/lib/systemd/system-preset/50-ntpd-rs.preset",
+				"/usr/lib/systemd/system-preset/98-ntpd-rs.preset",
 				"/usr/lib/systemd/system/ntpd-rs-metrics.service",
 				"/usr/lib/systemd/system/ntpd-rs.service",
 				"/usr/lib/tmpfiles.d/ntpd-rs.conf",
@@ -47,6 +47,6 @@
 		}
 	},
 	"source-name": "ntpd-rs",
-	"source-release": "9",
+	"source-release": "10",
 	"source-version": "1.7.2"
 }
