@@ -3,7 +3,7 @@
 
 name        : lxcfs
 version     : "6.0.6"
-release     : 4
+release     : 5
 upstreams   :
     - https://linuxcontainers.org/downloads/lxcfs/lxcfs-6.0.6.tar.gz : 386339ba4cde289b0f6df4fe7a614caa1e45dd91bc0200b4aff6c51bf9d5ef9e
 homepage    : https://www.hadrons.org/software/libmd
@@ -26,6 +26,6 @@ build       : |
     %meson_build
 install     : |
     %meson_install
-    %install_file %(pkgdir)/lxcfs.preset -t %(installroot)/%(libdir)/systemd/system-preset
+    %install_file %(pkgdir)/*.preset -t %(installroot)/%(libdir)/systemd/system-preset/
     %install_file %(pkgdir)/lxcfs.tmpfiles %(installroot)%(tmpfilesdir)/lxcfs.conf
     %install_file %(pkgdir)/lxcfs.service %(installroot)%(libdir)/systemd/system/lxcfs.service
