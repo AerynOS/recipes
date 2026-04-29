@@ -3,7 +3,7 @@
 
 name        : keyd
 version     : "2.6.0"
-release     : 4
+release     : 5
 homepage    : https://github.com/rvaiya/keyd
 upstreams   :
     - https://github.com/rvaiya/keyd/archive/refs/tags/v2.6.0.tar.gz : 697089681915b89d9e98caf93d870dbd4abce768af8a647d54650a6a90744e26
@@ -21,4 +21,4 @@ install     : |
     %tmpfiles 'f /run/keyd.socket 0664 - - -'
     %tmpfiles 'd /etc/keyd 0755 - - -'
 
-    %install_file %(pkgdir)/40-keyd.preset %(installroot)%(libdir)/systemd/system-preset/40-keyd.preset
+    %install_file %(pkgdir)/*.preset -t %(installroot)%(libdir)/systemd/system-preset/
