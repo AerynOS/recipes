@@ -3,7 +3,7 @@
 
 name        : nvidia-graphics-driver
 version     : "595.71.05"
-release     : 41
+release     : 42
 homepage    : https://www.nvidia.com/
 upstreams   :
     - https://us.download.nvidia.com/XFree86/Linux-x86_64/595.71.05/NVIDIA-Linux-x86_64-595.71.05.run:
@@ -20,7 +20,6 @@ description : |
 license     : Proprietary
 strip       : false
 builddeps   :
-    - glibc-32bit
     - binary(bzip2)
     - binary(cpio)
     - binary(tar)
@@ -28,6 +27,7 @@ builddeps   :
     - pkgconfig32(libglvnd)
     - pkgconfig32(vulkan)
     - sysbinary(modprobe)
+    - glibc-32bit
 install     : |
     sh %(sourcedir)/NVIDIA.run --extract-only --target extracted
     %install_file extracted/firmware/*.bin -t %(installroot)%(libdir)/firmware/nvidia/%(version)
@@ -112,7 +112,7 @@ install     : |
     popd
 
     # Ensure that systemd services are enabled
-    %install_file %(pkgdir)/nvidia.preset -t %(installroot)/%(libdir)/systemd/system-preset
+    %install_file %(pkgdir)/98-nvidia.preset -t %(installroot)/%(libdir)/systemd/system-preset
 
     # Various Nvidia modprobe settings (taken from CachyOS)
     %install_file %(pkgdir)/nvidia.modprobe %(installroot)%(libdir)/modprobe.d/nvidia.conf
