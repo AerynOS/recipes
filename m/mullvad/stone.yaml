@@ -2,11 +2,16 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : mullvad
-version     : "2026.1"
-release     : 6
+version     : "2026.2"
+release     : 7
 homepage    : https://mullvad.net
 upstreams   :
-    - git|https://github.com/mullvad/mullvadvpn-app.git : bfc183f125a429f8b372596222c4bfe550b5d9a1
+    - https://github.com/mullvad/mullvadvpn-app/archive/refs/tags/2026.2.tar.gz : 
+        hash : 67a096f130da11b7deadba72b8204c71835d292762dbd4a74ca46b25cc0d4dc0
+        rename: mullvad
+    - https://github.com/mullvad/wireguard-go/archive/refs/tags/0.0.20230223-mullvad-0.1.6.tar.gz :
+        hash: fd9fa45155098223a17ea934eaa6eb44ee990cd2a7ab638bce482f62fd8502e8
+        unpackdir: mullvad/wireguard-go-rs/libwg/wireguard-go/
 summary     : The Mullvad VPN client app for desktop
 description : |
     The Mullvad VPN client app for desktop
@@ -19,6 +24,8 @@ builddeps   :
     - binary(protoc)
     - binary(rustc)
     - pkgconfig(dbus-1)
+    - pkgconfig(libmnl)
+    - pkgconfig(libnftnl)
     - soname(libgcc_s.so.1(x86_64))
 rundeps    :
     - libayatana-appindicator

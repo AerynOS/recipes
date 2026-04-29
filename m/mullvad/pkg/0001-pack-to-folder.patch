@@ -1,9 +1,8 @@
-diff --git a/desktop/packages/mullvad-vpn/tasks/distribution.js b/desktop/packages/mullvad-vpn/tasks/distribution.js
-index a4b3dc84f..4d6c11ce0 100644
---- a/desktop/packages/mullvad-vpn/tasks/distribution.js
-+++ b/desktop/packages/mullvad-vpn/tasks/distribution.js
-@@ -184,7 +184,8 @@ function newConfig() {
-           arch: getLinuxTargetArch(),
+diff --git a/desktop/packages/mullvad-vpn/tasks/distribution.cjs b/desktop/packages/mullvad-vpn/tasks/distribution.cjs
+index 1ab4588a39..eb93447e6f 100644
+--- a/desktop/packages/mullvad-vpn/tasks/distribution.cjs
++++ b/desktop/packages/mullvad-vpn/tasks/distribution.cjs
+@@ -189,7 +189,8 @@ function newConfig() {
          },
        ],
        executableName: 'mullvad-vpn',
