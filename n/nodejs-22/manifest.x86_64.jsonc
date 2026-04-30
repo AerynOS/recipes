@@ -13,7 +13,9 @@
 				"pkgconfig(libcares)",
 				"pkgconfig(libnghttp2)",
 				"pkgconfig(libnghttp3)",
+				"pkgconfig(libngtcp2)",
 				"pkgconfig(libuv)",
+				"pkgconfig(libzstd)",
 				"pkgconfig(openssl)",
 				"pkgconfig(sqlite3)",
 				"pkgconfig(zlib)"
@@ -35,7 +37,8 @@
 				"soname(libssl.so.3(x86_64))",
 				"soname(libstdc++.so.6(x86_64))",
 				"soname(libuv.so.1(x86_64))",
-				"soname(libz.so.1(x86_64))"
+				"soname(libz.so.1(x86_64))",
+				"soname(libzstd.so.1(x86_64))"
 			],
 			"files": [
 				"/usr/bin/corepack-22",
@@ -1637,6 +1640,6 @@
 		}
 	},
 	"source-name": "nodejs-22",
-	"source-release": "10",
+	"source-release": "11",
 	"source-version": "22.22.2"
 }

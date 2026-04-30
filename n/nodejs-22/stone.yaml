@@ -3,7 +3,7 @@
 
 name        : nodejs-22
 version     : "22.22.2"
-release     : 10
+release     : 11
 homepage    : https://nodejs.org/
 upstreams   :
     - https://nodejs.org/dist/v22.22.2/node-v22.22.2.tar.gz : f4b9606f33aef725a77b6292460102b48b80902571a8bb94cd769837ee0577df
@@ -21,11 +21,12 @@ builddeps   :
     - pkgconfig(libcares)
     - pkgconfig(libnghttp2)
     - pkgconfig(libnghttp3)
+    - pkgconfig(libngtcp2)
     - pkgconfig(libuv)
+    - pkgconfig(libzstd)
     - pkgconfig(openssl)
     - pkgconfig(sqlite3)
     - pkgconfig(zlib)
-    # Still needs ngtcp2 for http3 support
 environment : |
     NODEJS_MAJOR=22
     NODEJS_SONAME=127
@@ -42,9 +43,12 @@ setup       : |
         --shared-libuv \
         --shared-nghttp2 \
         --shared-nghttp3 \
+        --shared-ngtcp2 \
         --shared-openssl \
         --shared-sqlite \
         --shared-zlib \
+        --shared-zstd \
+        --verbose \
         --with-intl=system-icu
 build       : |
     ninja -j %(jobs) -C out/Release
