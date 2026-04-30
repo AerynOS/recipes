@@ -33,7 +33,7 @@
 			],
 			"files": [
 				"/usr/lib/libgnutls.so.30",
-				"/usr/lib/libgnutls.so.30.41.1",
+				"/usr/lib/libgnutls.so.30.42.0",
 				"/usr/share/locale/cs/LC_MESSAGES/gnutls.mo",
 				"/usr/share/locale/de/LC_MESSAGES/gnutls.mo",
 				"/usr/share/locale/eo/LC_MESSAGES/gnutls.mo",
@@ -133,6 +133,7 @@
 				"/usr/include/gnutls/dtls.h",
 				"/usr/include/gnutls/gnutls.h",
 				"/usr/include/gnutls/gnutlsxx.h",
+				"/usr/include/gnutls/hpke.h",
 				"/usr/include/gnutls/ocsp.h",
 				"/usr/include/gnutls/openpgp.h",
 				"/usr/include/gnutls/pkcs11.h",
@@ -476,6 +477,14 @@
 				"/usr/share/man/man3/gnutls_hmac_init.3",
 				"/usr/share/man/man3/gnutls_hmac_output.3",
 				"/usr/share/man/man3/gnutls_hmac_set_nonce.3",
+				"/usr/share/man/man3/gnutls_hpke_decap.3",
+				"/usr/share/man/man3/gnutls_hpke_deinit.3",
+				"/usr/share/man/man3/gnutls_hpke_derive_keypair.3",
+				"/usr/share/man/man3/gnutls_hpke_encap.3",
+				"/usr/share/man/man3/gnutls_hpke_export.3",
+				"/usr/share/man/man3/gnutls_hpke_init.3",
+				"/usr/share/man/man3/gnutls_hpke_open.3",
+				"/usr/share/man/man3/gnutls_hpke_seal.3",
 				"/usr/share/man/man3/gnutls_idna_map.3",
 				"/usr/share/man/man3/gnutls_idna_reverse_map.3",
 				"/usr/share/man/man3/gnutls_init.3",
@@ -595,6 +604,7 @@
 				"/usr/share/man/man3/gnutls_pkcs11_obj_get_exts.3",
 				"/usr/share/man/man3/gnutls_pkcs11_obj_get_flags.3",
 				"/usr/share/man/man3/gnutls_pkcs11_obj_get_info.3",
+				"/usr/share/man/man3/gnutls_pkcs11_obj_get_pk_algorithm.3",
 				"/usr/share/man/man3/gnutls_pkcs11_obj_get_ptr.3",
 				"/usr/share/man/man3/gnutls_pkcs11_obj_get_type.3",
 				"/usr/share/man/man3/gnutls_pkcs11_obj_import_url.3",
@@ -1441,6 +1451,6 @@
 		}
 	},
 	"source-name": "gnutls",
-	"source-release": "11",
-	"source-version": "3.8.12"
+	"source-release": "12",
+	"source-version": "3.8.13"
 }
