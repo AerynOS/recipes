@@ -3,7 +3,7 @@
 
 name        : network-manager-applet
 version     : "1.36.0"
-release     : 3
+release     : 4
 homepage    : https://gitlab.gnome.org/GNOME/network-manager-applet
 upstreams   :
     - https://download.gnome.org/sources/network-manager-applet/1.36/network-manager-applet-1.36.0.tar.xz : a84704487ea3afe1485c47fb2ab598b8f779f540ae0dcbf0a1c5f85e64a7e253
@@ -12,8 +12,10 @@ description : |
     NetworkManager Applet is a GTK3-based frontend for NetworkManager.
 license     : GPL-2.0-or-later
 builddeps   :
-    - binary(msgfmt)
     - binary(desktop-file-validate)
+    - binary(msgfmt)
+    - pkgconfig(ayatana-appindicator3-0.1)
+    - pkgconfig(dbusmenu-gtk3-0.4)
     - pkgconfig(gio-2.0)
     - pkgconfig(gmodule-export-2.0)
     - pkgconfig(gtk+-3.0)
@@ -23,8 +25,8 @@ builddeps   :
     - pkgconfig(libsecret-1)
     - pkgconfig(mm-glib)
 setup       : |
-    %meson -Dappindicator=no \
-           -Dselinux=false
+    %meson \
+        -Dselinux=false
 build       : |
     %meson_build
 install     : |
@@ -32,3 +34,21 @@ install     : |
     # provided by libnma
     rm -v %(installroot)%(datadir)/glib-2.0/schemas/org.gnome.nm-applet.gschema.xml
     rm -rvf %(installroot)%(datadir)/glib-2.0
+packages    :
+    - "nm-connection-editor":
+        summary: Advanced network configuration editor for NetworkManager
+        description: |
+            Graphical editor for advanced network configuration using NetworkManager.
+            Allows configuration of VLANs, bridges, bonds, VPNs and more.
+        paths:
+            - /usr/bin/nm-connection-editor
+            - /usr/share/applications/nm-connection-editor.desktop
+            - /usr/share/icons/hicolor/*/apps/nm-device-wwan*.*
+            - /usr/share/locale/
+            - /usr/share/metainfo/nm-connection-editor.appdata.xml
+            - /usr/share/man/man1/nm-connection-editor.1
+
+    - "%(name)":
+        rundeps:
+            # Common locales, some shared icons
+            - "nm-connection-editor"
