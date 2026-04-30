@@ -2,19 +2,19 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : inetutils
-version     : "2.7"
-release     : 8
+version     : "2.8"
+release     : 9
 homepage    : https://www.gnu.org/software/inetutils
 upstreams   :
-    - https://ftp.gnu.org/gnu/inetutils/inetutils-2.7.tar.gz : a156be1cde3c5c0ffefc262180d9369a60484087907aa554c62787d2f40ec086
+    - https://ftp.gnu.org/gnu/inetutils/inetutils-2.8.tar.gz : 57b3cf4f77555992881e5ba2a09a63b05aa2c56342a60ed4305b5f45938390b5
 summary     : Collection of common network programs
 description : |
     Inetutils is a collection of common network programs.
 license     :
     - GPL-3.0-or-later
 setup       : |
-    %patch %(pkgdir)/security/fix-injection-bug-bogus-user-names.patch # CVE-2026-24061
-    %patch %(pkgdir)/security/sanitize-variable-expansions.patch
+    # %patch %(pkgdir)/security/fix-injection-bug-bogus-user-names.patch # CVE-2026-24061
+    # %patch %(pkgdir)/security/sanitize-variable-expansions.patch
 
     %configure \
         --disable-ifconfig \
