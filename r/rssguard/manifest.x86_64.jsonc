@@ -5,11 +5,11 @@
 		"rssguard": {
 			"build-depends": [
 				"binary(go)",
-				"cmake(Qt6CorePrivate)",
-				"cmake(Qt6Designer)",
+				"cmake(Qt6LinguistTools)",
 				"cmake(Qt6Multimedia)",
 				"cmake(Qt6Qml)",
 				"cmake(Qt6Sql)",
+				"cmake(Qt6WebEngineWidgets)",
 				"pkgconfig(mpv)"
 			],
 			"depends": [
@@ -22,14 +22,16 @@
 				"soname(libQt6Multimedia.so.6(x86_64))",
 				"soname(libQt6Network.so.6(x86_64))",
 				"soname(libQt6OpenGLWidgets.so.6(x86_64))",
+				"soname(libQt6PrintSupport.so.6(x86_64))",
 				"soname(libQt6Qml.so.6(x86_64))",
 				"soname(libQt6Quick.so.6(x86_64))",
 				"soname(libQt6Sql.so.6(x86_64))",
+				"soname(libQt6WebEngineCore.so.6(x86_64))",
+				"soname(libQt6WebEngineWidgets.so.6(x86_64))",
 				"soname(libQt6Widgets.so.6(x86_64))",
 				"soname(libQt6Xml.so.6(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libgcc_s.so.1(x86_64))",
-				"soname(libm.so.6(x86_64))",
 				"soname(libmpv.so.2(x86_64))",
 				"soname(libstdc++.so.6(x86_64))"
 			],
@@ -63,11 +65,11 @@
 		"rssguard-devel": {
 			"build-depends": [
 				"binary(go)",
-				"cmake(Qt6CorePrivate)",
-				"cmake(Qt6Designer)",
+				"cmake(Qt6LinguistTools)",
 				"cmake(Qt6Multimedia)",
 				"cmake(Qt6Qml)",
 				"cmake(Qt6Sql)",
+				"cmake(Qt6WebEngineWidgets)",
 				"pkgconfig(mpv)"
 			],
 			"depends": [
@@ -113,7 +115,8 @@
 				"/usr/include/librssguard/gui/reusable/texteditwithstatus.h",
 				"/usr/include/librssguard/gui/reusable/widgetwithstatus.h",
 				"/usr/include/librssguard/gui/webbrowser.h",
-				"/usr/include/librssguard/gui/webviewers/qlitehtml/qlitehtmlarticleviewer.h",
+				"/usr/include/librssguard/gui/webviewers/qtextbrowser/textbrowserviewer.h",
+				"/usr/include/librssguard/gui/webviewers/qtwebengine/webengineviewer.h",
 				"/usr/include/librssguard/miscellaneous/application.h",
 				"/usr/include/librssguard/miscellaneous/domdocument.h",
 				"/usr/include/librssguard/miscellaneous/feedreader.h",
@@ -160,6 +163,6 @@
 		}
 	},
 	"source-name": "rssguard",
-	"source-release": "5",
-	"source-version": "5.0.4"
+	"source-release": "6",
+	"source-version": "5.1.0"
 }
