@@ -3,7 +3,7 @@
 
 name        : systemd
 version     : "257.13"
-release     : 80
+release     : 81
 summary     : A System and Service Manager
 license     :
     - GPL-2.0-or-later
@@ -264,7 +264,7 @@ install     : |
     %install_file %(pkgdir)/systemd_tmpfiles.yaml %(installroot)/usr/share/moss/triggers/sys.d/systemd_tmpfiles.yaml
     %install_file %(pkgdir)/systemd_sysusers.yaml %(installroot)/usr/share/moss/triggers/sys.d/systemd_sysusers.yaml
     %install_file %(pkgdir)/systemd_binfmt.yaml %(installroot)/usr/share/moss/triggers/sys.d/systemd_binfmt.yaml
-    # %install_file %(pkgdir)/systemd_presets.yaml %(installroot)/usr/share/moss/triggers/sys.d/systemd_presets.yaml
+    %install_file %(pkgdir)/systemd_presets.yaml %(installroot)/usr/share/moss/triggers/sys.d/systemd_presets.yaml
     %install_file %(pkgdir)/systemd_machine_id.yaml %(installroot)/usr/share/moss/triggers/sys.d/systemd_machine_id.yaml
 
     # And transaction triggers
