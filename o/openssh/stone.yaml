@@ -3,7 +3,7 @@
 
 name        : openssh
 version     : "10.3p1"
-release     : 19
+release     : 20
 summary     : OpenSSH (OpenBSD Secure Shell)
 license     :
     - BSD-2-Clause
@@ -83,6 +83,9 @@ install     : |
     %tmpfiles "d /etc/ssh - - - -"
     %tmpfiles "D /var/empty - - - -"
     mv %(installroot)/%(tmpfilesdir)/openssh.conf %(installroot)/%(tmpfilesdir)/openssh-server.conf
+
+    # preset for packaging operation override of systemd presets that disable sshd
+    %install_file %(pkgdir)/90-openssh-server-vendor-enable.preset -t %(installroot)%(libdir)/systemd/system-preset/
 packages    :
     - "%(name)-server":
         summary: OpenSSH - Server daemon
@@ -101,3 +104,9 @@ packages    :
             - /usr/share/man/*/moduli*
             - /usr/share/man/*/sshd*
             - /usr/share/man/*/sftp-*
+    - "%(name)-server-systemd-preset-vendor-enable":
+        summary: OpenSSH - Server daemon vendor-enabled systemd preset
+        description: |
+            Install this if you want to ensure that sshd is enabled and listens by default on your system.
+        paths:
+            - /usr/lib/systemd/system-preset/

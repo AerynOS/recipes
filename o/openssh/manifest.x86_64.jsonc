@@ -106,9 +106,27 @@
 			"provides": [
 				"sysbinary(sshd)"
 			]
+		},
+		"openssh-server-systemd-preset-vendor-enable": {
+			"build-depends": [
+				"binary(groff)",
+				"pkgconfig(krb5-gssapi)",
+				"pkgconfig(libcrypt)",
+				"pkgconfig(libcrypto)",
+				"pkgconfig(libedit)",
+				"pkgconfig(libfido2)",
+				"pkgconfig(libldns)",
+				"pkgconfig(libsystemd)",
+				"pkgconfig(pam)",
+				"pkgconfig(zlib)"
+			],
+			"files": [
+				"/usr/lib/systemd/system-preset/90-openssh-server-vendor-enable.preset"
+			],
+			"name": "openssh-server-systemd-preset-vendor-enable"
 		}
 	},
 	"source-name": "openssh",
-	"source-release": "19",
+	"source-release": "20",
 	"source-version": "10.3p1"
 }
