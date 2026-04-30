@@ -1,0 +1,40 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : eigen
+version     : "5.0.1"
+release     : 1
+homepage    : https://libeigen.gitlab.io/
+upstreams   :
+    - https://gitlab.com/libeigen/eigen/-/archive/5.0.1/eigen-5.0.1.tar.gz : e9c326dc8c05cd1e044c71f30f1b2e34a6161a3b6ecf445d56b53ff1669e3dec
+summary     : C++ template library for linear algebra
+description : |
+    Eigen is a C++ template library for linear algebra: matrices, vectors, numerical solvers, and related algorithms
+license     : MPL-2.0
+builddeps   :
+    - binary(flang)
+    - cmake(Boost)
+    - cmake(CHOLMOD)
+    - cmake(KLU)
+    - cmake(UMFPACK)
+    # - pkgconfig(fftw3)
+    # - pkgconfig(gmp)
+    - pkgconfig(hwloc)
+    # - pkgconfig(mpfr)
+    - pkgconfig(openblas)
+    # cuda
+setup       : |
+    # We use OpenBLAS for BLAS/LAPACK so for the moment we don't support the Eigen versions
+    %cmake \
+        -DBLA_VENDOR=/usr/lib/libopenblas.so.0 \
+        -DEIGEN_BUILD_BLAS=OFF \
+        -DEIGEN_BUILD_LAPACK=OFF
+build       : |
+    %cmake_build
+install     : |
+    %cmake_install
+packages    :
+    - "%(name)":
+        paths:
+            - /usr/include/
+            - /usr/share/pkgconfig/
