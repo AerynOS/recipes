@@ -29,7 +29,8 @@
 				"/usr/lib/NetworkManager/libnm-vpn-plugin-openvpn.so",
 				"/usr/lib/networkmanager-openvpn/nm-openvpn-service",
 				"/usr/lib/networkmanager-openvpn/nm-openvpn-service-openvpn-helper",
-				"/usr/lib/sysusers.d/networkmanager-openvpn.conf",
+				"/usr/lib/sysusers.d/nm-openvpn-sysusers.conf",
+				"/usr/lib/tmpfiles.d/nm-openvpn-tmpfiles.conf",
 				"/usr/share/dbus-1/system.d/nm-openvpn-service.conf",
 				"/usr/share/locale/ar/LC_MESSAGES/NetworkManager-openvpn.mo",
 				"/usr/share/locale/as/LC_MESSAGES/NetworkManager-openvpn.mo",
@@ -149,6 +150,6 @@
 		}
 	},
 	"source-name": "networkmanager-openvpn",
-	"source-release": "2",
-	"source-version": "1.12.3"
+	"source-release": "3",
+	"source-version": "1.12.5"
 }

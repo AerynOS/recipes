@@ -1,0 +1,23 @@
+From acbc28544e23f76619858a00c39779f0f1763bb7 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?=C3=8D=C3=B1igo=20Huguet?= <ihuguet@riseup.net>
+Date: Mon, 29 Dec 2025 09:44:51 +0100
+Subject: [PATCH] Don't set home dir for nm-openvpn user
+
+Fix sysusers.d file to not define any home directory. The user doesn't
+need a home directory, the directory defined was not in /home nor used
+as home, and the documentation recommends not to define it:
+www.freedesktop.org/software/systemd/man/latest/sysusers.d.html
+---
+ nm-openvpn-sysusers.conf.in | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/nm-openvpn-sysusers.conf.in b/nm-openvpn-sysusers.conf.in
+index 8ec9b015..1df97dbe 100644
+--- a/nm-openvpn-sysusers.conf.in
++++ b/nm-openvpn-sysusers.conf.in
+@@ -1 +1 @@
+-u! nm-openvpn - "NetworkManager OpenVPN" @LOCALSTATEDIR@/lib/openvpn/chroot
++u! nm-openvpn - "NetworkManager OpenVPN" - -
+-- 
+GitLab
+

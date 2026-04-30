@@ -2,10 +2,10 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : networkmanager-openvpn
-version     : "1.12.3"
-release     : 2
+version     : "1.12.5"
+release     : 3
 upstreams   :
-    - https://download.gnome.org/sources/NetworkManager-openvpn/1.12/NetworkManager-openvpn-1.12.3.tar.xz : 4bda1c8559bb8c35f6f131c09edae90cdfccd0314e8b8cb98ac55e09b6005adc
+    - https://download.gnome.org/sources/NetworkManager-openvpn/1.12/NetworkManager-openvpn-1.12.5.tar.xz : ce32e38b0500eddf2fc8072ca17679817fc2d35eb91f6ff7b9904209c14b5afd
 homepage    : https://www.gnome.org/projects/NetworkManager/
 license     : GPL-2.0-or-later
 summary     : NetworkManager VPN plugin for OpenVPN
@@ -22,7 +22,10 @@ builddeps   :
     - pkgconfig(libnma-gtk4)
     - pkgconfig(libsecret-1)
 setup       : |
-    %patch %(pkgdir)/CVE-2025-9615.patch
+    # TODO libnm-vpn-plugin-openvpn-editor.so is required by nm-connection-editor. Perhaps we should subpackage it separately.
+    # Ideally nm-connection-editor would have a conditional dependency on it if networkmanager-openvpn was installed
+
+    %patch %(pkgdir)/104.patch
 
     %configure \
         --with-dist-version=%(version)-%(release) \
@@ -31,8 +34,6 @@ build       : |
     %make
 install     : |
     %make_install
-
-    %sysusers "u nm-openvpn - 'Default user for running openvpn spawned by NetworkManager' - -"
 packages    :
     - "%(name)":
         rundeps:
@@ -40,8 +41,11 @@ packages    :
             - openvpn
 
     - "%(name)-gnome":
-        summary: NetworkManager VPN plugin for OpenVPN - GNOME files
-        description: NetworkManager VPN plugin for OpenVPN - GNOME files
+        summary: NetworkManager VPN plugin for OpenVPN - GNOME/GTK files
+        description: |
+            NetworkManager VPN plugin for OpenVPN - GNOME/GTK files
+
+            Note: You will need this package to manage OpenVPN VPNs with nm-connection-editor
         rundeps:
             - "%(name)"
             - shared-mime-info
