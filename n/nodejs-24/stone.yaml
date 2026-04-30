@@ -3,7 +3,7 @@
 
 name        : nodejs-24
 version     : "24.15.0"
-release     : 5
+release     : 6
 homepage    : https://nodejs.org/
 upstreams   :
     - https://nodejs.org/dist/v24.15.0/node-v24.15.0.tar.gz : 729de494dd2872e5a3a6c32a1cd156a5413d4aca2772b2d873ee86bb5531bcd9
@@ -21,12 +21,13 @@ builddeps   :
     - pkgconfig(libcares)
     - pkgconfig(libnghttp2)
     - pkgconfig(libnghttp3)
+    - pkgconfig(libngtcp2)
     - pkgconfig(libuv)
     - pkgconfig(libzstd)
     - pkgconfig(openssl)
     - pkgconfig(sqlite3)
     - pkgconfig(zlib)
-    # Still needs ngtcp2 for http3 support
+    # simdutf, simdjson
 environment : |
     NODEJS_MAJOR=24
     # See https://github.com/nodejs/node/blob/main/doc/abi_version_registry.json
@@ -44,10 +45,12 @@ setup       : |
         --shared-libuv \
         --shared-nghttp2 \
         --shared-nghttp3 \
+        --shared-ngtcp2 \
         --shared-openssl \
         --shared-sqlite \
         --shared-zlib \
         --shared-zstd \
+        --verbose \
         --with-intl=system-icu
 build       : |
     ninja -j %(jobs) -C out/Release
