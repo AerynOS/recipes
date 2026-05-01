@@ -4,8 +4,8 @@ description: |
 
 handlers:
     mandb:
-        run: /usr/bin/mandb
-        args: ["-q"]
+        run: systemd-run
+        args: ["--unit=mandb-trigger", "--collect", "/usr/bin/mandb", "-q"]
 
 paths:
     "/usr/share/man/**" :
