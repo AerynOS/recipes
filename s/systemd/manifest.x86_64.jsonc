@@ -243,6 +243,7 @@
 				"/usr/lib/systemd/system.conf.d/00-timeouts.conf",
 				"/usr/lib/systemd/system/autovt@.service",
 				"/usr/lib/systemd/system/basic.target",
+				"/usr/lib/systemd/system/basic.target.wants/preset-global.service",
 				"/usr/lib/systemd/system/blockdev@.target",
 				"/usr/lib/systemd/system/bluetooth.target",
 				"/usr/lib/systemd/system/boot-complete.target",
@@ -317,6 +318,7 @@
 				"/usr/lib/systemd/system/nss-user-lookup.target",
 				"/usr/lib/systemd/system/paths.target",
 				"/usr/lib/systemd/system/poweroff.target",
+				"/usr/lib/systemd/system/preset-global.service",
 				"/usr/lib/systemd/system/printer.target",
 				"/usr/lib/systemd/system/proc-sys-fs-binfmt_misc.automount",
 				"/usr/lib/systemd/system/proc-sys-fs-binfmt_misc.mount",
@@ -2696,6 +2698,6 @@
 		}
 	},
 	"source-name": "systemd",
-	"source-release": "81",
+	"source-release": "82",
 	"source-version": "257.13"
 }

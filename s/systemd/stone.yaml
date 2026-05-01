@@ -3,7 +3,7 @@
 
 name        : systemd
 version     : "257.13"
-release     : 81
+release     : 82
 summary     : A System and Service Manager
 license     :
     - GPL-2.0-or-later
@@ -255,6 +255,13 @@ install     : |
     # ... but conservatively enable getty on tty1 for rescue.target and troubleshooting
     # This also enables users to start e.g. sway from tty1 (sway et al. don't work with kmscon)
     # ln -srv %(installroot)%(libdir)/systemd/system/getty@.service %(installroot)%(libdir)/systemd/system/getty@tty1.service
+
+    # Workaround for systemd not supporting `--global` preset-all on first-boot. Taken from https://github.com/systemd/particleos/blob/main/mkosi.extra/usr/lib/systemd/system/preset-global.service
+    # Systemd issue: https://github.com/systemd/systemd/issues/30206
+    %install_file %(pkgdir)/units/preset-global.service %(installroot)%(libdir)/systemd/system/preset-global.service
+    # We need to enable this manually instead of via preset so as to avoid potential ordering issues
+    %install_dir %(installroot)%(libdir)/systemd/system/basic.target.wants/
+    ln -srv %(installroot)%(libdir)/systemd/system/preset-global.service %(installroot)%(libdir)/systemd/system/basic.target.wants/preset-global.service
 
     # Helper script for use by other triggers
     %install_exe %(pkgdir)/systemd-hook.sh %(installroot)/usr/share/moss/helpers/systemd-hook.sh
