@@ -99,7 +99,7 @@ Once the kernel builds and you have tested that it boots and works on your local
 
 Best of luck on your kernel maintenance journey. ^^'
 
-## initrd notes
+## initramfs notes
 
 To ensure better scalability and reproducibility, we use pre-built initrds instead of dkms.
 
@@ -110,14 +110,16 @@ It will only have /etc/systemd and that /etc/systemd will only have /etc/systemd
 Essentially every other file in /etc/ that's in the main initrd will not be visible to any processes running.
 
 Now that may or may not cause an actual error, but it's definitely not something we want.
+
 To avoid that behavior we have a rule where initrd extensions can only have top-level directories and files that do not conflict with any ones in the main initrd.
+
 That's why we add /eb-fw and /eb-nvidia-fw to the kernel firmware search paths via a patch, if you tried to have them in /lib/firmware it would cause /lib to get masked which would be very bad since that's where all the kernel modules and firmware is loaded from.
 
 If you use rd.break=pre-udev to break and drop into a shell during the init you can do a ls /etc and see what this means.
 
-## Troubleshooting initrd
+## Troubleshooting initramfs
 
-In order to troubleshoot issues happening during initrd it can be helpful to drop to a shell in order to examine the initrd environment. To do this:
+In order to troubleshoot issues happening during initrams, it can be helpful to drop to a shell in order to examine the initrd environment. To do this:
 
 1. Reboot and hold any key besides enter or one that triggers the BIOS/UEFI until the systemd-boot loader shows up (I usually use the CTRL key)
 2. Hit `e` to edit the kernel args
@@ -129,3 +131,5 @@ In order to troubleshoot issues happening during initrd it can be helpful to dro
 8. To resume boot run `exit`
 
 View https://man7.org/linux/man-pages/man7/dracut.cmdline.7.html if you need to stop during any other part of the initrd.
+
+Note that this particular troubleshooting approach can come in very handy when troubleshooting NVIDIA driver woes, as it is possible to install the NVIDIA driver in a test VM with no ill effects and then inspect the initramfs containing the nvidia driver with the above approach.
