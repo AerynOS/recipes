@@ -3,7 +3,7 @@
 
 name        : pkgset-oxidize
 version     : "2026.04"
-release     : 1
+release     : 2
 homepage    : https://github.com/christian-bendiksen/oxidize
 # No upstream
 summary     : pkgset virtual packages - Oxidize theme manager
@@ -23,10 +23,11 @@ packages    :
         rundeps:
             - binary(awww)
             - binary(bluetui)
+            - binary(brightnessctl)
             - binary(btop)
             - binary(elephant)
-            - binary(grim)
             - binary(gpu-screen-recorder)
+            - binary(grim)
             - binary(hx)
             - binary(hypridle)
             - binary(hyprlock)
@@ -34,10 +35,11 @@ packages    :
             - binary(kitty)
             - binary(mako)
             - binary(mango)
+            - binary(notify-send)
             - binary(oxidize)
             - binary(pkaction)
-            - binary(slurp)
             - binary(sddm)
+            - binary(slurp)
             - binary(swayosd-client)
             - binary(walker)
             - binary(waybar)
@@ -48,6 +50,8 @@ packages    :
             - xdg-desktop-portal
             - xdg-desktop-portal-gtk
             - xdg-desktop-portal-wlr
+            - xdg-utils
+            - yaru-icon-theme
         paths:
             - /usr/share/doc/%(name)-mango/README
 
@@ -58,10 +62,11 @@ packages    :
         rundeps:
             - binary(awww)
             - binary(bluetui)
+            - binary(brightnessctl)
             - binary(btop)
             - binary(elephant)
-            - binary(grim)
             - binary(gpu-screen-recorder)
+            - binary(grim)
             - binary(hx)
             - binary(hypridle)
             - binary(hyprlock)
@@ -69,10 +74,11 @@ packages    :
             - binary(kitty)
             - binary(mako)
             - binary(niri)
+            - binary(notify-send)
             - binary(oxidize)
             - binary(pkaction)
-            - binary(slurp)
             - binary(sddm)
+            - binary(slurp)
             - binary(swayosd-client)
             - binary(walker)
             - binary(waybar)
@@ -83,6 +89,8 @@ packages    :
             - xdg-desktop-portal
             - xdg-desktop-portal-gtk
             - xdg-desktop-portal-wlr
+            - xdg-utils
+            - yaru-icon-theme
         paths:
             - /usr/share/doc/%(name)-niri/README
 
@@ -93,10 +101,11 @@ packages    :
         rundeps:
             - binary(awww)
             - binary(bluetui)
+            - binary(brightnessctl)
             - binary(btop)
             - binary(elephant)
-            - binary(grim)
             - binary(gpu-screen-recorder)
+            - binary(grim)
             - binary(hx)
             - binary(hypridle)
             - binary(hyprland)
@@ -104,10 +113,11 @@ packages    :
             - binary(impala)
             - binary(kitty)
             - binary(mako)
+            - binary(notify-send)
             - binary(oxidize)
             - binary(pkaction)
-            - binary(slurp)
             - binary(sddm)
+            - binary(slurp)
             - binary(swayosd-client)
             - binary(walker)
             - binary(waybar)
@@ -118,5 +128,7 @@ packages    :
             - xdg-desktop-portal
             - xdg-desktop-portal-gtk
             - xdg-desktop-portal-wlr
+            - xdg-utils
+            - yaru-icon-theme
         paths:
             - /usr/share/doc/%(name)-hyprland/README
