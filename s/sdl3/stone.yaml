@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : sdl3
-version     : "3.4.6"
-release     : 13
+version     : "3.4.8"
+release     : 14
 homepage    : https://libsdl.org
 upstreams   :
-    - https://github.com/libsdl-org/SDL/releases/download/release-3.4.6/SDL3-3.4.6.tar.gz : 96bdd3f0c442105c87c287d213858b2df8207c87d54991dd589078c3746cb386
+    - https://github.com/libsdl-org/SDL/releases/download/release-3.4.8/SDL3-3.4.8.tar.gz : e9fff7467fb60f037e6708da18b25560649e4c63edc2a69bb871b960d9cbfbba
 summary     : Simple DirectMedia Library
 description : |
     Simple DirectMedia Library
@@ -41,6 +41,9 @@ builddeps   :
 tuning      :
     - lto: full
 setup       : |
+    # SDL has a wide range of functionality that is dlopen()ed at runtime
+    # However to maintain a certain minimal featureset we directly link some
+    # libraries instead so that they are detected by autodep.
     %cmake \
         -DSDL_HIDAPI_LIBUSB=ON \
         -DSDL_HIDAPI_LIBUSB_SHARED=OFF \
