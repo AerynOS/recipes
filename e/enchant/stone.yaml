@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : enchant
-version     : "2.8.15"
-release     : 8
+version     : "2.8.16"
+release     : 9
 homepage    : https://rrthomas.github.io/enchant/
 upstreams   :
-    - https://github.com/rrthomas/enchant/releases/download/v2.8.15/enchant-2.8.15.tar.gz : d3fd9e4170bfb5110b0bda577fe764a38fb606b3c25d2f0c3840234521ff1252
+    - https://github.com/rrthomas/enchant/releases/download/v2.8.16/enchant-2.8.16.tar.gz : d73162b5eff401a6397e1215e2b103bcef83f921c396c7f6b1394d2450d124e2
 summary     : Generic spell checking library
 description : |
     Enchant is a library (and command-line program) that wraps a number of different spelling libraries and programs with a consistent interface. By using Enchant, you can use a wide range of spelling libraries, including some specialised for particular languages, without needing to program to each library's interface. If it's not convenient to call a C library, you can access most of Enchant's functionality via the enchant program, which communicates over a pipe, like Ispell, and is indeed Ispell-compatible.
