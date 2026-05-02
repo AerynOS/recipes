@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : libvirt
-version     : "12.2.0"
-release     : 14
+version     : "12.3.0"
+release     : 15
 homepage    : https://gitlab.com/libvirt/libvirt
 upstreams   :
-    - https://libvirt.org/sources/libvirt-12.2.0.tar.xz : ac93cd0da743a6c231911fb549399b415102ecfee775329bebbf61ed843b9786
+    - https://libvirt.org/sources/libvirt-12.3.0.tar.xz : 0d2b548d1b732d1ae21cfefacc204a2c8dabada80ea1edfbd528bfb73b9d2d27
 summary     : Libvirt native C API and daemons
 description : |
     Libvirt provides a portable, long term stable C API for managing the virtualization technologies provided by many operating systems. It includes support for QEMU, KVM, Xen, LXC, bhyve, Virtuozzo, VMware vCenter and ESX, VMware Desktop, Hyper-V, VirtualBox and the POWER Hypervisor.
@@ -58,12 +58,12 @@ rundeps     :
     - sysbinary(iptables)
 setup       : |
     %meson \
-      -Ddriver_interface=enabled \
-      -Ddriver_libvirtd=enabled \
-      -Ddriver_network=enabled \
-      -Ddriver_qemu=enabled \
-      -Drunstatedir='/run' \
-      -Dinit_script='systemd'
+        -Ddriver_interface=enabled \
+        -Ddriver_libvirtd=enabled \
+        -Ddriver_network=enabled \
+        -Ddriver_qemu=enabled \
+        -Drunstatedir='/run' \
+        -Dinit_script='systemd'
 build       : |
     %meson_build
 install     : |
