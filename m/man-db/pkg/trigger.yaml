@@ -5,7 +5,10 @@ description: |
 handlers:
     mandb:
         run: systemd-run
-        args: ["--unit=mandb-trigger", "--collect", "/usr/bin/mandb", "-q"]
+        # We add a nice value because other stuff may be competing for cpu resources
+        # right after a sync, so this avoids the system feeling unnecessarily
+        # sluggish during the time it takes to create the man-db cache files.
+        args: ["--unit=mandb-trigger", "--nice=19", "--collect", "/usr/bin/mandb", "-q"]
 
 paths:
     "/usr/share/man/**" :
