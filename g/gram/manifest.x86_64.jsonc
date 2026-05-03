@@ -1,0 +1,62 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"gram": {
+			"build-depends": [
+				"binary(cmake)",
+				"binary(envsubst)",
+				"binary(jq)",
+				"binary(make)",
+				"binary(mold)",
+				"libstdc++-devel",
+				"pkgconfig(alsa)",
+				"pkgconfig(fontconfig)",
+				"pkgconfig(gl)",
+				"pkgconfig(glib-2.0)",
+				"pkgconfig(libcurl)",
+				"pkgconfig(libdrm)",
+				"pkgconfig(libelf)",
+				"pkgconfig(libgit2)",
+				"pkgconfig(libssl)",
+				"pkgconfig(protobuf)",
+				"pkgconfig(sqlite3)",
+				"pkgconfig(vulkan)",
+				"pkgconfig(wayland-client)",
+				"pkgconfig(x11)",
+				"pkgconfig(xkbcommon)",
+				"pkgconfig(xkbcommon-x11)"
+			],
+			"depends": [
+				"binary(unzip)",
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(ld-linux-x86-64.so.2(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libfreetype.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libgit2.so.1.9(x86_64))",
+				"soname(libm.so.6(x86_64))",
+				"soname(libsqlite3.so.0(x86_64))",
+				"soname(libssh2.so.1(x86_64))",
+				"soname(libssl.so.3(x86_64))",
+				"soname(libxcb.so.1(x86_64))",
+				"soname(libxkbcommon-x11.so.0(x86_64))",
+				"soname(libxkbcommon.so.0(x86_64))",
+				"soname(libzstd.so.1(x86_64))"
+			],
+			"files": [
+				"/usr/bin/gram",
+				"/usr/lib/gram/gram-editor",
+				"/usr/share/applications/app.liten.Gram.desktop",
+				"/usr/share/icons/gram.png"
+			],
+			"name": "gram",
+			"provides": [
+				"binary(gram)"
+			]
+		}
+	},
+	"source-name": "gram",
+	"source-release": "1",
+	"source-version": "1.2.1"
+}
