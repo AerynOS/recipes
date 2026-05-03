@@ -1,0 +1,43 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"yt-dlp-ejs": {
+			"build-depends": [
+				"binary(npm)",
+				"python(hatch-vcs)",
+				"python(hatchling)"
+			],
+			"depends": [
+				"python-libs"
+			],
+			"files": [
+				"/usr/lib/python3.14/site-packages/yt_dlp_ejs-0.8.0.dist-info/METADATA",
+				"/usr/lib/python3.14/site-packages/yt_dlp_ejs-0.8.0.dist-info/RECORD",
+				"/usr/lib/python3.14/site-packages/yt_dlp_ejs-0.8.0.dist-info/WHEEL",
+				"/usr/lib/python3.14/site-packages/yt_dlp_ejs-0.8.0.dist-info/licenses/LICENSE",
+				"/usr/lib/python3.14/site-packages/yt_dlp_ejs/__init__.py",
+				"/usr/lib/python3.14/site-packages/yt_dlp_ejs/__pycache__/__init__.cpython-314.opt-1.pyc",
+				"/usr/lib/python3.14/site-packages/yt_dlp_ejs/__pycache__/__init__.cpython-314.pyc",
+				"/usr/lib/python3.14/site-packages/yt_dlp_ejs/__pycache__/_version.cpython-314.opt-1.pyc",
+				"/usr/lib/python3.14/site-packages/yt_dlp_ejs/__pycache__/_version.cpython-314.pyc",
+				"/usr/lib/python3.14/site-packages/yt_dlp_ejs/_version.py",
+				"/usr/lib/python3.14/site-packages/yt_dlp_ejs/yt/__init__.py",
+				"/usr/lib/python3.14/site-packages/yt_dlp_ejs/yt/__pycache__/__init__.cpython-314.opt-1.pyc",
+				"/usr/lib/python3.14/site-packages/yt_dlp_ejs/yt/__pycache__/__init__.cpython-314.pyc",
+				"/usr/lib/python3.14/site-packages/yt_dlp_ejs/yt/solver/__init__.py",
+				"/usr/lib/python3.14/site-packages/yt_dlp_ejs/yt/solver/__pycache__/__init__.cpython-314.opt-1.pyc",
+				"/usr/lib/python3.14/site-packages/yt_dlp_ejs/yt/solver/__pycache__/__init__.cpython-314.pyc",
+				"/usr/lib/python3.14/site-packages/yt_dlp_ejs/yt/solver/core.min.js",
+				"/usr/lib/python3.14/site-packages/yt_dlp_ejs/yt/solver/lib.min.js"
+			],
+			"name": "yt-dlp-ejs",
+			"provides": [
+				"python(yt-dlp-ejs)"
+			]
+		}
+	},
+	"source-name": "yt-dlp-ejs",
+	"source-release": "1",
+	"source-version": "0.8.0"
+}
