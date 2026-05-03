@@ -1,0 +1,92 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"fcitx5-gtk": {
+			"build-depends": [
+				"cmake(ECM)",
+				"pkgconfig(gio-2.0)",
+				"pkgconfig(gio-unix-2.0)",
+				"pkgconfig(glib-2.0)",
+				"pkgconfig(gobject-2.0)",
+				"pkgconfig(gobject-introspection-1.0)",
+				"pkgconfig(gtk+-3.0)",
+				"pkgconfig(gtk4)",
+				"pkgconfig(xkbcommon)",
+				"pkgconfig(xkbcommon-x11)"
+			],
+			"depends": [
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(libX11.so.6(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libcairo.so.2(x86_64))",
+				"soname(libgdk-3.so.0(x86_64))",
+				"soname(libgdk_pixbuf-2.0.so.0(x86_64))",
+				"soname(libgio-2.0.so.0(x86_64))",
+				"soname(libglib-2.0.so.0(x86_64))",
+				"soname(libgobject-2.0.so.0(x86_64))",
+				"soname(libgtk-3.so.0(x86_64))",
+				"soname(libgtk-4.so.1(x86_64))",
+				"soname(libpango-1.0.so.0(x86_64))",
+				"soname(libpangocairo-1.0.so.0(x86_64))",
+				"soname(libstdc++.so.6(x86_64))",
+				"soname(libxkbcommon.so.0(x86_64))"
+			],
+			"files": [
+				"/usr/bin/fcitx5-gtk3-immodule-probing",
+				"/usr/bin/fcitx5-gtk4-immodule-probing",
+				"/usr/lib/girepository-1.0/FcitxG-1.0.typelib",
+				"/usr/lib/gtk-3.0/3.0.0/immodules/im-fcitx5.so",
+				"/usr/lib/gtk-4.0/4.0.0/immodules/libim-fcitx5.so",
+				"/usr/lib/libFcitx5GClient.so.2",
+				"/usr/lib/libFcitx5GClient.so.5.1.6"
+			],
+			"name": "fcitx5-gtk",
+			"provides": [
+				"binary(fcitx5-gtk3-immodule-probing)",
+				"binary(fcitx5-gtk4-immodule-probing)",
+				"soname(gtk-3.0/3.0.0/immodules/im-fcitx5.so(x86_64))",
+				"soname(gtk-4.0/4.0.0/immodules/libim-fcitx5.so(x86_64))",
+				"soname(libFcitx5GClient.so.2(x86_64))"
+			]
+		},
+		"fcitx5-gtk-devel": {
+			"build-depends": [
+				"cmake(ECM)",
+				"pkgconfig(gio-2.0)",
+				"pkgconfig(gio-unix-2.0)",
+				"pkgconfig(glib-2.0)",
+				"pkgconfig(gobject-2.0)",
+				"pkgconfig(gobject-introspection-1.0)",
+				"pkgconfig(gtk+-3.0)",
+				"pkgconfig(gtk4)",
+				"pkgconfig(xkbcommon)",
+				"pkgconfig(xkbcommon-x11)"
+			],
+			"depends": [
+				"fcitx5-gtk",
+				"pkgconfig(gio-2.0)",
+				"pkgconfig(gobject-2.0)"
+			],
+			"files": [
+				"/usr/include/Fcitx5/GClient/fcitx-gclient/fcitxgclient.h",
+				"/usr/include/Fcitx5/GClient/fcitx-gclient/fcitxgwatcher.h",
+				"/usr/lib/cmake/Fcitx5GClient/Fcitx5GClientConfig.cmake",
+				"/usr/lib/cmake/Fcitx5GClient/Fcitx5GClientConfigVersion.cmake",
+				"/usr/lib/cmake/Fcitx5GClient/Fcitx5GClientTargets-release.cmake",
+				"/usr/lib/cmake/Fcitx5GClient/Fcitx5GClientTargets.cmake",
+				"/usr/lib/libFcitx5GClient.so",
+				"/usr/lib/pkgconfig/Fcitx5GClient.pc",
+				"/usr/share/gir-1.0/FcitxG-1.0.gir"
+			],
+			"name": "fcitx5-gtk-devel",
+			"provides": [
+				"cmake(Fcitx5GClient)",
+				"pkgconfig(Fcitx5GClient)"
+			]
+		}
+	},
+	"source-name": "fcitx5-gtk",
+	"source-release": "1",
+	"source-version": "5.1.6"
+}
