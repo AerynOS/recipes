@@ -3,7 +3,7 @@
 
 name        : steam
 version     : "1.0.0.85"
-release     : 25
+release     : 26
 homepage    : https://store.steampowered.com/
 upstreams   :
     - https://repo.steampowered.com/steam/pool/steam/s/steam/steam_1.0.0.85.tar.gz : 7f2d374a2fb413ced5b8125151456219d918a255872b4bb77016cbccf38bb7f1
@@ -34,18 +34,14 @@ rundeps     :
     - soname(libvdpau.so.1(386))
     - soname(libvulkan.so.1(386))
     - soname(libz.so.1(386))
+    - steam-devices
 setup      : |
-    %patch %(pkgdir)/rules.patch
     %patch %(pkgdir)/0001-work-around-steam-crash-with-DRI_PRIME.patch
 install     : |
     %make_install
 
     # Replace steam with wrapper
     %install_exe %(pkgdir)/steam-wrapper.sh %(installroot)%(bindir)/steam
-
-    %install_dir %(installroot)%(libdir)/udev/rules.d
-    %install_file subprojects/steam-devices/* %(installroot)%(libdir)/udev/rules.d/.
-    rm -v %(installroot)%(libdir)/udev/rules.d/LICENSE
 
     # Ensure that ntsync is loaded for Proton games
     %install_file %(pkgdir)/ntsync.conf %(installroot)%(libdir)/modules-load.d/10-steam.conf

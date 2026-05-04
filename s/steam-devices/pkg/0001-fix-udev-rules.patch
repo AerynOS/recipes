@@ -1,0 +1,24 @@
+From c46df82b4cb27f09e7880366720c1ee711385a68 Mon Sep 17 00:00:00 2001
+From: F. von Gellhorn <flinux@vongellhorn.ch>
+Date: Mon, 4 May 2026 18:37:43 +0200
+Subject: [PATCH] fix udev rules
+
+---
+ 60-steam-input.rules | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/60-steam-input.rules b/60-steam-input.rules
+index 3a29fc9..c67b2f5 100644
+--- a/60-steam-input.rules
++++ b/60-steam-input.rules
+@@ -2,7 +2,7 @@
+ SUBSYSTEMS=="usb", ATTRS{idVendor}=="28de", MODE="0660", TAG+="uaccess"
+ 
+ # Steam Controller udev write access
+-KERNEL=="uinput", SUBSYSTEM=="misc", TAG+="uaccess", OPTIONS+="static_node=uinput"
++KERNEL=="uinput", SUBSYSTEM=="misc", TAG+="uaccess", MODE="0660", OPTIONS+="static_node=uinput"
+ 
+ # Valve HID devices over USB hidraw
+ KERNEL=="hidraw*", ATTRS{idVendor}=="28de", MODE="0660", TAG+="uaccess"
+-- 
+2.54.0

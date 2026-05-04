@@ -1,0 +1,19 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : steam-devices
+version     : "1.0.0.85+git.39e7bd00"
+release     : 1
+homepage    : https://github.com/ValveSoftware/steam-devices
+upstreams   :
+    - git|https://github.com/ValveSoftware/steam-devices.git : 39e7bd00f7a322e5165fd8f416b31d23daf6d385
+summary     : Steam and SteamVR udev rules
+description : |
+    List of devices Steam and SteamVR will want read/write permissions on
+license     : MIT
+setup       : |
+    %patch %(pkgdir)/0001-fix-udev-rules.patch
+install     : |
+    %install_dir %(installroot)%(libdir)/udev/rules.d
+    %install_file 60-steam-input.rules -t %(installroot)%(libdir)/udev/rules.d/
+    %install_file 60-steam-vr.rules -t %(installroot)%(libdir)/udev/rules.d/
