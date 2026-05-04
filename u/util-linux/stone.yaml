@@ -2,8 +2,8 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : util-linux
-version     : "2.41.3"
-release     : 19
+version     : "2.42"
+release     : 20
 summary     : Random collection of Linux utilities
 license     :
     - BSD-3-Clause
@@ -17,7 +17,7 @@ homepage    : https://www.kernel.org/pub/linux/utils/util-linux
 description : |
     Random collection of Linux utilities
 upstreams   :
-    - https://mirrors.edge.kernel.org/pub/linux/utils/util-linux/v2.41/util-linux-2.41.3.tar.xz : 3330d873f0fceb5560b89a7dc14e4f3288bbd880e96903ed9b50ec2b5799e58b
+    - https://mirrors.edge.kernel.org/pub/linux/utils/util-linux/v2.42/util-linux-2.42.tar.xz : 3452b260bbaa775d6e749ac3bb22111785003fc1f444970025c8da26dfa758e9
 builddeps   :
     - binary(asciidoctor)
     - binary(bison)
@@ -45,6 +45,7 @@ profiles    :
         setup: |
             %patch %(pkgdir)/0001-fix-build-with-econf.patch
             %patch %(pkgdir)/0001-downstream-Update-default-PATH.patch
+            %patch %(pkgdir)/ftbfs-libeconf.patch
 
             # Because we're checking out the git source we need to create this file so the version string won't contain "-dirty"
             if [ ! -f ".tarball-version" ]; then
@@ -93,6 +94,7 @@ profiles    :
 setup       : |
     %patch %(pkgdir)/0001-fix-build-with-econf.patch
     %patch %(pkgdir)/0001-downstream-Update-default-PATH.patch
+    %patch %(pkgdir)/ftbfs-libeconf.patch
 
     # Because we're checking out the git source we need to create this file so the version string won't contain "-dirty"
     if [[ ! -f ".tarball-version" ]]; then

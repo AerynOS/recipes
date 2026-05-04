@@ -219,7 +219,8 @@
 			"depends": [
 				"soname(libblkid.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
-				"soname(libcryptsetup.so.12(x86_64))"
+				"soname(libcryptsetup.so.12(x86_64))",
+				"soname(libsystemd.so.0(x86_64))"
 			],
 			"files": [
 				"/usr/lib/libmount.so.1",
@@ -253,7 +254,8 @@
 			"depends": [
 				"libmount",
 				"pkgconfig(blkid)",
-				"pkgconfig(libcryptsetup)"
+				"pkgconfig(libcryptsetup)",
+				"pkgconfig(libsystemd)"
 			],
 			"files": [
 				"/usr/include/libmount/libmount.h",
@@ -536,6 +538,7 @@
 				"/usr/bin/fincore",
 				"/usr/bin/findmnt",
 				"/usr/bin/flock",
+				"/usr/bin/getino",
 				"/usr/bin/getopt",
 				"/usr/bin/hardlink",
 				"/usr/bin/hexdump",
@@ -611,6 +614,7 @@
 				"/usr/sbin/blockdev",
 				"/usr/sbin/cfdisk",
 				"/usr/sbin/chcpu",
+				"/usr/sbin/copyfilerange",
 				"/usr/sbin/ctrlaltdel",
 				"/usr/sbin/delpart",
 				"/usr/sbin/fdisk",
@@ -664,6 +668,7 @@
 				"/usr/share/bash-completion/completions/colcrt",
 				"/usr/share/bash-completion/completions/colrm",
 				"/usr/share/bash-completion/completions/column",
+				"/usr/share/bash-completion/completions/copyfilerange",
 				"/usr/share/bash-completion/completions/coresched",
 				"/usr/share/bash-completion/completions/ctrlaltdel",
 				"/usr/share/bash-completion/completions/delpart",
@@ -683,6 +688,7 @@
 				"/usr/share/bash-completion/completions/fsck.minix",
 				"/usr/share/bash-completion/completions/fsfreeze",
 				"/usr/share/bash-completion/completions/fstrim",
+				"/usr/share/bash-completion/completions/getino",
 				"/usr/share/bash-completion/completions/getopt",
 				"/usr/share/bash-completion/completions/hardlink",
 				"/usr/share/bash-completion/completions/hexdump",
@@ -770,6 +776,7 @@
 				"/usr/share/defaults/pam.d/runuser-l",
 				"/usr/share/doc/util-linux/getopt-example.bash",
 				"/usr/share/doc/util-linux/getopt-example.tcsh",
+				"/usr/share/locale/ar/LC_MESSAGES/util-linux.mo",
 				"/usr/share/locale/ca/LC_MESSAGES/util-linux.mo",
 				"/usr/share/locale/cs/LC_MESSAGES/util-linux.mo",
 				"/usr/share/locale/da/LC_MESSAGES/util-linux.mo",
@@ -812,6 +819,7 @@
 				"/usr/share/man/man1/colcrt.1",
 				"/usr/share/man/man1/colrm.1",
 				"/usr/share/man/man1/column.1",
+				"/usr/share/man/man1/copyfilerange.1",
 				"/usr/share/man/man1/coresched.1",
 				"/usr/share/man/man1/dmesg.1",
 				"/usr/share/man/man1/eject.1",
@@ -821,6 +829,7 @@
 				"/usr/share/man/man1/fallocate.1",
 				"/usr/share/man/man1/fincore.1",
 				"/usr/share/man/man1/flock.1",
+				"/usr/share/man/man1/getino.1",
 				"/usr/share/man/man1/getopt.1",
 				"/usr/share/man/man1/hardlink.1",
 				"/usr/share/man/man1/hexdump.1",
@@ -909,6 +918,8 @@
 				"/usr/share/man/man8/lsns.8",
 				"/usr/share/man/man8/mkfs.8",
 				"/usr/share/man/man8/mkfs.bfs.8",
+				"/usr/share/man/man8/mkfs.cramfs.8",
+				"/usr/share/man/man8/mkfs.minix.8",
 				"/usr/share/man/man8/mkswap.8",
 				"/usr/share/man/man8/mount.8",
 				"/usr/share/man/man8/nologin.8",
@@ -957,6 +968,7 @@
 				"binary(fincore)",
 				"binary(findmnt)",
 				"binary(flock)",
+				"binary(getino)",
 				"binary(getopt)",
 				"binary(hardlink)",
 				"binary(hexdump)",
@@ -1030,6 +1042,7 @@
 				"sysbinary(blockdev)",
 				"sysbinary(cfdisk)",
 				"sysbinary(chcpu)",
+				"sysbinary(copyfilerange)",
 				"sysbinary(ctrlaltdel)",
 				"sysbinary(delpart)",
 				"sysbinary(fdisk)",
@@ -1091,6 +1104,7 @@
 				"soname(libc.so.6(386))",
 				"soname(libeconf.so.0(386))",
 				"soname(libgcc_s.so.1(386))",
+				"soname(libsystemd.so.0(386))",
 				"util-linux"
 			],
 			"files": [
@@ -1136,6 +1150,7 @@
 			],
 			"depends": [
 				"pkgconfig32(libeconf)",
+				"pkgconfig32(libsystemd)",
 				"util-linux-32bit",
 				"util-linux-devel"
 			],
@@ -1195,6 +1210,6 @@
 		}
 	},
 	"source-name": "util-linux",
-	"source-release": "19",
-	"source-version": "2.41.3"
+	"source-release": "20",
+	"source-version": "2.42"
 }
