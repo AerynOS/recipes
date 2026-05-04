@@ -2,10 +2,10 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : buildah
-version     : "1.43.0"
-release     : 4
+version     : "1.43.1"
+release     : 5
 upstreams   :
-    - https://github.com/containers/buildah/archive/refs/tags/v1.43.0.tar.gz : 24c31fcacd707892d4f745b5fd5a631753bee49bf6c048cd65c42a5791986b67
+    - https://github.com/containers/buildah/archive/refs/tags/v1.43.1.tar.gz : 7980a8b4fb719a104d592b06de149cc18766de02f8c3dd94e727f8702a62f9cd
 homepage    : https://buildah.io/
 license     : Apache-2.0 AND BSD-2-Clause AND BSD-3-Clause AND ISC AND MIT AND MPL-2.0
 summary     : A command line tool used for creating OCI Images
@@ -32,7 +32,6 @@ rundeps     :
 build       : |
     export CGO_LDFLAGS="${LDFLAGS}"
     export CGO_CFLAGS="${CFLAGS}"
-    export CGO_CPPFLAGS="${CPPFLAGS}"
     export CGO_CXXFLAGS="${CXXFLAGS}"
 
     export BUILDTAGS="containers_image_ostree_stub libsqlite3 libsubid seccomp systemd"
