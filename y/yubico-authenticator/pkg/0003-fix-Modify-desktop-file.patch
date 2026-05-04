@@ -1,0 +1,27 @@
+From 49789f07d43e0e15a1e096d6d0fa3fbad4f058b8 Mon Sep 17 00:00:00 2001
+From: AnonAlly <193170968+AnonAlly@users.noreply.github.com>
+Date: Sat, 2 May 2026 10:36:58 +0200
+Subject: [PATCH] fix: Modify desktop file
+
+---
+ resources/linux/linux_support/com.yubico.yubioath.desktop | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/resources/linux/linux_support/com.yubico.yubioath.desktop b/resources/linux/linux_support/com.yubico.yubioath.desktop
+index 8d21e5ba..901d8216 100644
+--- a/resources/linux/linux_support/com.yubico.yubioath.desktop
++++ b/resources/linux/linux_support/com.yubico.yubioath.desktop
+@@ -1,8 +1,8 @@
+ [Desktop Entry]
+ Name=Yubico Authenticator
+ GenericName=Yubico Authenticator
+-Exec="@EXEC_PATH/authenticator"
+-Icon=@EXEC_PATH/linux_support/com.yubico.yubioath.png
++Exec=yubico-authenticator
++Icon=com.yubico.yubioath
+ Type=Application
+ Categories=Utility;
+ Keywords=Yubico;Authenticator;
+-- 
+2.54.0
+
