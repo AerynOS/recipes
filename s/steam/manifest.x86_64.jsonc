@@ -25,7 +25,8 @@
 				"soname(libva.so.2(386))",
 				"soname(libvdpau.so.1(386))",
 				"soname(libvulkan.so.1(386))",
-				"soname(libz.so.1(386))"
+				"soname(libz.so.1(386))",
+				"steam-devices"
 			],
 			"files": [
 				"/usr/bin/steam",
@@ -37,8 +38,6 @@
 				"/usr/lib/steam/steam.desktop",
 				"/usr/lib/steam/steam_launcher/__init__.py",
 				"/usr/lib/steam/steam_launcher/launcherutils.py",
-				"/usr/lib/udev/rules.d/60-steam-input.rules",
-				"/usr/lib/udev/rules.d/60-steam-vr.rules",
 				"/usr/share/applications/steam.desktop",
 				"/usr/share/doc/steam/README",
 				"/usr/share/doc/steam/steam_subscriber_agreement.txt",
@@ -60,6 +59,6 @@
 		}
 	},
 	"source-name": "steam",
-	"source-release": "25",
+	"source-release": "26",
 	"source-version": "1.0.0.85"
 }
