@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : mangohud
-version     : "0.8.2"
-release     : 12
+version     : "0.8.3"
+release     : 13
 homepage    : https://github.com/flightlessmango/MangoHud
 upstreams   :
-    - https://github.com/flightlessmango/MangoHud/releases/download/v0.8.2/MangoHud-v0.8.2-Source.tar.xz : 9fe98da24f790f4489efc1e0c8e3ad0291c80efd882a406797d54dab82f8765b
+    - https://github.com/flightlessmango/MangoHud/releases/download/v0.8.3/MangoHud-v0.8.3-Source.tar.xz : e810ac73163468533ddb7c74b681f1de4992a3d785dce294fee9933ec8956b05
 summary     : A Vulkan and OpenGL overlay for monitoring FPS, temperatures, CPU/GPU load and more
 description : |
     A Vulkan and OpenGL overlay for monitoring FPS, temperatures, CPU/GPU load and more.
@@ -33,7 +33,7 @@ setup       : |
 build       : |
     %meson_build
 install     : |
-    %meson_install
+    %meson_install --skip-subprojects
 packages    :
     - mangoplot:
         # This needs matplotlib and numpy
