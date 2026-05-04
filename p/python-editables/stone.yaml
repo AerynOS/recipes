@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : python-editables
-version     : "0.5"
-release     : 6
+version     : "0.6"
+release     : 7
 homepage    : https://pypi.org/project/editables
 upstreams   :
-    - https://pypi.debian.net/editables/editables-0.5.tar.gz : 309627d9b5c4adc0e668d8c6fa7bac1ba7c8c5d415c2d27f60f081f8e80d1de2
+    - https://pypi.debian.net/editables/editables-0.6.tar.gz : 1163834902381c4613787951c5914800fdf155ae08848a373b8ea5006780977c
 summary     : A Python library for creating "editable wheels"
 description : |
     This library supports the building of wheels which, when installed, will expose packages in a local directory on sys.path in "editable mode". In other words, changes to the package source will be reflected in the package visible to Python, without needing a reinstall.
