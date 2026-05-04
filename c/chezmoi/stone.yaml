@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : chezmoi
-version     : "2.70.0"
-release     : 5
+version     : "2.70.2"
+release     : 6
 homepage    : https://github.com/twpayne/chezmoi
 upstreams   :
-    - https://github.com/twpayne/chezmoi/archive/refs/tags/v2.70.0.tar.gz : c256309dda65501bd4aefc3c44f6368c60c12fc305f5392a86bce001454c72c6
+    - https://github.com/twpayne/chezmoi/archive/refs/tags/v2.70.2.tar.gz : 4dfacb37e1f6714305d7c8570bc25880342dfddbe81259c9253a5881de035321
 summary     : Manage your dotfiles across multiple machines
 description : |
     chezmoi helps you manage your personal configuration files
@@ -25,7 +25,7 @@ build       : |
         -tags noupgrade \
         -ldflags "-compressdwarf=false \
         -X main.version=%(version) \
-        -X main.date=${DATE}"
+        -X main.date=$(date -u +'%%Y-%%m-%%dT%%H:%%M:%%SZ' --date=@$SOURCE_DATE_EPOCH)"
 install     : |
     %install_bin chezmoi
     %install_file completions/chezmoi-completion.bash %(installroot)%(datadir)/bash-completion/completions/chezmoi
