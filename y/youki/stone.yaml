@@ -1,0 +1,31 @@
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : youki
+version     : "0.6.0"
+release     : 1
+upstreams   :
+    - https://github.com/youki-dev/youki/archive/refs/tags/v0.6.0.tar.gz : 9d5eb49c14a2cfa1fe6caacb5437ffd54ce098335dddcd1a2d33d248535a3820
+homepage    : https://youki-dev.github.io/youki/
+license     : Apache-2.0
+summary     : A container runtime written in Rust
+description : |
+    A container runtime written in Rust
+networking  : true
+builddeps   :
+    - pkgconfig(libseccomp)
+setup       : |
+    %cargo_fetch
+build       : |
+    %cargo_build
+
+    mkdir build
+    for shell in bash fish zsh; do
+        ./%(cargo_target_dir)/youki completion --shell "$shell" > "build/$shell-completion"
+    done
+install     : |
+    %cargo_install
+
+    %install_file build/bash-completion %(installroot)%(bashcompletionsdir)/youki
+    %install_file build/fish-completion %(installroot)%(fishcompletionsdir)/youki.fish
+    %install_file build/zsh-completion %(installroot)%(zshcompletionsdir)/_youki
