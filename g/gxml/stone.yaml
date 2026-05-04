@@ -1,0 +1,25 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : gxml
+version     : "0.20.0"
+release     : 1
+homepage    : https://gitlab.gnome.org/GNOME/gxml
+upstreams   :
+    - https://download.gnome.org/sources/gxml/0.20/gxml-0.20.0.tar.xz : 0a0fc4f305ba9ea2f1f76aadfd660fd50febdc7a5e151f9559c81b2bd362d87b
+summary     : GXml is a XML parser and writer, providing both Vala and C object oriented API through GObject. 
+description : |
+    GXml is a XML parser and writer, providing both Vala and C object oriented API through GObject. 
+license     : 
+    - LGPL-2.1-or-later
+builddeps   :
+    - binary(valac)
+    - pkgconfig(gee-0.8)
+    - pkgconfig(gio-2.0)
+    - pkgconfig(libxml-2.0)
+setup       : |
+    %meson
+build       : |
+    %meson_build
+install     : |
+    %meson_install
