@@ -1,0 +1,26 @@
+--- noctalia-shell-4.6.7.orig/Modules/LockScreen/LockContext.qml	2026-03-12 21:05:42.674788046 -0400
++++ noctalia-shell-4.6.7/Modules/LockScreen/LockContext.qml	2026-03-12 21:11:04.763033253 -0400
+@@ -18,7 +18,7 @@
+   property string errorMessage: ""
+   property string infoMessage: ""
+ 
+-  readonly property string pamConfigDirectory: "/etc/pam.d"
++  readonly property string pamConfigDirectory: "/usr/share/defaults/pam.d"
+   property string pamConfig: Quickshell.env("NOCTALIA_PAM_SERVICE") || "login"
+   property bool pamReady: false
+ 
+@@ -35,10 +35,10 @@
+   Process {
+     id: detectPamServiceProc
+     command: ["sh", "-c", "
+-      if [ -f /etc/pam.d/login ]; then echo 'login'; exit 0; fi;
+-      if [ -f /etc/pam.d/system-auth ]; then echo 'system-auth'; exit 0; fi;
+-      if [ -f /etc/pam.d/common-auth ]; then echo 'common-auth'; exit 0; fi;
+-      echo 'login';
++    if [ -f /usr/share/defaults/pam.d/login ]; then echo 'login'; exit 0; fi;
++    if [ -f /usr/share/defaults/pam.d/system-auth ]; then echo 'system-auth'; exit 0; fi;
++    if [ -f /usr/share/defaults/pam.d/common-auth ]; then echo 'common-auth'; exit 0; fi;
++    echo 'login';
+     "]
+     stdout: StdioCollector {
+       onStreamFinished: {
