@@ -82,10 +82,6 @@ function cpesearch() {
 function gotoaosrepo() {
     cd "$(dirname "$(readlink -m "${BASH_SOURCE[0]}")")/../" || return 1
 }
-# deprecated - use gotoaerynosrepo
-function gotoserpentrepo() {
-    cd "$(dirname "$(readlink -m "${BASH_SOURCE[0]}")")/../" || return 1
-}
 
 # Goes to the root directory of the git repository
 function goroot() {
