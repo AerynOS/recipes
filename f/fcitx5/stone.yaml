@@ -1,0 +1,53 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : fcitx5
+version     : "5.1.19"
+release     : 1
+homepage    : https://github.com/fcitx/fcitx5
+upstreams   :
+    - https://github.com/fcitx/fcitx5/archive/refs/tags/5.1.19.tar.gz : a6e4d99a82298845df9f8dc5036c1aaed258c2d3f5bd215b8f91c75410167ff0
+    - https://github.com/facebook/yoga/archive/042f5013152eb81c1552dec945b88f7b95ca350f.tar.gz :
+        hash: 4742f41722a16f181e3da37abf943390db1e928f00f26402cb154662ae7f110f
+        unpackdir: yoga
+summary     : Fcitx 5 is a generic input method framework released under LGPL-2.1+
+description : |
+    Fcitx 5 is a generic input method framework released under LGPL-2.1+.
+license     : 
+    - LGPL-2.1-or-later
+    - Unicode-DFS-2016
+networking  : true
+builddeps   :
+    - binary(doxygen)
+    - cmake(ECM)
+    - pkgconfig(cairo-xcb)
+    - pkgconfig(enchant-2)
+    - pkgconfig(expat)
+    - pkgconfig(fmt)
+    - pkgconfig(gdk-pixbuf-2.0)
+    - pkgconfig(iso-codes)
+    - pkgconfig(json-c)
+    - pkgconfig(nlohmann_json)
+    - pkgconfig(pango)
+    - pkgconfig(systemd)
+    - pkgconfig(uuid)
+    - pkgconfig(wayland-client)
+    - pkgconfig(wayland-protocols)
+    - pkgconfig(wayland-scanner)
+    - pkgconfig(xcb)
+    - pkgconfig(xcb-imdkit)
+    - pkgconfig(xkbcommon)
+    - pkgconfig(xkbcommon-x11)
+    - pkgconfig(xkbfile)
+    - pkgconfig(xkeyboard-config)
+    - pkgconfig(zlib)
+    - gettext
+    - gettext-devel
+setup       : |
+    rmdir third_party/yoga
+    mv /mason/build/x86_64/yoga third_party/yoga
+    %cmake
+build       : |
+    %cmake_build
+install     : |
+    %cmake_install
