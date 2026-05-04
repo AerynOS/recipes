@@ -20,7 +20,7 @@
 			],
 			"files": [
 				"/usr/lib/libminizip.so.1",
-				"/usr/lib/libminizip.so.4.1.2"
+				"/usr/lib/libminizip.so.4.2.1"
 			],
 			"name": "minizip",
 			"provides": [
@@ -37,6 +37,7 @@
 			],
 			"depends": [
 				"minizip",
+				"pkgconfig(openssl)",
 				"pkgconfig(zlib-ng)"
 			],
 			"files": [
@@ -92,7 +93,7 @@
 			],
 			"files": [
 				"/usr/lib/libminizip-ng.so.4",
-				"/usr/lib/libminizip-ng.so.4.1.2"
+				"/usr/lib/libminizip-ng.so.4.2.1"
 			],
 			"name": "minizip-ng",
 			"provides": [
@@ -109,6 +110,7 @@
 			],
 			"depends": [
 				"minizip-ng",
+				"pkgconfig(openssl)",
 				"pkgconfig(zlib-ng)"
 			],
 			"files": [
@@ -144,6 +146,6 @@
 		}
 	},
 	"source-name": "minizip-ng",
-	"source-release": "7",
-	"source-version": "4.1.2"
+	"source-release": "8",
+	"source-version": "4.2.1"
 }
