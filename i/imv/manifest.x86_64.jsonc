@@ -1,0 +1,87 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"imv": {
+			"build-depends": [
+				"binary(a2x)",
+				"binary(git)",
+				"binary(xxd)",
+				"docbook",
+				"docbook-xsl",
+				"pkgconfig(cmocka)",
+				"pkgconfig(egl)",
+				"pkgconfig(gl)",
+				"pkgconfig(icu-uc)",
+				"pkgconfig(inih)",
+				"pkgconfig(libheif)",
+				"pkgconfig(libjxl)",
+				"pkgconfig(libpng)",
+				"pkgconfig(librsvg-2.0)",
+				"pkgconfig(libtiff-4)",
+				"pkgconfig(libturbojpeg)",
+				"pkgconfig(libwebp)",
+				"pkgconfig(opengl)",
+				"pkgconfig(pangocairo)",
+				"pkgconfig(wayland-client)",
+				"pkgconfig(wayland-cursor)",
+				"pkgconfig(wayland-egl)",
+				"pkgconfig(wayland-protocols)",
+				"pkgconfig(x11)",
+				"pkgconfig(xcb)",
+				"pkgconfig(xkbcommon)",
+				"pkgconfig(xkbcommon-x11)"
+			],
+			"depends": [
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(libEGL.so.1(x86_64))",
+				"soname(libGL.so.1(x86_64))",
+				"soname(libX11.so.6(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libcairo.so.2(x86_64))",
+				"soname(libgobject-2.0.so.0(x86_64))",
+				"soname(libheif.so.1(x86_64))",
+				"soname(libicuuc.so.78(x86_64))",
+				"soname(libinih.so.0(x86_64))",
+				"soname(libjxl.so.0.11(x86_64))",
+				"soname(libm.so.6(x86_64))",
+				"soname(libpango-1.0.so.0(x86_64))",
+				"soname(libpangocairo-1.0.so.0(x86_64))",
+				"soname(libpng16.so.16(x86_64))",
+				"soname(librsvg-2.so.2(x86_64))",
+				"soname(libtiff.so.6(x86_64))",
+				"soname(libturbojpeg.so.0(x86_64))",
+				"soname(libwayland-client.so.0(x86_64))",
+				"soname(libwayland-cursor.so.0(x86_64))",
+				"soname(libwayland-egl.so.1(x86_64))",
+				"soname(libxcb.so.1(x86_64))",
+				"soname(libxkbcommon-x11.so.0(x86_64))",
+				"soname(libxkbcommon.so.0(x86_64))"
+			],
+			"files": [
+				"/usr/bin/imv",
+				"/usr/bin/imv-dir",
+				"/usr/bin/imv-msg",
+				"/usr/bin/imv-wayland",
+				"/usr/bin/imv-x11",
+				"/usr/share/applications/imv-dir.desktop",
+				"/usr/share/applications/imv.desktop",
+				"/usr/share/man/man1/imv-dir.1",
+				"/usr/share/man/man1/imv-msg.1",
+				"/usr/share/man/man1/imv.1",
+				"/usr/share/man/man5/imv.5"
+			],
+			"name": "imv",
+			"provides": [
+				"binary(imv)",
+				"binary(imv-dir)",
+				"binary(imv-msg)",
+				"binary(imv-wayland)",
+				"binary(imv-x11)"
+			]
+		}
+	},
+	"source-name": "imv",
+	"source-release": "1",
+	"source-version": "5.0.1"
+}
