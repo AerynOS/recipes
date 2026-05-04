@@ -1,0 +1,78 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : gram
+version     : "1.2.1"
+release     : 1
+homepage    : https://gram.liten.app/
+upstreams   :
+    - https://codeberg.org/GramEditor/gram/archive/1.2.1.tar.gz : a7197aa1803f0301c6826507a10c671349e9349851b2efbd52ae0200139bf748
+summary     : A code editor for humanoid apes and grumpy toads
+description : |
+    Gram is a powerful and modern source code editor.
+license     :
+    - AGPL-3.0-or-later
+    - Apache-2.0
+    - GPL-3.0-or-later
+# everything below is copypasta from zed's stone.yaml
+networking  : true
+tuning      :
+    - lto: false
+builddeps   :
+    - binary(cmake)
+    - binary(envsubst)
+    - binary(jq)
+    - binary(make)
+    - binary(mold)
+    - pkgconfig(alsa)
+    - pkgconfig(fontconfig)
+    - pkgconfig(gl)
+    - pkgconfig(glib-2.0)
+    - pkgconfig(libcurl)
+    - pkgconfig(libdrm)
+    - pkgconfig(libelf)
+    - pkgconfig(libgit2)
+    - pkgconfig(libssl)
+    - pkgconfig(protobuf)
+    - pkgconfig(sqlite3)
+    - pkgconfig(vulkan)
+    - pkgconfig(wayland-client)
+    - pkgconfig(x11)
+    - pkgconfig(xkbcommon)
+    - pkgconfig(xkbcommon-x11)
+    - libstdc++-devel
+rundeps     :
+    - binary(unzip)
+environment : |
+    export RUSTFLAGS="$RUSTFLAGS -Clink-arg=-fuse-ld=mold"
+    export GRAM_UPDATE_EXPLANATION="Package updates are provided via moss"
+    export LIBGIT2_NO_VENDOR=1
+    export LIBSQLITE3_SYS_USE_PKG_CONFIG=1
+    export LIBSSH2_SYS_USE_PKG_CONFIG=1
+    export OPENSSL_NO_VENDOR=true
+    export ZSTD_SYS_USE_PKG_CONFIG=1
+setup       : |
+    %cargo_fetch
+build       : |
+    RUST_BACKTRACE=1 %cargo_build -p gram -p cli
+install     : |
+    %install_dir %(installroot)%(libexecdir)
+    %install_exe target/*/release/gram %(installroot)%(libexecdir)/gram-editor
+    %install_exe target/*/release/cli %(installroot)%(bindir)/gram
+
+    # stolen from zed's bundle-linux script
+    export DO_STARTUP_NOTIFY="true"
+    export APP_CLI="gram"
+    export APP_ICON="gram"
+    export APP_ARGS="%%U"
+    export APP_NAME="Gram"
+    export APP_ID="app.liten.Gram"
+
+    # desktop file.
+    %install_dir %(installroot)%(datadir)/applications
+    envsubst < "crates/gram/resources/gram.desktop.in" > "%(installroot)%(datadir)/applications/app.liten.Gram.desktop"
+
+    # icon
+    %install_file crates/gram/resources/app-icon.png %(installroot)%(datadir)/icons/gram.png
+# check       : |
+#     %cargo_test
