@@ -25,11 +25,6 @@ function gotoaosrepo -d "Go to the root of the AerynOS recipes repository"
     cd (__aos_repo_dir)
 end
 
-# Deprecated, use gotoasorepo
-function gotoserpentrepo -d "Go to the root of the Serpent recipes repository"
-    cd (__aos_repo_dir)
-end
-
 function goroot -d "Go to the root of the current Git repository"
     cd (__aos_toplevel)
 end
@@ -46,8 +41,6 @@ function fix-version-strings -d "Quote unquoted version strings in recipes"
 end
 
 complete -c gotoaosrepo -f
-# Deprecated, remove later
-complete -c gotoserpentrepo -f
 complete -c goroot -f
 complete -c chpkg -f
 complete -c chpkg -a "(path basename (__aos_toplevel)/*/*)"

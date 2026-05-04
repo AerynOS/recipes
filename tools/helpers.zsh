@@ -27,12 +27,6 @@ function gotoaosrepo() {
     cd $(dirname $(readlink -m "${SCRIPT_PATH}"))/../
 }
 
-# Deprecated, use gotoaosrepo
-function gotoserpentrepo() {
-    SCRIPT_PATH=$functions_source[gotoserpentrepo]
-    cd $(dirname $(readlink -m "${SCRIPT_PATH}"))/../
-}
-
 # Goes to the root directory of the git repository
 function goroot() {
     cd $(git rev-parse --show-toplevel)
