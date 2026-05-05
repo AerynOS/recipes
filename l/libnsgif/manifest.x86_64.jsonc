@@ -1,0 +1,36 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"libnsgif": {
+			"depends": [
+				"soname(libc.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/lib/libnsgif.so.1",
+				"/usr/lib/libnsgif.so.1.0.0"
+			],
+			"name": "libnsgif",
+			"provides": [
+				"soname(libnsgif.so.1(x86_64))"
+			]
+		},
+		"libnsgif-devel": {
+			"depends": [
+				"libnsgif"
+			],
+			"files": [
+				"/usr/include/nsgif.h",
+				"/usr/lib/libnsgif.so",
+				"/usr/lib/pkgconfig/libnsgif.pc"
+			],
+			"name": "libnsgif-devel",
+			"provides": [
+				"pkgconfig(libnsgif)"
+			]
+		}
+	},
+	"source-name": "libnsgif",
+	"source-release": "1",
+	"source-version": "1.0.0+git.e97bc7b"
+}
