@@ -28,9 +28,9 @@ builddeps   :
     - pkgconfig(xrandr)
 networking  : true
 setup       : |
-    # Fix build breaking (from galister): https://aur.archlinux.org/packages/wayvr
-    %patch %(pkgdir)/0001-update-pipewire-rs-to-fix-build-on-aerynos.patch
-    %patch %(pkgdir)/0002-Updated-the-pipewire-reference-in-Cargo.lock.patch
+    # Fix build breaking (ftbfs) (fix from galister): https://aur.archlinux.org/packages/wayvr
+    %patch %(pkgdir)/ftbfs-pipewire-1.6-01.patch
+    %patch %(pkgdir)/ftbfs-pipewire-1.6-02.patch
 
     %cargo_fetch
 build       : |
