@@ -1,0 +1,22 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : libnsbmp
+version     : "0.1.7+git.77ce1da"
+release     : 1
+homepage    : https://www.netsurf-browser.org/projects/libnsbmp
+upstreams   :
+    - git|https://github.com/netsurf-browser/libnsbmp.git :
+        ref      : 77ce1da1f484de5a7696d9bac0a8b42fa8cb35e2
+    - git|https://github.com/netsurf-browser/buildsystem.git :
+        ref      : 0005ae300283ff01c2e2b05e7376b3e55dea21f7
+        clonedir : buildsystem
+summary     : Libnsbmp is a decoding library for BMP and ICO image file formats, written in C
+description : |
+    Libnsbmp is a decoding library for BMP and ICO image file formats, written in C.
+license     : 
+    - MIT
+build       : |
+    %make NSSHARED=../buildsystem COMPONENT_TYPE=lib-shared
+install     : |
+    %make_install NSSHARED=../buildsystem PREFIX=%(prefix) COMPONENT_TYPE=lib-shared
