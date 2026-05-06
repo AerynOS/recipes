@@ -3,7 +3,7 @@
 
 name        : gcc
 version     : "16.1.0+git.25925f2a"
-release     : 23
+release     : 24
 summary     : GNU C++ standard library and compiler
 license     : GPL-3.0-or-later
 homepage    : https://gcc.gnu.org/
@@ -44,7 +44,7 @@ tuning      :
 environment : |
     # Change this to 1 if you want a much faster (but slower at runtime) build
     # This is useful when updating to a new version or rebootstrapping the GCC toolchain
-    _fast_build=1
+    _fast_build=0
 
     _build_config="bootstrap-lto-lean"
     _build_step="profiledbootstrap"
