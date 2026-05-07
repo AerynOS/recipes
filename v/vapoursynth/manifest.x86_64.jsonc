@@ -1,0 +1,88 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"vapoursynth": {
+			"build-depends": [
+				"binary(bison)",
+				"binary(cython)",
+				"binary(flex)",
+				"binary(patchelf)",
+				"binary(readelf)",
+				"libstdc++-static",
+				"pkgconfig(python3)",
+				"pkgconfig(zimg)"
+			],
+			"depends": [
+				"binary(python)",
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(ld-linux-x86-64.so.2(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libm.so.6(x86_64))",
+				"soname(libstdc++.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/lib/libvapoursynth-script.so.0",
+				"/usr/lib/libvapoursynth.so.4",
+				"/usr/lib/python3.14/site-packages/vapoursynth/__init__.py",
+				"/usr/lib/python3.14/site-packages/vapoursynth/__main__.py",
+				"/usr/lib/python3.14/site-packages/vapoursynth/__pycache__/__init__.cpython-314.pyc",
+				"/usr/lib/python3.14/site-packages/vapoursynth/__pycache__/__main__.cpython-314.pyc",
+				"/usr/lib/python3.14/site-packages/vapoursynth/__pycache__/_cli.cpython-314.pyc",
+				"/usr/lib/python3.14/site-packages/vapoursynth/__pycache__/_shell.cpython-314.pyc",
+				"/usr/lib/python3.14/site-packages/vapoursynth/__pycache__/_utils.cpython-314.pyc",
+				"/usr/lib/python3.14/site-packages/vapoursynth/_cli.py",
+				"/usr/lib/python3.14/site-packages/vapoursynth/_shell.py",
+				"/usr/lib/python3.14/site-packages/vapoursynth/_utils.py",
+				"/usr/lib/python3.14/site-packages/vapoursynth/include/VSConstants4.h",
+				"/usr/lib/python3.14/site-packages/vapoursynth/include/VSHelper4.h",
+				"/usr/lib/python3.14/site-packages/vapoursynth/include/VSScript4.h",
+				"/usr/lib/python3.14/site-packages/vapoursynth/include/VapourSynth4.h",
+				"/usr/lib/python3.14/site-packages/vapoursynth/libvapoursynth.so",
+				"/usr/lib/python3.14/site-packages/vapoursynth/libvapoursynth.so.4",
+				"/usr/lib/python3.14/site-packages/vapoursynth/libvsscript.so",
+				"/usr/lib/python3.14/site-packages/vapoursynth/pkgconfig/vapoursynth.pc",
+				"/usr/lib/python3.14/site-packages/vapoursynth/vapoursynth.abi3.so",
+				"/usr/lib/python3.14/site-packages/vapoursynth/vapoursynth.pyi",
+				"/usr/lib/python3.14/site-packages/vapoursynth/vspipe",
+				"/usr/share/mime/packages/vapoursynth.xml"
+			],
+			"name": "vapoursynth",
+			"provides": [
+				"pkgconfig(vapoursynth)",
+				"soname(python3.14/site-packages/vapoursynth/libvapoursynth.so.4(x86_64))",
+				"soname(python3.14/site-packages/vapoursynth/libvsscript.so(x86_64))",
+				"soname(python3.14/site-packages/vapoursynth/vapoursynth.abi3.so(x86_64))"
+			]
+		},
+		"vapoursynth-devel": {
+			"build-depends": [
+				"binary(bison)",
+				"binary(cython)",
+				"binary(flex)",
+				"binary(patchelf)",
+				"binary(readelf)",
+				"libstdc++-static",
+				"pkgconfig(python3)",
+				"pkgconfig(zimg)"
+			],
+			"depends": [
+				"vapoursynth"
+			],
+			"files": [
+				"/usr/include/vapoursynth",
+				"/usr/lib/libvapoursynth-script.so",
+				"/usr/lib/libvapoursynth.so",
+				"/usr/lib/pkgconfig/vapoursynth.pc"
+			],
+			"name": "vapoursynth-devel",
+			"provides": [
+				"pkgconfig(vapoursynth)"
+			]
+		}
+	},
+	"source-name": "vapoursynth",
+	"source-release": "1",
+	"source-version": "76"
+}
