@@ -1,0 +1,66 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"zimg": {
+			"build-depends": [
+				"binary(bison)",
+				"binary(flex)"
+			],
+			"depends": [
+				"soname(ld-linux-x86-64.so.2(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libm.so.6(x86_64))",
+				"soname(libstdc++.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/lib/libzimg.so.2",
+				"/usr/lib/libzimg.so.2.0.0",
+				"/usr/share/doc/zimg/COPYING",
+				"/usr/share/doc/zimg/ChangeLog",
+				"/usr/share/doc/zimg/README.md",
+				"/usr/share/doc/zimg/example/Makefile",
+				"/usr/share/doc/zimg/example/api_example.cpp",
+				"/usr/share/doc/zimg/example/api_example_c.c",
+				"/usr/share/doc/zimg/example/hdr_example.cpp",
+				"/usr/share/doc/zimg/example/interlace_example.cpp",
+				"/usr/share/doc/zimg/example/misc/aligned_malloc.h",
+				"/usr/share/doc/zimg/example/misc/argparse.cpp",
+				"/usr/share/doc/zimg/example/misc/argparse.h",
+				"/usr/share/doc/zimg/example/misc/mmap.cpp",
+				"/usr/share/doc/zimg/example/misc/mmap.h",
+				"/usr/share/doc/zimg/example/misc/win32_bitmap.cpp",
+				"/usr/share/doc/zimg/example/misc/win32_bitmap.h",
+				"/usr/share/doc/zimg/example/tile_example.cpp"
+			],
+			"name": "zimg",
+			"provides": [
+				"soname(libzimg.so.2(x86_64))"
+			]
+		},
+		"zimg-devel": {
+			"build-depends": [
+				"binary(bison)",
+				"binary(flex)"
+			],
+			"depends": [
+				"zimg"
+			],
+			"files": [
+				"/usr/include/zimg++.hpp",
+				"/usr/include/zimg.h",
+				"/usr/lib/libzimg.a",
+				"/usr/lib/libzimg.so",
+				"/usr/lib/pkgconfig/zimg.pc"
+			],
+			"name": "zimg-devel",
+			"provides": [
+				"pkgconfig(zimg)"
+			]
+		}
+	},
+	"source-name": "zimg",
+	"source-release": "1",
+	"source-version": "3.0.6"
+}
