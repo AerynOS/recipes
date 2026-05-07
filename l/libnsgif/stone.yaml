@@ -1,0 +1,22 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : libnsgif
+version     : "1.0.0+git.e97bc7b"
+release     : 1
+homepage    : https://www.netsurf-browser.org/projects/libnsgif
+upstreams   :
+    - git|https://github.com/netsurf-browser/libnsgif.git :
+        ref      : e97bc7b86f19ace910a2c71025ad2d94a28a1d2e
+    - git|https://github.com/netsurf-browser/buildsystem.git :
+        ref      : 0005ae300283ff01c2e2b05e7376b3e55dea21f7
+        clonedir : buildsystem
+summary     : LibNSGIF is a C library for decoding GIF format images and animations
+description : |
+    LibNSGIF is a C library for decoding GIF format images and animations.
+license     : 
+    - MIT
+build       : |
+    %make NSSHARED=../buildsystem COMPONENT_TYPE=lib-shared
+install     : |
+    %make_install NSSHARED=../buildsystem PREFIX=%(prefix) COMPONENT_TYPE=lib-shared

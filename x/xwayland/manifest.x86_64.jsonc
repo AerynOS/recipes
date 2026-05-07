@@ -78,9 +78,7 @@
 			],
 			"files": [
 				"/usr/bin/Xwayland",
-				"/usr/lib/xorg/protocol.txt",
 				"/usr/share/applications/org.freedesktop.Xwayland.desktop",
-				"/usr/share/man/man1/Xserver.1",
 				"/usr/share/man/man1/Xwayland.1"
 			],
 			"name": "xwayland",
@@ -143,7 +141,8 @@
 				"xwayland"
 			],
 			"files": [
-				"/usr/lib/pkgconfig/xwayland.pc"
+				"/usr/lib/pkgconfig/xwayland.pc",
+				"/usr/lib/xorg/protocol.txt"
 			],
 			"name": "xwayland-devel",
 			"provides": [
@@ -152,6 +151,6 @@
 		}
 	},
 	"source-name": "xwayland",
-	"source-release": "13",
-	"source-version": "24.1.9"
+	"source-release": "15",
+	"source-version": "24.1.11"
 }

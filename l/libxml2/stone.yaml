@@ -1,19 +1,17 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : libxml2
-version     : 2.15.1
-release     : 18
+version     : "2.15.3"
+release     : 21
 summary     : XML parsing library
 license     : MIT
 homepage    : http://www.xmlsoft.org/
 description : |
     XML parsing library
 upstreams   :
-    - https://download.gnome.org/sources/libxml2/2.15/libxml2-2.15.1.tar.xz:
-        hash: c008bac08fd5c7b4a87f7b8a71f283fa581d80d80ff8d2efd3b26224c39bc54c
+    - https://download.gnome.org/sources/libxml2/2.15/libxml2-2.15.3.tar.xz:
+        hash: 78262a6e7ac170d6528ebfe2efccdf220191a5af6a6cd61ea4a9a9a5042c7a07
         unpackdir: current
 
     # Don't delete this section, just comment it out if it's not needed. The build recipe accounts for it possibly not existing
@@ -29,7 +27,7 @@ builddeps   :
     - pkgconfig(python3)
     - docbook-xsl
     - perl
-emul32      : yes
+emul32      : true
 profiles    :
     - emul32:
         setup: |
@@ -74,23 +72,23 @@ build       : |
     if [ -d ../compat ]; then
         pushd ../compat
             %ccache_zero
-            env CCACHE_BASEDIR="${pwd}" %meson_build
+            env CCACHE_BASEDIR="${PWD}" %meson_build
             %ccache_stats
         popd
     fi
 
     %ccache_zero
-    env CCACHE_BASEDIR="${pwd}" %meson_build
+    env CCACHE_BASEDIR="${PWD}" %meson_build
     %ccache_stats
 install     : |
     if [ -d ../compat ]; then
         pushd ../compat
             mkdir tmp
-            DESTDIR="${pwd}/tmp" meson install --no-rebuild -C "%(builddir)"
+            DESTDIR="${PWD}/tmp" meson install --no-rebuild -C "%(builddir)"
 
             # Only copy the sonames
             %install_dir %(installroot)/%(libdir)
-            find ${pwd}/tmp/%(libdir) -name "libxml2.so.*" -print -exec mv {} %(installroot)/%(libdir) \;
+            find ${PWD}/tmp/%(libdir) -name "libxml2.so.*" -print -exec mv {} %(installroot)/%(libdir) \;
         popd
     fi
 

@@ -1,0 +1,46 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"python-pefile": {
+			"build-depends": [
+				"python(setuptools)"
+			],
+			"depends": [
+				"python-libs"
+			],
+			"files": [
+				"/usr/lib/python3.14/site-packages/__pycache__/pefile.cpython-314.opt-1.pyc",
+				"/usr/lib/python3.14/site-packages/__pycache__/pefile.cpython-314.pyc",
+				"/usr/lib/python3.14/site-packages/__pycache__/peutils.cpython-314.opt-1.pyc",
+				"/usr/lib/python3.14/site-packages/__pycache__/peutils.cpython-314.pyc",
+				"/usr/lib/python3.14/site-packages/ordlookup/__init__.py",
+				"/usr/lib/python3.14/site-packages/ordlookup/__pycache__/__init__.cpython-314.opt-1.pyc",
+				"/usr/lib/python3.14/site-packages/ordlookup/__pycache__/__init__.cpython-314.pyc",
+				"/usr/lib/python3.14/site-packages/ordlookup/__pycache__/oleaut32.cpython-314.opt-1.pyc",
+				"/usr/lib/python3.14/site-packages/ordlookup/__pycache__/oleaut32.cpython-314.pyc",
+				"/usr/lib/python3.14/site-packages/ordlookup/__pycache__/ws2_32.cpython-314.opt-1.pyc",
+				"/usr/lib/python3.14/site-packages/ordlookup/__pycache__/ws2_32.cpython-314.pyc",
+				"/usr/lib/python3.14/site-packages/ordlookup/__pycache__/wsock32.cpython-314.opt-1.pyc",
+				"/usr/lib/python3.14/site-packages/ordlookup/__pycache__/wsock32.cpython-314.pyc",
+				"/usr/lib/python3.14/site-packages/ordlookup/oleaut32.py",
+				"/usr/lib/python3.14/site-packages/ordlookup/ws2_32.py",
+				"/usr/lib/python3.14/site-packages/ordlookup/wsock32.py",
+				"/usr/lib/python3.14/site-packages/pefile-2024.8.26.dist-info/METADATA",
+				"/usr/lib/python3.14/site-packages/pefile-2024.8.26.dist-info/RECORD",
+				"/usr/lib/python3.14/site-packages/pefile-2024.8.26.dist-info/WHEEL",
+				"/usr/lib/python3.14/site-packages/pefile-2024.8.26.dist-info/licenses/LICENSE",
+				"/usr/lib/python3.14/site-packages/pefile-2024.8.26.dist-info/top_level.txt",
+				"/usr/lib/python3.14/site-packages/pefile.py",
+				"/usr/lib/python3.14/site-packages/peutils.py"
+			],
+			"name": "python-pefile",
+			"provides": [
+				"python(pefile)"
+			]
+		}
+	},
+	"source-name": "python-pefile",
+	"source-release": "1",
+	"source-version": "2024.8.26"
+}

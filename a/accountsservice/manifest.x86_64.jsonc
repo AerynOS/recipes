@@ -6,6 +6,8 @@
 			"build-depends": [
 				"binary(msgfmt)",
 				"binary(vapigen)",
+				"binary(xmlto)",
+				"docbook",
 				"pkgconfig(dbus-1)",
 				"pkgconfig(gio-2.0)",
 				"pkgconfig(gio-unix-2.0)",
@@ -22,14 +24,15 @@
 				"soname(libgio-2.0.so.0(x86_64))",
 				"soname(libglib-2.0.so.0(x86_64))",
 				"soname(libgobject-2.0.so.0(x86_64))",
+				"soname(libjson-c.so.5(x86_64))",
 				"soname(libpolkit-gobject-1.so.0(x86_64))",
 				"soname(libsystemd.so.0(x86_64))"
 			],
 			"files": [
 				"/usr/lib/accountsservice/accounts-daemon",
 				"/usr/lib/girepository-1.0/AccountsService-1.0.typelib",
-				"/usr/lib/libaccountsservice.so.0",
-				"/usr/lib/libaccountsservice.so.0.0.0",
+				"/usr/lib/libaccountsservice.so.1",
+				"/usr/lib/libaccountsservice.so.1.0.0",
 				"/usr/lib/systemd/system/accounts-daemon.service",
 				"/usr/lib/tmpfiles.d/accountsservice.conf",
 				"/usr/share/accountsservice/user-templates/administrator",
@@ -38,6 +41,7 @@
 				"/usr/share/dbus-1/interfaces/org.freedesktop.Accounts.xml",
 				"/usr/share/dbus-1/system-services/org.freedesktop.Accounts.service",
 				"/usr/share/dbus-1/system.d/org.freedesktop.Accounts.conf",
+				"/usr/share/doc/accountsservice/spec/AccountsService.html",
 				"/usr/share/locale/af/LC_MESSAGES/accounts-service.mo",
 				"/usr/share/locale/ar/LC_MESSAGES/accounts-service.mo",
 				"/usr/share/locale/as/LC_MESSAGES/accounts-service.mo",
@@ -116,13 +120,15 @@
 			],
 			"name": "accountsservice",
 			"provides": [
-				"soname(libaccountsservice.so.0(x86_64))"
+				"soname(libaccountsservice.so.1(x86_64))"
 			]
 		},
 		"accountsservice-devel": {
 			"build-depends": [
 				"binary(msgfmt)",
 				"binary(vapigen)",
+				"binary(xmlto)",
+				"docbook",
 				"pkgconfig(dbus-1)",
 				"pkgconfig(gio-2.0)",
 				"pkgconfig(gio-unix-2.0)",
@@ -157,6 +163,6 @@
 		}
 	},
 	"source-name": "accountsservice",
-	"source-release": "6",
-	"source-version": "23.13.9"
+	"source-release": "10",
+	"source-version": "26.13.3"
 }

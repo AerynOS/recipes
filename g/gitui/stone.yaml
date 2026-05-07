@@ -1,0 +1,30 @@
+#
+# SPDX-FileCopyrightText: © 2026- AerynOS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : gitui
+version     : 0.28.1
+release     : 1
+homepage    : https://github.com/gitui-org/gitui
+upstreams   :
+    - https://github.com/gitui-org/gitui/archive/refs/tags/v0.28.1.tar.gz : 0400cbf59605490b5fb8779f9af41fa4d7a1bb748093ca0e13156a5dff31c7aa
+summary     : Git terminal user interface
+description : |
+    Git terminal user interface
+license     : MIT
+networking  : true
+builddeps   :
+    - pkgconfig(openssl)
+checkdeps   :
+    - binary(python)
+setup       : |
+    %cargo_fetch
+build       : |
+    export OPENSSL_NO_VENDOR=true
+    %cargo_build
+install     : |
+    %cargo_install
+check       : |
+    export OPENSSL_NO_VENDOR=true
+    %cargo_test

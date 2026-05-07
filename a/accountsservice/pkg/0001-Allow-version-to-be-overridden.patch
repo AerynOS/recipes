@@ -1,0 +1,25 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Reilly Brogan <reilly@reillybrogan.com>
+Date: Mon, 16 Mar 2026 15:16:37 -0500
+Subject: [PATCH] Allow version to be overridden
+
+---
+ generate-version.sh | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/generate-version.sh b/generate-version.sh
+index 8375c86..991d9b1 100755
+--- a/generate-version.sh
++++ b/generate-version.sh
+@@ -6,6 +6,11 @@ cd "$SRCDIR"
+ CWD=$(realpath "$PWD")
+ exec 2>&3
+ 
++if [ -n "$VERSION_OVERRIDE" ]; then
++    echo "$VERSION_OVERRIDE"
++    exit 0
++fi
++
+ # If it's not from a git checkout, assume it's from a tarball
+ if ! git rev-parse --is-inside-git-dir > /dev/null 2>&1; then
+     VERSION_FROM_DIR_NAME=$(basename "$CWD" | sed -n 's/^accountsservice-\([^-]*\)$/\1/p')

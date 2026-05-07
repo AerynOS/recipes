@@ -1,14 +1,12 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : ntpd-rs
-version     : 1.6.2
-release     : 6
+version     : "1.7.2"
+release     : 10
 homepage    : https://github.com/pendulum-project/ntpd-rs
 upstreams   :
-    - https://github.com/pendulum-project/ntpd-rs/archive/refs/tags/v1.6.2.tar.gz : cf88a2f65dcbff37d7f713713aff10eb7fe9c9d6d4d7ab694f972990b121821b
+    - https://github.com/pendulum-project/ntpd-rs/archive/refs/tags/v1.7.2.tar.gz : f375018e496d0d268dc5ed3c362566afafa239d67369546f9c04b8d2e3163dda
 summary     : NTP Daemon, in Rust
 description : |
     A full-featured implementation of the Network Time Protocol, including NTS support.
@@ -34,7 +32,7 @@ install     : |
     %install_file docs/examples/conf/ntp.toml.default %(installroot)%(docdir)/%(name)/.
     %install_file docs/examples/conf/ntpd-rs.service %(installroot)%(libdir)/systemd/system/ntpd-rs.service
     %install_file docs/examples/conf/ntpd-rs-metrics.service %(installroot)%(libdir)/systemd/system/ntpd-rs-metrics.service
-    %install_file docs/examples/conf/ntpd-rs.preset %(installroot)%(libdir)/systemd-preset/50-ntpd-rs.preset
+    %install_file docs/examples/conf/ntpd-rs.preset %(installroot)%(libdir)/systemd/system-preset/98-ntpd-rs.preset
     %install_file COPYRIGHT %(installroot)%(docdir)/%(name)/.
     %install_file LICENSE-APACHE %(installroot)%(docdir)/%(name)/.
     %install_file LICENSE-MIT %(installroot)%(docdir)/%(name)/.

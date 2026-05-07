@@ -1,16 +1,14 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : cosmic-panel
-version     : 1.0.5.git+8eb8a1b
-release     : 32
+version     : "1.0.11.git+d518c7d"
+release     : 38
 summary     : Cosmic Desktop Panel
 license     : GPL-3.0
 homepage    : https://github.com/pop-os/cosmic-panel
 upstreams   :
-    - git|https://github.com/pop-os/cosmic-panel.git : 8eb8a1b6305213ec7402cb2ec24bef6b501b978a
+    - git|https://github.com/pop-os/cosmic-panel.git : d518c7d25ef96f1a9696aa8cce008656bf66ece4
 description : |
     Cosmic Desktop panel
 builddeps   :
@@ -18,7 +16,7 @@ builddeps   :
     - pkgconfig(xkbcommon)
 rundeps     :
     - binary(cosmic-applets)
-networking  : yes
+networking  : true
 setup       : |
     %cargo_fetch
 build       : |

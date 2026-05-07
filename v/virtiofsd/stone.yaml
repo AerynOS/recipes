@@ -1,10 +1,8 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : virtiofsd
-version     : 1.13.3
+version     : "1.13.3"
 release     : 3
 homepage    : https://gitlab.com/virtio-fs/virtiofsd
 upstreams   :
@@ -15,7 +13,7 @@ description : |
 license     :
     - Apache-2.0
     - BSD-3-Clause
-networking  : yes
+networking  : true
 builddeps   :
     - pkgconfig(libcap-ng)
     - pkgconfig(libseccomp)

@@ -1,22 +1,20 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : cosmic-idle
-version     : 1.0.5.git+6d3dbed
-release     : 25
+version     : "1.0.11.git+c95d066"
+release     : 31
 summary     : Cosmic Desktop Idle Daemon
 license     : GPL-3.0
 homepage    : https://github.com/pop-os/cosmic-idle
 upstreams   :
-    - git|https://github.com/pop-os/cosmic-idle.git : 6d3dbedd50b45e0d05a565b35e89c6dbf508bf22
+    - git|https://github.com/pop-os/cosmic-idle.git : c95d066b5b640509a6369634b669ca60dc50e168
 description : |
     Cosmic Desktop Idle Daemon
 builddeps   :
     - binary(just)
     - pkgconfig(xkbcommon)
-networking  : yes
+networking  : true
 setup       : |
     %cargo_fetch
 build       : |

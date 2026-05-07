@@ -1,13 +1,11 @@
-#
-# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : neochat
-version     : 25.12.1
-release     : 14
+version     : "26.04.0"
+release     : 19
 upstreams   :
-    - https://download.kde.org/stable/release-service/25.12.1/src/neochat-25.12.1.tar.xz : 069c1c1fd02de45d705ca6249d5153f044c8c4267b35a64d5b690c0f252745a2
+    - https://download.kde.org/stable/release-service/26.04.0/src/neochat-26.04.0.tar.xz : 890e46495784cb1d9109c235e5e9b808320f5fd581f6bc4ef8001e294cce893a
 homepage    : https://apps.kde.org/neochat/
 license     :
     - BSD-2-Clause
@@ -35,8 +33,6 @@ builddeps   :
     - cmake(KF6Notifications)
     - cmake(KF6QQC2DesktopStyle)
     - cmake(KF6Purpose)
-    - cmake(KF6Sonnet)
-    - cmake(KF6StatusNotifierItem)
     - cmake(KF6SyntaxHighlighting)
     - cmake(KF6WindowSystem)
     - cmake(KQuickImageEditor)
@@ -53,6 +49,7 @@ builddeps   :
     - cmake(cmark)
     - pkgconfig(icu-uc)
     - kf6-kquickcharts
+    - kf6-sonnet
     - qt6-location
 rundeps     :
     - breeze-icons
@@ -61,6 +58,7 @@ rundeps     :
     - kf6-kitemmodels
     - kf6-kquickcharts
     - kf6-prison
+    - kf6-sonnet
     - kquickimageeditor
     - qt6-location
     - qt6-wayland

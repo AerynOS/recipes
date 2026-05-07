@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
 name: Request build support
 description: File a report where you recieved failures to build a package and are unsure how to proceed.
 title: "[Package Build Failure]: "
@@ -33,7 +36,7 @@ body:
   - type: textarea
     id: logs
     attributes:
-      label: Build failure logs 
+      label: Build failure logs
       description: Please copy and paste the output of the errors/build failure from your CLI when you try and build this package in SerpentOS. This will be automatically formatted into code, so no need for backticks.
       render: shell
     validations:

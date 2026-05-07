@@ -1,4 +1,6 @@
 #!/usr/bin/env python
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
 
 import hashlib
 import os.path
@@ -25,10 +27,10 @@ if n != 2:
 version = sys.argv[1]
 
 # x.y.z (with optional esr label)
-version_regex = re.compile('[0-9]*\.[0-9]*\.[0-9]*(?:esr)?$')
+version_regex = re.compile('[0-9]*\\.[0-9]*\\.[0-9]*(?:esr)?$')
 if not version_regex.match(version):
     # x.y (with optional esr label)
-    version_regex = re.compile('[0-9]*\.[0-9]*(?:esr)?$')
+    version_regex = re.compile('[0-9]*\\.[0-9]*(?:esr)?$')
     if not version_regex.match(version):
         print_usage()
         exit(1)

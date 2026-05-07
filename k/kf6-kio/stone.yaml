@@ -1,13 +1,11 @@
-#
-# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : kf6-kio
-version     : 6.22.0
-release     : 24
+version     : "6.25.0"
+release     : 28
 upstreams   :
-    - https://download.kde.org/stable/frameworks/6.22/kio-6.22.0.tar.xz : 4b03f1a070f78ac2a343f138ac5f8d9bccd1192764aaa45ae49aa7f495992694
+    - https://download.kde.org/stable/frameworks/6.25/kio-6.25.0.tar.xz : bf71b2227016df6566665cead6cb468726d7cc708059e812daee7ea54f405378
 homepage    : https://community.kde.org/Frameworks
 license     :
     - GPL-2.0-only
@@ -48,7 +46,6 @@ builddeps   :
     - pkgconfig(libxslt)
     - pkgconfig(mount)
 setup       : |
-    %patch %(pkgdir)/2119.patch
     %cmake_kf6
 build       : |
     %cmake_build

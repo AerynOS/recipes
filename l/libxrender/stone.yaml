@@ -1,10 +1,8 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : libxrender
-version     : 0.9.12
+version     : "0.9.12"
 release     : 6
 homepage    : https://gitlab.freedesktop.org/xorg/lib/libxrender
 upstreams   :
@@ -14,7 +12,7 @@ description : |
     The X Rendering Extension (Render) introduces digital image composition as the foundation of a new rendering model within the X Window System. Rendering geometric figures is accomplished by client-side tessellation into either triangles or trapezoids. Text is drawn by loading glyphs into the server and rendering sets of them. The Xrender library exposes this extension to X clients.
 license     :
     - MIT
-emul32      : yes
+emul32      : true
 builddeps   :
     - pkgconfig32(x11)
     - pkgconfig(xproto)

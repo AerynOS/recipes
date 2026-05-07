@@ -1,0 +1,57 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"muparser": {
+			"depends": [
+				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libm.so.6(x86_64))",
+				"soname(libomp.so(x86_64))",
+				"soname(libstdc++.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/lib/libmuparser.so.2",
+				"/usr/lib/libmuparser.so.2.3.5"
+			],
+			"name": "muparser",
+			"provides": [
+				"soname(libmuparser.so.2(x86_64))"
+			]
+		},
+		"muparser-devel": {
+			"depends": [
+				"muparser"
+			],
+			"files": [
+				"/usr/include/muParser.h",
+				"/usr/include/muParserBase.h",
+				"/usr/include/muParserBytecode.h",
+				"/usr/include/muParserCallback.h",
+				"/usr/include/muParserDLL.h",
+				"/usr/include/muParserDef.h",
+				"/usr/include/muParserError.h",
+				"/usr/include/muParserFixes.h",
+				"/usr/include/muParserInt.h",
+				"/usr/include/muParserTemplateMagic.h",
+				"/usr/include/muParserTest.h",
+				"/usr/include/muParserToken.h",
+				"/usr/include/muParserTokenReader.h",
+				"/usr/lib/cmake/muparser/muparser-targets-release.cmake",
+				"/usr/lib/cmake/muparser/muparser-targets.cmake",
+				"/usr/lib/cmake/muparser/muparserConfig.cmake",
+				"/usr/lib/cmake/muparser/muparserConfigVersion.cmake",
+				"/usr/lib/libmuparser.so",
+				"/usr/lib/pkgconfig/muparser.pc"
+			],
+			"name": "muparser-devel",
+			"provides": [
+				"cmake(muparser)",
+				"pkgconfig(muparser)"
+			]
+		}
+	},
+	"source-name": "muparser",
+	"source-release": "1",
+	"source-version": "2.3.5"
+}

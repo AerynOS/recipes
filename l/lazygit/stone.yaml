@@ -1,14 +1,12 @@
-#
-# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : lazygit
-version     : 0.58.1
-release     : 3
+version     : "0.60.0"
+release     : 5
 homepage    : https://github.com/jesseduffield/lazygit
 upstreams   :
-    - https://github.com/jesseduffield/lazygit/archive/refs/tags/v0.58.1.tar.gz : e4f0d4f3cebc70a802f95c52265e34ee879265103ebb70b5dd449ae791d0cbbb
+    - https://github.com/jesseduffield/lazygit/archive/refs/tags/v0.60.0.tar.gz : c0cb64f7861e439ef13fa06845e7ab6b219364b7b083c7ff10d851e764e6b16b
 summary     : A simple terminal UI for git commands
 description : |
     A simple terminal UI for git commands
@@ -24,4 +22,3 @@ build       : |
         "
 install     : |
     %install_bin lazygit
-

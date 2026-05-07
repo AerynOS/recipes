@@ -1,16 +1,14 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : cosmic-comp
-version     : 1.0.5.git+1dfc948
-release     : 38
+version     : "1.0.11.git+21679f2"
+release     : 44
 summary     : Cosmic Desktop Compositor
 license     : GPL-3.0
 homepage    : https://github.com/pop-os/cosmic-comp
 upstreams   :
-    - git|https://github.com/pop-os/cosmic-comp.git : 1dfc948f1ebf2995fcbf9efe570103f9a46cf7e4
+    - git|https://github.com/pop-os/cosmic-comp.git : 21679f215acfa7ae86072362c5d91b0cc4ed1fcd
 description : |
     Cosmic Desktop Compositor
 builddeps   :
@@ -26,7 +24,7 @@ rundeps     :
     - binary(Xwayland)
     - iso-codes
     - shared-mime-info
-networking  : yes
+networking  : true
 setup       : |
     %cargo_fetch
 build       : |

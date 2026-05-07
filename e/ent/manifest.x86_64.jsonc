@@ -9,10 +9,8 @@
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))",
-				"soname(libcrypto.so.3(x86_64))",
 				"soname(libgcc_s.so.1(x86_64))",
-				"soname(libm.so.6(x86_64))",
-				"soname(libssl.so.3(x86_64))"
+				"soname(libm.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/bin/ent"
@@ -24,6 +22,6 @@
 		}
 	},
 	"source-name": "ent",
-	"source-release": "7",
-	"source-version": "0.1.0+f154fa9"
+	"source-release": "8",
+	"source-version": "0.1.0+7ca2a68"
 }

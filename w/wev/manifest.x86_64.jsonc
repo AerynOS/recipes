@@ -1,0 +1,31 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"wev": {
+			"build-depends": [
+				"pkgconfig(wayland-client)",
+				"pkgconfig(wayland-protocols)",
+				"pkgconfig(xkbcommon)"
+			],
+			"depends": [
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libm.so.6(x86_64))",
+				"soname(libwayland-client.so.0(x86_64))",
+				"soname(libxkbcommon.so.0(x86_64))"
+			],
+			"files": [
+				"/usr/bin/wev",
+				"/usr/share/man/man1/wev.1"
+			],
+			"name": "wev",
+			"provides": [
+				"binary(wev)"
+			]
+		}
+	},
+	"source-name": "wev",
+	"source-release": "1",
+	"source-version": "1.1.0"
+}

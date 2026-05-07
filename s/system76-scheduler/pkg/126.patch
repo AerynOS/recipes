@@ -1,0 +1,27 @@
+From eddba4de430f72117f9557e8a0ed2efebbb1ca36 Mon Sep 17 00:00:00 2001
+From: Kajus Naujokaitis <kajusn@gmail.com>
+Date: Mon, 24 Nov 2025 16:20:36 +0200
+Subject: [PATCH] fix: add missing loop in process scheduler refresh task
+
+---
+ daemon/src/main.rs | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/daemon/src/main.rs b/daemon/src/main.rs
+index 308f069..7124ae7 100644
+--- a/daemon/src/main.rs
++++ b/daemon/src/main.rs
+@@ -189,8 +189,11 @@ async fn daemon(
+                 Duration::from_secs(u64::from(service.config.process_scheduler.refresh_rate));
+             let tx = tx.clone();
+             async move {
+-                let _res = tx.send(Event::RefreshProcessMap).await;
+-                tokio::time::sleep(refresh_rate).await;
++                let mut interval = tokio::time::interval(refresh_rate);
++                loop {
++                    interval.tick().await;
++                    let _ = tx.send(Event::RefreshProcessMap).await;
++                }
+             }
+         });
+ 

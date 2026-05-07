@@ -4,6 +4,7 @@
 	"packages": {
 		"clang-20": {
 			"build-depends": [
+				"binary(clang-22)",
 				"binary(perl)",
 				"binary(python3)",
 				"binary(sed)",
@@ -62,6 +63,7 @@
 		},
 		"clang-20-devel": {
 			"build-depends": [
+				"binary(clang-22)",
 				"binary(perl)",
 				"binary(python3)",
 				"binary(sed)",
@@ -947,6 +949,7 @@
 		},
 		"clang-20-libs": {
 			"build-depends": [
+				"binary(clang-22)",
 				"binary(perl)",
 				"binary(python3)",
 				"binary(sed)",
@@ -1257,6 +1260,7 @@
 		},
 		"clang-tools-20": {
 			"build-depends": [
+				"binary(clang-22)",
 				"binary(perl)",
 				"binary(python3)",
 				"binary(sed)",
@@ -1388,6 +1392,7 @@
 		},
 		"compiler-rt-20": {
 			"build-depends": [
+				"binary(clang-22)",
 				"binary(perl)",
 				"binary(python3)",
 				"binary(sed)",
@@ -1533,6 +1538,7 @@
 		},
 		"lld-20": {
 			"build-depends": [
+				"binary(clang-22)",
 				"binary(perl)",
 				"binary(python3)",
 				"binary(sed)",
@@ -1584,6 +1590,7 @@
 		},
 		"lld-20-devel": {
 			"build-depends": [
+				"binary(clang-22)",
 				"binary(perl)",
 				"binary(python3)",
 				"binary(sed)",
@@ -1636,6 +1643,7 @@
 		},
 		"lld-20-libs": {
 			"build-depends": [
+				"binary(clang-22)",
 				"binary(perl)",
 				"binary(python3)",
 				"binary(sed)",
@@ -1692,6 +1700,7 @@
 		},
 		"llvm-20": {
 			"build-depends": [
+				"binary(clang-22)",
 				"binary(perl)",
 				"binary(python3)",
 				"binary(sed)",
@@ -1989,6 +1998,7 @@
 		},
 		"llvm-20-devel": {
 			"build-depends": [
+				"binary(clang-22)",
 				"binary(perl)",
 				"binary(python3)",
 				"binary(sed)",
@@ -4192,6 +4202,7 @@
 		},
 		"llvm-20-libs": {
 			"build-depends": [
+				"binary(clang-22)",
 				"binary(perl)",
 				"binary(python3)",
 				"binary(sed)",
@@ -4241,6 +4252,6 @@
 		}
 	},
 	"source-name": "llvm-20",
-	"source-release": "5",
+	"source-release": "6",
 	"source-version": "20.1.8"
 }

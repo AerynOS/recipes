@@ -1,14 +1,12 @@
-#
-# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : syncthing
-version     : 2.0.14
-release     : 8
+version     : "2.0.16"
+release     : 11
 homepage    : https://syncthing.net
 upstreams   :
-    - https://github.com/syncthing/syncthing/releases/download/v2.0.14/syncthing-source-v2.0.14.tar.gz : fec36ce20bbcd6e6d1cb70cfb0af7a45c6221581361d9bb92807389b24703a02
+    - https://github.com/syncthing/syncthing/releases/download/v2.0.16/syncthing-source-v2.0.16.tar.gz : f93836f943967c8fe608e90fd6dc2c419ce00cfa0ca5266caa86c22ae290f169
 summary     : Continuous file synchronization program
 description : |
     It synchronizes files between two or more computers in real time,
@@ -25,7 +23,6 @@ setup       : |
     go mod vendor
 build       : |
     export CGO_ENABLED=1
-    export CGO_CPPFLAGS="${CPPFLAGS}"
     export CGO_CFLAGS="${CFLAGS}"
     export CGO_CXXFLAGS="${CXXFLAGS}"
     export CGO_LDFLAGS="${LDFLAGS}"
@@ -45,10 +42,6 @@ install     : |
     %install_file etc/linux-systemd/system/syncthing@.service %(installroot)%(libdir)/systemd/system/syncthing@.service
     %install_file etc/linux-systemd/user/syncthing.service %(installroot)%(libdir)/systemd/user/syncthing.service
     %install_file etc/linux-sysctl/30-syncthing.conf %(installroot)%(libdir)/sysctl.d/30-syncthing.conf
-
-    # Don't enable syncthing services by default, the user might be managing them with the desktop file or with a wrapper application
-    %install_file %(pkgdir)/syncthing-system.preset %(installroot)%(libdir)/systemd/system-preset/%(name).preset
-    %install_file %(pkgdir)/syncthing-user.preset %(installroot)%(libdir)/systemd/user-preset/%(name).preset
 
     # Icons
     for i in 32 64 128 256 512; do

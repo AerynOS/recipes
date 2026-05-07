@@ -1,14 +1,12 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : lvm2
-version     : 2.03.38
-release     : 13
+version     : "2.03.40"
+release     : 17
 homepage    : https://sourceware.org/lvm2/
 upstreams   :
-    - https://sourceware.org/pub/lvm2/LVM2.2.03.38.tgz : 322d44bf40de318e6e6b52c56999aaeb86b16c8267187ac2e01a44d4dc526960
+    - https://sourceware.org/pub/lvm2/LVM2.2.03.40.tgz : 60c9bb5c0a109f20267bb40ba50c00c84a110fc14c129f21afb5566929bf5645
 summary     : Linux logical volume management userspace tools
 description : |
     LVM2 is a logical volume management facility for the Linux kernel:
@@ -39,10 +37,9 @@ setup       : |
     # export RUN_DIR=/run
 
     %patch %(pkgdir)/stateless/0001-Fix-cache-dirs.patch
-    %patch %(pkgdir)/add-malloc_trim-call.patch
 
     # TODO: enable dmfilemapd maybe? dbusd/lvmlockd?
-    %configure_with_bash \
+    %configure \
         --enable-blkid_wiping \
         --enable-blkzeroout \
         --enable-cmdlib \
@@ -59,7 +56,7 @@ setup       : |
         --with-libexecdir=%(libexecdir) \
         --with-modulesdir=/usr/lib/modules
 build       : |
-    %make 
+    %make
 install     : |
     %make_install \
         install_systemd_generators \
@@ -68,9 +65,7 @@ install     : |
 
     %install_file %(pkgdir)/lvm2-etc.tmpfiles %(installroot)%(tmpfilesdir)/lvm2-etc.conf
 
-    for i in device-mapper-event lvm2; do
-        %install_file %(pkgdir)/${i}.preset -t %(installroot)%(libdir)/systemd/system-preset/
-    done
+    %install_file %(pkgdir)/*.preset -t %(installroot)%(libdir)/systemd/system-preset/
 
     # Stateless
     rm -fv %(installroot)/etc/lvm/lvm.conf \
@@ -122,9 +117,11 @@ packages    :
             - /usr/sbin/blkdeactivate
             - /usr/sbin/dmsetup
             - /usr/sbin/dmstats
+            - /usr/sbin/dmvdostats
             - /usr/share/man/man8/blkdeactivate.8*
             - /usr/share/man/man8/dmsetup.8
             - /usr/share/man/man8/dmstats.8
+            - /usr/share/man/man8/dmvdostats.8
 
     - "device-mapper-libs":
         summary: Device mapper utility - library

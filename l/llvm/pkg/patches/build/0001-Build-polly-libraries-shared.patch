@@ -5,7 +5,7 @@ Subject: [PATCH] Build polly libraries shared
 
 Origin: vendor
 Forwarded: not-needed
-Last-Update: 2025-03-30
+Last-Update: 2026-03-10
 ---
  polly/cmake/polly_macros.cmake    | 5 ++++-
  polly/lib/CMakeLists.txt          | 1 +
@@ -34,19 +34,19 @@ index 9bd7b0b0ea59..b7cb879ad62e 100644
    set_target_properties(${name} PROPERTIES FOLDER "Polly/Libraries")
  
 diff --git a/polly/lib/CMakeLists.txt b/polly/lib/CMakeLists.txt
-index d91f4ecd37e6..965f635b7ff6 100644
+index 41c3b97764ac..1cb6b2205d88 100644
 --- a/polly/lib/CMakeLists.txt
 +++ b/polly/lib/CMakeLists.txt
-@@ -41,6 +41,7 @@ set(POLLY_COMPONENTS
+@@ -42,6 +42,7 @@ set(POLLY_COMPONENTS
  # the sources them to be recompiled for each of them.
  add_llvm_pass_plugin(Polly
    NO_MODULE
 +  SHARED
    SUBPROJECT Polly
    Analysis/DependenceInfo.cpp
-   Analysis/PolyhedralInfo.cpp
+   Analysis/ScopDetection.cpp
 diff --git a/polly/lib/External/CMakeLists.txt b/polly/lib/External/CMakeLists.txt
-index 5dd69b7199dc..f065fbd7b942 100644
+index ab5cba93cdcf..fdfd06864bc7 100644
 --- a/polly/lib/External/CMakeLists.txt
 +++ b/polly/lib/External/CMakeLists.txt
 @@ -284,6 +284,7 @@ if (POLLY_BUNDLED_ISL)

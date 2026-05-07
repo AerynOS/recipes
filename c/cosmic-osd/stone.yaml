@@ -1,16 +1,14 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : cosmic-osd
-version     : 1.0.5.git+b2eaad6
-release     : 31
+version     : "1.0.11.git+dc63e00"
+release     : 37
 summary     : Cosmic Desktop OSD
 license     : GPL-3.0
 homepage    : https://github.com/pop-os/cosmic-osd
 upstreams   :
-    - git|https://github.com/pop-os/cosmic-osd.git : b2eaad625354a4a3372d3ea586c0d4c1fc00a545
+    - git|https://github.com/pop-os/cosmic-osd.git : dc63e00f26ac730bc22433603802e681af428653
 description : |
     Cosmic Desktop OSD
 builddeps   :
@@ -21,7 +19,7 @@ builddeps   :
     - pkgconfig(xkbcommon)
 rundeps     :
     - polkit
-networking  : yes
+networking  : true
 environment : |
     export POLKIT_AGENT_HELPER_1=%(libdir)/polkit-1/polkit-agent-helper-1
 setup       : |

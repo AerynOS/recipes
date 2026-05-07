@@ -1,13 +1,11 @@
-#
-# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : kwin
-version     : 6.5.5
-release     : 22
+version     : "6.6.4"
+release     : 28
 upstreams   :
-    - https://download.kde.org/stable/plasma/6.5.5/kwin-6.5.5.tar.xz : fbad845044231174ca7aad45572d1713d1b6f65289d94cac24776a103f051e46
+    - https://download.kde.org/stable/plasma/6.6.4/kwin-6.6.4.tar.xz : 3f9439760580a977d018daf4b35b62e5a1700def7b21c8dfbfc789d21378d7ad
 homepage    : https://kde.org/plasma-desktop/
 license     :
     - GFDL-1.2-only
@@ -81,11 +79,6 @@ tuning      :
     - lto: full
     - optimize: speed
 setup       : |
-    # Remove with Plasma 6.6 (hopefully)
-    %patch %(pkgdir)/highfps.patch
-
-    %patch %(pkgdir)/upstream-01.patch
-
     %cmake_kf6
 build       : |
     %cmake_build

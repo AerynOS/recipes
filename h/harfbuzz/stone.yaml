@@ -1,14 +1,12 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : harfbuzz
-version     : 12.3.2
-release     : 27
+version     : "14.2.0"
+release     : 34
 homepage    : https://harfbuzz.github.io/
 upstreams   :
-    - https://github.com/harfbuzz/harfbuzz/releases/download/12.3.2/harfbuzz-12.3.2.tar.xz : 6f6db164359a2da5a84ef826615b448b33e6306067ad829d85d5b0bf936f1bb8
+    - https://github.com/harfbuzz/harfbuzz/releases/download/14.2.0/harfbuzz-14.2.0.tar.xz : 94017020f96d025bb66ae91574e4cf334bcad23e8175a8a40565b3721bc2eaff
 summary     : HarfBuzz text shaping engine
 description : |
     HarfBuzz is a text shaping library. Using the HarfBuzz library allows programs to convert a sequence of Unicode input into properly formatted and positioned glyph output—for any writing system and language.
@@ -18,7 +16,11 @@ license     :
 builddeps   :
     - binary(help2man)
     - pkgconfig(cairo)
+    - pkgconfig(chafa)
     - pkgconfig(freetype2)
+    - pkgconfig(gl)
+    - pkgconfig(glew)
+    - pkgconfig(glfw3)
     - pkgconfig(glib-2.0)
     - pkgconfig(gobject-2.0)
     - pkgconfig(gobject-introspection-1.0)
@@ -39,16 +41,37 @@ packages    :
         paths:
             - /usr/lib/libharfbuzz-cairo.so.*
 
+    - "%(name)-gpu":
+        summary: Harfbuzz GPU support library
+        description: Harfbuzz GPU support library
+        paths:
+            - /usr/lib/libharfbuzz-gpu.so.*
+
     - "%(name)-icu":
         summary: Harfbuzz ICU support library
         description: Harfbuzz ICU support library
         paths:
             - /usr/lib/libharfbuzz-icu.so.*
 
+    - "%(name)-raster":
+        summary: Harfbuzz raster support library
+        description: Harfbuzz raster support library
+        paths:
+            - /usr/lib/libharfbuzz-raster.so.*
+
+    - "%(name)-vector":
+        summary: Harfbuzz vector support library
+        description: Harfbuzz vector support library
+        paths:
+            - /usr/lib/libharfbuzz-vector.so.*
+
     - "%(name)-devel":
         rundeps:
             - "%(name)-cairo"
+            - "%(name)-gpu"
             - "%(name)-icu"
+            - "%(name)-raster"
+            - "%(name)-vector"
         paths:
             - /usr/bin/
             - /usr/share/man/

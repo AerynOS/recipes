@@ -1,11 +1,9 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : systemd
-version     : "257.10"
-release     : 75
+version     : "257.13"
+release     : 82
 summary     : A System and Service Manager
 license     :
     - GPL-2.0-or-later
@@ -15,7 +13,7 @@ homepage    : http://www.freedesktop.org/wiki/Software/systemd
 description : |
     A System and Service Manager
 upstreams   :
-    - https://github.com/systemd/systemd/archive/refs/tags/v257.10.tar.gz: 5a2f477e6268630f6e2829c7bb3e442017549798a4122635817934eaa0c6ac10
+    - https://github.com/systemd/systemd/archive/refs/tags/v257.13.tar.gz : 1eb7d5f9ff8a426ff880a3cded9ce819613ba8003ac5ddde9eca162f14ddabe7
 builddeps   :
     - binary(bpftool)
     - binary(gcc)
@@ -129,6 +127,7 @@ setup       : |
         -Denvironment-d=${_IS_64BIT_BOOL} \
         -Dfdisk=${_IS_64BIT_FEAT} \
         -Dfirstboot=${_IS_64BIT_BOOL} \
+        -Dfirst-boot-full-preset=true \
         -Dfuzz-tests=false \
         -Dgshadow=${_IS_64BIT_BOOL} \
         -Dhibernate=${_IS_64BIT_BOOL} \
@@ -256,6 +255,13 @@ install     : |
     # ... but conservatively enable getty on tty1 for rescue.target and troubleshooting
     # This also enables users to start e.g. sway from tty1 (sway et al. don't work with kmscon)
     # ln -srv %(installroot)%(libdir)/systemd/system/getty@.service %(installroot)%(libdir)/systemd/system/getty@tty1.service
+
+    # Workaround for systemd not supporting `--global` preset-all on first-boot. Taken from https://github.com/systemd/particleos/blob/main/mkosi.extra/usr/lib/systemd/system/preset-global.service
+    # Systemd issue: https://github.com/systemd/systemd/issues/30206
+    %install_file %(pkgdir)/units/preset-global.service %(installroot)%(libdir)/systemd/system/preset-global.service
+    # We need to enable this manually instead of via preset so as to avoid potential ordering issues
+    %install_dir %(installroot)%(libdir)/systemd/system/basic.target.wants/
+    ln -srv %(installroot)%(libdir)/systemd/system/preset-global.service %(installroot)%(libdir)/systemd/system/basic.target.wants/preset-global.service
 
     # Helper script for use by other triggers
     %install_exe %(pkgdir)/systemd-hook.sh %(installroot)/usr/share/moss/helpers/systemd-hook.sh

@@ -1,0 +1,25 @@
+diff -Npur steamos-manager-v26.0.1.orig/data/system/reset-oneshot-boot.conf steamos-manager-v26.0.1/data/system/reset-oneshot-boot.conf
+--- steamos-manager-v26.0.1.orig/data/system/reset-oneshot-boot.conf	2026-03-05 05:25:34.000000000 +0100
++++ steamos-manager-v26.0.1/data/system/reset-oneshot-boot.conf	2026-03-19 07:56:55.375903418 +0100
+@@ -2,4 +2,4 @@
+ # This is a failsafe to reset the login mode back to default after a reboot
+ # It shouldn't be strictly needed
+ # It's a fallback in case a login fails between boot and starting
+-ExecStartPre=-rm /etc/sddm.conf.d/zzt-steamos-temp-login.conf
++ExecStartPre=-rm /etc/sddm.conf.d/zzt-aerynos-temp-login.conf
+diff -Npur steamos-manager-v26.0.1.orig/steamos-manager/src/session.rs steamos-manager-v26.0.1/steamos-manager/src/session.rs
+--- steamos-manager-v26.0.1.orig/steamos-manager/src/session.rs	2026-03-05 05:25:34.000000000 +0100
++++ steamos-manager-v26.0.1/steamos-manager/src/session.rs	2026-03-19 08:15:45.160356577 +0100
+@@ -30,9 +30,9 @@ use crate::systemd::{ActiveState, JobMod
+ use crate::{Service, path};
+ 
+ const CONFIG_PREFIX: &str = "/etc/sddm.conf.d";
+-const SESSION_CHECK_PATH: &str = "steamos.conf";
+-const CONFIG_PATH: &str = "zz-steamos-autologin.conf";
+-const TEMPORARY_CONFIG_PATH: &str = "zzt-steamos-temp-login.conf";
++const SESSION_CHECK_PATH: &str = "aerynos-handheld.conf";
++const CONFIG_PATH: &str = "zz-aerynos-autologin.conf";
++const TEMPORARY_CONFIG_PATH: &str = "zzt-aerynos-temp-login.conf";
+ 
+ #[derive(Default, Deserialize, Serialize, Display, EnumString, PartialEq, Debug, Copy, Clone)]
+ #[strum(serialize_all = "snake_case")]

@@ -1,21 +1,24 @@
-From f3fba803e1c39232f86acc9a21657cad171ce71b Mon Sep 17 00:00:00 2001
+From 7b731f7ceb8161b11a529f182bf567b77993bdeb Mon Sep 17 00:00:00 2001
 From: Karolina Surma <ksurma@redhat.com>
 Date: Wed, 5 Mar 2025 12:14:49 +0100
 Subject: [PATCH] Make the first party extensions optional, add [extensions]
  extra
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
 Co-authored-by: Miro HronÄ¨ok <miro@hroncok.cz>
 ---
- pyproject.toml                               | 33 ++++++++++++++++----
+ pyproject.toml                               | 35 ++++++++++++++++----
  sphinx/application.py                        |  6 ++--
  sphinx/registry.py                           | 10 +++---
- sphinx/testing/fixtures.py                   |  7 +++++
+ sphinx/testing/fixtures.py                   |  7 ++++
  tests/test_builders/test_build_html_maths.py |  3 ++
  tests/test_writers/test_api_translator.py    |  2 ++
- 6 files changed, 48 insertions(+), 13 deletions(-)
+ 6 files changed, 50 insertions(+), 13 deletions(-)
 
 diff --git a/pyproject.toml b/pyproject.toml
-index c4b1b6d..4e59e90 100644
+index 1195b04..9a7213f 100644
 --- a/pyproject.toml
 +++ b/pyproject.toml
 @@ -67,12 +67,6 @@ classifiers = [
@@ -30,11 +33,12 @@ index c4b1b6d..4e59e90 100644
 -    "sphinxcontrib-serializinghtml>=1.1.9",
      "Jinja2>=3.1",
      "Pygments>=2.17",
-     "docutils>=0.20,<0.22",
-@@ -88,8 +82,35 @@ dependencies = [
+     "docutils>=0.21,<0.23",
+@@ -87,6 +81,34 @@ dependencies = [
+ ]
  dynamic = ["version"]
  
- [project.optional-dependencies]
++[project.optional-dependencies]
 +applehelp = [
 +    "sphinxcontrib-applehelp>=1.0.7",
 +]
@@ -61,17 +65,23 @@ index c4b1b6d..4e59e90 100644
 +    "sphinx[serializinghtml]",
 +    "sphinx[qthelp]",
 +]
++
+ [[project.authors]]
+ name = "Adam Turner"
+ email = "aa-turner@users.noreply.github.com"
+@@ -104,6 +126,7 @@ sphinx-autogen = "sphinx.ext.autosummary.generate:main"
+ [dependency-groups]
  docs = [
      "sphinxcontrib-websupport",
 +    "sphinx[extensions]",
  ]
  lint = [
-     "ruff==0.9.9",
+     "ruff==0.14.9",
 diff --git a/sphinx/application.py b/sphinx/application.py
-index fe0e8bd..dcb3d75 100644
+index 5349c36..4da1635 100644
 --- a/sphinx/application.py
 +++ b/sphinx/application.py
-@@ -284,7 +284,7 @@ class Sphinx:
+@@ -292,7 +292,7 @@ class Sphinx:
          # load all built-in extension modules, first-party extension modules,
          # and first-party themes
          for extension in builtin_extensions:
@@ -80,7 +90,7 @@ index fe0e8bd..dcb3d75 100644
  
          # load all user-given extension modules
          for extension in self.config.extensions:
-@@ -478,7 +478,7 @@ class Sphinx:
+@@ -494,7 +494,7 @@ class Sphinx:
  
      # ---- general extensibility interface -------------------------------------
  
@@ -89,7 +99,7 @@ index fe0e8bd..dcb3d75 100644
          """Import and setup a Sphinx extension module.
  
          Load the extension given by the module *name*.  Use this if your
-@@ -486,7 +486,7 @@ class Sphinx:
+@@ -502,7 +502,7 @@ class Sphinx:
          called twice.
          """
          logger.debug('[app] setting up extension: %r', extname)
@@ -99,10 +109,10 @@ index fe0e8bd..dcb3d75 100644
      @staticmethod
      def require_sphinx(version: tuple[int, int] | str) -> None:
 diff --git a/sphinx/registry.py b/sphinx/registry.py
-index ce52a03..3bc90d5 100644
+index da72924..b6f6122 100644
 --- a/sphinx/registry.py
 +++ b/sphinx/registry.py
-@@ -519,7 +519,7 @@ class SphinxComponentRegistry:
+@@ -528,7 +528,7 @@ class SphinxComponentRegistry:
      def add_html_theme(self, name: str, theme_path: str | os.PathLike[str]) -> None:
          self.html_themes[name] = _StrPath(theme_path)
  
@@ -111,7 +121,7 @@ index ce52a03..3bc90d5 100644
          """Load a Sphinx extension."""
          if extname in app.extensions:  # already loaded
              return
-@@ -540,10 +540,12 @@ class SphinxComponentRegistry:
+@@ -549,10 +549,12 @@ class SphinxComponentRegistry:
              try:
                  mod = import_module(extname)
              except ImportError as err:
@@ -128,7 +138,7 @@ index ce52a03..3bc90d5 100644
              setup: _ExtensionSetupFunc | None = getattr(mod, 'setup', None)
              if setup is None:
 diff --git a/sphinx/testing/fixtures.py b/sphinx/testing/fixtures.py
-index ec143fa..e6d9da1 100644
+index c6fdebe..e9f98a8 100644
 --- a/sphinx/testing/fixtures.py
 +++ b/sphinx/testing/fixtures.py
 @@ -31,6 +31,7 @@ DEFAULT_ENABLED_MARKERS = [
@@ -153,10 +163,10 @@ index ec143fa..e6d9da1 100644
  
      pargs: dict[int, Any] = {}
 diff --git a/tests/test_builders/test_build_html_maths.py b/tests/test_builders/test_build_html_maths.py
-index cc21142..16382e3 100644
+index 8654ca9..8ad006f 100644
 --- a/tests/test_builders/test_build_html_maths.py
 +++ b/tests/test_builders/test_build_html_maths.py
-@@ -37,6 +37,7 @@ def test_html_math_renderer_is_imgmath(app: SphinxTestApp) -> None:
+@@ -40,6 +40,7 @@ def test_html_math_renderer_is_imgmath(app: SphinxTestApp) -> None:
      assert app.builder.math_renderer_name == 'imgmath'
  
  
@@ -164,7 +174,7 @@ index cc21142..16382e3 100644
  @pytest.mark.sphinx(
      'html',
      testroot='basic',
-@@ -62,6 +63,7 @@ def test_html_math_renderer_is_duplicated2(app: SphinxTestApp) -> None:
+@@ -67,6 +68,7 @@ def test_html_math_renderer_is_duplicated2(app: SphinxTestApp) -> None:
      assert app.builder.math_renderer_name == 'imgmath'  # The another one is chosen
  
  
@@ -172,7 +182,7 @@ index cc21142..16382e3 100644
  @pytest.mark.sphinx(
      'html',
      testroot='basic',
-@@ -75,6 +77,7 @@ def test_html_math_renderer_is_chosen(app: SphinxTestApp) -> None:
+@@ -80,6 +82,7 @@ def test_html_math_renderer_is_chosen(app: SphinxTestApp) -> None:
      assert app.builder.math_renderer_name == 'imgmath'
  
  
@@ -201,5 +211,5 @@ index 1220192..8e8bb33 100644
  def test_json_set_translator_for_json(app: SphinxTestApp) -> None:
      translator_class = app.builder.get_translator_class()
 -- 
-2.48.1
+2.52.0
 

@@ -1,10 +1,8 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : system76-power
-version     : 1.2.8
+version     : "1.2.8"
 release     : 4
 homepage    : https://github.com/pop-os/system76-power
 upstreams   :
@@ -17,7 +15,7 @@ license:
 builddeps   :
     - binary(cargo)
     - pkgconfig(libusb-1.0)
-networking  : yes
+networking  : true
 build       : |
     %make
 install     : |

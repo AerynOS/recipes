@@ -1,17 +1,15 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : qt5-svg
-version     : 5.15.18+kde.b74f7291
+version     : "5.15.18+kde.b74f7291"
 release     : 8
 homepage    : https://www.qt.io
 upstreams   :
     - git|https://invent.kde.org/qt/qt/qtsvg.git:
         ref: b74f7291f343dcbcb487b020868f042d8fe83098
         # Relative submodules
-        staging: no
+        staging: false
 summary     : Qt5 SVG Module
 description : |
     Scalable Vector Graphics (SVG) is an XML-based language for describing two-dimensional vector graphics. Qt provides classes for rendering and displaying SVG drawings in widgets and on other paint devices.

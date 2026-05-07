@@ -1,0 +1,36 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"libnsbmp": {
+			"depends": [
+				"soname(libc.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/lib/libnsbmp.so.0",
+				"/usr/lib/libnsbmp.so.0.1.7"
+			],
+			"name": "libnsbmp",
+			"provides": [
+				"soname(libnsbmp.so.0(x86_64))"
+			]
+		},
+		"libnsbmp-devel": {
+			"depends": [
+				"libnsbmp"
+			],
+			"files": [
+				"/usr/include/libnsbmp.h",
+				"/usr/lib/libnsbmp.so",
+				"/usr/lib/pkgconfig/libnsbmp.pc"
+			],
+			"name": "libnsbmp-devel",
+			"provides": [
+				"pkgconfig(libnsbmp)"
+			]
+		}
+	},
+	"source-name": "libnsbmp",
+	"source-release": "1",
+	"source-version": "0.1.7+git.77ce1da"
+}

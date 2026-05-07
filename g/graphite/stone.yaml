@@ -1,10 +1,8 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : graphite
-version     : '1.3.14'
+version     : "1.3.14"
 release     : 8
 homepage    : https://graphite.sil.org
 upstreams   :
@@ -21,7 +19,7 @@ license     :
 #     - a2x Docs (need a few other things)
 checkdeps   :
     - binary(readelf)
-emul32      : yes
+emul32      : true
 setup       : |
     %patch %(pkgdir)/ftbfs-libstdc-15.patch
     %patch %(pkgdir)/ftbfs-cmake-4.patch

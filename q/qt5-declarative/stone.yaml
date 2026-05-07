@@ -1,17 +1,15 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : qt5-declarative
-version     : 5.15.18+kde.1189557a
+version     : "5.15.18+kde.1189557a"
 release     : 9
 homepage    : https://www.qt.io
 upstreams   :
     - git|https://invent.kde.org/qt/qt/qtdeclarative.git:
         ref: 1189557a50f11e7bc5716467a149cd09987a9f88
         # Relative submodules
-        staging: no
+        staging: false
 summary     : Qt 5 Declarative Library
 description : |
     Qt is a set of libraries for developing applications. This package contains base tools, like string, xml, and network handling.

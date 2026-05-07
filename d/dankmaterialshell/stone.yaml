@@ -1,18 +1,16 @@
-#
-# SPDX-FileCopyrightText: © 2025- AerynOS Developers
-#
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : dankmaterialshell
-version     : 1.2.3
-release     : 2
+version     : "1.4.6"
+release     : 10
 homepage    : https://danklinux.com/
 upstreams   :
-    - https://github.com/AvengeMedia/DankMaterialShell/archive/refs/tags/v1.2.3.tar.gz : ce3d098441db44c835437f810e042c55aca97752bf2244d3d50ac83caf79b337
+    - https://github.com/AvengeMedia/DankMaterialShell/archive/refs/tags/v1.4.6.tar.gz : f54601e522c883fa9cce02bec070e4321e47389a1cf453e7ad0bb7379ad91b61
 summary     : Desktop shell for wayland compositor
 description : |
     DankMaterialShell (dms) is a Wayland desktop shell built with Quickshell and Go. It serves a purpose similar to GNOME Shell or KDE Plasma, providing a unified interface for launching applications, managing windows, managing hardware interfaces, notifications, and much more.
-license     : 
+license     :
     - JSON
     - MIT
     - X11-distribute-modifications-variant
@@ -20,16 +18,14 @@ license     :
 builddeps   :
     - binary(go)
 rundeps     :
+    - accountsservice # User integration
     - binary(quickshell)
-networking  : yes
+networking  : true
 setup       : |
-    %patch %(pkgdir)/0001-Allow-root-check-to-be-overridden.patch
-
     cd core/cmd/dms
     go mod vendor
 build       : |
     pushd core/cmd/dms
-    export CGO_CPPFLAGS="${CPPFLAGS}"
     export CGO_CFLAGS="${CFLAGS}"
     export CGO_CXXFLAGS="${CXXFLAGS}"
     export CGO_LDFLAGS="${LDFLAGS}"

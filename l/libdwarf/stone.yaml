@@ -1,0 +1,34 @@
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : libdwarf
+version     : "2.3.1"
+release     : 1
+upstreams   :
+    - https://github.com/davea42/libdwarf-code/releases/download/v2.3.1/libdwarf-2.3.1.tar.xz : 28cf9a5d27aceff5c1f906244a4fe7ae208e41d20a6d8fc7e091c633a40b6e97
+homepage    : https://www.prevanders.net/dwarf.html
+license     : LGPL-2.1-only AND BSD-2-Clause-FreeBSD
+summary     : Library to access the DWARF Debugging file format
+description : |
+    Library to access the DWARF Debugging file format
+builddeps   :
+    - binary(python3)
+    - pkgconfig(libzstd)
+    - pkgconfig(zlib)
+setup       : |
+    %meson \
+        -Ddwarfgen=true
+build       : |
+    %meson_build
+install     : |
+    %meson_install
+check       : |
+    %meson_test
+packages    :
+    - "%(name)-tools":
+        summary: Tools for accessing DWARF debugging information
+        description: Tools for accessing DWARF debugging information
+        paths:
+            - /usr/bin/
+            - /usr/share/dwarfdump/
+            - /usr/share/man/

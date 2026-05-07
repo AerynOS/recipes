@@ -1,17 +1,15 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : qt5-tools
-version     : 5.15.18+kde.fa40a2d3
-release     : 13
+version     : "5.15.18+kde.fa40a2d3"
+release     : 14
 homepage    : https://www.qt.io
 upstreams   :
     - git|https://invent.kde.org/qt/qt/qttools.git:
         ref: fa40a2d3373b89be0cd0a43fe0c1d047e3d34058
         # Relative submodules
-        staging: no
+        staging: false
 summary     : Qt5 QtTools Module
 description : |
     Qt is a set of libraries for developing applications.  This package contains base tools, like string, xml, and network handling.
@@ -21,6 +19,7 @@ license     :
     - GFDL-1.3-or-later
     - GPL-3.0-or-later
 builddeps   :
+    - binary(llvm-config-22)
     - clang-devel
 setup       : |
     %qmake_qt5

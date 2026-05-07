@@ -1,14 +1,12 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : cosmic-edit
-version     : 1.0.5.git+021a8e6
-release     : 35
+version     : "1.0.11.git+5f96f61"
+release     : 41
 homepage    : https://github.com/pop-os/cosmic-edit
 upstreams   :
-    - git|https://github.com/pop-os/cosmic-edit : 021a8e614eff652ee33c8923da6200649ff7f8e1
+    - git|https://github.com/pop-os/cosmic-edit : 5f96f6191b10fce12242991c03714d8675fbc6d7
 summary     : Cosmic Desktop Text Editor
 description : |
     Cosmic desktop Text Editor
@@ -20,7 +18,7 @@ builddeps   :
     - pkgconfig(xkbcommon)
 rundeps     :
     - gvfs # Used for file services
-networking  : yes
+networking  : true
 setup       : |
     %cargo_fetch
 build       : |

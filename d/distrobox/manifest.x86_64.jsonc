@@ -4,7 +4,7 @@
 	"packages": {
 		"distrobox": {
 			"depends": [
-				"binary(docker)"
+				"binary(podman)"
 			],
 			"files": [
 				"/usr/bin/distrobox",
@@ -53,7 +53,7 @@
 				"/usr/share/doc/distrobox/install_podman_static.md",
 				"/usr/share/doc/distrobox/integrate_vscode_distrobox.md",
 				"/usr/share/doc/distrobox/posts.md",
-				"/usr/share/doc/distrobox/run_latest_gnome_kde_on_distrobox.md",
+				"/usr/share/doc/distrobox/run_latest_gnome_kde_hyprland_on_distrobox.md",
 				"/usr/share/doc/distrobox/run_libvirt_in_distrobox.md",
 				"/usr/share/doc/distrobox/steamdeck_guide.md",
 				"/usr/share/doc/distrobox/usage.md",
@@ -120,6 +120,6 @@
 		}
 	},
 	"source-name": "distrobox",
-	"source-release": "2",
-	"source-version": "1.8.1.2"
+	"source-release": "3",
+	"source-version": "1.8.2.4"
 }

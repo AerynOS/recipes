@@ -1,10 +1,8 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : qrencode
-version     : 4.1.1
+version     : "4.1.1"
 release     : 3
 homepage    : https://fukuchi.org/works/qrencode
 upstreams   :
@@ -22,4 +20,3 @@ build       : |
     %make
 install     : |
     %make_install
-

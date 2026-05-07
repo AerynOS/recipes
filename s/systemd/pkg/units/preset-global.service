@@ -1,0 +1,20 @@
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+[Unit]
+ConditionFirstBoot=yes
+ConditionPathIsReadWrite=/etc
+
+DefaultDependencies=no
+
+Before=basic.target
+Conflicts=shutdown.target
+Before=shutdown.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=systemctl preset-all --global
+
+[Install]
+WantedBy=basic.target

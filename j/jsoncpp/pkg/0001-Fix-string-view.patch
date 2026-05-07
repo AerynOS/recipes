@@ -1,0 +1,30 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Reilly Brogan <reilly@reillybrogan.com>
+Date: Tue, 24 Mar 2026 18:31:46 -0500
+Subject: [PATCH] Fix string view
+
+---
+ meson.build | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/meson.build b/meson.build
+index e08314b..8049c63 100644
+--- a/meson.build
++++ b/meson.build
+@@ -13,7 +13,6 @@ project(
+   version : '1.9.8',
+   default_options : [
+     'buildtype=release',
+-    'cpp_std=c++11',
+     'warning_level=1'],
+   license : 'Public Domain',
+   meson_version : '>= 0.54.0')
+@@ -45,6 +44,8 @@ else
+   dll_import_flag = []
+ endif
+ 
++add_project_arguments('-DJSONCPP_HAS_STRING_VIEW=1', language: 'cpp')
++
+ jsoncpp_lib = library(
+   'jsoncpp', files([
+     'src/lib_json/json_reader.cpp',

@@ -1,11 +1,9 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : zed
-version     : 0.221.4
-release     : 39
+version     : "1.0.0"
+release     : 41
 summary     : High performance, graphical code editor
 license     :
     - AGPL-3.0
@@ -13,8 +11,7 @@ license     :
     - GPL-3.0
 homepage    : https://zed.dev/
 upstreams   :
-    - git|https://github.com/zed-industries/zed.git:
-        ref: 128478628237a6d03a6890c810d21b55d3250a70
+    - https://github.com/zed-industries/zed/archive/refs/tags/v1.0.0.tar.gz : 9e1547910d9840295e562fe383182abf633c514e27cc312ace369c2220192162
 description : |
     Code at the speed of thought – Zed is a high-performance, multiplayer code editor from the creators of Atom and Tree-sitter.
 builddeps   :
@@ -25,7 +22,9 @@ builddeps   :
     - binary(make)
     - binary(mold)
     - pkgconfig(alsa)
+    - pkgconfig(fontconfig)
     - pkgconfig(gl)
+    - pkgconfig(glib-2.0)
     - pkgconfig(libcurl)
     - pkgconfig(libdrm)
     - pkgconfig(libelf)
@@ -40,10 +39,7 @@ builddeps   :
     - libstdc++-devel
 rundeps     :
     - binary(unzip)
-# If you don't use GCC it trieds to link libstdc++ while using libc++ headers which is obviously doomed to fail
-# I think this requires upstream support in the cc package for correctly choosing libc++: https://github.com/rust-lang/cc-rs/issues/1468
-toolchain   : gnu
-networking  : yes
+networking  : true
 tuning      :
     - lto: false
 environment : |

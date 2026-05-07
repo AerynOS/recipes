@@ -1,10 +1,8 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : libxext
-version     : 1.3.7
+version     : "1.3.7"
 release     : 7
 homepage    : https://gitlab.freedesktop.org/xorg/lib/libxext
 upstreams   :
@@ -15,7 +13,7 @@ description : |
 license     : X11
 builddeps   :
     - pkgconfig32(x11)
-emul32      : yes
+emul32      : true
 packages    :
     - "%(name)-devel":
         paths:

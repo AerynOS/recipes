@@ -1,0 +1,182 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : bcachefs-module
+version     : "1.38.2"
+release     : 11
+homepage    : https://bcachefs.org
+upstreams   :
+    - https://evilpiepirate.org/bcachefs-tools/bcachefs-tools-vendored-1.38.2.tar.zst : ee5a25b4c23c39082ca557647cb2b96ea43a0a3ffcb68d17408909b96e8606ad
+summary     : bcachefs kernel module
+description : |
+    bcachefs kernel module
+license     : GPL-2.0-only
+builddeps   :
+    - binary(awk)
+    - binary(cargo)
+    - binary(cpio)
+    - binary(eu-readelf)
+    - binary(jq)
+    - binary(zstd)
+    - sysbinary(bcachefs)
+    - linux-gaming-devel
+    - linux-lts-devel
+    - linux-stable-devel
+environment : |
+    # Create list of kernels to build for
+    declare -a kernels=()
+    for dir in %(libdir)/kernel/*/; do
+        dir=${dir%*/}
+        kernels+=(${dir##*/})
+    done
+setup       : |
+    # This is where patches would go
+
+    for _kernel in ${kernels[@]}; do
+        mkdir ${_kernel}
+
+        # Install dkms files that we can build from directly
+        %make DESTDIR=${PWD}/${_kernel} DKMSDIR="" install_dkms
+    done
+build       : |
+    for _kernel in ${kernels[@]}; do
+        pushd ${_kernel}
+        %ccache_zero
+        export CCACHE_BASEDIR="${PWD}"
+        %make -C %(libdir)/modules/${_kernel}/build/ M=${PWD} LLVM=1 V=1 modules
+        %ccache_stats
+        popd
+    done
+install     : |
+    # Construct a shared initrd containing the bcachefs/mkfs/fsck bins.
+    #  We do this hear because we need to copy additional libs into the initrd,
+    #  and those libs ABSOLUTELY MUST be ABI compatible with the libraries in the
+    #  base initrd. The safest way to achieve that is to create the initd here
+    #  instead of in the bcachefs-tools build. By doing this the bcachefs tools
+    #  initrd is guaranteed to be rebuilt immediately after the root initrd is
+    #  built, guaranteeing ABI compatibility.
+    %install_dir initrd/%(libdir)
+    %install_exe %(sbindir)/bcachefs initrd/%(sbindir)/bcachefs
+    for i in fsck.bcachefs mount.bcachefs; do
+        ln -srv initrd/%(sbindir)/bcachefs initrd/%(sbindir)/${i}
+    done
+
+    # We need to copy in the libs that are needed to run the binary
+    function copy_or_symlink() {
+        file=$1
+
+        if test -h %(libdir)/${file}; then
+            link=$(readlink %(libdir)/${file})
+
+            ln -s ${link} initrd/%(libdir)/${file}
+            copy_or_symlink ${link}
+        else
+            cp -a %(libdir)/${file} initrd/%(libdir)/${file}
+        fi
+    }
+
+    readarray -t libs <<<"$(eu-readelf -d %(sbindir)/bcachefs | grep "NEEDED" | awk '{print $4}' | sed -e 's|\[||g' -e 's|]||g')"
+    for i in ${libs[@]}; do
+        case $i in
+            # We know for sure these are in the root initrd. Many of the rest are as well
+            #  but there's very little space wasted by including duplicates
+            libzstd.so.1|libz.so.1|libgcc_s.so.1|libc.so.6|ld-linux-x86-64.so.2)
+                continue
+                ;;
+            *)
+                copy_or_symlink ${i}
+                ;;
+        esac
+    done
+
+    pushd initrd
+    find . | cpio -o -H newc | zstd -19 -T0 -c > ../bcachefs-tools.initrd
+    popd
+    %install_file bcachefs-tools.initrd %(installroot)%(libdir)/kernel/initrd.d/65-%(name)-shared.initrd
+
+    for _kernel in ${kernels[@]}; do
+        pushd ${_kernel}
+        %install_file src/fs/bcachefs/bcachefs.ko -t %(installroot)%(libdir)/modules/${_kernel}/extra/fs/bcachefs
+
+        # Manually construct the debug info from the kernel modules
+        %install_dir %(installroot)%(libdir)/debug/.build-id
+        pushd %(installroot)%(libdir)/modules/${_kernel}
+        module_list=()
+        while IFS=  read -r -d $'\0'; do
+            module_list+=("$REPLY")
+        done < <(find . -type f -name "*.ko" -print0)
+        for module in "${module_list[@]}"; do
+            build_id=$(eu-readelf -n ${module} | awk '/Bui/ {print $3}')
+            debug_path="%(libdir)/debug/.build-id/${build_id:0:2}/${build_id: 2}.debug"
+
+            pushd $(dirname ${module})
+            file=$(basename ${module})
+
+            llvm-objcopy --only-keep-debug "${file}" "${file}.debug"
+            llvm-objcopy --add-gnu-debuglink "${file}.debug" "${file}"
+            llvm-strip -g --strip-unneeded "${file}"
+            %install_file "${file}.debug" "%(installroot)/${debug_path}"
+            rm -v "${file}.debug"
+
+            popd
+        done
+        popd
+
+        # Create an initrd for .ko files
+        mkdir -p initrd/%(libdir)/modules/${_kernel}/extra/fs/bcachefs
+        find %(installroot)%(libdir)/modules -name '*.ko' -exec cp -v {} initrd/%(libdir)/modules/${_kernel}/extra/fs/bcachefs \;
+        touch initrd/.dracut-depmod-invalidate
+        pushd initrd
+        %install_dir %(installroot)%(libdir)/kernel/${_kernel}
+        find . | cpio -o -H newc | zstd -19 -T0 -c > %(installroot)%(libdir)/kernel/${_kernel}/70-%(name).initrd
+        popd
+
+        # Compress modules with zstd
+        find "%(installroot)%(libdir)/modules/${_kernel}/" -name '*.ko' -print -exec zstd {} \; -exec rm -v {} \;
+
+        # This is a stupid hack because blsforme doesn't seem to support version-independent initrds yet
+        cp -a %(installroot)%(libdir)/kernel/initrd.d/65-bcachefs-module-shared.initrd %(installroot)%(libdir)/kernel/${_kernel}/65-bcachefs-module-shared.initrd
+
+        popd
+    done
+packages    :
+    # TODO: Make %(name) a virtual package that uses conditional rundeps to pull in the correct package depending on kernel(s) installed
+
+    - "%(name)-shared":
+        summary: "initrd extension containing bcachefs-tools"
+        description: "initrd extension containing bcachefs-tools"
+        paths:
+            - /usr/lib/kernel/initrd.d/
+
+    - "%(name)-gaming":
+        summary: "%(name) built for gaming kernel"
+        description: "%(name) built for gaming kernel"
+        rundeps:
+            - bcachefs-tools-initrd
+            - sysbinary(depmod)
+            - linux-gaming
+        paths:
+            - /usr/lib/kernel/*.gaming/
+            - /usr/lib/modules/*.gaming/
+
+    - "%(name)-lts":
+        summary: "%(name) built for LTS kernel"
+        description: "%(name) built for LTS kernel"
+        rundeps:
+            - "%(name)-shared"
+            - sysbinary(depmod)
+            - linux-lts
+        paths:
+            - /usr/lib/kernel/*.lts/
+            - /usr/lib/modules/*.lts/
+
+    - "%(name)-stable":
+        summary: "%(name) built for stable kernel"
+        description: "%(name) built for stable kernel"
+        rundeps:
+            - "%(name)-shared"
+            - sysbinary(depmod)
+            - linux-stable
+        paths:
+            - /usr/lib/kernel/*.stable/
+            - /usr/lib/modules/*.stable/

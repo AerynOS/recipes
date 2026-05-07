@@ -1,14 +1,12 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : glib2
-version     : 2.86.3
-release     : 34
+version     : "2.88.1"
+release     : 38
 homepage    : https://gitlab.gnome.org/GNOME/glib
 upstreams   :
-    - https://download.gnome.org/sources/glib/2.86/glib-2.86.3.tar.xz : b3211d8d34b9df5dca05787ef0ad5d7ca75dec998b970e1aab0001d229977c65
+    - https://download.gnome.org/sources/glib/2.88/glib-2.88.1.tar.xz : 51ab804c56f6eab3e5045c774d1290ac5e4c923d4f9a3d8e33123bee45c1840e
 summary     : Low-level core library that forms the basis for projects such as GTK+ and GNOME
 description : |
     GLib is the low-level core library that forms the basis for projects such
@@ -35,6 +33,7 @@ builddeps   :
     - pkgconfig32(mount)
     - pkgconfig32(zlib)
     - python-packaging
+    # libselinux
 emul32      : true
 environment : |
     export CFLAGS="${CFLAGS} -Wno-error=missing-include-dirs"

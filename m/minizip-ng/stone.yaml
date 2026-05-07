@@ -1,36 +1,37 @@
-#
-# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : minizip-ng
-version     : 4.1.0
-release     : 5
+version     : "4.2.1"
+release     : 8
 summary     : Fork of the zlib zip library
 license     : Zlib
 homepage    : https://github.com/zlib-ng/minizip-ng
 description : |
     Fork of the popular zip manipulation library found in the zlib distribution
 upstreams   :
-    - https://github.com/zlib-ng/minizip-ng/archive/refs/tags/4.1.0.tar.gz : 85417229bb0cd56403e811c316150eea1a3643346d9cec7512ddb7ea291b06f2
+    - https://github.com/zlib-ng/minizip-ng/archive/refs/tags/4.2.1.tar.gz : 3cc35c2cb925dbe67cc801e3234b31b0f30197812a99377352fa1b551ab3d011
 builddeps   :
     - pkgconfig(bzip2)
     - pkgconfig(libcrypto)
     - pkgconfig(liblzma)
     - pkgconfig(libzstd)
     - pkgconfig(zlib-ng)
+    # TODO: Figure out MZ_PPMD
 tuning      :
     - lto : full
 setup       : |
     %cmake -B compat \
         -DBUILD_SHARED_LIBS=ON \
         -DMZ_COMPAT=ON \
-        -DMZ_LIBBSD=OFF
+        -DMZ_LIBBSD=OFF \
+        -DMZ_PPMD=OFF
 
     %cmake -B ng \
         -DBUILD_SHARED_LIBS=ON \
         -DMZ_COMPAT=OFF \
-        -DMZ_LIBBSD=OFF
+        -DMZ_LIBBSD=OFF \
+        -DMZ_PPMD=OFF
 build       : |
     for b in compat ng; do
         %ccache_zero

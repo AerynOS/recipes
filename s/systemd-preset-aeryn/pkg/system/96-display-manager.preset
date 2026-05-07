@@ -1,0 +1,8 @@
+# We enable all display managers by default. Since only one can
+# actually be enabled at the same time the one which is installed
+# first wins
+
+enable cosmic-greeter.service
+enable gdm.service
+enable plasmalogin.service
+enable sddm.service

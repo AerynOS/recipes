@@ -1,20 +1,18 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : moby
-version     : 29.1.4
-release     : 15
+version     : "29.4.2"
+release     : 20
 homepage    : https://www.docker.com
 upstreams   :
-    - https://github.com/moby/moby/archive/refs/tags/docker-v29.1.4.tar.gz : 2de5074866b5a1f3a207505e25dda591ea6683fd86b9b971e8a5924b5e248a7f
+    - https://github.com/moby/moby/archive/refs/tags/docker-v29.4.2.tar.gz : f2d4d892f5439ac8b3b28a2ba03d29db1a377f8dd5d057ca941cdbba92f6ed7f
 summary     : The open-source application container engine
 description : |
     The open-source application container engine. This package contains the Docker server.
 license     :
     - Apache-2.0
-networking  : yes
+networking  : true
 builddeps   :
     - binary(git)
     - binary(go)
@@ -35,10 +33,10 @@ build      : |
 
     export GOFLAGS="-buildmode=pie -trimpath -mod=readonly -modcacherw -ldflags=-linkmode=external"
     export CGO_CFLAGS="${CFLAGS}"
-    export CGO_LDFLAGS="${CGO_LDFLAGS}"    
+    export CGO_LDFLAGS="${CGO_LDFLAGS}"
 
     # Git commit corresponding to the version tag
-    export GITCOMMIT="$(git ls-remote https://github.com/moby/moby.git refs/tags/docker-v%(version)^{} |awk '{print $1}')"
+    export GITCOMMIT="$(git ls-remote https://github.com/moby/moby.git refs/tags/docker-v%(version) |awk '{print $1}')"
     export DOCKER_GITCOMMIT=${GITCOMMIT}
 
     # dockerd
@@ -63,7 +61,7 @@ install    : |
     # systemd
     %install_file %(pkgdir)/docker.service -t %(installroot)%(libdir)/systemd/system
     %install_file contrib/init/systemd/docker.socket -t %(installroot)%(libdir)/systemd/system
-    %install_file %(pkgdir)/docker.preset -t %(installroot)/%(libdir)/systemd/system-preset
+    %install_file %(pkgdir)/*.preset -t %(installroot)/%(libdir)/systemd/system-preset/
 
     # sysusers configuration
     %sysusers '# Docker daemon user'

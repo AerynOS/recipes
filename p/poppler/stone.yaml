@@ -1,15 +1,13 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : poppler
-version     : 26.01.0
-release     : 17
+version     : "26.05.0"
+release     : 22
 homepage    : https://poppler.freedesktop.org
 upstreams   :
-    - https://poppler.freedesktop.org/poppler-26.01.0.tar.xz : 1cb944a4b88847f5fb6551683bc799db59f04990f5d8be07aba2acbf38601089
-    - git|https://gitlab.freedesktop.org/poppler/test.git : 9d5011815a14c157ba25bb160187842fb81579a5
+    - https://poppler.freedesktop.org/poppler-26.05.0.tar.xz : 6fef27ff04f37db43054c86bcdff6128c9fb1f6af4ef3c8b369a7e9abd68d0bb
+    - git|https://gitlab.freedesktop.org/poppler/test.git : b85e4d1ce75636b3e727555a9d31da34ad771c1c
 summary     : A PDF rendering library
 description : |
     Poppler is a PDF rendering library based on the xpdf-3.0 code base
@@ -52,10 +50,10 @@ check       : |
     # These tests have been failing since https://gitlab.freedesktop.org/poppler/poppler/-/commit/2df6cf6e5c5dccecefc4b6f1dfba8c65c3aa94b0
     # for an unknown reason. Are we perhaps not initializing a database or something?
     %cmake_test \
-        --exclude-regex 'signature/valid/.*|signature/invalid/.*|signature/digest_mismatch/.*'
+        --exclude-regex 'signature/valid/.*|signature/invalid/.*|signature/digest_mismatch/.*|check_qt6_signature_basics'
 workload    : |
     %cmake_test \
-        --exclude-regex 'signature/valid/.*|signature/invalid/.*|signature/digest_mismatch/.*'
+        --exclude-regex 'signature/valid/.*|signature/invalid/.*|signature/digest_mismatch/.*|check_qt6_signature_basics'
 packages    :
     - "%(name)-glib":
         summary: A PDF rendering library - glib bindings

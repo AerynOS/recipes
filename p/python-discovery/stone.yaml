@@ -1,0 +1,20 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : python-discovery
+version     : "1.2.2"
+release     : 4
+homepage    : https://github.com/tox-dev/python-discovery
+upstreams   :
+    - https://pypi.debian.net/python-discovery/python_discovery-1.2.2.tar.gz : 876e9c57139eb757cb5878cbdd9ae5379e5d96266c99ef731119e04fffe533bb
+summary     : Python interpreter discovery
+description : |
+    A library for discovering Python interpreters installed on your machine
+license     : MIT
+builddeps   :
+    - python(hatch-vcs)
+    - python(hatchling)
+build       : |
+    %pyproject_build
+install     : |
+    %pyproject_install

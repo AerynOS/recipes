@@ -1,14 +1,12 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : freetype
-version     : 2.14.1
-release     : 17
+version     : "2.14.3"
+release     : 19
 homepage    : http://freetype.org
 upstreams   :
-    - https://sourceforge.net/projects/freetype/files/freetype2/2.14.1/freetype-2.14.1.tar.xz : 32427e8c471ac095853212a37aef816c60b42052d4d9e48230bab3bdf2936ccc
+    - https://sourceforge.net/projects/freetype/files/freetype2/2.14.3/freetype-2.14.3.tar.xz : 36bc4f1cc413335368ee656c42afca65c5a3987e8768cc28cf11ba775e785a5f
 summary     : Library to rasterize glyphs from font files
 description : |
     freetype is a font rasterizer library written in C, designed to be small, efficient, highly customizable, and portable while capable of producing high-quality output (glyph images) of most vector and bitmap font formats.
@@ -20,7 +18,7 @@ builddeps   :
     - pkgconfig32(libbrotlidec)
     - pkgconfig32(libpng)
     - pkgconfig32(zlib)
-emul32      : yes
+emul32      : true
 profiles    :
     - emul32:
         setup: |

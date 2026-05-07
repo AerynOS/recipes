@@ -1,14 +1,12 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : gstreamer
-version     : 1.28.0
-release     : 43
+version     : "1.28.2"
+release     : 49
 homepage    : https://gstreamer.freedesktop.org/
 upstreams   :
-    - https://gitlab.freedesktop.org/gstreamer/gstreamer/-/archive/1.28.0/gstreamer-1.28.0.tar.gz : 06629bc45465ac6676357ef10dcdd0cbe2bdafa267b37bbac35beb432f872c45
+    - https://gitlab.freedesktop.org/gstreamer/gstreamer/-/archive/1.28.2/gstreamer-1.28.2.tar.gz : c221bcac5c954d8ac7a02d3ea34d5466058f073c43d48b7b317a7b0a78595ec3
 summary     : GStreamer multimedia framework
 description : |
     GStreamer can bridge to other multimedia frameworks in order to reuse existing components (e.g. codecs) and use platform input/output mechanisms.
@@ -59,6 +57,7 @@ builddeps   :
     - pkgconfig(libbs2b)
     # - pkgconfig(libcap) # Re-enable when we support capabilities
     - pkgconfig(libcdio)
+    - pkgconfig(libchromaprint)
     - pkgconfig(libcurl)
     - pkgconfig(libde265)
     - pkgconfig(libdrm)
@@ -132,7 +131,6 @@ builddeps   :
 # bad:
 # - lcevc
 # - libltc
-# - libchromaprint
 # - libdc1394-2
 # - libfaad
 # - flite
@@ -153,7 +151,7 @@ builddeps   :
 # ugly:
 # - liba52
 # - libmpeg2
-networking  : yes # cargo deps
+networking  : true # cargo deps
 environment : |
     # Make cargo use system libzstd
     export ZSTD_SYS_USE_PKG_CONFIG=1
@@ -435,6 +433,7 @@ packages    :
             - /usr/lib/gstreamer-1.0/libgstbluez.so
             - /usr/lib/gstreamer-1.0/libgstbz2.so
             - /usr/lib/gstreamer-1.0/libgstcamerabin.so
+            - /usr/lib/gstreamer-1.0/libgstchromaprint.so
             - /usr/lib/gstreamer-1.0/libgstclosedcaption.so
             - /usr/lib/gstreamer-1.0/libgstcodec2json.so
             - /usr/lib/gstreamer-1.0/libgstcodecalpha.so
@@ -548,6 +547,7 @@ packages    :
             - /usr/lib/girepository-1.0/GstAnalytics-1.0.typelib
             - /usr/lib/girepository-1.0/GstBadAudio-1.0.typelib
             - /usr/lib/girepository-1.0/GstCodecs-1.0.typelib
+            - /usr/lib/girepository-1.0/GstCodecParsers-1.0.typelib
             - /usr/lib/girepository-1.0/GstCuda-1.0.typelib
             - /usr/lib/girepository-1.0/GstDxva-1.0.typelib
             - /usr/lib/girepository-1.0/GstHip*-1.0.typelib
@@ -682,6 +682,7 @@ packages    :
             - /usr/share/gir-1.0/GstAnalytics-1.0.gir
             - /usr/share/gir-1.0/GstBadAudio-1.0.gir
             - /usr/share/gir-1.0/GstCodecs-1.0.gir
+            - /usr/share/gir-1.0/GstCodecParsers-1.0.gir
             - /usr/share/gir-1.0/GstCuda-1.0.gir
             - /usr/share/gir-1.0/GstDxva-1.0.gir
             - /usr/share/gir-1.0/GstHip*-1.0.gir

@@ -1,14 +1,12 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : libgpg-error
-version     : "1.58"
-release     : 7
+version     : "1.60"
+release     : 9
 homepage    : https://www.gnupg.org/related_software/libgpg-error
 upstreams   :
-    - https://www.gnupg.org/ftp/gcrypt/libgpg-error/libgpg-error-1.58.tar.bz2 : f943aea9a830a8bd938e5124b579efaece24a3225ff4c3d27611a80ce1260c27
+    - https://www.gnupg.org/ftp/gcrypt/libgpg-error/libgpg-error-1.60.tar.bz2 : 11b2a738e212f3eab0fe8637bc341d3181ca964e97bb2654de91aab7dae4ce09
 summary     : Common code of all GnuPG components
 description : |
     %(name) is a small library that originally defined common error values for all GnuPG components. Among these are GPG, GPGSM, GPGME, GPG-Agent, libgcrypt, Libksba, DirMngr, Pinentry, SCdaemon. Because Libgpg-error is a common dependency all GnuPG components, more features have been added to the library.

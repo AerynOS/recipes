@@ -1,0 +1,1603 @@
+diff -Npur steamos-manager-v26.0.1.orig/steamos-manager/src/bin/steamosctl.rs steamos-manager-v26.0.1/steamos-manager/src/bin/steamosctl.rs
+--- steamos-manager-v26.0.1.orig/steamos-manager/src/bin/steamosctl.rs	2026-03-05 05:25:34.000000000 +0100
++++ steamos-manager-v26.0.1/steamos-manager/src/bin/steamosctl.rs	2026-03-21 08:48:11.123477033 +0100
+@@ -21,12 +21,10 @@ use steamos_manager::proxy::{
+     CpuScaling1Proxy, CpuScheduler1Proxy, FactoryReset1Proxy, FanControl1Proxy,
+     GpuPerformanceLevel1Proxy, GpuPowerProfile1Proxy, HdmiCec1Proxy, LowPowerMode1Proxy,
+     Manager2Proxy, PerformanceProfile1Proxy, ScreenReader1Proxy, SessionManagement1Proxy,
+-    Storage1Proxy, TdpLimit1Proxy, UpdateBios1Proxy, UpdateDock1Proxy, WifiBackend1Proxy,
+-    WifiDebug1Proxy, WifiDebugDump1Proxy, WifiPowerManagement1Proxy,
++    Storage1Proxy, TdpLimit1Proxy, UpdateBios1Proxy, UpdateDock1Proxy,
+ };
+ use steamos_manager::screenreader::{ScreenReaderAction, ScreenReaderMode};
+ use steamos_manager::session::LoginMode;
+-use steamos_manager::wifi::{WifiBackend, WifiDebugMode, WifiPowerManagement};
+ use tracing::subscriber::set_global_default;
+ use tracing_subscriber::prelude::*;
+ use tracing_subscriber::{EnvFilter, Registry, fmt};
+@@ -167,41 +165,6 @@ enum Commands {
+     /// Get the suggested default performance profile
+     SuggestedDefaultPerformanceProfile,
+ 
+-    /// Set the Wi-Fi backend, if possible
+-    SetWifiBackend {
+-        /// Supported backends are `iwd`, `wpa_supplicant`
+-        backend: WifiBackend,
+-    },
+-
+-    /// Get the Wi-Fi backend
+-    GetWifiBackend,
+-
+-    /// Set Wi-Fi debug mode, if possible
+-    SetWifiDebugMode {
+-        /// Valid modes are `off` or `tracing`
+-        mode: WifiDebugMode,
+-        /// The size of the debug buffer, in bytes
+-        buffer: Option<u32>,
+-    },
+-
+-    /// Get Wi-Fi debug mode
+-    GetWifiDebugMode,
+-
+-    /// Capture the current Wi-Fi debug trace
+-    CaptureWifiDebugTraceOutput,
+-
+-    /// Set the Wi-Fi power management state
+-    SetWifiPowerManagementState {
+-        /// Valid modes are `enabled`, `disabled`
+-        state: WifiPowerManagement,
+-    },
+-
+-    /// Get the Wi-Fi power management state
+-    GetWifiPowerManagementState,
+-
+-    /// Generate a Wi-Fi debug dump
+-    GenerateWifiDebugDump,
+-
+     /// Get the state of HDMI-CEC support
+     GetHdmiCecState,
+ 
+@@ -602,58 +565,6 @@ async fn main() -> Result<()> {
+             let value = proxy.tdp_limit_min().await?;
+             println!("TDP limit min: {value}");
+         }
+-        Commands::SetWifiBackend { backend } => {
+-            let proxy = WifiBackend1Proxy::new(&conn).await?;
+-            proxy.set_wifi_backend(backend.to_string().as_str()).await?;
+-        }
+-        Commands::GetWifiBackend => {
+-            let proxy = WifiBackend1Proxy::new(&conn).await?;
+-            let backend = proxy.wifi_backend().await?;
+-            match WifiBackend::try_from(backend.as_str()) {
+-                Ok(be) => println!("Wi-Fi backend: {be}"),
+-                Err(_) => println!("Got unknown value {backend} from backend"),
+-            }
+-        }
+-        Commands::SetWifiDebugMode { mode, buffer } => {
+-            let proxy = WifiDebug1Proxy::new(&conn).await?;
+-            let mut options = HashMap::<&str, &zvariant::Value<'_>>::new();
+-            let buffer_size;
+-            if let Some(size) = buffer {
+-                buffer_size = Some(zvariant::Value::U32(size));
+-                options.insert("buffer_size", buffer_size.as_ref().unwrap());
+-            }
+-            proxy.set_wifi_debug_mode(mode as u32, options).await?;
+-        }
+-        Commands::GetWifiDebugMode => {
+-            let proxy = WifiDebug1Proxy::new(&conn).await?;
+-            let mode = proxy.wifi_debug_mode_state().await?;
+-            match WifiDebugMode::try_from(mode) {
+-                Ok(m) => println!("Wi-Fi debug mode: {m}"),
+-                Err(_) => println!("Got unknown value {mode} from backend"),
+-            }
+-        }
+-        Commands::CaptureWifiDebugTraceOutput => {
+-            let proxy = WifiDebugDump1Proxy::new(&conn).await?;
+-            let path = proxy.generate_debug_dump().await?;
+-            println!("{path}");
+-        }
+-        Commands::SetWifiPowerManagementState { state } => {
+-            let proxy = WifiPowerManagement1Proxy::new(&conn).await?;
+-            proxy.set_wifi_power_management_state(state as u32).await?;
+-        }
+-        Commands::GetWifiPowerManagementState => {
+-            let proxy = WifiPowerManagement1Proxy::new(&conn).await?;
+-            let state = proxy.wifi_power_management_state().await?;
+-            match WifiPowerManagement::try_from(state) {
+-                Ok(s) => println!("Wi-Fi power management state: {s}"),
+-                Err(_) => println!("Got unknown value {state} from backend"),
+-            }
+-        }
+-        Commands::GenerateWifiDebugDump => {
+-            let proxy = WifiDebugDump1Proxy::new(&conn).await?;
+-            let path = proxy.generate_debug_dump().await?;
+-            println!("{path}");
+-        }
+         Commands::SetHdmiCecState { state } => {
+             let proxy = HdmiCec1Proxy::new(&conn).await?;
+             proxy.set_hdmi_cec_state(state as u32).await?;
+diff -Npur steamos-manager-v26.0.1.orig/steamos-manager/src/lib.rs steamos-manager-v26.0.1/steamos-manager/src/lib.rs
+--- steamos-manager-v26.0.1.orig/steamos-manager/src/lib.rs	2026-03-05 05:25:34.000000000 +0100
++++ steamos-manager-v26.0.1/steamos-manager/src/lib.rs	2026-03-21 08:41:46.681561674 +0100
+@@ -46,7 +46,6 @@ pub mod hardware;
+ pub mod power;
+ pub mod screenreader;
+ pub mod session;
+-pub mod wifi;
+ 
+ #[cfg(test)]
+ mod testing;
+diff -Npur steamos-manager-v26.0.1.orig/steamos-manager/src/manager/root.rs steamos-manager-v26.0.1/steamos-manager/src/manager/root.rs
+--- steamos-manager-v26.0.1.orig/steamos-manager/src/manager/root.rs	2026-03-05 05:25:34.000000000 +0100
++++ steamos-manager-v26.0.1/steamos-manager/src/manager/root.rs	2026-03-21 08:46:56.393520383 +0100
+@@ -40,10 +40,6 @@ use crate::power::{
+ use crate::process::{run_script, script_output};
+ use crate::session::root::{clean_temporary_sessions, set_default_session, set_temporary_session};
+ use crate::sysfs::SysfsWritten;
+-use crate::wifi::{
+-    WifiBackend, WifiDebugMode, WifiPowerManagement, extract_wifi_trace, generate_wifi_dump,
+-    set_wifi_backend, set_wifi_debug_mode, set_wifi_power_management_state,
+-};
+ use crate::{SerialOrderValidator, path};
+ 
+ #[derive(PartialEq, Debug, Copy, Clone)]
+@@ -59,7 +55,6 @@ pub struct SteamOSManager {
+     connection: Connection,
+     channel: Sender<Command>,
+     order: SerialOrderValidator,
+-    wifi_debug_mode: WifiDebugMode,
+     fan_control: FanControl,
+     tdp_limit_manager: Option<Box<dyn TdpLimitManager>>,
+     gpu_performance_level: Option<Box<dyn GpuPerformanceLevelDriver>>,
+@@ -75,7 +70,6 @@ impl SteamOSManager {
+     pub async fn new(connection: Connection, channel: Sender<Command>) -> Result<Self> {
+         Ok(SteamOSManager {
+             fan_control: FanControl::new(connection.clone()),
+-            wifi_debug_mode: WifiDebugMode::Off,
+             tdp_limit_manager: tdp_limit_manager(&connection)
+                 .await
+                 .inspect_err(|e| info!("Could not set up TDP limiting: {e}"))
+@@ -147,16 +141,6 @@ impl SteamOSManager {
+         })
+     }
+ 
+-    async fn set_wifi_power_management_state(&self, state: u32) -> fdo::Result<()> {
+-        let state = match WifiPowerManagement::try_from(state) {
+-            Ok(state) => state,
+-            Err(err) => return Err(to_zbus_fdo_error(err)),
+-        };
+-        set_wifi_power_management_state(state, &self.connection)
+-            .await
+-            .map_err(to_zbus_fdo_error)
+-    }
+-
+     #[zbus(property(emits_changed_signal = "false"))]
+     async fn fan_control_state(&self) -> fdo::Result<u32> {
+         Ok(self
+@@ -457,94 +441,6 @@ impl SteamOSManager {
+     }
+ 
+     #[zbus(property)]
+-    async fn wifi_debug_mode_state(&self) -> u32 {
+-        // Get the wifi debug mode
+-        self.wifi_debug_mode as u32
+-    }
+-
+-    async fn set_wifi_debug_mode(
+-        &mut self,
+-        mode: u32,
+-        options: HashMap<&str, zvariant::Value<'_>>,
+-        #[zbus(signal_emitter)] ctx: SignalEmitter<'_>,
+-    ) -> fdo::Result<()> {
+-        // Set the wifi debug mode to mode, using an int for flexibility going forward but only
+-        // doing things on 0 or 1 for now
+-        let wanted_mode = match WifiDebugMode::try_from(mode) {
+-            Ok(mode) => mode,
+-            Err(e) => return Err(fdo::Error::InvalidArgs(e.to_string())),
+-        };
+-
+-        if self.wifi_debug_mode == wanted_mode {
+-            info!("Not changing wifi debug mode since it's already set to {wanted_mode}");
+-            return Ok(());
+-        }
+-
+-        let buffer_size = match options
+-            .get("buffer_size")
+-            .map(zbus::zvariant::Value::downcast_ref)
+-        {
+-            Some(Ok(v)) => v,
+-            None => 20000,
+-            Some(Err(e)) => return Err(fdo::Error::InvalidArgs(e.to_string())),
+-        };
+-        match set_wifi_debug_mode(
+-            wanted_mode,
+-            buffer_size,
+-            self.should_trace,
+-            &self.connection,
+-        )
+-        .await
+-        {
+-            Ok(()) => {
+-                self.wifi_debug_mode = wanted_mode;
+-                self.wifi_debug_mode_state_changed(&ctx).await?;
+-                Ok(())
+-            }
+-            Err(e) => {
+-                error!("Error setting wifi debug mode: {e}");
+-                Err(to_zbus_fdo_error(e))
+-            }
+-        }
+-    }
+-
+-    async fn set_wifi_backend(&mut self, backend: u32) -> fdo::Result<()> {
+-        if self.wifi_debug_mode == WifiDebugMode::Tracing {
+-            return Err(fdo::Error::Failed(String::from(
+-                "operation not supported when wifi_debug_mode=tracing",
+-            )));
+-        }
+-        let backend = match WifiBackend::try_from(backend) {
+-            Ok(backend) => backend,
+-            Err(e) => return Err(fdo::Error::InvalidArgs(e.to_string())),
+-        };
+-        set_wifi_backend(backend, &self.connection)
+-            .await
+-            .inspect_err(|message| error!("Error setting wifi backend: {message}"))
+-            .map_err(to_zbus_fdo_error)
+-    }
+-
+-    async fn capture_debug_trace_output(&self) -> fdo::Result<String> {
+-        Ok(extract_wifi_trace()
+-            .await
+-            .inspect_err(|message| error!("Error capturing trace output: {message}"))
+-            .map_err(to_zbus_fdo_error)?
+-            .into_os_string()
+-            .to_string_lossy()
+-            .into())
+-    }
+-
+-    async fn generate_debug_dump(&self) -> fdo::Result<String> {
+-        Ok(generate_wifi_dump()
+-            .await
+-            .inspect_err(|message| error!("Error capturing dump output: {message}"))
+-            .map_err(to_zbus_fdo_error)?
+-            .into_os_string()
+-            .to_string_lossy()
+-            .into())
+-    }
+-
+-    #[zbus(property)]
+     async fn inhibit_ds(&self) -> fdo::Result<bool> {
+         let (tx, rx) = oneshot::channel();
+         self.channel
+@@ -666,12 +562,6 @@ mod test {
+     async fn start() -> Result<TestHandle> {
+         let mut handle = testing::start();
+         fake_model(SteamDeckVariant::Jupiter).await?;
+-        create_dir_all(crate::path("/etc/NetworkManager/conf.d")).await?;
+-        write(
+-            crate::path("/etc/NetworkManager/conf.d/99-valve-wifi-backend.conf"),
+-            "wifi.backend=iwd\n",
+-        )
+-        .await?;
+         gpu::test::create_nodes().await.expect("setup");
+ 
+         let (tx, _rx) = channel::<RootContext>();
+diff -Npur steamos-manager-v26.0.1.orig/steamos-manager/src/manager/user.rs steamos-manager-v26.0.1/steamos-manager/src/manager/user.rs
+--- steamos-manager-v26.0.1.orig/steamos-manager/src/manager/user.rs	2026-03-05 05:25:34.000000000 +0100
++++ steamos-manager-v26.0.1/steamos-manager/src/manager/user.rs	2026-03-21 08:44:46.142854153 +0100
+@@ -59,9 +59,6 @@ use crate::session::{
+     LoginMode, SessionManager, SessionManagerMessage, SessionManagerService, is_session_managed,
+     valid_desktop_sessions,
+ };
+-use crate::wifi::{
+-    WifiBackend, get_wifi_backend, get_wifi_power_management_state, list_wifi_interfaces,
+-};
+ use crate::{SerialOrderValidator, Service};
+ 
+ macro_rules! method {
+@@ -254,22 +251,6 @@ struct UpdateDock1 {
+     job_manager: UnboundedSender<JobManagerCommand>,
+ }
+ 
+-struct WifiBackend1 {
+-    proxy: Proxy<'static>,
+-}
+-
+-struct WifiDebug1 {
+-    proxy: Proxy<'static>,
+-}
+-
+-struct WifiDebugDump1 {
+-    proxy: Proxy<'static>,
+-}
+-
+-struct WifiPowerManagement1 {
+-    proxy: Proxy<'static>,
+-}
+-
+ pub(crate) struct SignalRelayService {
+     proxy: Proxy<'static>,
+     session: Connection,
+@@ -1283,109 +1264,6 @@ impl UpdateDock1 {
+     }
+ }
+ 
+-#[interface(name = "com.steampowered.SteamOSManager1.WifiBackend1")]
+-impl WifiBackend1 {
+-    #[zbus(property)]
+-    async fn wifi_backend(&self) -> fdo::Result<String> {
+-        match get_wifi_backend().await {
+-            Ok(backend) => Ok(backend.to_string()),
+-            Err(e) => Err(to_zbus_fdo_error(e)),
+-        }
+-    }
+-
+-    #[zbus(property)]
+-    async fn set_wifi_backend(
+-        &self,
+-        backend: &str,
+-        #[zbus(signal_emitter)] ctx: SignalEmitter<'_>,
+-    ) -> zbus::Result<()> {
+-        let backend = match WifiBackend::try_from(backend) {
+-            Ok(backend) => backend,
+-            Err(e) => return Err(fdo::Error::InvalidArgs(e.to_string()).into()),
+-        };
+-        let _: () = self.proxy.call("SetWifiBackend", &(backend as u32)).await?;
+-        self.wifi_backend_changed(&ctx).await
+-    }
+-}
+-
+-#[interface(name = "com.steampowered.SteamOSManager1.WifiDebug1")]
+-impl WifiDebug1 {
+-    #[zbus(property)]
+-    async fn wifi_debug_mode_state(&self) -> fdo::Result<u32> {
+-        getter!(self, "WifiDebugModeState")
+-    }
+-
+-    async fn set_wifi_debug_mode(
+-        &self,
+-        mode: u32,
+-        options: HashMap<&str, zvariant::Value<'_>>,
+-        #[zbus(signal_emitter)] ctx: SignalEmitter<'_>,
+-    ) -> fdo::Result<()> {
+-        let _: () = method!(self, "SetWifiDebugMode", mode, options)?;
+-        self.wifi_debug_mode_state_changed(&ctx)
+-            .await
+-            .map_err(zbus_to_zbus_fdo)?;
+-        Ok(())
+-    }
+-
+-    #[zbus(property)]
+-    async fn wifi_backend(&self) -> fdo::Result<String> {
+-        match get_wifi_backend().await {
+-            Ok(backend) => Ok(backend.to_string()),
+-            Err(e) => Err(to_zbus_fdo_error(e)),
+-        }
+-    }
+-
+-    #[zbus(property)]
+-    async fn set_wifi_backend(
+-        &self,
+-        backend: &str,
+-        #[zbus(signal_emitter)] ctx: SignalEmitter<'_>,
+-    ) -> zbus::Result<()> {
+-        let backend = match WifiBackend::try_from(backend) {
+-            Ok(backend) => backend,
+-            Err(e) => return Err(fdo::Error::InvalidArgs(e.to_string()).into()),
+-        };
+-        let _: () = self.proxy.call("SetWifiBackend", &(backend as u32)).await?;
+-        self.wifi_backend_changed(&ctx).await
+-    }
+-
+-    async fn capture_debug_trace_output(&self) -> fdo::Result<String> {
+-        method!(self, "CaptureDebugTraceOutput")
+-    }
+-}
+-
+-#[interface(name = "com.steampowered.SteamOSManager1.WifiDebugDump1")]
+-impl WifiDebugDump1 {
+-    async fn generate_debug_dump(&self) -> fdo::Result<String> {
+-        method!(self, "GenerateDebugDump")
+-    }
+-}
+-
+-#[interface(name = "com.steampowered.SteamOSManager1.WifiPowerManagement1")]
+-impl WifiPowerManagement1 {
+-    #[zbus(property)]
+-    async fn wifi_power_management_state(&self) -> fdo::Result<u32> {
+-        match get_wifi_power_management_state().await {
+-            Ok(state) => Ok(state as u32),
+-            Err(e) => Err(to_zbus_fdo_error(e)),
+-        }
+-    }
+-
+-    #[zbus(property)]
+-    async fn set_wifi_power_management_state(
+-        &self,
+-        state: u32,
+-        #[zbus(signal_emitter)] ctx: SignalEmitter<'_>,
+-    ) -> zbus::Result<()> {
+-        let _: () = self
+-            .proxy
+-            .call("SetWifiPowerManagementState", &(state))
+-            .await?;
+-        self.wifi_power_management_state_changed(&ctx).await
+-    }
+-}
+-
+ async fn register<I: RemoteInterface + Interface>(
+     object_server: &ObjectServer,
+     remote: I::Remote,
+@@ -1671,12 +1549,6 @@ pub(crate) async fn create_interfaces(
+         proxy: proxy.clone(),
+         manager: SessionManager::new(session.clone(), &system, daemon).await?,
+     };
+-    let wifi_backend = WifiBackend1 {
+-        proxy: proxy.clone(),
+-    };
+-    let wifi_power_management = WifiPowerManagement1 {
+-        proxy: proxy.clone(),
+-    };
+ 
+     let object_server = session.object_server();
+ 
+@@ -1691,17 +1563,6 @@ pub(crate) async fn create_interfaces(
+     if device_type().await.unwrap_or_default() == "steam_deck" {
+         object_server.at(MANAGER_PATH, als).await?;
+     }
+-    object_server.at(MANAGER_PATH, wifi_backend).await?;
+-    if steam_deck_variant().await.unwrap_or_default() == SteamDeckVariant::Galileo {
+-        let wifi_debug = WifiDebug1 {
+-            proxy: proxy.clone(),
+-        };
+-        let wifi_debug_dump = WifiDebugDump1 {
+-            proxy: proxy.clone(),
+-        };
+-        object_server.at(MANAGER_PATH, wifi_debug).await?;
+-        object_server.at(MANAGER_PATH, wifi_debug_dump).await?;
+-    }
+ 
+     if get_max_charge_level().await.is_ok() {
+         object_server.at(MANAGER_PATH, battery_charge_limit).await?;
+@@ -1788,12 +1649,6 @@ pub(crate) async fn create_interfaces(
+         object_server.at(MANAGER_PATH, session_management).await?;
+     }
+ 
+-    if !list_wifi_interfaces().await.unwrap_or_default().is_empty() {
+-        object_server
+-            .at(MANAGER_PATH, wifi_power_management)
+-            .await?;
+-    }
+-
+     remote_interface.context_tdp_limit1 = tdp_manager;
+     remote_interface.configure(&remote_config).await?;
+     object_server.at(MANAGER_PATH, remote_interface).await?;
+@@ -2479,39 +2334,6 @@ mod test {
+         assert!(test_interface_missing::<UpdateDock1>(&test.connection).await);
+     }
+ 
+-    #[tokio::test]
+-    async fn interface_matches_wifi_power_management1() {
+-        let test = start(TestConfig::all()).await.expect("start");
+-
+-        assert!(
+-            test_interface_matches::<WifiPowerManagement1>(&test.connection)
+-                .await
+-                .unwrap()
+-        );
+-    }
+-
+-    #[tokio::test]
+-    async fn interface_matches_wifi_debug() {
+-        let test = start(TestConfig::all()).await.expect("start");
+-
+-        assert!(
+-            test_interface_matches::<WifiDebug1>(&test.connection)
+-                .await
+-                .unwrap()
+-        );
+-    }
+-
+-    #[tokio::test]
+-    async fn interface_matches_wifi_debug_dump() {
+-        let test = start(TestConfig::all()).await.expect("start");
+-
+-        assert!(
+-            test_interface_matches::<WifiDebugDump1>(&test.connection)
+-                .await
+-                .unwrap()
+-        );
+-    }
+-
+     async fn register_remote<I: RemoteInterface + Interface>(
+         connection: &Connection,
+         new_conn: &Connection,
+diff -Npur steamos-manager-v26.0.1.orig/steamos-manager/src/wifi.rs steamos-manager-v26.0.1/steamos-manager/src/wifi.rs
+--- steamos-manager-v26.0.1.orig/steamos-manager/src/wifi.rs	2026-03-05 05:25:34.000000000 +0100
++++ steamos-manager-v26.0.1/steamos-manager/src/wifi.rs	1970-01-01 01:00:00.000000000 +0100
+@@ -1,925 +0,0 @@
+-/*
+- * Copyright © 2023 Collabora Ltd.
+- * Copyright © 2024 Valve Software
+- *
+- * SPDX-License-Identifier: MIT
+- */
+-
+-use anyhow::{Result, bail, ensure};
+-use config::builder::AsyncState;
+-use config::{ConfigBuilder, FileFormat};
+-use nix::sys::stat::{self, Mode};
+-use num_enum::TryFromPrimitive;
+-use std::ffi::OsStr;
+-use std::fs::Permissions;
+-use std::io::ErrorKind;
+-use std::os::unix::fs::PermissionsExt;
+-use std::path::PathBuf;
+-use std::str::FromStr;
+-use std::time::Duration;
+-use strum::{Display, EnumString};
+-use tempfile::Builder as TempFileBuilder;
+-use tokio::fs;
+-use tokio::io::{AsyncReadExt, AsyncWriteExt};
+-use tokio::time::sleep;
+-use tracing::{debug, error};
+-use udev::{Event, EventType};
+-use zbus::Connection;
+-
+-use crate::process::{run_script, script_output};
+-use crate::systemd::{JobMode, SystemdUnit, daemon_reload};
+-use crate::udev::single_poll;
+-use crate::{path, read_config_directory};
+-
+-const OVERRIDE_CONTENTS: &str = "[Service]
+-ExecStart=
+-ExecStart=/usr/lib/iwd/iwd -d
+-";
+-const OVERRIDE_FOLDER: &str = "/etc/systemd/system/iwd.service.d";
+-const OVERRIDE_PATH: &str = "/etc/systemd/system/iwd.service.d/99-valve-override.conf";
+-
+-// Only use one path for output for now. If needed we can add a timestamp later
+-// to have multiple files, etc.
+-const TRACE_CMD_PATH: &str = "/usr/bin/trace-cmd";
+-
+-const MIN_BUFFER_SIZE: u32 = 100;
+-
+-const WIFI_BACKEND_PATHS: &[&str] = &[
+-    "/usr/lib/NetworkManager/conf.d",
+-    "/etc/NetworkManager/conf.d",
+-];
+-const WIFI_BACKEND_FILE: &str = "/etc/NetworkManager/conf.d/99-valve-wifi-backend.conf";
+-
+-#[derive(Display, EnumString, PartialEq, Debug, Copy, Clone, TryFromPrimitive)]
+-#[strum(serialize_all = "snake_case", ascii_case_insensitive)]
+-#[repr(u32)]
+-pub enum WifiDebugMode {
+-    #[strum(
+-        to_string = "off",
+-        serialize = "disable",
+-        serialize = "disabled",
+-        serialize = "0"
+-    )]
+-    Off = 0,
+-    Tracing = 1,
+-}
+-
+-#[derive(Display, EnumString, PartialEq, Debug, Copy, Clone, TryFromPrimitive)]
+-#[strum(ascii_case_insensitive)]
+-#[repr(u32)]
+-pub enum WifiPowerManagement {
+-    #[strum(
+-        to_string = "disabled",
+-        serialize = "off",
+-        serialize = "disable",
+-        serialize = "0"
+-    )]
+-    Disabled = 0,
+-    #[strum(
+-        to_string = "enabled",
+-        serialize = "on",
+-        serialize = "enable",
+-        serialize = "1"
+-    )]
+-    Enabled = 1,
+-}
+-
+-impl From<WifiPowerManagement> for NmSettingWirelessPowersave {
+-    fn from(val: WifiPowerManagement) -> NmSettingWirelessPowersave {
+-        match val {
+-            WifiPowerManagement::Disabled => NmSettingWirelessPowersave::Disable,
+-            WifiPowerManagement::Enabled => NmSettingWirelessPowersave::Enable,
+-        }
+-    }
+-}
+-
+-#[derive(Display, EnumString, PartialEq, Debug, Copy, Clone, TryFromPrimitive)]
+-#[strum(serialize_all = "snake_case", ascii_case_insensitive)]
+-#[repr(u32)]
+-pub enum WifiBackend {
+-    Iwd = 0,
+-    WPASupplicant = 1,
+-}
+-
+-#[derive(PartialEq, Debug, Copy, Clone, Default, TryFromPrimitive)]
+-#[repr(i64)]
+-enum NmSettingWirelessPowersave {
+-    Default = 0,
+-    Ignore = 1,
+-    Disable = 2,
+-    #[default]
+-    Enable = 3,
+-}
+-
+-#[derive(PartialEq, Debug, Clone)]
+-struct NmWifiSettings {
+-    backend: WifiBackend,
+-    powersave: NmSettingWirelessPowersave,
+-}
+-
+-pub(crate) async fn setup_iwd_config(want_override: bool) -> std::io::Result<()> {
+-    // Copy override.conf file into place or out of place depending
+-    // on install value
+-
+-    if want_override {
+-        // Copy it in
+-        // Make sure the folder exists
+-        fs::create_dir_all(path(OVERRIDE_FOLDER)).await?;
+-        // Then write the contents into the file
+-        fs::write(path(OVERRIDE_PATH), OVERRIDE_CONTENTS).await
+-    } else {
+-        // Delete it
+-        match fs::remove_file(path(OVERRIDE_PATH)).await {
+-            Err(error) if error.kind() == ErrorKind::NotFound => Ok(()),
+-            res => res,
+-        }
+-    }
+-}
+-
+-async fn restart_iwd(connection: &Connection) -> Result<()> {
+-    // First reload systemd since we modified the config most likely
+-    // otherwise we wouldn't be restarting iwd.
+-    daemon_reload(connection)
+-        .await
+-        .inspect_err(|message| error!("restart_iwd: reload systemd got an error: {message}"))?;
+-
+-    // worked, now restart iwd
+-    let unit = SystemdUnit::new(connection, "iwd.service").await?;
+-    unit.restart(JobMode::Fail)
+-        .await
+-        .inspect_err(|message| error!("restart_iwd: restart unit got an error: {message}"))?;
+-    Ok(())
+-}
+-
+-async fn stop_tracing() -> Result<()> {
+-    run_script(TRACE_CMD_PATH, &["stop"]).await?;
+-    Ok(())
+-}
+-
+-async fn start_tracing(buffer_size: u32) -> Result<()> {
+-    // Start tracing
+-    let size_str = buffer_size.to_string();
+-    run_script(
+-        TRACE_CMD_PATH,
+-        &["start", "-e", "ath11k_wmi_diag", "-b", &size_str],
+-    )
+-    .await
+-}
+-
+-fn make_tempfile(prefix: &str) -> Result<(fs::File, PathBuf)> {
+-    let umask = stat::umask(Mode::from_bits_truncate(0));
+-    let output = TempFileBuilder::new()
+-        .prefix(prefix)
+-        .permissions(Permissions::from_mode(0o666))
+-        .tempfile()?;
+-    let (output, path) = output.keep()?;
+-    let output = fs::File::from_std(output);
+-    stat::umask(umask);
+-
+-    Ok((output, path))
+-}
+-
+-pub async fn extract_wifi_trace() -> Result<PathBuf> {
+-    let (_, path) = make_tempfile("wifi-trace-")?;
+-    run_script(
+-        "trace-cmd",
+-        &[OsStr::new("extract"), OsStr::new("-o"), path.as_os_str()],
+-    )
+-    .await?;
+-    Ok(path)
+-}
+-
+-pub(crate) async fn set_wifi_debug_mode(
+-    mode: WifiDebugMode,
+-    buffer_size: u32,
+-    should_trace: bool,
+-    connection: &Connection,
+-) -> Result<()> {
+-    match get_wifi_backend().await {
+-        Ok(WifiBackend::Iwd) => (),
+-        Ok(backend) => bail!("Setting Wi-Fi debug mode not supported with backend {backend}"),
+-        Err(e) => return Err(e),
+-    }
+-
+-    match mode {
+-        WifiDebugMode::Off => {
+-            // If mode is 0 disable wifi debug mode
+-            // Stop any existing trace and flush to disk.
+-            if should_trace && let Err(message) = stop_tracing().await {
+-                bail!("stop_tracing command got an error: {message}");
+-            }
+-            // Stop_tracing was successful
+-            if let Err(message) = setup_iwd_config(false).await {
+-                bail!("setup_iwd_config false got an error: {message}");
+-            }
+-            // setup_iwd_config false worked
+-            if let Err(message) = restart_iwd(connection).await {
+-                bail!("restart_iwd got an error: {message}");
+-            }
+-        }
+-        WifiDebugMode::Tracing => {
+-            ensure!(buffer_size > MIN_BUFFER_SIZE, "Buffer size too small");
+-
+-            if let Err(message) = setup_iwd_config(true).await {
+-                bail!("setup_iwd_config true got an error: {message}");
+-            }
+-            // setup_iwd_config worked
+-            if let Err(message) = restart_iwd(connection).await {
+-                bail!("restart_iwd got an error: {message}");
+-            }
+-            // restart_iwd worked
+-            if should_trace && let Err(message) = start_tracing(buffer_size).await {
+-                bail!("start_tracing got an error: {message}");
+-            }
+-        }
+-    }
+-    Ok(())
+-}
+-
+-// This function re-creates the network interface if missing.
+-//
+-// As described in https://iwd.wiki.kernel.org/interface_lifecycle,#
+-// iwd destroys and re-creates the network interface, unless configured
+-// otherwise by "[DriverQuirks] DefaultInterface" or disabled by
+-// default in the source (it happens for some drivers):
+-// https://git.kernel.org/pub/scm/network/wireless/iwd.git/tree/src/wiphy.c?h=2.14#n88
+-//
+-// The original LCD model has one of the drivers in which this is
+-// disabled at the source-code level, but in the OLED/Galileo model
+-// with the ath11k* driver, it is not.
+-//
+-// NetworkManager brings up the service providing wifi.backend as
+-// necessary, but this does not happen when the interface is not
+-// present.  So in the OLED model, when switching from "iwd" to
+-// "wpa_supplicant", "iwd" destroys the interface when stopped, NM
+-// never brings up the newly configured back-end "wpa_supplicant", and
+-// the system remains disconnected forever.  When switching from
+-// "wpa_supplicant" to "iwd" it's all right because "wpa_supplicant"
+-// doesn't destroy the network interface.  And similarly, in the LCD
+-// model the interface is never destroyed, so NM always brings up the
+-// service for the corresponding wifi.backend just fine.
+-//
+-// Unfortunately iwd does not support "config fragments" and
+-// NetworkManager does not have config for this option like with
+-// 'wifi.iwd.autoconnect', so the only possible way is to edit
+-// '/etc/iwd/main.conf', which is not the cleanest solution.
+-//
+-// So, in order to work around this problem, this function re-creates
+-// the network interface if missing.
+-//
+-// Originally discussed in:
+-// https://gitlab.steamos.cloud/holo/holo/-/merge_requests/747
+-async fn ensure_default_interface() -> Result<()> {
+-    if !list_wifi_interfaces().await?.is_empty() {
+-        return Ok(());
+-    }
+-    debug!("Missing wlan interace, creating it explicitly");
+-    run_script(
+-        "/usr/bin/iw",
+-        &[
+-            "phy",
+-            "phy0",
+-            "interface",
+-            "add",
+-            "wlan0",
+-            "type",
+-            "station",
+-        ],
+-    )
+-    .await?;
+-    for _ in 0..10 {
+-        if !list_wifi_interfaces().await?.is_empty() {
+-            return Ok(());
+-        }
+-        sleep(Duration::from_millis(100)).await;
+-    }
+-    bail!("wlan0 could not be created");
+-}
+-
+-async fn get_nm_settings() -> Result<NmWifiSettings> {
+-    let mut builder = ConfigBuilder::<AsyncState>::default();
+-    for dir in WIFI_BACKEND_PATHS {
+-        builder = read_config_directory(builder, path(dir), &["conf"], FileFormat::Ini).await?;
+-    }
+-    let config = builder.build().await?;
+-
+-    let backend;
+-    if let Some(be) = config
+-        .get_table("device")
+-        .ok()
+-        .and_then(|mut t| t.remove("wifi.backend"))
+-    {
+-        let be = be.into_string()?;
+-        backend = WifiBackend::from_str(be.as_str())?;
+-    } else {
+-        bail!("Wi-Fi backend not found in config");
+-    }
+-
+-    let powersave;
+-    if let Some(ps) = config
+-        .get_table("connection")
+-        .ok()
+-        .and_then(|mut t| t.remove("wifi.powersave"))
+-    {
+-        let ps = ps.into_int()?;
+-        powersave = NmSettingWirelessPowersave::try_from(ps)?;
+-    } else {
+-        powersave = NmSettingWirelessPowersave::default();
+-    }
+-
+-    Ok(NmWifiSettings { powersave, backend })
+-}
+-
+-async fn set_nm_settings(
+-    settings: NmWifiSettings,
+-    restart: bool,
+-    connection: &Connection,
+-) -> Result<()> {
+-    let NmWifiSettings { powersave, backend } = settings;
+-    let powersave = powersave as i64;
+-    let contents =
+-        format!("[connection]\nwifi.powersave={powersave}\n[device]\nwifi.backend={backend}\n");
+-    fs::write(path(WIFI_BACKEND_FILE), contents).await?;
+-
+-    // Stop the other backend and restart NM
+-    let unit = SystemdUnit::new(connection, "NetworkManager.service").await?;
+-
+-    if restart {
+-        let backend_unit = SystemdUnit::new(
+-            connection,
+-            match backend {
+-                WifiBackend::Iwd => "wpa_supplicant.service",
+-                WifiBackend::WPASupplicant => "iwd.service",
+-            },
+-        )
+-        .await?;
+-
+-        unit.stop(JobMode::Fail).await?.wait().await?;
+-        // These systemd units are not set to enabled permanently, NetworkManager will pull them as necessary
+-        backend_unit.disable().await?;
+-        backend_unit.stop(JobMode::Fail).await?.wait().await?;
+-
+-        ensure_default_interface().await?;
+-        unit.start(JobMode::Fail).await?;
+-    } else {
+-        unit.reload(JobMode::Fail).await?.wait().await?;
+-    }
+-    Ok(())
+-}
+-
+-pub(crate) async fn get_wifi_backend() -> Result<WifiBackend> {
+-    Ok(get_nm_settings().await?.backend)
+-}
+-
+-pub(crate) async fn set_wifi_backend(backend: WifiBackend, connection: &Connection) -> Result<()> {
+-    let mut settings = get_nm_settings().await?;
+-    settings.backend = backend;
+-    set_nm_settings(settings, true, connection).await
+-}
+-
+-pub(crate) async fn list_wifi_interfaces() -> Result<Vec<String>> {
+-    let output = script_output("/usr/bin/iw", &["dev"]).await?;
+-    Ok(output
+-        .lines()
+-        .filter_map(|line| match line.trim().split_once(' ') {
+-            Some(("Interface", name)) => Some(name.to_string()),
+-            _ => None,
+-        })
+-        .collect())
+-}
+-
+-pub(crate) async fn get_wifi_power_management_state() -> Result<WifiPowerManagement> {
+-    let mut found_any = false;
+-    for iface in list_wifi_interfaces().await? {
+-        let output =
+-            script_output("/usr/bin/iw", &["dev", iface.as_str(), "get", "power_save"]).await?;
+-        for line in output.lines() {
+-            match line.trim() {
+-                "Power save: on" => return Ok(WifiPowerManagement::Enabled),
+-                "Power save: off" => found_any = true,
+-                _ => continue,
+-            }
+-        }
+-    }
+-    ensure!(found_any, "No interfaces found");
+-    Ok(WifiPowerManagement::Disabled)
+-}
+-
+-pub(crate) async fn set_wifi_power_management_state(
+-    state: WifiPowerManagement,
+-    connection: &Connection,
+-) -> Result<()> {
+-    // Manually set power management for runtime
+-    let str_state = match state {
+-        WifiPowerManagement::Disabled => "off",
+-        WifiPowerManagement::Enabled => "on",
+-    };
+-
+-    for iface in list_wifi_interfaces().await? {
+-        run_script(
+-            "/usr/bin/iw",
+-            &["dev", iface.as_str(), "set", "power_save", str_state],
+-        )
+-        .await
+-        .inspect_err(|message| error!("Error setting Wi-Fi power management state: {message}"))?;
+-    }
+-
+-    // ...and inform and reload NetworkManager to take care of it after suspend/wake or reboot
+-    let mut settings = get_nm_settings().await?;
+-    settings.powersave = state.into();
+-    set_nm_settings(settings, false, connection).await
+-}
+-
+-async fn generate_wifi_dump_inner() -> Result<PathBuf> {
+-    fn cb(ev: &Event) -> bool {
+-        if ev.event_type() != EventType::Add {
+-            return false;
+-        }
+-        let path = ev.syspath();
+-        let Ok(link) = std::fs::read_link(path.join("failing_device/driver")) else {
+-            return false;
+-        };
+-        link.file_name() == Some(OsStr::new("ath11k_pci"))
+-    }
+-
+-    let poller = single_poll("devcoredump", cb, Duration::from_secs(5));
+-    fs::write(
+-        path("/sys/kernel/debug/ath11k/pci-0000:03:00.0/simulate_fw_crash"),
+-        "mhi-rddm\n",
+-    )
+-    .await?;
+-    let devcd = poller?.await??;
+-    let data = devcd.join("data");
+-    let (mut output, path) = make_tempfile("wifi-dump-")?;
+-
+-    {
+-        let mut dump = fs::File::open(&data).await?;
+-        let mut buf = [0; 4096];
+-        loop {
+-            let read = dump.read(&mut buf).await?;
+-            if read == 0 {
+-                break;
+-            }
+-            output.write_all(&buf[..read]).await?;
+-        }
+-    }
+-
+-    fs::write(data, "1\n").await?;
+-    Ok(path)
+-}
+-
+-pub(crate) async fn generate_wifi_dump() -> Result<PathBuf> {
+-    const DEVCD_BLOCK: &str = "/var/lib/steamos-log-submitter/data/devcd-block/ath11k_pci";
+-    let placeholder = fs::OpenOptions::new()
+-        .create_new(true)
+-        .write(true)
+-        .open(path(DEVCD_BLOCK))
+-        .await;
+-    if let Err(ref err) = placeholder {
+-        ensure!(
+-            err.kind() == ErrorKind::NotFound,
+-            "Cound not create SLS helper block"
+-        );
+-    }
+-
+-    let res = generate_wifi_dump_inner().await;
+-
+-    if placeholder.is_ok() {
+-        let _ = fs::remove_file(DEVCD_BLOCK).await;
+-    }
+-
+-    res
+-}
+-
+-#[cfg(test)]
+-mod test {
+-    use super::*;
+-    use crate::systemd::test::{MockManager, MockUnit};
+-    use crate::{enum_on_off, enum_roundtrip, testing};
+-    use std::ffi::OsStr;
+-    use tokio::fs::{create_dir_all, read_to_string, remove_dir, try_exists, write};
+-
+-    #[test]
+-    fn test_wifi_backend_to_string() {
+-        assert_eq!(WifiBackend::Iwd.to_string(), "iwd");
+-        assert_eq!(WifiBackend::WPASupplicant.to_string(), "wpa_supplicant");
+-    }
+-
+-    #[tokio::test]
+-    async fn test_setup_iwd_config() {
+-        let _h = testing::start();
+-
+-        // Remove with no dir
+-        assert!(setup_iwd_config(false).await.is_ok());
+-
+-        create_dir_all(path(OVERRIDE_FOLDER))
+-            .await
+-            .expect("create_dir_all");
+-
+-        // Remove with dir but no file
+-        assert!(setup_iwd_config(false).await.is_ok());
+-
+-        // Remove with dir and file
+-        write(path(OVERRIDE_PATH), "").await.expect("write");
+-        assert!(try_exists(path(OVERRIDE_PATH)).await.unwrap());
+-
+-        assert!(setup_iwd_config(false).await.is_ok());
+-        assert!(!try_exists(path(OVERRIDE_PATH)).await.unwrap());
+-
+-        // Double remove
+-        assert!(setup_iwd_config(false).await.is_ok());
+-
+-        // Create with no dir
+-        remove_dir(path(OVERRIDE_FOLDER)).await.expect("remove_dir");
+-
+-        assert!(setup_iwd_config(true).await.is_ok());
+-        assert_eq!(
+-            read_to_string(path(OVERRIDE_PATH)).await.unwrap(),
+-            OVERRIDE_CONTENTS
+-        );
+-
+-        // Create with dir
+-        assert!(setup_iwd_config(false).await.is_ok());
+-        assert!(setup_iwd_config(true).await.is_ok());
+-        assert_eq!(
+-            read_to_string(path(OVERRIDE_PATH)).await.unwrap(),
+-            OVERRIDE_CONTENTS
+-        );
+-    }
+-
+-    #[tokio::test]
+-    async fn test_get_nm_settings() {
+-        let _h = testing::start();
+-
+-        for dir in WIFI_BACKEND_PATHS {
+-            create_dir_all(path(dir)).await.expect("create_dir_all");
+-        }
+-
+-        assert!(get_nm_settings().await.is_err());
+-
+-        write(path(WIFI_BACKEND_PATHS[0]).join("test.conf"), "[device]")
+-            .await
+-            .expect("write");
+-        assert!(get_nm_settings().await.is_err());
+-
+-        write(
+-            path(WIFI_BACKEND_PATHS[0]).join("test.conf"),
+-            "[device]\nwifi.backend=iwd\n",
+-        )
+-        .await
+-        .expect("write");
+-        assert_eq!(
+-            get_nm_settings().await.unwrap(),
+-            NmWifiSettings {
+-                powersave: NmSettingWirelessPowersave::default(),
+-                backend: WifiBackend::Iwd,
+-            }
+-        );
+-
+-        write(
+-            path(WIFI_BACKEND_PATHS[0]).join("test.conf"),
+-            "[connection]\nwifi.powersave=2\n",
+-        )
+-        .await
+-        .expect("write");
+-        assert!(get_nm_settings().await.is_err());
+-
+-        write(
+-            path(WIFI_BACKEND_PATHS[0]).join("test.conf"),
+-            "[device]\nwifi.backend=iwd\n[connection]\nwifi.powersave=2\n",
+-        )
+-        .await
+-        .expect("write");
+-        assert_eq!(
+-            get_nm_settings().await.unwrap(),
+-            NmWifiSettings {
+-                powersave: NmSettingWirelessPowersave::try_from(2).unwrap(),
+-                backend: WifiBackend::Iwd,
+-            }
+-        );
+-    }
+-
+-    #[tokio::test]
+-    async fn test_set_nm_settings_no_restart() {
+-        let mut h = testing::start();
+-        let connection = h.new_dbus().await.expect("dbus");
+-        connection
+-            .request_name("org.freedesktop.systemd1")
+-            .await
+-            .expect("request_name");
+-        let object_server = connection.object_server();
+-        object_server
+-            .at("/org/freedesktop/systemd1", MockManager::default())
+-            .await
+-            .expect("at");
+-        object_server
+-            .at(
+-                "/org/freedesktop/systemd1/unit/NetworkManager_2eservice",
+-                MockUnit::default(),
+-            )
+-            .await
+-            .expect("at");
+-
+-        create_dir_all(path(WIFI_BACKEND_PATHS.last().unwrap()))
+-            .await
+-            .expect("create_dir_all");
+-
+-        assert!(get_nm_settings().await.is_err());
+-
+-        set_nm_settings(
+-            NmWifiSettings {
+-                backend: WifiBackend::WPASupplicant,
+-                powersave: NmSettingWirelessPowersave::Disable,
+-            },
+-            false,
+-            &connection,
+-        )
+-        .await
+-        .unwrap();
+-
+-        let contents = read_to_string(path(WIFI_BACKEND_FILE)).await.unwrap();
+-        assert_eq!(
+-            contents,
+-            "[connection]\nwifi.powersave=2\n[device]\nwifi.backend=wpa_supplicant\n"
+-        );
+-
+-        assert_eq!(
+-            get_nm_settings().await.unwrap(),
+-            NmWifiSettings {
+-                backend: WifiBackend::WPASupplicant,
+-                powersave: NmSettingWirelessPowersave::Disable,
+-            }
+-        );
+-    }
+-
+-    #[tokio::test]
+-    async fn test_set_nm_settings_restart() {
+-        let mut h = testing::start();
+-
+-        let mut iwd = MockUnit::default();
+-        iwd.active = String::from("active");
+-        iwd.unit_file = String::from("enabled");
+-
+-        let mut wpa_supplicant = MockUnit::default();
+-        wpa_supplicant.active = String::from("inactive");
+-        wpa_supplicant.unit_file = String::from("disabled");
+-
+-        let connection = h.new_dbus().await.expect("dbus");
+-        connection
+-            .request_name("org.freedesktop.systemd1")
+-            .await
+-            .expect("request_name");
+-        let object_server = connection.object_server();
+-        object_server
+-            .at("/org/freedesktop/systemd1", MockManager::default())
+-            .await
+-            .expect("at");
+-        object_server
+-            .at(
+-                "/org/freedesktop/systemd1/unit/NetworkManager_2eservice",
+-                MockUnit::default(),
+-            )
+-            .await
+-            .expect("at");
+-        object_server
+-            .at("/org/freedesktop/systemd1/unit/iwd_2eservice", iwd)
+-            .await
+-            .expect("at");
+-        let iwd = object_server
+-            .interface::<_, MockUnit>("/org/freedesktop/systemd1/unit/iwd_2eservice")
+-            .await
+-            .unwrap();
+-        object_server
+-            .at(
+-                "/org/freedesktop/systemd1/unit/wpa_supplicant_2eservice",
+-                wpa_supplicant,
+-            )
+-            .await
+-            .expect("at");
+-        let wpa_supplicant = object_server
+-            .interface::<_, MockUnit>("/org/freedesktop/systemd1/unit/wpa_supplicant_2eservice")
+-            .await
+-            .unwrap();
+-
+-        fn process_output(executable: &OsStr, args: &[&OsStr]) -> Result<(i32, String)> {
+-            ensure!(executable.to_string_lossy() == "/usr/bin/iw", "Not iw");
+-            ensure!(args[0] == "dev", "Not dev");
+-            if args.len() > 2 {
+-                bail!("Unknown query");
+-            }
+-            return Ok((0, String::from("Interface wlan0")));
+-        }
+-        h.test.set_process_cb(process_output).await;
+-
+-        create_dir_all(path(WIFI_BACKEND_PATHS.last().unwrap()))
+-            .await
+-            .expect("create_dir_all");
+-
+-        assert!(get_nm_settings().await.is_err());
+-        assert_eq!(iwd.get().await.active, "active");
+-        assert_eq!(iwd.get().await.unit_file, "enabled");
+-        assert_eq!(wpa_supplicant.get().await.active, "inactive");
+-        assert_eq!(wpa_supplicant.get().await.unit_file, "disabled");
+-
+-        set_nm_settings(
+-            NmWifiSettings {
+-                backend: WifiBackend::WPASupplicant,
+-                powersave: NmSettingWirelessPowersave::Disable,
+-            },
+-            true,
+-            &connection,
+-        )
+-        .await
+-        .unwrap();
+-
+-        let contents = read_to_string(path(WIFI_BACKEND_FILE)).await.unwrap();
+-        assert_eq!(
+-            contents,
+-            "[connection]\nwifi.powersave=2\n[device]\nwifi.backend=wpa_supplicant\n"
+-        );
+-
+-        assert_eq!(
+-            get_nm_settings().await.unwrap(),
+-            NmWifiSettings {
+-                backend: WifiBackend::WPASupplicant,
+-                powersave: NmSettingWirelessPowersave::Disable,
+-            }
+-        );
+-        assert_eq!(iwd.get().await.active, "inactive");
+-        assert_eq!(iwd.get().await.unit_file, "disabled");
+-        // wpa_supplicant is started by NetworkManager so we can't test this
+-    }
+-
+-    #[tokio::test]
+-    async fn test_get_wifi_backend() {
+-        let _h = testing::start();
+-
+-        for dir in WIFI_BACKEND_PATHS {
+-            create_dir_all(path(dir)).await.expect("create_dir_all");
+-        }
+-
+-        assert!(get_wifi_backend().await.is_err());
+-
+-        write(path(WIFI_BACKEND_PATHS[0]).join("test.conf"), "[device]")
+-            .await
+-            .expect("write");
+-        assert!(get_wifi_backend().await.is_err());
+-
+-        write(
+-            path(WIFI_BACKEND_PATHS[0]).join("test.conf"),
+-            "[device]\nwifi.backend=fake\n",
+-        )
+-        .await
+-        .expect("write");
+-        assert!(get_wifi_backend().await.is_err());
+-
+-        write(
+-            path(WIFI_BACKEND_PATHS[0]).join("test.conf"),
+-            "[device]\nwifi.backend=iwd\n",
+-        )
+-        .await
+-        .expect("write");
+-        assert_eq!(get_wifi_backend().await.unwrap(), WifiBackend::Iwd);
+-
+-        write(
+-            path(WIFI_BACKEND_PATHS[0]).join("test.conf"),
+-            "[device]\nwifi.backend=wpa_supplicant\n",
+-        )
+-        .await
+-        .expect("write");
+-        assert_eq!(
+-            get_wifi_backend().await.unwrap(),
+-            WifiBackend::WPASupplicant
+-        );
+-    }
+-
+-    #[tokio::test]
+-    async fn test_power_management_enabled() {
+-        let h = testing::start();
+-
+-        fn process_output(executable: &OsStr, args: &[&OsStr]) -> Result<(i32, String)> {
+-            ensure!(executable.to_string_lossy() == "/usr/bin/iw", "Not iw");
+-            ensure!(args[0] == "dev", "Not dev");
+-            if args.len() < 2 {
+-                return Ok((0, String::from("Interface eth0")));
+-            }
+-            ensure!(args[1] == "eth0", "Not eth0");
+-            ensure!(args[3] == "power_save", "Not power_save");
+-            match args[2].to_str() {
+-                Some("get") => Ok((0, String::from("Power save: on"))),
+-                _ => bail!("Unknown query"),
+-            }
+-        }
+-        h.test.set_process_cb(process_output).await;
+-
+-        assert_eq!(
+-            get_wifi_power_management_state().await.expect("get"),
+-            WifiPowerManagement::Enabled
+-        );
+-    }
+-
+-    #[tokio::test]
+-    async fn test_power_management_disabled() {
+-        let h = testing::start();
+-
+-        fn process_output(executable: &OsStr, args: &[&OsStr]) -> Result<(i32, String)> {
+-            ensure!(executable.to_string_lossy() == "/usr/bin/iw", "Not iw");
+-            ensure!(args[0] == "dev", "Not dev");
+-            if args.len() < 2 {
+-                return Ok((0, String::from("Interface eth0")));
+-            }
+-            ensure!(args[1] == "eth0", "Not eth0");
+-            ensure!(args[3] == "power_save", "Not power_save");
+-            match args[2].to_str() {
+-                Some("get") => Ok((0, String::from("Power save: off"))),
+-                _ => bail!("Unknown query"),
+-            }
+-        }
+-        h.test.set_process_cb(process_output).await;
+-
+-        assert_eq!(
+-            get_wifi_power_management_state().await.expect("get"),
+-            WifiPowerManagement::Disabled
+-        );
+-    }
+-
+-    #[tokio::test]
+-    async fn test_power_management_multi_iface() {
+-        let h = testing::start();
+-
+-        fn process_output(executable: &OsStr, args: &[&OsStr]) -> Result<(i32, String)> {
+-            ensure!(executable.to_string_lossy() == "/usr/bin/iw", "Not iw");
+-            ensure!(args[0] == "dev", "Not dev");
+-            if args.len() < 2 {
+-                return Ok((0, String::from("Interface eth0\nInterface eth1")));
+-            }
+-            ensure!(args[3] == "power_save", "Not power_save");
+-            match args[1].to_str() {
+-                Some("eth0") => Ok((0, String::from("Power save: off"))),
+-                Some("eth1") => Ok((0, String::from("Power save: on"))),
+-                _ => bail!("Unknown query"),
+-            }
+-        }
+-        h.test.set_process_cb(process_output).await;
+-
+-        assert_eq!(
+-            get_wifi_power_management_state().await.expect("get"),
+-            WifiPowerManagement::Enabled
+-        );
+-    }
+-
+-    #[test]
+-    fn wifi_debug_mode_roundtrip() {
+-        enum_roundtrip!(WifiDebugMode {
+-            0: u32 = Off,
+-            1: u32 = Tracing,
+-            "off": str = Off,
+-            "tracing": str = Tracing,
+-        });
+-        assert!(WifiDebugMode::try_from(2).is_err());
+-        assert!(WifiDebugMode::from_str("onf").is_err());
+-    }
+-
+-    #[test]
+-    fn wifi_power_management_roundtrip() {
+-        enum_roundtrip!(WifiPowerManagement {
+-            0: u32 = Disabled,
+-            1: u32 = Enabled,
+-            "disabled": str = Disabled,
+-            "enabled": str = Enabled,
+-        });
+-        enum_on_off!(WifiPowerManagement => (Enabled, Disabled));
+-        assert!(WifiPowerManagement::try_from(2).is_err());
+-        assert!(WifiPowerManagement::from_str("onf").is_err());
+-    }
+-
+-    #[test]
+-    fn wifi_backend_roundtrip() {
+-        enum_roundtrip!(WifiBackend {
+-            0: u32 = Iwd,
+-            1: u32 = WPASupplicant,
+-            "iwd": str = Iwd,
+-            "wpa_supplicant": str = WPASupplicant,
+-        });
+-        assert!(WifiBackend::try_from(2).is_err());
+-        assert!(WifiBackend::from_str("iwl").is_err());
+-    }
+-
+-    #[tokio::test]
+-    async fn trace_extract() {
+-        let h = testing::start();
+-
+-        fn process_output(_: &OsStr, args: &[&OsStr]) -> Result<(i32, String)> {
+-            assert_eq!(args[0], OsStr::new("extract"));
+-            assert_eq!(args[1], OsStr::new("-o"));
+-            std::fs::write(args[2], b"output").unwrap();
+-            Ok((0, String::new()))
+-        }
+-        h.test.set_process_cb(process_output).await;
+-
+-        let pathbuf = extract_wifi_trace().await.unwrap();
+-
+-        assert_eq!(fs::read_to_string(&pathbuf).await.unwrap(), "output");
+-        fs::remove_file(pathbuf).await.unwrap();
+-    }
+-}
+diff -Npur steamos-manager-v26.0.1.orig/steamos-manager-proxy/src/lib.rs steamos-manager-v26.0.1/steamos-manager-proxy/src/lib.rs
+--- steamos-manager-v26.0.1.orig/steamos-manager-proxy/src/lib.rs	2026-03-05 05:25:34.000000000 +0100
++++ steamos-manager-v26.0.1/steamos-manager-proxy/src/lib.rs	2026-03-21 08:40:34.505641055 +0100
+@@ -32,10 +32,6 @@ mod storage1;
+ mod tdp_limit1;
+ mod update_bios1;
+ mod update_dock1;
+-mod wifi_backend1;
+-mod wifi_debug1;
+-mod wifi_debug_dump1;
+-mod wifi_power_management1;
+ pub use crate::ambient_light_sensor1::AmbientLightSensor1Proxy;
+ pub use crate::audio1::Audio1Proxy;
+ pub use crate::battery_charge_limit1::BatteryChargeLimit1Proxy;
+@@ -58,10 +54,6 @@ pub use crate::storage1::Storage1Proxy;
+ pub use crate::tdp_limit1::TdpLimit1Proxy;
+ pub use crate::update_bios1::UpdateBios1Proxy;
+ pub use crate::update_dock1::UpdateDock1Proxy;
+-pub use crate::wifi_backend1::WifiBackend1Proxy;
+-pub use crate::wifi_debug_dump1::WifiDebugDump1Proxy;
+-pub use crate::wifi_debug1::WifiDebug1Proxy;
+-pub use crate::wifi_power_management1::WifiPowerManagement1Proxy;
+ 
+ // Sub-interfaces
+ mod job1;
+diff -Npur steamos-manager-v26.0.1.orig/steamos-manager-proxy/src/wifi_backend1.rs steamos-manager-v26.0.1/steamos-manager-proxy/src/wifi_backend1.rs
+--- steamos-manager-v26.0.1.orig/steamos-manager-proxy/src/wifi_backend1.rs	2026-03-05 05:25:34.000000000 +0100
++++ steamos-manager-v26.0.1/steamos-manager-proxy/src/wifi_backend1.rs	1970-01-01 01:00:00.000000000 +0100
+@@ -1,27 +0,0 @@
+-//! # D-Bus interface proxy for: `com.steampowered.SteamOSManager1.WifiBackend1`
+-//!
+-//! This code was generated by `zbus-xmlgen` `5.2.0` from D-Bus introspection data.
+-//! Source: `com.steampowered.SteamOSManager1.xml`.
+-//!
+-//! You may prefer to adapt it, instead of using it verbatim.
+-//!
+-//! More information can be found in the [Writing a client proxy] section of the zbus
+-//! documentation.
+-//!
+-//!
+-//! [Writing a client proxy]: https://z-galaxy.github.io/zbus/client.html
+-//! [D-Bus standard interfaces]: https://dbus.freedesktop.org/doc/dbus-specification.html#standard-interfaces,
+-use zbus::proxy;
+-#[proxy(
+-    interface = "com.steampowered.SteamOSManager1.WifiBackend1",
+-    default_service = "com.steampowered.SteamOSManager1",
+-    default_path = "/com/steampowered/SteamOSManager1",
+-    assume_defaults = true
+-)]
+-pub trait WifiBackend1 {
+-    /// WifiBackend property
+-    #[zbus(property)]
+-    fn wifi_backend(&self) -> zbus::Result<String>;
+-    #[zbus(property)]
+-    fn set_wifi_backend(&self, value: &str) -> zbus::Result<()>;
+-}
+diff -Npur steamos-manager-v26.0.1.orig/steamos-manager-proxy/src/wifi_debug1.rs steamos-manager-v26.0.1/steamos-manager-proxy/src/wifi_debug1.rs
+--- steamos-manager-v26.0.1.orig/steamos-manager-proxy/src/wifi_debug1.rs	2026-03-05 05:25:34.000000000 +0100
++++ steamos-manager-v26.0.1/steamos-manager-proxy/src/wifi_debug1.rs	1970-01-01 01:00:00.000000000 +0100
+@@ -1,41 +0,0 @@
+-//! # D-Bus interface proxy for: `com.steampowered.SteamOSManager1.WifiDebug1`
+-//!
+-//! This code was generated by `zbus-xmlgen` `5.2.0` from D-Bus introspection data.
+-//! Source: `com.steampowered.SteamOSManager1.xml`.
+-//!
+-//! You may prefer to adapt it, instead of using it verbatim.
+-//!
+-//! More information can be found in the [Writing a client proxy] section of the zbus
+-//! documentation.
+-//!
+-//!
+-//! [Writing a client proxy]: https://z-galaxy.github.io/zbus/client.html
+-//! [D-Bus standard interfaces]: https://dbus.freedesktop.org/doc/dbus-specification.html#standard-interfaces,
+-use zbus::proxy;
+-#[proxy(
+-    interface = "com.steampowered.SteamOSManager1.WifiDebug1",
+-    default_service = "com.steampowered.SteamOSManager1",
+-    default_path = "/com/steampowered/SteamOSManager1",
+-    assume_defaults = true
+-)]
+-pub trait WifiDebug1 {
+-    /// CaptureDebugTraceOutput method
+-    fn capture_debug_trace_output(&self) -> zbus::Result<String>;
+-
+-    /// SetWifiDebugMode method
+-    fn set_wifi_debug_mode(
+-        &self,
+-        mode: u32,
+-        options: std::collections::HashMap<&str, &zbus::zvariant::Value<'_>>,
+-    ) -> zbus::Result<()>;
+-
+-    /// WifiBackend property
+-    #[zbus(property)]
+-    fn wifi_backend(&self) -> zbus::Result<String>;
+-    #[zbus(property)]
+-    fn set_wifi_backend(&self, value: &str) -> zbus::Result<()>;
+-
+-    /// WifiDebugModeState property
+-    #[zbus(property)]
+-    fn wifi_debug_mode_state(&self) -> zbus::Result<u32>;
+-}
+diff -Npur steamos-manager-v26.0.1.orig/steamos-manager-proxy/src/wifi_debug_dump1.rs steamos-manager-v26.0.1/steamos-manager-proxy/src/wifi_debug_dump1.rs
+--- steamos-manager-v26.0.1.orig/steamos-manager-proxy/src/wifi_debug_dump1.rs	2026-03-05 05:25:34.000000000 +0100
++++ steamos-manager-v26.0.1/steamos-manager-proxy/src/wifi_debug_dump1.rs	1970-01-01 01:00:00.000000000 +0100
+@@ -1,24 +0,0 @@
+-//! # D-Bus interface proxy for: `com.steampowered.SteamOSManager1.WifiDebugDump1`
+-//!
+-//! This code was generated by `zbus-xmlgen` `5.2.0` from D-Bus introspection data.
+-//! Source: `com.steampowered.SteamOSManager1.xml`.
+-//!
+-//! You may prefer to adapt it, instead of using it verbatim.
+-//!
+-//! More information can be found in the [Writing a client proxy] section of the zbus
+-//! documentation.
+-//!
+-//!
+-//! [Writing a client proxy]: https://z-galaxy.github.io/zbus/client.html
+-//! [D-Bus standard interfaces]: https://dbus.freedesktop.org/doc/dbus-specification.html#standard-interfaces,
+-use zbus::proxy;
+-#[proxy(
+-    interface = "com.steampowered.SteamOSManager1.WifiDebugDump1",
+-    default_service = "com.steampowered.SteamOSManager1",
+-    default_path = "/com/steampowered/SteamOSManager1",
+-    assume_defaults = true
+-)]
+-pub trait WifiDebugDump1 {
+-    /// GenerateDebugDump method
+-    fn generate_debug_dump(&self) -> zbus::Result<String>;
+-}
+diff -Npur steamos-manager-v26.0.1.orig/steamos-manager-proxy/src/wifi_power_management1.rs steamos-manager-v26.0.1/steamos-manager-proxy/src/wifi_power_management1.rs
+--- steamos-manager-v26.0.1.orig/steamos-manager-proxy/src/wifi_power_management1.rs	2026-03-05 05:25:34.000000000 +0100
++++ steamos-manager-v26.0.1/steamos-manager-proxy/src/wifi_power_management1.rs	1970-01-01 01:00:00.000000000 +0100
+@@ -1,27 +0,0 @@
+-//! # D-Bus interface proxy for: `com.steampowered.SteamOSManager1.WifiPowerManagement1`
+-//!
+-//! This code was generated by `zbus-xmlgen` `5.2.0` from D-Bus introspection data.
+-//! Source: `com.steampowered.SteamOSManager1.xml`.
+-//!
+-//! You may prefer to adapt it, instead of using it verbatim.
+-//!
+-//! More information can be found in the [Writing a client proxy] section of the zbus
+-//! documentation.
+-//!
+-//!
+-//! [Writing a client proxy]: https://z-galaxy.github.io/zbus/client.html
+-//! [D-Bus standard interfaces]: https://dbus.freedesktop.org/doc/dbus-specification.html#standard-interfaces,
+-use zbus::proxy;
+-#[proxy(
+-    interface = "com.steampowered.SteamOSManager1.WifiPowerManagement1",
+-    default_service = "com.steampowered.SteamOSManager1",
+-    default_path = "/com/steampowered/SteamOSManager1",
+-    assume_defaults = true
+-)]
+-pub trait WifiPowerManagement1 {
+-    /// WifiPowerManagementState property
+-    #[zbus(property)]
+-    fn wifi_power_management_state(&self) -> zbus::Result<u32>;
+-    #[zbus(property)]
+-    fn set_wifi_power_management_state(&self, value: u32) -> zbus::Result<()>;
+-}

@@ -1,13 +1,11 @@
-#
-# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : akonadi
-version     : 25.12.1
-release     : 19
+version     : "26.04.0"
+release     : 23
 upstreams   :
-    - https://download.kde.org/stable/release-service/25.12.1/src/akonadi-25.12.1.tar.xz : fa0ff9007e0fb1803911a2f1a5cdadf2bf3f714845a583872b787f7b52714ff0
+    - https://download.kde.org/stable/release-service/26.04.0/src/akonadi-26.04.0.tar.xz : 324b2fa63f2f4335a1e5f7b5efb40f154d367d4f633ff5e38ab12df6b9514d6c
 homepage    : https://kde.org
 license     : LGPL-2.1-or-later
 summary     : KDE centralized database to store, index and retrieve the user's personal information
@@ -15,8 +13,8 @@ description : |
     The Akonadi framework is responsible for providing applications with a centralized database to store, index and retrieve the user's personal information. This includes the user's emails, contacts, calendars, events, journals, alarms, notes, etc.
 builddeps   :
     # Temporary, boulder doesn't handle build ordering resolution correctly when builddeps are added by macros, so add ECM manually
+    - binary(xsltproc)
     - cmake(ECM)
-    - cmake(KAccounts6)
     - cmake(KF6Config)
     - cmake(KF6ConfigWidgets)
     - cmake(KF6CoreAddons)
@@ -24,14 +22,12 @@ builddeps   :
     - cmake(KF6I18n)
     - cmake(KF6IconThemes)
     - cmake(KF6ItemModels)
-    - cmake(KF6WindowSystem)
     - cmake(KF6XmlGui)
     - cmake(Qt6CorePrivate)
     - pkgconfig(liblzma)
 setup       : |
     # TODO: Build with postgresql support maybe
     %cmake_kf6 \
-        -DDATABASE_BACKEND=SQLITE \
         -DINSTALL_APPARMOR=OFF \
         -DMYSQLD_EXECUTABLE="/usr/sbin/mysqld" \
         -DMYSQLD_SCRIPTS_PATH="/usr/bin/mysql_install_db"

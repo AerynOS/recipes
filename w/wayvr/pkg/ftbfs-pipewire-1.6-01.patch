@@ -1,0 +1,22 @@
+From 786847cc2f1d99010b6a7eb80e59941c6a58a3f2 Mon Sep 17 00:00:00 2001
+From: galister <22305755+galister@users.noreply.github.com>
+Date: Wed, 18 Mar 2026 12:31:24 +0900
+Subject: [PATCH] update pipewire-rs to fix build on arch
+
+---
+ wlx-capture/Cargo.toml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/wlx-capture/Cargo.toml b/wlx-capture/Cargo.toml
+index 0e1b94dc..8ff3a9e0 100644
+--- a/wlx-capture/Cargo.toml
++++ b/wlx-capture/Cargo.toml
+@@ -32,7 +32,7 @@ drm-fourcc = "2.2.0"
+ idmap = { workspace = true }
+ libc = "0.2.178"
+ log = { workspace = true }
+-pipewire = { git = "https://gitlab.freedesktop.org/galister/pipewire-rs.git", rev = "ba32202c3c391004c3bb533b58fa75a50e47ff57", features = [
++pipewire = { git = "https://gitlab.freedesktop.org/galister/pipewire-rs.git", rev = "6ef2cd1af41e5e8844c63c37ea9a01f0758079b0", features = [
+   "v0_3_33",
+ ], optional = true }
+ #pipewire = { version = "0.8.0", features = ["v0_3_33"], optional = true }

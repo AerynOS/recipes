@@ -1,20 +1,21 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : ncurses
-version     : 6.6-20260124
-release     : 21
+version     : "6.6-20260418"
+release     : 24
 homepage    : https://invisible-island.net/ncurses/ncurses.html
 upstreams   :
-    - https://invisible-island.net/archives/ncurses/current/ncurses-6.6-20260124.tgz : 9d0f6372f836a804989f03dacc88826fde1509a83f18a3f83ae8b381f0ce88c1
+    - https://invisible-island.net/archives/ncurses/current/ncurses-6.6-20260418.tgz : b2e7c61e5769b77b200250a38c21d736c3a6eb147df02e58ef2d505cb3d10c04
 summary     : Console display library
 description : |
     The ncurses (new curses) library is a free software emulation of curses in System V Release 4.0 (SVr4), and more. It uses terminfo format, supports pads and color and multiple highlights and forms characters and function-key mapping, and has all the other SVr4-curses enhancements over BSD curses. SVr4 curses became the basis of X/Open Curses.
 license     :
     - MIT
-emul32      : yes
+emul32      : true
+builddeps   :
+    - binary(tic)
+    - gpm-devel
 setup       : |
     %patch %(pkgdir)/pkgconfig.patch
     unset CPP # Breaks stdin on this build.
@@ -27,9 +28,11 @@ setup       : |
         --disable-stripping \
         --enable-colorfgbg \
         --enable-db-install \
+        --enable-hard-tabs \
         --enable-largefile \
         --enable-pc-files \
         --enable-widec \
+        --enable-xmc-glitch \
         --with-cxx-binding \
         --with-cxx-shared \
         --with-pkg-config-libdir=%(libdir)/pkgconfig \
@@ -58,6 +61,13 @@ install     : |
         ln -sv ncursesw.pc %(installroot)/%(libdir)/pkgconfig/${lib}.pc
     done
 
+    # Remove duplicate terminfo that is provided by various terminals. Package-provided terminfo should be preferred over ncurses
+    _terminfodir=%(installroot)%(datadir)/terminfo
+    # terminfo-foot
+    rm -v ${_terminfodir}/f/foot*
+    # terminfo-ghostty
+    rm -v ${_terminfodir}/g/ghostty
+
     # Unused
     rm -r %(installroot)/%(libdir)/terminfo || true
 tuning      :
@@ -71,9 +81,13 @@ packages    :
         summary: Descriptions of common terminals
         description: |
             Descriptions of common terminals
+        rundeps:
+            - terminfo-foot
+            - terminfo-ghostty
+            - terminfo-kitty # Not sure why ncurses has a bare kitty terminfo but it doesn't confict so whatever
         paths:
-            - /usr/share/tabset
-            - /usr/share/terminfo
+            - /usr/share/tabset/
+            - /usr/share/terminfo/
 
     - "%(name)-devel":
         paths:

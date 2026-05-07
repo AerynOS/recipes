@@ -1,18 +1,15 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : nvidia-open-gpu-kernel-modules
-version     : "590.48.01"
-release     : 64
+version     : "595.71.05"
+release     : 89
 homepage    : https://github.com/NVIDIA/open-gpu-kernel-modules
 upstreams   :
-    - https://download.nvidia.com/XFree86/NVIDIA-kernel-module-source/NVIDIA-kernel-module-source-590.48.01.tar.xz : ffcd948cfe32bb0655fc911b8204ae6df086346025dd644d559a9b148297a80d
-    - https://us.download.nvidia.com/XFree86/Linux-x86_64/590.48.01/NVIDIA-Linux-x86_64-590.48.01.run:
-        hash: b9e2f80693781431cc87f4cd29109e133dcecb50a50d6b68d4b3bf2d696bd689
+    - https://download.nvidia.com/XFree86/NVIDIA-kernel-module-source/NVIDIA-kernel-module-source-595.71.05.tar.xz:
+        hash: 1f558b1e7d4cd2b7901ee01bdea6f8bd439916bd61fa36bbf736fbe8703414cd
         unpack: false
-        rename: NVIDIA.run
+        rename: nvidia.tar.xz
 summary     : NVIDIA open GPU kernel modules
 description : |
     NVIDIA open GPU kernel modules
@@ -22,10 +19,10 @@ builddeps   :
     - binary(eu-readelf)
     - binary(jq)
     - binary(zstd)
-    - linux-desktop
-    - linux-desktop-devel
-rundeps     :
-    - sysbinary(depmod)
+    - linux-gaming-devel
+    - linux-lts-devel
+    - linux-stable-devel
+    - nvidia-graphics-driver-firmware
 tuning      :
     - asneeded: false
     - base: false
@@ -37,48 +34,141 @@ tuning      :
     - lto: false
     - compress-debug: false
 environment : |
-    export KERNEL_UNAME=`jq --raw-output .version /usr/lib/kernel/*.desktop/boot.json` || exit 1
+    # Create list of kernels to build for
+    declare -a kernels=()
+    for dir in %(libdir)/kernel/*/; do
+        dir=${dir%*/}
+        tmp=${dir##*/}
+
+        if [ "${tmp}" != "initrd.d" ]; then
+            kernels+=(${tmp})
+        fi
+    done
 
     # TODO: Fix this just rejecting all LDFLAGS
     unset LDFLAGS
-build       : |
-    %make CC=%(cc) LD=%(ld) KERNEL_UNAME=$KERNEL_UNAME NV_VERBOSE=1 modules
-install     : |
-    %install_dir %(installroot)%(libdir)/kernel/$KERNEL_UNAME
+setup       : |
+    for _kernel in ${kernels[@]}; do
+        mkdir ${_kernel}
+        bsdtar-static -xf %(sourcedir)/nvidia.tar.xz --strip-components=1 -C ${_kernel}
 
-    %install_file kernel-open/*.ko -t %(installroot)%(libdir)/modules/$KERNEL_UNAME/kernel/drivers/video
-
-    # Manually construct the debug info from the kernel modules
-    %install_dir %(installroot)%(libdir)/debug/.build-id
-    pushd %(installroot)
-    module_list=()
-    while IFS=  read -r -d $'\0'; do
-        module_list+=("$REPLY")
-    done < <(find .%(libdir)/modules -type f -name "*.ko" -print0)
-    for module in "${module_list[@]}"; do
-        build_id=$(eu-readelf -n ${module} | grep Bui | awk '{print $3}')
-        debug_path="%(libdir)/debug/.build-id/${build_id:0:2}/${build_id: 2}.debug"
-        %install_dir $(dirname .${debug_path})
-        llvm-objcopy --only-keep-debug "${module}" ".${debug_path}"
-        llvm-objcopy --add-gnu-debuglink ".${debug_path}" "${module}"
-        llvm-strip -g --strip-unneeded "${module}"
+        pushd ${_kernel}
+        # This is where patches would go
+        ## None for now
+        popd
     done
-    popd
-
-    # Create an initrd for the firmware and .ko files
-    sh %(sourcedir)/NVIDIA.run --extract-only --target extracted
-    mkdir -p initrd/eb-nvidia
-    mkdir -p initrd/eb-nvidia-fw/%(version)
-    %install_file extracted/firmware/*.bin initrd/eb-nvidia-fw/%(version)/.
-    find %(installroot)%(libdir)/modules -name '*.ko' -exec cp -v {} initrd/eb-nvidia \;
-    touch initrd/.dracut-depmod-invalidate
-    pushd initrd
-    find . | cpio -o -H newc | zstd -19 -T0 -c > %(installroot)%(libdir)/kernel/$KERNEL_UNAME/60-nvidia.initrd
-    popd
-
-    %install_file %(pkgdir)/20-nvidia.cmdline %(installroot)%(libdir)/kernel/$KERNEL_UNAME/60-nvidia.cmdline
-    %install_file %(pkgdir)/nvidia-noview.conf %(installroot)%(libdir)/modprobe.d/nvidia-noview.conf
+build       : |
+    for _kernel in ${kernels[@]}; do
+        pushd ${_kernel}
+        %ccache_zero
+        export CCACHE_BASEDIR="${PWD}"
+        %make CC=${CC} LD=${LD} KERNEL_UNAME=${_kernel} NV_VERBOSE=1 modules
+        %ccache_stats
+        popd
+    done
+install     : |
+    %install_file %(pkgdir)/nvidia-blacklist.conf %(installroot)%(libdir)/modprobe.d/nvidia-blacklist.conf
     %install_file %(pkgdir)/nvidia-uvm.conf %(installroot)%(libdir)/modules-load.d/nvidia-uvm.conf
 
-    # Compress modules with zstd
-    find "%(installroot)%(libdir)/modules" -name '*.ko' -print -exec zstd {} \; -exec rm -v {} \;
+    %install_dir %(installroot)%(docdir)/%(name)/
+    echo "VIRTUAL" > %(installroot)%(docdir)/%(name)/README
+
+    for _kernel in ${kernels[@]}; do
+        pushd ${_kernel}
+        %install_file kernel-open/*.ko -t %(installroot)%(libdir)/modules/${_kernel}/extra/drivers/video
+
+        # Manually construct the debug info from the kernel modules
+        %install_dir %(installroot)%(libdir)/debug/.build-id
+        pushd %(installroot)%(libdir)/modules/${_kernel}
+        module_list=()
+        while IFS=  read -r -d $'\0'; do
+            module_list+=("$REPLY")
+        done < <(find . -type f -name "*.ko" -print0)
+        for module in "${module_list[@]}"; do
+            build_id=$(eu-readelf -n ${module} | awk '/Bui/ {print $3}')
+            debug_path="%(libdir)/debug/.build-id/${build_id:0:2}/${build_id: 2}.debug"
+
+            pushd $(dirname ${module})
+            file=$(basename ${module})
+
+            llvm-objcopy --only-keep-debug "${file}" "${file}.debug"
+            llvm-objcopy --add-gnu-debuglink "${file}.debug" "${file}"
+            llvm-strip -g --strip-unneeded "${file}"
+            %install_file "${file}.debug" "%(installroot)/${debug_path}"
+            rm -v "${file}.debug"
+
+            popd
+        done
+        popd
+
+        # Create an initrd for .ko files
+        mkdir -p initrd/%(libdir)/modules/${_kernel}/extra/drivers/video
+        %install_file %(pkgdir)/nvidia.conf initrd/%(libdir)/modprobe.d/nvidia.conf
+        %install_file %(pkgdir)/nvidia-blacklist.conf initrd/%(libdir)/modprobe.d/nvidia-blacklist.conf
+        find %(installroot)%(libdir)/modules -name '*.ko' -exec cp -v {} initrd/%(libdir)/modules/${_kernel}/extra/drivers/video \;
+        touch initrd/.dracut-depmod-invalidate
+        pushd initrd
+        %install_dir %(installroot)%(libdir)/kernel/${_kernel}
+        find . | cpio -o -H newc | zstd -19 -T0 -c > %(installroot)%(libdir)/kernel/${_kernel}/60-nvidia.initrd
+        popd
+
+        # Compress modules with zstd
+        find "%(installroot)%(libdir)/modules/${_kernel}/" -name '*.ko' -print -exec zstd {} \; -exec rm -v {} \;
+
+        # This is a stupid hack because blsforme doesn't seem to support version-independent initrds yet
+        cp -a /usr/lib/kernel/initrd.d/55-nvidia-firmware.initrd %(installroot)%(libdir)/kernel/${_kernel}/55-nvidia-firmware.initrd
+
+        popd
+    done
+packages    :
+    - "%(name)-shared":
+        summary: Shared components for %(name)
+        description: Shared components for %(name)
+        paths:
+            - /usr/lib/modprobe.d/
+            - /usr/lib/modules-load.d/
+
+    # TODO: Make this a virtual package that depends on the correct subpackage (-shared can be merged into it)
+    - "%(name)":
+        rundeps:
+            # For backwards compat, remove with conditional deps
+            - "%(name)-stable"
+
+    - "%(name)-gaming":
+        summary: "%(name) built for gaming kernel"
+        description: "%(name) built for gaming kernel"
+        rundeps:
+            - "%(name)-shared"
+            - nvidia-graphics-driver-firmware
+            - sysbinary(depmod)
+
+            - linux-gaming
+        paths:
+            - /usr/lib/kernel/*.gaming/
+            - /usr/lib/modules/*.gaming/
+
+    - "%(name)-lts":
+        summary: "%(name) built for LTS kernel"
+        description: "%(name) built for LTS kernel"
+        rundeps:
+            - "%(name)-shared"
+            - nvidia-graphics-driver-firmware
+            - sysbinary(depmod)
+
+            - linux-lts
+        paths:
+            - /usr/lib/kernel/*.lts/
+            - /usr/lib/modules/*.lts/
+
+    - "%(name)-stable":
+        summary: "%(name) built for stable kernel"
+        description: "%(name) built for stable kernel"
+        rundeps:
+            - "%(name)-shared"
+            - nvidia-graphics-driver-firmware
+            - sysbinary(depmod)
+
+            - linux-stable
+        paths:
+            - /usr/lib/kernel/*.stable/
+            - /usr/lib/modules/*.stable/

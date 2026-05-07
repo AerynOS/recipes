@@ -1,16 +1,14 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : cosmic-screenshot
-version     : 1.0.5.git+9783078
-release     : 30
+version     : "1.0.11.git+2a8f809"
+release     : 36
 summary     : Cosmic Screenshot Tool
 license     : GPL-3.0
 homepage    : https://github.com/pop-os/cosmic-screenshot
 upstreams   :
-    - git|https://github.com/pop-os/cosmic-screenshot.git : 9783078553af4de53f27e57770d8be22b1450589
+    - git|https://github.com/pop-os/cosmic-screenshot.git : 2a8f80957762d2c5d1a6011d5b60807d217fea5b
 description : |
     Cosmic Screenshot Tool
 builddeps   :
@@ -18,7 +16,7 @@ builddeps   :
     - pkgconfig(dbus-1)
     - pkgconfig(libudev)
     - pkgconfig(xkbcommon)
-networking  : yes
+networking  : true
 setup       : |
     %cargo_fetch
 build       : |

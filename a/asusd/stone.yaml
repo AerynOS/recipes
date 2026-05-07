@@ -1,10 +1,8 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : asusd
-version     : 6.1.16
+version     : "6.1.16"
 release     : 4
 summary     : Control ASUS laptop features easily
 license     : MPL-2.0
@@ -20,7 +18,7 @@ builddeps   :
     - pkgconfig(libudev) # required for device handling
     - pkgconfig(libusb-1.0)
     - pkgconfig(xkbcommon)
-networking  : yes
+networking  : true
 setup       : |
     %cargo_fetch
 build       : |

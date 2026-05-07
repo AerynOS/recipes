@@ -1,0 +1,43 @@
+From: Paul Hsieh <Paul.Hsieh at amd.com>
+
+[Why]
+If the seamless boot feature has already been enabled, and
+dc_commit_streams is called again before receiving a flip, the
+driver will adjust the engine clock without turning off the screen,
+which will cause garbage to occur. However, in reality, the Pixel
+Clock from the first dc_commit_streams and the second dc_commit_streams
+are different.
+
+[How]
+If the apply seamless boot flag in the previous stream has not been
+cleared, and dc_commit_streams is received again, we need to recheck
+whether seamless boot should be disabled
+
+Reviewed-by: Nicholas Kazlauskas <nicholas.kazlauskas at amd.com>
+Signed-off-by: Paul Hsieh <Paul.Hsieh at amd.com>
+Signed-off-by: Ivan Lipski <ivan.lipski at amd.com>
+---
+ drivers/gpu/drm/amd/display/dc/core/dc.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/drivers/gpu/drm/amd/display/dc/core/dc.c b/drivers/gpu/drm/amd/display/dc/core/dc.c
+index 0da36b5f5556..5b8b55c1dc68 100644
+--- a/drivers/gpu/drm/amd/display/dc/core/dc.c
++++ b/drivers/gpu/drm/amd/display/dc/core/dc.c
+@@ -2147,6 +2147,14 @@ static enum dc_status dc_commit_state_no_check(struct dc *dc, struct dc_state *c
+ 	if (!dcb->funcs->is_accelerated_mode(dcb)) {
+ 		disable_vbios_mode_if_required(dc, context);
+ 		dc->hwss.enable_accelerated_mode(dc, context);
++	} else if (get_seamless_boot_stream_count(dc->current_state) > 0) {
++		/* If the previous Stream still retains the apply seamless boot flag,
++		 * it means the OS has not actually performed a flip yet.
++		 * At this point, if we receive dc_commit_streams again, we should
++		 * once more check whether the actual HW timing matches what the OS
++		 * has provided
++		 */
++		disable_vbios_mode_if_required(dc, context);
+ 	}
+ 
+ 	if (dc->hwseq->funcs.wait_for_pipe_update_if_needed) {
+-- 
+2.43.0

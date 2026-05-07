@@ -1,35 +1,32 @@
-#
-# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : waydroid
-version     : 1.6.1
-release     : 3
+version     : "1.6.2"
+release     : 7
 homepage    : https://waydro.id/
 upstreams   :
-    - https://github.com/waydroid/waydroid/archive/1.6.1/waydroid-1.6.1.tar.gz : f81ae0281701942a8beb749397a4fa8ce828c2dc727878b44d1385e23a921bcd
+    - https://github.com/waydroid/waydroid/archive/1.6.2/waydroid-1.6.2.tar.gz : 4b963aceb9de2884020e98b26e40147b3f26a0444606633adc45b63752f57dca
 license     : Apache-2.0
 summary     : Run Android apps on GNU/Linux
 description : |
     Container-based approach to boot a full Android system on GNU/Linux
 rundeps     :
     - binary(dnsmasq)
-    - sysbinary(nft)
-    - lxc
     - python(dbus-python)
     - python(gbinder-python)
     - python(pyclip)
+    - sysbinary(nft)
+    - lxc
 setup       : |
     %patch %(pkgdir)/0001-Service-tweaks.patch
+    %patch %(pkgdir)/0001-Remove-apparmor-from-configs.patch
 install     : |
     %make_install \
         USE_NFTABLES=1 \
         APPS_MENU_DIR=/usr/share/xdg/menus/applications-merged
     %python_compile
 
-    # The service is dbus-activated, so preset it as disabled so it only starts upon request
-    %install_file %(pkgdir)/waydroid.preset -t %(installroot)/%(libdir)/systemd/system-preset
     %install_file %(pkgdir)/waydroid-pre.service -t %(installroot)/%(libdir)/systemd/system
     %install_file %(pkgdir)/dev-binderfs.mount -t %(installroot)/%(libdir)/systemd/system
 

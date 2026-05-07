@@ -1,13 +1,11 @@
-#
-# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : kf6-prison
-version     : 6.22.0
-release     : 15
+version     : "6.25.0"
+release     : 20
 upstreams   :
-    - https://download.kde.org/stable/frameworks/6.22/prison-6.22.0.tar.xz : c40d692607bdadf8dbd5a56761289b1ee96973f048ca3671e760519e2ae4339a
+    - https://download.kde.org/stable/frameworks/6.25/prison-6.25.0.tar.xz : 9f4a8fa5732e45142c9ba2e35a38904d44193efc050e1ca20a414445c3a98b34
 homepage    : https://community.kde.org/Frameworks
 license     :
     - BSD-3-Clause
@@ -21,9 +19,9 @@ builddeps   :
     - cmake(Qt6CorePrivate)
     - cmake(Qt6Multimedia)
     - cmake(Qt6Quick)
+    - pkgconfig(libdmtx)
     - pkgconfig(libqrencode)
     - pkgconfig(zxing)
-    # TODO: libdmtx
 setup       : |
     %cmake_kf6
 build       : |

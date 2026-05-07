@@ -1,0 +1,44 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"libdmtx": {
+			"build-depends": [
+				"binary(flex)"
+			],
+			"depends": [
+				"soname(libc.so.6(x86_64))",
+				"soname(libm.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/lib/libdmtx.so.0",
+				"/usr/lib/libdmtx.so.0.0.0"
+			],
+			"name": "libdmtx",
+			"provides": [
+				"soname(libdmtx.so.0(x86_64))"
+			]
+		},
+		"libdmtx-devel": {
+			"build-depends": [
+				"binary(flex)"
+			],
+			"depends": [
+				"libdmtx"
+			],
+			"files": [
+				"/usr/include/dmtx.h",
+				"/usr/lib/libdmtx.so",
+				"/usr/lib/pkgconfig/libdmtx.pc",
+				"/usr/share/man/man3/libdmtx.3"
+			],
+			"name": "libdmtx-devel",
+			"provides": [
+				"pkgconfig(libdmtx)"
+			]
+		}
+	},
+	"source-name": "libdmtx",
+	"source-release": "1",
+	"source-version": "0.7.8"
+}

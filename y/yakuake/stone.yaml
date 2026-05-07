@@ -1,13 +1,11 @@
-#
-# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : yakuake
-version     : 25.12.1
-release     : 14
+version     : "26.04.0"
+release     : 18
 upstreams   :
-    - https://download.kde.org/stable/release-service/25.12.1/src/yakuake-25.12.1.tar.xz : c1fc05b4aa4ee7eb896ba6032a8aaa7bf1f1d8ca2dc5048ed9bf96475d13522a
+    - https://download.kde.org/stable/release-service/26.04.0/src/yakuake-26.04.0.tar.xz : 98c56fd23155e528f5136583de7700109cc4812dd5bc6c7d8940046f020223c5
 homepage    : https://apps.kde.org/yakuake/
 license     : GPL-2.0-or-later
 summary     : A quake style dropdown terminal.
@@ -33,8 +31,14 @@ builddeps   :
     - cmake(KF6WidgetsAddons)
     - cmake(KF6WindowSystem)
     - cmake(KWayland)
+    - cmake(PlasmaWaylandProtocols)
     - cmake(Qt6CorePrivate)
     - cmake(Qt6Svg)
+    - cmake(Qt6WaylandClient)
+    - pkgconfig(wayland-client)
+    - pkgconfig(xcb)
+    - pkgconfig(xcb-randr)
+    - pkgconfig(xcb-util)
 rundeps     :
     - konsole-part
     - qt6-wayland

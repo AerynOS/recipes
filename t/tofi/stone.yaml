@@ -1,11 +1,9 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : tofi
-version     : '0.9.1'
-release     : 2
+version     : "0.9.1"
+release     : 3
 homepage    : https://github.com/philj56/tofi
 upstreams   :
     - https://github.com/philj56/tofi/archive/refs/tags/v0.9.1.tar.gz : dd55347b509af786f133def64f3a86f1db258b5e196de80e53d62827bdcc37bc
@@ -15,7 +13,6 @@ description : |
 license     :
     - MIT
 builddeps   :
-    - binary(cmake)
     - binary(scdoc)
     - pkgconfig(cairo)
     - pkgconfig(freetype2)

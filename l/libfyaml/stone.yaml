@@ -1,13 +1,11 @@
-#
-# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : libfyaml
-version     : "0.9.4"
-release     : 4
+version     : "0.9.6"
+release     : 6
 upstreams   :
-    - https://github.com/pantoniou/libfyaml/releases/download/v0.9.4/libfyaml-0.9.4.tar.gz : dac2b0af7b757b32a4fa7c6493d85d0f7dea6effd20ae4352570b6a450b9e5fb
+    - https://github.com/pantoniou/libfyaml/releases/download/v0.9.6/libfyaml-0.9.6.tar.gz : a59cc3331e2eb903ec36933ad52a45888041cac31e44f553a00511131242c483
 homepage    : https://github.com/pantoniou/libfyaml
 license     : MIT
 summary     : Fully feature complete YAML parser and emitter
@@ -15,11 +13,12 @@ description : |
     Fully feature complete YAML parser and emitter, supporting the latest YAML spec and passing the full YAML testsuite
 builddeps   :
     - binary(jq)
-    - binary(sphinx-build)
+    # - binary(sphinx-build)
     # - cmake(Clang) libllvm is a pretty heavy dependency, only add it if strictly necessary
     - pkgconfig(check)
     - pkgconfig(yaml-0.1)
 setup       : |
+    # TODO: Fix build with sphinx (needs linuxdoc?)
     %cmake \
         -DENABLE_NETWORK=OFF
 build       : |

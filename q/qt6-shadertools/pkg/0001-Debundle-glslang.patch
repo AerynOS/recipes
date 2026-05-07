@@ -11,23 +11,23 @@ Last-Update: 2025-03-21
 ---
  CMakeLists.txt                        | 1 +
  src/CMakeLists.txt                    | 2 +-
- src/shadertools/CMakeLists.txt        | 7 +++----
+ src/shadertools/CMakeLists.txt        | 6 ++----
  src/shadertools/qspirvcompiler.cpp    | 4 +---
  src/shadertools/qspirvshaderremap.cpp | 2 +-
- 5 files changed, 7 insertions(+), 9 deletions(-)
+ 5 files changed, 6 insertions(+), 9 deletions(-)
 
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index e68166a..8b2f43a 100644
+index e82e535..bc40a2e 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -15,6 +15,7 @@ project(QtShaderTools
+@@ -18,6 +18,7 @@ qt_internal_project_setup()
  
- find_package(Qt6 ${PROJECT_VERSION} CONFIG REQUIRED COMPONENTS BuildInternals Core)
+ find_package(Qt6 ${PROJECT_VERSION} CONFIG REQUIRED Core)
  find_package(Qt6 ${PROJECT_VERSION} QUIET CONFIG OPTIONAL_COMPONENTS Gui)
 +find_package(glslang CONFIG REQUIRED)
- qt_internal_project_setup()
  
  if(INTEGRITY)
+ add_compile_definitions(__inline=inline)
 diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
 index cb0e25d..6a22710 100644
 --- a/src/CMakeLists.txt
@@ -41,10 +41,10 @@ index cb0e25d..6a22710 100644
  add_subdirectory(SPIRV-Cross)
  add_subdirectory(shadertools)
 diff --git a/src/shadertools/CMakeLists.txt b/src/shadertools/CMakeLists.txt
-index 04371a5..4e78f33 100644
+index 04371a5..28e7f1e 100644
 --- a/src/shadertools/CMakeLists.txt
 +++ b/src/shadertools/CMakeLists.txt
-@@ -21,15 +21,14 @@ qt_internal_add_module(ShaderTools
+@@ -21,15 +21,13 @@ qt_internal_add_module(ShaderTools
          QT_BUILD_SHADERTOOLS_LIB
      INCLUDE_DIRECTORIES
          ../3rdparty/SPIRV-Cross
@@ -59,15 +59,14 @@ index 04371a5..4e78f33 100644
  # special case end
 +        glslang::glslang
 +        glslang::glslang-default-resource-limits
-+        glslang::SPVRemapper
      PUBLIC_LIBRARIES
          Qt::Core
          Qt::Gui
 diff --git a/src/shadertools/qspirvcompiler.cpp b/src/shadertools/qspirvcompiler.cpp
-index 4e97d48..b6fefb8 100644
+index c7d52c5..0da86ba 100644
 --- a/src/shadertools/qspirvcompiler.cpp
 +++ b/src/shadertools/qspirvcompiler.cpp
-@@ -10,7 +10,7 @@ QT_WARNING_PUSH
+@@ -12,7 +12,7 @@ QT_WARNING_PUSH
  QT_WARNING_DISABLE_GCC("-Wsuggest-override")
  #include <glslang/Public/ShaderLang.h>
  #include <glslang/Public/ResourceLimits.h>
@@ -76,7 +75,7 @@ index 4e97d48..b6fefb8 100644
  QT_WARNING_POP
  
  //#define TOKENIZER_DEBUG
-@@ -47,8 +47,6 @@ bool QSpirvCompilerPrivate::readFile(const QString &fn)
+@@ -49,8 +49,6 @@ bool QSpirvCompilerPrivate::readFile(const QString &fn)
      return true;
  }
  
@@ -86,10 +85,10 @@ index 4e97d48..b6fefb8 100644
  {
  public:
 diff --git a/src/shadertools/qspirvshaderremap.cpp b/src/shadertools/qspirvshaderremap.cpp
-index e45161d..d8d4bfe 100644
+index 48106a8..b5e096c 100644
 --- a/src/shadertools/qspirvshaderremap.cpp
 +++ b/src/shadertools/qspirvshaderremap.cpp
-@@ -3,7 +3,7 @@
+@@ -5,7 +5,7 @@
  
  #include "qspirvshaderremap_p.h"
  
@@ -98,4 +97,3 @@ index e45161d..d8d4bfe 100644
  
  QT_BEGIN_NAMESPACE
  
-z

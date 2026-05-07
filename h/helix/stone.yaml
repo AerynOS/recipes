@@ -1,10 +1,8 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : helix
-version     : 25.07.01
+version     : "25.07.01"
 release     : 8
 license     : MPL-2.0
 homepage    : https://helix-editor.com/
@@ -18,7 +16,7 @@ description : |
 builddeps   :
     - binary(cargo)
     - binary(git)
-networking  : yes
+networking  : true
 environment : |
     export HELIX_DEFAULT_RUNTIME=%(libexecdir)/runtime
 setup       : |

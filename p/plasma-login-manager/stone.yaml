@@ -1,14 +1,12 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : plasma-login-manager
-version     : 0.0.1+git.91db523e
-release     : 10
-homepage    : https://github.com/sddm/sddm
+version     : "6.6.4"
+release     : 17
+homepage    : https://kde.org/plasma-desktop/
 upstreams   :
-    - git|https://invent.kde.org/plasma/plasma-login-manager.git : 91db523e69943a6766f796da09f0ffd3cf452dfd
+    - https://download.kde.org/stable/plasma/6.6.4/plasma-login-manager-6.6.4.tar.xz : 3b4a3838459011115a97a4563be20907070cace91ba9679dc7fa43dced44cd1e
 summary     : Display manager for KDE Plasam
 description : |
     Plasma Login provides a display manager for KDE Plasma, forked from SDDM and with a new frontend providing a greeter, wallpaper plugin integration and System Settings module (KCM).
@@ -24,20 +22,26 @@ builddeps   :
     - cmake(KF6KCMUtils)
     - cmake(KF6KIO)
     - cmake(KF6Package)
+    - cmake(KF6Screen)
     - cmake(KF6WindowSystem)
     - cmake(LayerShellQt)
+    - cmake(LibKLookAndFeel)
     - cmake(LibKWorkspace)
     - cmake(PlasmaQuick)
     - cmake(Qt6CorePrivate)
+    - cmake(Qt6ShaderTools)
     - pkgconfig(pam)
     - pkgconfig(systemd)
+    - pkgconfig(xau)
 rundeps     :
     - kwin # Doesn't support any other compositor AFAIK
+    - plasma-workspace # QML dep
     - qt6-wayland
 setup       : |
     %patch %(pkgdir)/0001-downstream-Update-defaults-conf-dir.patch
 
     %cmake_kf6 \
+        -DINSTALL_PAM_CONFIGURATION:BOOL=OFF \
         -DUID_MAX=60513 \
         -DUID_MIN=1000
 build       : |

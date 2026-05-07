@@ -1,36 +1,38 @@
-#
-# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : rssguard
-version     : 4.8.6
-release     : 3
+version     : "5.1.1"
+release     : 7
 upstreams   :
-    - https://github.com/martinrotter/rssguard/archive/refs/tags/4.8.6.tar.gz : c29bdda08ece8de113dbdb87e8e23491221ba9ddbacd26141d6a00e04888972e
+    - https://github.com/martinrotter/rssguard/releases/download/5.1.1/rssguard-5.1.1-src.tar.gz : afcfd5a576ea573bbe05207d5a2a5158e44dbfcab9858469771d5f906c787c74
 homepage    : https://github.com/martinrotter/rssguard
 license     : GPL-3.0-or-later
 summary     : Simple (yet powerful) Qt feed reader
 description : |
     Simple (yet powerful) Qt feed reader
 builddeps   :
-    - cmake(Qt6Core5Compat)
-    - cmake(Qt6Designer)
+    - binary(go)
+    # - cmake(Qt6CorePrivate) # This is listed as an optional dependency but only used on Windows
+    - cmake(Qt6LinguistTools)
     - cmake(Qt6Multimedia)
     - cmake(Qt6Qml)
+    - cmake(Qt6Sql)
     - cmake(Qt6WebEngineWidgets)
-    - pkgconfig(dbus-1)
     - pkgconfig(mpv)
-    - pkgconfig(sqlite3)
 setup       : |
     %patch %(pkgdir)/0001-default-settings.patch
 
-    %cmake
+    %cmake \
+        -DNO_UPDATE_CHECK=ON \
+        -DREVISION_FROM_GIT=OFF
 build       : |
     %cmake_build
 install     : |
     %cmake_install
 packages    :
     - "%(name)":
+        rundeps:
+            - qt6-wayland
         paths:
             - /usr/lib/lib*.so

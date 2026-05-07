@@ -1,16 +1,14 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : cosmic-settings-daemon
-version     : 1.0.5.git+020c4ad
-release     : 33
+version     : "1.0.11.git+716da6d"
+release     : 39
 summary     : Cosmic Settings Daemon
 license     : GPL-3.0
 homepage    : https://github.com/pop-os/cosmic-settings-daemon
 upstreams   :
-    - git|https://github.com/pop-os/cosmic-settings-daemon.git : 020c4addd71fdca9ef3eda21039d6db27f7c31e5
+    - git|https://github.com/pop-os/cosmic-settings-daemon.git : 716da6d6af0b252e2f78aba2ad72ee19ae0241e0
 description : |
     Cosmic Settings Daemon
 builddeps   :
@@ -25,7 +23,7 @@ rundeps     :
     - geoclue
     - pop-os-sound-theme
     - power-profiles-daemon
-networking  : yes
+networking  : true
 environment :
     export GEOCLUE_AGENT=$(realpath %(libdir)/geoclue/geoclue-2.0/demos/agent)
 setup       : |

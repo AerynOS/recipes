@@ -1,14 +1,12 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : htop
-version     : '3.4.1'
-release     : 7
+version     : "3.5.1"
+release     : 10
 homepage    : https://htop.dev/
 upstreams   :
-    - https://github.com/htop-dev/htop/releases/download/3.4.1/htop-3.4.1.tar.xz : 904f7d4580fc11cffc7e0f06895a4789e0c1c054435752c151e812fead9f6220
+    - https://github.com/htop-dev/htop/releases/download/3.5.1/htop-3.5.1.tar.xz : 526cecd62870aa8d14d2a79a35ea197e4e2b5317d275b567cee0574b2ddb2e9a
 summary     : Interactive process viewer
 description : |
     htop is an interactive process viewer that can show detailed information
@@ -17,13 +15,15 @@ license     : GPL-2.0-or-later
 builddeps   :
     - pkgconfig(hwloc)
     - pkgconfig(libcap)
+    - pkgconfig(libnl-3.0)
     - pkgconfig(ncursesw)
     - lm_sensors-devel
 rundeps     :
     - lm_sensors
 setup       : |
     %configure \
-        --enable-hwloc
+        --enable-hwloc \
+        --enable-unicode
 build       : |
     %make
 install     : |

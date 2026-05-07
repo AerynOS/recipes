@@ -1,0 +1,26 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : yt-dlp-ejs
+version     : "0.8.0"
+release     : 1
+homepage    : https://github.com/yt-dlp/ejs
+upstreams   :
+    - https://github.com/yt-dlp/ejs/archive/refs/tags/0.8.0.tar.gz : 2704dfcac899fcb443d3b80cb8bb6337c5eb98d09ebf0760295d1c58e9461e53
+summary     : External JavaScript for yt-dlp supporting many runtimes
+description : |
+    External JavaScript for yt-dlp supporting many runtimes
+networking  : true
+builddeps   :
+    - binary(npm)
+    - python(hatch-vcs)
+    - python(hatchling)
+rundeps     :
+    - python-libs
+license     : 
+    - Unlicense
+build       : |
+    export SETUPTOOLS_SCM_PRETEND_VERSION=0.8.0
+    %pyproject_build
+install     : |
+    %pyproject_install

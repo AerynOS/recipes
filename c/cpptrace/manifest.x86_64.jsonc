@@ -1,0 +1,66 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"cpptrace": {
+			"build-depends": [
+				"pkgconfig(libdwarf)",
+				"pkgconfig(libunwind)",
+				"pkgconfig(libzstd)"
+			],
+			"depends": [
+				"soname(ld-linux-x86-64.so.2(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libdwarf.so.2(x86_64))",
+				"soname(libstdc++.so.6(x86_64))",
+				"soname(libunwind.so.1(x86_64))"
+			],
+			"files": [
+				"/usr/lib/libcpptrace.so.1",
+				"/usr/lib/libcpptrace.so.1.0.4"
+			],
+			"name": "cpptrace",
+			"provides": [
+				"soname(libcpptrace.so.1(x86_64))"
+			]
+		},
+		"cpptrace-devel": {
+			"build-depends": [
+				"pkgconfig(libdwarf)",
+				"pkgconfig(libunwind)",
+				"pkgconfig(libzstd)"
+			],
+			"depends": [
+				"cpptrace"
+			],
+			"files": [
+				"/usr/include/cpptrace/basic.hpp",
+				"/usr/include/cpptrace/cpptrace.hpp",
+				"/usr/include/cpptrace/exceptions.hpp",
+				"/usr/include/cpptrace/exceptions_macros.hpp",
+				"/usr/include/cpptrace/formatting.hpp",
+				"/usr/include/cpptrace/forward.hpp",
+				"/usr/include/cpptrace/from_current.hpp",
+				"/usr/include/cpptrace/from_current_macros.hpp",
+				"/usr/include/cpptrace/gdb_jit.hpp",
+				"/usr/include/cpptrace/io.hpp",
+				"/usr/include/cpptrace/utils.hpp",
+				"/usr/include/cpptrace/version.hpp",
+				"/usr/include/ctrace/ctrace.h",
+				"/usr/lib/cmake/cpptrace/Findzstd.cmake",
+				"/usr/lib/cmake/cpptrace/cpptrace-config-version.cmake",
+				"/usr/lib/cmake/cpptrace/cpptrace-config.cmake",
+				"/usr/lib/cmake/cpptrace/cpptrace-targets-release.cmake",
+				"/usr/lib/cmake/cpptrace/cpptrace-targets.cmake",
+				"/usr/lib/libcpptrace.so"
+			],
+			"name": "cpptrace-devel",
+			"provides": [
+				"cmake(cpptrace)"
+			]
+		}
+	},
+	"source-name": "cpptrace",
+	"source-release": "1",
+	"source-version": "1.0.4"
+}

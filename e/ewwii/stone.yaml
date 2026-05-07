@@ -1,0 +1,31 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : ewwii
+version     : "0.6.0"
+release     : 5
+homepage    : https://ewwii-sh.github.io/
+upstreams   :
+    - https://github.com/Ewwii-sh/ewwii/archive/refs/tags/v0.6.0.tar.gz : 96e6a2d41df1f19fc86f9d0c3285b81871d819fa3ef66f50f4f4e147fc456742
+summary     :  An eww rewrite that is powerful, flexible, and extensible.
+description : |
+    Ewwii (ElKowar's Wacky Widgets improved interface) is a fork and rewrite of Eww (ElKowar's Wacky Widgets) which is a widget system made in Rust, which lets you create your own widgets similarly to how you can in AwesomeWM.
+license     :
+    - GPL-3.0-only
+builddeps   :
+    - pkgconfig(cairo-gobject)
+    - pkgconfig(gdk-pixbuf-2.0)
+    - pkgconfig(glib-2.0)
+    - pkgconfig(graphene-gobject-1.0)
+    - pkgconfig(gtk4)
+    - pkgconfig(gtk4-layer-shell-0)
+    - pkgconfig(pango)
+networking  : true
+setup       : |
+    %cargo_fetch
+build       : |
+    %cargo_build
+install     : |
+    %cargo_install
+check       : |
+    %cargo_test

@@ -1,14 +1,12 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : doxygen
-version     : 1.16.1
-release     : 12
+version     : "1.17.0"
+release     : 14
 homepage    :  https://www.doxygen.org/
 upstreams   :
-    - https://github.com/doxygen/doxygen/archive/refs/tags/Release_1_16_1.tar.gz : cdf9d614ee8ed6a939ad12ab31a6aaa1b0c089dff2a4ce20aa008893b686d636
+    - https://github.com/doxygen/doxygen/releases/download/Release_1_17_0/doxygen-1.17.0.src.tar.gz : fa4c3dd78785abc11ccc992bc9c01e7a8c3120fe14b8a8dfd7cefa7014530814
 summary     : The de-facto standard tool for generating documentation from annotated C++ sources
 description : |
     The de-facto standard tool for generating documentation from annotated C++ sources
@@ -16,6 +14,7 @@ license     : GPL-2.0-only
 builddeps  :
     - binary(bison)
     - binary(flex)
+    - binary(llvm-config-22)
     - binary(python3)
     - pkgconfig(Qt6Core)
     - pkgconfig(Qt6Svg)

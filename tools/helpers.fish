@@ -1,4 +1,7 @@
 #!/usr/bin/env fish
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
 function __aos_repo_dir
     realpath (dirname (readlink -m (status -f)))/../
 end
@@ -8,7 +11,7 @@ function __aos_toplevel
 end
 
 function cpesearch -d "Search for known CPE entries for a program or library"
-    if test "$argv[1]" = "--help"; or test "$argv[1]" = "-h"; or test (count $argv) -ne 1
+    if test "$argv[1]" = --help; or test "$argv[1]" = -h; or test (count $argv) -ne 1
         echo "usage: cpesearch <package-name>"
     else
         curl -s -X POST https://cpe-guesser.cve-search.org/search -d "{\"query\": [\"$argv[1]\"]}" | jq .
@@ -22,11 +25,6 @@ function gotoaosrepo -d "Go to the root of the AerynOS recipes repository"
     cd (__aos_repo_dir)
 end
 
-# Deprecated, use gotoasorepo
-function gotoserpentrepo -d "Go to the root of the Serpent recipes repository"
-    cd (__aos_repo_dir)
-end
-
 function goroot -d "Go to the root of the current Git repository"
     cd (__aos_toplevel)
 end
@@ -35,10 +33,14 @@ function chpkg -a package -d "Go to a package directory"
     cd (__aos_toplevel)/*/$package
 end
 
+function fix-version-strings -d "Quote unquoted version strings in recipes"
+    find . -type f -name "stone.yaml" -exec sed -i -E \
+        -e 's|^([[:space:]]*version[[:space:]]*:[[:space:]]*)'\''([^'\'']*)'\''|\1"\2"|' \
+        -e 's|^([[:space:]]*version[[:space:]]*:[[:space:]]*)([^"'\''[:space:]][^[:space:]]*)|\1"\2"|' \
+        {} +
+end
+
 complete -c gotoaosrepo -f
-# Deprecated, remove later
-complete -c gotoserpentrepo -f
 complete -c goroot -f
 complete -c chpkg -f
 complete -c chpkg -a "(path basename (__aos_toplevel)/*/*)"
-

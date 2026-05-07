@@ -1,16 +1,14 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : cosmic-store
-version     : 1.0.5.git+df9fd25
-release     : 30
+version     : "1.0.11.git+964373c"
+release     : 36
 summary     : Cosmic Desktop Store
 license     : GPL-3.0
 homepage    : https://github.com/pop-os/cosmic-store
 upstreams   :
-    - git|https://github.com/pop-os/cosmic-store.git : df9fd259a91913ec097122fbbb2e71c23954677d
+    - git|https://github.com/pop-os/cosmic-store.git : 964373c9fe5ad1628d476c3a58ef0ae887b6a7ba
 description : |
     Cosmic Desktop Store
 builddeps   :
@@ -22,7 +20,7 @@ builddeps   :
     - pkgconfig(libssl)
     - pkgconfig(libudev)
     - pkgconfig(xkbcommon)
-networking  : yes
+networking  : true
 setup       : |
     %cargo_fetch
 build       : |

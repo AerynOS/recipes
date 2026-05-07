@@ -89,6 +89,7 @@
 				"/usr/bin/dolphin",
 				"/usr/bin/servicemenuinstaller",
 				"/usr/lib/kconf_update_bin/dolphin_25.04_update_statusandlocationbarssettings",
+				"/usr/lib/kconf_update_bin/dolphin_update_splitviewsettings",
 				"/usr/lib/systemd/user/plasma-dolphin.service",
 				"/usr/share/applications/org.kde.dolphin.desktop",
 				"/usr/share/config.kcfg/dolphin_compactmodesettings.kcfg",
@@ -98,7 +99,6 @@
 				"/usr/share/config.kcfg/dolphin_generalsettings.kcfg",
 				"/usr/share/config.kcfg/dolphin_iconsmodesettings.kcfg",
 				"/usr/share/config.kcfg/dolphin_versioncontrolsettings.kcfg",
-				"/usr/share/dbus-1/interfaces/org.freedesktop.FileManager1.xml",
 				"/usr/share/dbus-1/services/org.kde.dolphin.FileManager1.service",
 				"/usr/share/dolphin/dolphinpartactions.desktop",
 				"/usr/share/icons/hicolor/scalable/apps/org.kde.dolphin.svg",
@@ -152,6 +152,7 @@
 				"/usr/share/locale/fr/LC_MESSAGES/dolphin_servicemenuinstaller.mo",
 				"/usr/share/locale/fy/LC_MESSAGES/dolphin.mo",
 				"/usr/share/locale/ga/LC_MESSAGES/dolphin.mo",
+				"/usr/share/locale/ga/LC_MESSAGES/dolphin_servicemenuinstaller.mo",
 				"/usr/share/locale/gl/LC_MESSAGES/dolphin.mo",
 				"/usr/share/locale/gl/LC_MESSAGES/dolphin_servicemenuinstaller.mo",
 				"/usr/share/locale/gu/LC_MESSAGES/dolphin.mo",
@@ -305,7 +306,8 @@
 				"/usr/lib/cmake/DolphinVcs/DolphinVcsConfigVersion.cmake",
 				"/usr/lib/cmake/DolphinVcs/DolphinVcsTargets-release.cmake",
 				"/usr/lib/cmake/DolphinVcs/DolphinVcsTargets.cmake",
-				"/usr/lib/libdolphinvcs.so"
+				"/usr/lib/libdolphinvcs.so",
+				"/usr/share/dbus-1/interfaces/org.freedesktop.FileManager1.xml"
 			],
 			"name": "dolphin-devel",
 			"provides": [
@@ -586,9 +588,9 @@
 				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
-				"/usr/lib/libdolphinprivate.so.25.12.1",
+				"/usr/lib/libdolphinprivate.so.26.04.0",
 				"/usr/lib/libdolphinprivate.so.6",
-				"/usr/lib/libdolphinvcs.so.25.12.1",
+				"/usr/lib/libdolphinvcs.so.26.04.0",
 				"/usr/lib/libdolphinvcs.so.6",
 				"/usr/lib/qt6/plugins/dolphin/kcms/kcm_dolphingeneral.so",
 				"/usr/lib/qt6/plugins/dolphin/kcms/kcm_dolphinviewmodes.so",
@@ -611,6 +613,6 @@
 		}
 	},
 	"source-name": "dolphin",
-	"source-release": "19",
-	"source-version": "25.12.1"
+	"source-release": "24",
+	"source-version": "26.04.0"
 }

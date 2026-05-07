@@ -6,7 +6,7 @@ Wants=network-online.target containerd.service
 Requires=docker.socket
 
 [Service]
-Type=notify
+Type=notify-reload
 EnvironmentFile=-/etc/sysconfig/docker
 # the default is not to use systemd for cgroups because the delegate issues still
 # exists and systemd currently does not support the cgroup feature set required

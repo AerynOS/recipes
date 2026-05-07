@@ -1,13 +1,11 @@
-#
-# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : buildah
-version     : 1.42.2
-release     : 3
+version     : "1.43.1"
+release     : 5
 upstreams   :
-    - https://github.com/containers/buildah/archive/refs/tags/v1.42.2.tar.gz : 784dfcf050d55c011aaf4e7247b1465259c41c861ff455dc754d6159121cab1e
+    - https://github.com/containers/buildah/archive/refs/tags/v1.43.1.tar.gz : 7980a8b4fb719a104d592b06de149cc18766de02f8c3dd94e727f8702a62f9cd
 homepage    : https://buildah.io/
 license     : Apache-2.0 AND BSD-2-Clause AND BSD-3-Clause AND ISC AND MIT AND MPL-2.0
 summary     : A command line tool used for creating OCI Images
@@ -34,7 +32,6 @@ rundeps     :
 build       : |
     export CGO_LDFLAGS="${LDFLAGS}"
     export CGO_CFLAGS="${CFLAGS}"
-    export CGO_CPPFLAGS="${CPPFLAGS}"
     export CGO_CXXFLAGS="${CXXFLAGS}"
 
     export BUILDTAGS="containers_image_ostree_stub libsqlite3 libsubid seccomp systemd"

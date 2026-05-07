@@ -1,41 +1,45 @@
-#
-# SPDX-FileCopyrightText: © 2025- AerynOS Developers
-#
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : quickshell
-version     : 0.2.1
-release     : 2
+version     : "0.3.0"
+release     : 6
 homepage    : https://github.com/quickshell-mirror/quickshell
 upstreams   :
-    - https://github.com/quickshell-mirror/quickshell/archive/refs/tags/v0.2.1.tar.gz : 337bab5d4badb92e51d01ac1cfbeaeb784478bad82f3c8297fd7be42a6995af2
+    - https://git.outfoxxed.me/quickshell/quickshell/archive/v0.3.0.tar.gz : f4821f9084cab04bd2b5384cc92b9726aecc4ce3eb27200dca24edc67da3b6e5
 summary     : Flexible QtQuick based desktop shell toolkit
 description : |
-    Quickshell is a toolkit for building status bars, widgets, lockscreens, and other desktop components using QtQuick. It can be used alongside your wayland compositor or window manager to build a complete desktop environment. 
-license     : 
+    Quickshell is a toolkit for building status bars, widgets, lockscreens, and other desktop components using QtQuick. It can be used alongside your wayland compositor or window manager to build a complete desktop environment.
+license     :
     - GPL-3.0-or-later
     - LGPL-3.0-or-later
     - GPL-3.0-only
     - LGPL-3.0-only
 builddeps   :
-    - binary(pkgconf)
     - cmake(Qt6Qml)
     - cmake(Qt6ShaderTools)
     - cmake(Qt6Svg)
     - cmake(Qt6WaylandClientPrivate)
+    - cmake(cpptrace)
     - pkgconfig(CLI11)
     - pkgconfig(gbm)
     - pkgconfig(jemalloc)
     - pkgconfig(libdrm)
     - pkgconfig(libpipewire-0.3)
     - pkgconfig(pam)
+    - pkgconfig(polkit-agent-1)
     - pkgconfig(wayland-protocols)
+rundeps     :
+    # Required for integrations
+    - polkit # Need the server
+    - power-profiles-daemon
+    - upower
 setup       : |
-    %cmake -DDISTRIBUTOR="AerynOS" \
-           -DDISTRIBUTOR_DEBUGINFO_AVAILABLE=NO \
-           -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-           -DINSTALL_QML_PREFIX="lib/qt6/qml" \
-           -DCRASH_REPORTER=OFF
+    %cmake \
+        -DCRASH_REPORTER=OFF \
+        -DDISTRIBUTOR="AerynOS" \
+        -DINSTALL_QML_PREFIX="lib/qt6/qml" \
+        -DNO_PCH=ON
 build       : |
     %cmake_build
 install     : |

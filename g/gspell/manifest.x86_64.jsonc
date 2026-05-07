@@ -1,0 +1,143 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"gspell": {
+			"build-depends": [
+				"binary(gtkdoc-scan)",
+				"binary(vapigen)",
+				"docbook-xsl",
+				"pkgconfig(enchant-2)",
+				"pkgconfig(gio-2.0)",
+				"pkgconfig(gobject-introspection-1.0)",
+				"pkgconfig(gtk+-3.0)"
+			],
+			"depends": [
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libenchant-2.so.2(x86_64))",
+				"soname(libgio-2.0.so.0(x86_64))",
+				"soname(libglib-2.0.so.0(x86_64))",
+				"soname(libgobject-2.0.so.0(x86_64))",
+				"soname(libgtk-3.so.0(x86_64))",
+				"soname(libicuuc.so.78(x86_64))",
+				"soname(libpango-1.0.so.0(x86_64))"
+			],
+			"files": [
+				"/usr/bin/gspell-app1",
+				"/usr/lib/girepository-1.0/Gspell-1.typelib",
+				"/usr/lib/gspell/installed-tests/gspell-1/test-checker",
+				"/usr/lib/gspell/installed-tests/gspell-1/test-entry",
+				"/usr/lib/gspell/installed-tests/gspell-1/test-icu",
+				"/usr/lib/gspell/installed-tests/gspell-1/test-inline-checker-text-buffer",
+				"/usr/lib/gspell/installed-tests/gspell-1/test-text-iter",
+				"/usr/lib/gspell/installed-tests/gspell-1/test-utils",
+				"/usr/lib/libgspell-1.so.3",
+				"/usr/share/installed-tests/gspell-1/test-checker.test",
+				"/usr/share/installed-tests/gspell-1/test-entry.test",
+				"/usr/share/installed-tests/gspell-1/test-icu.test",
+				"/usr/share/installed-tests/gspell-1/test-inline-checker-text-buffer.test",
+				"/usr/share/installed-tests/gspell-1/test-text-iter.test",
+				"/usr/share/installed-tests/gspell-1/test-utils.test",
+				"/usr/share/vala/vapi/gspell-1.deps",
+				"/usr/share/vala/vapi/gspell-1.vapi"
+			],
+			"name": "gspell",
+			"provides": [
+				"binary(gspell-app1)",
+				"soname(libgspell-1.so.3(x86_64))"
+			]
+		},
+		"gspell-devel": {
+			"build-depends": [
+				"binary(gtkdoc-scan)",
+				"binary(vapigen)",
+				"docbook-xsl",
+				"pkgconfig(enchant-2)",
+				"pkgconfig(gio-2.0)",
+				"pkgconfig(gobject-introspection-1.0)",
+				"pkgconfig(gtk+-3.0)"
+			],
+			"depends": [
+				"gspell",
+				"pkgconfig(enchant-2)",
+				"pkgconfig(gio-2.0)",
+				"pkgconfig(gtk+-3.0)",
+				"pkgconfig(icu-uc)"
+			],
+			"files": [
+				"/usr/include/gspell-1/gspell/gspell-checker-dialog.h",
+				"/usr/include/gspell-1/gspell/gspell-checker.h",
+				"/usr/include/gspell-1/gspell/gspell-entry-buffer.h",
+				"/usr/include/gspell-1/gspell/gspell-entry.h",
+				"/usr/include/gspell-1/gspell/gspell-enum-types.h",
+				"/usr/include/gspell-1/gspell/gspell-language-chooser-button.h",
+				"/usr/include/gspell-1/gspell/gspell-language-chooser-dialog.h",
+				"/usr/include/gspell-1/gspell/gspell-language-chooser.h",
+				"/usr/include/gspell-1/gspell/gspell-language.h",
+				"/usr/include/gspell-1/gspell/gspell-navigator-text-view.h",
+				"/usr/include/gspell-1/gspell/gspell-navigator.h",
+				"/usr/include/gspell-1/gspell/gspell-text-buffer.h",
+				"/usr/include/gspell-1/gspell/gspell-text-view.h",
+				"/usr/include/gspell-1/gspell/gspell.h",
+				"/usr/lib/libgspell-1.so",
+				"/usr/lib/pkgconfig/gspell-1.pc",
+				"/usr/share/gir-1.0/Gspell-1.gir"
+			],
+			"name": "gspell-devel",
+			"provides": [
+				"pkgconfig(gspell-1)"
+			]
+		},
+		"gspell-docs": {
+			"build-depends": [
+				"binary(gtkdoc-scan)",
+				"binary(vapigen)",
+				"docbook-xsl",
+				"pkgconfig(enchant-2)",
+				"pkgconfig(gio-2.0)",
+				"pkgconfig(gobject-introspection-1.0)",
+				"pkgconfig(gtk+-3.0)"
+			],
+			"files": [
+				"/usr/share/gtk-doc/html/gspell-1/GspellChecker.html",
+				"/usr/share/gtk-doc/html/gspell-1/GspellCheckerDialog.html",
+				"/usr/share/gtk-doc/html/gspell-1/GspellEntry.html",
+				"/usr/share/gtk-doc/html/gspell-1/GspellEntryBuffer.html",
+				"/usr/share/gtk-doc/html/gspell-1/GspellLanguage.html",
+				"/usr/share/gtk-doc/html/gspell-1/GspellLanguageChooser.html",
+				"/usr/share/gtk-doc/html/gspell-1/GspellLanguageChooserButton.html",
+				"/usr/share/gtk-doc/html/gspell-1/GspellLanguageChooserDialog.html",
+				"/usr/share/gtk-doc/html/gspell-1/GspellNavigator.html",
+				"/usr/share/gtk-doc/html/gspell-1/GspellNavigatorTextView.html",
+				"/usr/share/gtk-doc/html/gspell-1/GspellTextBuffer.html",
+				"/usr/share/gtk-doc/html/gspell-1/GspellTextView.html",
+				"/usr/share/gtk-doc/html/gspell-1/GtkEntry-support.html",
+				"/usr/share/gtk-doc/html/gspell-1/GtkTextView-support.html",
+				"/usr/share/gtk-doc/html/gspell-1/annexes.html",
+				"/usr/share/gtk-doc/html/gspell-1/annotation-glossary.html",
+				"/usr/share/gtk-doc/html/gspell-1/api-index-full.html",
+				"/usr/share/gtk-doc/html/gspell-1/api-reference.html",
+				"/usr/share/gtk-doc/html/gspell-1/core-classes.html",
+				"/usr/share/gtk-doc/html/gspell-1/gspell-1.devhelp2",
+				"/usr/share/gtk-doc/html/gspell-1/home.png",
+				"/usr/share/gtk-doc/html/gspell-1/index.html",
+				"/usr/share/gtk-doc/html/gspell-1/intro.html",
+				"/usr/share/gtk-doc/html/gspell-1/language-choosers.html",
+				"/usr/share/gtk-doc/html/gspell-1/left-insensitive.png",
+				"/usr/share/gtk-doc/html/gspell-1/left.png",
+				"/usr/share/gtk-doc/html/gspell-1/object-tree.html",
+				"/usr/share/gtk-doc/html/gspell-1/right-insensitive.png",
+				"/usr/share/gtk-doc/html/gspell-1/right.png",
+				"/usr/share/gtk-doc/html/gspell-1/spell-checker-dialog.html",
+				"/usr/share/gtk-doc/html/gspell-1/style.css",
+				"/usr/share/gtk-doc/html/gspell-1/up-insensitive.png",
+				"/usr/share/gtk-doc/html/gspell-1/up.png"
+			],
+			"name": "gspell-docs"
+		}
+	},
+	"source-name": "gspell",
+	"source-release": "1",
+	"source-version": "1.14.3"
+}

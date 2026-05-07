@@ -1,13 +1,11 @@
-#
-# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : kdepim-runtime
-version     : 25.12.1
-release     : 10
+version     : "26.04.0"
+release     : 13
 upstreams   :
-    - https://download.kde.org/stable/release-service/25.12.1/src/kdepim-runtime-25.12.1.tar.xz : 1e726ce7b601beac87fec0a42a7be46638a6d3d6d974dfcec37a967f0fcdaff5
+    - https://download.kde.org/stable/release-service/26.04.0/src/kdepim-runtime-26.04.0.tar.xz : a6641132af3ea09f3c0ec1fdb64197008652fbcf2b5139ae2183b22d92a3463d
 homepage    : https://community.kde.org/PIM
 license     : GPL-2.0-or-later
 summary     : Runtime components for Akonadi
@@ -28,7 +26,6 @@ builddeps   :
     - cmake(KF6Notifications)
     - cmake(KF6NotifyConfig)
     - cmake(KF6TextCustomEditor)
-    - cmake(KF6Wallet)
     - cmake(KF6WindowSystem)
     - cmake(KPim6Akonadi)
     - cmake(KPim6AkonadiCalendar)

@@ -1,10 +1,8 @@
-#
-# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : zulip-desktop
-version     : 5.12.2
+version     : "5.12.2"
 release     : 2
 upstreams   :
     - https://github.com/zulip/zulip-desktop/archive/v5.12.2.tar.gz : ffd0473910889797ba8f0944c7819f38c4210c44e2e886ff8cb63a2a2f2b75e5
@@ -13,7 +11,7 @@ license     : Apache-2.0
 summary     : Desktop client for Zulip
 description : |
     Real-time team chat based on the email threading model
-networking  : yes
+networking  : true
 builddeps   :
     - binary(npm)
 rundeps     :

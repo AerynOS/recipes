@@ -1,0 +1,85 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"ngtcp2": {
+			"build-depends": [
+				"pkgconfig(gnutls)",
+				"pkgconfig(libnghttp3)",
+				"pkgconfig(openssl)"
+			],
+			"depends": [
+				"soname(libc.so.6(x86_64))",
+				"soname(libcrypto.so.3(x86_64))",
+				"soname(libssl.so.3(x86_64))"
+			],
+			"files": [
+				"/usr/lib/libngtcp2.so.16",
+				"/usr/lib/libngtcp2.so.16.8.1",
+				"/usr/lib/libngtcp2_crypto_ossl.so.0",
+				"/usr/lib/libngtcp2_crypto_ossl.so.0.2.0",
+				"/usr/share/doc/ngtcp2/README.rst"
+			],
+			"name": "ngtcp2",
+			"provides": [
+				"soname(libngtcp2.so.16(x86_64))",
+				"soname(libngtcp2_crypto_ossl.so.0(x86_64))"
+			]
+		},
+		"ngtcp2-crypto-gnutls": {
+			"build-depends": [
+				"pkgconfig(gnutls)",
+				"pkgconfig(libnghttp3)",
+				"pkgconfig(openssl)"
+			],
+			"depends": [
+				"soname(libc.so.6(x86_64))",
+				"soname(libgnutls.so.30(x86_64))",
+				"soname(libngtcp2.so.16(x86_64))"
+			],
+			"files": [
+				"/usr/lib/libngtcp2_crypto_gnutls.so.8",
+				"/usr/lib/libngtcp2_crypto_gnutls.so.8.4.0"
+			],
+			"name": "ngtcp2-crypto-gnutls",
+			"provides": [
+				"soname(libngtcp2_crypto_gnutls.so.8(x86_64))"
+			]
+		},
+		"ngtcp2-devel": {
+			"build-depends": [
+				"pkgconfig(gnutls)",
+				"pkgconfig(libnghttp3)",
+				"pkgconfig(openssl)"
+			],
+			"depends": [
+				"ngtcp2",
+				"ngtcp2-crypto-gnutls",
+				"pkgconfig(gnutls)",
+				"pkgconfig(openssl)"
+			],
+			"files": [
+				"/usr/include/ngtcp2/ngtcp2.h",
+				"/usr/include/ngtcp2/ngtcp2_crypto.h",
+				"/usr/include/ngtcp2/ngtcp2_crypto_gnutls.h",
+				"/usr/include/ngtcp2/ngtcp2_crypto_ossl.h",
+				"/usr/include/ngtcp2/version.h",
+				"/usr/lib/libngtcp2.so",
+				"/usr/lib/libngtcp2_crypto_gnutls.so",
+				"/usr/lib/libngtcp2_crypto_ossl.so",
+				"/usr/lib/pkgconfig/libngtcp2.pc",
+				"/usr/lib/pkgconfig/libngtcp2_crypto_gnutls.pc",
+				"/usr/lib/pkgconfig/libngtcp2_crypto_ossl.pc"
+			],
+			"name": "ngtcp2-devel",
+			"provides": [
+				"pkgconfig(libngtcp2)",
+				"pkgconfig(libngtcp2_crypto_gnutls)",
+				"pkgconfig(libngtcp2_crypto_ossl)"
+			]
+		}
+	},
+	"source-name": "ngtcp2",
+	"source-release": "1",
+	"source-version": "1.22.1"
+}

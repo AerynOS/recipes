@@ -35,10 +35,10 @@
 			],
 			"files": [
 				"/usr/bin/spice-vdagent",
-				"/usr/lib/systemd/system-preset/60-spice-vdagentd.preset",
+				"/usr/lib/systemd/system-preset/98-spice-vdagentd.preset",
 				"/usr/lib/systemd/system/spice-vdagentd.service",
 				"/usr/lib/systemd/system/spice-vdagentd.socket",
-				"/usr/lib/systemd/user-preset/60-spice-vdagent.preset",
+				"/usr/lib/systemd/user-preset/98-spice-vdagent.preset",
 				"/usr/lib/systemd/user/graphical-session.target.wants/spice-vdagent.service",
 				"/usr/lib/systemd/user/spice-vdagent.service",
 				"/usr/lib/tmpfiles.d/spice-vdagentd.conf",
@@ -56,6 +56,6 @@
 		}
 	},
 	"source-name": "spice-vdagent",
-	"source-release": "3",
+	"source-release": "4",
 	"source-version": "0.23.0"
 }

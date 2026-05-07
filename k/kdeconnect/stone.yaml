@@ -1,13 +1,11 @@
-#
-# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : kdeconnect
-version     : 25.12.1
-release     : 12
+version     : "26.04.0"
+release     : 16
 upstreams   :
-    - https://download.kde.org/stable/release-service/25.12.1/src/kdeconnect-kde-25.12.1.tar.xz : 7d63857b7e1c27a00dbdbab26fa384fc7d93bfe32d82b95943a944d477be5ad7
+    - https://download.kde.org/stable/release-service/26.04.0/src/kdeconnect-kde-26.04.0.tar.xz : 6cdf82d6c476005de5ffa85c46b6d698910ba1a74f6ecac7600cf3989256e66a
 homepage    : https://kdeconnect.kde.org/
 license     : GPL-2.0-only
 summary     : KDE Connect adds communication between KDE and your smartphone.
@@ -41,6 +39,8 @@ builddeps   :
     - cmake(Qt6Multimedia)
     - cmake(Qt6WaylandClient)
     - pkgconfig(dbus-1)
+    - pkgconfig(libei-1.0)
+    - pkgconfig(libevdev)
     - pkgconfig(openssl)
     - pkgconfig(xkbcommon)
     - pkgconfig(wayland-client)
@@ -53,9 +53,6 @@ build       : |
     %cmake_build
 install     : |
     %cmake_install
-
-    # Unused
-    rm -v %(installroot)%(libdir)/*.a
 packages    :
     - "%(name)":
         rundeps:

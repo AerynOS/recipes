@@ -1,0 +1,74 @@
+diff -Npur OpenGamepadUI-0.43.0.orig/core/systems/input/input_manager.gd OpenGamepadUI-0.43.0/core/systems/input/input_manager.gd
+--- OpenGamepadUI-0.43.0.orig/core/systems/input/input_manager.gd	2026-01-08 04:56:36.000000000 +0100
++++ OpenGamepadUI-0.43.0/core/systems/input/input_manager.gd	2026-02-09 21:04:32.956490433 +0100
+@@ -137,6 +137,8 @@ func _input(event: InputEvent) -> void:
+ 	if input_plumber.is_running() and not is_inputplumber_event(event):
+ 		if event is InputEventJoypadButton or event is InputEventJoypadMotion:
+ 			logger.debug("Skipping Godot event while InputPlumber is running:", event)
++			var intercept_mode := input_plumber.intercept_mode
++			logger.info("Current intercept mode: " + str(intercept_mode))
+ 			get_viewport().set_input_as_handled()
+ 			return
+ 
+@@ -170,6 +172,8 @@ func _input(event: InputEvent) -> void:
+ 	# Handle guide button inputs
+ 	if event.is_action("ogui_guide"):
+ 		_guide_input(event)
++		var intercept_mode := input_plumber.intercept_mode
++		logger.info("Current intercept mode: " + str(intercept_mode))
+ 		get_viewport().set_input_as_handled()
+ 		return
+ 
+@@ -217,6 +221,8 @@ func _input(event: InputEvent) -> void:
+ 		# Prevent ALL input from propagating if guide is held!
+ 		get_viewport().set_input_as_handled()
+ 		logger.debug("Additional action while guide wad pressed.")
++		var intercept_mode := input_plumber.intercept_mode
++		logger.info("Current intercept mode: " + str(intercept_mode))
+ 		# OSK
+ 		if event.is_action_pressed("ogui_north"):
+ 			logger.debug("North. Trigger OSK")
+@@ -278,7 +284,8 @@ func _guide_input(event: InputEvent) ->
+ 	logger.debug("Guide released. Additional events did not use guide action. Opening menu.")
+ 	action_press(dbus_path, "ogui_menu")
+ 	action_release(dbus_path, "ogui_menu")
+-
++	var intercept_mode := input_plumber.intercept_mode
++	logger.info("Current intercept mode: " + str(intercept_mode))
+ 
+ ## Handle main menu events to open the main menu
+ func _main_menu_input(event: InputEvent) -> void:
+diff -Npur OpenGamepadUI-0.43.0.orig/core/ui/card_ui/card_ui.gd OpenGamepadUI-0.43.0/core/ui/card_ui/card_ui.gd
+--- OpenGamepadUI-0.43.0.orig/core/ui/card_ui/card_ui.gd	2026-01-08 04:56:36.000000000 +0100
++++ OpenGamepadUI-0.43.0/core/ui/card_ui/card_ui.gd	2026-02-09 20:56:35.719662105 +0100
+@@ -153,12 +153,13 @@ func _ready() -> void:
+ 
+ 	# Setup inputplumber to receive guide presses.
+ 	input_plumber.set_intercept_mode(InputPlumberInstance.INTERCEPT_MODE_ALL)
++	logger.info("Intercept mode set to: ALL")
+ 	input_plumber.set_intercept_activation(PackedStringArray(["Gamepad:Button:Guide"]), "Gamepad:Button:Guide")
+ 
+ 	# Sets the intercept mode and intercept activation keys to what overlay_mode expects.
+ 	var on_device_changed := func(device: CompositeDevice):
+ 		var intercept_mode := input_plumber.intercept_mode
+-		logger.debug("Setting intercept mode to: " + str(intercept_mode))
++		logger.info("Setting intercept mode to: " + str(intercept_mode))
+ 		device.intercept_mode = intercept_mode
+ 		device.set_intercept_activation(PackedStringArray(["Gamepad:Button:Guide"]), "Gamepad:Button:Guide")
+ 	input_plumber.composite_device_added.connect(on_device_changed)
+@@ -183,6 +184,7 @@ func _on_focus_changed(control: Control)
+ func _on_game_state_entered(_from: State) -> void:
+ 	# Pass all gamepad input to the game
+ 	input_plumber.set_intercept_mode(InputPlumberInstance.INTERCEPT_MODE_PASS)
++	logger.info("_on_game_state_entered: Intercept mode set to: PASS")
+ 
+ 	# Turn off gamescope blur effect
+ 	_set_blur(GamescopeXWayland.BLUR_MODE_OFF)
+@@ -206,6 +208,7 @@ func _on_game_state_entered(_from: State
+ func _on_game_state_exited(to: State) -> void:
+ 	# Intercept all gamepad input when not in-game
+ 	input_plumber.set_intercept_mode(InputPlumberInstance.INTERCEPT_MODE_ALL)
++	logger.info("_on_game_state_exited: Intercept mode set to: PASS")
+ 
+ 	# Revert back to the default gamepad profile
+ 	#gamepad_manager.set_gamepads_profile(null)

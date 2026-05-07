@@ -1,37 +1,71 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : gnutls
-version     : 3.8.11
-release     : 10
+version     : "3.8.13"
+release     : 12
 homepage    : https://www.gnutls.org/
 upstreams   :
-    - https://www.gnupg.org/ftp/gcrypt/gnutls/v3.8/gnutls-3.8.11.tar.xz: 91bd23c4a86ebc6152e81303d20cf6ceaeb97bc8f84266d0faec6e29f17baa20
+    - https://www.gnupg.org/ftp/gcrypt/gnutls/v3.8/gnutls-3.8.13.tar.xz: ffed8ec1bf09c2426d4f14aae377de4753b53e537d685e604e99a8b16ca9c97e
 summary     : The GnuTLS package contains libraries and userspace tools which provide a secure layer over a reliable transport layer
 description : |
     GnuTLS is a secure communications library implementing the SSL, TLS and DTLS protocols and technologies around them. It provides a simple C language application programming interface (API) to access the secure communications protocols as well as APIs to parse and write X.509, PKCS #12, OpenPGP and other required structures.
 license     : LGPL-2.1-or-later
 builddeps   :
-    - libunistring-devel
+    - binary(bison)
+    - binary(makeinfo)
+    - binary(msgfmt)
     - pkgconfig(gmp)
     - pkgconfig(libbrotlicommon)
+    - pkgconfig(libcrypto)
     - pkgconfig(libidn2)
+    - pkgconfig(libseccomp)
     - pkgconfig(libtasn1)
     - pkgconfig(libzstd)
     - pkgconfig(nettle)
     - pkgconfig(p11-kit-1)
+    - pkgconfig(tss2-esys)
     - pkgconfig(zlib)
+    - libunistring-devel
 # TODO gtk-docs support?
 # TODO guile support?
+# libtspi for TPM1 support?
 setup       : |
-    %configure --disable-static
+    %configure \
+        --disable-static \
+        --enable-ktls \
+        --htmldir=%(docdir)/manual
 build       : |
     %make
 install     : |
     %make_install
+
+    # Causes file conflicts
+    rm -rv %(installroot)%(datadir)/info/dir
 # This takes forever. Reenable if you dare.
 # check       : |
 #     make -j1 check
-# TODO maybe split out binaries and docs?
+packages    :
+    - "%(name)-cxx":
+        summary: C++ interface to GnuTLS
+        description: The C++ interface to GnuTLS
+        paths:
+            - /usr/lib/libgnutlsxx.so.*
+
+    - "%(name)-utils":
+        summary: Command line tools for TLS protocol
+        description: Command line tools for TLS protocol
+        paths:
+            - /usr/bin/gnutls*
+            - /usr/bin/certtool
+            - /usr/bin/ocsptool
+            - /usr/bin/p11tool
+            - /usr/bin/psktool
+            - /usr/share/man/man1/
+
+    - "%(name)-devel":
+        rundeps:
+            - "%(name)-cxx"
+        paths:
+            - /usr/share/info/
+            - /usr/share/doc/manual/

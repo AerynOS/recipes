@@ -1,14 +1,12 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : iproute2
-version     : 6.18.0
-release     : 11
+version     : "7.0.0"
+release     : 13
 homepage    : https://wiki.linuxfoundation.org/networking/iproute2
 upstreams   :
-    - https://mirrors.edge.kernel.org/pub/linux/utils/net/iproute2/iproute2-6.18.0.tar.xz : 6ba520e1975e4c50dc931eeae91ea37c198b8a173744885f8895b84325f9d456
+    - https://mirrors.edge.kernel.org/pub/linux/utils/net/iproute2/iproute2-v7.0.0.tar.gz : 85aef4d278aa1407639dd7102ad92773914ab6b674eb929205c56fb266feac2a
 summary     : Utility collection to control networking and traffic
 description : |
     Iproute2 is a collection of utilities for controlling TCP/IP networking and traffic control in Linux. It supersedes ifconfig and route commands.
@@ -20,6 +18,7 @@ builddeps   :
     - pkgconfig(libbpf)
     - pkgconfig(libcap)
     - pkgconfig(libmnl)
+    - pkgconfig(libtirpc)
 setup       : |
     %patch %(pkgdir)/fhs.patch
 

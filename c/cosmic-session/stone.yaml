@@ -1,22 +1,21 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : cosmic-session
-version     : 1.0.5.git+7b5fd4d
-release     : 41
+version     : "1.0.11.git+9a55864"
+release     : 49
 summary     : Cosmic Session Management
 license     : GPL-3.0
 homepage    : https://github.com/pop-os/cosmic-session
 upstreams   :
-    - git|https://github.com/pop-os/cosmic-session.git : 7b5fd4de9d99c426eed91bb009e35129af9a81ec
+    - git|https://github.com/pop-os/cosmic-session.git : 9a55864e81b9e0f3cf31862724b738349402c6de
 description : |
     Cosmic Session Management
 builddeps   :
     - binary(just)
     - pkgconfig(xkbcommon)
 rundeps     :
+    - binary(awk)
     - binary(boltctl)
     - binary(cosmic-app-library)
     - binary(cosmic-bg)
@@ -43,12 +42,12 @@ rundeps     :
     - pciutils
     - wireplumber
     - xdg-desktop-portal-cosmic
-networking  : yes
+networking  : true
 setup       : |
     %cargo_fetch
 build       : |
     %cargo_build
 install     : |
     CARGO_TARGET_DIR="target/%(target_triple)" just rootdir=%(installroot) install
-    %install_file %(pkgdir)/60-cosmic.preset %(installroot)%(libdir)/systemd/system-preset/60-cosmic.preset
+
     %install_file data/dconf/profile/cosmic %(installroot)%(datadir)/dconf/profile/cosmic

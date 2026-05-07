@@ -4,6 +4,7 @@
 	"packages": {
 		"qt5-tools": {
 			"build-depends": [
+				"binary(llvm-config-22)",
 				"clang-devel"
 			],
 			"depends": [
@@ -55,6 +56,7 @@
 		},
 		"qt5-tools-demos": {
 			"build-depends": [
+				"binary(llvm-config-22)",
 				"clang-devel"
 			],
 			"depends": [
@@ -216,6 +218,7 @@
 		},
 		"qt5-tools-devel": {
 			"build-depends": [
+				"binary(llvm-config-22)",
 				"clang-devel"
 			],
 			"depends": [
@@ -238,7 +241,7 @@
 				"soname(libQt5Widgets.so.5(x86_64))",
 				"soname(libQt5Xml.so.5(x86_64))",
 				"soname(libc.so.6(x86_64))",
-				"soname(libclang.so.21.1(x86_64))",
+				"soname(libclang.so.22.1(x86_64))",
 				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
@@ -583,6 +586,6 @@
 		}
 	},
 	"source-name": "qt5-tools",
-	"source-release": "13",
+	"source-release": "14",
 	"source-version": "5.15.18+kde.fa40a2d3"
 }

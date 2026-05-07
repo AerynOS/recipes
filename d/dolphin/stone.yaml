@@ -1,13 +1,11 @@
-#
-# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : dolphin
-version     : 25.12.1
-release     : 19
+version     : "26.04.0"
+release     : 24
 upstreams   :
-    - https://download.kde.org/stable/release-service/25.12.1/src/dolphin-25.12.1.tar.xz : 86315327422175a483e3efc61f7e7fff954d4f760efdcfff5f8713a3d10db664
+    - https://download.kde.org/stable/release-service/26.04.0/src/dolphin-26.04.0.tar.xz : 5c5e5024835fddbcd9dfaa9c16ab2bcff2475645b0e28d1b269de42e412ec543
 homepage    : https://kde.org/applications/system/org.kde.dolphin
 license     :
     - GFDL-1.2-or-later
@@ -72,6 +70,10 @@ packages    :
             - /usr/lib/qt6/plugins/dolphin/
             - /usr/lib/qt6/plugins/kf6/kfileitemaction/
             - /usr/lib/qt6/plugins/kf6/parts/dolphinpart.so
+
+    - "%(name)-devel":
+        paths:
+            - /usr/share/dbus-1/interfaces/
 
     - "%(name)-docs":
         paths:

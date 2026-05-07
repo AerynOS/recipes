@@ -1,10 +1,8 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : pcre2
-version     : '10.47'
+version     : "10.47"
 release     : 8
 homepage    : https://github.com/PCRE2Project/pcre2
 upstreams   :
@@ -20,7 +18,7 @@ license     :
     - BSD-3-Clause
 # checkdeps   :
 #    - valgrind
-emul32      : yes
+emul32      : true
 setup       : |
     %configure --disable-static \
                --enable-pcre2-16 \

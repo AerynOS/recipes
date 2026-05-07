@@ -1,0 +1,26 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : hexyl
+version     : "0.17.0"
+release     : 1
+homepage    : https://github.com/sharkdp/hexyl
+upstreams   :
+    - https://github.com/sharkdp/hexyl/archive/refs/tags/v0.17.0.tar.gz : 72fa17397ad187eec6b295d02c7caabbb209a6e0d5706187b8a599bd5df8615e
+summary     : hexyl is a hex viewer for the terminal
+description : |
+    hexyl is a hex viewer for the terminal. It uses a colored output to distinguish different categories of bytes (NULL bytes, printable ASCII characters, ASCII whitespace characters, other ASCII characters and non-ASCII).
+license     : 
+    - Apache-2.0
+    - MIT
+    - X11
+    - X11-distribute-modifications-variant
+networking  : true
+setup       : |
+    %cargo_fetch
+build       : |
+    %cargo_build
+install     : |
+    %cargo_install
+check       : |
+    %cargo_test

@@ -1,0 +1,22 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Reilly Brogan <reilly@reillybrogan.com>
+Date: Tue, 24 Mar 2026 12:55:30 -0500
+Subject: [PATCH] aerynos execsnoop
+
+---
+ justfile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/justfile b/justfile
+index 5ec9dc2..aa94297 100644
+--- a/justfile
++++ b/justfile
+@@ -21,7 +21,7 @@ export RUSTFLAGS := if `which lld || true` != '' {
+ }
+ 
+ # Path to execsnoop binary.
+-execsnoop := `which execsnoop || which execsnoop-bpfcc || echo /usr/sbin/execsnoop-bpfcc`
++execsnoop := `which execsnoop || which execsnoop-bpfcc || echo /usr/sbin/bpf-execsnoop`
+ 
+ [private]
+ default: build-release

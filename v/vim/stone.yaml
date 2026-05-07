@@ -1,15 +1,13 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : vim
-version     : 9.1.1966
-release     : 16
+version     : "9.2.0389"
+release     : 24
 homepage    : https://github.com/vim/vim
 upstreams   :
-    - https://github.com/vim/vim/archive/refs/tags/v9.1.1966.tar.gz:
-        hash: d1e3691e74bdeb69e619a3c095382c2afe72463cc8c50a2739e13d2636277eb7
+    - https://github.com/vim/vim/archive/refs/tags/v9.2.0389.tar.gz:
+        hash: 27c7db205ab23ad53e067fafeb9ed3e6ae751afc85518db185d2e956f3d22ba9
         unpack: false
         rename: vim.tar.gz
 summary     : Vi IMproved, an advanced text editor
@@ -24,16 +22,20 @@ builddeps   :
     - pkgconfig(libcanberra)
     - pkgconfig(libsodium)
     - pkgconfig(luajit)
+    - pkgconfig(ncursesw)
     - pkgconfig(python3)
     - pkgconfig(ruby)
     - pkgconfig(sm)
-    - pkgconfig(ncursesw)
     - pkgconfig(x11)
     - pkgconfig(xdmcp)
     - pkgconfig(xpm)
     - pkgconfig(xt)
     - gpm-devel
-environment : |
+setup       : |
+    mkdir vim gvim
+    bsdtar-static -xf %(sourcedir)/vim.tar.gz --strip-components=1 -C vim
+    bsdtar-static -xf %(sourcedir)/vim.tar.gz --strip-components=1 -C gvim
+
     function vim_configure() {
         %patch %(pkgdir)/0001-Make-vim-stateless.patch
         %patch %(pkgdir)/0001-Read-vimrc-from-etc-vim.patch
@@ -46,18 +48,16 @@ environment : |
             --enable-multibyte \
             --enable-python3interp=dynamic \
             --enable-rubyinterp=dynamic \
+            --enable-wayland-focus-steal=yes \
             --with-compiledby="AerynOS" \
             --with-features=huge \
             --with-luajit \
             --with-modified-by="AerynOS" \
             --with-python3-stable-abi \
             --with-tlib=ncurses \
+            --with-wayland=yes \
             "$@"
     }
-setup       : |
-    mkdir vim gvim
-    bsdtar-static -xf %(sourcedir)/vim.tar.gz --strip-components=1 -C vim
-    bsdtar-static -xf %(sourcedir)/vim.tar.gz --strip-components=1 -C gvim
 
     pushd gvim
     vim_configure \
@@ -79,7 +79,7 @@ build       : |
     # The gvim build is a superset of the vim build so we can hit a 100% ccache hit rate with the latter by using CCACHE_BASEDIR
     for build in gvim vim; do
         %ccache_zero
-        env CCACHE_BASEDIR=${pwd}/${build} %make -C ${build}
+        env CCACHE_BASEDIR=${PWD}/${build} %make -C ${build}
         %ccache_stats
     done
 install     : |

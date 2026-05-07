@@ -1,0 +1,25 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Reilly Brogan <reilly@reillybrogan.com>
+Date: Wed, 11 Mar 2026 18:04:21 -0500
+Subject: [PATCH] Re-add linking to shared libs default
+
+Origin: vendor
+Forwarded: not-needed
+Last-Update: 2026-03-11
+---
+ runtime/CMakeLists.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/runtime/CMakeLists.txt b/runtime/CMakeLists.txt
+index a203e1c56b..7e60c7074a 100644
+--- a/runtime/CMakeLists.txt
++++ b/runtime/CMakeLists.txt
+@@ -264,7 +264,7 @@ set(switches)
+ 
+ # Only have either shared or static libs?
+ # Then explicitly default to linking against them via default LDC switch.
+-if(${BUILD_SHARED_LIBS} STREQUAL "ON")
++if((${BUILD_SHARED_LIBS} STREQUAL "ON") OR (${BUILD_SHARED_LIBS} STREQUAL "BOTH"))
+     set(switches "-link-defaultlib-shared")
+ elseif(${BUILD_SHARED_LIBS} STREQUAL "OFF")
+     set(switches "-link-defaultlib-shared=false")

@@ -1,14 +1,12 @@
-#
-# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : chezmoi
-version     : 2.66.0
-release     : 4
+version     : "2.70.2"
+release     : 6
 homepage    : https://github.com/twpayne/chezmoi
 upstreams   :
-    - https://github.com/twpayne/chezmoi/archive/refs/tags/v2.66.0.tar.gz : b76261f399ee828524713f2c83d13cd2d2592f20ff5b2536d6c15edc0483be86
+    - https://github.com/twpayne/chezmoi/archive/refs/tags/v2.70.2.tar.gz : 4dfacb37e1f6714305d7c8570bc25880342dfddbe81259c9253a5881de035321
 summary     : Manage your dotfiles across multiple machines
 description : |
     chezmoi helps you manage your personal configuration files
@@ -27,7 +25,7 @@ build       : |
         -tags noupgrade \
         -ldflags "-compressdwarf=false \
         -X main.version=%(version) \
-        -X main.date=${DATE}"
+        -X main.date=$(date -u +'%%Y-%%m-%%dT%%H:%%M:%%SZ' --date=@$SOURCE_DATE_EPOCH)"
 install     : |
     %install_bin chezmoi
     %install_file completions/chezmoi-completion.bash %(installroot)%(datadir)/bash-completion/completions/chezmoi

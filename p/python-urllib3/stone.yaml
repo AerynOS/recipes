@@ -1,11 +1,9 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : python-urllib3
-version     : 2.6.3
-release     : 2
+version     : "2.6.3"
+release     : 3
 homepage    : https://urllib3.readthedocs.io/
 upstreams   :
     - https://pypi.debian.net/urllib3/urllib3-2.6.3.tar.gz : 1b62b6884944a57dbe321509ab94fd4d3b307075e0c2eae991ac71ee15ad38ed
@@ -22,6 +20,8 @@ rundeps     :
 # checkdeps   :
 #     - python(pytest)
 # TODO trustme for tests
+setup       : |
+    %patch %(pkgdir)/ftbfs-setuptools_scm-10.patch
 build       : |
     %pyproject_build
 install     : |

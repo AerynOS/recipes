@@ -1,10 +1,8 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : spirv-tools
-version     : '2026.1'
+version     : "2026.1"
 release     : 15
 homepage    : https://github.com/KhronosGroup/SPIRV-Tools
 upstreams   :
@@ -17,7 +15,7 @@ license     :
 builddeps  :
     - pkgconfig(SPIRV-Headers)
     - pkgconfig(python3)
-emul32      : yes
+emul32      : true
 setup       : |
     %cmake \
         -DSPIRV-Headers_SOURCE_DIR=/usr \

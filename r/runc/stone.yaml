@@ -1,20 +1,18 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : runc
-version     : 1.3.3
-release     : 11
+version     : "1.4.2"
+release     : 13
 homepage    : https://runc.io/
 upstreams   :
-    - https://github.com/opencontainers/runc/archive/refs/tags/v1.3.3.tar.gz : 3da010af5c2c1c3d12d460255e4a7dc049c223ebc629c80fbbe4c10720997ffe
+    - https://github.com/opencontainers/runc/archive/refs/tags/v1.4.2.tar.gz : 9e1dcd513e28fac99e7b47fec38ce4f1969a9a9693b80619e9009286e2d0d584
 summary     : CLI tool for managing OCI compliant containers
 description : |
     CLI tool for managing OCI compliant containers
 license     :
     - Apache-2.0
-networking  : yes
+networking  : true
 builddeps   :
     - binary(go)
     - binary(go-md2man)

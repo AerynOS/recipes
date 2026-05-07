@@ -1,14 +1,12 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : godot
-version     : 4.4.1
-release     : 9
+version     : "4.6.2"
+release     : 12
 homepage    : https://godotengine.org
 upstreams   :
-    - https://github.com/godotengine/godot/archive/refs/tags/4.4.1-stable.tar.gz: a486c523494e155b6912a607b5813577f8f39285f8ad43ac76cb9141edad9888
+    - https://github.com/godotengine/godot/archive/refs/tags/4.6.2-stable.tar.gz: 908b759e7517fec65d687b3d468cd639fd8967d25da1522ef8a2087af638b3fe
 summary     : Godot Engine – Multi-platform 2D and 3D game engine
 description : |
     Godot Engine is a feature-packed, cross-platform game engine to create 2D and 3D games from a unified interface.
@@ -41,8 +39,6 @@ builddeps   :
     - pkgconfig(wayland-scanner)
     - pkgconfig(zlib)
     # TODO enet, libtheora, mbedtls, miniupnpc, wslay, speech-dispatcher
-setup       : |
-    %patch %(pkgdir)/ftbfs-system-glslang.patch
 build       : |
     export AERYN_SCONS_ENV_PASSTHROUGH=1
     export BUILD_NAME="AerynOS"

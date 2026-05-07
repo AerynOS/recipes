@@ -1,0 +1,43 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"p7zip": {
+			"build-depends": [
+				"pkgconfig(libnatspec)"
+			],
+			"depends": [
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libm.so.6(x86_64))",
+				"soname(libnatspec.so.0(x86_64))",
+				"soname(libstdc++.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/bin/7z",
+				"/usr/bin/7za",
+				"/usr/bin/7zr",
+				"/usr/lib/p7zip/7z",
+				"/usr/lib/p7zip/7z.so",
+				"/usr/lib/p7zip/7za",
+				"/usr/lib/p7zip/7zr",
+				"/usr/lib/p7zip/Codecs/Rar.so",
+				"/usr/share/man/man1/7z.1",
+				"/usr/share/man/man1/7za.1",
+				"/usr/share/man/man1/7zr.1"
+			],
+			"name": "p7zip",
+			"provides": [
+				"binary(7z)",
+				"binary(7za)",
+				"binary(7zr)",
+				"soname(p7zip/7z.so(x86_64))",
+				"soname(p7zip/Codecs/Rar.so(x86_64))"
+			]
+		}
+	},
+	"source-name": "p7zip",
+	"source-release": "1",
+	"source-version": "17.06"
+}

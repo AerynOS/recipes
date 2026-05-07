@@ -1,0 +1,55 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"pkgset-ghxst-mangowm-full": {
+			"depends": [
+				"binary(awww)",
+				"binary(grim)",
+				"binary(pkaction)",
+				"binary(slurp)",
+				"binary(swayidle)",
+				"binary(swaylock)",
+				"binary(waybar)",
+				"binary(wev)",
+				"binary(wf-recorder)",
+				"binary(wlsunset)",
+				"pkgset-ghxst-mangowm-recommended",
+				"polkit-kde-agent"
+			],
+			"files": [
+				"/usr/share/doc/pkgset-ghxst-mangowm-full/README"
+			],
+			"name": "pkgset-ghxst-mangowm-full"
+		},
+		"pkgset-ghxst-mangowm-minimal": {
+			"depends": [
+				"binary(mango)",
+				"pkgset-aeryn-base-desktop"
+			],
+			"files": [
+				"/usr/share/doc/pkgset-ghxst-mangowm-minimal/README"
+			],
+			"name": "pkgset-ghxst-mangowm-minimal"
+		},
+		"pkgset-ghxst-mangowm-recommended": {
+			"depends": [
+				"binary(elephant)",
+				"binary(foot)",
+				"binary(walker)",
+				"binary(wl-clip)",
+				"pkgset-ghxst-mangowm-minimal",
+				"xdg-desktop-portal",
+				"xdg-desktop-portal-gtk",
+				"xdg-desktop-portal-wlr"
+			],
+			"files": [
+				"/usr/share/doc/pkgset-ghxst-mangowm-recommended/README"
+			],
+			"name": "pkgset-ghxst-mangowm-recommended"
+		}
+	},
+	"source-name": "pkgset-ghxst-mangowm",
+	"source-release": "1",
+	"source-version": "2026.03"
+}

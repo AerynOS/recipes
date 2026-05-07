@@ -1,0 +1,26 @@
+diff --git a/core/ui/card_ui_overlay_mode/card_ui_overlay_mode.gd b/core/ui/card_ui_overlay_mode/card_ui_overlay_mode.gd
+index 8b913388..aa9f2743 100644
+--- a/core/ui/card_ui_overlay_mode/card_ui_overlay_mode.gd
++++ b/core/ui/card_ui_overlay_mode/card_ui_overlay_mode.gd
+@@ -46,11 +46,7 @@ const remove_list: PackedStringArray = [
+ 	"NotifyButton",
+ 	"HelpButton",
+ 	"VolumeSlider",
+-	"BrightnessSlider",
+-	"PerGameToggle",
+-	"MangoAppSlider",
+-	"FramerateLimitSlider",
+-	"RefreshRateSlider"
++	"PerGameToggle"
+ 	]
+ 
+ const settings_remove_list: PackedStringArray = [
+@@ -92,7 +89,7 @@ func _ready() -> void:
+ 	# TODO: Parse the parent PID's CLI args and use those instead.
+ 	if "--skip-update-pack" in cmdargs and launch_args.size() == 0:
+ 		logger.warn("Launched via update pack without arguments! Falling back to default.")
+-		launch_args = PackedStringArray(["steam", "-gamepadui", "-steamos3", "-steampal", "-steamdeck"])
++		launch_args = PackedStringArray(["steam", "-gamepadui"])
+ 
+ 	# Configure the locale
+ 	logger.debug("Setup Locale")

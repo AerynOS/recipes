@@ -1,20 +1,18 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : papers
-version     : "49.3"
-release     : 13
+version     : "50.1"
+release     : 17
 homepage    : https://apps.gnome.org/Papers/
 upstreams   :
-    - https://download.gnome.org/sources/papers/49/papers-49.3.tar.xz : 76975d9d1fd2f88c368fec8c31f0e56fa9dd93a1b8e85faceaa403c59a55aa90
+    - https://download.gnome.org/sources/papers/50/papers-50.1.tar.xz : f79ce4b950cf5111dc48e8b7dc1728b1651c80f32f0e24dce55371993ccab270
 summary     : Read documents
 description : |
     A document viewer for the GNOME desktop. You can view, search or annotate documents in many different formats.
     Papers supports documents in: PDF, PS, EPS, XPS, DjVu, TIFF, and Comic Books archives (CBR, CBT, CBZ, CB7).
 license     : GPL-2.0-or-later
-networking  : yes
+networking  : true
 builddeps   :
     - binary(blueprint-compiler)
     - binary(cargo)

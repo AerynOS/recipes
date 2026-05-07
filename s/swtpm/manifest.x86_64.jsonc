@@ -4,6 +4,7 @@
 	"packages": {
 		"swtpm": {
 			"build-depends": [
+				"binary(certtool)",
 				"binary(expect)",
 				"binary(nm)",
 				"binary(socat)",
@@ -38,6 +39,7 @@
 		},
 		"swtpm-devel": {
 			"build-depends": [
+				"binary(certtool)",
 				"binary(expect)",
 				"binary(nm)",
 				"binary(socat)",
@@ -61,6 +63,7 @@
 		},
 		"swtpm-libs": {
 			"build-depends": [
+				"binary(certtool)",
 				"binary(expect)",
 				"binary(nm)",
 				"binary(socat)",
@@ -93,6 +96,7 @@
 		},
 		"swtpm-tools": {
 			"build-depends": [
+				"binary(certtool)",
 				"binary(expect)",
 				"binary(nm)",
 				"binary(socat)",
@@ -153,6 +157,7 @@
 		},
 		"swtpm-tools-pkcs11": {
 			"build-depends": [
+				"binary(certtool)",
 				"binary(expect)",
 				"binary(nm)",
 				"binary(socat)",
@@ -176,6 +181,6 @@
 		}
 	},
 	"source-name": "swtpm",
-	"source-release": "1",
+	"source-release": "2",
 	"source-version": "0.10.1"
 }

@@ -1,13 +1,11 @@
-#
-# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : hunspell
-version     : 1.7.2
-release     : 3
+version     : "1.7.3"
+release     : 4
 upstreams   :
-    - https://github.com/hunspell/hunspell/releases/download/v1.7.2/hunspell-1.7.2.tar.gz : 11ddfa39afe28c28539fe65fc4f1592d410c1e9b6dd7d8a91ca25d85e9ec65b8
+    - https://github.com/hunspell/hunspell/releases/download/v1.7.3/hunspell-1.7.3.tar.gz : 433274dac0619cb00c2e18b43a3dd3a9d50da5b5613fa9b5c21781e35dd76bc1
 homepage    : https://hunspell.github.io
 license     :
     - MPL-1.1
@@ -17,14 +15,16 @@ summary     : Hunspell spelling checker
 description : |
     Hunspell is a spell checker and morphological analyzer library and program designed for languages with rich morphology and complex word compounding or character encoding.
 builddeps   :
+    - binary(msgfmt)
+    - pkgconfig(ncursesw)
     - pkgconfig(readline)
 tuning      :
     - lto: full
 setup       : |
     %configure \
-               --disable-static \
-               --with-ui \
-               --with-readline
+        --disable-static \
+        --with-readline \
+        --with-ui
 build       : |
     %make
 install     : |

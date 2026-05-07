@@ -1,0 +1,51 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"inotify-tools": {
+			"depends": [
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libstdc++.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/bin/fsnotifywait",
+				"/usr/bin/fsnotifywatch",
+				"/usr/bin/inotifywait",
+				"/usr/bin/inotifywatch",
+				"/usr/lib/libinotifytools.so.0",
+				"/usr/lib/libinotifytools.so.0.4.1",
+				"/usr/share/man/man1/fsnotifywait.1",
+				"/usr/share/man/man1/fsnotifywatch.1",
+				"/usr/share/man/man1/inotifywait.1",
+				"/usr/share/man/man1/inotifywatch.1"
+			],
+			"name": "inotify-tools",
+			"provides": [
+				"binary(fsnotifywait)",
+				"binary(fsnotifywatch)",
+				"binary(inotifywait)",
+				"binary(inotifywatch)",
+				"soname(libinotifytools.so.0(x86_64))"
+			]
+		},
+		"inotify-tools-devel": {
+			"depends": [
+				"inotify-tools"
+			],
+			"files": [
+				"/usr/include/inotifytools/fanotify-dfid-name.h",
+				"/usr/include/inotifytools/fanotify.h",
+				"/usr/include/inotifytools/inotify-nosys.h",
+				"/usr/include/inotifytools/inotify.h",
+				"/usr/include/inotifytools/inotifytools.h",
+				"/usr/lib/libinotifytools.a",
+				"/usr/lib/libinotifytools.so"
+			],
+			"name": "inotify-tools-devel"
+		}
+	},
+	"source-name": "inotify-tools",
+	"source-release": "1",
+	"source-version": "4.25.9.0"
+}

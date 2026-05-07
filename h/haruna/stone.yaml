@@ -1,11 +1,9 @@
-#
-# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : haruna
-version     : 1.7.1
-release     : 12
+version     : "1.7.1"
+release     : 13
 upstreams   :
     - https://download.kde.org/stable/haruna/1.7.1/haruna-1.7.1.tar.xz : b29a717151b9d65f5abd736a3a774282d3014e281c8b89f2b79cc021042406e2
 homepage    : https://invent.kde.org/multimedia/haruna/
@@ -64,6 +62,6 @@ install     : |
     patchelf --remove-rpath %(installroot)/%(bindir)/haruna
 
     # Cleaning icons with non-standard resolution
-    for i in 44 150 310; do	
+    for i in 44 150 310; do
         rm -rf %(installroot)/usr/share/icons/hicolor/"${i}x${i}"
     done

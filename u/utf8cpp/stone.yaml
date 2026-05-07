@@ -1,0 +1,24 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : utf8cpp
+version     : "4.0.9"
+release     : 1
+homepage    : https://github.com/nemtrif/utfcpp
+upstreams   :
+    - https://github.com/nemtrif/utfcpp/archive/refs/tags/v4.0.9.tar.gz : 397a9a2a6ed5238f854f490b0177b840abc6b62571ec3e07baa0bb94d3f14d5a
+summary     : UTF-8 with C++ in a Portable Way
+description : |
+    UTF-8 with C++ in a Portable Way
+license     : 
+    - BSL-1.0
+setup       : |
+    %cmake 
+build       : |
+    %cmake_build
+install     : |
+    %cmake_install
+packages    :
+    - "%(name)":
+        paths:
+            - /usr/include/utf8cpp

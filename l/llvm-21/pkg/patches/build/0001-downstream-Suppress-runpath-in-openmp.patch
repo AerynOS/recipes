@@ -1,0 +1,27 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Reilly Brogan <reilly@reillybrogan.com>
+Date: Thu, 9 Jan 2025 23:27:13 -0600
+Subject: [PATCH] downstream: Suppress runpath in openmp
+
+The libraries for openmp are installed into libdir, so RUNPATH is unnecessary. If this argument is not set then a relative RUNPATH is added to `llvm-omp-*` binaries which Boulder can't currently handle.
+
+Origin: vendor
+Forwarded: not-needed
+Last-Update: 2025-01-14
+---
+ offload/tools/CMakeLists.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/offload/tools/CMakeLists.txt b/offload/tools/CMakeLists.txt
+index 13772a4a675e..b6814dafa7d2 100644
+--- a/offload/tools/CMakeLists.txt
++++ b/offload/tools/CMakeLists.txt
+@@ -5,7 +5,7 @@ mark_as_advanced(OPENMP_TOOLS_INSTALL_DIR)
+ # Move these macros to AddOpenMP if such a CMake module is ever created.
+ 
+ macro(add_openmp_tool name)
+-  llvm_add_tool(OPENMP ${ARGV})
++  llvm_add_tool(OPENMP ${ARGV} NO_INSTALL_RPATH)
+ endmacro()
+ 
+ macro(add_openmp_tool_symlink name)

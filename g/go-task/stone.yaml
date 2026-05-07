@@ -1,14 +1,12 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : go-task
-version     : 3.48.0
-release     : 10
+version     : "3.50.0"
+release     : 12
 homepage    : https://taskfile.dev/
 upstreams   :
-    - https://github.com/go-task/task/archive/refs/tags/v3.48.0.tar.gz : 41784e166ef1a6bf429829195a727345296dd9fb94d59a274f2e158383167753
+    - https://github.com/go-task/task/archive/refs/tags/v3.50.0.tar.gz : d026cc8b9a766d623b8d42ae83986268cb2af91927d0ec66015e4053292dce88
 summary     : A task runner / simpler Make alternative written in Go
 description : |
     A task runner / simpler Make alternative written in Go
@@ -16,7 +14,7 @@ license     :
     - MIT
 builddeps   :
    - binary(go)
-networking  : yes
+networking  : true
 environment : |
     export GO111MODULE=auto
     export GOFLAGS="-buildmode=pie -trimpath -mod=readonly -modcacherw -ldflags=-linkmode=external"

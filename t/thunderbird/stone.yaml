@@ -1,17 +1,12 @@
-#
-# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
-# SPDX-FileCopyrightText: © 2025-     AerynOS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : thunderbird
-version     : 147.0.1
-release     : 34
+version     : "150.0.1"
+release     : 42
 homepage    : https://www.thunderbird.net/
 upstreams   :
-    - https://releases.mozilla.org/pub/thunderbird/releases/147.0.1/source/thunderbird-147.0.1.source.tar.xz:
-        hash: 3e8a52c552a983340ced4c8f44ee37ae5028a2c9d717b9b49ee37ae72a6615ce
-        unpackdir: thunderbird
+    - https://releases.mozilla.org/pub/thunderbird/releases/150.0.1/source/thunderbird-150.0.1.source.tar.xz : 469a3f0a260b4bb33c6215fd46caf3e76e7ca0267216cc4669336291168bcbd6
 summary     : Thunderbird Email Client
 description : |
     Thunderbird Email Client
@@ -67,7 +62,7 @@ setup       : |
     %patch %(pkgdir)/patches/0001-Fix-Firefox-Thunderbird-envvar-conflicts.patch
     %patch %(pkgdir)/patches/0001-Allow-installing-addons-from-user-scope.patch
 
-    %patch %(pkgdir)/patches/ftbfs-glibc-2.43.patch -d security/nss
+    %patch %(pkgdir)/patches/0001-ftbfs-rust-1.95.patch
 
     cp %(pkgdir)/build/mozconfig .
     sed -e 's|@@JOBCOUNT@@|%(jobs)|' -e 's|@@LIBDIR@@|%(libdir)|' -i mozconfig
@@ -81,8 +76,6 @@ setup       : |
         echo "ac_add_options --enable-lto=cross,full" >> mozconfig
     fi
 
-    # Try to remove this in thunderbird 148
-    ./mach tb-rust vendor
     %patch %(pkgdir)/patches/ftbfs-glibc-2.43-2.patch
     sed -i 's/f8ad2b69fa472e332b50572c1b2dcc1c8a0fa783a1199aad245398d3df421b4b/dfdde6b4d42603fd3fe087a96bc0e7258ed38891154132a55b1eeac504f6f3c6/g' third_party/rust/glslopt/.cargo-checksum.json
     sed -i 's/f8ad2b69fa472e332b50572c1b2dcc1c8a0fa783a1199aad245398d3df421b4b/dfdde6b4d42603fd3fe087a96bc0e7258ed38891154132a55b1eeac504f6f3c6/g' comm/third_party/rust/glslopt/.cargo-checksum.json

@@ -1,0 +1,192 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Stanislav Brabec <sbrabec@suse.com>
+Date: Thu, 30 Apr 2026 05:24:41 +0200
+Subject: [PATCH] Fix build with libeconf
+
+Building with libeconf fails. Fix the build:
+- Add missing includes.
+- Make open_etc_shells() public, as required by login.c.
+- shells.c requires linking against libeconf. To prevent linking of all
+  binaries with libeconf, split shells.c out of libcommon to libcommon_shells and
+  use it only if it is really needed.
+
+Signed-off-by: Stanislav Brabec <sbrabec@suse.cz>
+---
+ include/shells.h          |  8 ++++++++
+ lib/Makemodule.am         | 11 ++++++++++-
+ lib/shells.c              |  2 +-
+ login-utils/Makemodule.am |  5 +----
+ login-utils/login.c       |  4 ++++
+ sys-utils/Makemodule.am   |  6 +++---
+ term-utils/Makemodule.am  |  4 ++--
+ text-utils/Makemodule.am  |  2 +-
+ 8 files changed, 30 insertions(+), 12 deletions(-)
+
+diff --git a/include/shells.h b/include/shells.h
+index 7f2d2469c..9e9114f65 100644
+--- a/include/shells.h
++++ b/include/shells.h
+@@ -6,9 +6,17 @@
+ 
+ #include <pwd.h>
+ 
++#if defined (HAVE_LIBECONF) && defined (USE_VENDORDIR)
++# include <libeconf.h>
++#endif
++
+ #define UL_SHELL_NOENV  (1 << 0)
+ #define UL_SHELL_NOPWD  (1 << 1)
+ 
++#if defined (HAVE_LIBECONF) && defined (USE_VENDORDIR)
++econf_file *open_etc_shells(void);
++#endif
++
+ extern void print_shells(FILE *out, const char *format);
+ extern int is_known_shell(const char *shell_name);
+ 
+diff --git a/lib/Makemodule.am b/lib/Makemodule.am
+index 34f9c890c..0dfcb1587 100644
+--- a/lib/Makemodule.am
++++ b/lib/Makemodule.am
+@@ -38,7 +38,6 @@ libcommon_la_SOURCES = \
+ 	lib/randutils.c \
+ 	lib/sha1.c \
+ 	lib/sha256.c \
+-	lib/shells.c \
+ 	lib/signames.c \
+ 	lib/strutils.c \
+ 	lib/strv.c \
+@@ -69,6 +68,16 @@ libcommon_la_SOURCES += lib/procfs.c
+ endif
+ endif
+ 
++EXTRA_LTLIBRARIES += libcommon_shells.la
++libcommon_shells_la_CFLAGS = $(AM_CFLAGS)
++libcommon_shells_la_SOURCES = \
++	lib/shells.c
++if HAVE_ECONF
++if USE_VENDORDIR
++libcommon_shells_la_LIBADD = $(ECONF_LIBS)
++endif
++endif
++
+ EXTRA_LTLIBRARIES += libtcolors.la
+ libtcolors_la_CFLAGS = $(AM_CFLAGS)
+ libtcolors_la_SOURCES = lib/colors.c lib/color-names.c include/colors.h include/color-names.h
+diff --git a/lib/shells.c b/lib/shells.c
+index f773f0df8..ca7a8461d 100644
+--- a/lib/shells.c
++++ b/lib/shells.c
+@@ -15,7 +15,7 @@
+ #include "shells.h"
+ 
+ #if defined (HAVE_LIBECONF) && defined (USE_VENDORDIR)
+-static econf_file *open_etc_shells(void)
++econf_file *open_etc_shells(void)
+ {
+ 	econf_err error;
+ 	econf_file *key_file = NULL;
+diff --git a/login-utils/Makemodule.am b/login-utils/Makemodule.am
+index cfb0e7708..08a9bba50 100644
+--- a/login-utils/Makemodule.am
++++ b/login-utils/Makemodule.am
+@@ -60,7 +60,7 @@ dist_noinst_DATA += login-utils/login.1.adoc
+ login_SOURCES = \
+ 	login-utils/login.c \
+ 	lib/logindefs.c
+-login_LDADD = $(LDADD) libcommon.la -lpam
++login_LDADD = $(LDADD) libcommon.la libcommon_shells.la -lpam
+ if HAVE_LINUXPAM
+ login_LDADD += -lpam_misc
+ endif
+@@ -70,9 +70,6 @@ endif
+ if HAVE_SELINUX
+ login_LDADD += -lselinux
+ endif
+-if HAVE_ECONF
+-login_LDADD += -leconf
+-endif
+ endif # BUILD_LOGIN
+ 
+ 
+diff --git a/login-utils/login.c b/login-utils/login.c
+index 8459a013a..56da715bb 100644
+--- a/login-utils/login.c
++++ b/login-utils/login.c
+@@ -86,6 +86,10 @@
+ 
+ #include "logindefs.h"
+ 
++#if defined (HAVE_LIBECONF) && defined (USE_VENDORDIR)
++# include "shells.h"
++#endif
++
+ #define LOGIN_MAX_TRIES        3
+ #define LOGIN_EXIT_TIMEOUT     5
+ #define LOGIN_TIMEOUT          60
+diff --git a/sys-utils/Makemodule.am b/sys-utils/Makemodule.am
+index e6c3f85ac..5f0919b86 100644
+--- a/sys-utils/Makemodule.am
++++ b/sys-utils/Makemodule.am
+@@ -20,7 +20,7 @@ usrbin_exec_PROGRAMS += flock
+ MANPAGES += sys-utils/flock.1
+ dist_noinst_DATA += sys-utils/flock.1.adoc
+ flock_SOURCES = sys-utils/flock.c lib/monotonic.c lib/timer.c
+-flock_LDADD = $(LDADD) libcommon.la $(REALTIME_LIBS)
++flock_LDADD = $(LDADD) libcommon.la libcommon_shells.la $(REALTIME_LIBS)
+ endif
+ 
+ if BUILD_CHOOM
+@@ -522,7 +522,7 @@ dist_noinst_DATA += sys-utils/unshare.1.adoc
+ unshare_SOURCES = sys-utils/unshare.c \
+ 		  lib/caputils.c \
+ 		  lib/exec_shell.c
+-unshare_LDADD = $(LDADD) libcommon.la
++unshare_LDADD = $(LDADD) libcommon.la libcommon_shells.la
+ unshare_CFLAGS = $(AM_CFLAGS) -I$(ul_libmount_incdir)
+ 
+ if HAVE_STATIC_UNSHARE
+@@ -540,7 +540,7 @@ MANPAGES += sys-utils/nsenter.1
+ dist_noinst_DATA += sys-utils/nsenter.1.adoc
+ nsenter_SOURCES = sys-utils/nsenter.c lib/exec_shell.c \
+ 		  lib/caputils.c
+-nsenter_LDADD = $(LDADD) libcommon.la $(SELINUX_LIBS)
++nsenter_LDADD = $(LDADD) libcommon.la libcommon_shells.la $(SELINUX_LIBS)
+ 
+ if HAVE_STATIC_NSENTER
+ usrbin_exec_PROGRAMS += nsenter.static
+diff --git a/term-utils/Makemodule.am b/term-utils/Makemodule.am
+index 261325dbd..cca98e95b 100644
+--- a/term-utils/Makemodule.am
++++ b/term-utils/Makemodule.am
+@@ -7,7 +7,7 @@ script_SOURCES = term-utils/script.c \
+ 		 include/pty-session.h \
+ 		 lib/monotonic.c
+ script_CFLAGS = $(AM_CFLAGS) -Wno-format-y2k
+-script_LDADD = $(LDADD) libcommon.la $(MATH_LIBS) $(REALTIME_LIBS) -lutil
++script_LDADD = $(LDADD) libcommon.la libcommon_shells.la $(MATH_LIBS) $(REALTIME_LIBS) -lutil
+ if HAVE_UTEMPTER
+ script_LDADD += -lutempter
+ endif
+@@ -38,7 +38,7 @@ scriptlive_SOURCES = term-utils/scriptlive.c \
+ 		       lib/pty-session.c \
+ 		       include/pty-session.h \
+ 		       lib/monotonic.c
+-scriptlive_LDADD = $(LDADD) libcommon.la $(MATH_LIBS) $(REALTIME_LIBS) -lutil
++scriptlive_LDADD = $(LDADD) libcommon.la libcommon_shells.la $(MATH_LIBS) $(REALTIME_LIBS) -lutil
+ endif # BUILD_SCRIPTLIVE
+ 
+ 
+diff --git a/text-utils/Makemodule.am b/text-utils/Makemodule.am
+index c4c3e5e23..ddae7b1e1 100644
+--- a/text-utils/Makemodule.am
++++ b/text-utils/Makemodule.am
+@@ -98,7 +98,7 @@ MANPAGES += text-utils/more.1
+ dist_noinst_DATA += text-utils/more.1.adoc
+ more_SOURCES = text-utils/more.c
+ more_CFLAGS = $(AM_CFLAGS) $(BSD_WARN_CFLAGS)
+-more_LDADD = $(LDADD) $(MAGIC_LIBS) libcommon.la
++more_LDADD = $(LDADD) $(MAGIC_LIBS) libcommon.la libcommon_shells.la
+ if HAVE_TINFO
+ more_LDADD += $(TINFO_LIBS)
+ more_LDADD += $(TINFO_CFLAGS)

@@ -1,10 +1,8 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : opengamepadui-installer
-version     : 20240730
+version     : "20240730"
 release     : 3
 homepage    : https://github.com/philmmanjaro/manjaro-installer-gd
 upstreams   :
@@ -13,7 +11,7 @@ summary     : Open source gamepad-native OS installer
 description : |
     Open Gamepad UI OS Installer with native gamepad support
 license     : GPL-3.0-or-later
-networking  : yes
+networking  : true
 builddeps   :
     - binary(cargo)
     - binary(godot)
@@ -21,7 +19,7 @@ builddeps   :
     - binary(wget)
     - sysbinary(setcap)
     - soname(libfontconfig.so.1(x86_64))
-rundeps     : 
+rundeps     :
     - binary(dd)
     - binary(glxinfo)
     - binary(pv)

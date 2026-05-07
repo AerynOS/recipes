@@ -1,14 +1,12 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : nspr
-version     : "4.38.2"
-release     : 8
+version     : "4.39"
+release     : 9
 homepage    : https://firefox-source-docs.mozilla.org/nspr/index.html
 upstreams   :
-    - https://archive.mozilla.org/pub/nspr/releases/v4.38.2/src/nspr-4.38.2.tar.gz : e4092faeab77bdc9b32db1113e4215948ee768e26c4666db3b5a60b35f2c9105
+    - https://archive.mozilla.org/pub/nspr/releases/v4.39/src/nspr-4.39.tar.gz : bbd02ee87a55676063a63e5bc819e0227de2666b47307b2a0134414cdf42368e
 summary     : Netscape Portable Runtime Libraries
 description : |
     Portable runtime functions for Firefox and similar projects
@@ -26,15 +24,25 @@ packages    :
             - /usr/bin
 environment : |
     cd nspr
-emul32      : yes
+emul32      : true
 profiles    :
     - emul32:
         setup: |
             sed -i 's#$(LIBRARY) ##' config/rules.mk
-            %configure --with-mozilla --with-pthreads --disable-static
+
+            # cannot access nspr.m4: Value too large for defined data type
+            export CPPFLAGS+=" -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE"
+
+            %configure \
+                --with-mozilla \
+                --with-pthreads \
+                --disable-static
 setup: |
     sed -i 's#$(LIBRARY) ##' config/rules.mk
-    %configure --with-mozilla --with-pthreads --enable-64bit
+    %configure \
+        --with-mozilla \
+        --with-pthreads \
+        --enable-64bit
 build       : |
     %make
 install     : |

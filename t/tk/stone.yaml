@@ -1,11 +1,9 @@
-#
-# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : tk
-version     : 9.0.3
-release     : 2
+version     : "9.0.3"
+release     : 3
 upstreams   :
     - http://download.sourceforge.net/sourceforge/tcl/tk9.0.3-src.tar.gz : bf344efadb618babb7933f69275620f72454d1c8220130da93e3f7feb0efbf9b
 homepage    : https://tcl.sourceforge.net
@@ -61,5 +59,7 @@ packages    :
             - /usr/lib/libtcl*.so
 
     - "%(name)-devel":
+        rundeps:
+            - pkgconfig(x11) # X11/Xlib.h include
         paths:
             - /usr/lib/tkConfig.sh

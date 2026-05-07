@@ -1,10 +1,8 @@
-#
-# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : drm-info
-version     : 2.9.0
+version     : "2.9.0"
 release     : 4
 homepage    : https://gitlab.freedesktop.org/emersion/drm_info
 upstreams   :
@@ -26,4 +24,3 @@ build       : |
     %meson_build
 install     : |
     %meson_install
-

@@ -1,21 +1,18 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-# SPDX-FileCopyRightText: © 2025- AerynOS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : containerd
-version     : 2.2.1
-release     : 13
+version     : "2.3.0"
+release     : 17
 homepage    : https://containerd.io/
 upstreams   :
-    - https://github.com/containerd/containerd/archive/refs/tags/v2.2.1.tar.gz : af5707a26891486332142cc0ade4f0c543f707d3954838f5cecee73b833cf9b4
+    - https://github.com/containerd/containerd/archive/refs/tags/v2.3.0.tar.gz : 915ef1d9fab5fbd8e3726bfb80c901fd87aa25e938bed5194df132853036ed58
 summary     : An open and reliable container runtime
 description : |
     An open and reliable container runtime
 license     :
     - Apache-2.0
-networking  : yes
+networking  : true
 builddeps   :
     - binary(go)
     - binary(go-md2man)
@@ -46,7 +43,6 @@ install     : |
 
     # systemd
     %install_file containerd.service -t %(installroot)%(libdir)/systemd/system
-    %install_file %(pkgdir)/containerd.preset -t %(installroot)/%(libdir)/systemd/system-preset
 
     # Completions
     %install_file contrib/autocomplete/ctr %(installroot)/%(completionsdir)/ctr

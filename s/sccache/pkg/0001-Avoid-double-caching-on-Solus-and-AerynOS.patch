@@ -1,0 +1,26 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Reilly Brogan <reilly@reillybrogan.com>
+Date: Wed, 6 May 2026 12:06:08 -0500
+Subject: [PATCH] Avoid double-caching on Solus and AerynOS
+
+Following up from https://github.com/mozilla/sccache/pull/2524 add the ccache path that Solus uses (`/usr/lib64/ccache/bin`) and the one that AerynOS uses (`/usr/lib/ccache/bin`).
+
+Signed-off-by: Reilly Brogan <reilly@reillybrogan.com>
+---
+ src/util.rs | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/src/util.rs b/src/util.rs
+index baea99e..ca384c5 100644
+--- a/src/util.rs
++++ b/src/util.rs
+@@ -1304,7 +1304,9 @@ mod tests {
+         // Create a PATH with ccache directories
+         let path_with_ccache = env::join_paths([
+             "/usr/lib64/ccache",
++            "/usr/lib64/ccache/bin",
+             "/usr/lib/ccache",
++            "/usr/lib/ccache/bin",
+             "/usr/bin",
+             "/usr/local/bin",
+             "/home/user/bin",

@@ -1,19 +1,16 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : pipewire
-version     : 1.4.10
-release     : 23
+version     : "1.6.4"
+release     : 30
 homepage    : https://pipewire.org/
 upstreams   :
-    - https://gitlab.freedesktop.org/pipewire/pipewire/-/archive/1.4.10/pipewire-1.4.10.tar.gz : 20184b3fac2e2759385302423bdf04db64490a3c79a091147993a822ae992128
+   - https://gitlab.freedesktop.org/pipewire/pipewire/-/archive/1.6.4/pipewire-1.6.4.tar.gz : e31ae906dc7fee1c56ccc4279247b385685b926b3f900cebd910d4bd4403d86b
 summary     : Linux audio + video multiplexing
 description : |
     PipeWire is a project that aims to greatly improve handling of audio and video under Linux. It provides a low-latency, graph-based processing engine on top of audio and video devices that can be used to support the use cases currently handled by both PulseAudio and JACK. PipeWire was designed with a powerful security model that makes interacting with audio and video devices from containerized applications easy, with support for Flatpak applications being the primary goal.
-license     :
-    - MIT
+license     : MIT
 builddeps   :
     - binary(doxygen)
     - binary(gettext)
@@ -32,6 +29,7 @@ builddeps   :
     - pkgconfig(lc3)
     - pkgconfig(ldacBT-enc)
     - pkgconfig(libavcodec)
+    - pkgconfig(libavfilter)
     - pkgconfig(libavformat)
     - pkgconfig(libcanberra)
     - pkgconfig(libcap)
@@ -46,23 +44,24 @@ builddeps   :
     - pkgconfig(lilv-0)
     - pkgconfig(ncursesw)
     - pkgconfig(openssl)
+    - pkgconfig(opus)
     - pkgconfig(readline)
+    - pkgconfig(sbc)
+    - pkgconfig(sdl2-compat)
     - pkgconfig(sndfile)
     - pkgconfig(systemd)
     - pkgconfig(vulkan)
+    - pkgconfig(webrtc-audio-processing-2)
     - pkgconfig(x11-xcb)
     - pkgconfig(xfixes)
-    - pkgconfig(opus)
-    - pkgconfig(sbc)
-    - pkgconfig(sdl2-compat)
-    - pkgconfig(webrtc-audio-processing-2)
     # libffado?
     # lc3plus
     # libcamera
     # jack
+    # ldacbt-dec
+    # libapparmor
+    # libselinux
 setup       : |
-    %patch %(pkgdir)/0001-Fix-clang-build-error.patch
-
     %meson \
         -Dbluez5=enabled \
         -Dffmpeg=enabled \

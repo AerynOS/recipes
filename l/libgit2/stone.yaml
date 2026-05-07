@@ -1,14 +1,12 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : libgit2
-version     : 1.9.2
-release     : 7
+version     : "1.9.3"
+release     : 8
 homepage    : https://libgit2.org
 upstreams   :
-    - https://github.com/libgit2/libgit2/archive/refs/tags/v1.9.2.tar.gz : 6f097c82fc06ece4f40539fb17e9d41baf1a5a2fc26b1b8562d21b89bc355fe6
+    - https://github.com/libgit2/libgit2/archive/refs/tags/v1.9.3.tar.gz : d532172d7ab24d2a25944e2434212d63ee85f3650e97b5f7579e7f201a78ad64
 summary    : libgit2 is a portable, pure C implementation of the Git core methods.
 description: |
     libgit2 is a portable, pure C implementation of the Git core methods provided as a linkable library with a solid API, allowing to build Git functionality into your application.
@@ -20,10 +18,10 @@ builddeps   :
     - pkgconfig(openssl)
 setup       : |
     %cmake \
-           -DBUILD_TESTS=OFF \
-           -DREGEX_BACKEND=pcre2 \
-           -DUSE_SSH:BOOL=ON \
-           -DUSE_THREADS:BOOL=ON
+        -DBUILD_TESTS=OFF \
+        -DREGEX_BACKEND=pcre2 \
+        -DUSE_THREADS:BOOL=ON \
+        -DUSE_SSH:BOOL=ON
 build       : |
     %cmake_build
 install     : |

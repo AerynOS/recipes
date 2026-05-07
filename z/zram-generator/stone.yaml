@@ -1,11 +1,9 @@
-#
-# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : zram-generator
 # Updating this package? See the note about Cargo.lock below
-version     : 1.2.1
+version     : "1.2.1"
 release     : 3
 homepage    : https://github.com/systemd/zram-generator
 upstreams   :
@@ -13,7 +11,7 @@ upstreams   :
 summary     : Systemd unit generator for zram devices
 description : |
     Systemd unit generator for zram devices
-networking  : yes
+networking  : true
 license     : MIT
 builddeps   :
     - binary(gem)

@@ -1,0 +1,43 @@
+diff --git a/meson.build b/meson.build
+index 32b363b..0f889fa 100644
+--- a/meson.build
++++ b/meson.build
+@@ -121,7 +121,7 @@ dwl_ipc_protocol = 'protocols/dwl-ipc-unstable-v2.xml'
+ 
+ wayland_scanner_client_header = generator(
+   wayland_scanner,
+-  output: '@BASENAME@-protocol.h', 
++  output: '@BASENAME@-protocol.h',
+   arguments: ['client-header', '@INPUT@', '@OUTPUT@']
+ )
+ 
+@@ -150,4 +150,4 @@ desktop_install_dir = join_paths(prefix, 'share/wayland-sessions')
+ portal_install_dir = join_paths(prefix, 'share/xdg-desktop-portal')
+ install_data('assets/mango.desktop', install_dir : desktop_install_dir)
+ install_data('assets/mango-portals.conf', install_dir : portal_install_dir)
+-install_data('assets/config.conf', install_dir : join_paths(sysconfdir, 'mango'))
++install_data('assets/config.conf', install_dir : join_paths('/usr/share/defaults/', 'mango'))
+diff --git a/src/config/parse_config.h b/src/config/parse_config.h
+index b4fb37e..951bec8 100644
+--- a/src/config/parse_config.h
++++ b/src/config/parse_config.h
+@@ -8,6 +8,10 @@
+ #define SYSCONFDIR "/etc"
+ #endif
+ 
++#ifndef VENDORDIR
++#define VENDORDIR "/usr/share/defaults"
++#endif
++
+ // 整数版本 - 截断小数部分
+ #define CLAMP_INT(x, min, max)                                                 \
+ 	((int32_t)(x) < (int32_t)(min)                                             \
+@@ -3510,6 +3514,8 @@ bool parse_config(void) {
+ 			// 如果文件不存在，则使用 /etc/mango/config.conf
+ 			snprintf(filename, sizeof(filename), "%s/mango/config.conf",
+ 					 SYSCONFDIR);
++			snprintf(filename, sizeof(filename), "%s/mango/config.conf",
++					 VENDORDIR);
+ 		}
+ 	}
+ 

@@ -29,15 +29,18 @@
 				"/usr/sbin/blkdeactivate",
 				"/usr/sbin/dmsetup",
 				"/usr/sbin/dmstats",
+				"/usr/sbin/dmvdostats",
 				"/usr/share/man/man8/blkdeactivate.8",
 				"/usr/share/man/man8/dmsetup.8",
-				"/usr/share/man/man8/dmstats.8"
+				"/usr/share/man/man8/dmstats.8",
+				"/usr/share/man/man8/dmvdostats.8"
 			],
 			"name": "device-mapper",
 			"provides": [
 				"sysbinary(blkdeactivate)",
 				"sysbinary(dmsetup)",
-				"sysbinary(dmstats)"
+				"sysbinary(dmstats)",
+				"sysbinary(dmvdostats)"
 			]
 		},
 		"device-mapper-devel": {
@@ -88,7 +91,6 @@
 				"soname(libdevmapper.so.1.02(x86_64))"
 			],
 			"files": [
-				"/usr/lib/systemd/system-preset/device-mapper-event.preset",
 				"/usr/lib/systemd/system/dm-event.service",
 				"/usr/lib/systemd/system/dm-event.socket",
 				"/usr/sbin/dmeventd",
@@ -196,7 +198,7 @@
 				"soname(libblkid.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libdevmapper-event.so.1.02(x86_64))",
-				"soname(libm.so.6(x86_64))",
+				"soname(libdevmapper.so.1.02(x86_64))",
 				"soname(libnvme.so.1(x86_64))",
 				"soname(libreadline.so.8(x86_64))",
 				"soname(libsystemd.so.0(x86_64))",
@@ -206,7 +208,8 @@
 			],
 			"files": [
 				"/usr/lib/lvm2/lvresize_fs_helper",
-				"/usr/lib/systemd/system-preset/lvm2.preset",
+				"/usr/lib/systemd/system-preset/98-device-mapper-event.preset",
+				"/usr/lib/systemd/system-preset/98-lvm2.preset",
 				"/usr/lib/systemd/system/blk-availability.service",
 				"/usr/lib/systemd/system/lvm-devices-import.path",
 				"/usr/lib/systemd/system/lvm-devices-import.service",
@@ -269,6 +272,9 @@
 				"/usr/sbin/vgscan",
 				"/usr/sbin/vgsplit",
 				"/usr/share/man/man5/lvm.conf.5",
+				"/usr/share/man/man7/lvm-args.7",
+				"/usr/share/man/man7/lvm-categories.7",
+				"/usr/share/man/man7/lvm-index.7",
 				"/usr/share/man/man7/lvmautoactivation.7",
 				"/usr/share/man/man7/lvmcache.7",
 				"/usr/share/man/man7/lvmraid.7",
@@ -435,7 +441,6 @@
 				"soname(libc.so.6(x86_64))",
 				"soname(libdevmapper-event.so.1.02(x86_64))",
 				"soname(libdevmapper.so.1.02(x86_64))",
-				"soname(libm.so.6(x86_64))",
 				"soname(libnvme.so.1(x86_64))",
 				"soname(libsystemd.so.0(x86_64))",
 				"soname(libudev.so.1(x86_64))"
@@ -462,6 +467,6 @@
 		}
 	},
 	"source-name": "lvm2",
-	"source-release": "13",
-	"source-version": "2.03.38"
+	"source-release": "17",
+	"source-version": "2.03.40"
 }

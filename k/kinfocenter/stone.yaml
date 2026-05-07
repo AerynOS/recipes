@@ -1,13 +1,11 @@
-#
-# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : kinfocenter
-version     : 6.5.5
-release     : 18
+version     : "6.6.4"
+release     : 24
 upstreams   :
-    - https://download.kde.org/stable/plasma/6.5.5/kinfocenter-6.5.5.tar.xz : 567b8f9f4c806414cf417fd59aceaa37485696bd6b655aea01fffd6e2bd5b81c
+    - https://download.kde.org/stable/plasma/6.6.4/kinfocenter-6.6.4.tar.xz : 247f58dd25d08fa968ab83b42cb8dc76710acec54969dff31313a75566226a82
 homepage    : https://kde.org/plasma-desktop/
 license     :
     - GFDL-1.2-only
@@ -79,4 +77,3 @@ packages     :
     - "%(name)-docs":
         paths:
             - /usr/share/doc
-

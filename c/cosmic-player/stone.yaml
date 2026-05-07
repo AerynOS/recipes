@@ -1,16 +1,14 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : cosmic-player
-version     : 1.0.5.git+3eb2ea4
-release     : 22
+version     : "1.0.11.git+a8d9416"
+release     : 28
 summary     : COSMIC media player
 license     : GPL-3.0
 homepage    : https://github.com/pop-os/cosmic-player
 upstreams   :
-    - git|https://github.com/pop-os/cosmic-player.git : 3eb2ea4257397f60af9b579b94eb908a6579491c
+    - git|https://github.com/pop-os/cosmic-player.git : a8d941675406af7732c1dc6cf094ee996509ec07
 description : |
     Cosmic Desktop Media Player
 builddeps   :
@@ -21,7 +19,7 @@ builddeps   :
 rundeps     :
     # Moss upgrade bug
     - gstreamer-plugins-good
-networking  : yes
+networking  : true
 setup       : |
     %cargo_fetch
 build       : |

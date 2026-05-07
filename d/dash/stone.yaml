@@ -1,15 +1,12 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : dash
-version     : 0.5.13.1
-release     : 16
+version     : "0.5.13.3"
+release     : 18
 homepage    : http://gondor.apana.org.au/~herbert/dash
 upstreams   :
-    - http://gondor.apana.org.au/~herbert/dash/files/dash-0.5.13.1.tar.gz: d9271bce09c127d9866e25c011582ddc75ab988958a04bc4d8553a3b8f30e370
-    # - git|https://git.kernel.org/pub/scm/utils/dash/dash.git : a9012f4078be32012f240c6208c3df53db3b6086
+    - http://gondor.apana.org.au/~herbert/dash/files/dash-0.5.13.3.tar.gz: a83727c1299ac4c3d9d43979393b3a4eb00275d5636ae02526e7979d51d6fbd1
 summary     : Small and fast POSIX-compliant shell
 description : |
     Small and fast POSIX-compliant shell
@@ -22,7 +19,7 @@ tuning      :
     - nosemantic
 setup       : |
     %patch %(pkgdir)/0001-downstream-Update-default-path.patch
-    %patch %(pkgdir)/upstream-01.patch
+    # TODO: Can this patch be removed? Upstream rejected it
     %patch %(pkgdir)/0001-main.c-initialize-smark.patch
 
     %configure \

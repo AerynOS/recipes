@@ -1,14 +1,12 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : cosmic-files
-version     : 1.0.5.git+40f19b0
-release     : 37
+version     : "1.0.11.git+b3af8bf"
+release     : 43
 homepage    : https://github.com/pop-os/cosmic-files
 upstreams   :
-    - git|https://github.com/pop-os/cosmic-files : 40f19b0d02e308676aa0ae4c05a670bd0b692607
+    - git|https://github.com/pop-os/cosmic-files : b3af8bf21178fb48a17710f4675259010ebabb5f
 summary     : Cosmic Desktop File Browser
 description : |
     Cosmic desktop File Browser
@@ -27,7 +25,7 @@ rundeps     :
     - gvfs-fuse
     - gvfs-nfs
     - gvfs-smb
-networking  : yes
+networking  : true
 environment : |
     # Force system libs
     export ZSTD_SYS_USE_PKG_CONFIG=1

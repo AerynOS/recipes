@@ -1,0 +1,48 @@
+From 67bc09daa8fc0a331d65f429d8e29c6ff257f543 Mon Sep 17 00:00:00 2001
+From: Ray Wu <ray.wu@amd.com>
+Date: Mon, 26 Jan 2026 15:55:18 +0800
+Subject: [PATCH] drm/amd/display: Parse all extension blocks for VSDB
+
+[Why]
+VSDB parsing loop only searched within the first extension block.
+If the VSDB was located in a subsequent extension block,
+it would not be found.
+
+[How]
+Calculate the total length of all extension blocks (EDID_LENGTH *
+edid->extensions) and use that as the loop boundary, allowing the
+parser to search through all available extension blocks.
+
+Reviewed-by: Tom Chung <chiahsuan.chung@amd.com>
+Signed-off-by: Ray Wu <ray.wu@amd.com>
+Signed-off-by: Tom Chung <chiahsuan.chung@amd.com>
+Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
+---
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index 892338b21bc1f..3dfbbf66bcd53 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -13145,6 +13145,7 @@ static int parse_amd_vsdb(struct amdgpu_dm_connector *aconnector,
+ 	u8 *edid_ext = NULL;
+ 	int i;
+ 	int j = 0;
++	int total_ext_block_len;
+ 
+ 	if (edid == NULL || edid->extensions == 0)
+ 		return -ENODEV;
+@@ -13156,7 +13157,8 @@ static int parse_amd_vsdb(struct amdgpu_dm_connector *aconnector,
+ 			break;
+ 	}
+ 
+-	while (j < EDID_LENGTH - sizeof(struct amd_vsdb_block)) {
++	total_ext_block_len = EDID_LENGTH * edid->extensions;
++	while (j < total_ext_block_len - sizeof(struct amd_vsdb_block)) {
+ 		struct amd_vsdb_block *amd_vsdb = (struct amd_vsdb_block *)&edid_ext[j];
+ 		unsigned int ieeeId = (amd_vsdb->ieee_id[2] << 16) | (amd_vsdb->ieee_id[1] << 8) | (amd_vsdb->ieee_id[0]);
+ 
+-- 
+GitLab
+

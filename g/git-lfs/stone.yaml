@@ -1,10 +1,8 @@
-#
-# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : git-lfs
-version     : 3.7.1
+version     : "3.7.1"
 release     : 2
 homepage    : https://git-lfs.github.com
 upstreams   :
@@ -19,7 +17,7 @@ builddeps   :
     - binary(go)
 rundeps     :
     - binary(git)
-networking     : yes
+networking     : true
 setup       : |
     go mod vendor
 build       : |

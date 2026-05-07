@@ -1,13 +1,11 @@
-#
-# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : drkonqi
-version     : 6.5.5
-release     : 10
+version     : "6.6.4"
+release     : 15
 upstreams   :
-    - https://download.kde.org/stable/plasma/6.5.5/drkonqi-6.5.5.tar.xz : 79a9ee0f1011fc7813ca419d8c8098ce3be9ff74136d3bd80ef730fb7547f78f
+    - https://download.kde.org/stable/plasma/6.6.4/drkonqi-6.6.4.tar.xz : 6ccabea68b7178c6b6af4b98a332f1ae7b256d38a8bac384fa3e59ba3972a3e5
 homepage    : https://kde.org/plasma-desktop/
 license     :
     - GPL-2.0-or-later
@@ -54,6 +52,7 @@ rundeps     :
     - python(sentry-sdk)
     - kf6-kirigami
     - kf6-kitemmodels
+    # flatpak-coredumpctl is installed if flatpak is installed
 tuning      :
     - lto: full
     - optimize: speed

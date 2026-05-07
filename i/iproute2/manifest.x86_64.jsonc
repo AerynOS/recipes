@@ -8,7 +8,8 @@
 				"binary(flex)",
 				"pkgconfig(libbpf)",
 				"pkgconfig(libcap)",
-				"pkgconfig(libmnl)"
+				"pkgconfig(libmnl)",
+				"pkgconfig(libtirpc)"
 			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
@@ -17,7 +18,8 @@
 				"soname(libcap.so.2(x86_64))",
 				"soname(libelf.so.1(x86_64))",
 				"soname(libm.so.6(x86_64))",
-				"soname(libmnl.so.0(x86_64))"
+				"soname(libmnl.so.0(x86_64))",
+				"soname(libtirpc.so.3(x86_64))"
 			],
 			"files": [
 				"/usr/lib/tmpfiles.d/iproute2.conf",
@@ -25,6 +27,7 @@
 				"/usr/sbin/ctstat",
 				"/usr/sbin/dcb",
 				"/usr/sbin/devlink",
+				"/usr/sbin/dpll",
 				"/usr/sbin/genl",
 				"/usr/sbin/ifstat",
 				"/usr/sbin/ip",
@@ -41,6 +44,7 @@
 				"/usr/sbin/tipc",
 				"/usr/sbin/vdpa",
 				"/usr/share/bash-completion/completions/devlink",
+				"/usr/share/bash-completion/completions/dpll",
 				"/usr/share/bash-completion/completions/tc",
 				"/usr/share/iproute2/bpf_pinning",
 				"/usr/share/iproute2/ematch_map",
@@ -76,6 +80,7 @@
 				"/usr/share/man/man8/devlink-sb.8",
 				"/usr/share/man/man8/devlink-trap.8",
 				"/usr/share/man/man8/devlink.8",
+				"/usr/share/man/man8/dpll.8",
 				"/usr/share/man/man8/genl.8",
 				"/usr/share/man/man8/ifstat.8",
 				"/usr/share/man/man8/ip-address.8",
@@ -199,6 +204,7 @@
 				"sysbinary(ctstat)",
 				"sysbinary(dcb)",
 				"sysbinary(devlink)",
+				"sysbinary(dpll)",
 				"sysbinary(genl)",
 				"sysbinary(ifstat)",
 				"sysbinary(ip)",
@@ -222,7 +228,8 @@
 				"binary(flex)",
 				"pkgconfig(libbpf)",
 				"pkgconfig(libcap)",
-				"pkgconfig(libmnl)"
+				"pkgconfig(libmnl)",
+				"pkgconfig(libtirpc)"
 			],
 			"depends": [
 				"iproute2"
@@ -235,6 +242,6 @@
 		}
 	},
 	"source-name": "iproute2",
-	"source-release": "11",
-	"source-version": "6.18.0"
+	"source-release": "13",
+	"source-version": "7.0.0"
 }

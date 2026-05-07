@@ -1,14 +1,12 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : botan
-version     : 3.10.0
-release     : 6
+version     : "3.11.1"
+release     : 9
 homepage    : https://botan.randombit.net
 upstreams   :
-    - https://botan.randombit.net/releases/Botan-3.10.0.tar.xz : fde194236f6d5434f136ea0a0627f6cc9d26af8b96e9f1e1c7d8c82cd90f4f24
+    - https://botan.randombit.net/releases/Botan-3.11.1.tar.xz : c1cd7152519f4188591fa4f6ddeb116bc1004491f5f3c58aa99b00582eb8a137
 summary     : A C++ cryptography library
 description : |
     A C++ cryptography library
@@ -37,7 +35,7 @@ build       : |
 install     : |
     %make_install
     %python_compile
-    rm %(installroot)/%(libdir)/*.a    
+    rm %(installroot)/%(libdir)/*.a
 packages    :
     - "%(name)-docs":
         paths:

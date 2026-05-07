@@ -1,13 +1,11 @@
-#
-# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : kunifiedpush
-version     : 25.12.1
-release     : 9
+version     : "26.04.0"
+release     : 12
 upstreams   :
-    - https://download.kde.org/stable/release-service/25.12.1/src/kunifiedpush-25.12.1.tar.xz : 68de794e3c120746a3697544f79039a8352302f7944513c991b8e32063656087
+    - https://download.kde.org/stable/release-service/26.04.0/src/kunifiedpush-26.04.0.tar.xz : 0756dfc94de2bc065542e5c1e366dec2226615bfecc2993381a45051b1c24f03
 homepage    : https://invent.kde.org/libraries/kunifiedpush
 license     : LGPL-2.0-or-later
 summary     : UnifiedPush client library
@@ -17,6 +15,7 @@ builddeps   :
     # Temporary, boulder doesn't handle build ordering resolution correctly when builddeps are added by macros, so add ECM manually
     - cmake(ECM)
     - cmake(KF6CoreAddons)
+    - cmake(KF6Crash)
     - cmake(KF6I18n)
     - cmake(KF6KCMUtils)
     - cmake(KF6Service)

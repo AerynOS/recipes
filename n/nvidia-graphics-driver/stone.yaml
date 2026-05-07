@@ -1,19 +1,17 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : nvidia-graphics-driver
-version     : "590.48.01"
-release     : 37
+version     : "595.71.05"
+release     : 43
 homepage    : https://www.nvidia.com/
 upstreams   :
-    - https://us.download.nvidia.com/XFree86/Linux-x86_64/590.48.01/NVIDIA-Linux-x86_64-590.48.01.run:
-        hash: b9e2f80693781431cc87f4cd29109e133dcecb50a50d6b68d4b3bf2d696bd689
+    - https://us.download.nvidia.com/XFree86/Linux-x86_64/595.71.05/NVIDIA-Linux-x86_64-595.71.05.run:
+        hash: 36203b8960b7e49c8a42f6ba1f5863cde34a05e93d2b24b798af06dd846f6b82
         unpack: false
         rename: NVIDIA.run
-    - https://download.nvidia.com/XFree86/nvidia-persistenced/nvidia-persistenced-590.48.01.tar.bz2:
-        hash: 04f27c858c064622284afcd67e918f560d661452f4d875b8821d562aaaeacc80
+    - https://download.nvidia.com/XFree86/nvidia-persistenced/nvidia-persistenced-595.71.05.tar.bz2:
+        hash: e821b031df99736919364315501a629f5fcfe3f737333d4f682f04cc5db28df7
         rename: nvidia-persistenced.tar.bz2
         extract: false
 summary     : The proprietary NVIDIA graphics driver
@@ -24,14 +22,15 @@ strip       : false
 builddeps   :
     - glibc-32bit
     - binary(bzip2)
+    - binary(cpio)
     - binary(tar)
+    - binary(zstd)
     - pkgconfig32(libglvnd)
     - pkgconfig32(vulkan)
     - sysbinary(modprobe)
 install     : |
     sh %(sourcedir)/NVIDIA.run --extract-only --target extracted
-    %install_dir %(installroot)%(libdir)/firmware/nvidia/%(version)
-    %install_file extracted/firmware/*.bin %(installroot)%(libdir)/firmware/nvidia/%(version)/.
+    %install_file extracted/firmware/*.bin -t %(installroot)%(libdir)/firmware/nvidia/%(version)
     sh %(sourcedir)/NVIDIA.run \
         --skip-module-load \
         --no-questions \
@@ -53,17 +52,33 @@ install     : |
         --glvnd-egl-config-path=%(installroot)%(datadir)/glvnd/egl_vendor.d \
         --egl-external-platform-config-path=%(installroot)%(datadir)/egl/egl_external_platform.d \
         --systemd-unit-prefix=%(installroot)%(libdir)/systemd/system \
-        --systemd-sleep-prefix=%(installroot)%(libdir)/systemd/systemd-sleep \
+        --systemd-sleep-prefix=%(installroot)%(libdir)/systemd/system-sleep \
         --compat32-libdir=/usr/lib32 \
         --compat32-prefix=%(installroot)
     cat %(workdir)/nvidia-installer.log
     rm %(installroot)%(bindir)/{nvidia-installer,nvidia-uninstall}
+
+    # Compress firmware
+    pushd %(installroot)%(libdir)/firmware/nvidia/%(version)/
+    find . -name '*.bin' -print -exec zstd -19 {} \; -exec rm -v {} \;
+    popd
+
+    # Create firmware initrd
+    mkdir -p initrd
+    %install_file extracted/firmware/*.bin -t initrd/%(libdir)/firmware/nvidia/%(version)
+    pushd initrd
+    find . | cpio -o -H newc | zstd -19 -T0 -c > ../firmware.initrd
+    popd
+    %install_file firmware.initrd %(installroot)%(libdir)/kernel/initrd.d/55-nvidia-firmware.initrd
 
     # Fix gbm
     rm -v %(installroot)%(libdir)/gbm/nvidia-drm_gbm.so
     ln -s ../libnvidia-allocator.so.1 %(installroot)%(libdir)/gbm/nvidia-drm_gbm.so
     rm -v %(installroot)/usr/lib32/gbm/nvidia-drm_gbm.so
     ln -s ../libnvidia-allocator.so.1 %(installroot)/usr/lib32/gbm/nvidia-drm_gbm.so
+
+    # Used for ray-tracing (Nvidia OptiX framework)
+    %install_file extracted/nvoptix.bin -t %(installroot)%(datadir)/nvidia
 
     # unused
     rm -v %(installroot)%(libdir)/libnvidia-gtk2.so*
@@ -96,32 +111,66 @@ install     : |
     %tmpfiles "D /run/nvidia-persistenced 0755 nvidia-persistenced nvidia-persistenced -"
     popd
 
-    # sort out suspend
-    %install_file %(pkgdir)/nvidia-power-management.conf %(installroot)%(libdir)/modprobe.d/nvidia-power-management.conf
+    # Ensure that systemd services are enabled
+    %install_file %(pkgdir)/*.preset -t %(installroot)/%(libdir)/systemd/system-preset/
 
-    # conflicts by egl-wayland/egl-gbm/egl-x11
-    rm -v %(installroot)%(libdir){,32}/libnvidia-egl-wayland*
-    rm -v %(installroot)%(libdir){,32}/libnvidia-egl-gbm*
-    rm -v %(installroot)%(libdir){,32}/libnvidia-egl-xcb*
-    rm -v %(installroot)%(libdir){,32}/libnvidia-egl-xlib*
-    rm -v %(installroot)%(datadir)/egl/egl_external_platform.d/10_nvidia_wayland.json
-    rm -v %(installroot)%(datadir)/egl/egl_external_platform.d/15_nvidia_gbm.json
-    rm -v %(installroot)%(datadir)/egl/egl_external_platform.d/20_nvidia_xcb.json
-    rm -v %(installroot)%(datadir)/egl/egl_external_platform.d/20_nvidia_xlib.json
-    rm -v %(installroot)%(datadir)/egl/egl_external_platform.d/99_nvidia_wayland2.json
+    # Various Nvidia modprobe settings (taken from CachyOS)
+    %install_file %(pkgdir)/nvidia.modprobe %(installroot)%(libdir)/modprobe.d/nvidia.conf
+
+    # Provided by egl-wayland
+    rm -v %(installroot)/usr/lib*/libnvidia-egl-wayland.so* \
+          %(installroot)%(datadir)/egl/egl_external_platform.d/10_nvidia_wayland.json
+
+    # Provided by egl-wayland2
+    rm -v %(installroot)/usr/lib*/libnvidia-egl-wayland2.so* \
+          %(installroot)%(datadir)/egl/egl_external_platform.d/09_nvidia_wayland2.json
+
+    # Provided by egl-gbm
+    rm -v %(installroot)/usr/lib*/libnvidia-egl-gbm.so* \
+          %(installroot)%(datadir)/egl/egl_external_platform.d/15_nvidia_gbm.json
+
+    # Provided by egl-x11
+    rm -v %(installroot)/usr/lib*/libnvidia-egl-xcb.so* \
+          %(installroot)/usr/lib*/libnvidia-egl-xlib.so* \
+          %(installroot)%(datadir)/egl/egl_external_platform.d/20_nvidia_xcb.json \
+          %(installroot)%(datadir)/egl/egl_external_platform.d/20_nvidia_xlib.json
+
+    # Should be empty now
     rmdir -v %(installroot)%(datadir)/egl/egl_external_platform.d \
              %(installroot)%(datadir)/egl/
 
-    # Conflicts with ocl-icd
-    # TODO: Make sure this works with opencl
+    # Provided by ocl-icd
     rm -v %(installroot)%(libdir){,32}/libOpenCL*
+
+    # Make sure opencl works
+    %install_file extracted/nvidia.icd -t %(installroot)%(datadir)/OpenCL/vendors
 
     # We don't support GLESv1 on Aeryn
     rm -v %(installroot)%(libdir){,32}/libGLESv1_CM_nvidia*
 
+    # Only useful for x11 sessions
+    rm -v %(installroot)%(bindir)/nvidia-xconfig
+
+    # I don't know if nvidia-settings is useful or not but might as well fix the path
+    sed -i "s|/mason/install||g" %(installroot)%(datadir)/applications/nvidia-settings.desktop
+
+    # Man pages
+    %install_file extracted/*.1.gz -t %(installroot)%(mandir)/man1/
+
+    # Remove man pages for binaries we don't ship
+    rm -v %(installroot)%(mandir)/man1/nvidia-installer* \
+          %(installroot)%(mandir)/man1/nvidia-xconfig*
+
+    # Lists NVIDIA driver files for container runtimes like nvidia-container-toolkit
+    %install_file extracted/sandboxutils-filelist.json -t %(installroot)%(datadir)/nvidia/files.d/
+
     # Finally, documentation files for nvidia-settings
     %install_file extracted/nvidia-application-profiles-%(version)-key-documentation %(installroot)%(datadir)/nvidia/nvidia-application-profiles-%(version)-key-documentation
+
     %install_file extracted/nvidia-application-profiles-%(version)-rc %(installroot)%(datadir)/nvidia/nvidia-application-profiles-%(version)-rc
+    # Taken from https://raw.githubusercontent.com/Frogging-Family/nvidia-all/refs/heads/master/system/limit-vram-usage, check that file for updates
+    # TODO: This might not actually work according to profiles.html, open an upstream issue to enable that
+    %install_file %(pkgdir)/limit-vram-usage -t %(installroot)%(datadir)/nvidia/nvidia-application-profiles-%(version)-rc.d
 
     chmod 4755 %(installroot)%(bindir)/nvidia-modprobe
 packages    :
@@ -132,6 +181,7 @@ packages    :
         rundeps     :
             - egl-gbm
             - egl-wayland
+            - egl-wayland2
             - egl-x11
             - eglexternalplatform
             - nvidia-open-gpu-kernel-modules
@@ -142,4 +192,12 @@ packages    :
         rundeps:
             - egl-gbm-32bit
             - egl-wayland-32bit
+            - egl-wayland2-32bit
             - egl-x11-32bit
+
+    - "%(name)-firmware":
+        summary: Firmware for Nvidia GPUs
+        description: Firmware for Nvidia GPUs
+        paths:
+            - /usr/lib/firmware/nvidia/
+            - /usr/lib/kernel/initrd.d/55-nvidia-firmware.initrd

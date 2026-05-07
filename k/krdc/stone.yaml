@@ -1,13 +1,11 @@
-#
-# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : krdc
-version     : 25.12.1
-release     : 9
+version     : "26.04.0"
+release     : 13
 upstreams   :
-    - https://download.kde.org/stable/release-service/25.12.1/src/krdc-25.12.1.tar.xz : 5347e11caf0a766ed12d12697b70d5331a9115c94bbe3300c8eac28054737fee
+    - https://download.kde.org/stable/release-service/26.04.0/src/krdc-26.04.0.tar.xz : 430dc9e821fc0db7730eadd2306d81531015315a0a194fd0cb3ed6dcdff6489d
 homepage    : https://apps.kde.org/krdc/
 license     :
     - GFDL-1.2-or-later
@@ -34,11 +32,11 @@ builddeps   :
     - cmake(KF6Notifications)
     - cmake(KF6NotifyConfig)
     - cmake(KF6StatusNotifierItem)
-    - cmake(KF6Wallet)
     - cmake(KF6WidgetsAddons)
     - cmake(KF6WindowSystem)
     - cmake(KF6XmlGui)
     - cmake(Qt6CorePrivate)
+    - cmake(Qt6Keychain)
     - cmake(Qt6WaylandClient)
     - pkgconfig(libssh)
     - pkgconfig(libvncclient)

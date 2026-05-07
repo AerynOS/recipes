@@ -1,14 +1,12 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : libpng
-version     : 1.6.54
-release     : 11
+version     : "1.6.58"
+release     : 15
 homepage    : http://www.libpng.org/pub/png/libpng.html
 upstreams   :
-    - https://downloads.sourceforge.net/project/libpng/libpng16/1.6.54/libpng-1.6.54.tar.xz : 01c9d8a303c941ec2c511c14312a3b1d36cedb41e2f5168ccdaa85d53b887805
+    - https://downloads.sourceforge.net/project/libpng/libpng16/1.6.58/libpng-1.6.58.tar.xz : 28eb403f51f0f7405249132cecfe82ea5c0ef97f1b32c5a65828814ae0d34775
 summary     : Official reference implementation of PNG
 description : |
     libpng is the official PNG reference library. It supports almost all PNG features, is extensible,
@@ -17,7 +15,7 @@ license     :
     - GPL-2.0-or-later
     - JSON
     - libpng-2.0
-emul32      : yes
+emul32      : true
 packages    :
     - "%(name)-devel":
         paths:

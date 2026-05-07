@@ -1,0 +1,39 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"rhash": {
+			"build-depends": [
+				"pkgconfig(openssl)"
+			],
+			"depends": [
+				"soname(libc.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/lib/librhash.so.1",
+				"/usr/lib/librhash.so.1.4.6"
+			],
+			"name": "rhash",
+			"provides": [
+				"soname(librhash.so.1(x86_64))"
+			]
+		},
+		"rhash-devel": {
+			"build-depends": [
+				"pkgconfig(openssl)"
+			],
+			"depends": [
+				"rhash"
+			],
+			"files": [
+				"/usr/include/rhash.h",
+				"/usr/include/rhash_torrent.h",
+				"/usr/lib/librhash.so"
+			],
+			"name": "rhash-devel"
+		}
+	},
+	"source-name": "rhash",
+	"source-release": "1",
+	"source-version": "1.4.6"
+}

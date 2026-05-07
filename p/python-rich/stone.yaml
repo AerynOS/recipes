@@ -1,0 +1,21 @@
+# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : python-rich
+version     : "15.0.0"
+release     : 3
+homepage    : https://github.com/Textualize/rich
+upstreams   :
+    - https://pypi.debian.net/rich/rich-15.0.0.tar.gz : edd07a4824c6b40189fb7ac9bc4c52536e9780fbbfbddf6f1e2502c31b068c36
+summary     : Python library for text formatting
+description : |
+    Rich is a Python library for rich text and beautiful formatting in the terminal
+license     : MIT
+builddeps   :
+    - python(poetry-core)
+rundeps     :
+    - python-libs
+build       : |
+    %pyproject_build
+install     : |
+    %pyproject_install

@@ -1,14 +1,12 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : linux-firmware
-version     : "20260110"
-release     : 35
+version     : "20260410"
+release     : 39
 homepage    : https://kernel.org
 upstreams   :
-    - git|https://gitlab.com/kernel-firmware/linux-firmware.git : 06a743fd69999590e88199bb9edba9d5b73d6ad1
+    - git|https://gitlab.com/kernel-firmware/linux-firmware.git : dc85ccedc9c973682fbcf4d628ca61174bcc3120
 summary     : Firmware to allow devices to function correctly
 description : |
     Firmware to allow devices to function correctly
@@ -27,7 +25,7 @@ setup       : |
     for c in "${_reverts[@]}"; do
         echo Reverting $(git log --oneline -1 "${c}")
         git revert -n "${c}"
-    done  
+    done
 install     : |
     make install-zst FIRMWAREDIR=/usr/lib/firmware DESTDIR=%(installroot)
 
@@ -283,6 +281,8 @@ packages    :
         summary: Support for misc hardware
         # This should include all firmware that is either excluded from an above package or otherwise not subpackaged (the "catch-all")
         paths:
+            - /usr/lib/firmware/8E8*.bin*
+            - /usr/lib/firmware/8EF*.bin*
             - /usr/lib/firmware/INT8866RCA2*
             - /usr/lib/firmware/TAS*.bin*
             - /usr/lib/firmware/TIAS*.bin*
@@ -295,6 +295,7 @@ packages    :
             - /usr/lib/firmware/f2255usb.bin*
             - /usr/lib/firmware/isdbt_*.inp*
             - /usr/lib/firmware/lgs8g75.fw*
+            - /usr/lib/firmware/lt8713sx_fw.bin*
             - /usr/lib/firmware/lt9611uxc_fw.bin*
             - /usr/lib/firmware/mts_*.fw*
             - /usr/lib/firmware/qat_4xxx*

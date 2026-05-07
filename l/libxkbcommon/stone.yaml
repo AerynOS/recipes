@@ -1,10 +1,8 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : libxkbcommon
-version     : 1.13.1
+version     : "1.13.1"
 release     : 15
 homepage    : https://xkbcommon.org
 upstreams   :
@@ -15,7 +13,7 @@ description : |
     loading them from disk, parsing them and handling their state. It's mainly
     meant for client toolkits, window systems, and other system applications.
 license     : MIT
-emul32      : yes
+emul32      : true
 builddeps   :
     - binary(bison)
     - binary(m4)

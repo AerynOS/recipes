@@ -1,10 +1,8 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : micro
-version     : 2.0.15
+version     : "2.0.15"
 release     : 7
 homepage    : https://micro-editor.github.io/
 upstreams   :
@@ -18,7 +16,7 @@ license     :
 builddeps   :
    - binary(go)
 #[LATER] rundep: xclip
-networking  : yes
+networking  : true
 build       : |
     export CGO_CPPFLAGS="${CPPFLAGS}"
     export CGO_CFLAGS="${CFLAGS}"

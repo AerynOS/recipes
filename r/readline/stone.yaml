@@ -1,10 +1,8 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : readline
-version     : 8.3.3
+version     : "8.3.3"
 release     : 9
 homepage    : https://ftp.gnu.org/gnu/readline
 upstreams   :
@@ -18,7 +16,7 @@ license     :
     - GPL-3.0-or-later
 builddeps   :
     - pkgconfig32(ncursesw)
-emul32      : yes
+emul32      : true
 setup       : |
     %patch %(pkgdir)/readline83-001 -p0
     %patch %(pkgdir)/readline83-002 -p0

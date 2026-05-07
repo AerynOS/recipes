@@ -1,10 +1,8 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : libxfixes
-version     : '6.0.2'
+version     : "6.0.2"
 release     : 10
 homepage    : https://gitlab.freedesktop.org/xorg/lib/libxfixes
 upstreams   :
@@ -15,7 +13,7 @@ description : |
 license     : X11
 builddeps:
     - pkgconfig32(x11)
-emul32      : yes
+emul32      : true
 setup       : |
     %meson
 build       : |

@@ -1,0 +1,25 @@
+From 4c1b7e1ae197f9ad2691d3e75f85b445cdd42004 Mon Sep 17 00:00:00 2001
+From: Harsh Relapse <274514232+HarshRelapse@users.noreply.github.com>
+Date: Mon, 27 Apr 2026 21:14:06 +0200
+Subject: [PATCH] fix pavlov controller mappings
+
+---
+ src/xrt/state_trackers/oxr/oxr_objects.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/xrt/state_trackers/oxr/oxr_objects.h b/src/xrt/state_trackers/oxr/oxr_objects.h
+index 180938209..c491c4bb9 100644
+--- a/src/xrt/state_trackers/oxr/oxr_objects.h
++++ b/src/xrt/state_trackers/oxr/oxr_objects.h
+@@ -109,7 +109,7 @@ extern "C" {
+  */
+ 
+ 
+-#define XRT_MAX_HANDLE_CHILDREN 256
++#define XRT_MAX_HANDLE_CHILDREN 512
+ #define OXR_MAX_BINDINGS_PER_ACTION 32
+ 
+ /*!
+-- 
+2.54.0
+

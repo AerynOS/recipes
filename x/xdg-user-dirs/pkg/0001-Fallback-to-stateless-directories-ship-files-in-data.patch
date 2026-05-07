@@ -6,11 +6,23 @@ Subject: [PATCH] Fallback to stateless directories, ship files in datadir by
 
 Signed-off-by: Ikey Doherty <ikey@serpentos.com>
 ---
- meson.build | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ data/meson.build | 2 +-
+ meson.build      | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
+diff --git a/data/meson.build b/data/meson.build
+index b863807..1816a3c 100644
+--- a/data/meson.build
++++ b/data/meson.build
+@@ -1,5 +1,5 @@
+ 
+-xdg_config_dir = get_option('sysconfdir') / 'xdg'
++xdg_config_dir = get_option('datadir') / 'xdg'
+ install_data(['user-dirs.conf', 'user-dirs.defaults'],
+   install_dir: xdg_config_dir
+ )
 diff --git a/meson.build b/meson.build
-index 7861bff..7cb4009 100644
+index a5e3996..1219196 100644
 --- a/meson.build
 +++ b/meson.build
 @@ -53,7 +53,7 @@ else
@@ -22,12 +34,3 @@ index 7861bff..7cb4009 100644
  conf_data.set_quoted('LOCALEDIR', get_option('localedir'))
  
  # Generate config.h
-@@ -106,7 +106,7 @@ install_data('xdg-user-dir',
-   install_mode: 'rwxr-xr-x'
- )
- 
--xdg_config_dir = get_option('sysconfdir') / 'xdg'
-+xdg_config_dir = get_option('datadir') / 'xdg'
- install_data(['user-dirs.conf', 'user-dirs.defaults'],
-   install_dir: xdg_config_dir
- )

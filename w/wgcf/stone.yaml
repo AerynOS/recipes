@@ -1,10 +1,8 @@
-#
-# SPDX-FileCopyrightText: © 2026 AerynOS Developers
-#
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : wgcf
-version     : 2.2.30
+version     : "2.2.30"
 release     : 1
 homepage    : https://github.com/ViRb3/wgcf
 upstreams   :
@@ -12,14 +10,14 @@ upstreams   :
 summary     : Unofficial Cloudflare WARP for WireGuard
 description : |
     Unofficial Cloudflare WARP CLI tool to create and manage accounts, and generate WireGuard profiles.
-license     : 
+license     :
     - MIT
 builddeps   :
     - binary(go)
 rundeps     :
     - nftables
     - wireguard-tools
-networking  : yes
+networking  : true
 build       : |
     go build -o wgcf -trimpath -buildmode=pie -ldflags "-s -w"
 

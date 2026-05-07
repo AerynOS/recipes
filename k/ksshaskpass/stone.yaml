@@ -1,13 +1,11 @@
-#
-# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : ksshaskpass
-version     : 6.5.5
-release     : 11
+version     : "6.6.4"
+release     : 16
 upstreams   :
-    - https://download.kde.org/stable/plasma/6.5.5/ksshaskpass-6.5.5.tar.xz : 191e729f6442b916b53dc35a830b0188f74ea20ef6525b326983ae5815ec6bcb
+    - https://download.kde.org/stable/plasma/6.6.4/ksshaskpass-6.6.4.tar.xz : 46f3606c1591986091d9b289c491512e8c058216a71f20ccdcad32d5b02a4393
 homepage    : https://kde.org/plasma-desktop/
 license     : GPL-2.0-or-later
 summary     : Front-end for ssh-add which stores the password of the ssh key in KWallet
@@ -19,8 +17,8 @@ builddeps   :
     - cmake(KF6CoreAddons)
     - cmake(KF6DocTools)
     - cmake(KF6I18n)
-    - cmake(KF6Wallet)
     - cmake(KF6WidgetsAddons)
+    - cmake(Qt6Keychain)
 rundeps     :
     - binary(ssh-add)
     - binary(ssh-agent)

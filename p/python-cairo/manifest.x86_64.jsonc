@@ -13,18 +13,18 @@
 				"soname(libcairo.so.2(x86_64))"
 			],
 			"files": [
-				"/usr/lib/python3.11/site-packages/cairo/__init__.py",
-				"/usr/lib/python3.11/site-packages/cairo/__init__.pyi",
-				"/usr/lib/python3.11/site-packages/cairo/__pycache__/__init__.cpython-311.pyc",
-				"/usr/lib/python3.11/site-packages/cairo/_cairo.cpython-311-x86_64-linux-gnu.so",
-				"/usr/lib/python3.11/site-packages/cairo/include/py3cairo.h",
-				"/usr/lib/python3.11/site-packages/cairo/py.typed",
-				"/usr/lib/python3.11/site-packages/pycairo-1.29.0.dist-info/METADATA"
+				"/usr/lib/python3.14/site-packages/cairo/__init__.py",
+				"/usr/lib/python3.14/site-packages/cairo/__init__.pyi",
+				"/usr/lib/python3.14/site-packages/cairo/__pycache__/__init__.cpython-314.pyc",
+				"/usr/lib/python3.14/site-packages/cairo/_cairo.cpython-314-x86_64-linux-gnu.so",
+				"/usr/lib/python3.14/site-packages/cairo/include/py3cairo.h",
+				"/usr/lib/python3.14/site-packages/cairo/py.typed",
+				"/usr/lib/python3.14/site-packages/pycairo-1.29.0.dist-info/METADATA"
 			],
 			"name": "python-cairo",
 			"provides": [
 				"python(pycairo)",
-				"soname(python3.11/site-packages/cairo/_cairo.cpython-311-x86_64-linux-gnu.so(x86_64))"
+				"soname(python3.14/site-packages/cairo/_cairo.cpython-314-x86_64-linux-gnu.so(x86_64))"
 			]
 		},
 		"python-cairo-devel": {
@@ -48,6 +48,6 @@
 		}
 	},
 	"source-name": "python-cairo",
-	"source-release": "2",
+	"source-release": "3",
 	"source-version": "1.29.0"
 }

@@ -4,6 +4,7 @@
 	"packages": {
 		"nextcloud-client": {
 			"build-depends": [
+				"binary(rsvg-convert)",
 				"cmake(ECM)",
 				"cmake(KF6Archive)",
 				"cmake(KF6CoreAddons)",
@@ -202,6 +203,7 @@
 		},
 		"nextcloud-client-devel": {
 			"build-depends": [
+				"binary(rsvg-convert)",
 				"cmake(ECM)",
 				"cmake(KF6Archive)",
 				"cmake(KF6CoreAddons)",
@@ -251,6 +253,6 @@
 		}
 	},
 	"source-name": "nextcloud-client",
-	"source-release": "5",
+	"source-release": "6",
 	"source-version": "4.0.3"
 }

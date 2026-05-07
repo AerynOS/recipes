@@ -1,14 +1,12 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : libgcrypt
-version     : 1.12.0
-release     : 9
+version     : "1.12.2"
+release     : 11
 homepage    : https://gnupg.org/software/libgcrypt
 upstreams   :
-    - https://gnupg.org/ftp/gcrypt/libgcrypt/libgcrypt-1.12.0.tar.bz2 : 0311454e678189bad62a7e9402a9dd793025efff6e7449898616e2fc75e0f4f5
+    - https://gnupg.org/ftp/gcrypt/libgcrypt/libgcrypt-1.12.2.tar.bz2 : 7ce33c2492221a0436f96a8500215e9f3e3dcb5fd26a757cd415e7a843babd5e
 summary     : General purpose cryptographic library originally based on code from GnuPG
 description : |
     %(name) is a general purpose cryptographic library originally based on code from GnuPG. It provides functions for all cryptograhic building blocks.

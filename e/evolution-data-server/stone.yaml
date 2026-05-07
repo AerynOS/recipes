@@ -1,14 +1,12 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : evolution-data-server
-version     : 3.58.3
-release     : 23
+version     : "3.60.1"
+release     : 26
 homepage    : https://gitlab.gnome.org/GNOME/evolution-data-server
 upstreams   :
-    - https://download.gnome.org/sources/evolution-data-server/3.58/evolution-data-server-3.58.3.tar.xz : da136d1190d9e8b09499452f6058e24eee6b77f441a8c769f74a52451bf379f1
+    - https://download.gnome.org/sources/evolution-data-server/3.60/evolution-data-server-3.60.1.tar.xz : 33f92d3b8822eba04c313796c0778cbb65a1a38472e857edc5f98854cca9b34c
 summary     : Calendar, contacts and task backend management
 description : |
     The Evolution Data Server provides a single database for common, desktop-wide information,
@@ -22,6 +20,7 @@ builddeps   :
     - binary(perl)
     - binary(python3)
     - binary(vapigen)
+    - cmake(libphonenumber)
     - pkgconfig(com_err)
     - pkgconfig(glib-2.0)
     - pkgconfig(goa-1.0)
@@ -42,16 +41,12 @@ builddeps   :
     - pkgconfig(nss)
     - pkgconfig(webkit2gtk-4.1)
     - pkgconfig(webkitgtk-6.0)
-    # libphonenumber
-packages    :
-    - "%(name)-devel":
-        paths:
-            - /usr/share/vala/vapi
 setup       : |
     %cmake \
         -DENABLE_INTROSPECTION=ON \
         -DENABLE_VALA_BINDINGS=ON \
         -DWITH_LIBDB=OFF \
+        -DWITH_PHONENUMBER=ON \
         -DSYSCONF_INSTALL_DIR="%(datadir)"
 build       : |
     %cmake_build

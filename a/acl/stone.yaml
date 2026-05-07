@@ -1,10 +1,8 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : acl
-version     : 2.3.2
+version     : "2.3.2"
 release     : 5
 homepage    : https://savannah.nongnu.org/projects/acl
 upstreams   :
@@ -15,7 +13,7 @@ description : |
 license     :
     - GPL-2.0-or-later
     - LGPL-2.1-or-later
-emul32      : yes
+emul32      : true
 builddeps   :
     - pkgconfig32(libattr)
 setup       : |

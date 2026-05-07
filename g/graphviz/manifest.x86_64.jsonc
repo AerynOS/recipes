@@ -100,27 +100,27 @@
 				"/usr/bin/unflatten",
 				"/usr/bin/vimdot",
 				"/usr/lib/graphviz/libgvplugin_core.so.8",
-				"/usr/lib/graphviz/libgvplugin_core.so.8.0.7",
+				"/usr/lib/graphviz/libgvplugin_core.so.8.0.10",
 				"/usr/lib/graphviz/libgvplugin_dot_layout.so.8",
-				"/usr/lib/graphviz/libgvplugin_dot_layout.so.8.0.7",
+				"/usr/lib/graphviz/libgvplugin_dot_layout.so.8.0.10",
 				"/usr/lib/graphviz/libgvplugin_gs.so.8",
-				"/usr/lib/graphviz/libgvplugin_gs.so.8.0.7",
+				"/usr/lib/graphviz/libgvplugin_gs.so.8.0.10",
 				"/usr/lib/graphviz/libgvplugin_kitty.so.8",
-				"/usr/lib/graphviz/libgvplugin_kitty.so.8.0.7",
+				"/usr/lib/graphviz/libgvplugin_kitty.so.8.0.10",
 				"/usr/lib/graphviz/libgvplugin_neato_layout.so.8",
-				"/usr/lib/graphviz/libgvplugin_neato_layout.so.8.0.7",
+				"/usr/lib/graphviz/libgvplugin_neato_layout.so.8.0.10",
 				"/usr/lib/graphviz/libgvplugin_pango.so.8",
-				"/usr/lib/graphviz/libgvplugin_pango.so.8.0.7",
+				"/usr/lib/graphviz/libgvplugin_pango.so.8.0.10",
 				"/usr/lib/graphviz/libgvplugin_poppler.so.8",
-				"/usr/lib/graphviz/libgvplugin_poppler.so.8.0.7",
+				"/usr/lib/graphviz/libgvplugin_poppler.so.8.0.10",
 				"/usr/lib/graphviz/libgvplugin_rsvg.so.8",
-				"/usr/lib/graphviz/libgvplugin_rsvg.so.8.0.7",
+				"/usr/lib/graphviz/libgvplugin_rsvg.so.8.0.10",
 				"/usr/lib/graphviz/libgvplugin_vt.so.8",
-				"/usr/lib/graphviz/libgvplugin_vt.so.8.0.7",
+				"/usr/lib/graphviz/libgvplugin_vt.so.8.0.10",
 				"/usr/lib/graphviz/libgvplugin_webp.so.8",
-				"/usr/lib/graphviz/libgvplugin_webp.so.8.0.7",
+				"/usr/lib/graphviz/libgvplugin_webp.so.8.0.10",
 				"/usr/lib/graphviz/libgvplugin_xlib.so.8",
-				"/usr/lib/graphviz/libgvplugin_xlib.so.8.0.7",
+				"/usr/lib/graphviz/libgvplugin_xlib.so.8.0.10",
 				"/usr/share/graphviz/gvedit/attrs.txt",
 				"/usr/share/graphviz/gvpr/addedges",
 				"/usr/share/graphviz/gvpr/addranks",
@@ -573,7 +573,7 @@
 			],
 			"files": [
 				"/usr/lib/graphviz/libgvplugin_gdk.so.8",
-				"/usr/lib/graphviz/libgvplugin_gdk.so.8.0.7"
+				"/usr/lib/graphviz/libgvplugin_gdk.so.8.0.10"
 			],
 			"name": "graphviz-gtk3",
 			"provides": [
@@ -658,17 +658,17 @@
 			],
 			"files": [
 				"/usr/lib/libcdt.so.6",
-				"/usr/lib/libcdt.so.6.0.2",
+				"/usr/lib/libcdt.so.6.0.3",
 				"/usr/lib/libcgraph.so.8",
-				"/usr/lib/libcgraph.so.8.0.5",
+				"/usr/lib/libcgraph.so.8.1.0",
 				"/usr/lib/libgvc.so.7",
-				"/usr/lib/libgvc.so.7.0.6",
+				"/usr/lib/libgvc.so.7.0.9",
 				"/usr/lib/libgvpr.so.2",
-				"/usr/lib/libgvpr.so.2.0.7",
+				"/usr/lib/libgvpr.so.2.0.10",
 				"/usr/lib/libpathplan.so.4",
-				"/usr/lib/libpathplan.so.4.0.4",
+				"/usr/lib/libpathplan.so.4.0.7",
 				"/usr/lib/libxdot.so.4",
-				"/usr/lib/libxdot.so.4.0.0"
+				"/usr/lib/libxdot.so.4.0.2"
 			],
 			"name": "graphviz-libs",
 			"provides": [
@@ -717,19 +717,19 @@
 				"/usr/lib/graphviz/python3/_gv.so",
 				"/usr/lib/graphviz/python3/gv.py",
 				"/usr/lib/graphviz/python3/libgv_python3.so",
-				"/usr/lib/python3.11/site-packages/_gv.so",
-				"/usr/lib/python3.11/site-packages/gv.py",
+				"/usr/lib/python3.14/site-packages/_gv.so",
+				"/usr/lib/python3.14/site-packages/gv.py",
 				"/usr/share/graphviz/demo/modgraph.py",
 				"/usr/share/man/man3/gv.3python"
 			],
 			"name": "graphviz-python",
 			"provides": [
 				"soname(graphviz/python3/libgv_python3.so(x86_64))",
-				"soname(python3.11/site-packages/libgv_python3.so(x86_64))"
+				"soname(python3.14/site-packages/libgv_python3.so(x86_64))"
 			]
 		}
 	},
 	"source-name": "graphviz",
-	"source-release": "14",
-	"source-version": "14.1.2"
+	"source-release": "18",
+	"source-version": "14.1.5"
 }

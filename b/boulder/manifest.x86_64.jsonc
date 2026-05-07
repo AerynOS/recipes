@@ -9,7 +9,6 @@
 			"depends": [
 				"binary(bsdtar)",
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
-				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libm.so.6(x86_64))"
@@ -819,6 +818,9 @@
 				"/usr/share/boulder/recipeTemplate.yaml",
 				"/usr/share/fish/completions/boulder.fish",
 				"/usr/share/man/man1/boulder-build.1",
+				"/usr/share/man/man1/boulder-cache-clean.1",
+				"/usr/share/man/man1/boulder-cache-size.1",
+				"/usr/share/man/man1/boulder-cache.1",
 				"/usr/share/man/man1/boulder-chroot.1",
 				"/usr/share/man/man1/boulder-profile-add.1",
 				"/usr/share/man/man1/boulder-profile-list.1",
@@ -840,6 +842,6 @@
 		}
 	},
 	"source-name": "boulder",
-	"source-release": "128",
-	"source-version": "0.26.1+git.c98db66"
+	"source-release": "149",
+	"source-version": "0.26.1+git.ff9b99b"
 }

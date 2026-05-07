@@ -1,16 +1,14 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : cosmic-applets
-version     : 1.0.5.git+57e55a9
-release     : 36
+version     : "1.0.11.git+1d0e662"
+release     : 42
 summary     : Cosmic Panel Applets
 license     : GPL-3.0
 homepage    : https://github.com/pop-os/cosmic-applets
 upstreams   :
-    - git|https://github.com/pop-os/cosmic-applets.git : 57e55a98a06982f62339b2b891701f57750fb1f8
+    - git|https://github.com/pop-os/cosmic-applets.git : 1d0e6623650aeb034776fa02ae5f8092a97cbbf9
 description : |
     Cosmic Panel Applets
 builddeps   :
@@ -23,7 +21,7 @@ builddeps   :
     - pkgconfig(xkbcommon)
 rundeps     :
     - bluez # Bluetooth applet
-networking  : yes
+networking  : true
 setup       : |
     %cargo_fetch
 build       : |

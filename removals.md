@@ -1,3 +1,8 @@
+<!--
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+-->
+
 ## This is a list of packages that should be removed from the repo once moss supports package removal
 
 ### Moved into other gcc packages
@@ -178,3 +183,47 @@
 
 ### Not built
 - scx-scheds-devel
+
+### Renamed
+- nfs-utils-devel
+
+### Merged into main package
+- cli11-devel
+
+### Renamed/Rebranded upstream
+- mangowc
+- mangowc-dbginfo
+
+### Devel-only, merged with libclc
+- libclc-devel
+
+### Not needed
+- spirv-llvm-translator-32bit
+- spirv-llvm-translator-32bit-devel
+- spirv-llvm-translator-32bit-dbginfo
+
+### These were internal build tools all along
+- libde265-examples
+
+### Removed in ffmpeg 8.0
+- libpostproc
+- libpostproc-devel
+
+### Not needed in newer Python
+- python-backports.tarfile
+
+### Replaced by linux-stable
+- linux-desktop
+- linux-desktop-devel
+- linux-desktop-dbginfo
+- linux-kvm
+- linux-kvm-devel
+- linux-kvm-dbginfo
+
+### Relpaced by linux-gaming
+- linux-handheld
+- linux-handheld-devel
+- linux-handheld-dbginfo
+
+### Whoops
+- "$(name)-devel"

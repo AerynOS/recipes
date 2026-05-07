@@ -1,14 +1,12 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : libdrm
-version     : 2.4.131
-release     : 15
+version     : "2.4.133"
+release     : 17
 homepage    : https://gitlab.freedesktop.org/mesa/drm
 upstreams   :
-    - https://dri.freedesktop.org/libdrm/libdrm-2.4.131.tar.xz : 45ba9983b51c896406a3d654de81d313b953b76e6391e2797073d543c5f617d5
+    - https://dri.freedesktop.org/libdrm/libdrm-2.4.133.tar.xz : fc68f9d0ba2ea63c9432a299e14fea09fad7a8a66e8039fcd7802ca59f77b4f5
 summary     : Simplifies the interaction with the Linux DRM subsystem
 description : |
     libdrm provides wrapper functions for the ioctls to avoid exposing the kernel interface directly.
@@ -18,10 +16,19 @@ builddeps   :
     - binary(rst2man)
     # Intel support
     - pkgconfig32(pciaccess)
-emul32      : yes
+emul32      : true
 setup       : |
     %meson -Dudev=true
 build       : |
     %meson_build
 install     : |
     %meson_install
+packages    :
+    - "%(name)":
+        paths:
+            # DLopened by SteamVR
+            - /usr/lib/libdrm*.so
+
+    - "%(name)-32bit":
+        paths:
+            - /usr/lib32/libdrm*.so

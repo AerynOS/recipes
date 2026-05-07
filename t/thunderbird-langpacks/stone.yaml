@@ -1,282 +1,280 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : thunderbird-langpacks
 #### Don't modify the version manually, use the update.py script
 #### This package MUST have the same major version as the Firefox package, and should be updated in sync
 ##@@BEGIN_VERSION
-version     : "147.0.1"
+version     : "150.0.1"
 ##@@END_VERSION
-release     : 9
+release     : 16
 homepage    : https://www.mozilla.org/
 upstreams   :
 #### DO NOT MANUALLY MODIFY ANYTHING BETWEEN THE BEGIN_UPSTREAMS AND END_UPSTREAMS COMMENTS
 
 ##@@BEGIN_UPSTREAMS
-    - https://ftp.mozilla.org/pub/thunderbird/releases/147.0.1/linux-x86_64/xpi/af.xpi:
-        hash: c81b4c0b4221daf6e731e91d523632c03aaa656aecefc925346d9207f0895ef8
+    - https://ftp.mozilla.org/pub/thunderbird/releases/150.0.1/linux-x86_64/xpi/af.xpi:
+        hash: 2622792e57cf390808d784a0755aab5293832d5df51ce2f15342ff8ad48782ff
         rename: langpack-af@thunderbird.mozilla.org.xpi
         unpack: false
-    - https://ftp.mozilla.org/pub/thunderbird/releases/147.0.1/linux-x86_64/xpi/ar.xpi:
-        hash: 1b526af66dd2e6f7bed115bb2b5486e823b4841c855dd412b40053d9a69f825a
+    - https://ftp.mozilla.org/pub/thunderbird/releases/150.0.1/linux-x86_64/xpi/ar.xpi:
+        hash: a4e395ba59fa85f51badcbe20d11d349c7aee41ab25462093d1e17a7c9c55e1d
         rename: langpack-ar@thunderbird.mozilla.org.xpi
         unpack: false
-    - https://ftp.mozilla.org/pub/thunderbird/releases/147.0.1/linux-x86_64/xpi/ast.xpi:
-        hash: cf19923f02fb2845932cbfed61a4d02828315203f722d497749649de8732853e
+    - https://ftp.mozilla.org/pub/thunderbird/releases/150.0.1/linux-x86_64/xpi/ast.xpi:
+        hash: 7b6d2057c0c682a87c4da6cc2784b51b58244b3d9182d016c151fa3d6bffa3bb
         rename: langpack-ast@thunderbird.mozilla.org.xpi
         unpack: false
-    - https://ftp.mozilla.org/pub/thunderbird/releases/147.0.1/linux-x86_64/xpi/be.xpi:
-        hash: 2c1285423c1662356221927931967c1e847899bd8b757cf222304d69fe03e446
+    - https://ftp.mozilla.org/pub/thunderbird/releases/150.0.1/linux-x86_64/xpi/be.xpi:
+        hash: 8d41610033688219520169d250bd0bbe0c039654b106e11d36a3bc9adb1b3d8b
         rename: langpack-be@thunderbird.mozilla.org.xpi
         unpack: false
-    - https://ftp.mozilla.org/pub/thunderbird/releases/147.0.1/linux-x86_64/xpi/bg.xpi:
-        hash: 143259bec0518af30be9d44571e95a009e237b1613ad574acadaa800ffc2e512
+    - https://ftp.mozilla.org/pub/thunderbird/releases/150.0.1/linux-x86_64/xpi/bg.xpi:
+        hash: 3f1940ac630706c0a9236434f22960f100705e66740a1a2c8de7e13f5954365e
         rename: langpack-bg@thunderbird.mozilla.org.xpi
         unpack: false
-    - https://ftp.mozilla.org/pub/thunderbird/releases/147.0.1/linux-x86_64/xpi/br.xpi:
-        hash: 91bad8181f30de0863bcb9a30d337c5b05b996e34013bde7401162526f71082c
+    - https://ftp.mozilla.org/pub/thunderbird/releases/150.0.1/linux-x86_64/xpi/br.xpi:
+        hash: b34f11408bc73117d66802138bfb330f0e8d7f7164ef65ccbba44649a88e180b
         rename: langpack-br@thunderbird.mozilla.org.xpi
         unpack: false
-    - https://ftp.mozilla.org/pub/thunderbird/releases/147.0.1/linux-x86_64/xpi/ca.xpi:
-        hash: 59ffd4000d0a72695cac0388b047ce0404f6f76a3826a9f054a1d5e2e119ba19
+    - https://ftp.mozilla.org/pub/thunderbird/releases/150.0.1/linux-x86_64/xpi/ca.xpi:
+        hash: d5d714527a887f5eb48f7a705dd4a6b1b1e64e713df1c97fc68b6368d698072f
         rename: langpack-ca@thunderbird.mozilla.org.xpi
         unpack: false
-    - https://ftp.mozilla.org/pub/thunderbird/releases/147.0.1/linux-x86_64/xpi/cak.xpi:
-        hash: 587f69756c579986790987e5dad3b7fa88bcc2c108c143d222ac07c0510df198
+    - https://ftp.mozilla.org/pub/thunderbird/releases/150.0.1/linux-x86_64/xpi/cak.xpi:
+        hash: d545321b465bad32551a7975689f1b4228f3732c75b1597eb737a6f1233587fe
         rename: langpack-cak@thunderbird.mozilla.org.xpi
         unpack: false
-    - https://ftp.mozilla.org/pub/thunderbird/releases/147.0.1/linux-x86_64/xpi/cs.xpi:
-        hash: 05487187a8731a3457eab569d52b759b4390ff2900a647241ffcb232771848d5
+    - https://ftp.mozilla.org/pub/thunderbird/releases/150.0.1/linux-x86_64/xpi/cs.xpi:
+        hash: 74303e94fa75f2444409a4570e30e256cefff152f156e7237725e2bb315a63a2
         rename: langpack-cs@thunderbird.mozilla.org.xpi
         unpack: false
-    - https://ftp.mozilla.org/pub/thunderbird/releases/147.0.1/linux-x86_64/xpi/cy.xpi:
-        hash: bf589a575625d03ccf93afc5dc98aa6818b484608bde24acd238b85c02b369c8
+    - https://ftp.mozilla.org/pub/thunderbird/releases/150.0.1/linux-x86_64/xpi/cy.xpi:
+        hash: ec11797247dba026487d93583b0fc231abe8557cde5f725c1136fd54c5ba364d
         rename: langpack-cy@thunderbird.mozilla.org.xpi
         unpack: false
-    - https://ftp.mozilla.org/pub/thunderbird/releases/147.0.1/linux-x86_64/xpi/da.xpi:
-        hash: 9dd5ee6fa67d3d60f1dc7a5f98a74a2f418dc1a88b20f568f83c55b55d3efbb8
+    - https://ftp.mozilla.org/pub/thunderbird/releases/150.0.1/linux-x86_64/xpi/da.xpi:
+        hash: fc42155293e0a291dcfb814bb4bb0e212ab788614f51c0c36402f5a0968c57f1
         rename: langpack-da@thunderbird.mozilla.org.xpi
         unpack: false
-    - https://ftp.mozilla.org/pub/thunderbird/releases/147.0.1/linux-x86_64/xpi/de.xpi:
-        hash: 853f9d29e88155825ef3d416d8b0b0c6e921408bf2afb7ffe7fdc5b39e3b5b27
+    - https://ftp.mozilla.org/pub/thunderbird/releases/150.0.1/linux-x86_64/xpi/de.xpi:
+        hash: 91fe304d8be634fed6f24fa28d327ee5fc590ae9e6d6700bf00ec79db899de48
         rename: langpack-de@thunderbird.mozilla.org.xpi
         unpack: false
-    - https://ftp.mozilla.org/pub/thunderbird/releases/147.0.1/linux-x86_64/xpi/dsb.xpi:
-        hash: 9d235af191dd7eaf5ca73051967071329542d0393fe89625f4c3d6068a6f3a3e
+    - https://ftp.mozilla.org/pub/thunderbird/releases/150.0.1/linux-x86_64/xpi/dsb.xpi:
+        hash: 49aa2156261b57d5ab501bbeee5b35ca676f14f00210ddc82e7a9873e6e5b69c
         rename: langpack-dsb@thunderbird.mozilla.org.xpi
         unpack: false
-    - https://ftp.mozilla.org/pub/thunderbird/releases/147.0.1/linux-x86_64/xpi/el.xpi:
-        hash: 797032d896584ee8a5f9d5d205f622f345319358a5cc73885a3e88b910e6fdec
+    - https://ftp.mozilla.org/pub/thunderbird/releases/150.0.1/linux-x86_64/xpi/el.xpi:
+        hash: 555ac23e2ecbff3824b72d2c72a94d920795937a9f1bbfe2d0b05d78707e0778
         rename: langpack-el@thunderbird.mozilla.org.xpi
         unpack: false
-    - https://ftp.mozilla.org/pub/thunderbird/releases/147.0.1/linux-x86_64/xpi/en-CA.xpi:
-        hash: 9965ff4b07145c85a7cac54b8913a62376d482c03813d359f500df706acfb26c
+    - https://ftp.mozilla.org/pub/thunderbird/releases/150.0.1/linux-x86_64/xpi/en-CA.xpi:
+        hash: 99ef3a1bfd130e57c23954d245055609facd218e4dbd6d9b9887e82270ea8814
         rename: langpack-en-CA@thunderbird.mozilla.org.xpi
         unpack: false
-    - https://ftp.mozilla.org/pub/thunderbird/releases/147.0.1/linux-x86_64/xpi/en-GB.xpi:
-        hash: 4d9b99b5c1ec9616f4ea59d3089a2a5a15a3a20200747f861d70060a42cb0116
+    - https://ftp.mozilla.org/pub/thunderbird/releases/150.0.1/linux-x86_64/xpi/en-GB.xpi:
+        hash: cb0c3f8dad637b9d07d7d222b8bda03f581b4620e3445807a53a6c9a661c63b1
         rename: langpack-en-GB@thunderbird.mozilla.org.xpi
         unpack: false
-    - https://ftp.mozilla.org/pub/thunderbird/releases/147.0.1/linux-x86_64/xpi/en-US.xpi:
-        hash: 2e7cda71fd8733ea3c332dc0304c871db8402586bb57f7d838676a63dc72b9bd
+    - https://ftp.mozilla.org/pub/thunderbird/releases/150.0.1/linux-x86_64/xpi/en-US.xpi:
+        hash: 690174e299829f83199e9a32c8b9fe25e9876cd6444dc864bf338eeb65893a6b
         rename: langpack-en-US@thunderbird.mozilla.org.xpi
         unpack: false
-    - https://ftp.mozilla.org/pub/thunderbird/releases/147.0.1/linux-x86_64/xpi/es-AR.xpi:
-        hash: 1fd087fbeb49ece6acd1a35ae0b3aebc6d497c3232465b86d36f8f9949f096f4
+    - https://ftp.mozilla.org/pub/thunderbird/releases/150.0.1/linux-x86_64/xpi/es-AR.xpi:
+        hash: 8b6ba6ff2f559866b46c0e2ea3110fbc2c27ded24ba789b291d2837dcb3a0cba
         rename: langpack-es-AR@thunderbird.mozilla.org.xpi
         unpack: false
-    - https://ftp.mozilla.org/pub/thunderbird/releases/147.0.1/linux-x86_64/xpi/es-ES.xpi:
-        hash: c75e2dfe4a95f8bee1bbe4adf7821ef1e5f6d55ea295f64ef43dd82ad76cab84
+    - https://ftp.mozilla.org/pub/thunderbird/releases/150.0.1/linux-x86_64/xpi/es-ES.xpi:
+        hash: b1089c655a28baf1f6d9e54dce1494686482e72d3cb2bfa41f71652a5714334b
         rename: langpack-es-ES@thunderbird.mozilla.org.xpi
         unpack: false
-    - https://ftp.mozilla.org/pub/thunderbird/releases/147.0.1/linux-x86_64/xpi/es-MX.xpi:
-        hash: 706915f920bed8b31a75692c6b6da0b0d930baa90fa2b4658bddd8653d0b1247
+    - https://ftp.mozilla.org/pub/thunderbird/releases/150.0.1/linux-x86_64/xpi/es-MX.xpi:
+        hash: 3356c7de9e51aa0d4ab5d4f9eb4be35e789fd8e01b324a654e6f41569688b473
         rename: langpack-es-MX@thunderbird.mozilla.org.xpi
         unpack: false
-    - https://ftp.mozilla.org/pub/thunderbird/releases/147.0.1/linux-x86_64/xpi/et.xpi:
-        hash: ebb31c1842916004bf500f4851e667eb209d536b1049a40b38e63c5cc67940ef
+    - https://ftp.mozilla.org/pub/thunderbird/releases/150.0.1/linux-x86_64/xpi/et.xpi:
+        hash: e19c75409277685985ba4dcf02a3a0c367bc86d495cf90433a7895e47c57096a
         rename: langpack-et@thunderbird.mozilla.org.xpi
         unpack: false
-    - https://ftp.mozilla.org/pub/thunderbird/releases/147.0.1/linux-x86_64/xpi/eu.xpi:
-        hash: 247e8fc3c492eb8a089e8f13efbaa8ecc13ad38045dc90795ea055766e1fea7f
+    - https://ftp.mozilla.org/pub/thunderbird/releases/150.0.1/linux-x86_64/xpi/eu.xpi:
+        hash: 03b4e6b14b1013014217f8ec0f6ef938ea35f880d952a4d82274cfe7a6005b7e
         rename: langpack-eu@thunderbird.mozilla.org.xpi
         unpack: false
-    - https://ftp.mozilla.org/pub/thunderbird/releases/147.0.1/linux-x86_64/xpi/fi.xpi:
-        hash: d0d69898289593f023bf7d48757537d6b2ad5fbe43d3b235447532d51811ace4
+    - https://ftp.mozilla.org/pub/thunderbird/releases/150.0.1/linux-x86_64/xpi/fi.xpi:
+        hash: 1fb62a5fbd04feca4e5797e9fcd10dd9acf2201156e1ca7d8c5b1c8be0faf1c5
         rename: langpack-fi@thunderbird.mozilla.org.xpi
         unpack: false
-    - https://ftp.mozilla.org/pub/thunderbird/releases/147.0.1/linux-x86_64/xpi/fr.xpi:
-        hash: fd1ea3b744888e203104eb491e1480614da23aca34c4e886e3803395a3ac41eb
+    - https://ftp.mozilla.org/pub/thunderbird/releases/150.0.1/linux-x86_64/xpi/fr.xpi:
+        hash: 982f57f39e86cf367c4838ac71d1b97cfba52dc22d74bf8b542edabb6616a225
         rename: langpack-fr@thunderbird.mozilla.org.xpi
         unpack: false
-    - https://ftp.mozilla.org/pub/thunderbird/releases/147.0.1/linux-x86_64/xpi/fy-NL.xpi:
-        hash: 79cab7f8ad769c0e4ee8da88367736812530a48d01f30dcc8c6e19749bdcbc13
+    - https://ftp.mozilla.org/pub/thunderbird/releases/150.0.1/linux-x86_64/xpi/fy-NL.xpi:
+        hash: 969e3d6b9504eb5e900e1b6ae703bca2277c80cd7e4b4d58e9132407712eee13
         rename: langpack-fy-NL@thunderbird.mozilla.org.xpi
         unpack: false
-    - https://ftp.mozilla.org/pub/thunderbird/releases/147.0.1/linux-x86_64/xpi/ga-IE.xpi:
-        hash: 6208e6b64b1d89b498ebbcb7076c17b3019e1d4fb65b628e1aeb03e238750f19
+    - https://ftp.mozilla.org/pub/thunderbird/releases/150.0.1/linux-x86_64/xpi/ga-IE.xpi:
+        hash: 31c5cdb439845e3b6727e7bb4e5886ce663c80e0631ee3bcaa85ecea50ac8b39
         rename: langpack-ga-IE@thunderbird.mozilla.org.xpi
         unpack: false
-    - https://ftp.mozilla.org/pub/thunderbird/releases/147.0.1/linux-x86_64/xpi/gd.xpi:
-        hash: 83d5c0966429b4ad9b5feccdb4f74e6d25525b3ec86cbae574beb3df438a4043
+    - https://ftp.mozilla.org/pub/thunderbird/releases/150.0.1/linux-x86_64/xpi/gd.xpi:
+        hash: fcca88b419e864349b65b823ad8bd2d51d0b1d4ee6e0f9274ab5f2b96ed1f325
         rename: langpack-gd@thunderbird.mozilla.org.xpi
         unpack: false
-    - https://ftp.mozilla.org/pub/thunderbird/releases/147.0.1/linux-x86_64/xpi/gl.xpi:
-        hash: 8bca43040b784a4e25e93dfe7e8768f78a44976089381f9fc69ab8f6dfaf8eca
+    - https://ftp.mozilla.org/pub/thunderbird/releases/150.0.1/linux-x86_64/xpi/gl.xpi:
+        hash: 3d1078d8c2649ca7f6caf196c4d2e72d6c20be072f99dbfef72b19e8aa33b0b6
         rename: langpack-gl@thunderbird.mozilla.org.xpi
         unpack: false
-    - https://ftp.mozilla.org/pub/thunderbird/releases/147.0.1/linux-x86_64/xpi/he.xpi:
-        hash: db6cc916b1478a23987e4e52b05b54bfb89dfa2df4ed7fd2868dfce60d009f66
+    - https://ftp.mozilla.org/pub/thunderbird/releases/150.0.1/linux-x86_64/xpi/he.xpi:
+        hash: 0c3c333c360441301d03683ea5040b1768abeaec5c1f3a5406bd605c79038dcf
         rename: langpack-he@thunderbird.mozilla.org.xpi
         unpack: false
-    - https://ftp.mozilla.org/pub/thunderbird/releases/147.0.1/linux-x86_64/xpi/hr.xpi:
-        hash: 0637fd0ad52267eb51de74bbf60794043fe5715db0c594f6ea77d5ea6cba33b5
+    - https://ftp.mozilla.org/pub/thunderbird/releases/150.0.1/linux-x86_64/xpi/hr.xpi:
+        hash: 9d95c7391b80f02aacaa87ac37512509e1f927e43af4a6e86efb04701bcca38c
         rename: langpack-hr@thunderbird.mozilla.org.xpi
         unpack: false
-    - https://ftp.mozilla.org/pub/thunderbird/releases/147.0.1/linux-x86_64/xpi/hsb.xpi:
-        hash: 51fd61480c46ec4437a063024ca9e2fd00915360a9ea2bb5417c8d21e3210c6d
+    - https://ftp.mozilla.org/pub/thunderbird/releases/150.0.1/linux-x86_64/xpi/hsb.xpi:
+        hash: afeef20d1331db3d7723a48f0838bd0892413d953d93914871c0fb4ff978ec8a
         rename: langpack-hsb@thunderbird.mozilla.org.xpi
         unpack: false
-    - https://ftp.mozilla.org/pub/thunderbird/releases/147.0.1/linux-x86_64/xpi/hu.xpi:
-        hash: 52c69eedc4579fe1fa009930331b9d799cea1344cfa8d039588486c57bf044e7
+    - https://ftp.mozilla.org/pub/thunderbird/releases/150.0.1/linux-x86_64/xpi/hu.xpi:
+        hash: b8f8b9219f0a23d86256803c4c18d4c533e57e8cb58746584c03d7f3d3d16d48
         rename: langpack-hu@thunderbird.mozilla.org.xpi
         unpack: false
-    - https://ftp.mozilla.org/pub/thunderbird/releases/147.0.1/linux-x86_64/xpi/hy-AM.xpi:
-        hash: b822504a41f53cd16d37e7e28ffeaac4fc3d8cdad24fe110d8adebc0eb1e932d
+    - https://ftp.mozilla.org/pub/thunderbird/releases/150.0.1/linux-x86_64/xpi/hy-AM.xpi:
+        hash: 20ca4c6fb70c1d1e7b1c42a192866b88529db8f19021ee9416b97fec4278a62a
         rename: langpack-hy-AM@thunderbird.mozilla.org.xpi
         unpack: false
-    - https://ftp.mozilla.org/pub/thunderbird/releases/147.0.1/linux-x86_64/xpi/id.xpi:
-        hash: 6860988850b0ff5b5730c0529f9c1ecdf5b3f9953e8e39ce1fc214ae07910d9d
+    - https://ftp.mozilla.org/pub/thunderbird/releases/150.0.1/linux-x86_64/xpi/id.xpi:
+        hash: fd728aaca60fe34ad59e04f14179ae022d9c165a92a1887004494ed15d7f8180
         rename: langpack-id@thunderbird.mozilla.org.xpi
         unpack: false
-    - https://ftp.mozilla.org/pub/thunderbird/releases/147.0.1/linux-x86_64/xpi/is.xpi:
-        hash: 89ad3d629c5f76b749a4c8e21ff5de9eb3369236f97e06c1e0bd4f5e506fcfa9
+    - https://ftp.mozilla.org/pub/thunderbird/releases/150.0.1/linux-x86_64/xpi/is.xpi:
+        hash: 10b40afdfabb16c75e63b0338d4a0d62d715d6e1db0680889c817e87097264b0
         rename: langpack-is@thunderbird.mozilla.org.xpi
         unpack: false
-    - https://ftp.mozilla.org/pub/thunderbird/releases/147.0.1/linux-x86_64/xpi/it.xpi:
-        hash: 437df2225ae34c9dbf75b347418c4d39e4175c84ddd08ddc043d456632d4dc90
+    - https://ftp.mozilla.org/pub/thunderbird/releases/150.0.1/linux-x86_64/xpi/it.xpi:
+        hash: 041e7366b1b957c75b70ed403b8be4e3463df81d151024ee989679082c981fab
         rename: langpack-it@thunderbird.mozilla.org.xpi
         unpack: false
-    - https://ftp.mozilla.org/pub/thunderbird/releases/147.0.1/linux-x86_64/xpi/ja.xpi:
-        hash: a6cfce2fb970084f95ca297b87a32a899df70e8fe6b1c930e146d1a4c0769259
+    - https://ftp.mozilla.org/pub/thunderbird/releases/150.0.1/linux-x86_64/xpi/ja.xpi:
+        hash: a0d0c7ce6d794f40488b96f3e18e6d869e7299077a97509afaf7c11605078139
         rename: langpack-ja@thunderbird.mozilla.org.xpi
         unpack: false
-    - https://ftp.mozilla.org/pub/thunderbird/releases/147.0.1/linux-x86_64/xpi/ka.xpi:
-        hash: 6afa6e8423fded7dbd823b67f9e2c38126f2509e665ee7b69ac7614236845916
+    - https://ftp.mozilla.org/pub/thunderbird/releases/150.0.1/linux-x86_64/xpi/ka.xpi:
+        hash: 5589a6b751dca52ecd090ae7832b6c199bed687d6f13f74b2fd22798f7154e5b
         rename: langpack-ka@thunderbird.mozilla.org.xpi
         unpack: false
-    - https://ftp.mozilla.org/pub/thunderbird/releases/147.0.1/linux-x86_64/xpi/kab.xpi:
-        hash: ad6280daa3a6002618fa3ff8625a49a42a3cbed25e8db7d5fe59bcec95080a96
+    - https://ftp.mozilla.org/pub/thunderbird/releases/150.0.1/linux-x86_64/xpi/kab.xpi:
+        hash: a0a2970048ab3dd76b4a3279beaeb0aaaddb6b2d8568647e32f765efb051079f
         rename: langpack-kab@thunderbird.mozilla.org.xpi
         unpack: false
-    - https://ftp.mozilla.org/pub/thunderbird/releases/147.0.1/linux-x86_64/xpi/kk.xpi:
-        hash: 2625472a7a786c78b505fd115c51aa3eb5ebee62dfe878d1c9752059a0469c4a
+    - https://ftp.mozilla.org/pub/thunderbird/releases/150.0.1/linux-x86_64/xpi/kk.xpi:
+        hash: 79e6a272a89efaa1aadec8510f99b946f45691ba436dcb0ceed5e2b1456bab7d
         rename: langpack-kk@thunderbird.mozilla.org.xpi
         unpack: false
-    - https://ftp.mozilla.org/pub/thunderbird/releases/147.0.1/linux-x86_64/xpi/ko.xpi:
-        hash: 1215e5c5ed56e927ae851327dc83724e0e7cde9c635d46f218ba34047331cd73
+    - https://ftp.mozilla.org/pub/thunderbird/releases/150.0.1/linux-x86_64/xpi/ko.xpi:
+        hash: 2aa7ea9e6b3e60326c68000eae06b43e76ac557495f67e676a1c9b4908eadc8d
         rename: langpack-ko@thunderbird.mozilla.org.xpi
         unpack: false
-    - https://ftp.mozilla.org/pub/thunderbird/releases/147.0.1/linux-x86_64/xpi/lt.xpi:
-        hash: 3b76b32f15059ac4e2024ffaa49920e18e1045fa3030535a6795c1c8fa4f2fbb
+    - https://ftp.mozilla.org/pub/thunderbird/releases/150.0.1/linux-x86_64/xpi/lt.xpi:
+        hash: 457a719f5f47b134442c0195fd0cc9ed714ed5d72331756ac9b2c9d55db2988d
         rename: langpack-lt@thunderbird.mozilla.org.xpi
         unpack: false
-    - https://ftp.mozilla.org/pub/thunderbird/releases/147.0.1/linux-x86_64/xpi/lv.xpi:
-        hash: 80b482482fbc9f9a9d56fb3dc37b38153692a4567adf06982508bc68561fad87
+    - https://ftp.mozilla.org/pub/thunderbird/releases/150.0.1/linux-x86_64/xpi/lv.xpi:
+        hash: ea5e35d47cfecb2b3016ea2b8f4b0dcb850a057fe592d8ecd76cc39970faa8a9
         rename: langpack-lv@thunderbird.mozilla.org.xpi
         unpack: false
-    - https://ftp.mozilla.org/pub/thunderbird/releases/147.0.1/linux-x86_64/xpi/ms.xpi:
-        hash: c6ccf4cca608d032fd370d57e8dd702d22e501082815ec1bd164839aa98f177f
+    - https://ftp.mozilla.org/pub/thunderbird/releases/150.0.1/linux-x86_64/xpi/ms.xpi:
+        hash: 7c28d882bbc5613668275a1949a83b6d3d7dc418927e408c912739e345bdf15c
         rename: langpack-ms@thunderbird.mozilla.org.xpi
         unpack: false
-    - https://ftp.mozilla.org/pub/thunderbird/releases/147.0.1/linux-x86_64/xpi/nb-NO.xpi:
-        hash: 21a7632bdaa92d2b25c4f73869a0b3d615d3339e892676135cef9ea4f9afae59
+    - https://ftp.mozilla.org/pub/thunderbird/releases/150.0.1/linux-x86_64/xpi/nb-NO.xpi:
+        hash: 3b646f7ceb2879213cd7e7c670a39acfa3bbf883b6a6ac4b4d7316a8aaac2476
         rename: langpack-nb-NO@thunderbird.mozilla.org.xpi
         unpack: false
-    - https://ftp.mozilla.org/pub/thunderbird/releases/147.0.1/linux-x86_64/xpi/nl.xpi:
-        hash: 0ce080e9fb7d943e592564b510f0b71032dfedf85cde79c0d0df784949492f4c
+    - https://ftp.mozilla.org/pub/thunderbird/releases/150.0.1/linux-x86_64/xpi/nl.xpi:
+        hash: bd492cec4d23924b383df61a95a430076f7f23bc94cbff6edaf22fdc5a9c0825
         rename: langpack-nl@thunderbird.mozilla.org.xpi
         unpack: false
-    - https://ftp.mozilla.org/pub/thunderbird/releases/147.0.1/linux-x86_64/xpi/nn-NO.xpi:
-        hash: c75ddc30e7412d383f15c7cf61e2a4df9688a562171cf27ce1a50140810a40c0
+    - https://ftp.mozilla.org/pub/thunderbird/releases/150.0.1/linux-x86_64/xpi/nn-NO.xpi:
+        hash: 4043a6766dc31a1ca1eca45faf80e9f81bf20e3900cc1a269cbcbd4bd11afd15
         rename: langpack-nn-NO@thunderbird.mozilla.org.xpi
         unpack: false
-    - https://ftp.mozilla.org/pub/thunderbird/releases/147.0.1/linux-x86_64/xpi/pa-IN.xpi:
-        hash: b357d78df8c13a4e8faa7fef4d641481cab2ab5c96a5e74ae875d2cbdf348d53
+    - https://ftp.mozilla.org/pub/thunderbird/releases/150.0.1/linux-x86_64/xpi/pa-IN.xpi:
+        hash: 8f067db3b9d35e51b46cb67ccc8f1f48a1c2e7f6755a88b181112eb085415fca
         rename: langpack-pa-IN@thunderbird.mozilla.org.xpi
         unpack: false
-    - https://ftp.mozilla.org/pub/thunderbird/releases/147.0.1/linux-x86_64/xpi/pl.xpi:
-        hash: 3dad41a20be12d3cf604b14553a57a8d2cce3999d3770d5f34295741bbaf32b4
+    - https://ftp.mozilla.org/pub/thunderbird/releases/150.0.1/linux-x86_64/xpi/pl.xpi:
+        hash: 960494fb8e99f9f142f48f807d869d9cbd2e27e5fcc26b1161ca92dc8c478791
         rename: langpack-pl@thunderbird.mozilla.org.xpi
         unpack: false
-    - https://ftp.mozilla.org/pub/thunderbird/releases/147.0.1/linux-x86_64/xpi/pt-BR.xpi:
-        hash: 9b278f56a9e2e5a2dd44339a9de18174973253f339268be949767f8cbf2f7a8c
+    - https://ftp.mozilla.org/pub/thunderbird/releases/150.0.1/linux-x86_64/xpi/pt-BR.xpi:
+        hash: 614e74a3dd8f0beeee77bb1aab7fb54bb9d8f778927ba70fc21ae176ab4bebf3
         rename: langpack-pt-BR@thunderbird.mozilla.org.xpi
         unpack: false
-    - https://ftp.mozilla.org/pub/thunderbird/releases/147.0.1/linux-x86_64/xpi/pt-PT.xpi:
-        hash: 305b6dcb0c29b50411eaa947d8eea8fea6a7a84447f3013e2489ae8ca49965bf
+    - https://ftp.mozilla.org/pub/thunderbird/releases/150.0.1/linux-x86_64/xpi/pt-PT.xpi:
+        hash: 68a22a7244d4ba2cdbe39e252c0db5fd0cf48bcd139798a469e43f5619d50e96
         rename: langpack-pt-PT@thunderbird.mozilla.org.xpi
         unpack: false
-    - https://ftp.mozilla.org/pub/thunderbird/releases/147.0.1/linux-x86_64/xpi/rm.xpi:
-        hash: 2c89937bd1653b3bb176acd503f96aad1edd02369f819b345f80e9578801c798
+    - https://ftp.mozilla.org/pub/thunderbird/releases/150.0.1/linux-x86_64/xpi/rm.xpi:
+        hash: 6b4b9886596131c0b2098df78b8d47f7235b89413c91cbcfd4639089ee0c53d0
         rename: langpack-rm@thunderbird.mozilla.org.xpi
         unpack: false
-    - https://ftp.mozilla.org/pub/thunderbird/releases/147.0.1/linux-x86_64/xpi/ro.xpi:
-        hash: eb17e94c482fb4e560fc4b4aa80ea9a3bbd33011ea6d137b4ded7134a10da713
+    - https://ftp.mozilla.org/pub/thunderbird/releases/150.0.1/linux-x86_64/xpi/ro.xpi:
+        hash: 9651573b7edcf40e51749906581b0973cd9ff20aded8964f515858b7a3d4228f
         rename: langpack-ro@thunderbird.mozilla.org.xpi
         unpack: false
-    - https://ftp.mozilla.org/pub/thunderbird/releases/147.0.1/linux-x86_64/xpi/ru.xpi:
-        hash: 8247f783a0f1b92a6d3873a3c4f1d9dfe1f5342e5129acb23e6f302c16e08256
+    - https://ftp.mozilla.org/pub/thunderbird/releases/150.0.1/linux-x86_64/xpi/ru.xpi:
+        hash: b0be3c482f295c813d61f5cbc60ee4da95fb080ed4441089e41b9fed5e9f662c
         rename: langpack-ru@thunderbird.mozilla.org.xpi
         unpack: false
-    - https://ftp.mozilla.org/pub/thunderbird/releases/147.0.1/linux-x86_64/xpi/sk.xpi:
-        hash: 3ed8c163faba9f7d2d5609930bc37233d8e61325ba52eafe59b145e13ca00f83
+    - https://ftp.mozilla.org/pub/thunderbird/releases/150.0.1/linux-x86_64/xpi/sk.xpi:
+        hash: 476b99d744b2053a8d2c6b1c70982a42c713b07f4b5aafb02bce69223e594fc7
         rename: langpack-sk@thunderbird.mozilla.org.xpi
         unpack: false
-    - https://ftp.mozilla.org/pub/thunderbird/releases/147.0.1/linux-x86_64/xpi/sl.xpi:
-        hash: 734fafc0648b7eb29195b19319f80fb47471ad5efb029803e61a0614aa5b125d
+    - https://ftp.mozilla.org/pub/thunderbird/releases/150.0.1/linux-x86_64/xpi/sl.xpi:
+        hash: eda11dbd2cebf6e5af2db727b1c253cdfe026083f3899d8a1b262079d51b6a85
         rename: langpack-sl@thunderbird.mozilla.org.xpi
         unpack: false
-    - https://ftp.mozilla.org/pub/thunderbird/releases/147.0.1/linux-x86_64/xpi/sq.xpi:
-        hash: 4105d3a8e350b8a1d95ed7dc8514ca5d8ed216390115f3fec0217363b3f6a292
+    - https://ftp.mozilla.org/pub/thunderbird/releases/150.0.1/linux-x86_64/xpi/sq.xpi:
+        hash: 0ee7b99005f610f6a0f36d1ef55748fe3af604519121a4c478146900fdabc01c
         rename: langpack-sq@thunderbird.mozilla.org.xpi
         unpack: false
-    - https://ftp.mozilla.org/pub/thunderbird/releases/147.0.1/linux-x86_64/xpi/sr.xpi:
-        hash: b1568e259f2af66963825c9abaf74b25785475119a103527a8fa9a47f971730b
+    - https://ftp.mozilla.org/pub/thunderbird/releases/150.0.1/linux-x86_64/xpi/sr.xpi:
+        hash: 581ee7390198499d558f893e3d557f8349897f86053e7695add15a229136ad8c
         rename: langpack-sr@thunderbird.mozilla.org.xpi
         unpack: false
-    - https://ftp.mozilla.org/pub/thunderbird/releases/147.0.1/linux-x86_64/xpi/sv-SE.xpi:
-        hash: c67b4ef4aa919a741612bcc420ee3fd1c20111d5655a2b70fab13adc7335a39b
+    - https://ftp.mozilla.org/pub/thunderbird/releases/150.0.1/linux-x86_64/xpi/sv-SE.xpi:
+        hash: 83fd2b726deb3278e76e3c01487b7a54b225b9af85aee29c915fd7958383ae68
         rename: langpack-sv-SE@thunderbird.mozilla.org.xpi
         unpack: false
-    - https://ftp.mozilla.org/pub/thunderbird/releases/147.0.1/linux-x86_64/xpi/th.xpi:
-        hash: caec66264fbf53e5a600610f9f2e3eecc06d82f5aa012f398a139d4e44b7d8ce
+    - https://ftp.mozilla.org/pub/thunderbird/releases/150.0.1/linux-x86_64/xpi/th.xpi:
+        hash: c790b0af1b00f1510244851842ee1d19576bae4abfc52e5576f68f6086ee6fe2
         rename: langpack-th@thunderbird.mozilla.org.xpi
         unpack: false
-    - https://ftp.mozilla.org/pub/thunderbird/releases/147.0.1/linux-x86_64/xpi/tr.xpi:
-        hash: 214b149eb72b82c8c637c91339ccd4f666ed1d511285943ab529747a1557d719
+    - https://ftp.mozilla.org/pub/thunderbird/releases/150.0.1/linux-x86_64/xpi/tr.xpi:
+        hash: b3f998c9c2df2f044068f7c1936347d4b92f0eff5d10ac40d72115ba9f077b66
         rename: langpack-tr@thunderbird.mozilla.org.xpi
         unpack: false
-    - https://ftp.mozilla.org/pub/thunderbird/releases/147.0.1/linux-x86_64/xpi/uk.xpi:
-        hash: 4082a02be23d948f4feffdb9739847cfb22284ef572aa363db3118b2825fc814
+    - https://ftp.mozilla.org/pub/thunderbird/releases/150.0.1/linux-x86_64/xpi/uk.xpi:
+        hash: aeb48b8038949fd3fc971f7cccc60e938da0320f7c28ba40a8cac7ef2a6bd796
         rename: langpack-uk@thunderbird.mozilla.org.xpi
         unpack: false
-    - https://ftp.mozilla.org/pub/thunderbird/releases/147.0.1/linux-x86_64/xpi/uz.xpi:
-        hash: cd9bb46d3e90dd131ce3c244af51aa3a9478fde90a3358d47f81db42f5ea2cf8
+    - https://ftp.mozilla.org/pub/thunderbird/releases/150.0.1/linux-x86_64/xpi/uz.xpi:
+        hash: 9c97faafc9104c3ae0a4270125f9c8adc1c418e42be26ee506d6688e5183e435
         rename: langpack-uz@thunderbird.mozilla.org.xpi
         unpack: false
-    - https://ftp.mozilla.org/pub/thunderbird/releases/147.0.1/linux-x86_64/xpi/vi.xpi:
-        hash: 6a801abb20526d3cd8ef6ac72770b82d523cce18b90dfaf6fba8c5a47b07725b
+    - https://ftp.mozilla.org/pub/thunderbird/releases/150.0.1/linux-x86_64/xpi/vi.xpi:
+        hash: 140ed1eb2f71edf90d0fa2b5f331a2d9844631a59329f752c256c8f121914784
         rename: langpack-vi@thunderbird.mozilla.org.xpi
         unpack: false
-    - https://ftp.mozilla.org/pub/thunderbird/releases/147.0.1/linux-x86_64/xpi/zh-CN.xpi:
-        hash: 5a720ef94ab7cf8e087b2357ef511e356be7f4514cbd5ec33b274ecb4ba4762c
+    - https://ftp.mozilla.org/pub/thunderbird/releases/150.0.1/linux-x86_64/xpi/zh-CN.xpi:
+        hash: b7b6727885cdc76945d080133c317ccd987cca32c2cdba90480129fa1f75350a
         rename: langpack-zh-CN@thunderbird.mozilla.org.xpi
         unpack: false
-    - https://ftp.mozilla.org/pub/thunderbird/releases/147.0.1/linux-x86_64/xpi/zh-TW.xpi:
-        hash: bac0c2309965afbfa5b47853e5b77cadd468afaa6544d9d5aa2d23495364a8ed
+    - https://ftp.mozilla.org/pub/thunderbird/releases/150.0.1/linux-x86_64/xpi/zh-TW.xpi:
+        hash: e5a913cd6ab20ba2ac93666ab97ff739135de505bdc53abbcc5efd6c619e3fd5
         rename: langpack-zh-TW@thunderbird.mozilla.org.xpi
         unpack: false
 ##@@END_UPSTREAMS

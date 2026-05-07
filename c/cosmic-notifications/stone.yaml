@@ -1,16 +1,14 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : cosmic-notifications
-version     : 1.0.5.git+2ba5e6e
-release     : 31
+version     : "1.0.11.git+dbd0658"
+release     : 37
 summary     : Cosmic Desktop Notifications
 license     : GPL-3.0
 homepage    : https://github.com/pop-os/cosmic-notifications
 upstreams   :
-    - git|https://github.com/pop-os/cosmic-notifications.git : 2ba5e6e734f733933d1df1125f1ea03a4f39ec9b
+    - git|https://github.com/pop-os/cosmic-notifications.git : dbd0658f0dc2671f32f514261bd9b3fa664264bd
 description : |
     Cosmic Desktop Notifications
 builddeps   :
@@ -19,7 +17,7 @@ builddeps   :
     - pkgconfig(dbus-1)
     - pkgconfig(libudev)
     - pkgconfig(xkbcommon)
-networking  : yes
+networking  : true
 setup       : |
     %cargo_fetch
 build       : |

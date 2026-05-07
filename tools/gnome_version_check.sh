@@ -1,3 +1,7 @@
+#!/bin/sh
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
 # https://gitlab.gnome.org/GNOME/releng/-/blob/master/tools/versions-stable?ref_type=heads
 # manually match up names as required
 

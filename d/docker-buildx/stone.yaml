@@ -1,20 +1,18 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : docker-buildx
-version     : 0.31.1
-release     : 10
+version     : "0.33.0"
+release     : 12
 homepage    : https://github.com/docker/buildx
 upstreams   :
-    - https://github.com/docker/buildx/archive/refs/tags/v0.31.1.tar.gz : 2f2069554305c9659dd4a2b4eb10c7aeab97e52e89cfeeda07f0c0c43d19ee80
-summary     : Docker CLI plugin for extended build capabilities with BuildKit 
+    - https://github.com/docker/buildx/archive/refs/tags/v0.33.0.tar.gz : 00b5d5093f6b6cb75fd687988fb395253d10a5ca4d7e4c6b26af3914c219d2d7
+summary     : Docker CLI plugin for extended build capabilities with BuildKit
 description : |
-    Docker CLI plugin for extended build capabilities with BuildKit 
+    Docker CLI plugin for extended build capabilities with BuildKit
 license     :
     - Apache-2.0
-networking  : yes
+networking  : true
 builddeps   :
     - binary(go)
 environment : |

@@ -1,25 +1,23 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : cosmic-bg
-version     : 1.0.5.git+808a50e
-release     : 31
+version     : "1.0.11.git+06970d5"
+release     : 38
 summary     : Cosmic Desktop Background Service
 license     : GPL-3.0
 homepage    : https://github.com/pop-os/cosmic-bg
 upstreams   :
-    - git|https://github.com/pop-os/cosmic-bg.git : 808a50e383685c2c8f3f41e7b96c14c96145327e
+    - git|https://github.com/pop-os/cosmic-bg.git : 06970d5945b45a634b9ed314f5ca3a86a8502fd8
 description : |
     Cosmic Desktop Background Service
 builddeps   :
     - binary(just)
     - binary(which)
     - pkgconfig(xkbcommon)
-networking  : yes
+networking  : true
 setup       : |
-    %patch %(pkgdir)/serpent_branding.patch
+    %patch %(pkgdir)/aerynos_branding.patch
     %cargo_fetch
 build       : |
     %cargo_build

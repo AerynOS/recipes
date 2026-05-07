@@ -1,14 +1,12 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : wireplumber
-version     : 0.5.13
-release     : 12
+version     : "0.5.14"
+release     : 13
 homepage    : https://gitlab.freedesktop.org/pipewire/wireplumber/
 upstreams   :
-    - https://gitlab.freedesktop.org/pipewire/wireplumber/-/archive/0.5.13/wireplumber-0.5.13.tar.gz : 904e4219dacfc6070e13fcb41846b085c61aa1c1cbb0dcc59e1ab982adc8968a
+    - https://gitlab.freedesktop.org/pipewire/wireplumber/-/archive/0.5.14/wireplumber-0.5.14.tar.gz : e91f04cd8cec75d72b8a2aaa7e90b1ba0a5e2094b7a882fc3a29a484a48a87e9
 summary     : Session / policy manager implementation for PipeWire
 description : |
     Session / policy manager implementation for PipeWire
@@ -52,12 +50,12 @@ packages    :
             - /usr/lib/wireplumber-0.5/libwireplumber-*.so
             - /usr/lib/libwireplumber-0.5.so.*
             - /usr/lib/girepository-1.0/Wp-0.5.typelib
-    
+
     # Moss upgrade issue
     - "%(name)":
         rundeps:
             - "%(name)-libs"
-    
+
     - "%(name)-devel":
         paths:
             # Remove once https://github.com/AerynOS/os-tools/pull/491 is merged

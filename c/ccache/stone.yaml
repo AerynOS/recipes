@@ -1,18 +1,16 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : ccache
-version     : "4.12.2"
-release     : 17
+version     : "4.13.6"
+release     : 26
 summary     : ccache - a fast C/C++ compiler cache
 license     : GPL-3.0-or-later
 homepage    : https://ccache.dev/
 description : |
     Ccache is a compiler cache. It speeds up recompilation by caching previous compilations and detecting when the same compilation is being done again. Supported languages are C, C++, Objective-C and Objective-C++.
 upstreams   :
-    - https://github.com/ccache/ccache/releases/download/v4.12.2/ccache-4.12.2.tar.xz: 96ad53c76ecdb9c7a78e28a9bfdf2c95d7eece28546510fde7e16e5a13e2f7f8
+    - https://github.com/ccache/ccache/releases/download/v4.13.6/ccache-4.13.6.tar.xz: a7de667ca08cf67c3c8af9f213f6aa701a1188a2b3163fb74483858ce5e79fbb
 builddeps   :
     - binary(asciidoctor)
     - pkgconfig(fmt)
@@ -41,20 +39,28 @@ install     : |
     # Setup ccache symlinks for gnu and clang compilers
     %install_dir %(installroot)/%(libdir)/ccache/bin
     TGT="%(installroot)/%(libdir)/ccache/bin"
-    for compiler in gcc \
-                    g++ \
-                    c++ \
-                    cc \
-                    x86_64-aerynos-linux-gcc \
-                    x86_64-aerynos-linux-g++ \
-                    x86_64-aerynos-linux-c++ \
-                    x86_64-aerynos-linux-cc \
-                    x86_64-serpent-linux-gcc \
-                    x86_64-serpent-linux-g++ \
-                    x86_64-serpent-linux-c++ \
-                    x86_64-serpent-linux-cc \
-                    clang \
-                    clang++ ; do
+    for compiler in \
+        clang \
+        clang++ \
+        clang-20 \
+        clang++-20 \
+        clang-21 \
+        clang++-21 \
+        clang-22 \
+        clang++-22 \
+        gcc \
+        g++ \
+        c++ \
+        cc \
+        x86_64-aerynos-linux-gcc \
+        x86_64-aerynos-linux-g++ \
+        x86_64-aerynos-linux-c++ \
+        x86_64-aerynos-linux-cc \
+        x86_64-solus-linux-gcc \
+        x86_64-solus-linux-g++ \
+        x86_64-solus-linux-c++ \
+        x86_64-solus-linux-cc \
+        ; do
         ln -sv /usr/bin/ccache "${TGT}/${compiler}"
     done
 

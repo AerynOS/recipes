@@ -1,0 +1,52 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"vali": {
+			"build-depends": [
+				"pkgconfig(aml1)",
+				"pkgconfig(json-c)"
+			],
+			"depends": [
+				"soname(libaml.so.1(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libjson-c.so.5(x86_64))"
+			],
+			"files": [
+				"/usr/lib/libvali.so.0.1.1",
+				"/usr/lib/libvali.so.1"
+			],
+			"name": "vali",
+			"provides": [
+				"soname(libvali.so.1(x86_64))"
+			]
+		},
+		"vali-devel": {
+			"build-depends": [
+				"pkgconfig(aml1)",
+				"pkgconfig(json-c)"
+			],
+			"depends": [
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"pkgconfig(aml1)",
+				"pkgconfig(json-c)",
+				"soname(libc.so.6(x86_64))",
+				"vali"
+			],
+			"files": [
+				"/usr/bin/vali",
+				"/usr/include/vali.h",
+				"/usr/lib/libvali.so",
+				"/usr/lib/pkgconfig/vali.pc"
+			],
+			"name": "vali-devel",
+			"provides": [
+				"binary(vali)",
+				"pkgconfig(vali)"
+			]
+		}
+	},
+	"source-name": "vali",
+	"source-release": "1",
+	"source-version": "0.1.1"
+}

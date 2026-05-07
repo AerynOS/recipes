@@ -1,0 +1,47 @@
+From b14f8532fc760f4a68dae59670dafa1814597174 Mon Sep 17 00:00:00 2001
+From: honjow <honjow311@gmail.com>
+Date: Fri, 13 Mar 2026 02:41:19 +0800
+Subject: [PATCH 15/17] devices: Add configuration for ROG Flow Z13
+
+---
+ data/devices/rog-flow-z13.toml | 27 +++++++++++++++++++++++++++
+ 1 file changed, 27 insertions(+)
+ create mode 100644 data/devices/rog-flow-z13.toml
+
+diff --git a/data/devices/rog-flow-z13.toml b/data/devices/rog-flow-z13.toml
+new file mode 100644
+index 0000000..06ef940
+--- /dev/null
++++ b/data/devices/rog-flow-z13.toml
+@@ -0,0 +1,27 @@
++[[device]]
++dmi.sys_vendor = "ASUSTeK COMPUTER INC."
++dmi.board_name = "GZ302EA"
++device = "rog_flow_z13_2025"
++variant = "GZ302EA"
++
++[gpu_performance]
++driver = "amdgpu"
++
++[gpu_power_profile]
++driver = "amdgpu"
++
++[performance_profile]
++platform_profile_name = "asus-wmi"
++# until custom mode is added
++suggested_default = "performance"
++
++[tdp_limit]
++method = "firmware_attribute"
++
++[tdp_limit.firmware_attribute]
++attribute = "asus-armoury"
++# until custom mode is added
++performance_profile = "performance"
++
++[battery_charge_limit]
++method = "acpi_sb"
+\ No newline at end of file
+-- 
+2.52.0
+

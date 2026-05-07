@@ -1,10 +1,8 @@
-#
-# SPDX-FileCopyrightText: © 2020-2025 Aeryn OS Developers
-#
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : wl-clipboard-rs
-version     : 0.9.3
+version     : "0.9.3"
 release     : 3
 homepage    : https://github.com/YaLTeR/wl-clipboard-rs
 upstreams   :
@@ -15,7 +13,7 @@ description : |
 license     :
     - MIT
     - Apache-2.0
-networking  : yes
+networking  : true
 environment : |
     mkdir -p .runtime
     export XDG_RUNTIME_DIR=%(workdir)/.runtime

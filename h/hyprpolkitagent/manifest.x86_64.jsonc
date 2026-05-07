@@ -1,0 +1,39 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"hyprpolkitagent": {
+			"build-depends": [
+				"cmake(Qt6Core)",
+				"cmake(Qt6Quick)",
+				"pkgconfig(hyprutils)",
+				"pkgconfig(polkit-agent-1)",
+				"pkgconfig(polkit-qt6-1)"
+			],
+			"depends": [
+				"hyprland-qt-support",
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(libQt6Core.so.6(x86_64))",
+				"soname(libQt6Gui.so.6(x86_64))",
+				"soname(libQt6Qml.so.6(x86_64))",
+				"soname(libQt6QuickControls2.so.6(x86_64))",
+				"soname(libQt6Widgets.so.6(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libm.so.6(x86_64))",
+				"soname(libpolkit-qt6-agent-1.so.1(x86_64))",
+				"soname(libpolkit-qt6-core-1.so.1(x86_64))",
+				"soname(libstdc++.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/lib/hyprpolkitagent/hyprpolkitagent",
+				"/usr/lib/systemd/user/hyprpolkitagent.service",
+				"/usr/share/dbus-1/services/org.hyprland.hyprpolkitagent.service"
+			],
+			"name": "hyprpolkitagent"
+		}
+	},
+	"source-name": "hyprpolkitagent",
+	"source-release": "1",
+	"source-version": "0.1.3"
+}

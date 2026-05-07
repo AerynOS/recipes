@@ -1,24 +1,21 @@
-#
-# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : kubectl
-version     : 1.35.0
-release     : 2
+version     : "1.36.0"
+release     : 7
 homepage    : https://kubernetes.io/
 upstreams   :
-    - https://github.com/kubernetes/kubernetes/archive/refs/tags/v1.35.0.tar.gz : ed32a4da18f41f8cde7d8484afafc76b6a008915425f69440228d8e63d3f420d
+    - https://github.com/kubernetes/kubernetes/archive/refs/tags/v1.36.0.tar.gz : b98652d8ebf5d60d0715cd952e5d489aa10e14ad75d7b6e2425b8de8c65aa4c5
 summary     : Command line interface for running commands against Kubernetes clusters
 description : |
     kubectl is a command line interface for running commands against Kubernetes clusters
 license     : Apache-2.0
-networking  : yes
+networking  : true
 builddeps   :
     - binary(go)
     - binary(rsync)
 environment: |
-    export CGO_CPPFLAGS="${CPPFLAGS}"
     export CGO_CFLAGS="${CFLAGS}"
     export CGO_CXXFLAGS="${CXXFLAGS}"
     export CGO_LDFLAGS="${LDFLAGS}"
@@ -32,7 +29,6 @@ environment: |
     export GOTOOLCHAIN=local
 setup      : |
     %patch %(pkgdir)/kubernetes-1.24.0-static_cgo_enabled.patch
-    %patch %(pkgdir)/0001-Fix-builds-with-uutils-date.patch
 build      : |
     hack/update-generated-docs.sh
     %make kubectl

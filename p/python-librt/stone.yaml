@@ -1,0 +1,22 @@
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : python-librt
+version     : "0.9.0"
+release     : 2
+homepage    : https://github.com/mypyc/librt
+upstreams   :
+    - https://pypi.debian.net/librt/librt-0.9.0.tar.gz : a0951822531e7aee6e0dfb556b30d5ee36bbe234faf60c20a16c01be3530869d
+summary     : Mypyc runtime library
+description : |
+    Mypyc runtime library
+license     : MIT
+builddeps   :
+    - pkgconfig(python3)
+    - python(setuptools)
+rundeps     :
+    - python-libs
+build       : |
+    %pyproject_build
+install     : |
+    %pyproject_install

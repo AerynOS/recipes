@@ -1,11 +1,9 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : exempi
-version     : 2.6.6
-release     : 4
+version     : "2.6.6"
+release     : 5
 homepage    : https://libopenraw.freedesktop.org/exempi/
 upstreams   :
     - https://libopenraw.freedesktop.org/download/exempi-2.6.6.tar.xz : 900fb9957be2095c78e5111b99c49378adac58161a358f52f93c55126f34eb8f
@@ -23,5 +21,6 @@ build       : |
     %make
 install     : |
     %make_install
+    rm -v %(installroot)%(libdir)/lib*.a
 check       : |
     %make check

@@ -1,10 +1,8 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : libglvnd
-version     : 1.7.0
+version     : "1.7.0"
 release     : 10
 homepage    : https://gitlab.freedesktop.org/glvnd/libglvnd
 upstreams   :
@@ -21,7 +19,7 @@ tuning      :
     - lto: full
     - symbolic: false
     - optimize: speed
-emul32      : yes
+emul32      : true
 setup       : |
     %meson \
         -Dgles1=false

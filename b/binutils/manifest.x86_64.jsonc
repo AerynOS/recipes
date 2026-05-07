@@ -6,7 +6,6 @@
 			"build-depends": [
 				"binary(bison)",
 				"binary(flex)",
-				"binary(g++)",
 				"binary(m4)",
 				"binary(makeinfo)",
 				"binary(msgmerge)",
@@ -22,12 +21,12 @@
 			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
-				"soname(libbfd-2.45.1.so(x86_64))",
+				"soname(libbfd-2.46.0.so(x86_64))",
 				"soname(libblake3.so.0(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libjansson.so.4(x86_64))",
-				"soname(libopcodes-2.45.1.so(x86_64))",
-				"soname(libsframe.so.2(x86_64))",
+				"soname(libopcodes-2.46.0.so(x86_64))",
+				"soname(libsframe.so.3(x86_64))",
 				"soname(libz.so.1(x86_64))",
 				"soname(libzstd.so.1(x86_64))"
 			],
@@ -206,6 +205,7 @@
 				"/usr/share/info/ld.info",
 				"/usr/share/info/ldint.info",
 				"/usr/share/info/sframe-spec.info",
+				"/usr/share/locale/ar/LC_MESSAGES/binutils.mo",
 				"/usr/share/locale/bg/LC_MESSAGES/binutils.mo",
 				"/usr/share/locale/bg/LC_MESSAGES/ld.mo",
 				"/usr/share/locale/ca/LC_MESSAGES/binutils.mo",
@@ -232,7 +232,6 @@
 				"/usr/share/locale/fr/LC_MESSAGES/opcodes.mo",
 				"/usr/share/locale/ga/LC_MESSAGES/ld.mo",
 				"/usr/share/locale/ga/LC_MESSAGES/opcodes.mo",
-				"/usr/share/locale/gas.es/LC_MESSAGES/gas.mo",
 				"/usr/share/locale/hr/LC_MESSAGES/bfd.mo",
 				"/usr/share/locale/hr/LC_MESSAGES/binutils.mo",
 				"/usr/share/locale/id/LC_MESSAGES/bfd.mo",
@@ -248,7 +247,10 @@
 				"/usr/share/locale/ja/LC_MESSAGES/gas.mo",
 				"/usr/share/locale/ja/LC_MESSAGES/ld.mo",
 				"/usr/share/locale/ka/LC_MESSAGES/bfd.mo",
+				"/usr/share/locale/ka/LC_MESSAGES/binutils.mo",
+				"/usr/share/locale/ka/LC_MESSAGES/gas.mo",
 				"/usr/share/locale/ka/LC_MESSAGES/ld.mo",
+				"/usr/share/locale/ka/LC_MESSAGES/opcodes.mo",
 				"/usr/share/locale/ms/LC_MESSAGES/bfd.mo",
 				"/usr/share/locale/nl/LC_MESSAGES/opcodes.mo",
 				"/usr/share/locale/pt/LC_MESSAGES/bfd.mo",
@@ -341,7 +343,6 @@
 			"build-depends": [
 				"binary(bison)",
 				"binary(flex)",
-				"binary(g++)",
 				"binary(m4)",
 				"binary(makeinfo)",
 				"binary(msgmerge)",
@@ -387,7 +388,6 @@
 			"build-depends": [
 				"binary(bison)",
 				"binary(flex)",
-				"binary(g++)",
 				"binary(m4)",
 				"binary(makeinfo)",
 				"binary(msgmerge)",
@@ -404,12 +404,12 @@
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"soname(ld-linux-x86-64.so.2(x86_64))",
-				"soname(libbfd-2.45.1.so(x86_64))",
+				"soname(libbfd-2.46.0.so(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libm.so.6(x86_64))",
-				"soname(libopcodes-2.45.1.so(x86_64))",
-				"soname(libsframe.so.2(x86_64))",
+				"soname(libopcodes-2.46.0.so(x86_64))",
+				"soname(libsframe.so.3(x86_64))",
 				"soname(libstdc++.so.6(x86_64))",
 				"soname(libz.so.1(x86_64))",
 				"soname(libzstd.so.1(x86_64))"
@@ -427,6 +427,7 @@
 				"/usr/bin/gprofng-display-html",
 				"/usr/bin/gprofng-display-src",
 				"/usr/bin/gprofng-display-text",
+				"/usr/bin/gprofng-gmon",
 				"/usr/lib/gprofng/libgp-collector.so",
 				"/usr/lib/gprofng/libgp-collectorAPI.so",
 				"/usr/lib/gprofng/libgp-heap.so",
@@ -465,6 +466,7 @@
 				"/usr/share/man/man1/gprof.1",
 				"/usr/share/man/man1/gprofng-archive.1",
 				"/usr/share/man/man1/gprofng-collect-app.1",
+				"/usr/share/man/man1/gprofng-display-gmon.1",
 				"/usr/share/man/man1/gprofng-display-html.1",
 				"/usr/share/man/man1/gprofng-display-src.1",
 				"/usr/share/man/man1/gprofng-display-text.1",
@@ -484,6 +486,7 @@
 				"binary(gprofng-display-html)",
 				"binary(gprofng-display-src)",
 				"binary(gprofng-display-text)",
+				"binary(gprofng-gmon)",
 				"soname(gprofng/libgp-collector.so(x86_64))",
 				"soname(gprofng/libgp-collectorAPI.so(x86_64))",
 				"soname(gprofng/libgp-heap.so(x86_64))",
@@ -496,7 +499,6 @@
 			"build-depends": [
 				"binary(bison)",
 				"binary(flex)",
-				"binary(g++)",
 				"binary(m4)",
 				"binary(makeinfo)",
 				"binary(msgmerge)",
@@ -517,20 +519,20 @@
 				"soname(libzstd.so.1(x86_64))"
 			],
 			"files": [
-				"/usr/lib/libbfd-2.45.1.so",
-				"/usr/lib/libopcodes-2.45.1.so",
-				"/usr/lib/libsframe.so.2",
-				"/usr/lib/libsframe.so.2.0.0"
+				"/usr/lib/libbfd-2.46.0.so",
+				"/usr/lib/libopcodes-2.46.0.so",
+				"/usr/lib/libsframe.so.3",
+				"/usr/lib/libsframe.so.3.0.0"
 			],
 			"name": "binutils-libs",
 			"provides": [
-				"soname(libbfd-2.45.1.so(x86_64))",
-				"soname(libopcodes-2.45.1.so(x86_64))",
-				"soname(libsframe.so.2(x86_64))"
+				"soname(libbfd-2.46.0.so(x86_64))",
+				"soname(libopcodes-2.46.0.so(x86_64))",
+				"soname(libsframe.so.3(x86_64))"
 			]
 		}
 	},
 	"source-name": "binutils",
-	"source-release": "26",
-	"source-version": "2.45.1+git.48324fde"
+	"source-release": "27",
+	"source-version": "2.46.0+git.908827bf"
 }

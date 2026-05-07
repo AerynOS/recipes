@@ -1,23 +1,21 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : linux-tools
-version     : '6.18.4'
-release     : 24
+version     : "7.0.3"
+release     : 30
 summary     : Tools included with the Linux source code
 license     : GPL-2.0-only
 homepage    : https://perf.wiki.kernel.org/
 description : |
     Tools included with the Linux source code
 upstreams   :
-    - https://www.kernel.org/pub/linux/kernel/v6.x/linux-6.18.4.tar.xz: f850139ca5f79c1bf6bb8b32f92e212aadca97bdaef8a83a7cf4ac4d6a525fab
+    - https://www.kernel.org/pub/linux/kernel/v7.x/linux-7.0.3.tar.xz: 0bedadbf5788693ddebbcc913c893f1a97349af79ddde7144c2a80b401959f1c
 builddeps   :
     - binary(a2x)
     - binary(bison)
     - binary(flex)
-    - binary(llvm-config)
+    - binary(llvm-config-22)
     - binary(perl)
     - binary(msgmerge)
     - binary(xmlto)
@@ -91,7 +89,7 @@ install     : |
 
     %make_install ${_hyperv_args}
     %tmpfiles "d /var/lib/hyperv 0700 root root -"
-    mv %(installroot)/%(tmpfilesdir)/%(name).conf %(installroot)/%(tmpfilesdir)/hyperv-daemons.conf 
+    mv %(installroot)/%(tmpfilesdir)/%(name).conf %(installroot)/%(tmpfilesdir)/hyperv-daemons.conf
     %install_file %(pkgdir)/hyperv-*.rules -t %(installroot)/%(udevrulesdir)
     %install_file %(pkgdir)/hyperv-*.service -t %(installroot)/%(libdir)/systemd/system
 

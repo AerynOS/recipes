@@ -1,7 +1,7 @@
-From 4e6945cedc426a8b6d37d96d610bc913af313eeb Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Nicolas Fella <nicolas.fella@gmx.de>
 Date: Tue, 2 Jan 2024 15:47:29 +0100
-Subject: [PATCH 2/3] Use QString for KConfigGroup names
+Subject: [PATCH 2/5] Use QString for KConfigGroup names
 
 Required in KF6
 ---
@@ -68,6 +68,3 @@ index 1ebd4c9..c3be2fa 100644
      const auto ideIdx = settings.readEntry(Config::Entries::IDE, firstAvailableIde());
  
      QString command;
--- 
-2.52.0
-

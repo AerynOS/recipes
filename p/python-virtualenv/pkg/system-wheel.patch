@@ -1,4 +1,4 @@
-From f6f3471e5048ac74a9fe1b4541680239419459d9 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Lumir Balhar <lbalhar@redhat.com>
 Date: Thu, 9 Feb 2023 15:13:36 +0100
 Subject: [PATCH] moss wheels
@@ -6,7 +6,7 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Co-Authored-By: Miro HronÄ¨ok <miro@hroncok.cz>
+Co-Authored-By: Miro Hrončok <miro@hroncok.cz>
 ---
  src/virtualenv/run/__init__.py                |  5 +++--
  src/virtualenv/seed/embed/base_embed.py       | 16 +++++++++++++-
@@ -19,12 +19,12 @@ Co-Authored-By: Miro HronÄ¨ok <miro@hroncok.cz>
  create mode 100644 src/virtualenv/util/path/_system_wheels.py
 
 diff --git a/src/virtualenv/run/__init__.py b/src/virtualenv/run/__init__.py
-index 6d54eb1..de613eb 100644
+index 79ebc426..81e6e4f6 100644
 --- a/src/virtualenv/run/__init__.py
 +++ b/src/virtualenv/run/__init__.py
-@@ -98,8 +98,9 @@ def build_parser_only(args=None):
+@@ -125,8 +125,9 @@ def build_parser_only(args: list[str] | None = None) -> VirtualEnvConfigParser:
  
- def handle_extra_commands(options):
+ def handle_extra_commands(options: VirtualEnvOptions) -> None:
      if options.upgrade_embed_wheels:
 -        result = manual_upgrade(options.app_data, options.env)
 -        raise SystemExit(result)
@@ -33,16 +33,21 @@ index 6d54eb1..de613eb 100644
 +        raise SystemExit(1)
  
  
- def load_app_data(args, parser, options):
+ def load_app_data(
 diff --git a/src/virtualenv/seed/embed/base_embed.py b/src/virtualenv/seed/embed/base_embed.py
-index 72fc5a3..cf5dad2 100644
+index 9980dab1..d8ae524a 100644
 --- a/src/virtualenv/seed/embed/base_embed.py
 +++ b/src/virtualenv/seed/embed/base_embed.py
-@@ -7,9 +7,10 @@ from pathlib import Path
+@@ -8,6 +8,7 @@ from typing import TYPE_CHECKING
  
  from virtualenv.seed.seeder import Seeder
  from virtualenv.seed.wheels import Version
 +from virtualenv.util.path._system_wheels import get_system_wheels_paths
+ 
+ if TYPE_CHECKING:
+     from argparse import ArgumentParser
+@@ -18,7 +19,7 @@ if TYPE_CHECKING:
+     from virtualenv.config.cli.parser import VirtualEnvOptions
  
  LOGGER = logging.getLogger(__name__)
 -PERIODIC_UPDATE_ON_BY_DEFAULT = True
@@ -50,7 +55,7 @@ index 72fc5a3..cf5dad2 100644
  
  
  class BaseEmbed(Seeder, ABC):
-@@ -44,6 +45,15 @@ class BaseEmbed(Seeder, ABC):
+@@ -53,6 +54,15 @@ class BaseEmbed(Seeder, ABC):
  
          if not self.distribution_to_versions():
              self.enabled = False
@@ -65,8 +70,8 @@ index 72fc5a3..cf5dad2 100644
 +            )
  
      @classmethod
-     def distributions(cls) -> dict[str, Version]:
-@@ -135,6 +145,10 @@ class BaseEmbed(Seeder, ABC):
+     def distributions(cls) -> dict[str, str]:
+@@ -144,6 +154,10 @@ class BaseEmbed(Seeder, ABC):
              result += f" {distribution}{ver},"
          return result[:-1] + ")"
  
@@ -78,11 +83,11 @@ index 72fc5a3..cf5dad2 100644
  __all__ = [
      "BaseEmbed",
 diff --git a/src/virtualenv/seed/embed/pip_invoke.py b/src/virtualenv/seed/embed/pip_invoke.py
-index b733c51..5bc355f 100644
+index fb442291..d5166973 100644
 --- a/src/virtualenv/seed/embed/pip_invoke.py
 +++ b/src/virtualenv/seed/embed/pip_invoke.py
-@@ -18,6 +18,7 @@ class PipInvoke(BaseEmbed):
-     def run(self, creator):
+@@ -26,6 +26,7 @@ class PipInvoke(BaseEmbed):
+     def run(self, creator: Creator) -> None:
          if not self.enabled:
              return
 +        self.insert_system_wheels_paths(creator)
@@ -90,11 +95,11 @@ index b733c51..5bc355f 100644
          with self.get_pip_install_cmd(creator.exe, for_py_version) as cmd:
              env = pip_wheel_env_run(self.extra_search_dir, self.app_data, self.env)
 diff --git a/src/virtualenv/seed/embed/via_app_data/via_app_data.py b/src/virtualenv/seed/embed/via_app_data/via_app_data.py
-index a2e9630..de63ecb 100644
+index 092ef74b..12fec7b3 100644
 --- a/src/virtualenv/seed/embed/via_app_data/via_app_data.py
 +++ b/src/virtualenv/seed/embed/via_app_data/via_app_data.py
-@@ -41,6 +41,7 @@ class FromAppData(BaseEmbed):
-     def run(self, creator):
+@@ -55,6 +55,7 @@ class FromAppData(BaseEmbed):
+     def run(self, creator: Creator) -> None:
          if not self.enabled:
              return
 +        self.insert_system_wheels_paths(creator)
@@ -102,10 +107,10 @@ index a2e9630..de63ecb 100644
              pip_version = name_to_whl["pip"].version_tuple if "pip" in name_to_whl else None
              installer_class = self.installer_class(pip_version)
 diff --git a/src/virtualenv/seed/wheels/acquire.py b/src/virtualenv/seed/wheels/acquire.py
-index 5ca610f..1cb807b 100644
+index b6a6533a..ae1229e4 100644
 --- a/src/virtualenv/seed/wheels/acquire.py
 +++ b/src/virtualenv/seed/wheels/acquire.py
-@@ -35,11 +35,12 @@ def get_wheel(  # noqa: PLR0913
+@@ -39,11 +39,12 @@ def get_wheel(  # noqa: PLR0913
  
      if download and wheel is None and version != Version.embed:
          # 2. download from the internet
@@ -120,24 +125,24 @@ index 5ca610f..1cb807b 100644
              to_folder=app_data.house,
              env=env,
 diff --git a/src/virtualenv/seed/wheels/embed/__init__.py b/src/virtualenv/seed/wheels/embed/__init__.py
-index 6b3ef26..be45048 100644
+index f9947a11..eab69d25 100644
 --- a/src/virtualenv/seed/wheels/embed/__init__.py
 +++ b/src/virtualenv/seed/wheels/embed/__init__.py
-@@ -39,7 +39,11 @@ BUNDLE_SUPPORT = {
+@@ -43,7 +43,11 @@ BUNDLE_SUPPORT = {
  MAX = "3.8"
  
  
 +# Redefined here because bundled wheels are removed in moss build
 +BUNDLE_SUPPORT = None
 +
- def get_embed_wheel(distribution, for_py_version):
+ def get_embed_wheel(distribution: str, for_py_version: str) -> Wheel | None:
 +    return None  # BUNDLE_SUPPORT == None anyway
      mapping = BUNDLE_SUPPORT.get(for_py_version, {}) or BUNDLE_SUPPORT[MAX]
      wheel_file = mapping.get(distribution)
      if wheel_file is None:
 diff --git a/src/virtualenv/util/path/_system_wheels.py b/src/virtualenv/util/path/_system_wheels.py
 new file mode 100644
-index 0000000..f3fd9b1
+index 00000000..f3fd9b18
 --- /dev/null
 +++ b/src/virtualenv/util/path/_system_wheels.py
 @@ -0,0 +1,22 @@
@@ -163,6 +168,3 @@ index 0000000..f3fd9b1
 +    wheels_dir = Path("/usr/share/python-wheels")
 +    if wheels_dir.exists():
 +        yield wheels_dir
--- 
-2.49.0
-

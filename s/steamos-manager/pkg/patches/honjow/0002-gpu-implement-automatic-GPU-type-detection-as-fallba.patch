@@ -1,0 +1,57 @@
+From 1b1e43e7849f23af7929644cbff8ada33548253e Mon Sep 17 00:00:00 2001
+From: honjow <honjow311@gmail.com>
+Date: Fri, 13 Mar 2026 02:40:46 +0800
+Subject: [PATCH 02/17] gpu: implement automatic GPU type detection as fallback
+
+---
+ steamos-manager/src/gpu.rs | 31 ++++++++++++++++++++++++++-----
+ 1 file changed, 26 insertions(+), 5 deletions(-)
+
+diff --git a/steamos-manager/src/gpu.rs b/steamos-manager/src/gpu.rs
+index a5c7299..60f1f08 100644
+--- a/steamos-manager/src/gpu.rs
++++ b/steamos-manager/src/gpu.rs
+@@ -150,14 +150,35 @@ pub(crate) async fn gpu_power_profile_driver() -> Result<Box<dyn GpuPowerProfile
+     })
+ }
+ 
++async fn detect_gpu_type() -> Result<GpuPerformanceLevelDriverType> {
++    if find_hwmon(AMDGPU_HWMON_NAME).await.is_ok() {
++        debug!("Auto-detected AMD GPU");
++        return Ok(GpuPerformanceLevelDriverType::Amdgpu);
++    }
++
++    if IntelGpuPerformanceLevelDriver::detect_gpu_info()
++        .await
++        .is_ok()
++    {
++        debug!("Auto-detected Intel GPU");
++        return Ok(GpuPerformanceLevelDriverType::Intel);
++    }
++
++    bail!("No supported GPU detected automatically")
++}
++
+ pub(crate) async fn gpu_performance_level_driver() -> Result<Box<dyn GpuPerformanceLevelDriver>> {
+     let config = device_config().await?;
+-    let config = config
+-        .as_ref()
+-        .and_then(|config| config.gpu_performance.as_ref())
+-        .ok_or(anyhow!("No GPU power profile driver configured"))?;
+ 
+-    Ok(match &config.driver {
++    let driver_type =
++        if let Some(gpu_config) = config.as_ref().and_then(|c| c.gpu_performance.as_ref()) {
++            gpu_config.driver.clone()
++        } else {
++            debug!("No GPU performance config found, auto-detecting GPU type");
++            detect_gpu_type().await?
++        };
++
++    Ok(match driver_type {
+         GpuPerformanceLevelDriverType::Amdgpu => Box::new(AmdgpuPerformanceLevelDriver {}),
+         GpuPerformanceLevelDriverType::Intel => {
+             Box::new(IntelGpuPerformanceLevelDriver::new().await?)
+-- 
+2.52.0
+

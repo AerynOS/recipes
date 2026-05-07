@@ -1,17 +1,15 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : discord
-version     : 0.0.123
-release     : 40
+version     : "0.0.135"
+release     : 52
 summary     : Group chat, video, and voice calling app
 license     : Distributable
 homepage    : https://discord.com/
 upstreams   :
-    - https://stable.dl2.discordapp.net/apps/linux/0.0.123/discord-0.0.123.deb:
-        hash: dc5d3dc83cb3ad7ffbb728adf0abc7fceb56757c13819b8be7b0f0c0448b4ee5
+    - https://stable.dl2.discordapp.net/apps/linux/0.0.135/discord-0.0.135.deb:
+        hash: 802c0121bba21e8088f9e63f178beebd9ee9f8d9b561ecbcdacbfec990b66606
         unpack: false
         rename: discord.deb
 description : |

@@ -1,14 +1,12 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : xwayland
-version     : 24.1.9
-release     : 13
+version     : "24.1.11"
+release     : 15
 homepage    : https://www.x.org/pub/individual/xserver
 upstreams   :
-    - https://www.x.org/pub/individual/xserver/xwayland-24.1.9.tar.xz : f297af27a84508db9b80d1cbbcc69c3801da38eb64c72f3b5b50f582459afdd0
+    - https://www.x.org/pub/individual/xserver/xwayland-24.1.11.tar.xz : 27115a1a8819078409bf6fecfeb7724e8137bd36426de7005a5b3aae0a2138ff
 summary     : Specialised X11 server for X11 client support under wayland
 description : |
     Specialised X11 server for X11 client support under wayland
@@ -74,3 +72,9 @@ build       : |
     %meson_build
 install     : |
     %meson_install
+
+    rm -v %(installroot)%(mandir)/man1/Xserver.1
+packages    :
+    - "%(name)-devel":
+        paths:
+            - /usr/lib/xorg/protocol.txt

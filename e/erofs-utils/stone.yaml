@@ -1,14 +1,12 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : erofs-utils
-version     : 1.8.10
-release     : 7
+version     : "1.9.1"
+release     : 9
 homepage    : https://git.kernel.org/pub/scm/linux/kernel/git/xiang/erofs-utils.git
 upstreams   :
-    - https://git.kernel.org/pub/scm/linux/kernel/git/xiang/erofs-utils.git/snapshot/erofs-utils-1.8.10.tar.gz : 05eb4edebe11decce6ecb34e98d2f80c8cd283c2f2967d8ba7efd58418570514
+    - https://git.kernel.org/pub/scm/linux/kernel/git/xiang/erofs-utils.git/snapshot/erofs-utils-1.9.1.tar.gz : a9ef5ab67c4b8d2d3e9ed71f39cd008bda653142a720d8a395a36f1110d0c432
 summary     : EROFS filesystem utilities
 description : |
     EROFS filesystem utilities
@@ -16,20 +14,24 @@ license     :
     - GPL-2.0-or-later
     - Apache-2.0
 builddeps   :
+    - binary(flex)
     - binary(gettext)
     - pkgconfig(fuse3)
+    - pkgconfig(json-c)
+    - pkgconfig(libcurl)
     - pkgconfig(libdeflate)
     - pkgconfig(liblz4)
     - pkgconfig(liblzma)
+    - pkgconfig(libnl-genl-3.0)
+    - pkgconfig(libxml-2.0)
     - pkgconfig(libxxhash)
     - pkgconfig(libzstd)
+    - pkgconfig(openssl)
     - pkgconfig(uuid)
     - pkgconfig(zlib)
 setup       : |
     %reconfigure \
         --enable-fuse \
-        --enable-lzma \
-        --enable-multithreading \
         --with-libdeflate
 build       : |
     %make

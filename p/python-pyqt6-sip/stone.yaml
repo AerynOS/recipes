@@ -1,0 +1,22 @@
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : python-pyqt6-sip
+version     : "13.11.1"
+release     : 1
+homepage    : https://riverbankcomputing.com/software/pyqt/intro
+upstreams   :
+    - https://pypi.debian.net/PyQt6-sip/pyqt6_sip-13.11.1.tar.gz : 869c5b48afe38e55b1ee0dd72182b0886e968cc509b98023ff50010b013ce1be
+summary     : The sip module support for PyQt6
+description : |
+    The sip module support for PyQt6
+license     : GPL-3.0-or-later
+builddeps   :
+    - pkgconfig(python3)
+    - python(setuptools)
+rundeps     :
+    - python-libs
+build       : |
+    %pyproject_build
+install     : |
+    %pyproject_install

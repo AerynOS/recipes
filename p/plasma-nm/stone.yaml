@@ -1,13 +1,11 @@
-#
-# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : plasma-nm
-version     : 6.5.5
-release     : 18
+version     : "6.6.4"
+release     : 24
 upstreams   :
-    - https://download.kde.org/stable/plasma/6.5.5/plasma-nm-6.5.5.tar.xz : fb096f1bc85f5eb1ee8ae80df044479860987c8bcecd4ab7120fed253698c2a0
+    - https://download.kde.org/stable/plasma/6.6.4/plasma-nm-6.6.4.tar.xz : 392bdcf44d5cb2df36352582226c3f018c975461f57839f35f771e158f5b3e4f
 homepage    : https://kde.org/plasma-desktop/
 license     :
     - GPL-2.0-only
@@ -23,12 +21,14 @@ builddeps   :
     - cmake(KF6CoreAddons)
     - cmake(KF6DBusAddons)
     - cmake(KF6I18n)
+    - cmake(KF6JobWidgets)
     - cmake(KF6KIO)
     - cmake(KF6KCMUtils)
     - cmake(KF6Kirigami)
     - cmake(KF6ModemManagerQt)
     - cmake(KF6NetworkManagerQt)
     - cmake(KF6Notifications)
+    - cmake(KF6QuickCharts)
     - cmake(KF6Prison)
     - cmake(KF6Service)
     - cmake(KF6Solid)
@@ -57,6 +57,7 @@ packages    :
     - "%(name)":
         rundeps:
             - kf6-kirigami
+            - kf6-kquickcharts # QML dep
             - kf6-prison
             - networkmanager
         paths:

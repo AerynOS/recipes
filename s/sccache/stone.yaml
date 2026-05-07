@@ -1,25 +1,25 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : sccache
-version     : 0.13.0
-release     : 9
+version     : "0.15.0"
+release     : 11
 homepage    : https://github.com/mozilla/sccache
 upstreams   :
-    - https://github.com/mozilla/sccache/archive/refs/tags/v0.13.0.tar.gz : cc93c603b938f7444c180c049ce9d983e6b08eb2a0d44973b4794508589f891c
+    - https://github.com/mozilla/sccache/archive/refs/tags/v0.15.0.tar.gz : 6e69b88f2f88982dc6389f68a6624b35502b5a2760a6a8a07bdb10a250ed98df
 summary     : Sccache is a ccache-like tool. It is used as a compiler wrapper and avoids compilation when possible.
 description : |
     Sccache is a ccache-like tool. It is used as a compiler wrapper and avoids compilation when possible. Sccache has the capability to utilize caching in remote storage environments, including various cloud storage options, or alternatively, in local storage.
 license     : Apache-2.0
-networking  : yes
+networking  : true
 builddeps   :
     - pkgconfig(libzstd)
     - pkgconfig(openssl)
 environment : |
     export ZSTD_SYS_USE_PKG_CONFIG=1
 setup       : |
+    %patch %(pkgdir)/0001-Avoid-double-caching-on-Solus-and-AerynOS.patch
+
     %cargo_fetch
 build       : |
     %cargo_build --features all,dist-server

@@ -16,6 +16,7 @@
 				"pkgconfig(libqrencode)",
 				"pkgconfig(libusb-1.0)",
 				"pkgconfig(minizip)",
+				"pkgconfig(readline)",
 				"pkgconfig(xtst)"
 			],
 			"depends": [
@@ -32,13 +33,14 @@
 				"soname(libX11.so.6(x86_64))",
 				"soname(libXtst.so.6(x86_64))",
 				"soname(libargon2.so.1(x86_64))",
-				"soname(libbotan-3.so.10(x86_64))",
+				"soname(libbotan-3.so.11(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libm.so.6(x86_64))",
 				"soname(libminizip.so.1(x86_64))",
 				"soname(libpcsclite.so.1(x86_64))",
 				"soname(libqrencode.so.4(x86_64))",
+				"soname(libreadline.so.8(x86_64))",
 				"soname(libstdc++.so.6(x86_64))",
 				"soname(libusb-1.0.so.0(x86_64))",
 				"soname(libz.so.1(x86_64))"
@@ -63,6 +65,7 @@
 				"/usr/share/keepassxc/docs/KeePassXC_UserGuide.html",
 				"/usr/share/keepassxc/icons/application/256x256/apps/keepassxc.png",
 				"/usr/share/keepassxc/translations/keepassxc_ar.qm",
+				"/usr/share/keepassxc/translations/keepassxc_be.qm",
 				"/usr/share/keepassxc/translations/keepassxc_bg.qm",
 				"/usr/share/keepassxc/translations/keepassxc_ca.qm",
 				"/usr/share/keepassxc/translations/keepassxc_cs.qm",
@@ -104,6 +107,7 @@
 				"/usr/share/keepassxc/translations/keepassxc_th.qm",
 				"/usr/share/keepassxc/translations/keepassxc_tr.qm",
 				"/usr/share/keepassxc/translations/keepassxc_uk.qm",
+				"/usr/share/keepassxc/translations/keepassxc_vi.qm",
 				"/usr/share/keepassxc/translations/keepassxc_zh_CN.qm",
 				"/usr/share/keepassxc/translations/keepassxc_zh_TW.qm",
 				"/usr/share/keepassxc/wordlists/eff_large.wordlist",
@@ -122,6 +126,6 @@
 		}
 	},
 	"source-name": "keepassxc",
-	"source-release": "6",
-	"source-version": "2.7.10"
+	"source-release": "8",
+	"source-version": "2.7.12"
 }

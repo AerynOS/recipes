@@ -1,12 +1,9 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-# SPDX-FileCopyrightText: © 2025- AerynOS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : boulder
-version     : "0.26.1+git.c98db66"
-release     : 128
+version     : "0.26.1+git.ff9b99b"
+release     : 149
 summary     : Modern package building tool
 license     : MPL-2.0
 homepage    : https://github.com/AerynOS/os-tools
@@ -14,7 +11,7 @@ description : |
     Modern package building tool with containerized builds and intelligent package splitting
 upstreams   :
     - git|https://github.com/AerynOS/os-tools.git :
-        ref : c98db66cbcfb0a5c622b73ca350834a6cabdf1a1
+        ref : ff9b99b6209ba627717097019565056a940dd923
     - git|https://github.com/spdx/license-list-data.git :
         ref : d46e94e2c78ceede1cfc63cfa0396472d2798d4c # v3.27.0
 builddeps   :
@@ -22,14 +19,14 @@ builddeps   :
 rundeps     :
     # needed for `boulder recipe (...)` actions
     - binary(bsdtar)
-networking  : yes
+networking  : true
 tuning      :
     - optimize: size
-    - lto
+    - lto: full
 environment : |
     export RUSTFLAGS="$RUSTFLAGS -C codegen-units=1"
 check       : |
-    %cargo_test
+    %cargo_test --features moss/testing
 setup       : |
     %cargo_fetch
 build       : |
@@ -41,14 +38,14 @@ install     : |
 
     # Completions
     mkdir compl/
-    ./target/*/release/boulder --generate-completions compl/.
+    ./%(cargo_target_dir)/boulder --generate-completions compl/.
     %install_file compl/_boulder %(installroot)%(datadir)/zsh/site-functions/_boulder
     %install_file compl/boulder.bash %(installroot)%(datadir)/bash-completion/completions/boulder
     %install_file compl/boulder.fish %(installroot)%(datadir)/fish/completions/boulder.fish
 
     # Generate manpages
     mkdir man/
-    ./target/*/release/boulder --generate-manpages man/.
+    ./%(cargo_target_dir)/boulder --generate-manpages man/.
     %install_dir %(installroot)%(mandir)/man1
     cp man/*.1 %(installroot)%(mandir)/man1/.
 

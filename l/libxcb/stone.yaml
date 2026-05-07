@@ -1,10 +1,8 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : libxcb
-version     : 1.17.0
+version     : "1.17.0"
 release     : 6
 homepage    : https://gitlab.freedesktop.org/xorg/lib/libxcb
 upstreams   :
@@ -27,7 +25,7 @@ description : |
     benefit from a native XCB port.
 license     :
     - X11
-emul32      : yes
+emul32      : true
 builddeps   :
     - binary(python3)
     - pkgconfig32(xau)

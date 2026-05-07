@@ -1,10 +1,8 @@
-#
-# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : psmisc
-version     : 23.7
+version     : "23.7"
 release     : 1
 homepage    : https://gitlab.com/psmisc/psmisc/
 upstreams   :
@@ -29,4 +27,3 @@ build       : |
     %make
 install     : |
     %make_install
-

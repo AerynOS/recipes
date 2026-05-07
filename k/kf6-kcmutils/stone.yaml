@@ -1,13 +1,11 @@
-#
-# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : kf6-kcmutils
-version     : 6.22.0
-release     : 21
+version     : "6.25.0"
+release     : 25
 upstreams   :
-    - https://download.kde.org/stable/frameworks/6.22/kcmutils-6.22.0.tar.xz : c6ed2d3be1f0e4efc91abca48afd64ff0c8917fbb6bc3c0b9725c66b3b9e3993
+    - https://download.kde.org/stable/frameworks/6.25/kcmutils-6.25.0.tar.xz : cc7c01e948d7040e9e002ea5379ce8c05f2a85f28cdd4431aee106bdf0661c3d
 homepage    : https://community.kde.org/Frameworks
 license     :
     - LGPL-2.0-only
@@ -25,6 +23,7 @@ builddeps   :
     - cmake(KF6XmlGui)
     - cmake(Qt6CorePrivate)
     - cmake(Qt6Qml)
+    - kf6-kirigami
 setup       : |
     %cmake_kf6
 build       : |
@@ -32,6 +31,10 @@ build       : |
 install     : |
     %cmake_install
 packages    :
+    - "%(name)":
+        rundeps:
+            - kf6-kirigami
+
     - "%(name)-devel":
         rundeps:
             - cmake(KF6ConfigWidgets)

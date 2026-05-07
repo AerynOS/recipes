@@ -1,27 +1,25 @@
-#
-# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : hugo
-version     : 0.155.0
-release     : 4
+version     : "0.160.1"
+release     : 7
 homepage    : https://gohugo.io/
 upstreams   :
-    - https://github.com/gohugoio/hugo/archive/refs/tags/v0.155.0.tar.gz : fb38f6b8f5b551d4ed116dd6fb13ec461e45cb65b9528ffa02b467ca578348d5
+    - https://github.com/gohugoio/hugo/archive/refs/tags/v0.160.1.tar.gz : aaab9991fcc691aba35f8702c3cec65e2ba074408de70a9f66f7b868c28b8cdf
 summary     : Fast and flexible static site generator written in Go
 description : |
     Hugo is a fast and flexible static site generator written in Go
     with support for Markdown, content management, and site theming.
 license     : Apache-2.0
-networking  : yes
+networking  : true
 builddeps   :
     - binary(git)
     - binary(go)
 setup       : |
     go mod download
 build       : |
-    export CGO_CPPFLAGS="${CPPFLAGS}"
+    # export CGO_CPPFLAGS="${CPPFLAGS}"
     export CGO_CFLAGS="${CFLAGS}"
     export CGO_CXXFLAGS="${CXXFLAGS}"
     export CGO_LDFLAGS="${LDFLAGS}"

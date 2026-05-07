@@ -9,7 +9,7 @@
 			],
 			"files": [
 				"/usr/lib/libsodium.so.26",
-				"/usr/lib/libsodium.so.26.3.0"
+				"/usr/lib/libsodium.so.26.4.0"
 			],
 			"name": "libsodium",
 			"provides": [
@@ -47,12 +47,16 @@
 				"/usr/include/sodium/crypto_generichash_blake2b.h",
 				"/usr/include/sodium/crypto_hash.h",
 				"/usr/include/sodium/crypto_hash_sha256.h",
+				"/usr/include/sodium/crypto_hash_sha3.h",
 				"/usr/include/sodium/crypto_hash_sha512.h",
 				"/usr/include/sodium/crypto_ipcrypt.h",
 				"/usr/include/sodium/crypto_kdf.h",
 				"/usr/include/sodium/crypto_kdf_blake2b.h",
 				"/usr/include/sodium/crypto_kdf_hkdf_sha256.h",
 				"/usr/include/sodium/crypto_kdf_hkdf_sha512.h",
+				"/usr/include/sodium/crypto_kem.h",
+				"/usr/include/sodium/crypto_kem_mlkem768.h",
+				"/usr/include/sodium/crypto_kem_xwing.h",
 				"/usr/include/sodium/crypto_kx.h",
 				"/usr/include/sodium/crypto_onetimeauth.h",
 				"/usr/include/sodium/crypto_onetimeauth_poly1305.h",
@@ -105,6 +109,6 @@
 		}
 	},
 	"source-name": "libsodium",
-	"source-release": "4",
-	"source-version": "1.0.21+git.f6c18801"
+	"source-release": "5",
+	"source-version": "1.0.22+git.33cc75ab1"
 }

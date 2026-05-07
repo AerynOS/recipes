@@ -1,11 +1,9 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : brotli
-version     : '1.2.0'
-release     : 9
+version     : "1.2.0"
+release     : 10
 summary     : Generic-purpose lossless compression algorithm
 license     : MIT
 homepage    : https://github.com/google/brotli
@@ -20,7 +18,7 @@ builddeps   :
 checkdeps   :
     - binary(find)
     - binary(python)
-emul32      : yes
+emul32      : true
 profiles    :
     - emul32:
         build: |

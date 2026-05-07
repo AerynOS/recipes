@@ -1,12 +1,21 @@
 # /etc/shells: valid login shells
+#
+# I learned the hard way that old installs will refuse to log in if
+# /bin/bash is not a valid shell, as PAM will error out.
+# Spent a good few hours stumped when troubleshooting why an old system
+# refused to let a user in after an update, but worked before.
+# The other shells can stay disabled, as bash was our previous default.
+#
+# /ermo, 2026-05-05
+#
 /bin/bash
-/bin/csh
-/bin/dash
-/bin/esh
-/bin/ksh
-/bin/sash
+# /bin/csh
+# /bin/dash
+# /bin/esh
+# /bin/ksh
+# /bin/sash
 /bin/sh
-/bin/tcsh
+# /bin/tcsh
 /usr/bin/bash
 /usr/bin/brush
 /usr/bin/dash

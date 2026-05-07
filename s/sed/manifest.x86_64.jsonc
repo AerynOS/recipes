@@ -3,15 +3,23 @@
 	"manifest-version": "0.2",
 	"packages": {
 		"sed": {
+			"build-depends": [
+				"binary(msgfmt)",
+				"pkgconfig(libacl)",
+				"pkgconfig(libattr)"
+			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(libattr.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/bin/sed",
 				"/usr/share/info/sed.info",
 				"/usr/share/locale/af/LC_MESSAGES/sed.mo",
+				"/usr/share/locale/ar/LC_MESSAGES/sed.mo",
 				"/usr/share/locale/ast/LC_MESSAGES/sed.mo",
+				"/usr/share/locale/be/LC_MESSAGES/sed.mo",
 				"/usr/share/locale/bg/LC_MESSAGES/sed.mo",
 				"/usr/share/locale/ca/LC_MESSAGES/sed.mo",
 				"/usr/share/locale/cs/LC_MESSAGES/sed.mo",
@@ -59,6 +67,6 @@
 		}
 	},
 	"source-name": "sed",
-	"source-release": "3",
-	"source-version": "4.9"
+	"source-release": "4",
+	"source-version": "4.10"
 }

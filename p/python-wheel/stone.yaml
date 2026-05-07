@@ -1,14 +1,18 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : python-wheel
-version     : 0.46.1
-release     : 6
+version     : "0.47.0"
+release     : 10
 homepage    : https://github.com/pypa/wheel
 upstreams   :
-    - https://pypi.debian.net/wheel/wheel-0.46.1.tar.gz : fd477efb5da0f7df1d3c76c73c14394002c844451bd63229d8570f376f5e6a38
+    - https://pypi.debian.net/wheel/wheel-0.47.0.tar.gz:
+        hash: cc72bd1009ba0cf63922e28f94d9d83b920aa2bb28f798a31d0691b02fa3c9b3
+        rename: wheel.tar.gz
+
+    # Comment out if not bootstrapping
+    # - git|https://gitlab.archlinux.org/archlinux/python-bootstrap.git:
+    #     ref: 461514b135c5ef77f572037d79b58b9e321d38e9
 summary     : The official binary distribution format for Python
 description : |
     python-wheel is the reference implementation of the Python wheel packaging standard, as defined in PEP 427.
@@ -17,8 +21,29 @@ builddeps   :
     - python(flit-core)
 rundeps     :
     - binary(python)
-# TODO: Setup this for Python major update bootstrapping
+environment : |
+    # set to 1 if bootstrapping against a new python
+    _bootstrap=0
+
+    if [[ ${_bootstrap} == "1" ]]; then
+        cd ../python-bootstrap.git
+    fi
+setup      : |
+    if [[ ${_bootstrap} == "1" ]]; then
+        rm -rf external/wheel
+
+        mkdir external/wheel
+        bsdtar-static -xf %(sourcedir)/wheel.tar.gz --strip-components=1 -C external/wheel
+    fi
 build       : |
-    %pyproject_build
+    if [[ ${_bootstrap} == "1" ]]; then
+        python -m bootstrap.build
+    else
+        %pyproject_build
+    fi
 install     : |
-    %pyproject_install
+    if [[ ${_bootstrap} == "1" ]]; then
+        python -m bootstrap.install dist/wheel-*-py3-none-any.whl -d "%(installroot)"
+    else
+        %pyproject_install
+    fi

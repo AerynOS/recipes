@@ -1,0 +1,32 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"python-pyqt6-sip": {
+			"build-depends": [
+				"pkgconfig(python3)",
+				"python(setuptools)"
+			],
+			"depends": [
+				"python-libs",
+				"soname(libc.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/lib/python3.14/site-packages/PyQt6/sip.cpython-314-x86_64-linux-gnu.so",
+				"/usr/lib/python3.14/site-packages/pyqt6_sip-13.11.1.dist-info/METADATA",
+				"/usr/lib/python3.14/site-packages/pyqt6_sip-13.11.1.dist-info/RECORD",
+				"/usr/lib/python3.14/site-packages/pyqt6_sip-13.11.1.dist-info/WHEEL",
+				"/usr/lib/python3.14/site-packages/pyqt6_sip-13.11.1.dist-info/licenses/LICENSE",
+				"/usr/lib/python3.14/site-packages/pyqt6_sip-13.11.1.dist-info/top_level.txt"
+			],
+			"name": "python-pyqt6-sip",
+			"provides": [
+				"python(pyqt6-sip)",
+				"soname(python3.14/site-packages/PyQt6/sip.cpython-314-x86_64-linux-gnu.so(x86_64))"
+			]
+		}
+	},
+	"source-name": "python-pyqt6-sip",
+	"source-release": "1",
+	"source-version": "13.11.1"
+}

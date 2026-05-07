@@ -1,18 +1,16 @@
-#
-# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : scx-scheds
-version     : 1.0.19
-release     : 6
+version     : "1.1.0"
+release     : 8
 homepage    : https://github.com/sched-ext/scx
 upstreams   :
-    - https://github.com/sched-ext/scx/archive/refs/tags/v1.0.19.tar.gz : 1240edfdec50a915405571ba375b8b803201d23e6509e975bc101e633e8bdfeb
+    - https://github.com/sched-ext/scx/archive/refs/tags/v1.1.0.tar.gz : 80ce590601780013cdd9ad44b1338475649a1b69358c65c4a8066a34efc34fc1
 summary     : sched_ext schedulers
 description : |
     sched_ext schedulers
-networking  : yes
+networking  : true
 license     :
     - MIT
 builddeps   :
@@ -36,7 +34,6 @@ packages    :
         description: |
             Various sched_ext schedulers that are either experimental, for testing purposes, are single-purpose in nature, or require significant additional configuration and know-how to be useful.
         paths:
-            # If we ever re-add the C schedulers they should probably go in here
             - /usr/bin/scx_chaos
             - /usr/bin/scx_layered
             - /usr/bin/scx_mitosis

@@ -1,16 +1,14 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : cosmic-applibrary
-version     : 1.0.5.git+c5d8c99
-release     : 32
+version     : "1.0.11.git+e80ab73"
+release     : 38
 summary     : Cosmic Desktop App Launcher
 license     : GPL-3.0
 homepage    : https://github.com/pop-os/cosmic-applibrary
 upstreams   :
-    - git|https://github.com/pop-os/cosmic-applibrary.git : c5d8c99fb2d6dd226fd6c07305e2b95d1b0fda2c
+    - git|https://github.com/pop-os/cosmic-applibrary.git : e80ab7383af8732ecf27124dea608e53e2dcce28
 description : |
     Cosmic Desktop App Launcher
 builddeps   :
@@ -18,7 +16,7 @@ builddeps   :
     - pkgconfig(dbus-1)
     - pkgconfig(libudev)
     - pkgconfig(xkbcommon)
-networking  : yes
+networking  : true
 setup       : |
     %cargo_fetch
 build       : |

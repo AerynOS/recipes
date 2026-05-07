@@ -1,14 +1,12 @@
-#
-# SPDX-FileCopyrightText: © 2025- AerynOS Developers
-#
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : kitty
-version     : 0.45.0
-release     : 5
+version     : "0.46.2"
+release     : 9
 homepage    : https://github.com/kovidgoyal/kitty
 upstreams   :
-    - https://github.com/kovidgoyal/kitty/archive/refs/tags/v0.45.0.tar.gz : db67c67393ef82d58175b92af032a17da9f3bde854998bba0e541570d1756d10
+    - https://github.com/kovidgoyal/kitty/archive/refs/tags/v0.46.2.tar.gz : 25ca6725da2b09d574e571cad44292adaa278d154a89221207bdb598884c133e
 summary     : Cross-platform, fast, feature-rich, GPU based terminal
 description : |
     kitty the fast, feature-rich, GPU based terminal emulator
@@ -35,10 +33,9 @@ builddeps   :
     - pkgconfig(xkbcommon)
     - pkgconfig(xkbcommon-x11)
     - pkgconfig(xrandr)
-    - font-symbols-nerd
     - python(pip)
+    - font-symbols-nerd
 build       : |
-    export CGO_CPPFLAGS="${CPPFLAGS}"
     export CGO_CFLAGS="${CFLAGS}"
     export CGO_CXXFLAGS="${CXXFLAGS}"
     export CGO_LDFLAGS="${LDFLAGS}"
@@ -48,10 +45,22 @@ build       : |
     %make
     %make linux-package
 install     : |
-    linux-package/bin/kitten __complete__ setup bash | %install_file /dev/stdin %(installroot)%(datadir)/bash-completion/completions/kitty
-    linux-package/bin/kitten __complete__ setup fish | %install_file /dev/stdin %(installroot)%(datadir)/fish/vendor_completions.d/kitty.fish
-    linux-package/bin/kitten __complete__ setup zsh  | %install_file /dev/stdin %(installroot)%(datadir)/zsh/site-functions/_kitty
+    linux-package/bin/kitten __complete__ setup bash | %install_file /dev/stdin %(installroot)%(bashcompletionsdir)/kitty
+    linux-package/bin/kitten __complete__ setup fish | %install_file /dev/stdin %(installroot)%(fishcompletionsdir)/kitty.fish
+    linux-package/bin/kitten __complete__ setup zsh  | %install_file /dev/stdin %(installroot)%(zshcompletionsdir)/_kitty
 
     %install_dir %(installroot)%(prefix)
     cp -r linux-package/* %(installroot)%(prefix)
 
+    %install_dir %(installroot)%(datadir)/licenses/%(name)
+    %install_file LICENSE %(installroot)%(datadir)/licenses/%(name)/LICENSE
+packages     :
+    - "%(name)":
+        rundeps:
+            - "terminfo-%(name)"
+
+    - "terminfo-%(name)":
+        summary: Terminfo for %(name)
+        description: Terminfo for %(name), split out so that it can be used from ncurses
+        paths:
+            - /usr/share/terminfo/

@@ -1,10 +1,8 @@
-#
-# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : zlib-ng
-version     : 2.3.3
+version     : "2.3.3"
 release     : 23
 summary     : zlib replacement with optimizations for "next generation" systems.
 license     : Zlib
@@ -13,7 +11,7 @@ description : |
     zlib data compression library for the next generation systems
 upstreams   :
     - https://github.com/zlib-ng/zlib-ng/archive/refs/tags/2.3.3.tar.gz : f9c65aa9c852eb8255b636fd9f07ce1c406f061ec19a2e7d508b318ca0c907d1
-emul32      : yes
+emul32      : true
 tuning      :
     - lto : full
 setup       : |
@@ -39,7 +37,7 @@ install     : |
     for i in build-zlib build-zlib-ng; do
         BUILDDIR=${i}
         %cmake_install
-    done    
+    done
 check       : |
     for i in build-zlib build-zlib-ng; do
         BUILDDIR=${i}

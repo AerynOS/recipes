@@ -1,0 +1,55 @@
+From 0f146fdfa4b9f0c0aa776c65f49ae8d742e33b58 Mon Sep 17 00:00:00 2001
+From: Igor Khanin <igor@khanin.biz>
+Date: Thu, 26 Feb 2026 10:50:58 +0200
+Subject: [PATCH] Wayland: Ignore null wl_output in QWaylandScreen surface
+ enter/leave
+
+Misbehaving compositors (as observed with some Smithay based
+compositors) may send wl_surface.enter and wl_surface.leave messages
+referring to an output which was already removed from the registry, and
+therefore its' proxy object was already destroyed. This manifests as
+the listener method being invoked with a null wl_output pointer, which
+Qt then dereferences - leading to a crash.
+
+To avoid crashing, simply just ignore such events.
+
+Pick-to: 6.10
+Change-Id: Ib217366b5aff1b39dcc6f42e52165b94ea7a1018
+Reviewed-by: David Edmundson <davidedmundson@kde.org>
+(cherry picked from commit 0285fce0ce0db7b9446389870fe6c076310eb28e)
+Reviewed-by: Qt Cherry-pick Bot <cherrypick_bot@qt-project.org>
+---
+ src/plugins/platforms/wayland/qwaylandsurface.cpp | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/src/plugins/platforms/wayland/qwaylandsurface.cpp b/src/plugins/platforms/wayland/qwaylandsurface.cpp
+index bd7c358e42a..ffccbefe61c 100644
+--- a/src/plugins/platforms/wayland/qwaylandsurface.cpp
++++ b/src/plugins/platforms/wayland/qwaylandsurface.cpp
+@@ -56,8 +56,10 @@ void QWaylandSurface::handleScreenRemoved(QScreen *qScreen)
+ 
+ void QWaylandSurface::surface_enter(wl_output *output)
+ {
+-    auto addedScreen = QWaylandScreen::fromWlOutput(output);
++    if (!output)
++        return;
+ 
++    auto addedScreen = QWaylandScreen::fromWlOutput(output);
+     if (!addedScreen)
+         return;
+ 
+@@ -76,8 +78,10 @@ void QWaylandSurface::surface_enter(wl_output *output)
+ 
+ void QWaylandSurface::surface_leave(wl_output *output)
+ {
+-    auto *removedScreen = QWaylandScreen::fromWlOutput(output);
++    if (!output)
++        return;
+ 
++    auto *removedScreen = QWaylandScreen::fromWlOutput(output);
+     if (!removedScreen)
+         return;
+ 
+-- 
+GitLab
+

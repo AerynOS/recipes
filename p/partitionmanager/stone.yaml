@@ -1,13 +1,11 @@
-#
-# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : partitionmanager
-version     : 25.12.1
-release     : 11
+version     : "26.04.0"
+release     : 15
 upstreams   :
-    - https://download.kde.org/stable/release-service/25.12.1/src/partitionmanager-25.12.1.tar.xz : f9eba6e124a928cfcf9ee658865082818be291053ab81d1ba6e7c089f2c596e4
+    - https://download.kde.org/stable/release-service/26.04.0/src/partitionmanager-26.04.0.tar.xz : 4c7d8fce2de091478705a19f41b4d40087d3f8787b5325bfad3d0c8f7d988fa3
 homepage    : https://apps.kde.org/partitionmanager/
 license     : GPL-3.0-or-later
 summary     : KDE utility to help you manage disk devices
@@ -32,7 +30,6 @@ builddeps   :
     - cmake(PolkitQt6-1)
 rundeps     :
     - binary(mkfs.btrfs)
-    - sysbinary(mkfs.bcachefs)
     - sysbinary(mkfs.exfat)
     - sysbinary(mkfs.ext4)
     - sysbinary(mkfs.f2fs)

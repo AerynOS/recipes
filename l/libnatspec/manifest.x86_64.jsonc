@@ -1,0 +1,53 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"libnatspec": {
+			"build-depends": [
+				"binary(bison)",
+				"binary(flex)",
+				"pkgconfig(popt)"
+			],
+			"depends": [
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libpopt.so.0(x86_64))"
+			],
+			"files": [
+				"/usr/bin/natspec",
+				"/usr/lib/libnatspec.so.0",
+				"/usr/lib/libnatspec.so.0.0.0",
+				"/usr/share/man/man1/natspec.1"
+			],
+			"name": "libnatspec",
+			"provides": [
+				"binary(natspec)",
+				"soname(libnatspec.so.0(x86_64))"
+			]
+		},
+		"libnatspec-devel": {
+			"build-depends": [
+				"binary(bison)",
+				"binary(flex)",
+				"pkgconfig(popt)"
+			],
+			"depends": [
+				"libnatspec"
+			],
+			"files": [
+				"/usr/include/natspec.h",
+				"/usr/lib/libnatspec.a",
+				"/usr/lib/libnatspec.so",
+				"/usr/lib/pkgconfig/libnatspec.pc",
+				"/usr/share/aclocal/natspec.m4"
+			],
+			"name": "libnatspec-devel",
+			"provides": [
+				"pkgconfig(libnatspec)"
+			]
+		}
+	},
+	"source-name": "libnatspec",
+	"source-release": "1",
+	"source-version": "0.3.3-alt1"
+}

@@ -1,0 +1,45 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"pugixml": {
+			"depends": [
+				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libm.so.6(x86_64))",
+				"soname(libstdc++.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/lib/libpugixml.so.1",
+				"/usr/lib/libpugixml.so.1.15"
+			],
+			"name": "pugixml",
+			"provides": [
+				"soname(libpugixml.so.1(x86_64))"
+			]
+		},
+		"pugixml-devel": {
+			"depends": [
+				"pugixml"
+			],
+			"files": [
+				"/usr/include/pugiconfig.hpp",
+				"/usr/include/pugixml.hpp",
+				"/usr/lib/cmake/pugixml/pugixml-config-version.cmake",
+				"/usr/lib/cmake/pugixml/pugixml-config.cmake",
+				"/usr/lib/cmake/pugixml/pugixml-targets-release.cmake",
+				"/usr/lib/cmake/pugixml/pugixml-targets.cmake",
+				"/usr/lib/libpugixml.so",
+				"/usr/lib/pkgconfig/pugixml.pc"
+			],
+			"name": "pugixml-devel",
+			"provides": [
+				"cmake(pugixml)",
+				"pkgconfig(pugixml)"
+			]
+		}
+	},
+	"source-name": "pugixml",
+	"source-release": "1",
+	"source-version": "1.15"
+}

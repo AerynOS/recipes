@@ -1,13 +1,11 @@
-#
-# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : extra-cmake-modules
-version     : 6.22.0
-release     : 17
+version     : "6.25.0"
+release     : 21
 upstreams   :
-    - https://download.kde.org/stable/frameworks/6.22/extra-cmake-modules-6.22.0.tar.xz : cb83a69571b277c20b3a6567ef0b6f39bf29c43a619282bf4bb076feb4c609a6
+    - https://download.kde.org/stable/frameworks/6.25/extra-cmake-modules-6.25.0.tar.xz : ffeb4951bf09b2b8ee17ef24a28b6de650c0db0f59ddffb9009b37cac63af348
 homepage    : https://community.kde.org/Frameworks
 license     :
     - BSD-2-Clause
@@ -23,6 +21,7 @@ builddeps   :
     - python(sphinx)
     - python(sphinxcontrib-qthelp)
 rundeps     :
+    - binary(cmake)
     - binary(doxygen)
     - cmake(Qt6) # We default to Qt6
     - cmake(Qt6ToolsTools)

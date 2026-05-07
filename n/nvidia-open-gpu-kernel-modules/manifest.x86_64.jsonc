@@ -8,27 +8,122 @@
 				"binary(eu-readelf)",
 				"binary(jq)",
 				"binary(zstd)",
-				"linux-desktop",
-				"linux-desktop-devel"
+				"linux-gaming-devel",
+				"linux-lts-devel",
+				"linux-stable-devel",
+				"nvidia-graphics-driver-firmware"
 			],
 			"depends": [
+				"nvidia-open-gpu-kernel-modules-stable"
+			],
+			"files": [
+				"/usr/share/doc/nvidia-open-gpu-kernel-modules/README"
+			],
+			"name": "nvidia-open-gpu-kernel-modules"
+		},
+		"nvidia-open-gpu-kernel-modules-gaming": {
+			"build-depends": [
+				"binary(cpio)",
+				"binary(eu-readelf)",
+				"binary(jq)",
+				"binary(zstd)",
+				"linux-gaming-devel",
+				"linux-lts-devel",
+				"linux-stable-devel",
+				"nvidia-graphics-driver-firmware"
+			],
+			"depends": [
+				"linux-gaming",
+				"nvidia-graphics-driver-firmware",
+				"nvidia-open-gpu-kernel-modules-shared",
 				"sysbinary(depmod)"
 			],
 			"files": [
-				"/usr/lib/kernel/6.18.7-125.desktop/60-nvidia.cmdline",
-				"/usr/lib/kernel/6.18.7-125.desktop/60-nvidia.initrd",
-				"/usr/lib/modprobe.d/nvidia-noview.conf",
-				"/usr/lib/modules-load.d/nvidia-uvm.conf",
-				"/usr/lib/modules/6.18.7-125.desktop/kernel/drivers/video/nvidia-drm.ko.zst",
-				"/usr/lib/modules/6.18.7-125.desktop/kernel/drivers/video/nvidia-modeset.ko.zst",
-				"/usr/lib/modules/6.18.7-125.desktop/kernel/drivers/video/nvidia-peermem.ko.zst",
-				"/usr/lib/modules/6.18.7-125.desktop/kernel/drivers/video/nvidia-uvm.ko.zst",
-				"/usr/lib/modules/6.18.7-125.desktop/kernel/drivers/video/nvidia.ko.zst"
+				"/usr/lib/kernel/7.0.3-5.gaming/55-nvidia-firmware.initrd",
+				"/usr/lib/kernel/7.0.3-5.gaming/60-nvidia.initrd",
+				"/usr/lib/modules/7.0.3-5.gaming/extra/drivers/video/nvidia-drm.ko.zst",
+				"/usr/lib/modules/7.0.3-5.gaming/extra/drivers/video/nvidia-modeset.ko.zst",
+				"/usr/lib/modules/7.0.3-5.gaming/extra/drivers/video/nvidia-peermem.ko.zst",
+				"/usr/lib/modules/7.0.3-5.gaming/extra/drivers/video/nvidia-uvm.ko.zst",
+				"/usr/lib/modules/7.0.3-5.gaming/extra/drivers/video/nvidia.ko.zst"
 			],
-			"name": "nvidia-open-gpu-kernel-modules"
+			"name": "nvidia-open-gpu-kernel-modules-gaming"
+		},
+		"nvidia-open-gpu-kernel-modules-lts": {
+			"build-depends": [
+				"binary(cpio)",
+				"binary(eu-readelf)",
+				"binary(jq)",
+				"binary(zstd)",
+				"linux-gaming-devel",
+				"linux-lts-devel",
+				"linux-stable-devel",
+				"nvidia-graphics-driver-firmware"
+			],
+			"depends": [
+				"linux-lts",
+				"nvidia-graphics-driver-firmware",
+				"nvidia-open-gpu-kernel-modules-shared",
+				"sysbinary(depmod)"
+			],
+			"files": [
+				"/usr/lib/kernel/6.18.26-6.lts/55-nvidia-firmware.initrd",
+				"/usr/lib/kernel/6.18.26-6.lts/60-nvidia.initrd",
+				"/usr/lib/modules/6.18.26-6.lts/extra/drivers/video/nvidia-drm.ko.zst",
+				"/usr/lib/modules/6.18.26-6.lts/extra/drivers/video/nvidia-modeset.ko.zst",
+				"/usr/lib/modules/6.18.26-6.lts/extra/drivers/video/nvidia-peermem.ko.zst",
+				"/usr/lib/modules/6.18.26-6.lts/extra/drivers/video/nvidia-uvm.ko.zst",
+				"/usr/lib/modules/6.18.26-6.lts/extra/drivers/video/nvidia.ko.zst"
+			],
+			"name": "nvidia-open-gpu-kernel-modules-lts"
+		},
+		"nvidia-open-gpu-kernel-modules-shared": {
+			"build-depends": [
+				"binary(cpio)",
+				"binary(eu-readelf)",
+				"binary(jq)",
+				"binary(zstd)",
+				"linux-gaming-devel",
+				"linux-lts-devel",
+				"linux-stable-devel",
+				"nvidia-graphics-driver-firmware"
+			],
+			"files": [
+				"/usr/lib/modprobe.d/nvidia-blacklist.conf",
+				"/usr/lib/modules-load.d/nvidia-uvm.conf"
+			],
+			"name": "nvidia-open-gpu-kernel-modules-shared"
+		},
+		"nvidia-open-gpu-kernel-modules-stable": {
+			"build-depends": [
+				"binary(cpio)",
+				"binary(eu-readelf)",
+				"binary(jq)",
+				"binary(zstd)",
+				"linux-gaming-devel",
+				"linux-lts-devel",
+				"linux-stable-devel",
+				"nvidia-graphics-driver-firmware"
+			],
+			"depends": [
+				"linux-stable",
+				"nvidia-graphics-driver-firmware",
+				"nvidia-open-gpu-kernel-modules-shared",
+				"sysbinary(depmod)"
+			],
+			"files": [
+				"/usr/lib/kernel/7.0.3-6.stable/55-nvidia-firmware.initrd",
+				"/usr/lib/kernel/7.0.3-6.stable/60-nvidia.initrd",
+				"/usr/lib/modules/7.0.3-6.stable/extra/drivers/video/nvidia-drm.ko.zst",
+				"/usr/lib/modules/7.0.3-6.stable/extra/drivers/video/nvidia-modeset.ko.zst",
+				"/usr/lib/modules/7.0.3-6.stable/extra/drivers/video/nvidia-peermem.ko.zst",
+				"/usr/lib/modules/7.0.3-6.stable/extra/drivers/video/nvidia-uvm.ko.zst",
+				"/usr/lib/modules/7.0.3-6.stable/extra/drivers/video/nvidia.ko.zst"
+			],
+			"name": "nvidia-open-gpu-kernel-modules-stable"
 		}
 	},
 	"source-name": "nvidia-open-gpu-kernel-modules",
-	"source-release": "64",
-	"source-version": "590.48.01"
+	"source-release": "89",
+	"source-version": "595.71.05"
 }

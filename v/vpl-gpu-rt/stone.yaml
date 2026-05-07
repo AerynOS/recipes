@@ -1,0 +1,34 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : vpl-gpu-rt
+version     : "26.1.6"
+release     : 5
+homepage    : https://github.com/intel/vpl-gpu-rt/
+upstreams   :
+    - https://github.com/intel/vpl-gpu-rt/archive/refs/tags/intel-onevpl-26.1.6.tar.gz : 41456ec8bff819b29a69601aeaffec72fd408ea6c79ab0e4184cc11b6b04f1ba
+summary     : Intel® Video Processing Library (Intel® VPL) GPU Runtime
+description : |
+    Intel® Video Processing Library (Intel® VPL) GPU Runtime is a Runtime implementation of Intel® VPL API for Intel Gen GPUs. Runtime provides access to hardware-accelerated video decode, encode and filtering.
+license     :
+    - MIT
+builddeps   :
+    - pkgconfig(igdgmm)
+    - pkgconfig(libdrm)
+    - pkgconfig(libva)
+tuning      :
+    - optimize: speed
+setup       : |
+    # Outlined in https://github.com/intel/vpl-gpu-rt/issues/331
+    %patch %(pkgdir)/fix-av1-when-clang.patch
+
+    %cmake \
+        -DBUILD_TESTS=OFF \
+        -DMFX_ENABLE_AENC=ON
+build       : |
+    %cmake_build
+install     : |
+    %cmake_install
+# check       : |
+#     %cmake_test
+# # no tests found (?)

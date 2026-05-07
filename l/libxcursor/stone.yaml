@@ -1,10 +1,8 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : libxcursor
-version     : 1.2.3
+version     : "1.2.3"
 release     : 4
 homepage    : https://gitlab.freedesktop.org/xorg/lib/libxcursor
 upstreams   :
@@ -18,7 +16,7 @@ builddeps   :
     - pkgconfig32(xfixes)
     - pkgconfig32(xrender)
     - pkgconfig(xproto)
-emul32      : yes
+emul32      : true
 setup       : |
     %configure
 build       : |

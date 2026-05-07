@@ -1,0 +1,36 @@
+From 3f94ac1810b7076e1cce74e1ddb364ff8dfd3faa Mon Sep 17 00:00:00 2001
+From: honjow <honjow311@gmail.com>
+Date: Fri, 13 Mar 2026 02:47:58 +0800
+Subject: [PATCH 11/17] fix: update orca and steamos-manager service files to
+ use optional environment file
+
+---
+ data/user/orca.service            | 2 +-
+ data/user/steamos-manager.service | 1 +
+ 2 files changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/data/user/orca.service b/data/user/orca.service
+index a378a66..b83c78a 100644
+--- a/data/user/orca.service
++++ b/data/user/orca.service
+@@ -6,4 +6,4 @@ Type=simple
+ ExecStart=/usr/bin/orca
+ ExecReload=/usr/bin/orca --replace
+ Restart=on-failure
+-EnvironmentFile=%t/gamescope-environment
++EnvironmentFile=-%t/gamescope-environment
+diff --git a/data/user/steamos-manager.service b/data/user/steamos-manager.service
+index c6dc9fe..0585da0 100644
+--- a/data/user/steamos-manager.service
++++ b/data/user/steamos-manager.service
+@@ -12,6 +12,7 @@ Restart=on-failure
+ RestartSec=1
+ RestartMaxDelaySec=10
+ RestartSteps=3
++EnvironmentFile=-%t/gamescope-environment
+ 
+ [Install]
+ WantedBy=graphical-session.target
+-- 
+2.52.0
+

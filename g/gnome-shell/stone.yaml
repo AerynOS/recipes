@@ -1,14 +1,12 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : gnome-shell
-version     : "49.3"
-release     : 43
+version     : "50.1"
+release     : 48
 homepage    : https://gitlab.gnome.org/GNOME/gnome-shell
 upstreams   :
-    - https://download.gnome.org/sources/gnome-shell/49/gnome-shell-49.3.tar.xz : 28f0dbd64452f0057129f226753c95d2726de07f1f5f473addc7c3c507a6d31a
+    - https://download.gnome.org/sources/gnome-shell/50/gnome-shell-50.1.tar.xz : 1b47760172c14f3f4edd1c9aff365f4de45583517bf0f80df4d3acbd4e4cb294
 summary     : The core GNOME desktop experience
 description : |
     GNOME Shell provides core user interface functions for the GNOME desktop,
@@ -26,7 +24,6 @@ builddeps   :
     - binary(perl)
     - binary(python3)
     - binary(rst2man)
-    - binary(rtkitctl)
     - binary(wireplumber)
     - pkgconfig(atk-bridge-2.0)
     - pkgconfig(bash-completion)
@@ -51,13 +48,14 @@ builddeps   :
     - pkgconfig(libstartup-notification-1.0)
     - pkgconfig(libsystemd)
     - pkgconfig(libxml-2.0)
-    - pkgconfig(mutter-clutter-17)
+    - pkgconfig(mutter-clutter-18)
     - pkgconfig(polkit-agent-1)
     - pkgconfig(systemd)
     - pkgconfig(x11)
+    - sysbinary(rtkitctl)
 rundeps     :
     - binary(Xwayland)
-    - binary(rtkitctl)
+    - sysbinary(rtkitctl)
     - adwaita-icon-theme
     - font-cantarell
     - gdm-libs
@@ -69,6 +67,7 @@ rundeps     :
     - ibus
     - iso-codes
     - libnma
+    - libnma-gtk4
     - librsvg
     - shared-mime-info
     - webkitgtk60 # For captive portals

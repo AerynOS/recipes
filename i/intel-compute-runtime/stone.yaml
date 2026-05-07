@@ -1,0 +1,48 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : intel-compute-runtime
+version     : "26.14.37833.4"
+release     : 4
+homepage    : https://github.com/intel/compute-runtime
+upstreams   :
+    - https://github.com/intel/compute-runtime/archive/refs/tags/26.14.37833.4.tar.gz : cf28219ae5ee1b2b13f62b9a12a38cf6000b2dbe79e121c810b0d88f6d402b1a
+summary     :  Intel® Graphics Compute Runtime for oneAPI Level Zero and OpenCL™ Driver
+description : |
+    The Intel(R) Graphics Compute Runtime for oneAPI Level Zero and OpenCL(TM) Driver is an open source project providing compute API support (Level Zero, OpenCL) for Intel graphics hardware architectures (HD Graphics, Xe).
+license     :
+    - MIT
+builddeps   :
+    - cmake(igsc)
+    - pkgconfig(igc-opencl)
+    - pkgconfig(igdgmm)
+    - pkgconfig(level-zero)
+    - pkgconfig(libdrm)
+    # - pkgconfig(libigdmd)
+    # - pkgconfig(libigdml)
+    - pkgconfig(libudev)
+    - pkgconfig(libva)
+    - pkgconfig(libze_loader)
+rundeps     :
+    - intel-graphics-compiler
+    - level-zero
+setup       : |
+    %patch %(pkgdir)/010-intel-compute-runtime-disable-werror.patch
+    %cmake \
+        -DDISABLE_WDDM_LINUX=ON \
+        -DNEO_BUILD_UNVERSIONED_OCLOC='ON' \
+        -DNEO_DISABLE_LTO=OFF \
+        -DNEO_OCL_VERSION_MAJOR=$(echo "%(version)" | cut -d. -f1) \
+        -DNEO_OCL_VERSION_MINOR=$(echo "%(version)" | cut -d. -f2) \
+        -DNEO_VERSION_BUILD=$(echo "%(version)" | cut -d. -f3) \
+        -DNEO_SKIP_UNIT_TESTS=OFF \
+        -DSKIP_UNIT_TESTS=OFF \
+        -DSUPPORT_DG1=ON \
+        -DSUPPORT_DG2=ON \
+        -DOCL_ICD_VENDORDIR=%(datadir)/OpenCL/vendors
+
+# Tests run automatically during build, check section not required
+build       : |
+    %cmake_build
+install     : |
+    %cmake_install

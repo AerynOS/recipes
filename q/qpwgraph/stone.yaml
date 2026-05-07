@@ -1,15 +1,13 @@
-#
-# SPDX-FileCopyrightText: © 2020-2025 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : qpwgraph
-version     : 0.9.8
-release     : 6
+version     : "1.0.1"
+release     : 9
 upstreams   :
-    - https://gitlab.freedesktop.org/rncbc/qpwgraph/-/archive/v0.9.8/qpwgraph-v0.9.8.tar.gz : 10089fc9d5b9629f048fdca83854a3e9c83a4dee65e4f951f6d26e8587c6bf0e
-homepage    : https://gitlab.freedesktop.org/rncbc/qpwgraph 
-license     : GPL-2.0-or-later 
+    - https://gitlab.freedesktop.org/rncbc/qpwgraph/-/archive/v1.0.1/qpwgraph-v1.0.1.tar.gz : 3640c12833e32917054578b249caac73beefdef3113c834175f20bf582285925
+homepage    : https://gitlab.freedesktop.org/rncbc/qpwgraph
+license     : GPL-2.0-or-later
 summary     : PipeWire Graph Qt GUI Interface
 description : |
     PipeWire Graph Qt GUI Interface
@@ -21,9 +19,7 @@ rundeps     :
     - qt6-svg
     - qt6-wayland
 setup       : |
-    # Why in tarnation do they even override the QPA variable
-    %cmake \
-        -DCONFIG_WAYLAND=ON
+    %cmake
 build       : |
     %cmake_build
 install     : |

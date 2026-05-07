@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
 
 if [ ! -e "monitoring.yml" ] && [ ! -e "monitoring.yaml" ]; then
     echo "${RED} monitoring.y{a}ml file doesn't exist"

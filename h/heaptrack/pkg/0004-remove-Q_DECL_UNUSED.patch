@@ -1,7 +1,7 @@
-From 6325083e3fcd0718a59b79ebb20abf614fd3f8a5 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Cory Forsstrom <cforsstrom18@gmail.com>
 Date: Mon, 29 Dec 2025 13:47:08 -0800
-Subject: [PATCH 4/4] remove Q_DECL_UNUSED
+Subject: [PATCH 4/5] remove Q_DECL_UNUSED
 
 ---
  src/analyze/gui/gui.cpp | 2 +-
@@ -20,6 +20,3 @@ index 7197ea1..8d0f620 100644
  {
      const QString iconThemeRcc = qApp->applicationDirPath() + QStringLiteral("/../share/icons/breeze/breeze-icons.rcc");
      if (!QFile::exists(iconThemeRcc)) {
--- 
-2.52.0
-

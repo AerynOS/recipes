@@ -1,14 +1,12 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : libvirt
-version     : '12.0.0'
-release     : 11
+version     : "12.3.0"
+release     : 15
 homepage    : https://gitlab.com/libvirt/libvirt
 upstreams   :
-    - https://libvirt.org/sources/libvirt-12.0.0.tar.xz : bf4e680019c04c45b557dd4a7ef59e952887f74e3c47044fe035a961fb624726
+    - https://libvirt.org/sources/libvirt-12.3.0.tar.xz : 0d2b548d1b732d1ae21cfefacc204a2c8dabada80ea1edfbd528bfb73b9d2d27
 summary     : Libvirt native C API and daemons
 description : |
     Libvirt provides a portable, long term stable C API for managing the virtualization technologies provided by many operating systems. It includes support for QEMU, KVM, Xen, LXC, bhyve, Virtuozzo, VMware vCenter and ESX, VMware Desktop, Hyper-V, VirtualBox and the POWER Hypervisor.
@@ -60,12 +58,12 @@ rundeps     :
     - sysbinary(iptables)
 setup       : |
     %meson \
-      -Ddriver_interface=enabled \
-      -Ddriver_libvirtd=enabled \
-      -Ddriver_network=enabled \
-      -Ddriver_qemu=enabled \
-      -Drunstatedir='/run' \
-      -Dinit_script='systemd'
+        -Ddriver_interface=enabled \
+        -Ddriver_libvirtd=enabled \
+        -Ddriver_network=enabled \
+        -Ddriver_qemu=enabled \
+        -Drunstatedir='/run' \
+        -Dinit_script='systemd'
 build       : |
     %meson_build
 install     : |
@@ -83,7 +81,7 @@ install     : |
     %sysusers "u qemu libvirt:qemu "qemu user" - -"
     %sysusers "m qemu kvm"
 
-    %install_file %(pkgdir)/libvirt.preset %(installroot)%(libdir)/systemd/system-preset/50-libvirt.preset
+    %install_file %(pkgdir)/*.preset -t %(installroot)%(libdir)/systemd/system-preset/
     %install_file %(pkgdir)/libvirt.tmpfiles %(installroot)%(libdir)/tmpfiles.d/libvirt.conf
 packages    :
     - "%(name)":

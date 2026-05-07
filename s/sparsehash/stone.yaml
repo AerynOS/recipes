@@ -1,0 +1,24 @@
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : sparsehash
+version     : "2.0.4"
+release     : 1
+upstreams   :
+    - https://github.com/sparsehash/sparsehash/archive/sparsehash-2.0.4.tar.gz : 8cd1a95827dfd8270927894eb77f62b4087735cbede953884647f16c521c7e58
+homepage    : https://github.com/sparsehash/sparsehash
+license     : BSD-3-Clause
+summary     : C++ associative containers
+description : |
+    C++ associative containers
+setup       : |
+    %configure
+build       : |
+    %make
+install     : |
+    %make_install
+packages    :
+    - "%(name)":
+        paths:
+            - /usr/include/
+            - /usr/lib/pkgconfig/

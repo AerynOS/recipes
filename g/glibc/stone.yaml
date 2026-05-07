@@ -1,11 +1,9 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : glibc
-version     : 2.43+git.144ba302
-release     : 33
+version     : "2.43+git.e9517114"
+release     : 38
 summary     : The GNU libc libraries
 license     :
     - GPL-2.0-or-later
@@ -16,7 +14,7 @@ description : |
     The GNU libc libraries
 upstreams   :
     - git|https://sourceware.org/git/glibc.git :
-        ref : 144ba302089cff5a2f2e1c9e1280faea9da9f8cc
+        ref : e9517114acc77c0b8af9da6700107df16882b701
 builddeps   :
     - binary(bison)
     - binary(gperf)

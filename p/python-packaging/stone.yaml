@@ -1,14 +1,18 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : python-packaging
-version     : "25.0"
-release     : 6
+version     : "26.2"
+release     : 11
 homepage    : https://packaging.pypa.io
 upstreams   :
-    - https://pypi.debian.net/packaging/packaging-25.0.tar.gz : d443872c98d677bf60f6a1f2f8c1cb748e8fe762d2bf9d3148b5599295b0fc4f
+    - https://pypi.debian.net/packaging/packaging-26.2.tar.gz:
+        hash: ff452ff5a3e828ce110190feff1178bb1f2ea2281fa2075aadb987c2fb221661
+        rename: packaging.tar.gz
+
+    # Comment out if not bootstrapping
+    # - git|https://gitlab.archlinux.org/archlinux/python-bootstrap.git:
+    #     ref: 461514b135c5ef77f572037d79b58b9e321d38e9
 summary     : Core utilities for Python packages
 description : |
     Reusable core utilities for various Python Packaging interoperability specifications.
@@ -16,10 +20,33 @@ license     :
     - Apache-2.0
     - BSD-2-Clause
 builddeps   :
+    - binary(python3) # This exists to establish the build order between python and this package
     - python(flit-core)
 rundeps     :
     - binary(python3)
+environment : |
+    # set to 1 if bootstrapping against a new python
+    _bootstrap=0
+
+    if [[ ${_bootstrap} == "1" ]]; then
+        cd ../python-bootstrap.git
+    fi
+setup      : |
+    if [[ ${_bootstrap} == "1" ]]; then
+        rm -rf external/packaging
+
+        mkdir external/packaging
+        bsdtar-static -xf %(sourcedir)/packaging.tar.gz --strip-components=1 -C external/packaging
+    fi
 build       : |
-    %pyproject_build
+    if [[ ${_bootstrap} == "1" ]]; then
+        python -m bootstrap.build
+    else
+        %pyproject_build
+    fi
 install     : |
-    %pyproject_install
+    if [[ ${_bootstrap} == "1" ]]; then
+        python -m bootstrap.install dist/packaging-*-py3-none-any.whl -d "%(installroot)"
+    else
+        %pyproject_install
+    fi

@@ -1,16 +1,14 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : cosmic-randr
-version     : 1.0.5.git+741089c
-release     : 28
+version     : "1.0.11.git+6e8e795"
+release     : 34
 summary     : Cosmic Desktop display configuration
 license     : GPL-3.0
 homepage    : https://github.com/pop-os/cosmic-randr
 upstreams   :
-    - git|https://github.com/pop-os/cosmic-randr.git : 741089cf5e3aa7d5e48042101c1d4cc813b13637
+    - git|https://github.com/pop-os/cosmic-randr.git : 6e8e795970fa06d434af22775e415b517f7552d3
 description : |
     Cosmic Desktop display configuration
 builddeps   :
@@ -19,7 +17,7 @@ builddeps   :
     - pkgconfig(dbus-1)
     - pkgconfig(libudev)
     - pkgconfig(xkbcommon)
-networking  : yes
+networking  : true
 setup       : |
     %cargo_fetch
 build       : |

@@ -1,16 +1,14 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : cosmic-greeter
-version     : 1.0.5.git+d542978
-release     : 39
+version     : "1.0.11.git+619910c"
+release     : 47
 summary     : Cosmic Desktop Greeter
 license     : GPL-3.0
 homepage    : https://github.com/pop-os/cosmic-greeter
 upstreams   :
-    - git|https://github.com/pop-os/cosmic-greeter.git : d542978314d0d7f4b28d35d00752099bf70be46a
+    - git|https://github.com/pop-os/cosmic-greeter.git : 619910c5cc5bb31479230744e1814c71a1a1aeb3
 description : |
     Cosmic Desktop Greeter
 builddeps   :
@@ -29,10 +27,10 @@ rundeps     :
     - cosmic-wallpapers
     # Temporary workaround until we have some kind of virtual package that defines the base system
     - linux-pam
-networking  : yes
+networking  : true
 setup       : |
     # Override fallback background
-    cp /usr/share/backgrounds/aerynos/marc-markstein-0kD1eHgyuPI-unsplash.jpg res/background.jpg
+    cp /usr/share/backgrounds/aerynos/DreamyBrno.jpg res/background.jpg
 
     %cargo_fetch
     %patch %(pkgdir)/0001-debian-Port-sample-service-pam-to-Serpent-OS.patch

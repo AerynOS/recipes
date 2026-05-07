@@ -1,0 +1,15 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : xr-hardware
+version     : "1.1.1"
+release     : 1
+homepage    : https://gitlab.freedesktop.org/monado/utilities/xr-hardware
+upstreams   :
+    - https://gitlab.freedesktop.org/monado/utilities/xr-hardware/-/archive/1.1.1/xr-hardware-1.1.1.tar.gz : e4da17428a6f8a36e5c81685a3803b0cbce56098fdbf4d3db09bd6b18f3c4755
+summary     : Hardware description for XR devices
+description : |
+    A simple set of scripts to generate udev rules for user access to XR (VR and AR) hardware devices
+license     : BSL-1.0
+install     : |
+    %make_install RULES_DIR=%(udevrulesdir)

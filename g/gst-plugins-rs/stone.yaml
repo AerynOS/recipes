@@ -1,14 +1,12 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : gst-plugins-rs
-version     : 1.28.0
-release     : 16
+version     : "1.28.2"
+release     : 18
 homepage    : https://gitlab.freedesktop.org/gstreamer/gst-plugins-rs
 upstreams   :
-    - https://gitlab.freedesktop.org/gstreamer/gst-plugins-rs/-/archive/gstreamer-1.28.0/gst-plugins-rs-gstreamer-1.28.0.tar.gz : 1bc6a7cedb6a0af5eae0ab301b22059b85b82b348669a596b0902bf84514eacc
+    - https://gitlab.freedesktop.org/gstreamer/gst-plugins-rs/-/archive/gstreamer-1.28.2/gst-plugins-rs-gstreamer-1.28.2.tar.gz : 3cb70947a16fd12dc0b49173400fe8c83319425e78035aa1dbccb1daa7f6c528
 summary     : GStreamer plugins written in Rust.
 description : |
     These plugins can be used by applications written in other programming languages as well of course, they are just like any other GStreamer plugins available on the system.
@@ -17,11 +15,12 @@ license     :
     - LGPL-2.1-or-later
     - MIT
     - MPL-2.0
-networking  : yes
+networking  : true
 builddeps   :
     - binary(cargo)
     - binary(cargo-cbuild)
     - binary(curl)
+    - binary(make)
     - binary(nasm)
     - pkgconfig(dav1d)
     - pkgconfig(glib-2.0)

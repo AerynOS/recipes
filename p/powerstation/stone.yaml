@@ -1,14 +1,12 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : powerstation
-version     : 0.7.0
-release     : 9
+version     : "0.8.1"
+release     : 12
 homepage    : https://github.com/ShadowBlip/PowerStation
 upstreams   :
-    - https://github.com/ShadowBlip/PowerStation/archive/refs/tags/v0.7.0.tar.gz : e3bc0609b09d28c9856ef68c837991fc6655276ffdb7e9a382c91b97513fb416
+    - https://github.com/ShadowBlip/PowerStation/archive/refs/tags/v0.8.1.tar.gz : 8cd83d570a6e4d3ae3178a9073329c31526e8cd5e5900e8309a57d1db3c83ab4
 summary     : Open source TDP control and performance daemon with DBus interface
 description : |
     PowerStation is an open source TDP control and performance daemon for Linux that can be used to control CPU and GPU settings for better performance and battery life.
@@ -26,8 +24,12 @@ build       : |
     %cargo_build
 install     : |
     %cargo_install
+
     # preserve use of our own macros so we dont use the generic cargo invocations in the makefile,
     # which basically just copies all of rootfs/ to the installroot
     %install_dir %(installroot)/usr
     cp -R rootfs/usr/* %(installroot)/usr/.
     rm -rf %(installroot)%(datadir)/dbus-1/system-services
+
+    # Enable system-wide upon install
+    %install_file %(pkgdir)/*.preset -t %(installroot)/%(libdir)/systemd/system-preset/

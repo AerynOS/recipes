@@ -1,11 +1,9 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : gcc
-version     : 15.2.0+git.e4ee38ae
-release     : 18
+version     : "16.1.0+git.25925f2a"
+release     : 24
 summary     : GNU C++ standard library and compiler
 license     : GPL-3.0-or-later
 homepage    : https://gcc.gnu.org/
@@ -15,7 +13,7 @@ upstreams   :
     # Use the github mirror since the official git hosting is unreliable and slow
     - git|https://github.com/gcc-mirror/gcc:
         # Should be the latest commit on the releases/gcc-15 branch that isn't a bump to the date
-        ref: e4ee38ae7ad69dd6bea96665a2f7bc6887cd3145
+        ref: 25925f2a16c7d0f435867b512f904334760eac29
 builddeps   :
     - binary(bison)
     - binary(cargo)
@@ -28,12 +26,13 @@ builddeps   :
     - pkgconfig(gmp)
     - pkgconfig(isl)
     - pkgconfig(libxcrypt)
+    - pkgconfig(libxml-2.0)
     - pkgconfig(libzstd)
+    - pkgconfig(mpc)
     - pkgconfig(mpfr)
     - pkgconfig(zlib)
     - gcc-32bit-devel
     - glibc-32bit-devel
-    - mpc-devel
 toolchain   : gnu
 tuning      :
     - fortify: false
@@ -117,8 +116,8 @@ setup       : |
         --enable-libgdiagnostics
     popd
 build       : |
-    env CCACHE_BASEDIR=${pwd}/gcc_build %make -C gcc_build ${_build_step}
-    env CCACHE_BASEDIR=${pwd}/libgccjit_build %make -C libgccjit_build all-gcc
+    env CCACHE_BASEDIR=${PWD}/gcc_build %make -C gcc_build ${_build_step}
+    env CCACHE_BASEDIR=${PWD}/libgccjit_build %make -C libgccjit_build all-gcc
 
     cp -a libgccjit_build/gcc/libgccjit.so* gcc_build/gcc/
 install     : |
@@ -153,20 +152,21 @@ install     : |
     # Clang provides c++ on Aeryn
     rm -v %(installroot)%(bindir)/c++ %(installroot)%(bindir)/%(host_platform)-c++
 
-    # Temporary, make x86_64-serpent-linux a target alias of x86_64-aerynos-linux
-    # The next step after this (after all toolchain packages are similarly updated)
-    # is to rebuild all packages with the new triple and then remove the compat links
+    # Make x86_64-solus-linux a target alias of x86_64-aerynos-linux, and add compat targets for common x86 targets
     pushd %(installroot)/%(bindir)
-    for i in g++ gcc gcc-${major_version} gcc-ar gcc-nm gcc-ranlib gccrs gfortran ; do
-        ln -sv %(host_platform)-${i} x86_64-serpent-linux-${i}
+    for compat in x86_64-solus-linux x86_64-linux-gnu x86_64-pc-linux-gnu; do
+        for i in g++ gcc gcc-${major_version} gcc-ar gcc-nm gcc-ranlib gccrs gfortran ; do
+            ln -sv %(host_platform)-${i} ${compat}-${i}
+        done
+        ln -srv %(installroot)/usr/include/c++/${major_version}/%(host_platform) %(installroot)/usr/include/c++/${major_version}/${compat}
+        ln -srv %(installroot)/usr/lib/gcc/%(host_platform) %(installroot)/usr/lib/gcc/${compat}
     done
     popd
-    ln -srv %(installroot)/usr/include/c++/${major_version}/%(host_platform) %(installroot)/usr/include/c++/${major_version}/x86_64-serpent-linux
-    ln -srv %(installroot)/usr/lib/gcc/%(host_platform) %(installroot)/usr/lib/gcc/x86_64-serpent-linux
 
     # TODO: Remove once we can remove gcc-devel and gcc-32bit-devel from the index
     mkdir -p %(installroot)/usr/share/doc/replace/
     touch %(installroot)/usr/share/doc/replace/gcc{,-32bit}-devel %(installroot)/usr/share/doc/replace/g++-32bit
+    touch %(installroot)/usr/share/doc/replace/libatomic{,-32bit}-static
 packages    :
     - "gcc":
         paths:
@@ -174,9 +174,11 @@ packages    :
             - /usr/lib/*.so
             - /usr/lib/*.spec
             - /usr/lib/libasan*
+            - /usr/lib/libatomic*.a
             - /usr/lib/libubsan*
             - /usr/share/locale/*/LC_MESSAGES/cpplib.mo
         rundeps:
+            - libatomic
             - libgcc-static
             - libgomp
 
@@ -187,9 +189,11 @@ packages    :
             - /usr/lib32/*.spec
             - /usr/lib32/libasan*
             - /usr/lib32/libubsan*
-            - /usr/lib/gcc/*-linux/*/32/*.a
-            - /usr/lib/gcc/*-linux/*/32/*.o
+            - /usr/lib32/libatomic*.a
+            - /usr/lib/gcc/*-linux*/*/32/*.a
+            - /usr/lib/gcc/*-linux*/*/32/*.o
         rundeps:
+            - libatomic-32bit
             - libgcc-32bit-static
             - libgomp-32bit
 
@@ -203,9 +207,7 @@ packages    :
         summary: The GNU Atomic library - static lib
         description: The GNU Atomic library - static lib
         paths:
-            - /usr/lib/libatomic*.a
-        rundeps:
-            - libatomic
+            - /usr/share/doc/replace/libatomic-static
 
     - "libatomic-32bit":
         summary: The GNU Atomic library - 32bit lib
@@ -217,10 +219,7 @@ packages    :
         summary: The GNU Atomic library - static 32bit lib
         description: The GNU Atomic library - static 32bit lib
         paths:
-            - /usr/lib32/libatomic*.a
-        rundeps:
-            - libatomic-32bit-devel
-            - libatomic-static
+            - /usr/share/doc/replace/libatomic-32bit-static
 
     - "libgcc":
         summary: GCC shared support library
@@ -232,7 +231,7 @@ packages    :
         summary: GCC shared support library - static lib
         description: GCC shared support library - static lib
         paths:
-            - /usr/lib/gcc/x86_64*-linux/*/libgcc*.a
+            - /usr/lib/gcc/x86_64*-linux*/*/libgcc*.a
         rundeps:
             - libgcc
 
@@ -246,7 +245,7 @@ packages    :
         summary: GCC shared support library - 32bit lib
         description: GCC shared support library - 32bit lib
         paths:
-            - /usr/lib/gcc/x86_64*-linux/*/32/libgcc*.a
+            - /usr/lib/gcc/x86_64*-linux*/*/32/libgcc*.a
         rundeps:
             - libgcc-32bit
             - libgcc-static
@@ -405,7 +404,7 @@ packages    :
         description: GCC __float128 shared support library - devel
         paths:
             - /usr/lib/libquadmath*.so
-            - /usr/lib/gcc/*-linux/*/include/quadmath*
+            - /usr/lib/gcc/*-linux*/*/include/quadmath*
         rundeps:
             - libquadmath
 
@@ -506,8 +505,8 @@ packages    :
         description: C++ support for GCC
         paths:
             - /usr/bin/*g++
-            - /usr/lib/gcc/*-linux/*/cc1plus
-            - /usr/lib/gcc/*-linux/*/g++-mapper-server
+            - /usr/lib/gcc/*-linux*/*/cc1plus
+            - /usr/lib/gcc/*-linux*/*/g++-mapper-server
             - /usr/share/man/*/g++*
         rundeps:
             - binary(gcc)
@@ -527,7 +526,8 @@ packages    :
         description: COBOL support for GCC
         paths:
             - /usr/bin/*gcob*
-            - /usr/lib/gcc/*-linux/*/cobol1
+            - /usr/lib/gcc/*-linux*/*/cobol1
+            - /usr/lib/gcc/*-linux*/*/cobol/
             - /usr/lib/libgcobol.spec
             - /usr/share/gcobol
             - /usr/share/man/man1/gcobol.1*
@@ -543,9 +543,9 @@ packages    :
         paths:
             - /usr/bin/*fortran*
             - /usr/lib/*fortran*.spec
-            - /usr/lib/gcc/*-linux/*/f951
-            - /usr/lib/gcc/*-linux/*/finclude/*
-            - /usr/lib/gcc/*-linux/*/include/*Fortran*.h
+            - /usr/lib/gcc/*-linux*/*/f951
+            - /usr/lib/gcc/*-linux*/*/finclude/*
+            - /usr/lib/gcc/*-linux*/*/include/*Fortran*.h
             - /usr/share/info/gfortran.info*
             - /usr/share/man/*/*fortran*
         rundeps:
@@ -556,7 +556,7 @@ packages    :
     - "gfortran-32bit":
         paths:
             - /usr/lib32/*fortran*.spec
-            - /usr/lib/gcc/*-linux/*/32/finclude/*
+            - /usr/lib/gcc/*-linux*/*/32/finclude/*
         rundeps:
             - gfortran
             - libgfortran-32bit

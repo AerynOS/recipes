@@ -1,18 +1,16 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : nss
-version     : "3.120"
-release     : 39
+version     : "3.123.1"
+release     : 46
 summary     : Network Security Services
 license     : MPL-2.0
 homepage    : https://wiki.mozilla.org/NSS
 description : |
     Network Security Services (NSS) is a set of libraries designed to support cross-platform development of security-enabled client and server applications.
 upstreams   :
-    - https://ftp.mozilla.org/pub/security/nss/releases/NSS_3_120_RTM/src/nss-3.120.tar.gz : 7ce5f5b3a172a41539ffc118d8ef4834974d0a6a782743e4a05a4e208dd6d22f
+    - https://ftp.mozilla.org/pub/security/nss/releases/NSS_3_123_1_RTM/src/nss-3.123.1.tar.gz : 42065a3ff780a9710a3dddcd1cee9b9be2aa40628883cea851d562eb58b178b0
 builddeps   :
     - binary(openssl)
     - binary(perl)
@@ -29,17 +27,18 @@ setup       : |
     ln -srft certs lib/ckfw/builtins/{certdata.txt,nssckbi.h}
 build       : |
     cd nss
-    %make BUILT_OPT=1 \
-          NSPR_INCLUDE_DIR=%(includedir)/nspr \
-          NSS_DISABLE_GTESTS=1 \
-          NSS_ENABLE_WERROR=0 \
-          NSS_USE_SYSTEM_SQLITE=1 \
-          USE_64=1 \
-          USE_SYSTEM_ZLIB=1 \
-          NATIVE_CC="${CC}" \
-          AR="${AR} rc \$@" \
-          NATIVE_FLAGS="${CFLAGS}" \
-          NATIVE_LDFLAGS="${LDFLAGS}"
+    %make \
+        BUILD_OPT=1 \
+        NSPR_INCLUDE_DIR=%(includedir)/nspr \
+        NSS_DISABLE_GTESTS=1 \
+        NSS_ENABLE_WERROR=0 \
+        NSS_USE_SYSTEM_SQLITE=1 \
+        USE_64=1 \
+        USE_SYSTEM_ZLIB=1 \
+        NATIVE_CC="${CC}" \
+        AR="${AR} rc \$@" \
+        NATIVE_FLAGS="${CFLAGS}" \
+        NATIVE_LDFLAGS="${LDFLAGS}"
 
     # Build ca-certificates-mozilla
     pushd certs

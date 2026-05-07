@@ -1,10 +1,8 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : libxi
-version     : 1.8.2
+version     : "1.8.2"
 release     : 5
 homepage    : https://gitlab.freedesktop.org/xorg/lib/libxi
 upstreams   :
@@ -18,7 +16,7 @@ builddeps   :
     - pkgconfig32(xext)
     - pkgconfig32(xfixes)
     - pkgconfig(inputproto)
-emul32      : yes
+emul32      : true
 setup       : |
     %configure
 build       : |

@@ -1,19 +1,17 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : tzdata
-version     : 2025c
-release     : 8
+version     : "2026b"
+release     : 10
 summary     : Sources for time zone and daylight saving time data
 license     : Public-Domain
 homepage    : https://www.iana.org/time-zones
 description : |
     Sources for time zone and daylight saving time data
 upstreams   :
-    - https://data.iana.org/time-zones/releases/tzdata2025c.tar.gz: 4aa79e4effee53fc4029ffe5f6ebe97937282ebcdf386d5d2da91ce84142f957
-    - https://data.iana.org/time-zones/releases/tzcode2025c.tar.gz: 697ebe6625444aef5080f58e49d03424bbb52e08bf483d3ddb5acf10cbd15740
+    - https://data.iana.org/time-zones/releases/tzdata2026b.tar.gz: 114543d9f19a6bfeb5bca43686aea173d38755a3db1f2eec112647ae92c6f544
+    - https://data.iana.org/time-zones/releases/tzcode2026b.tar.gz: 37e9ed8427f5d3521c22fc58e293cbfb043d70eedf1003870b33f363f61ca344
 builddeps   :
     - binary(bsdtar-static)
     - binary(make)

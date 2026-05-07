@@ -3,23 +3,27 @@ From: Reilly Brogan <reilly@reillybrogan.com>
 Date: Fri, 17 Jan 2025 00:33:40 -0600
 Subject: [PATCH] bolt: Set version string
 
-Signed-off-by: Reilly Brogan <reilly@reillybrogan.com>
+Origin: vendor
+Forwarded: not-needed
+Last-Update: 2026-03-10
 ---
- bolt/CMakeLists.txt                                          | 2 ++
+ bolt/CMakeLists.txt                                          | 5 +++++
  bolt/include/bolt/RuntimeLibs/RuntimeLibraryVariables.inc.in | 2 ++
- bolt/include/bolt/Utils/CommandLineOpts.h                    | 1 +
- bolt/lib/Utils/CommandLineOpts.cpp                           | 2 +-
- 4 files changed, 6 insertions(+), 1 deletion(-)
+ bolt/lib/Utils/CommandLineOpts.cpp                           | 3 ++-
+ 3 files changed, 9 insertions(+), 1 deletion(-)
 
 diff --git a/bolt/CMakeLists.txt b/bolt/CMakeLists.txt
-index 5c7d51e1e398..e601038ce9bf 100644
+index 5c7d51e1e398..2dc7f9dd8894 100644
 --- a/bolt/CMakeLists.txt
 +++ b/bolt/CMakeLists.txt
-@@ -205,6 +205,8 @@ if (BOLT_INCLUDE_DOCS)
+@@ -205,6 +205,11 @@ if (BOLT_INCLUDE_DOCS)
    add_subdirectory(docs)
  endif()
  
-+set(BOLT_VERSION "${BOLT_PACKAGE_VERSION}")
++if (NOT BOLT_VERSION)
++  set(BOLT_VERSION
++    "${LLVM_VERSION_MAJOR}.${LLVM_VERSION_MINOR}.${LLVM_VERSION_PATCH}${LLVM_VERSION_SUFFIX}")
++endif()
 +
  configure_file(${CMAKE_CURRENT_SOURCE_DIR}/include/bolt/RuntimeLibs/RuntimeLibraryVariables.inc.in
                 ${CMAKE_CURRENT_BINARY_DIR}/include/bolt/RuntimeLibs/RuntimeLibraryVariables.inc @ONLY)
@@ -34,23 +38,19 @@ index bbade297d210..aab123bcc666 100644
  #define LLVM_LIBDIR_SUFFIX "@LLVM_LIBDIR_SUFFIX@"
 +
 +#define BOLT_VERSION_STRING "@BOLT_VERSION@"
-diff --git a/bolt/include/bolt/Utils/CommandLineOpts.h b/bolt/include/bolt/Utils/CommandLineOpts.h
-index a75b6bf720ec..7f4cda5856df 100644
---- a/bolt/include/bolt/Utils/CommandLineOpts.h
-+++ b/bolt/include/bolt/Utils/CommandLineOpts.h
-@@ -14,6 +14,7 @@
- #define BOLT_UTILS_COMMAND_LINE_OPTS_H
- 
- #include "llvm/Support/CommandLine.h"
-+#include "bolt/RuntimeLibs/RuntimeLibraryVariables.inc"
- 
- namespace opts {
- 
 diff --git a/bolt/lib/Utils/CommandLineOpts.cpp b/bolt/lib/Utils/CommandLineOpts.cpp
-index 5635da476451..cba3b8034142 100644
+index b7eb209af8ac..8dafb30a6a9e 100644
 --- a/bolt/lib/Utils/CommandLineOpts.cpp
 +++ b/bolt/lib/Utils/CommandLineOpts.cpp
-@@ -22,7 +22,7 @@ const char *BoltRevision =
+@@ -13,6 +13,7 @@
+ #include "bolt/Utils/CommandLineOpts.h"
+ #include "VCSVersion.inc"
+ #include "llvm/Support/Regex.h"
++#include "bolt/RuntimeLibs/RuntimeLibraryVariables.inc"
+ 
+ using namespace llvm;
+ 
+@@ -22,7 +23,7 @@ const char *BoltRevision =
  #ifdef BOLT_REVISION
      BOLT_REVISION;
  #else

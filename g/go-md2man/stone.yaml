@@ -1,10 +1,8 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : go-md2man
-version     : 2.0.7
+version     : "2.0.7"
 release     : 5
 homepage    : https://github.com/cpuguy83/go-md2man
 upstreams   :
@@ -14,7 +12,7 @@ description : |
     Converts markdown into roff (man pages).
 license     :
     - MIT
-networking  : yes
+networking  : true
 builddeps   :
     - binary(go)
 build       : |

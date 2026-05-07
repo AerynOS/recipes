@@ -1,14 +1,12 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : bind-utils
-version     : 9.20.18
-release     : 16
+version     : "9.20.22"
+release     : 20
 homepage    : https://www.isc.org/bind/
 upstreams   :
-    - https://downloads.isc.org/isc/bind9/9.20.18/bind-9.20.18.tar.xz : dfc546c990ac4515529cd45c4dd995862b18ae8a2d0cb29208e8896a5d325331
+    - https://downloads.isc.org/isc/bind9/9.20.22/bind-9.20.22.tar.xz : cba92ff631b949655f475fe4b54290f6860fd0070d399f2279f6437c0d383ec6
 summary     : Tools to interact with DNS services
 description : |
     BIND (Berkeley Internet Name Domain) is a complete, highly portable
@@ -36,11 +34,11 @@ setup       : |
     export CC_FOR_BUILD="$CC"
 
     %configure \
-               --with-json-c \
-               --with-libidn2 \
-               --with-libxml2 \
-               --with-readline=readline \
-               --with-zlib
+        --with-json-c \
+        --with-libidn2 \
+        --with-libxml2 \
+        --with-readline=readline \
+        --with-zlib
 build       : |
     %make -C lib
     %make bind.keys.h

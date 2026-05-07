@@ -1,14 +1,12 @@
-#
-# SPDX-FileCopyrightText: © 2020-2024 Serpent OS Developers
-#
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
-#
+
 name        : iptables
-version     : 1.8.11
-release     : 6
+version     : "1.8.13"
+release     : 8
 homepage    : https://www.netfilter.org/projects/iptables/
 upstreams   :
-    - https://netfilter.org/pub/iptables/iptables-1.8.11.tar.xz : d87303d55ef8c92bcad4dd3f978b26d272013642b029425775f5bad1009fe7b2
+    - https://netfilter.org/pub/iptables/iptables-1.8.13.tar.xz : 1afcd33da9e8f913ace6a2126788162e207e26f5d5e29c6573c0e581ffc58b99
 summary     : Linux kernel packet control tool (using nft interface)
 description : |
     Linux kernel packet control tool (using nft interface)
@@ -20,9 +18,6 @@ builddeps   :
     - pkgconfig(libnftnl)
     - linux-headers
 setup       : |
-    %patch %(pkgdir)/upstream-01.patch
-    %patch %(pkgdir)/upstream-02.patch
-
     %configure \
         --sysconfdir=%(vendordir)%(sysconfdir) \
         --disable-static \

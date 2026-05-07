@@ -3,11 +3,6 @@
 	"manifest-version": "0.2",
 	"packages": {
 		"matugen": {
-			"build-depends": [
-				"binary(cargo)",
-				"binary(git)",
-				"binary(rustc)"
-			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"soname(ld-linux-x86-64.so.2(x86_64))",
@@ -25,6 +20,6 @@
 		}
 	},
 	"source-name": "matugen",
-	"source-release": "1",
-	"source-version": "3.1.0"
+	"source-release": "2",
+	"source-version": "4.1.0"
 }
