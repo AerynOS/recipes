@@ -1,0 +1,57 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"python-meson-python": {
+			"build-depends": [
+				"binary(meson)",
+				"binary(ninja)",
+				"binary(patchelf)",
+				"binary(python)",
+				"python(packaging)",
+				"python(pyproject-metadata)"
+			],
+			"depends": [
+				"binary(meson)",
+				"python(meson)",
+				"python(packaging)",
+				"python(pyproject-metadata)",
+				"python-libs"
+			],
+			"files": [
+				"/usr/lib/python3.14/site-packages/meson_python-0.19.0.dist-info/METADATA",
+				"/usr/lib/python3.14/site-packages/meson_python-0.19.0.dist-info/RECORD",
+				"/usr/lib/python3.14/site-packages/meson_python-0.19.0.dist-info/WHEEL",
+				"/usr/lib/python3.14/site-packages/meson_python-0.19.0.dist-info/licenses/LICENSES/MIT.txt",
+				"/usr/lib/python3.14/site-packages/mesonpy/__init__.py",
+				"/usr/lib/python3.14/site-packages/mesonpy/__pycache__/__init__.cpython-314.opt-1.pyc",
+				"/usr/lib/python3.14/site-packages/mesonpy/__pycache__/__init__.cpython-314.pyc",
+				"/usr/lib/python3.14/site-packages/mesonpy/__pycache__/_compat.cpython-314.opt-1.pyc",
+				"/usr/lib/python3.14/site-packages/mesonpy/__pycache__/_compat.cpython-314.pyc",
+				"/usr/lib/python3.14/site-packages/mesonpy/__pycache__/_editable.cpython-314.opt-1.pyc",
+				"/usr/lib/python3.14/site-packages/mesonpy/__pycache__/_editable.cpython-314.pyc",
+				"/usr/lib/python3.14/site-packages/mesonpy/__pycache__/_rpath.cpython-314.opt-1.pyc",
+				"/usr/lib/python3.14/site-packages/mesonpy/__pycache__/_rpath.cpython-314.pyc",
+				"/usr/lib/python3.14/site-packages/mesonpy/__pycache__/_tags.cpython-314.opt-1.pyc",
+				"/usr/lib/python3.14/site-packages/mesonpy/__pycache__/_tags.cpython-314.pyc",
+				"/usr/lib/python3.14/site-packages/mesonpy/__pycache__/_util.cpython-314.opt-1.pyc",
+				"/usr/lib/python3.14/site-packages/mesonpy/__pycache__/_util.cpython-314.pyc",
+				"/usr/lib/python3.14/site-packages/mesonpy/__pycache__/_wheelfile.cpython-314.opt-1.pyc",
+				"/usr/lib/python3.14/site-packages/mesonpy/__pycache__/_wheelfile.cpython-314.pyc",
+				"/usr/lib/python3.14/site-packages/mesonpy/_compat.py",
+				"/usr/lib/python3.14/site-packages/mesonpy/_editable.py",
+				"/usr/lib/python3.14/site-packages/mesonpy/_rpath.py",
+				"/usr/lib/python3.14/site-packages/mesonpy/_tags.py",
+				"/usr/lib/python3.14/site-packages/mesonpy/_util.py",
+				"/usr/lib/python3.14/site-packages/mesonpy/_wheelfile.py"
+			],
+			"name": "python-meson-python",
+			"provides": [
+				"python(meson-python)"
+			]
+		}
+	},
+	"source-name": "python-meson-python",
+	"source-release": "1",
+	"source-version": "0.19.0"
+}

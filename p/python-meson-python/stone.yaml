@@ -1,0 +1,30 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : python-meson-python
+version     : "0.19.0"
+release     : 1
+homepage    : https://pypi.debian.net/meson-python
+upstreams   :
+    - https://pypi.debian.net/meson-python/meson_python-0.19.0.tar.gz : 9959d198aa69b57fcfd354a34518c6f795b781a73ed0656f4d01660160cc2553
+summary     : Meson PEP 517 Python build backend
+description : |
+    meson-python is a Python build back-end built on top of the Meson build system. It enables using Meson for the configuration and build steps of Python packages.
+license     :
+    - MIT
+builddeps   :
+    - binary(meson)
+    - binary(ninja)
+    - binary(patchelf)
+    - binary(python)
+    - python(packaging)
+    - python(pyproject-metadata)
+rundeps     :
+    - binary(meson)
+    - python-libs
+setup       : |
+    sed -e '/ninja/d' -i pyproject.toml
+build       : |
+    %pyproject_build
+install     : |
+    %pyproject_install
