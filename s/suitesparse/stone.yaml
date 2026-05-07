@@ -21,9 +21,6 @@ builddeps   :
     - pkgconfig(tbb)
     # - cuda
 setup       : |
-    # glibc 2.43 build failure, remove in future version
-    export CFLAGS+=" -Wno-error=incompatible-pointer-types"
-
     # 2026-04-27: Added cholmod, klu, and umfpack for eigen
     _projects="cholmod;klu;umfpack"
 
