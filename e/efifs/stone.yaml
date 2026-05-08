@@ -1,0 +1,60 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : efifs
+version     : "1.12"
+release     : 1
+homepage    : https://github.com/pbatard/EfiFs
+upstreams   :
+    - https://github.com/pbatard/EfiFs/archive/refs/tags/v1.12.tar.gz:
+        hash: cad55d6b136cc19079aeb80b3d447dbb6b22e14a7f5ed2fc1e045ac3cc475bd8
+        unpackdir: edk2/EfiFsPkg
+    - https://gitlab.freedesktop.org/gnu-grub/grub/-/archive/grub-2.14/grub-grub-2.14.tar.gz:
+        hash: cbc914542f276ca7a0836accb6c0defcfea5caeeb9578bb86023671ba1f80862
+        unpackdir: edk2/EfiFsPkg/grub
+    - https://github.com/tianocore/edk2/archive/refs/tags/edk2-stable202602.tar.gz:
+        hash: fa466183db22969dc952dcb5517a186ad055e0b355da42799d2944120216fa7a
+        unpackdir: edk2
+summary     : EFI FileSystem drivers
+description : |
+    This is a GPLv3+ implementation of standalone EFI File System drivers, based on the GRUB 2.0 read-only drivers.
+    For additional info as well as precompiled drivers, see https://efi.akeo.ie
+license     : GPL-3.0-or-later
+builddeps   :
+    - binary(as)
+    - binary(make)
+    - binary(nasm)
+    - binary(patch)
+    - pkgconfig(python3)
+    - pkgconfig(uuid)
+setup       : |
+    # FTBFS Fix from danjujan: https://github.com/pbatard/EfiFs/pull/53
+    %patch %(pkgdir)/ftbfs-error-4000.patch
+
+    # change into edk2 folder
+    cd ..
+
+    # Do not build BrotliCompress (because it's unused) (from fedora)
+    sed -e '/BrotliCompress/d' -i BaseTools/Source/C/GNUmakefile
+
+    # Remove include path pointing to unused sub-module (from fedora)
+    sed -e '/mipisyst/d' -i MdePkg/MdePkg.dec
+
+    cd EfiFsPkg/grub
+    patch -Np1 -i ../0001-GRUB-fixes.patch
+build       : |
+    chmod +x set_grub_cpu.sh
+    cd ..
+    make -C BaseTools
+
+    export WORKSPACE=${PWD}
+    export CONF_PATH=${WORKSPACE}/Conf
+    export EDK_TOOLS_PATH=${WORKSPACE}/BaseTools
+    export PYTHON_COMMAND=python3
+
+    source edksetup.sh --reconfig
+    ./EfiFsPkg/set_grub_cpu.sh 'X64'
+    build -a 'X64' -b RELEASE -t GCC5 -p EfiFsPkg/EfiFsPkg.dsc
+install     : |
+    cd ..
+    %install_bin Build/EfiFs/RELEASE_GCC5/X64/*.efi -t %(installroot)/usr/lib/efifs-x64

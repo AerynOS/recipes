@@ -1,0 +1,60 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"efifs": {
+			"build-depends": [
+				"binary(as)",
+				"binary(make)",
+				"binary(nasm)",
+				"binary(patch)",
+				"pkgconfig(python3)",
+				"pkgconfig(uuid)"
+			],
+			"files": [
+				"/usr/lib/efifs-x64/affs.efi",
+				"/usr/lib/efifs-x64/afs.efi",
+				"/usr/lib/efifs-x64/bfs.efi",
+				"/usr/lib/efifs-x64/btrfs.efi",
+				"/usr/lib/efifs-x64/cbfs.efi",
+				"/usr/lib/efifs-x64/cpio.efi",
+				"/usr/lib/efifs-x64/cpio_be.efi",
+				"/usr/lib/efifs-x64/erofs.efi",
+				"/usr/lib/efifs-x64/exfat.efi",
+				"/usr/lib/efifs-x64/ext2.efi",
+				"/usr/lib/efifs-x64/f2fs.efi",
+				"/usr/lib/efifs-x64/fat.efi",
+				"/usr/lib/efifs-x64/hfs.efi",
+				"/usr/lib/efifs-x64/hfsplus.efi",
+				"/usr/lib/efifs-x64/iso9660.efi",
+				"/usr/lib/efifs-x64/jfs.efi",
+				"/usr/lib/efifs-x64/minix.efi",
+				"/usr/lib/efifs-x64/minix2.efi",
+				"/usr/lib/efifs-x64/minix2_be.efi",
+				"/usr/lib/efifs-x64/minix3.efi",
+				"/usr/lib/efifs-x64/minix3_be.efi",
+				"/usr/lib/efifs-x64/minix_be.efi",
+				"/usr/lib/efifs-x64/newc.efi",
+				"/usr/lib/efifs-x64/nilfs2.efi",
+				"/usr/lib/efifs-x64/ntfs.efi",
+				"/usr/lib/efifs-x64/odc.efi",
+				"/usr/lib/efifs-x64/procfs.efi",
+				"/usr/lib/efifs-x64/reiserfs.efi",
+				"/usr/lib/efifs-x64/romfs.efi",
+				"/usr/lib/efifs-x64/sfs.efi",
+				"/usr/lib/efifs-x64/squash4.efi",
+				"/usr/lib/efifs-x64/tar.efi",
+				"/usr/lib/efifs-x64/udf.efi",
+				"/usr/lib/efifs-x64/ufs1.efi",
+				"/usr/lib/efifs-x64/ufs1_be.efi",
+				"/usr/lib/efifs-x64/ufs2.efi",
+				"/usr/lib/efifs-x64/xfs.efi",
+				"/usr/lib/efifs-x64/zfs.efi"
+			],
+			"name": "efifs"
+		}
+	},
+	"source-name": "efifs",
+	"source-release": "1",
+	"source-version": "1.12"
+}
