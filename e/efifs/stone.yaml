@@ -3,7 +3,7 @@
 
 name        : efifs
 version     : "1.12"
-release     : 1
+release     : 2
 homepage    : https://github.com/pbatard/EfiFs
 upstreams   :
     - https://github.com/pbatard/EfiFs/archive/refs/tags/v1.12.tar.gz:
@@ -22,14 +22,15 @@ description : |
 license     : GPL-3.0-or-later
 builddeps   :
     - binary(as)
-    - binary(make)
     - binary(nasm)
     - binary(patch)
-    - pkgconfig(python3)
+    - binary(python3)
     - pkgconfig(uuid)
 setup       : |
     # FTBFS Fix from danjujan: https://github.com/pbatard/EfiFs/pull/53
     %patch %(pkgdir)/ftbfs-error-4000.patch
+
+    %patch %(pkgdir)/use-clang.patch
 
     # change into edk2 folder
     cd ..
@@ -45,7 +46,7 @@ setup       : |
 build       : |
     chmod +x set_grub_cpu.sh
     cd ..
-    make -C BaseTools
+    %make -C BaseTools
 
     export WORKSPACE=${PWD}
     export CONF_PATH=${WORKSPACE}/Conf
@@ -54,7 +55,16 @@ build       : |
 
     source edksetup.sh --reconfig
     ./EfiFsPkg/set_grub_cpu.sh 'X64'
-    build -a 'X64' -b RELEASE -t GCC5 -p EfiFsPkg/EfiFsPkg.dsc
+
+    # from edk2 recipe
+    _build_options=(
+        -a "X64"
+        -b "RELEASE"
+        -n "%(jobs)"
+        -p EfiFsPkg/EfiFsPkg.dsc
+        -t "CLANGDWARF"
+    )
+    build "${_build_options[@]}"
 install     : |
     cd ..
-    %install_bin Build/EfiFs/RELEASE_GCC5/X64/*.efi -t %(installroot)/usr/lib/efifs-x64
+    %install_bin Build/EfiFs/RELEASE_CLANGDWARF/X64/*.efi -t %(installroot)/usr/lib/efifs-x64
