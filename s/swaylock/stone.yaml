@@ -3,7 +3,7 @@
 
 name        : swaylock
 version     : "1.8.4"
-release     : 1
+release     : 2
 homepage    : https://github.com/swaywm/swaylock
 upstreams   :
     - https://github.com/swaywm/swaylock/releases/download/v1.8.4/swaylock-1.8.4.tar.gz : aa251d5a8f335fe2ac9ec3cc2a6ac8772aa4dba2ec710ccd415956c6e89b11d3
@@ -22,6 +22,7 @@ builddeps   :
     - pkgconfig(wayland-scanner)
     - pkgconfig(xkbcommon)
 setup       : |
+    %patch %(pkgdir)/stateless.patch
     %meson
 build       : |
     %meson_build
