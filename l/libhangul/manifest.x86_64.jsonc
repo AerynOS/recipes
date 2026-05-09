@@ -1,0 +1,55 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"libhangul": {
+			"build-depends": [
+				"binary(tar)",
+				"gettext",
+				"gettext-devel",
+				"pkgconfig(check)"
+			],
+			"depends": [
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(libc.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/bin/hangul",
+				"/usr/lib/libhangul.so.1",
+				"/usr/lib/libhangul.so.1.1.0",
+				"/usr/share/libhangul/hanja/hanja.txt",
+				"/usr/share/libhangul/hanja/mssymbol.txt",
+				"/usr/share/locale/ko/LC_MESSAGES/libhangul.mo"
+			],
+			"name": "libhangul",
+			"provides": [
+				"binary(hangul)",
+				"soname(libhangul.so.1(x86_64))"
+			]
+		},
+		"libhangul-devel": {
+			"build-depends": [
+				"binary(tar)",
+				"gettext",
+				"gettext-devel",
+				"pkgconfig(check)"
+			],
+			"depends": [
+				"libhangul"
+			],
+			"files": [
+				"/usr/include/hangul-1.0/hangul.h",
+				"/usr/lib/libhangul.a",
+				"/usr/lib/libhangul.so",
+				"/usr/lib/pkgconfig/libhangul.pc"
+			],
+			"name": "libhangul-devel",
+			"provides": [
+				"pkgconfig(libhangul)"
+			]
+		}
+	},
+	"source-name": "libhangul",
+	"source-release": "1",
+	"source-version": "0.2.0"
+}
