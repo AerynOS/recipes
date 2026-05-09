@@ -1,11 +1,14 @@
 # Security
 
+# Dirty Frag / Copy Fail 2: Electric Boogaloo (CVE-2026-43284, CVE-2026-43500)
 # https://www.openwall.com/lists/oss-security/2026/05/07/8
 # https://github.com/V4bel/dirtyfrag
+# CVE-2026-43284
 # https://git.kernel.org/pub/scm/linux/kernel/git/netdev/net.git/commit/?id=f4c50a4034e62ab75f1d5cdd191dd5f9c77fdff4
-security/0001-dirty-frag-f4c50a4034e6.patch
+# CVE-2026-43500
 # https://lore.kernel.org/all/afKV2zGR6rrelPC7@v4bel/
-security/0002-dirty-frag-rxrpc-fix-from-netdev-list.patch
+# v3: https://lore.kernel.org/all/af2kdW2F1gJ9U-Gg@v4bel/
+security/0001-dirty-frag-rxrpc-fix-from-netdev-list.patch
 
 # Enable x86_64-v2 build optimisations
 more-ISA-levels-and-uarches-for-kernel-6.16+.patch
