@@ -1,0 +1,27 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : fcitx5-hangul
+version     : "5.1.9"
+release     : 1
+homepage    : https://github.com/fcitx/fcitx5-hangul
+upstreams   :
+    - https://github.com/fcitx/fcitx5-hangul/archive/refs/tags/5.1.9.tar.gz : 2d26f9663cb75f4d4e8409be7ad32871361c357f1ed73385d78340e0f850ce5c
+summary     : Hangul wrapper for Fcitx
+description : |
+    Hangul wrapper for Fcitx.
+license     : 
+    - LGPL-2.1-or-later
+builddeps   :
+    - cmake(ECM)
+    - cmake(Fcitx5Core)
+    - cmake(Fcitx5Module)
+    - pkgconfig(libhangul)
+    - gettext
+    - gettext-devel
+setup       : |
+    %cmake
+build       : |
+    %cmake_build
+install     : |
+    %cmake_install
