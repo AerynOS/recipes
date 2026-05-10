@@ -3,10 +3,14 @@
 
 name        : opengamepadui-installer
 version     : "20240730"
-release     : 3
+release     : 4
 homepage    : https://github.com/philmmanjaro/manjaro-installer-gd
 upstreams   :
     - https://github.com/philmmanjaro/manjaro-installer-gd/archive/9c5547455f45a49cf78f7a2f6735c4e592b41a4d.tar.gz : aa719609a304f8acf3d5439f50968e3cf4fae5bbf5b2d39bca00d5edab0190d2
+    - https://github.com/godotengine/godot/releases/download/4.4.1-stable/Godot_v4.4.1-stable_linux.x86_64.zip :
+        hash: d6e382fb531019f85630c1f485a561a0d20c4a2344b6c3847735cfee7da812aa
+        rename: godot.zip
+        unpack: false 
 summary     : Open source gamepad-native OS installer
 description : |
     Open Gamepad UI OS Installer with native gamepad support
@@ -14,7 +18,6 @@ license     : GPL-3.0-or-later
 networking  : true
 builddeps   :
     - binary(cargo)
-    - binary(godot)
     - binary(unzip)
     - binary(wget)
     - sysbinary(setcap)
@@ -26,9 +29,14 @@ rundeps     :
     - binary(vulkaninfo)
 environment : |
     export PATH="/usr/bin:/usr/sbin"
+    export GODOT="%(bindir)/godot"
+    export GODOT_VERSION="4.4.1"
+    export GODOT_RELEASE="stable"
 setup       : |
-    %install_file %(pkgdir)/logo-white.svg assets/images/logo.svg
-    %install_file %(pkgdir)/logo-white.svg icon.svg
+    bsdtar-static --no-same-owner -xf %(sourcedir)/godot.zip --strip-components=0
+    mv Godot_v${GODOT_VERSION}-${GODOT_RELEASE}_linux.x86_64 %(bindir)/godot
+    %install_file %(pkgdir)/logo.svg assets/images/logo.svg
+    %install_file %(pkgdir)/logo.svg icon.svg
 build: |
     %make build
 install     : |
