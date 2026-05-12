@@ -18,7 +18,6 @@
 				"soname(libc.so.6(x86_64))"
 			],
 			"files": [
-				"/usr/bin/gnu-cp",
 				"/usr/bin/gnu-mv",
 				"/usr/bin/gnu-rm",
 				"/usr/bin/gnu-rmdir",
@@ -117,7 +116,6 @@
 				"/usr/share/locale/zh_CN/LC_TIME/coreutils.mo",
 				"/usr/share/locale/zh_TW/LC_MESSAGES/coreutils.mo",
 				"/usr/share/locale/zh_TW/LC_TIME/coreutils.mo",
-				"/usr/share/man/man1/gnu-cp.1",
 				"/usr/share/man/man1/gnu-mv.1",
 				"/usr/share/man/man1/gnu-rm.1",
 				"/usr/share/man/man1/gnu-rmdir.1",
@@ -126,7 +124,6 @@
 			],
 			"name": "gnu-coreutils-compat",
 			"provides": [
-				"binary(gnu-cp)",
 				"binary(gnu-mv)",
 				"binary(gnu-rm)",
 				"binary(gnu-rmdir)",
@@ -136,6 +133,6 @@
 		}
 	},
 	"source-name": "gnu-coreutils-compat",
-	"source-release": "7",
+	"source-release": "8",
 	"source-version": "9.11"
 }
