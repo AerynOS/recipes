@@ -2,12 +2,12 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : intel-graphics-compiler
-version     : "2.32.7"
-release     : 4
+version     : "2.34.4"
+release     : 5
 homepage    : https://github.com/intel/intel-graphics-compiler
 upstreams   :
-    - https://github.com/intel/intel-graphics-compiler/archive/refs/tags/v2.32.7.tar.gz :
-        hash: 6309d5d00711fcdb712049c0a56546369ace316f9547b4715747cc687ebcada2
+    - https://github.com/intel/intel-graphics-compiler/archive/refs/tags/v2.34.4.tar.gz :
+        hash: 6d96812589094ff24249e9a3a580befb2ce934c39aa19dd5f6d66aff979ed7eb
         rename: igc
     - https://github.com/intel/vc-intrinsics/archive/refs/tags/v0.25.0.tar.gz :
         hash: 83d6e0528feb6a47f7818e7c1dd3305dd8a48fb1103d279571dad517a93a8d39
@@ -16,11 +16,11 @@ upstreams   :
         hash: ce5e71081d17ce9e86d7cbcfa28c4b04b9300f8fb7e78422b1feb6bc52c3028e
         rename: llvm-project
     - git|https://github.com/intel/opencl-clang.git :
-        ref: 897ba7f885fe34c9ae9818f205e67f7b0a8628c0
-        unpackdir: llvm-project/llvm/projects/opencl-clang
+        ref: 07e7c931d8bdb38549a907cf04fd06a278f7cdce
+        clonedir: llvm-project/llvm/projects/opencl-clang
     - git|https://github.com/KhronosGroup/SPIRV-LLVM-Translator.git :
-        ref: 5ce79a51725fdca7f12045a51c01956663b4cec8
-        unpackdir: llvm-project/llvm/projects/llvm-spirv
+        ref: 308a0d7acfd7330e64d72a1cd23d272deafb113b
+        clonedir: llvm-project/llvm/projects/llvm-spirv
 summary     : Intel Graphics Compiler for OpenCL
 description : |
     The Intel® Graphics Compiler for OpenCL™ is an LLVM-based compiler for OpenCL™ targeting Intel® graphics hardware architecture.
