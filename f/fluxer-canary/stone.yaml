@@ -1,0 +1,31 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name: fluxer-canary
+version: "0.0.167"
+release: 1
+homepage: https://fluxer.app
+upstreams:
+  - https://api.fluxer.app/dl/desktop/canary/linux/x64/0.0.167/tar_gz: d7991abd498c6a2be1e07d2e7f7d7f9679ee68363f282542d32e5790d64bd805
+summary: Group chat, video, and voice calling app
+description: |
+  Fluxer is a free and open source instant messaging and VoIP platform built for friends, groups, and communities.
+license:
+  - AGPL-3.0-or-later
+builddeps:
+  - binary(bsdtar-static)
+  - binary(ln)
+rundeps:
+  - binary(xdg-open)
+install: |
+  %install_exe fluxer-canary -t %(installroot)%(libdir)/fluxer-canary
+  %install_dir %(installroot)%(bindir)
+  ln -srv %(installroot)%(libdir)/fluxer-canary/fluxer-canary %(installroot)%(bindir)/fluxer-canary
+
+  %install_dir %(installroot)%(libdir)/fluxer-canary/
+  %install_file libffmpeg.so %(installroot)%(libdir)/fluxer-canary/
+
+  %install_dir %(installroot)%(datadir)/applications/
+  %install_dir %(installroot)%(datadir)/icons/hicolor/256x256/apps/
+  %install_file %(pkgdir)/fluxer-canary.desktop -t %(installroot)%(datadir)/applications/
+  %install_file %(pkgdir)/fluxer-canary.png -t %(installroot)%(datadir)/icons/hicolor/256x256/apps/
