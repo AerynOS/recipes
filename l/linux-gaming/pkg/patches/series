@@ -10,8 +10,13 @@
 # v3: https://lore.kernel.org/all/af2kdW2F1gJ9U-Gg@v4bel/
 # Not used: https://lore.kernel.org/all/agDTmXM2wXnJflYc@v4bel/
 # https://lore.kernel.org/all/20260511160753.607296-1-dhowells@redhat.com/
+# https://lore.kernel.org/all/177877877003.17572.12084366985884137835.git-patchwork-notify@kernel.org/
 security/0001-dirty-frag-rxrpc-fix-from-netdev-list.patch
 security/0002-dirty-frag-rxrpc-fix-from-netdev-list.patch
+security/0003-dirty-frag-rxrpc-fix-from-netdev-list.patch
+
+# https://github.com/0xdeadbeefnetwork/ssh-keysign-pwn
+security/0001-ptrac-slightly-saner-get_dumpable-logic.patch
 
 # Enable x86_64-v2 build optimisations
 more-ISA-levels-and-uarches-for-kernel-6.16+.patch
@@ -36,6 +41,31 @@ asus/0015-FOR-UPSTREAM-debug-by-default.patch
 asus/0016-FOR-UPSTREAM-hid-asus-ally-grab-short-press-QAM-on-R.patch
 asus/0017-FOR-UPSTREAM-hid-asus-ally-disable-wakeup-attribute-.patch
 
+# Lenovo Patches
+#https://patchew.org/linux/20260310072937.3295875-1-derekjohn.clark@gmail.com/
+lenovo/0001-include-device-h-Add-named-device-attributes.patch
+lenovo/0002-HID-hid-lenovo-go-Add-Lenovo-Legion-Go-Series-HID-Driver.patch
+lenovo/0003-HID-hid-lenovo-go-Add-Feature-Status-Attributes.patch
+lenovo/0004-HID-hid-lenovo-go-Add-Rumble-and-Haptic-Settings.patch
+lenovo/0005-HID-hid-lenovo-go-Add-FPS-Mode-DPI-settings.patch
+lenovo/0006-HID-hid-lenovo-go-Add-RGB-LED-control-interface.patch
+lenovo/0007-HID-hid-lenovo-go-Add-Calibration-Settings.patch
+lenovo/0008-HID-hid-lenovo-go-Add-OS-Mode-Toggle.patch
+lenovo/0009-HID-Include-firmware-version-in-the-uevent.patch
+lenovo/0010-HID-hid-lenovo-go-s-Add-Lenovo-Legion-Go-S-Series-HID-Driver.patch
+lenovo/0011-HID-hid-lenovo-go-s-Add-MCU-ID-Attribute.patch
+lenovo/0012-HID-hid-lenovo-go-s-Add-Feature-Status-Attributes.patch
+lenovo/0013-HID-hid-lenovo-go-s-Add-Touchpad-Mode-Attributes.patch
+lenovo/0014-HID-hid-lenovo-go-s-Add-RGB-LED-control-interface.patch
+lenovo/0015-HID-hid-lenovo-go-s-Add-IMU-and-Touchpad-RO-Attributes.patch
+lenovo/0016-HID-Add-documentation-for-Lenovo-Legion-Go-drivers.patch
+lenovo/0017-HID-hid-lenovo-go-s-Remove-unneeded-semicolon.patch
+lenovo/0018-HID-hid-lenovo-go-Remove-unneeded-semicolon.patch
+lenovo/0019-HID-hid-lenovo-go-s-Fix-spelling-mistake-configuratiion-configuration.patch
+#https://patchew.org/linux/20260420181522.521627-1-matthew.schwartz@linux.dev/
+lenovo/0001-HID-hid-lenovo-go-s-restore-OS_TYPE-after-resume-from-s2idle.patch
+lenovo/0001-HID-hid-lenovo-go-reject-non-USB-devices-in-probe.patch
+
 # Gaming patches from CachyOS and Manjaro
 gaming/0000-usb-vhci-hcd-Unconditionally-allow-system-suspend.patch
 gaming/0001-hwmon-Add-driver-for-Steam-Deck-s-EC-sensors.patch
@@ -50,7 +80,6 @@ gaming/0011-drivers-video-backlight-Disable-backlight-notificati.patch
 gaming/0014-ASoC-max98388-Fix-power-on-when-resuming-from-suspen.patch
 gaming/0015-ASoC-amd-acp-Use-correct-DAI-link-ID-for-BT-codec.patch
 gaming/0016-wifi-ath11k-Rename-QCA2066-fw-dir-to-QCA206X.patch
-gaming/0000-HID-Add-Legion-Go-S-Driver.patch
 
 # ZOTAC patches by Luke and Philip
 zotac/0001-zotac-zone-hid-initial-impl.patch
