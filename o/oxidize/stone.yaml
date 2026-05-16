@@ -2,21 +2,29 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : oxidize
-version     : "0.2.2"
-release     : 2
+version     : "0.3.2"
+release     : 4
 homepage    : https://github.com/christian-bendiksen/oxidize
 upstreams   :
-    - https://github.com/christian-bendiksen/oxidize/archive/refs/tags/v0.2.2.tar.gz : 240af9bccdab5f0cf7e22f46b15c0e87b1f0c119f5ad2bacb4cb890ae55ada2a
+    - https://github.com/christian-bendiksen/oxidize/archive/refs/tags/v0.3.2.tar.gz : 57216e651b5e605d2056b2b728e96cdafb347539e7f9af3f21613d0b83ffa438
 summary     : Oxidize is a tool for atomically changing themes in window managers.
 description : |
     Oxidize is a tool for atomically changing themes in window managers.
 license     : MIT
 networking  : true
+builddeps   :
+    - pkgconfig(gio-2.0)
+    - pkgconfig(glib-2.0)
 setup       : |
     %cargo_fetch
 build       : |
     %cargo_build
+    cc $(pkg-config --cflags glib-2.0 gio-2.0) \
+        -shared -fPIC ${CFLAGS} \
+        -o liboxidize_gio.so gio/liboxidize_gio.c \
+        $(pkg-config --libs glib-2.0 gio-2.0) ${LDFLAGS} -ldl
 install     : |
     %cargo_install
+    %install_file liboxidize_gio.so %(installroot)%(libdir)/gio/modules/liboxidize_gio.so
 check       : |
     %cargo_test
