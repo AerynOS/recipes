@@ -1,0 +1,55 @@
+#
+# SPDX-FileCopyrightText: © 2025- AerynOS Developers
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+name        : postgresql
+version     : "18.3"
+release     : 1
+homepage    : https://www.postgresql.org/
+upstreams   :
+    - https://github.com/postgres/postgres/archive/refs/tags/REL_18_3.tar.gz : 989eea9c414496e5200e68c9ceae57160160be12e0ea998f5c4793741f2cc6b5
+summary     : Advanced open source relational database
+description : |
+    PostgreSQL is an advanced object-relational database management system that supports an extended subset of the SQL standard, including transactions, foreign keys, subqueries, triggers, user-defined types and functions.
+license     : 
+    - PostgreSQL
+builddeps   :
+    - binary(bison)
+    - binary(flex)
+    - binary(perl)
+    - binary(python3)
+    - binary(bzip2)
+    - binary(ccache)
+    - binary(cp)
+    - binary(git)
+    - binary(msgfmt)
+    - binary(wget)
+    - pkgconfig(icu-i18n)
+    - pkgconfig(icu-uc)
+    - pkgconfig(krb5-gssapi)
+    - pkgconfig(ldap)
+    - pkgconfig(libcurl)
+    - pkgconfig(liblz4)
+    - pkgconfig(libsystemd)
+    - pkgconfig(liburing)
+    - pkgconfig(libxml-2.0)
+    - pkgconfig(libxslt)
+    - pkgconfig(libzstd)
+    - pkgconfig(numa)
+    - pkgconfig(openssl)
+    - pkgconfig(pam)
+    - pkgconfig(uuid)
+    - pkgconfig(zlib)
+setup       : |
+    %meson -Dsystemd=enabled
+build       : |
+    %meson_build
+install     : |
+    %meson_install
+    %install_dir %(installroot)/var/lib/postgresql
+    %sysusers "u postgres 999 'PostgreSQL Database Server' /var/lib/postgresql"
+    %tmpfiles "d /var/lib/postgresql 0700 postgres postgres -"
+    %install_exe %(pkgdir)/postgresql-setup %(installroot)%(bindir)/postgresql-check-db-dir
+    %install_file %(pkgdir)/postgresql.service %(installroot)%(libdir)/systemd/system/postgresql.service
+    %install_file %(pkgdir)/postgresql.socket %(installroot)%(libdir)/systemd/system/postgresql.socket
