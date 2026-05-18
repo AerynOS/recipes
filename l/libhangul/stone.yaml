@@ -1,0 +1,28 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : libhangul
+version     : "0.2.0"
+release     : 1
+homepage    : https://github.com/libhangul/libhangul
+upstreams   :
+    - https://github.com/libhangul/libhangul/archive/refs/tags/libhangul-0.2.0.tar.gz : db9a256ff1e2c639ea8168f5e8741dae95ad7ea563f257b1dbd098afd8e48487
+summary     : A library to support hangul input method logic, hanja dictionary and small hangul character classification
+description : |
+    A library to support hangul input method logic, hanja dictionary and small hangul character classification.
+license     : 
+    - LGPL-2.1-or-later
+    - LGPL-2.1-only
+builddeps   :
+    - binary(tar)
+    - pkgconfig(check)
+    - gettext
+    - gettext-devel
+setup       : |
+    %autogen
+build       : |
+    %make
+install     : |
+    %make_install
+check       : |
+    %make check
