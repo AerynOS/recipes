@@ -3,7 +3,7 @@
 
 name        : libsoup
 version     : "3.6.6"
-release     : 10
+release     : 11
 homepage    : https://gitlab.gnome.org/GNOME/libsoup
 upstreams   :
     - https://download.gnome.org/sources/libsoup/3.6/libsoup-3.6.6.tar.xz : 51ed0ae06f9d5a40f401ff459e2e5f652f9a510b7730e1359ee66d14d4872740
@@ -30,6 +30,8 @@ builddeps   :
     - pkgconfig(sqlite3)
     - pkgconfig(sysprof-capture-4)
     - pkgconfig(zlib)
+    - glib-networking
+rundeps     :
     - glib-networking
 setup       : |
     %meson
