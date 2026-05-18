@@ -36,6 +36,7 @@
 				"pkgconfig(openal)",
 				"pkgconfig(shaderc)",
 				"pkgconfig(sndio)",
+				"pkgconfig(vapoursynth)",
 				"pkgconfig(vulkan)",
 				"pkgconfig(wayland-client)",
 				"pkgconfig(wayland-protocols)",
@@ -46,6 +47,7 @@
 				"pkgconfig(xrandr)",
 				"pkgconfig(xscrnsaver)",
 				"pkgconfig(xv)",
+				"pkgconfig(zimg)",
 				"pkgconfig(zlib)"
 			],
 			"depends": [
@@ -88,7 +90,8 @@
 				"soname(libwayland-cursor.so.0(x86_64))",
 				"soname(libwayland-egl.so.1(x86_64))",
 				"soname(libxkbcommon.so.0(x86_64))",
-				"soname(libz.so.1(x86_64))"
+				"soname(libz.so.1(x86_64))",
+				"soname(libzimg.so.2(x86_64))"
 			],
 			"files": [
 				"/usr/bin/mpv",
@@ -109,6 +112,28 @@
 				"/usr/share/icons/hicolor/symbolic/apps/mpv-symbolic.svg",
 				"/usr/share/man/man1/mpv.1",
 				"/usr/share/metainfo/mpv.metainfo.xml",
+				"/usr/share/mpv/scripts/README.md",
+				"/usr/share/mpv/scripts/acompressor.lua",
+				"/usr/share/mpv/scripts/ao-null-reload.lua",
+				"/usr/share/mpv/scripts/audio-hotplug-test.lua",
+				"/usr/share/mpv/scripts/autocrop.lua",
+				"/usr/share/mpv/scripts/autodeint.lua",
+				"/usr/share/mpv/scripts/autoload.lua",
+				"/usr/share/mpv/scripts/command-test.lua",
+				"/usr/share/mpv/scripts/cycle-deinterlace-pullup.lua",
+				"/usr/share/mpv/scripts/gamma-auto.lua",
+				"/usr/share/mpv/scripts/idet.sh",
+				"/usr/share/mpv/scripts/mpv_identify.sh",
+				"/usr/share/mpv/scripts/nan-test.lua",
+				"/usr/share/mpv/scripts/observe-all.lua",
+				"/usr/share/mpv/scripts/ontop-playback.lua",
+				"/usr/share/mpv/scripts/osd-test.lua",
+				"/usr/share/mpv/scripts/pause-when-minimize.lua",
+				"/usr/share/mpv/scripts/skip-logo.lua",
+				"/usr/share/mpv/scripts/stats-conv.py",
+				"/usr/share/mpv/scripts/status-line.lua",
+				"/usr/share/mpv/scripts/test-hooks.lua",
+				"/usr/share/mpv/scripts/umpv",
 				"/usr/share/zsh/site-functions/_mpv"
 			],
 			"name": "mpv",
@@ -150,6 +175,7 @@
 				"pkgconfig(openal)",
 				"pkgconfig(shaderc)",
 				"pkgconfig(sndio)",
+				"pkgconfig(vapoursynth)",
 				"pkgconfig(vulkan)",
 				"pkgconfig(wayland-client)",
 				"pkgconfig(wayland-protocols)",
@@ -160,6 +186,7 @@
 				"pkgconfig(xrandr)",
 				"pkgconfig(xscrnsaver)",
 				"pkgconfig(xv)",
+				"pkgconfig(zimg)",
 				"pkgconfig(zlib)"
 			],
 			"depends": [
@@ -201,7 +228,8 @@
 				"soname(libwayland-cursor.so.0(x86_64))",
 				"soname(libwayland-egl.so.1(x86_64))",
 				"soname(libxkbcommon.so.0(x86_64))",
-				"soname(libz.so.1(x86_64))"
+				"soname(libz.so.1(x86_64))",
+				"soname(libzimg.so.2(x86_64))"
 			],
 			"files": [
 				"/usr/lib/libmpv.so.2",
@@ -246,6 +274,7 @@
 				"pkgconfig(openal)",
 				"pkgconfig(shaderc)",
 				"pkgconfig(sndio)",
+				"pkgconfig(vapoursynth)",
 				"pkgconfig(vulkan)",
 				"pkgconfig(wayland-client)",
 				"pkgconfig(wayland-protocols)",
@@ -256,6 +285,7 @@
 				"pkgconfig(xrandr)",
 				"pkgconfig(xscrnsaver)",
 				"pkgconfig(xv)",
+				"pkgconfig(zimg)",
 				"pkgconfig(zlib)"
 			],
 			"depends": [
@@ -297,6 +327,7 @@
 				"pkgconfig(x11)",
 				"pkgconfig(xfixes)",
 				"pkgconfig(xkbcommon)",
+				"pkgconfig(zimg)",
 				"pkgconfig(zlib)"
 			],
 			"files": [
@@ -314,6 +345,6 @@
 		}
 	},
 	"source-name": "mpv",
-	"source-release": "14",
+	"source-release": "15",
 	"source-version": "0.41.0"
 }

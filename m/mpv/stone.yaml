@@ -3,7 +3,7 @@
 
 name        : mpv
 version     : "0.41.0"
-release     : 14
+release     : 15
 homepage    : https://mpv.io/
 upstreams   :
     - https://github.com/mpv-player/mpv/archive/refs/tags/v0.41.0.tar.gz : ee21092a5ee427353392360929dc64645c54479aefdb5babc5cfbb5fad626209
@@ -54,7 +54,7 @@ builddeps   :
     - pkgconfig(sndio)
     # pkgconfig(spirv-cross-c-shared)
     # pkgconfig(uchardet)
-    # pkgconfig(vapoursynth)
+    - pkgconfig(vapoursynth)
     - pkgconfig(vulkan)
     - pkgconfig(wayland-client)
     - pkgconfig(wayland-protocols)
@@ -66,7 +66,7 @@ builddeps   :
     - pkgconfig(xrandr)
     - pkgconfig(xscrnsaver)
     - pkgconfig(xv)
-    # pkgconfig(zimg)
+    - pkgconfig(zimg)
     - pkgconfig(zlib)
 setup       : |
     %patch %(pkgdir)/fix_wayland_clipboard_high_cpu_usage.patch
@@ -78,6 +78,10 @@ build       : |
     %meson_build
 install     : |
     %meson_install
+
+    # from Arch
+    %install_file TOOLS/{umpv,mpv_identify.sh,stats-conv.py,idet.sh,lua/*} \
+        -D -t %(installroot)%(datadir)/%(name)/scripts
 packages:
     - "%(name)-libs":
         paths:
