@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : libusb
-version     : "1.0.29"
-release     : 4
+version     : "1.0.30"
+release     : 5
 homepage    : https://libusb.info/
 upstreams   :
-    - https://github.com/libusb/libusb/releases/download/v1.0.29/libusb-1.0.29.tar.bz2 : 5977fc950f8d1395ccea9bd48c06b3f808fd3c2c961b44b0c2e6e29fc3a70a85
+    - https://github.com/libusb/libusb/releases/download/v1.0.30/libusb-1.0.30.tar.bz2 : fea36f34f9156400209595e300840767ab1a385ede1dc7ee893015aea9c6dbaf
 summary     : A cross-platform library to access USB devices
 description : |
     libusb is a library for USB device access from Linux, macOS, Windows, OpenBSD/NetBSD, Haiku, Solaris userspace, and WebAssembly via WebUSB.
@@ -15,7 +15,8 @@ license     :
 builddeps   :
     - pkgconfig(libudev)
 setup       : |
-    %configure --disable-static
+    %configure \
+        --disable-static
 build       : |
     %make
 install     : |
