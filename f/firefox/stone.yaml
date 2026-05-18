@@ -2,12 +2,12 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : firefox
-version     : "150.0.3"
-release     : 64
+version     : "151.0"
+release     : 65
 homepage    : https://www.mozilla.org/
 upstreams   :
-    - https://releases.mozilla.org/pub/firefox/releases/150.0.3/source/firefox-150.0.3.source.tar.xz:
-        hash: 0a0a539ccc96d928fec78af511884b9b89d0aec87f0d5a8852d9298b2d9332da
+    - https://releases.mozilla.org/pub/firefox/releases/151.0/source/firefox-151.0.source.tar.xz:
+        hash: 39a17369335943f9451b26ebf79c9b4c4572399e57cdadc25c661cebecc0c21c
         unpackdir: firefox
 summary     : Firefox web browser
 description : |
@@ -67,12 +67,6 @@ setup       : |
 
     # TODO: Figure out if we still need to enable unsigned addon loading considering we switched back to unmodified langpacks
 
-    %patch %(pkgdir)/patches/0001-ftbfs-rust-1.95.patch
-    %patch %(pkgdir)/patches/upstream-01.patch
-    %patch %(pkgdir)/patches/upstream-02.patch
-    %patch %(pkgdir)/patches/upstream-03.patch
-    %patch %(pkgdir)/patches/upstream-04.patch
-
     cp %(pkgdir)/build/mozconfig .
     sed -e 's|@@JOBCOUNT@@|%(jobs)|' -e 's|@@LIBDIR@@|%(libdir)|' -i mozconfig
 
@@ -89,11 +83,9 @@ setup       : |
     cp %(pkgdir)/build/aerynos-google-safebrowsing-api-key .
     echo "ac_add_options --with-google-safebrowsing-api-keyfile=%(workdir)/aerynos-google-safebrowsing-api-key" >> mozconfig
 
-    # Try to remove this in Firefox 149
+    # Try to remove this in Firefox 152
     %patch %(pkgdir)/patches/ftbfs-glibc-2.43-2.patch
     sed -i 's/f8ad2b69fa472e332b50572c1b2dcc1c8a0fa783a1199aad245398d3df421b4b/dfdde6b4d42603fd3fe087a96bc0e7258ed38891154132a55b1eeac504f6f3c6/g' third_party/rust/glslopt/.cargo-checksum.json
-    sed -i '/^#ifndef SYS_SECCOMP$/,/^#endif$/{ /^#ifndef SYS_SECCOMP$/d; /^#define SYS_SECCOMP/d; /^#endif$/d; }' \
-        security/sandbox/chromium/sandbox/linux/system_headers/linux_seccomp.h
 
     ./mach configure
 build       : |
