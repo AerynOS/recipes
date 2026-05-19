@@ -4,7 +4,7 @@
 	"packages": {
 		"ly": {
 			"build-depends": [
-				"binary(zig-0.15)",
+				"binary(zig-0.16)",
 				"pkgconfig(pam)",
 				"pkgconfig(xcb)"
 			],
@@ -17,11 +17,13 @@
 			],
 			"files": [
 				"/usr/bin/ly",
+				"/usr/lib/systemd/system/ly-kmsconvt@.service",
 				"/usr/lib/systemd/system/ly@.service",
 				"/usr/lib/tmpfiles.d/ly.conf",
 				"/usr/share/defaults/ly/config.ini",
 				"/usr/share/defaults/ly/config.ini.example",
 				"/usr/share/defaults/ly/custom-sessions/README",
+				"/usr/share/defaults/ly/example.dur",
 				"/usr/share/defaults/ly/lang/ar.ini",
 				"/usr/share/defaults/ly/lang/cat.ini",
 				"/usr/share/defaults/ly/lang/cs.ini",
@@ -54,6 +56,6 @@
 		}
 	},
 	"source-name": "ly",
-	"source-release": "1",
-	"source-version": "1.3.2"
+	"source-release": "2",
+	"source-version": "1.4.1"
 }
