@@ -12,7 +12,7 @@ Modifyied-by: Philip Mueller <philm@manjaro.org>
  3 files changed, 13 insertions(+)
 
 diff --git a/dracut.sh b/dracut.sh
-index a30ebb5c..551b2918 100755
+index 479b4468..604b943a 100755
 --- a/dracut.sh
 +++ b/dracut.sh
 @@ -124,6 +124,7 @@ Creates initial ramdisk images for preloading modules
@@ -31,18 +31,18 @@ index a30ebb5c..551b2918 100755
              --long print-cmdline \
              --long kernel-cmdline: \
              --long strip \
-@@ -789,6 +791,9 @@ while :; do
-             kernel_only="yes"
-             no_kernel="yes"
-             ;;
-+        --no-firmware)
-+            export DRACUT_FIRMWARE_SKIP=1
-+            ;;
-         --early-microcode)
-             early_microcode_l="yes"
-             ;;
+@@ -811,6 +813,9 @@ while :; do
+                     kernel_only="no"
+                     no_kernel="yes"
+                     ;;
++                --no-firmware)
++                    export DRACUT_FIRMWARE_SKIP=1
++                    ;;
+                 --print-cmdline)
+                     print_cmdline="yes"
+                     hostonly_l="yes"
 diff --git a/man/dracut.8.adoc b/man/dracut.8.adoc
-index e353a98a..8ddcd804 100644
+index 6c46e072..a9879615 100644
 --- a/man/dracut.8.adoc
 +++ b/man/dracut.8.adoc
 @@ -238,6 +238,9 @@ example:
