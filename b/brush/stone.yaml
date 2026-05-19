@@ -2,11 +2,17 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : brush
-version     : "0.3.0+git.afff563"
-release     : 1
+version     : "0.4.0"
+release     : 2
 homepage    : https://brush.sh
 upstreams   :
-    - git|https://github.com/reubeno/brush.git : afff563c4895651c05ea15d336ffe2ff5b553f4b
+    - https://github.com/reubeno/brush/archive/refs/tags/brush-shell-v0.4.0.tar.gz:
+        hash: 0cce607454972c18bc4a30d2f44a2c91fccf02c458475fda7720370a3dc8a4f0
+        unpackdir: brush
+    
+    - https://github.com/reubeno/brush/releases/download/brush-shell-v0.4.0/brush-docs.tar.gz:
+        hash: 1070fa3a9470927c0c3d9c5417151f1b8f72317b42bed21f33e5fd4f3dad3332
+        unpackdir: brush/provided-docs/
 summary     : bash/POSIX-compatible shell implemented in Rust
 description : |
     brush (Bo(u)rn(e) RUsty SHell) is a POSIX- and bash-compatible shell, implemented in Rust. At its core is an embeddable shell interpreter published for reuse in other Rust projects.
@@ -27,5 +33,7 @@ build       : |
     %cargo_build
 install     : |
     %cargo_install
+
+    %install_file provided-docs/man/brush.1 -t %(installroot)%(mandir)/man1
 check       : |
     %cargo_test || exit 0
