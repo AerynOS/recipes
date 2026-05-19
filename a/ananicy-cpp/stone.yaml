@@ -16,11 +16,11 @@ license:
 builddeps:
   - binary(bpftool)
   - binary(fmt)
-  - pkgconfig(nlohmann_json)
-  - pkgconfig(spdlog)
+  - pkgconfig(libbpf)
   - pkgconfig(libpcre2-8)
   - pkgconfig(libsystemd)
-  - pkgconfig(libbpf)
+  - pkgconfig(nlohmann_json)
+  - pkgconfig(spdlog)
 tuning:
   - lto: false
 setup: |
@@ -37,3 +37,5 @@ build: |
   %cmake_build
 install: |
   %cmake_install --component Runtime
+
+  %install_dir %(installroot)/etc/ananicy.d/

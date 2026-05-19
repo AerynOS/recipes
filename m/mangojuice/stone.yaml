@@ -14,13 +14,13 @@ license:
   - GPL-3.0-or-later
   - GPL-3.0-only
 builddeps:
-  - binary(vala)
   - binary(ln)
-  - pkgconfig(gtk4)
-  - pkgconfig(libadwaita-1)
-  - pkgconfig(gio-2.0)
+  - binary(vala)
   - pkgconfig(fontconfig)
   - pkgconfig(gee-0.8)
+  - pkgconfig(gio-2.0)
+  - pkgconfig(gtk4)
+  - pkgconfig(libadwaita-1)
 rundeps:
   - mangohud
 setup: |
