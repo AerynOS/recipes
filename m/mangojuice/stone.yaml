@@ -1,0 +1,31 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name: mangojuice
+version: "0.9.0"
+release: 1
+homepage: https://github.com/radiolamp/mangojuice
+upstreams:
+  - https://github.com/radiolamp/mangojuice/archive/refs/tags/0.9.0.tar.gz:
+      hash: b68908178cdd3d7aba7687ae5252b6af4d5569fb6c482e3c5cf6ec0850fafc32
+description: |
+  A convenient alternative to GOverlay for configuring MangoHud.
+license:
+  - GPL-3.0-or-later
+  - GPL-3.0-only
+builddeps:
+  - binary(vala)
+  - binary(ln)
+  - pkgconfig(gtk4)
+  - pkgconfig(libadwaita-1)
+  - pkgconfig(gio-2.0)
+  - pkgconfig(fontconfig)
+  - pkgconfig(gee-0.8)
+rundeps:
+  - mangohud
+setup: |
+  %meson
+build: |
+  %meson_build
+install: |
+  %meson_install

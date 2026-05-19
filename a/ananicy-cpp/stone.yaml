@@ -1,0 +1,39 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name: ananicy-cpp
+version: "1.2.0"
+release: 1
+homepage: https://gitlab.com/ananicy-cpp/ananicy-cpp
+upstreams:
+  - https://gitlab.com/ananicy-cpp/ananicy-cpp/-/archive/v1.2.0/ananicy-cpp-v1.2.0.tar.gz?ref_type=tags:
+      hash: d75157b9588748ce6ae04c3e2d71625d8eec6bf2d23e06f8cb6f9687c74813f7
+description: |
+  Ananicy Cpp is a full rewrite of Ananicy in C++, featuring lower CPU and RAM usage.
+license:
+  - GPL-3.0-or-later
+  - GPL-3.0-only
+builddeps:
+  - binary(bpftool)
+  - binary(fmt)
+  - pkgconfig(nlohmann_json)
+  - pkgconfig(spdlog)
+  - pkgconfig(libpcre2-8)
+  - pkgconfig(libsystemd)
+  - pkgconfig(libbpf)
+tuning:
+  - lto: false
+setup: |
+  %cmake \
+      -DUSE_EXTERNAL_SPDLOG=ON \
+      -DUSE_EXTERNAL_JSON=ON \
+      -DUSE_EXTERNAL_FMTLIB=ON \
+      -DENABLE_SYSTEMD=ON \
+      -DUSE_BPF_PROC_IMPL=ON \
+      -DBPF_BUILD_LIBBPF=OFF \
+      -DENABLE_REGEX_SUPPORT=ON
+  %patch %(pkgdir)/building.patch
+build: |
+  %cmake_build
+install: |
+  %cmake_install --component Runtime
