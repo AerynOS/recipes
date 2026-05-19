@@ -2,21 +2,23 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : shadow
-version     : "4.18.0"
-release     : 7
+version     : "4.19.4"
+release     : 8
 summary     : PAM-using login and passwd utilities
 license     : BSD-3-Clause
 homepage    : https://github.com/shadow-maint/shadow
 description : |
     PAM-using login and passwd utilities
 upstreams   :
-    - https://github.com/shadow-maint/shadow/releases/download/4.18.0/shadow-4.18.0.tar.xz: add4604d3bc410344433122a819ee4154b79dd8316a56298c60417e637c07608
+    - https://github.com/shadow-maint/shadow/releases/download/4.19.4/shadow-4.19.4.tar.xz: ce57a313e315a0a7cb04a8f50cc20753e994e487bbe9b78a2a824ca75cb486c0
 builddeps   :
+    - binary(msgfmt)
     - binary(xsltproc)
     - pkgconfig(libacl)
     - pkgconfig(libattr)
     - pkgconfig(libcrypt)
     - pkgconfig(libeconf)
+    - pkgconfig(libsystemd)
     - pkgconfig(pam)
     - docbook
     - docbook-xsl
