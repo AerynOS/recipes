@@ -3,7 +3,7 @@
 
 name        : kitty
 version     : "0.47.0"
-release     : 10
+release     : 11
 homepage    : https://github.com/kovidgoyal/kitty
 upstreams   :
     - https://github.com/kovidgoyal/kitty/releases/download/v0.47.0/kitty-0.47.0.tar.xz : 72eefbf18abfcd5538a8f3aa53cc9783692eb8e077521f49744bd96ee1f1e4dd
@@ -11,6 +11,7 @@ summary     : Cross-platform, fast, feature-rich, GPU based terminal
 description : |
     kitty the fast, feature-rich, GPU based terminal emulator
 license     : GPL-3.0-or-later
+networking  : true
 builddeps   :
     - binary(go)
     - binary(python3)
