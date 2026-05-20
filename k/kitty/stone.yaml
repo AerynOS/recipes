@@ -2,19 +2,18 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : kitty
-version     : "0.46.2"
-release     : 9
+version     : "0.47.0"
+release     : 10
 homepage    : https://github.com/kovidgoyal/kitty
 upstreams   :
-    - https://github.com/kovidgoyal/kitty/archive/refs/tags/v0.46.2.tar.gz : 25ca6725da2b09d574e571cad44292adaa278d154a89221207bdb598884c133e
+    - https://github.com/kovidgoyal/kitty/releases/download/v0.47.0/kitty-0.47.0.tar.xz : 72eefbf18abfcd5538a8f3aa53cc9783692eb8e077521f49744bd96ee1f1e4dd
 summary     : Cross-platform, fast, feature-rich, GPU based terminal
 description : |
     kitty the fast, feature-rich, GPU based terminal emulator
-license     :
-    - GPL-3.0-or-later
-networking  : true
+license     : GPL-3.0-or-later
 builddeps   :
     - binary(go)
+    - binary(python3)
     - binary(sphinx-build)
     - binary(tic)
     - pkgconfig(dbus-1)
@@ -33,7 +32,8 @@ builddeps   :
     - pkgconfig(xkbcommon)
     - pkgconfig(xkbcommon-x11)
     - pkgconfig(xrandr)
-    - python(pip)
+    - python(sphinx-copybutton)
+    - python(sphinx-inline-tabs)
     - font-symbols-nerd
 build       : |
     export CGO_CFLAGS="${CFLAGS}"
@@ -41,16 +41,20 @@ build       : |
     export CGO_LDFLAGS="${LDFLAGS}"
     export GOFLAGS="-buildmode=pie -trimpath -ldflags=-linkmode=external -mod=readonly -modcacherw"
 
-    python -m pip install -r docs/requirements.txt
-    %make
-    %make linux-package
+    python3 setup.py linux-package \
+        --skip-building-kitten \
+        --update-check-interval=0 \
+        --verbose
+    
+    go build -o _build/bin/kitten ./tools/cmd
 install     : |
-    linux-package/bin/kitten __complete__ setup bash | %install_file /dev/stdin %(installroot)%(bashcompletionsdir)/kitty
-    linux-package/bin/kitten __complete__ setup fish | %install_file /dev/stdin %(installroot)%(fishcompletionsdir)/kitty.fish
-    linux-package/bin/kitten __complete__ setup zsh  | %install_file /dev/stdin %(installroot)%(zshcompletionsdir)/_kitty
+    %install_exe _build/bin/kitten -t %(installroot)%(bindir)
 
-    %install_dir %(installroot)%(prefix)
-    cp -r linux-package/* %(installroot)%(prefix)
+    cp -r linux-package/. %(installroot)%(prefix)
+    
+    _build/bin/kitten __complete__ setup bash | %install_file /dev/stdin %(installroot)%(bashcompletionsdir)/kitty
+    _build/bin/kitten __complete__ setup fish | %install_file /dev/stdin %(installroot)%(fishcompletionsdir)/kitty.fish
+    _build/bin/kitten __complete__ setup zsh  | %install_file /dev/stdin %(installroot)%(zshcompletionsdir)/_kitty
 
     %install_dir %(installroot)%(datadir)/licenses/%(name)
     %install_file LICENSE %(installroot)%(datadir)/licenses/%(name)/LICENSE
