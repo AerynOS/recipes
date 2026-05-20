@@ -3,7 +3,7 @@
 
 name        : vim
 version     : "9.2.0502"
-release     : 26
+release     : 27
 homepage    : https://github.com/vim/vim
 upstreams   :
     - https://github.com/vim/vim/archive/refs/tags/v9.2.0502.tar.gz:
@@ -19,6 +19,8 @@ builddeps   :
     - binary(msgfmt)
     - pkgconfig(gtk4)
     - pkgconfig(ice)
+    - pkgconfig(libacl)
+    - pkgconfig(libattr)
     - pkgconfig(libcanberra)
     - pkgconfig(libsodium)
     - pkgconfig(luajit)
@@ -41,7 +43,9 @@ setup       : |
         %patch %(pkgdir)/0001-Make-vim-stateless.patch
         %patch %(pkgdir)/0001-Read-vimrc-from-etc-vim.patch
 
+        # https://github.com/vim/vim/issues/20267
         %patch %(pkgdir)/0001-Fix-build-with-gtk4.patch
+        %patch %(pkgdir)/20258.patch
 
         %configure \
             --disable-netbeans \

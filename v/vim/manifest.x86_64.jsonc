@@ -9,6 +9,8 @@
 				"gpm-devel",
 				"pkgconfig(gtk4)",
 				"pkgconfig(ice)",
+				"pkgconfig(libacl)",
+				"pkgconfig(libattr)",
 				"pkgconfig(libcanberra)",
 				"pkgconfig(libsodium)",
 				"pkgconfig(luajit)",
@@ -23,6 +25,7 @@
 			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(libacl.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libcairo.so.2(x86_64))",
 				"soname(libcanberra.so.0(x86_64))",
@@ -230,6 +233,8 @@
 				"gpm-devel",
 				"pkgconfig(gtk4)",
 				"pkgconfig(ice)",
+				"pkgconfig(libacl)",
+				"pkgconfig(libattr)",
 				"pkgconfig(libcanberra)",
 				"pkgconfig(libsodium)",
 				"pkgconfig(luajit)",
@@ -244,6 +249,7 @@
 			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(libacl.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libgpm.so.2(x86_64))",
 				"soname(libm.so.6(x86_64))",
@@ -2782,6 +2788,8 @@
 				"gpm-devel",
 				"pkgconfig(gtk4)",
 				"pkgconfig(ice)",
+				"pkgconfig(libacl)",
+				"pkgconfig(libattr)",
 				"pkgconfig(libcanberra)",
 				"pkgconfig(libsodium)",
 				"pkgconfig(luajit)",
@@ -2824,6 +2832,6 @@
 		}
 	},
 	"source-name": "vim",
-	"source-release": "26",
+	"source-release": "27",
 	"source-version": "9.2.0502"
 }
