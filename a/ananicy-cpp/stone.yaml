@@ -23,9 +23,14 @@ builddeps:
   - pkgconfig(libsystemd)
   - pkgconfig(nlohmann_json)
   - pkgconfig(spdlog)
+rundeps:
+  - cachyos-ananicy-rules
 tuning:
   - lto: false
 setup: |
+  %patch %(pkgdir)/stateless.patch
+  %patch %(pkgdir)/building.patch
+
   %cmake \
       -DUSE_EXTERNAL_SPDLOG=ON \
       -DUSE_EXTERNAL_JSON=ON \
@@ -34,10 +39,7 @@ setup: |
       -DUSE_BPF_PROC_IMPL=ON \
       -DBPF_BUILD_LIBBPF=OFF \
       -DENABLE_REGEX_SUPPORT=ON
-  %patch %(pkgdir)/building.patch
 build: |
   %cmake_build
 install: |
   %cmake_install --component Runtime
-
-  %install_dir %(installroot)/etc/ananicy.d/

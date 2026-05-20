@@ -1,0 +1,21 @@
+diff --git a/src/main.cpp b/src/main.cpp
+index 8c21e68..59c85d4 100644
+--- a/src/main.cpp
++++ b/src/main.cpp
+@@ -132,8 +132,16 @@ int main(const int argc, const char **argv) {
+ 
+   const std::string config_dir_path =
+       get_env("ANANICY_CPP_CONFDIR").value_or("/etc/ananicy.d");
++      get_env("ANANICY_CPP_CONFDIR")
++          .value_or(std::filesystem::exists("/etc/ananicy.d")
++                 ? "/etc/ananicy.d"
++                 : "/usr/share/defaults/ananicy.d/");
+   const std::string config_path =
+       get_env("ANANICY_CPP_CONF").value_or("/etc/ananicy.d/ananicy.conf");
++      get_env("ANANICY_CPP_CONF")
++          .value_or(std::filesystem::exists("/etc/ananicy.d/ananicy.conf")
++                 ? "/etc/ananicy.d/ananicy.conf"
++                 : "/usr/share/defaults/ananicy.d/ananicy.conf");
+ 
+   Config conf(config_path);
+   conf.show();
