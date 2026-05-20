@@ -3,7 +3,7 @@
 
 name        : vim
 version     : "9.2.0502"
-release     : 25
+release     : 26
 homepage    : https://github.com/vim/vim
 upstreams   :
     - https://github.com/vim/vim/archive/refs/tags/v9.2.0502.tar.gz:
@@ -40,6 +40,8 @@ setup       : |
     function vim_configure() {
         %patch %(pkgdir)/0001-Make-vim-stateless.patch
         %patch %(pkgdir)/0001-Read-vimrc-from-etc-vim.patch
+
+        %patch %(pkgdir)/0001-Fix-build-with-gtk4.patch
 
         %configure \
             --disable-netbeans \

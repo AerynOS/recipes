@@ -1,0 +1,26 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Reilly Brogan <reilly@reillybrogan.com>
+Date: Wed, 20 May 2026 11:28:06 -0500
+Subject: [PATCH] Fix build with gtk4
+
+---
+ src/Makefile | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/src/Makefile b/src/Makefile
+index e08b6cccf..cb890d1d7 100644
+--- a/src/Makefile
++++ b/src/Makefile
+@@ -3381,10 +3381,10 @@ objects/gui_gtk_gresources.o: auto/gui_gtk_gresources.c
+ objects/gui_gtk_x11.o: gui_gtk_x11.c
+ 	$(CCC) -o $@ gui_gtk_x11.c
+ 
+-objects/gui_gtk4.o: gui_gtk4.c
++objects/gui_gtk4.o: gui_gtk4.c auto/osdef.h vim.h
+ 	$(CCC) -o $@ gui_gtk4.c
+ 
+-objects/gui_gtk4_f.o: gui_gtk4_f.c
++objects/gui_gtk4_f.o: gui_gtk4_f.c auto/osdef.h vim.h
+ 	$(CCC) -o $@ gui_gtk4_f.c
+ 
+ 
