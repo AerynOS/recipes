@@ -15,15 +15,15 @@ license:
   - GPL-3.0-or-later
   - GPL-3.0-only
 builddeps:
-  - binary(vala)
   - binary(msgfmt)
   - binary(update-desktop-database)
-  - pkgconfig(gtk4)
-  - pkgconfig(libadwaita-1)
-  - pkgconfig(json-glib-1.0)
-  - pkgconfig(libsoup-3.0)
-  - pkgconfig(libarchive)
+  - binary(vala)
   - pkgconfig(gee-0.8)
+  - pkgconfig(gtk4)
+  - pkgconfig(json-glib-1.0)
+  - pkgconfig(libadwaita-1)
+  - pkgconfig(libarchive)
+  - pkgconfig(libsoup-3.0)
 setup: |
   %meson
 build: |
