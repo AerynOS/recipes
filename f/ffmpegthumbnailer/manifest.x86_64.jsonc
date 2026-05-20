@@ -1,0 +1,73 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"ffmpegthumbnailer": {
+			"build-depends": [
+				"pkgconfig(libavcodec)",
+				"pkgconfig(libavfilter)",
+				"pkgconfig(libavformat)",
+				"pkgconfig(libavutil)",
+				"pkgconfig(libjpeg)",
+				"pkgconfig(libpng)"
+			],
+			"depends": [
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(libavcodec.so.62(x86_64))",
+				"soname(libavfilter.so.11(x86_64))",
+				"soname(libavformat.so.62(x86_64))",
+				"soname(libavutil.so.60(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libjpeg.so.8(x86_64))",
+				"soname(libm.so.6(x86_64))",
+				"soname(libpng16.so.16(x86_64))",
+				"soname(libstdc++.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/bin/ffmpegthumbnailer",
+				"/usr/lib/libffmpegthumbnailer.so.4",
+				"/usr/lib/libffmpegthumbnailer.so.4.16.1",
+				"/usr/share/man/man1/ffmpegthumbnailer.1",
+				"/usr/share/thumbnailers/ffmpegthumbnailer-audio.thumbnailer",
+				"/usr/share/thumbnailers/ffmpegthumbnailer.thumbnailer"
+			],
+			"name": "ffmpegthumbnailer",
+			"provides": [
+				"binary(ffmpegthumbnailer)",
+				"soname(libffmpegthumbnailer.so.4(x86_64))"
+			]
+		},
+		"ffmpegthumbnailer-devel": {
+			"build-depends": [
+				"pkgconfig(libavcodec)",
+				"pkgconfig(libavfilter)",
+				"pkgconfig(libavformat)",
+				"pkgconfig(libavutil)",
+				"pkgconfig(libjpeg)",
+				"pkgconfig(libpng)"
+			],
+			"depends": [
+				"ffmpegthumbnailer"
+			],
+			"files": [
+				"/usr/include/libffmpegthumbnailer/ffmpegthumbnailertypes.h",
+				"/usr/include/libffmpegthumbnailer/filmstripfilter.h",
+				"/usr/include/libffmpegthumbnailer/ifilter.h",
+				"/usr/include/libffmpegthumbnailer/imagetypes.h",
+				"/usr/include/libffmpegthumbnailer/videoframe.h",
+				"/usr/include/libffmpegthumbnailer/videothumbnailer.h",
+				"/usr/include/libffmpegthumbnailer/videothumbnailerc.h",
+				"/usr/lib/libffmpegthumbnailer.so",
+				"/usr/lib/pkgconfig/libffmpegthumbnailer.pc"
+			],
+			"name": "ffmpegthumbnailer-devel",
+			"provides": [
+				"pkgconfig(libffmpegthumbnailer)"
+			]
+		}
+	},
+	"source-name": "ffmpegthumbnailer",
+	"source-release": "1",
+	"source-version": "2.3.0"
+}
