@@ -5,6 +5,7 @@
 		"expect": {
 			"build-depends": [
 				"binary(bsdtar-static)",
+				"binary(patchelf)",
 				"pkgconfig(tcl)"
 			],
 			"depends": [
@@ -29,8 +30,8 @@
 				"/usr/bin/unbuffer",
 				"/usr/bin/weather",
 				"/usr/bin/xkibitz",
-				"/usr/lib/libexpect5.45.4.1.so",
-				"/usr/lib/tcl9.0/expect5.45.4.1/pkgIndex.tcl",
+				"/usr/lib/libexpect5.45.4.so",
+				"/usr/lib/tcl9.0/expect5.45.4/pkgIndex.tcl",
 				"/usr/share/man/man1/autoexpect.1",
 				"/usr/share/man/man1/dislocate.1",
 				"/usr/share/man/man1/expect.1",
@@ -57,12 +58,13 @@
 				"binary(unbuffer)",
 				"binary(weather)",
 				"binary(xkibitz)",
-				"soname(libexpect5.45.4.1.so(x86_64))"
+				"soname(libexpect5.45.4.so(x86_64))"
 			]
 		},
 		"expect-devel": {
 			"build-depends": [
 				"binary(bsdtar-static)",
+				"binary(patchelf)",
 				"pkgconfig(tcl)"
 			],
 			"depends": [
@@ -80,6 +82,7 @@
 		"expectk": {
 			"build-depends": [
 				"binary(bsdtar-static)",
+				"binary(patchelf)",
 				"pkgconfig(tcl)"
 			],
 			"depends": [
@@ -103,6 +106,6 @@
 		}
 	},
 	"source-name": "expect",
-	"source-release": "1",
-	"source-version": "5.45.4.1"
+	"source-release": "2",
+	"source-version": "5.45.4"
 }

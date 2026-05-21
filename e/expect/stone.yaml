@@ -2,10 +2,10 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : expect
-version     : "5.45.4.1"
-release     : 1
+version     : "5.45.4"
+release     : 2
 upstreams   :
-    - https://www.tcl3d.org/bawt/download/InputLibs/expect-5.45.4.1.7z : ef36fad58fefb64844d261f1537594ddf441bd393012bd58c78372898a99e8d7
+    - https://downloads.sourceforge.net/expect/expect5.45.4.tar.gz : 49a7da83b0bdd9f46d04a04deec19c7767bb9a323e40c4781f89caf760b92c34
 homepage    : https://www.nist.gov/services-resources/software/expect
 license     : Public-Domain
 summary     : Expect is a tool for automating and testing interactive applications
@@ -13,28 +13,52 @@ description : |
     Expect is a tool for automating interactive applications such as telnet, ftp, passwd, fsck, rlogin, tip, etc. Expect is also useful for testing these same applications.
 builddeps   :
     - binary(bsdtar-static)
+    - binary(patchelf)
     - pkgconfig(tcl)
 setup       : |
     %patch %(pkgdir)/expect-5.43.0-log_file.patch
+    %patch %(pkgdir)/expect-5.32.2-random.patch
     %patch %(pkgdir)/expect-5.43.0-pkgpath.patch
-    %patch %(pkgdir)/expect-5.45.4.1-compile.patch
-    %patch %(pkgdir)/expect-5.45-man-page.patch
-    %patch %(pkgdir)/expect-5.45-exp-log-buf-overflow.patch
+    %patch %(pkgdir)/expect-5.45-check-telnet.patch
     %patch %(pkgdir)/expect-5.45-re-memleak.patch
-    %patch %(pkgdir)/expect-5.45-match-gt-numchars-segfault.patch
+    %patch %(pkgdir)/expect-5.45-exp-log-buf-overflow.patch
+    %patch %(pkgdir)/expect-5.45-segfault-with-stubs.patch
     %patch %(pkgdir)/expect-5.45-fd-leak.patch
     %patch %(pkgdir)/expect-5.45.4-unification-of-usage-and-man-page.patch
-    %patch %(pkgdir)/expect-5.32.2-random.patch
+    %patch %(pkgdir)/expect-5.45.4-covscan-fixes.patch
+    %patch %(pkgdir)/expect-5.45-format-security.patch -p0
+    %patch %(pkgdir)/expect-5.45-man-page.patch
+    %patch %(pkgdir)/expect-5.45-match-gt-numchars-segfault.patch
     %patch %(pkgdir)/expect-5.45-mkpasswd-dash.patch
+    %patch %(pkgdir)/expect-5.45-mkpasswd-man.patch
     %patch %(pkgdir)/expect-5.45-passmass-su-full-path.patch
+    %patch %(pkgdir)/expect-c99.patch
+    %patch %(pkgdir)/expect-configure-c99.patch
 
-    chmod +x configure
-    %configure \
+    # TCL 9 support
+    %patch %(pkgdir)/expect-5.45.4-tcl9-alloc.patch
+    %patch %(pkgdir)/expect-5.45.4-tcl9-const.patch
+    %patch %(pkgdir)/expect-5.45.4-tcl9-ansi-args.patch
+    %patch %(pkgdir)/expect-5.45.4-tcl9-eval-tokens.patch
+    %patch %(pkgdir)/expect-5.45.4-tcl9-mkpasswd.patch
+    %patch %(pkgdir)/expect-5.45.4-tcl9-panic.patch
+    %patch %(pkgdir)/expect-5.45.4-tcl9-size.patch
+    %patch %(pkgdir)/expect-5.45.4-tcl9-varargs.patch
+    %patch %(pkgdir)/expect-5.45.4-tclsh8.patch
+
+    export CFLAGS+=" -std=gnu17"
+
+    mv configure.in configure.ac
+    %reconfigure \
         --enable-shared
 build       : |
     %make
 install     : |
     %make_install
+
+    mv %(installroot)%(libdir)/tcl*/expect*/libexpect5.45.4.so %(installroot)%(libdir)/
+
+    patchelf --remove-rpath %(installroot)%(libdir)/libexpect*.so
 
     # remove cryptdir/decryptdir, as Linux has no crypt command
     rm -f %(installroot)%(bindir)/{cryptdir,decryptdir,autopasswd}

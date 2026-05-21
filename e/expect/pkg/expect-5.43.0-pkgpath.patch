@@ -1,6 +1,17 @@
-diff -up expect-5.45.4.1/Makefile.in.1~ expect-5.45.4.1/Makefile.in
---- expect-5.45.4.1/Makefile.in.1~	2024-10-14 10:58:56.000000000 +0200
-+++ expect-5.45.4.1/Makefile.in	2025-03-14 02:56:16.395756725 +0100
+diff -up expect5.45/configure.in.orig expect5.45/configure.in
+--- expect5.45/configure.in.orig	2011-01-18 16:58:14.860806442 +0100
++++ expect5.45/configure.in	2011-01-18 16:58:30.378753210 +0100
+@@ -977,6 +977,7 @@ AC_SUBST(EXP_CC_SEARCH_FLAGS)
+ AC_SUBST(SETUID)
+ AC_SUBST(SETPGRP_VOID)
+ AC_SUBST(DEFAULT_STTY_ARGS)
++AC_SUBST(TCL_VERSION)
+ # Expect uses these from tclConfig.sh to make the main executable
+ AC_SUBST(TCL_DL_LIBS)
+ AC_SUBST(TCL_CC_SEARCH_FLAGS)
+diff -up expect5.45/Makefile.in.orig expect5.45/Makefile.in
+--- expect5.45/Makefile.in.orig	2011-01-18 16:58:37.787723824 +0100
++++ expect5.45/Makefile.in	2011-01-18 17:05:10.697636907 +0100
 @@ -121,8 +121,8 @@ includedir	= @includedir@
  DESTDIR		=
  
@@ -25,53 +36,11 @@ diff -up expect-5.45.4.1/Makefile.in.1~ expect-5.45.4.1/Makefile.in
  pkgIndex.tcl-hand:
  	(echo 'if {![package vsatisfies [package provide Tcl] @TCL_VERSION@]} {return}' ; \
  	 echo 'package ifneeded Expect $(PACKAGE_VERSION) \
-+	    [list load [file join $$dir .. .. $(PKG_LIB_FILE).1]]'\
++	    [list load [file join $$dir .. .. $(PKG_LIB_FILE)]]'\
 +	) > pkgIndex.tcl
 +
 +pkgIndex.tcl-test:
 +	(echo 'package ifneeded Expect $(PACKAGE_VERSION) \
- 	    [list load [file join $$dir $(PKG_LIB_FILE) ]]'\
+ 	    [list load [file join $$dir $(PKG_LIB_FILE)]]'\
  	) > pkgIndex.tcl
  
-@@ -527,22 +532,22 @@ install-lib-binaries:
- 	@mkdir -p $(DESTDIR)$(pkglibdir)
- 	@list='$(lib_BINARIES)'; for p in $$list; do \
- 	  if test -f $$p; then \
--	    echo " $(INSTALL_PROGRAM) $$p $(DESTDIR)$(pkglibdir)/$$p"; \
--	    $(INSTALL_PROGRAM) $$p $(DESTDIR)$(pkglibdir)/$$p; \
-+	    echo " $(INSTALL_PROGRAM) $$p $(DESTDIR)$(libdir)/$$p"; \
-+	    $(INSTALL_PROGRAM) $$p $(DESTDIR)$(libdir)/$$p; \
- 	    stub=`echo $$p|sed -e "s/.*\(stub\).*/\1/"`; \
- 	    if test "x$$stub" = "xstub"; then \
--		echo " $(RANLIB_STUB) $(DESTDIR)$(pkglibdir)/$$p"; \
--		$(RANLIB_STUB) $(DESTDIR)$(pkglibdir)/$$p; \
-+		echo " $(RANLIB_STUB) $(DESTDIR)$(libdir)/$$p"; \
-+		$(RANLIB_STUB) $(DESTDIR)$(libdir)/$$p; \
- 	    else \
--		echo " $(RANLIB) $(DESTDIR)$(pkglibdir)/$$p"; \
--		$(RANLIB) $(DESTDIR)$(pkglibdir)/$$p; \
-+		echo " $(RANLIB) $(DESTDIR)$(libdir)/$$p"; \
-+		$(RANLIB) $(DESTDIR)$(libdir)/$$p; \
- 	    fi; \
- 	    ext=`echo $$p|sed -e "s/.*\.//"`; \
- 	    if test "x$$ext" = "xdll"; then \
- 		lib=`basename $$p|sed -e 's/.[^.]*$$//'`.lib; \
- 		if test -f $$lib; then \
--		    echo " $(INSTALL_DATA) $$lib $(DESTDIR)$(pkglibdir)/$$lib"; \
--	            $(INSTALL_DATA) $$lib $(DESTDIR)$(pkglibdir)/$$lib; \
-+		    echo " $(INSTALL_DATA) $$lib $(DESTDIR)$(libdir)/$$lib"; \
-+	            $(INSTALL_DATA) $$lib $(DESTDIR)$(libdir)/$$lib; \
- 		fi; \
- 	    fi; \
- 	  fi; \
-diff -up expect-5.45.4.1/configure.in.1~ expect-5.45.4.1/configure.in
---- expect-5.45.4.1/configure.in.1~	2024-10-15 01:07:02.000000000 +0200
-+++ expect-5.45.4.1/configure.in	2025-03-14 02:54:30.927907100 +0100
-@@ -987,6 +987,7 @@ AC_SUBST(EXP_CC_SEARCH_FLAGS)
- AC_SUBST(SETUID)
- AC_SUBST(SETPGRP_VOID)
- AC_SUBST(DEFAULT_STTY_ARGS)
-+AC_SUBST(TCL_VERSION)
- # Expect uses these from tclConfig.sh to make the main executable
- AC_SUBST(TCL_DL_LIBS)
- AC_SUBST(TCL_CC_SEARCH_FLAGS)
