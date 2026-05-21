@@ -1,0 +1,45 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : cinny-desktop
+version     : "4.12.1"
+release     : 1
+homepage    : https://github.com/cinnyapp/cinny-desktop
+upstreams   :
+    - https://github.com/cinnyapp/cinny-desktop/archive/refs/tags/v4.12.1.tar.gz :
+        hash: c1fbe50dffe0039a983f075b0dd8d81206a0c71312eca1fb00efb0fe3ed6d0ae
+        rename: cinny-desktop
+    - https://github.com/cinnyapp/cinny/archive/refs/tags/v4.12.1.tar.gz :
+        hash: b5b9921eb376a8e1be847690b0e104420d6c862d912da746aee876070ecb537b
+        unpackdir: cinny-desktop/cinny/
+summary     :  Yet another matrix client for desktop
+description : |
+  Cinny is a matrix client focusing primarily on simple, elegant and secure interface.
+license     : AGPL-3.0-or-later
+builddeps   :
+    - binary(cargo)
+    - binary(npm)
+    - pkgconfig(cairo)
+    - pkgconfig(gdk-3.0)
+    - pkgconfig(gio-2.0)
+    - pkgconfig(glib-2.0)
+    - pkgconfig(gobject-2.0)
+    - pkgconfig(gstreamer-1.0)
+    - pkgconfig(gtk+-3.0)
+    - pkgconfig(libsoup-3.0)
+    - pkgconfig(pango)
+    - pkgconfig(webkit2gtk-4.1)
+rundeps     :
+    - gstreamer-plugins-bad
+    - gstreamer-plugins-good
+networking  : true
+setup       : |
+    %patch %(pkgdir)/0001-disable-updater-Remove-Tauri-auto-updater.patch
+    cd cinny && npm --legacy-peer-deps ci
+    cd .. && npm ci
+build       : |
+    npm run tauri build -- --no-bundle
+install     : |
+    %install_exe src-tauri/target/release/cinny %(installroot)/%(bindir)/cinny-desktop
+    %install_file %(pkgdir)/in.cinny.Cinny.desktop -t %(installroot)%(datadir)/applications/in.cinny.Cinny.desktop
+    %install_file cinny/public/res/svg/cinny.svg %(installroot)%(datadir)/icons/hicolor/scalable/apps/cinny-desktop.svg
