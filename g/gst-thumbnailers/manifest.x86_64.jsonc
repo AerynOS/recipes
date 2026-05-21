@@ -1,0 +1,45 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"gst-thumbnailers": {
+			"build-depends": [
+				"binary(cargo)",
+				"pkgconfig(glycin-2)",
+				"pkgconfig(gstreamer-1.0)",
+				"pkgconfig(gstreamer-app-1.0)",
+				"pkgconfig(gstreamer-plugins-bad-1.0)",
+				"pkgconfig(gstreamer-plugins-base-1.0)"
+			],
+			"depends": [
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(ld-linux-x86-64.so.2(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libgio-2.0.so.0(x86_64))",
+				"soname(libglib-2.0.so.0(x86_64))",
+				"soname(libglycin-2.so.0(x86_64))",
+				"soname(libgobject-2.0.so.0(x86_64))",
+				"soname(libgstapp-1.0.so.0(x86_64))",
+				"soname(libgstbase-1.0.so.0(x86_64))",
+				"soname(libgstreamer-1.0.so.0(x86_64))",
+				"soname(libgstvideo-1.0.so.0(x86_64))",
+				"soname(libm.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/bin/gst-audio-thumbnailer",
+				"/usr/bin/gst-video-thumbnailer",
+				"/usr/share/thumbnailers/gst-audio-thumbnailer.thumbnailer",
+				"/usr/share/thumbnailers/gst-video-thumbnailer.thumbnailer"
+			],
+			"name": "gst-thumbnailers",
+			"provides": [
+				"binary(gst-audio-thumbnailer)",
+				"binary(gst-video-thumbnailer)"
+			]
+		}
+	},
+	"source-name": "gst-thumbnailers",
+	"source-release": "1",
+	"source-version": "1.0.0"
+}
