@@ -1,0 +1,28 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : sushi
+version     : "50.0"
+release     : 1
+homepage    : https://gitlab.gnome.org/GNOME/sushi
+upstreams   :
+    - https://gitlab.gnome.org/GNOME/sushi/-/archive/50.0/sushi-50.0.tar.gz : 20de211dc17855067819e957732b2374a22866db7f53a2cfa412fad2ee65a533
+summary     : A file previewer for the GNOME desktop environment
+description : |
+    A file previewer for the GNOME desktop environment
+license     : GPL-2.0-or-later
+builddeps   :
+    - binary(gjs)
+    - binary(msgfmt)
+    - pkgconfig(epoxy)
+    - pkgconfig(evince-document-3.0)
+    - pkgconfig(gobject-introspection-1.0)
+    - pkgconfig(gstreamer-1.0)
+    - pkgconfig(gstreamer-audio-1.0)
+    - pkgconfig(gtksourceview-4)
+setup       : |
+    %meson
+build       : |
+    %meson_build
+install     : |
+    %meson_install
