@@ -1,0 +1,29 @@
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : dejagnu
+version     : "1.6.3"
+release     : 1
+upstreams   :
+    - https://ftpmirror.gnu.org/gnu/dejagnu/dejagnu-1.6.3.tar.gz : 87daefacd7958b4a69f88c6856dbd1634261963c414079d0c371f589cd66a2e3
+homepage    : https://www.gnu.org/software/dejagnu/
+license     : GPL-3.0-or-later
+summary     : DejaGnu is a framework for testing other programs
+description : |
+    DejaGnu is a framework for testing other programs. Its purpose is to provide a single front end for all tests. Think of it as a custom library of Tcl procedures crafted to support writing a test harness. A test harness is the testing infrastructure that is created to support a specific program or tool. Each program can have multiple testsuites, all supported by a single test harness.
+checkdeps   :
+    - binary(expect)
+setup       : |
+    %configure
+build       : |
+    %make
+install     : |
+    %make_install
+check       : |
+    %make check
+packages    :
+    - "%(name)":
+        rundeps:
+            - binary(expect)
+        paths:
+            - /usr/include/dejagnu.h
