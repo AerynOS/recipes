@@ -1,0 +1,53 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"cinny-desktop": {
+			"build-depends": [
+				"binary(cargo)",
+				"binary(npm)",
+				"pkgconfig(cairo)",
+				"pkgconfig(gdk-3.0)",
+				"pkgconfig(gio-2.0)",
+				"pkgconfig(glib-2.0)",
+				"pkgconfig(gobject-2.0)",
+				"pkgconfig(gstreamer-1.0)",
+				"pkgconfig(gtk+-3.0)",
+				"pkgconfig(libsoup-3.0)",
+				"pkgconfig(pango)",
+				"pkgconfig(webkit2gtk-4.1)"
+			],
+			"depends": [
+				"gstreamer-plugins-bad",
+				"gstreamer-plugins-good",
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(ld-linux-x86-64.so.2(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libcairo.so.2(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libgdk-3.so.0(x86_64))",
+				"soname(libgdk_pixbuf-2.0.so.0(x86_64))",
+				"soname(libgio-2.0.so.0(x86_64))",
+				"soname(libglib-2.0.so.0(x86_64))",
+				"soname(libgobject-2.0.so.0(x86_64))",
+				"soname(libgtk-3.so.0(x86_64))",
+				"soname(libjavascriptcoregtk-4.1.so.0(x86_64))",
+				"soname(libm.so.6(x86_64))",
+				"soname(libsoup-3.0.so.0(x86_64))",
+				"soname(libwebkit2gtk-4.1.so.0(x86_64))"
+			],
+			"files": [
+				"/usr/bin/cinny-desktop",
+				"/usr/share/applications/in.cinny.Cinny.desktop/in.cinny.Cinny.desktop",
+				"/usr/share/icons/hicolor/scalable/apps/cinny-desktop.svg"
+			],
+			"name": "cinny-desktop",
+			"provides": [
+				"binary(cinny-desktop)"
+			]
+		}
+	},
+	"source-name": "cinny-desktop",
+	"source-release": "1",
+	"source-version": "4.12.1"
+}
