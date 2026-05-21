@@ -1,0 +1,31 @@
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : isoimagewriter
+version     : "26.04.1"
+release     : 1
+upstreams   :
+    - https://download.kde.org/stable/release-service/26.04.1/src/isoimagewriter-26.04.1.tar.xz : 7806d7f6fd3b99962065fac3bfcf0a036dba19d5c3b2e9c9c06a5ac7f51ed6e3
+homepage    : https://apps.kde.org/isoimagewriter/
+license     : GPL-3.0-or-later
+summary     : ISO Image Writer is a KDE tool to write a .iso file to a USB disk
+description : |
+    ISO Image Writer is a KDE tool to write a .iso file to a USB disk
+builddeps   :
+    # Temporary, boulder doesn't handle build ordering resolution correctly when builddeps are added by macros, so add ECM manually
+    - cmake(ECM)
+    - cmake(Gpgmepp)
+    - cmake(KF6Archive)
+    - cmake(KF6CoreAddons)
+    - cmake(KF6Crash)
+    - cmake(KF6I18n)
+    - cmake(KF6IconThemes)
+    - cmake(KF6Solid)
+    - cmake(KF6WidgetsAddons)
+    - cmake(QGpgmeQt6)
+setup       : |
+    %cmake_kf6
+build       : |
+    %cmake_build
+install     : |
+    %cmake_install
