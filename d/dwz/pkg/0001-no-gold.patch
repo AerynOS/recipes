@@ -1,0 +1,30 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Reilly Brogan <reilly@reillybrogan.com>
+Date: Thu, 21 May 2026 17:13:52 -0500
+Subject: [PATCH] no gold
+
+---
+ dwz/Makefile | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/dwz/Makefile b/dwz/Makefile
+index 3dc6c6f..667317c 100644
+--- a/dwz/Makefile
++++ b/dwz/Makefile
+@@ -112,14 +112,14 @@ start:
+ 	$(CC) $(TEST_SRC)/start.c -o $@ -g -nostdlib
+ 
+ start-gold:
+-	$(CC) $(TEST_SRC)/start.c -fuse-ld=gold -o $@ -g -nostdlib || touch $@
++	$(CC) $(TEST_SRC)/start.c -o $@ -g -nostdlib || touch $@
+ 
+ implptr-64bit-d2o4a8r8t0:
+ 	$(CC) $(TEST_SRC)/implptr-64bit-d2o4a8r8t0.S $(TEST_SRC)/main.c \
+ 	  -o $@ -g || touch $@
+ 
+ hello-gold-gdb-index:
+-	$(CC) $(TEST_SRC)/hello.c -g -fuse-ld=gold -Wl,--gdb-index -o $@ \
++	$(CC) $(TEST_SRC)/hello.c -g -Wl,--gdb-index -o $@ \
+ 	    || touch $@
+ 
+ varval:

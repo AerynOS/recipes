@@ -1,0 +1,39 @@
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : dwz
+version     : "0.16"
+release     : 1
+upstreams   :
+    - https://sourceware.org/ftp/dwz/releases/dwz-0.16.tar.xz : 3602c8221be1f31fe612d4c80226b2e6bb20e19ccfcc0ebef321d90ba74d35a1
+homepage    : https://sourceware.org/dwz/
+license     : GPL-2.0-or-later
+summary     : DWARF optimization and duplicate removal tool
+description : |
+    DWARF optimization and duplicate removal tool
+builddeps   :
+    - binary(readelf)
+    - pkgconfig(libelf)
+    - pkgconfig(libxxhash)
+checkdeps   :
+    - binary(runtest)
+setup       : |
+    %patch %(pkgdir)/0001-no-gold.patch -p2
+    %patch %(pkgdir)/readelf.patch
+build       : |
+    %make \
+        CFLAGS="%(cflags)" \
+        LDFLAGS="%(ldflags)" \
+        prefix=%(prefix) \
+        mandir=%(mandir) \
+        bindir=%(bindir)
+install     : |
+    %make_install \
+        prefix=%(prefix) \
+        mandir=%(mandir) \
+        bindir=%(bindir)
+# check       : |
+#     CFLAGS="" LDFLAGS="" \
+#     srcdir=${PWD} \
+#         %make check
+# TODO: Figure out tests
