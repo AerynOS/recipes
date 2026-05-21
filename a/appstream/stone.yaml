@@ -3,7 +3,7 @@
 
 name        : appstream
 version     : "1.1.2"
-release     : 15
+release     : 16
 homepage    : https://www.freedesktop.org/wiki/Distributions/AppStream/
 upstreams   :
     - https://www.freedesktop.org/software/appstream/releases/AppStream-1.1.2.tar.xz : 46b4257100e25a6468ceed7b3ab82441f47b119da3398d30aea6d7b91174b586
@@ -42,6 +42,7 @@ setup       : |
     %meson \
         --sysconfdir=%(datadir)/appstream \
         -Dapidocs=false \
+        -Dcompose=true \
         -Dinstall-docs=false \
         -Dqt=true \
         -Dstemming=false \
@@ -56,6 +57,30 @@ packages    :
             - /usr/share/gettext/its/
             - /usr/share/installed-tests/
             - /usr/share/vala/
+
+    - "%(name)-compose":
+        summary: "Compose AppStream metadata catalog from directory trees"
+        description: |
+            Compose AppStream metadata catalog from directory trees
+        paths:
+            - /usr/lib/appstream/appstreamcli-compose
+            - /usr/lib/libappstream-compose.so.*
+            - /usr/lib/girepository-1.0/AppStreamCompose-1.0.typelib
+            - /usr/share/man/man1/appstreamcli-compose.1
+            - /usr/share/metainfo/org.freedesktop.appstream.compose.metainfo.xml
+
+    - "%(name)-compose-devel":
+        summary: "Tools and libraries to work with AppStream metadata - compose tools (development files)"
+        description: |
+            Tools and libraries to work with AppStream metadata - compose tools (development files)
+        rundeps:
+            - "%(name)-compose"
+            - "%(name)-devel"
+        paths:
+            - /usr/include/appstream-compose/
+            - /usr/lib/libappstream-compose.so
+            - /usr/lib/pkgconfig/appstream-compose.pc
+            - /usr/share/gir-1.0/AppStreamCompose-1.0.gir
 
     - "%(name)-qt6":
         summary: "Tools and libraries to work with AppStream metadata - Qt6 bindings"
