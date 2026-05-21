@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : qt6-base
-version     : "6.11.0"
-release     : 26
+version     : "6.11.1"
+release     : 27
 homepage    : https://www.qt.io
 upstreams   :
-    - https://download.qt.io/official_releases/qt/6.11/6.11.0/submodules/qtbase-everywhere-src-6.11.0.tar.xz : 231ad85979864d914dc9568a1b71c91d6cf20d7b2021d059103bf0eb51cb755e
+    - https://download.qt.io/official_releases/qt/6.11/6.11.1/submodules/qtbase-everywhere-src-6.11.1.tar.xz : d9594a31228aa23ad6b531719a29b45f0f3989fe6c136d45767ea179f233c1ac
     # - git|https://invent.kde.org/qt/qt/qtbase.git : 1ce2841fc1695325f6213d213f2d8dbf5d653c18
 summary     : Cross platform application and UI framework
 description : |
@@ -79,11 +79,14 @@ setup       : |
     %patch %(pkgdir)/0001-Run-render-tick-at-120fps.patch
 
     # Upstream backports
-    %patch %(pkgdir)/upstream-01.patch
-    %patch %(pkgdir)/upstream-02.patch
-    %patch %(pkgdir)/upstream-03.patch
-    %patch %(pkgdir)/upstream-04.patch
-    %patch %(pkgdir)/upstream-05.patch
+    %patch %(pkgdir)/upstream/upstream-3bd9.patch
+    %patch %(pkgdir)/upstream/QTBUG-120533.patch
+    %patch %(pkgdir)/upstream/upstream-3c84.patch
+    %patch %(pkgdir)/upstream/QTBUG-143786.patch
+    %patch %(pkgdir)/upstream/QTBUG-95817.patch
+    %patch %(pkgdir)/upstream/QTBUG-110448.patch
+    %patch %(pkgdir)/upstream/QTBUG-145390.patch
+    %patch %(pkgdir)/upstream/QTBUG-123455.patch
 
     ## 2024-01-18 Note
     # Enabling -DQT_FEATURE_openssl_hash=ON with Qt 6.6.1 seems to break some applications use of TLS.

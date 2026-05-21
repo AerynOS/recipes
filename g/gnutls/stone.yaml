@@ -3,7 +3,7 @@
 
 name        : gnutls
 version     : "3.8.13"
-release     : 12
+release     : 13
 homepage    : https://www.gnutls.org/
 upstreams   :
     - https://www.gnupg.org/ftp/gcrypt/gnutls/v3.8/gnutls-3.8.13.tar.xz: ffed8ec1bf09c2426d4f14aae377de4753b53e537d685e604e99a8b16ca9c97e
@@ -15,6 +15,8 @@ builddeps   :
     - binary(bison)
     - binary(makeinfo)
     - binary(msgfmt)
+    - pkgconfig(glib-2.0)
+    - pkgconfig(gobject-2.0)
     - pkgconfig(gmp)
     - pkgconfig(libbrotlicommon)
     - pkgconfig(libcrypto)
@@ -30,6 +32,7 @@ builddeps   :
 # TODO gtk-docs support?
 # TODO guile support?
 # libtspi for TPM1 support?
+# unbound for libdane?
 setup       : |
     %configure \
         --disable-static \

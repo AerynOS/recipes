@@ -3,7 +3,7 @@
 
 name        : plasma-workspace
 version     : "6.6.5"
-release     : 36
+release     : 38
 upstreams   :
     - https://download.kde.org/stable/plasma/6.6.5/plasma-workspace-6.6.5.tar.xz : 64d753cadcb9cde6ac09eeedf6b02ec5ccdfbd01722c5e9f2533fd0993b0d854
 homepage    : https://kde.org/plasma-desktop/
@@ -94,6 +94,8 @@ tuning      :
 setup       : |
     %patch %(pkgdir)/0001-Remove-wayland-from-session-name.patch
     %patch %(pkgdir)/0001-Use-stateless-dir-for-menu.patch
+    # https://bugs.kde.org/show_bug.cgi?id=520120
+    %patch %(pkgdir)/0001-libnotificationmanager-qt6.11.patch
 
     # Regrettably we can't set WITH_X11=OFF yet because the font KCM relies on it to build. For now we can just cleanup the session bits afterwords
     %cmake_kf6 \

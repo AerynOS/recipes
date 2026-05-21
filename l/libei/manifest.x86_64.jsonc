@@ -17,7 +17,7 @@
 			],
 			"files": [
 				"/usr/lib/libei.so.1",
-				"/usr/lib/libei.so.1.5.0"
+				"/usr/lib/libei.so.1.6.0"
 			],
 			"name": "libei",
 			"provides": [
@@ -72,7 +72,8 @@
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libei.so.1(x86_64))",
-				"soname(libevdev.so.2(x86_64))"
+				"soname(libevdev.so.2(x86_64))",
+				"soname(libxkbcommon.so.0(x86_64))"
 			],
 			"files": [
 				"/usr/bin/ei-debug-events"
@@ -97,7 +98,7 @@
 			],
 			"files": [
 				"/usr/lib/libeis.so.1",
-				"/usr/lib/libeis.so.1.5.0"
+				"/usr/lib/libeis.so.1.6.0"
 			],
 			"name": "libeis",
 			"provides": [
@@ -120,7 +121,7 @@
 			],
 			"files": [
 				"/usr/lib/liboeffis.so.1",
-				"/usr/lib/liboeffis.so.1.5.0"
+				"/usr/lib/liboeffis.so.1.6.0"
 			],
 			"name": "liboeffis",
 			"provides": [
@@ -129,6 +130,6 @@
 		}
 	},
 	"source-name": "libei",
-	"source-release": "6",
-	"source-version": "1.5.0"
+	"source-release": "7",
+	"source-version": "1.6.0"
 }

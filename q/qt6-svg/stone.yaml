@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : qt6-svg
-version     : "6.11.0"
-release     : 12
+version     : "6.11.1"
+release     : 13
 homepage    : https://www.qt.io
 upstreams   :
-    - https://download.qt.io/official_releases/qt/6.11/6.11.0/submodules/qtsvg-everywhere-src-6.11.0.tar.xz : dfa8d653be07087d9407ed4a4ebae847f8953e0b7abd829f089803ab652a30e6
+    - https://download.qt.io/official_releases/qt/6.11/6.11.1/submodules/qtsvg-everywhere-src-6.11.1.tar.xz : 7f3cf02f4824bf03c2c5859ea6db173bf1482a1daf24e6cdf7bc78cfa26a8a94
 summary     : Qt6 SVG Module
 description : |
     Scalable Vector Graphics (SVG) is an XML-based language for describing two-dimensional vector graphics. Qt provides classes for rendering and displaying SVG drawings in widgets and on other paint devices.
@@ -17,8 +17,6 @@ license     :
 builddeps   :
     - cmake(Qt6CorePrivate)
 setup       : |
-    %patch %(pkgdir)/upstream-01.patch
-
     %cmake_qt6
 build       : |
     %cmake_build

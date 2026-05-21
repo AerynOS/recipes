@@ -227,3 +227,7 @@
 
 ### Whoops
 - "$(name)-devel"
+
+### Merged into GCC
+- libatomic-static
+- libatomic-32bit-static

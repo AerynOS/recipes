@@ -221,11 +221,11 @@
 				"soname(libgobject-2.0.so.0(x86_64))"
 			],
 			"files": [
-				"/usr/lib/NetworkManager/1.56.0/libnm-device-plugin-adsl.so"
+				"/usr/lib/NetworkManager/1.56.1/libnm-device-plugin-adsl.so"
 			],
 			"name": "networkmanager-adsl",
 			"provides": [
-				"soname(NetworkManager/1.56.0/libnm-device-plugin-adsl.so(x86_64))"
+				"soname(NetworkManager/1.56.1/libnm-device-plugin-adsl.so(x86_64))"
 			]
 		},
 		"networkmanager-bluetooth": {
@@ -267,7 +267,7 @@
 				"bluez",
 				"networkmanager",
 				"networkmanager-wwan",
-				"soname(NetworkManager/1.56.0/libnm-wwan.so(x86_64))",
+				"soname(NetworkManager/1.56.1/libnm-wwan.so(x86_64))",
 				"soname(libbluetooth.so.3(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libgio-2.0.so.0(x86_64))",
@@ -275,11 +275,11 @@
 				"soname(libgobject-2.0.so.0(x86_64))"
 			],
 			"files": [
-				"/usr/lib/NetworkManager/1.56.0/libnm-device-plugin-bluetooth.so"
+				"/usr/lib/NetworkManager/1.56.1/libnm-device-plugin-bluetooth.so"
 			],
 			"name": "networkmanager-bluetooth",
 			"provides": [
-				"soname(NetworkManager/1.56.0/libnm-device-plugin-bluetooth.so(x86_64))"
+				"soname(NetworkManager/1.56.1/libnm-device-plugin-bluetooth.so(x86_64))"
 			]
 		},
 		"networkmanager-cloud-setup": {
@@ -397,6 +397,7 @@
 				"/usr/share/gtk-doc/html/NetworkManager/gdbus-org.freedesktop.NetworkManager.Device.Bridge.html",
 				"/usr/share/gtk-doc/html/NetworkManager/gdbus-org.freedesktop.NetworkManager.Device.Dummy.html",
 				"/usr/share/gtk-doc/html/NetworkManager/gdbus-org.freedesktop.NetworkManager.Device.Generic.html",
+				"/usr/share/gtk-doc/html/NetworkManager/gdbus-org.freedesktop.NetworkManager.Device.Geneve.html",
 				"/usr/share/gtk-doc/html/NetworkManager/gdbus-org.freedesktop.NetworkManager.Device.Hsr.html",
 				"/usr/share/gtk-doc/html/NetworkManager/gdbus-org.freedesktop.NetworkManager.Device.IPTunnel.html",
 				"/usr/share/gtk-doc/html/NetworkManager/gdbus-org.freedesktop.NetworkManager.Device.Infiniband.html",
@@ -491,6 +492,7 @@
 				"/usr/share/gtk-doc/html/NetworkManager/settings-dummy.html",
 				"/usr/share/gtk-doc/html/NetworkManager/settings-ethtool.html",
 				"/usr/share/gtk-doc/html/NetworkManager/settings-generic.html",
+				"/usr/share/gtk-doc/html/NetworkManager/settings-geneve.html",
 				"/usr/share/gtk-doc/html/NetworkManager/settings-gsm.html",
 				"/usr/share/gtk-doc/html/NetworkManager/settings-hostname.html",
 				"/usr/share/gtk-doc/html/NetworkManager/settings-hsr.html",
@@ -550,6 +552,7 @@
 				"/usr/share/gtk-doc/html/libnm/NMDeviceDummy.html",
 				"/usr/share/gtk-doc/html/libnm/NMDeviceEthernet.html",
 				"/usr/share/gtk-doc/html/libnm/NMDeviceGeneric.html",
+				"/usr/share/gtk-doc/html/libnm/NMDeviceGeneve.html",
 				"/usr/share/gtk-doc/html/libnm/NMDeviceHsr.html",
 				"/usr/share/gtk-doc/html/libnm/NMDeviceIPTunnel.html",
 				"/usr/share/gtk-doc/html/libnm/NMDeviceInfiniband.html",
@@ -594,6 +597,7 @@
 				"/usr/share/gtk-doc/html/libnm/NMSettingDummy.html",
 				"/usr/share/gtk-doc/html/libnm/NMSettingEthtool.html",
 				"/usr/share/gtk-doc/html/libnm/NMSettingGeneric.html",
+				"/usr/share/gtk-doc/html/libnm/NMSettingGeneve.html",
 				"/usr/share/gtk-doc/html/libnm/NMSettingGsm.html",
 				"/usr/share/gtk-doc/html/libnm/NMSettingHostname.html",
 				"/usr/share/gtk-doc/html/libnm/NMSettingHsr.html",
@@ -798,6 +802,7 @@
 				"/usr/include/libnm/nm-device-dummy.h",
 				"/usr/include/libnm/nm-device-ethernet.h",
 				"/usr/include/libnm/nm-device-generic.h",
+				"/usr/include/libnm/nm-device-geneve.h",
 				"/usr/include/libnm/nm-device-hsr.h",
 				"/usr/include/libnm/nm-device-infiniband.h",
 				"/usr/include/libnm/nm-device-ip-tunnel.h",
@@ -846,6 +851,7 @@
 				"/usr/include/libnm/nm-setting-dummy.h",
 				"/usr/include/libnm/nm-setting-ethtool.h",
 				"/usr/include/libnm/nm-setting-generic.h",
+				"/usr/include/libnm/nm-setting-geneve.h",
 				"/usr/include/libnm/nm-setting-gsm.h",
 				"/usr/include/libnm/nm-setting-hostname.h",
 				"/usr/include/libnm/nm-setting-hsr.h",
@@ -919,6 +925,7 @@
 				"/usr/share/dbus-1/interfaces/org.freedesktop.NetworkManager.Device.Bridge.xml",
 				"/usr/share/dbus-1/interfaces/org.freedesktop.NetworkManager.Device.Dummy.xml",
 				"/usr/share/dbus-1/interfaces/org.freedesktop.NetworkManager.Device.Generic.xml",
+				"/usr/share/dbus-1/interfaces/org.freedesktop.NetworkManager.Device.Geneve.xml",
 				"/usr/share/dbus-1/interfaces/org.freedesktop.NetworkManager.Device.Hsr.xml",
 				"/usr/share/dbus-1/interfaces/org.freedesktop.NetworkManager.Device.IPTunnel.xml",
 				"/usr/share/dbus-1/interfaces/org.freedesktop.NetworkManager.Device.Infiniband.xml",
@@ -1012,11 +1019,11 @@
 				"soname(libjansson.so.4(x86_64))"
 			],
 			"files": [
-				"/usr/lib/NetworkManager/1.56.0/libnm-device-plugin-ovs.so"
+				"/usr/lib/NetworkManager/1.56.1/libnm-device-plugin-ovs.so"
 			],
 			"name": "networkmanager-ovs",
 			"provides": [
-				"soname(NetworkManager/1.56.0/libnm-device-plugin-ovs.so(x86_64))"
+				"soname(NetworkManager/1.56.1/libnm-device-plugin-ovs.so(x86_64))"
 			]
 		},
 		"networkmanager-ppp": {
@@ -1063,12 +1070,12 @@
 				"soname(libgobject-2.0.so.0(x86_64))"
 			],
 			"files": [
-				"/usr/lib/NetworkManager/1.56.0/libnm-ppp-plugin.so",
+				"/usr/lib/NetworkManager/1.56.1/libnm-ppp-plugin.so",
 				"/usr/lib/pppd/2.5.2/nm-pppd-plugin.so"
 			],
 			"name": "networkmanager-ppp",
 			"provides": [
-				"soname(NetworkManager/1.56.0/libnm-ppp-plugin.so(x86_64))",
+				"soname(NetworkManager/1.56.1/libnm-ppp-plugin.so(x86_64))",
 				"soname(pppd/2.5.2/nm-pppd-plugin.so(x86_64))"
 			]
 		},
@@ -1180,11 +1187,11 @@
 				"sysbinary(set-wireless-regdom)"
 			],
 			"files": [
-				"/usr/lib/NetworkManager/1.56.0/libnm-device-plugin-wifi.so"
+				"/usr/lib/NetworkManager/1.56.1/libnm-device-plugin-wifi.so"
 			],
 			"name": "networkmanager-wifi",
 			"provides": [
-				"soname(NetworkManager/1.56.0/libnm-device-plugin-wifi.so(x86_64))"
+				"soname(NetworkManager/1.56.1/libnm-device-plugin-wifi.so(x86_64))"
 			]
 		},
 		"networkmanager-wwan": {
@@ -1233,17 +1240,17 @@
 				"soname(libsystemd.so.0(x86_64))"
 			],
 			"files": [
-				"/usr/lib/NetworkManager/1.56.0/libnm-device-plugin-wwan.so",
-				"/usr/lib/NetworkManager/1.56.0/libnm-wwan.so"
+				"/usr/lib/NetworkManager/1.56.1/libnm-device-plugin-wwan.so",
+				"/usr/lib/NetworkManager/1.56.1/libnm-wwan.so"
 			],
 			"name": "networkmanager-wwan",
 			"provides": [
-				"soname(NetworkManager/1.56.0/libnm-device-plugin-wwan.so(x86_64))",
-				"soname(NetworkManager/1.56.0/libnm-wwan.so(x86_64))"
+				"soname(NetworkManager/1.56.1/libnm-device-plugin-wwan.so(x86_64))",
+				"soname(NetworkManager/1.56.1/libnm-wwan.so(x86_64))"
 			]
 		}
 	},
 	"source-name": "networkmanager",
-	"source-release": "14",
-	"source-version": "1.56.0"
+	"source-release": "15",
+	"source-version": "1.56.1"
 }

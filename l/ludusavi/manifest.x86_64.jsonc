@@ -1,0 +1,43 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"ludusavi": {
+			"build-depends": [
+				"pkgconfig(atk)",
+				"pkgconfig(bzip2)",
+				"pkgconfig(gdk-3.0)",
+				"pkgconfig(glib-2.0)",
+				"pkgconfig(libzstd)",
+				"pkgconfig(sqlite3)"
+			],
+			"depends": [
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(ld-linux-x86-64.so.2(x86_64))",
+				"soname(libbz2.so.1.0(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libglib-2.0.so.0(x86_64))",
+				"soname(libgobject-2.0.so.0(x86_64))",
+				"soname(libgtk-3.so.0(x86_64))",
+				"soname(libm.so.6(x86_64))",
+				"soname(libsqlite3.so.0(x86_64))",
+				"soname(libzstd.so.1(x86_64))"
+			],
+			"files": [
+				"/usr/bin/ludusavi",
+				"/usr/share/applications/com.mtkennerly.ludusavi.desktop",
+				"/usr/share/icons/hicolor/64x64/apps/com.mtkennerly.ludusavi.png",
+				"/usr/share/icons/hicolor/scalable/apps/com.mtkennerly.ludusavi.png",
+				"/usr/share/metainfo/com.mtkennerly.ludusavi.metainfo.xml"
+			],
+			"name": "ludusavi",
+			"provides": [
+				"binary(ludusavi)"
+			]
+		}
+	},
+	"source-name": "ludusavi",
+	"source-release": "1",
+	"source-version": "0.31.0"
+}

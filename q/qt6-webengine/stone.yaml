@@ -2,18 +2,18 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : qt6-webengine
-version     : "6.11.0"
-release     : 24
+version     : "6.11.1"
+release     : 25
 homepage    : https://www.qt.io
 upstreams   :
-    - https://download.qt.io/official_releases/qt/6.11/6.11.0/submodules/qtwebengine-everywhere-src-6.11.0.tar.xz: 63b921c8b2dd59152ced9a796676010166df044588ee00ef9429dc2fd2146736
+    - https://download.qt.io/official_releases/qt/6.11/6.11.1/submodules/qtwebengine-everywhere-src-6.11.1.tar.xz: 679c66ccc6c158fc215e9c58ef160331ecd29974232e345c05161889f8667083
 
 ### Manage the chromium source separately so it can be updated separately from the Qt version
 ### To update this run the ./update-chromium.py script
 # Don't edit anything between the BEGIN_UPSTREAMS and END_UPSTREAMS tags
 ##@@BEGIN_UPSTREAMS
     - git|https://invent.kde.org/qt/qt/qtwebengine-chromium.git:
-        ref: 71f1d39f2b8d94c298a4c6d47b579c9d0e7b6d38
+        ref: a5a1f9be55c5d96ef07ce39cf350ec0a0c856c00
 ##@@END_UPSTREAMS
 summary     : Qt6 Webengine Module
 description : |
@@ -121,9 +121,6 @@ build       : |
     %cmake_build
 install     : |
     %cmake_install
-
-    # Breaks corrosion
-    rm -v %(installroot)%(libdir)/cmake/Qt6/FindRust.cmake
 packages    :
     - "qt6-pdf":
         summary: Qt6 - QtPdf components

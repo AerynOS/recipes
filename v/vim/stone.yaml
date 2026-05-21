@@ -2,12 +2,12 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : vim
-version     : "9.2.0389"
-release     : 24
+version     : "9.2.0502"
+release     : 27
 homepage    : https://github.com/vim/vim
 upstreams   :
-    - https://github.com/vim/vim/archive/refs/tags/v9.2.0389.tar.gz:
-        hash: 27c7db205ab23ad53e067fafeb9ed3e6ae751afc85518db185d2e956f3d22ba9
+    - https://github.com/vim/vim/archive/refs/tags/v9.2.0502.tar.gz:
+        hash: 549121024f812b8efb54331e3eb53996efc77737ca9231e51b121239ae73e540
         unpack: false
         rename: vim.tar.gz
 summary     : Vi IMproved, an advanced text editor
@@ -17,8 +17,10 @@ license     : Vim
 builddeps   :
     - binary(bsdtar-static)
     - binary(msgfmt)
-    - pkgconfig(gtk+-3.0)
+    - pkgconfig(gtk4)
     - pkgconfig(ice)
+    - pkgconfig(libacl)
+    - pkgconfig(libattr)
     - pkgconfig(libcanberra)
     - pkgconfig(libsodium)
     - pkgconfig(luajit)
@@ -31,6 +33,7 @@ builddeps   :
     - pkgconfig(xpm)
     - pkgconfig(xt)
     - gpm-devel
+    # libselinux
 setup       : |
     mkdir vim gvim
     bsdtar-static -xf %(sourcedir)/vim.tar.gz --strip-components=1 -C vim
@@ -39,6 +42,10 @@ setup       : |
     function vim_configure() {
         %patch %(pkgdir)/0001-Make-vim-stateless.patch
         %patch %(pkgdir)/0001-Read-vimrc-from-etc-vim.patch
+
+        # https://github.com/vim/vim/issues/20267
+        %patch %(pkgdir)/0001-Fix-build-with-gtk4.patch
+        %patch %(pkgdir)/20258.patch
 
         %configure \
             --disable-netbeans \
@@ -62,8 +69,8 @@ setup       : |
     pushd gvim
     vim_configure \
         --enable-canberra \
-        --enable-gtk3-check \
-        --enable-gui=gtk3 \
+        --enable-gtk4-check \
+        --enable-gui=gtk4 \
         --enable-xim \
         --with-x=yes
     popd

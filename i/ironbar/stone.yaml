@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : ironbar
-version     : "0.18.0"
-release     : 1
+version     : "0.19.0"
+release     : 2
 homepage    : https://github.com/JakeStanger/ironbar
 upstreams   :
-    - git|https://github.com/JakeStanger/ironbar.git : 585eb5f7c92ed83b32fac45552b867207bfeb6e2
+    - https://github.com/JakeStanger/ironbar/archive/refs/tags/v0.19.0.tar.gz : 0d25c2f0c72f839b4018ae12b876a71d04b946ce6fe629a0bb12b8b279ca3699
 summary     :  Customisable Wayland GTK4 bar written in Rust.
 description : |
     A customisable and feature-rich GTK4 bar for Wayland compositors, written in Rust.
@@ -24,12 +24,24 @@ builddeps   :
     - pkgconfig(libinput)
     - pkgconfig(libpulse)
     - pkgconfig(luajit)
-    - pkgconfig(openssl)
+    # - pkgconfig(openssl)
     - pkgconfig(pango)
 networking  : true
 setup       : |
     %cargo_fetch
 build       : |
     %cargo_build
+
+    # generate shell completions
+    for shell in bash fish zsh; do
+        %(cargo_target_dir)/ironbar \
+            --print-completions "${shell}" > "%(name).${shell}"
+    done
 install     : |
     %cargo_install
+
+    %install_file %(name).bash %(installroot)%(bashcompletionsdir)/%(name)
+    %install_file %(name).fish -t %(installroot)%(fishcompletionsdir)
+    %install_file %(name).zsh %(installroot)%(zshcompletionsdir)/_%(name)
+
+    %install_file %(name).service -t %(installroot)%(libdir)/systemd/user/

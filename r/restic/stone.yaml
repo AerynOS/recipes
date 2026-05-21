@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : restic
-version     : "0.17.3"
-release     : 8
+version     : "0.18.1"
+release     : 9
 homepage    : https://restic.net
 upstreams   :
-    - https://github.com/restic/restic/archive/refs/tags/v0.17.3.tar.gz : bf0dd73edfae531c24070e2e7833938613f7b179ed165e6b681098edfdf286c8
+    - https://github.com/restic/restic/archive/refs/tags/v0.18.1.tar.gz : 4b8e2b6cb20e9707e14b9b9d92ddb6f2e913523754e1f123e2e6f3321e67f7ca
 summary     : Fast, secure, efficient backup program
 description : |
     Restic is a program that does backups right and was designed with the following principles in mind: easy, fast, verifiable, secure and efficient.
@@ -20,8 +20,9 @@ build       : |
 
     %make GO_BUILD_FLAGS="-trimpath -mod=readonly -modcacherw"
 install     : |
-    install -Dm00755 restic -t %(installroot)/%(bindir)
+    %install_bin restic
 
-    install -Dm00644 doc/man/*.1 -t %(installroot)/%(mandir)
-    install -Dm00644 doc/bash-completion.sh %(installroot)/%(completionsdir)/restic
-    install -Dm00644 doc/zsh-completion.zsh %(installroot)/%(datadir)/zsh/site-functions/_restic
+    %install_file doc/man/*.1 -t %(installroot)/%(mandir)
+    %install_file doc/bash-completion.sh %(installroot)/%(bashcompletionsdir)/restic
+    %install_file doc/zsh-completion.zsh %(installroot)/%(zshcompletionsdir)/_restic
+    %install_file doc/fish-completion.fish %(installroot)/%(fishcompletionsdir)/restic.fish

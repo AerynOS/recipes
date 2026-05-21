@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : libksba
-version     : "1.6.8"
-release     : 4
+version     : "1.8.0"
+release     : 5
 homepage    : https://gnupg.org/software/libksba
 upstreams   :
-    - https://gnupg.org/ftp/gcrypt/libksba/libksba-1.6.8.tar.bz2 : 0f4510f1c7a679c3545990a31479f391ad45d84e039176309d42f80cf41743f5
+    - https://gnupg.org/ftp/gcrypt/libksba/libksba-1.8.0.tar.bz2 : 296b9db9095749f2aa104202d7ab7fd09ad10710e00780a709c9754b1a1d9292
 summary     : Makes working with X.509 certificates, CMS data and related objects more easy
 description : |
     %(name) is a library to make the tasks of working with X.509 certificates, CMS data and related objects more easy. It provides a highlevel interface to the implemented protocols and presents the data in a consistent way. There is no more need to worry about all the nasty details of the protocols.
@@ -15,6 +15,7 @@ license     :
     - GPL-3.0-or-later
     - LGPL-3.0-or-later
 builddeps   :
+    - binary(bison)
     - pkgconfig(gpg-error)
 setup       : |
     %configure

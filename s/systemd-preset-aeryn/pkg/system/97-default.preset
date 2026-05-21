@@ -152,3 +152,15 @@ enable scx_loader.service
 enable tinysparql-xdg-portal-3.service
 enable xwayland-satellite.service
 enable keyd.service
+
+# ZFS support
+enable zfs-import-cache.service
+enable zfs-import-scan.service
+enable zfs-mount.service
+enable zfs-mount@.service
+enable zfs-share.service
+enable zfs-zed.service
+enable zfs.target
+enable zfs-import.target
+enable zfs-volume-wait.service
+enable zfs-volumes.target

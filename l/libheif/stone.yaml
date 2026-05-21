@@ -2,10 +2,10 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : libheif
-version     : "1.21.2"
-release     : 7
+version     : "1.22.0"
+release     : 8
 upstreams   :
-    - https://github.com/strukturag/libheif/releases/download/v1.21.2/libheif-1.21.2.tar.gz : 75f530b7154bc93e7ecf846edfc0416bf5f490612de8c45983c36385aa742b42
+    - https://github.com/strukturag/libheif/releases/download/v1.22.0/libheif-1.22.0.tar.gz : 8bd20cfa3201997b8f63266cddfabea2e1481467d7f992e6a2595e0bec691fc2
 homepage    : https://github.com/strukturag/libheif
 license     :
     - LGPL-3.0-or-later
@@ -28,6 +28,7 @@ builddeps   :
     - pkgconfig(libsharpyuv)
     - pkgconfig(libtiff-4)
     - pkgconfig(openh264)
+    - pkgconfig(openjph)
     - pkgconfig(rav1e)
     - pkgconfig(sdl2-compat)
     - pkgconfig(x264)
@@ -35,8 +36,6 @@ builddeps   :
     - pkgconfig(zlib)
     # - libvvdec/libvvenc
 setup       : |
-    %patch %(pkgdir)/1680.patch
-
     # Basically, build support for everything but as plugins
     # Then split each plugin out to a subpackage and have the main package depend on several as the "defaults"
     %cmake \
@@ -57,6 +56,8 @@ setup       : |
         -DWITH_LIBDE265_PLUGIN=ON \
         -DWITH_OpenH264_DECODER=ON \
         -DWITH_OpenH264_DECODER_PLUGIN=ON \
+        -DWITH_OPENJPH_ENCODER=ON \
+        -DWITH_OPENJPH_ENCODER_PLUGIN=ON \
         -DWITH_OpenJPEG_DECODER=ON \
         -DWITH_OpenJPEG_DECODER_PLUGIN=ON \
         -DWITH_RAV1E=ON \
@@ -141,6 +142,12 @@ packages    :
         description: HEIF and AVIF file format decoder and encoder - openh264 plugin
         paths:
             - /usr/lib/libheif/libheif-openh264dec.so
+
+    - "%(name)-plugin-openjph":
+        summary: HEIF and AVIF file format decoder and encoder - openjph plugin
+        description: HEIF and AVIF file format decoder and encoder - openjph plugin
+        paths:
+            - /usr/lib/libheif/libheif-jphenc.so
 
     - "%(name)-plugin-rav1e":
         summary: HEIF and AVIF file format decoder and encoder - rav1e plugin

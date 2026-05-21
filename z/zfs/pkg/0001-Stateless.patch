@@ -1,0 +1,426 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Reilly Brogan <reilly@reillybrogan.com>
+Date: Mon, 20 May 2024 14:20:39 -0500
+Subject: [PATCH] Stateless
+
+Signed-off-by: Reilly Brogan <reilly@reillybrogan.com>
+---
+ Makefile.in                                   | 33 ++++---------------
+ cmd/zed/zed.d/Makefile.am                     | 12 ++-----
+ cmd/zed/zed.h                                 |  2 +-
+ cmd/zpool/Makefile.am                         |  8 +----
+ cmd/zpool/zpool_iter.c                        |  6 ++--
+ cmd/zpool/zpool_util.h                        |  1 +
+ config/zfs-build.m4                           |  5 ++-
+ configure                                     |  5 ++-
+ etc/Makefile.am                               | 17 ++--------
+ etc/default/{zfs.in => environment.in}        |  0
+ .../system/zfs-import-cache.service.in        |  1 +
+ etc/systemd/system/zfs-import-scan.service.in |  1 +
+ etc/systemd/system/zfs-mount.service.in       |  1 +
+ etc/systemd/system/zfs-mount@.service.in      |  1 +
+ etc/systemd/system/zfs-scrub@.service.in      |  1 +
+ etc/systemd/system/zfs-share.service.in       |  1 +
+ etc/systemd/system/zfs-trim@.service.in       |  1 +
+ etc/systemd/system/zfs-volume-wait.service.in |  1 +
+ etc/systemd/system/zfs-zed.service.in         |  1 +
+ 19 files changed, 34 insertions(+), 64 deletions(-)
+ rename etc/default/{zfs.in => environment.in} (100%)
+
+diff --git a/Makefile.in b/Makefile.in
+index e6427e7..8ef8108 100644
+--- a/Makefile.in
++++ b/Makefile.in
+@@ -3780,7 +3780,7 @@ SUBDIRS = include $(am__append_88) $(am__append_97)
+ @CONFIG_USER_TRUE@	libuutil.la libzutil.la $(LTLIBINTL) \
+ @CONFIG_USER_TRUE@	$(am__append_14) -lm $(LIBBLKID_LIBS) \
+ @CONFIG_USER_TRUE@	$(LIBUUID_LIBS)
+-@CONFIG_USER_TRUE@zpoolexecdir = $(zfsexecdir)/zpool.d
++@CONFIG_USER_TRUE@zpoolexecdir = $(datadir)/defaults/zpool.d
+ @CONFIG_USER_TRUE@dist_zpoolexec_SCRIPTS = \
+ @CONFIG_USER_TRUE@	cmd/zpool/zpool.d/ata_err \
+ @CONFIG_USER_TRUE@	cmd/zpool/zpool.d/cmd_to \
+@@ -3970,12 +3970,12 @@ SUBDIRS = include $(am__append_88) $(am__append_97)
+ 
+ 
+ # SPDX-License-Identifier: CDDL-1.0
+-@BUILD_LINUX_TRUE@@CONFIG_USER_TRUE@zedconfdir = $(sysconfdir)/zfs/zed.d
++@BUILD_LINUX_TRUE@@CONFIG_USER_TRUE@zedconfdir = $(datadir)/defaults/zfs/zed.d
+ @BUILD_LINUX_TRUE@@CONFIG_USER_TRUE@dist_zedconf_DATA = \
+ @BUILD_LINUX_TRUE@@CONFIG_USER_TRUE@	cmd/zed/zed.d/zed-functions.sh \
+ @BUILD_LINUX_TRUE@@CONFIG_USER_TRUE@	cmd/zed/zed.d/zed.rc
+ 
+-@BUILD_LINUX_TRUE@@CONFIG_USER_TRUE@zedexecdir = $(zfsexecdir)/zed.d
++@BUILD_LINUX_TRUE@@CONFIG_USER_TRUE@zedexecdir = $(zedconfdir)
+ @BUILD_LINUX_TRUE@@CONFIG_USER_TRUE@dist_zedexec_SCRIPTS = \
+ @BUILD_LINUX_TRUE@@CONFIG_USER_TRUE@	cmd/zed/zed.d/all-debug.sh \
+ @BUILD_LINUX_TRUE@@CONFIG_USER_TRUE@	cmd/zed/zed.d/all-syslog.sh \
+@@ -4124,23 +4124,17 @@ SUBDIRS = include $(am__append_88) $(am__append_97)
+ @CONFIG_USER_TRUE@@PAM_ZFS_ENABLED_TRUE@dist_pamconfigs_DATA = contrib/pam_zfs_key/zfs_key
+ 
+ # SPDX-License-Identifier: CDDL-1.0
+-@CONFIG_USER_TRUE@sudoersddir = $(sysconfdir)/sudoers.d
++@CONFIG_USER_TRUE@sudoersddir = $(datadir)/defaults/sudo/sudoers.d
+ @CONFIG_USER_TRUE@sudoersd_DATA = \
+ @CONFIG_USER_TRUE@	etc/sudoers.d/zfs
+ 
+-@CONFIG_USER_TRUE@sysconf_zfsdir = $(sysconfdir)/zfs
+-@CONFIG_USER_TRUE@dist_sysconf_zfs_DATA = \
+-@CONFIG_USER_TRUE@	etc/zfs/vdev_id.conf.alias.example \
+-@CONFIG_USER_TRUE@	etc/zfs/vdev_id.conf.multipath.example \
+-@CONFIG_USER_TRUE@	etc/zfs/vdev_id.conf.sas_direct.example \
+-@CONFIG_USER_TRUE@	etc/zfs/vdev_id.conf.sas_switch.example \
+-@CONFIG_USER_TRUE@	etc/zfs/vdev_id.conf.scsi.example
++@CONFIG_USER_TRUE@sysconf_zfsdir = $(datadir)/defaults/zfs
+ 
+ @CONFIG_USER_TRUE@sysconf_zfs_DATA = \
+ @CONFIG_USER_TRUE@	etc/zfs/zfs-functions
+ 
+ @BUILD_LINUX_TRUE@@CONFIG_USER_TRUE@initconf_DATA = \
+-@BUILD_LINUX_TRUE@@CONFIG_USER_TRUE@	etc/default/zfs
++@BUILD_LINUX_TRUE@@CONFIG_USER_TRUE@	etc/default/environment
+ 
+ @BUILD_LINUX_TRUE@@CONFIG_USER_TRUE@@INIT_SYSV_TRUE@init_SCRIPTS = \
+ @BUILD_LINUX_TRUE@@CONFIG_USER_TRUE@@INIT_SYSV_TRUE@	etc/init.d/zfs-import \
+@@ -4177,8 +4171,6 @@ SUBDIRS = include $(am__append_88) $(am__append_97)
+ @BUILD_LINUX_TRUE@@CONFIG_USER_TRUE@@INIT_SYSTEMD_TRUE@	libzfs.la
+ 
+ @BUILD_LINUX_TRUE@@CONFIG_USER_TRUE@@INIT_SYSTEMD_TRUE@etc_systemd_system_generators_zfs_mount_generator_LDFLAGS = -pthread
+-@BUILD_LINUX_TRUE@@CONFIG_USER_TRUE@@WANT_MODULES_LOAD_D_TRUE@dist_modulesload_DATA = \
+-@BUILD_LINUX_TRUE@@CONFIG_USER_TRUE@@WANT_MODULES_LOAD_D_TRUE@	etc/modules-load.d/zfs.conf
+ 
+ @CONFIG_USER_TRUE@noinst_LTLIBRARIES = libavl.la libicp.la libshare.la \
+ @CONFIG_USER_TRUE@	libspl_assert.la libspl.la libtpool.la \
+@@ -14585,12 +14577,6 @@ scripts-install-data-hook: scripts/common.sh.in Makefile
+ 		$< >$(DESTDIR)$(datadir)/$(PACKAGE)/common.sh
+ @CONFIG_USER_TRUE@$(call SUBST,fsck.zfs,cmd/)
+ @CONFIG_USER_TRUE@zpool-install-data-hook:
+-@CONFIG_USER_TRUE@	$(MKDIR_P) "$(DESTDIR)$(zpoolconfdir)"
+-@CONFIG_USER_TRUE@	set -x; for f in $(zpoolconfdefaults); do \
+-@CONFIG_USER_TRUE@	  [ -f "$(DESTDIR)$(zpoolconfdir)/$${f}" ] || \
+-@CONFIG_USER_TRUE@	  [ -L "$(DESTDIR)$(zpoolconfdir)/$${f}" ] || \
+-@CONFIG_USER_TRUE@	    $(LN_S) "$(zpoolexecdir)/$${f}" "$(DESTDIR)$(zpoolconfdir)"; \
+-@CONFIG_USER_TRUE@	done
+ @CONFIG_USER_TRUE@	set -x; printf '%s\n' $(zpoolcompatlinks) | \
+ @CONFIG_USER_TRUE@	while read -r canon alias; do \
+ @CONFIG_USER_TRUE@		$(LN_S) -f "$${canon}" "$(DESTDIR)$(zpoolcompatdir)/$${alias}"; \
+@@ -14598,13 +14584,6 @@ scripts-install-data-hook: scripts/common.sh.in Makefile
+ 
+ @CONFIG_USER_TRUE@cmd-zstream-install-exec-hook:
+ @CONFIG_USER_TRUE@	cd $(DESTDIR)$(sbindir) && $(LN_S) -f zstream zstreamdump
+-@BUILD_LINUX_TRUE@@CONFIG_USER_TRUE@zed-install-data-hook:
+-@BUILD_LINUX_TRUE@@CONFIG_USER_TRUE@	$(MKDIR_P) "$(DESTDIR)$(zedconfdir)"
+-@BUILD_LINUX_TRUE@@CONFIG_USER_TRUE@	set -x; for f in $(zedconfdefaults); do \
+-@BUILD_LINUX_TRUE@@CONFIG_USER_TRUE@	  [ -f "$(DESTDIR)$(zedconfdir)/$${f}" ] ||\
+-@BUILD_LINUX_TRUE@@CONFIG_USER_TRUE@	    [ -L "$(DESTDIR)$(zedconfdir)/$${f}" ] || \
+-@BUILD_LINUX_TRUE@@CONFIG_USER_TRUE@	    $(LN_S) "$(zedexecdir)/$${f}" "$(DESTDIR)$(zedconfdir)"; \
+-@BUILD_LINUX_TRUE@@CONFIG_USER_TRUE@	done
+ @BUILD_LINUX_TRUE@@CONFIG_USER_TRUE@$(call SHELLCHECK_OPTS,$(dist_zedconf_DATA) $(dist_zedexec_SCRIPTS) $(nodist_zedexec_SCRIPTS)): SHELLCHECK_SHELL = sh
+ # False positive: 1>&"${ZED_FLOCK_FD}" looks suspiciously similar to a >&filename bash extension
+ @BUILD_LINUX_TRUE@@CONFIG_USER_TRUE@$(call SHELLCHECK_OPTS,$(dist_zedconf_DATA) $(dist_zedexec_SCRIPTS) $(nodist_zedexec_SCRIPTS)): CHECKBASHISMS_IGNORE = -e 'should be >word 2>&1' -e '&"$${ZED_FLOCK_FD}"'
+diff --git a/cmd/zed/zed.d/Makefile.am b/cmd/zed/zed.d/Makefile.am
+index 4a02f8a..64e7ddc 100644
+--- a/cmd/zed/zed.d/Makefile.am
++++ b/cmd/zed/zed.d/Makefile.am
+@@ -1,10 +1,10 @@
+ # SPDX-License-Identifier: CDDL-1.0
+-zedconfdir = $(sysconfdir)/zfs/zed.d
++zedconfdir = $(datadir)/defaults/zfs/zed.d
+ dist_zedconf_DATA = \
+ 	%D%/zed-functions.sh \
+ 	%D%/zed.rc
+ 
+-zedexecdir = $(zfsexecdir)/zed.d
++zedexecdir = $(zedconfdir)
+ 
+ dist_zedexec_SCRIPTS = \
+ 	%D%/all-debug.sh \
+@@ -45,14 +45,6 @@ zedconfdefaults = \
+ 
+ dist_noinst_DATA += %D%/README
+ 
+-INSTALL_DATA_HOOKS += zed-install-data-hook
+-zed-install-data-hook:
+-	$(MKDIR_P) "$(DESTDIR)$(zedconfdir)"
+-	set -x; for f in $(zedconfdefaults); do \
+-	  [ -f "$(DESTDIR)$(zedconfdir)/$${f}" ] ||\
+-	    [ -L "$(DESTDIR)$(zedconfdir)/$${f}" ] || \
+-	    $(LN_S) "$(zedexecdir)/$${f}" "$(DESTDIR)$(zedconfdir)"; \
+-	done
+ 
+ SHELLCHECKSCRIPTS += $(dist_zedconf_DATA) $(dist_zedexec_SCRIPTS) $(nodist_zedexec_SCRIPTS)
+ $(call SHELLCHECK_OPTS,$(dist_zedconf_DATA) $(dist_zedexec_SCRIPTS) $(nodist_zedexec_SCRIPTS)): SHELLCHECK_SHELL = sh
+diff --git a/cmd/zed/zed.h b/cmd/zed/zed.h
+index 3f467fc..06dc48a 100644
+--- a/cmd/zed/zed.h
++++ b/cmd/zed/zed.h
+@@ -29,7 +29,7 @@
+ /*
+  * Absolute path for the default zed zedlet directory.
+  */
+-#define	ZED_ZEDLET_DIR		SYSCONFDIR "/zfs/zed.d"
++#define	ZED_ZEDLET_DIR		"/usr/share/defaults/zfs/zed.d"
+ 
+ /*
+  * String prefix for ZED variables passed via environment variables.
+diff --git a/cmd/zpool/Makefile.am b/cmd/zpool/Makefile.am
+index c7a1161..df0afc3 100644
+--- a/cmd/zpool/Makefile.am
++++ b/cmd/zpool/Makefile.am
+@@ -42,7 +42,7 @@ zpool_LDADD += -lm $(LIBBLKID_LIBS) $(LIBUUID_LIBS)
+ dist_noinst_DATA += %D%/zpool.d/README
+ 
+ SHELLCHECKSCRIPTS += $(dist_zpoolexec_SCRIPTS)
+-zpoolexecdir = $(zfsexecdir)/zpool.d
++zpoolexecdir = $(datadir)/defaults/zpool.d
+ dist_zpoolexec_SCRIPTS = \
+ 	%D%/zpool.d/ata_err \
+ 	%D%/zpool.d/cmd_to \
+@@ -196,12 +196,6 @@ zpoolcompatlinks = \
+ zpoolconfdir = $(sysconfdir)/zfs/zpool.d
+ INSTALL_DATA_HOOKS += zpool-install-data-hook
+ zpool-install-data-hook:
+-	$(MKDIR_P) "$(DESTDIR)$(zpoolconfdir)"
+-	set -x; for f in $(zpoolconfdefaults); do \
+-	  [ -f "$(DESTDIR)$(zpoolconfdir)/$${f}" ] || \
+-	  [ -L "$(DESTDIR)$(zpoolconfdir)/$${f}" ] || \
+-	    $(LN_S) "$(zpoolexecdir)/$${f}" "$(DESTDIR)$(zpoolconfdir)"; \
+-	done
+ 	set -x; printf '%s\n' $(zpoolcompatlinks) | \
+ 	while read -r canon alias; do \
+ 		$(LN_S) -f "$${canon}" "$(DESTDIR)$(zpoolcompatdir)/$${alias}"; \
+diff --git a/cmd/zpool/zpool_iter.c b/cmd/zpool/zpool_iter.c
+index fef6027..35e18ad 100644
+--- a/cmd/zpool/zpool_iter.c
++++ b/cmd/zpool/zpool_iter.c
+@@ -538,13 +538,13 @@ zpool_get_cmd_search_path(void)
+ 
+ 	env = getenv("HOME");
+ 	if (env != NULL) {
+-		if (asprintf(&sp, "%s/.zpool.d:%s",
+-		    env, ZPOOL_SCRIPTS_DIR) != -1) {
++		if (asprintf(&sp, "%s/.zpool.d:%s:%s",
++		    env, ZPOOL_SCRIPTS_DIR, VENDOR_ZPOOL_SCRIPTS_DIR) != -1) {
+ 			return (sp);
+ 		}
+ 	}
+ 
+-	if (asprintf(&sp, "%s", ZPOOL_SCRIPTS_DIR) != -1)
++	if (asprintf(&sp, "%s:%s", ZPOOL_SCRIPTS_DIR, VENDOR_ZPOOL_SCRIPTS_DIR) != -1)
+ 		return (sp);
+ 
+ 	return (NULL);
+diff --git a/cmd/zpool/zpool_util.h b/cmd/zpool/zpool_util.h
+index 3af23c5..fa321d9 100644
+--- a/cmd/zpool/zpool_util.h
++++ b/cmd/zpool/zpool_util.h
+@@ -36,6 +36,7 @@ extern "C" {
+ 
+ /* Path to scripts you can run with "zpool status/iostat -c" */
+ #define	ZPOOL_SCRIPTS_DIR SYSCONFDIR"/zfs/zpool.d"
++#define	VENDOR_ZPOOL_SCRIPTS_DIR "/usr/share/defaults/zfs/zpool.d"
+ 
+ /*
+  * Basic utility functions
+diff --git a/config/zfs-build.m4 b/config/zfs-build.m4
+index 77c9154..37f6345 100644
+--- a/config/zfs-build.m4
++++ b/config/zfs-build.m4
+@@ -651,6 +651,9 @@ AC_DEFUN([ZFS_AC_DEFAULT_PACKAGE], [
+ 		fedora|openeuler|redhat|sles|toss)
+ 			initconfdir=/etc/sysconfig
+ 			;;
++		aerynos|solus)
++			initconfdir=/usr/share/defaults/zfs
++			;;
+ 		freebsd)
+ 			initconfdir=$sysconfdir/rc.conf.d
+ 			;;
+@@ -674,7 +677,7 @@ AC_DEFUN([ZFS_AC_DEFAULT_PACKAGE], [
+ 
+ 	AC_MSG_CHECKING([default bash completion directory])
+ 	case "$VENDOR" in
+-		alpine|arch|artix|debian|gentoo|ubuntu)
++		alpine|arch|artix|debian|gentoo|ubuntu|aerynos|solus)
+ 			bashcompletiondir=/usr/share/bash-completion/completions
+ 			;;
+ 		freebsd)
+diff --git a/configure b/configure
+index 9334c50..0a0c10e 100755
+--- a/configure
++++ b/configure
+@@ -121790,6 +121790,9 @@ printf %s "checking default init config directory... " >&6; }
+ 		fedora|openeuler|redhat|sles|toss)
+ 			initconfdir=/etc/sysconfig
+ 			;;
++		aerynos|solus)
++			initconfdir=/usr/share/defaults/zfs
++			;;
+ 		freebsd)
+ 			initconfdir=$sysconfdir/rc.conf.d
+ 			;;
+@@ -121818,7 +121821,7 @@ printf "%s\n" "no" >&6; }
+ 	{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking default bash completion directory" >&5
+ printf %s "checking default bash completion directory... " >&6; }
+ 	case "$VENDOR" in
+-		alpine|arch|artix|debian|gentoo|ubuntu)
++		alpine|arch|artix|debian|gentoo|ubuntu|aerynos|solus)
+ 			bashcompletiondir=/usr/share/bash-completion/completions
+ 			;;
+ 		freebsd)
+diff --git a/etc/Makefile.am b/etc/Makefile.am
+index 58b3cf5..d89f30a 100644
+--- a/etc/Makefile.am
++++ b/etc/Makefile.am
+@@ -1,19 +1,12 @@
+ # SPDX-License-Identifier: CDDL-1.0
+-sudoersddir = $(sysconfdir)/sudoers.d
++sudoersddir = $(datadir)/defaults/sudo/sudoers.d
+ sudoersd_DATA = \
+ 	%D%/sudoers.d/zfs
+ 
+ dist_noinst_DATA += $(sudoersd_DATA)
+ 
+ 
+-sysconf_zfsdir = $(sysconfdir)/zfs
+-
+-dist_sysconf_zfs_DATA = \
+-	%D%/zfs/vdev_id.conf.alias.example \
+-	%D%/zfs/vdev_id.conf.multipath.example \
+-	%D%/zfs/vdev_id.conf.sas_direct.example \
+-	%D%/zfs/vdev_id.conf.sas_switch.example \
+-	%D%/zfs/vdev_id.conf.scsi.example
++sysconf_zfsdir = $(datadir)/defaults/zfs
+ 
+ sysconf_zfs_DATA = \
+ 	%D%/zfs/zfs-functions
+@@ -25,7 +18,7 @@ $(call SHELLCHECK_OPTS,$(sysconf_zfs_DATA)): SHELLCHECK_SHELL = sh
+ 
+ if BUILD_LINUX
+ initconf_DATA = \
+-	%D%/default/zfs
++	%D%/default/environment
+ 
+ SUBSTFILES          += $(initconf_DATA)
+ SHELLCHECKSCRIPTS   += $(initconf_DATA)
+@@ -94,8 +87,4 @@ CPPCHECKTARGETS += $(systemdgenerator_PROGRAMS)
+ endif
+ 
+ 
+-if WANT_MODULES_LOAD_D
+-dist_modulesload_DATA = \
+-	%D%/modules-load.d/zfs.conf
+-endif
+ endif
+diff --git a/etc/default/zfs.in b/etc/default/environment.in
+similarity index 100%
+rename from etc/default/zfs.in
+rename to etc/default/environment.in
+diff --git a/etc/systemd/system/zfs-import-cache.service.in b/etc/systemd/system/zfs-import-cache.service.in
+index fd82298..7d17b74 100644
+--- a/etc/systemd/system/zfs-import-cache.service.in
++++ b/etc/systemd/system/zfs-import-cache.service.in
+@@ -14,6 +14,7 @@ ConditionPathIsDirectory=/sys/module/zfs
+ [Service]
+ Type=oneshot
+ RemainAfterExit=yes
++EnvironmentFile=-@datadir@/defaults/zfs/environment
+ EnvironmentFile=-@initconfdir@/zfs
+ ExecStart=@sbindir@/zpool import -c @sysconfdir@/zfs/zpool.cache -aN $ZPOOL_IMPORT_OPTS
+ 
+diff --git a/etc/systemd/system/zfs-import-scan.service.in b/etc/systemd/system/zfs-import-scan.service.in
+index c5dd45d..7fb5f73 100644
+--- a/etc/systemd/system/zfs-import-scan.service.in
++++ b/etc/systemd/system/zfs-import-scan.service.in
+@@ -13,6 +13,7 @@ ConditionPathIsDirectory=/sys/module/zfs
+ [Service]
+ Type=oneshot
+ RemainAfterExit=yes
++EnvironmentFile=-@datadir@/defaults/zfs/environment
+ EnvironmentFile=-@initconfdir@/zfs
+ ExecStart=@sbindir@/zpool import -aN -o cachefile=none $ZPOOL_IMPORT_OPTS
+ 
+diff --git a/etc/systemd/system/zfs-mount.service.in b/etc/systemd/system/zfs-mount.service.in
+index 41c02c8..598720d 100644
+--- a/etc/systemd/system/zfs-mount.service.in
++++ b/etc/systemd/system/zfs-mount.service.in
+@@ -18,6 +18,7 @@ Before=umount.target
+ [Service]
+ Type=oneshot
+ RemainAfterExit=yes
++EnvironmentFile=-@datadir@/defaults/zfs/environment
+ EnvironmentFile=-@initconfdir@/zfs
+ ExecStart=@sbindir@/zfs mount -a
+ 
+diff --git a/etc/systemd/system/zfs-mount@.service.in b/etc/systemd/system/zfs-mount@.service.in
+index 0698fad..7dc1e9e 100644
+--- a/etc/systemd/system/zfs-mount@.service.in
++++ b/etc/systemd/system/zfs-mount@.service.in
+@@ -19,6 +19,7 @@ Before=umount.target
+ [Service]
+ Type=oneshot
+ RemainAfterExit=yes
++EnvironmentFile=-@datadir@/defaults/zfs/environment
+ EnvironmentFile=-@initconfdir@/zfs
+ ExecStart=@sbindir@/zfs mount -R %I
+ 
+diff --git a/etc/systemd/system/zfs-scrub@.service.in b/etc/systemd/system/zfs-scrub@.service.in
+index 8ffffeb..d9b711a 100644
+--- a/etc/systemd/system/zfs-scrub@.service.in
++++ b/etc/systemd/system/zfs-scrub@.service.in
+@@ -7,6 +7,7 @@ ConditionACPower=true
+ ConditionPathIsDirectory=/sys/module/zfs
+ 
+ [Service]
++EnvironmentFile=-@datadir@/defaults/zfs/environment
+ EnvironmentFile=-@initconfdir@/zfs
+ ExecStart=/bin/sh -c '\
+ if @sbindir@/zpool status %i | grep -q "scrub in progress"; then\
+diff --git a/etc/systemd/system/zfs-share.service.in b/etc/systemd/system/zfs-share.service.in
+index 1a6342a..6968f4a 100644
+--- a/etc/systemd/system/zfs-share.service.in
++++ b/etc/systemd/system/zfs-share.service.in
+@@ -13,6 +13,7 @@ ConditionPathIsDirectory=/sys/module/zfs
+ [Service]
+ Type=oneshot
+ RemainAfterExit=yes
++EnvironmentFile=-@datadir@/defaults/zfs/environment
+ EnvironmentFile=-@initconfdir@/zfs
+ ExecStart=@sbindir@/zfs share -a
+ 
+diff --git a/etc/systemd/system/zfs-trim@.service.in b/etc/systemd/system/zfs-trim@.service.in
+index 423fb44..b008c17 100644
+--- a/etc/systemd/system/zfs-trim@.service.in
++++ b/etc/systemd/system/zfs-trim@.service.in
+@@ -7,6 +7,7 @@ ConditionACPower=true
+ ConditionPathIsDirectory=/sys/module/zfs
+ 
+ [Service]
++EnvironmentFile=-@datadir@/defaults/zfs/environment
+ EnvironmentFile=-@initconfdir@/zfs
+ ExecStart=/bin/sh -c '\
+ if @sbindir@/zpool status %i | grep -q "(trimming)"; then\
+diff --git a/etc/systemd/system/zfs-volume-wait.service.in b/etc/systemd/system/zfs-volume-wait.service.in
+index 110c0f5..d609399 100644
+--- a/etc/systemd/system/zfs-volume-wait.service.in
++++ b/etc/systemd/system/zfs-volume-wait.service.in
+@@ -8,6 +8,7 @@ ConditionPathIsDirectory=/sys/module/zfs
+ [Service]
+ Type=oneshot
+ RemainAfterExit=yes
++EnvironmentFile=-@datadir@/defaults/zfs/environment
+ EnvironmentFile=-@initconfdir@/zfs
+ ExecStart=@bindir@/zvol_wait
+ 
+diff --git a/etc/systemd/system/zfs-zed.service.in b/etc/systemd/system/zfs-zed.service.in
+index be2fc67..42d6e95 100644
+--- a/etc/systemd/system/zfs-zed.service.in
++++ b/etc/systemd/system/zfs-zed.service.in
+@@ -4,6 +4,7 @@ Documentation=man:zed(8)
+ ConditionPathIsDirectory=/sys/module/zfs
+ 
+ [Service]
++EnvironmentFile=-@datadir@/defaults/zfs/environment
+ EnvironmentFile=-@initconfdir@/zfs
+ ExecStart=@sbindir@/zed -F
+ Restart=always

@@ -9,6 +9,7 @@
 				"pkgconfig(zlib)"
 			],
 			"depends": [
+				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libm.so.6(x86_64))",
@@ -17,9 +18,9 @@
 			],
 			"files": [
 				"/usr/lib/libtag.so.2",
-				"/usr/lib/libtag.so.2.2.1",
+				"/usr/lib/libtag.so.2.3.0",
 				"/usr/lib/libtag_c.so.2",
-				"/usr/lib/libtag_c.so.2.2.1"
+				"/usr/lib/libtag_c.so.2.3.0"
 			],
 			"name": "taglib",
 			"provides": [
@@ -89,16 +90,21 @@
 				"/usr/include/taglib/matroskaproperties.h",
 				"/usr/include/taglib/matroskasimpletag.h",
 				"/usr/include/taglib/matroskatag.h",
+				"/usr/include/taglib/matroskawritestyle.h",
 				"/usr/include/taglib/modfile.h",
 				"/usr/include/taglib/modfilebase.h",
 				"/usr/include/taglib/modproperties.h",
 				"/usr/include/taglib/modtag.h",
 				"/usr/include/taglib/mp4atom.h",
+				"/usr/include/taglib/mp4chapter.h",
+				"/usr/include/taglib/mp4chapterholder.h",
 				"/usr/include/taglib/mp4coverart.h",
 				"/usr/include/taglib/mp4file.h",
 				"/usr/include/taglib/mp4item.h",
 				"/usr/include/taglib/mp4itemfactory.h",
+				"/usr/include/taglib/mp4nerochapterlist.h",
 				"/usr/include/taglib/mp4properties.h",
+				"/usr/include/taglib/mp4qtchapterlist.h",
 				"/usr/include/taglib/mp4stem.h",
 				"/usr/include/taglib/mp4tag.h",
 				"/usr/include/taglib/mpcfile.h",
@@ -185,6 +191,6 @@
 		}
 	},
 	"source-name": "taglib",
-	"source-release": "6",
-	"source-version": "2.2.1"
+	"source-release": "7",
+	"source-version": "2.3"
 }

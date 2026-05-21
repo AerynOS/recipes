@@ -5,12 +5,14 @@
 		"strace": {
 			"build-depends": [
 				"binary(readelf)",
-				"pkgconfig(libdw)"
+				"pkgconfig(libdw)",
+				"pkgconfig(ncurses)"
 			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))",
-				"soname(libdw.so.1(x86_64))"
+				"soname(libdw.so.1(x86_64))",
+				"soname(libncursesw.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/bin/strace",
@@ -26,6 +28,6 @@
 		}
 	},
 	"source-name": "strace",
-	"source-release": "16",
-	"source-version": "6.19"
+	"source-release": "18",
+	"source-version": "7.0"
 }

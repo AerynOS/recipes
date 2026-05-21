@@ -3,21 +3,18 @@
 	"manifest-version": "0.2",
 	"packages": {
 		"libgpg-error": {
+			"build-depends": [
+				"binary(msgfmt)",
+				"pkgconfig(readline)"
+			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/bin/gpg-error",
-				"/usr/bin/gpgrt-config",
-				"/usr/bin/yat2m",
 				"/usr/lib/libgpg-error.so.0",
-				"/usr/lib/libgpg-error.so.0.42.0",
-				"/usr/share/common-lisp/source/gpg-error/gpg-error-codes.lisp",
-				"/usr/share/common-lisp/source/gpg-error/gpg-error-package.lisp",
-				"/usr/share/common-lisp/source/gpg-error/gpg-error.asd",
-				"/usr/share/common-lisp/source/gpg-error/gpg-error.lisp",
-				"/usr/share/info/gpgrt.info",
+				"/usr/lib/libgpg-error.so.0.42.1",
 				"/usr/share/libgpg-error/errorref.txt",
 				"/usr/share/locale/cs/LC_MESSAGES/libgpg-error.mo",
 				"/usr/share/locale/da/LC_MESSAGES/libgpg-error.mo",
@@ -39,36 +36,45 @@
 				"/usr/share/locale/uk/LC_MESSAGES/libgpg-error.mo",
 				"/usr/share/locale/vi/LC_MESSAGES/libgpg-error.mo",
 				"/usr/share/locale/zh_CN/LC_MESSAGES/libgpg-error.mo",
-				"/usr/share/locale/zh_TW/LC_MESSAGES/libgpg-error.mo",
-				"/usr/share/man/man1/gpgrt-config.1"
+				"/usr/share/locale/zh_TW/LC_MESSAGES/libgpg-error.mo"
 			],
 			"name": "libgpg-error",
 			"provides": [
 				"binary(gpg-error)",
-				"binary(gpgrt-config)",
-				"binary(yat2m)",
 				"soname(libgpg-error.so.0(x86_64))"
 			]
 		},
 		"libgpg-error-devel": {
+			"build-depends": [
+				"binary(msgfmt)",
+				"pkgconfig(readline)"
+			],
 			"depends": [
-				"libgpg-error"
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"libgpg-error",
+				"soname(libc.so.6(x86_64))"
 			],
 			"files": [
+				"/usr/bin/gpgrt-config",
+				"/usr/bin/yat2m",
 				"/usr/include/gpg-error.h",
 				"/usr/include/gpgrt.h",
 				"/usr/lib/libgpg-error.so",
 				"/usr/lib/pkgconfig/gpg-error.pc",
 				"/usr/share/aclocal/gpg-error.m4",
-				"/usr/share/aclocal/gpgrt.m4"
+				"/usr/share/aclocal/gpgrt.m4",
+				"/usr/share/info/gpgrt.info",
+				"/usr/share/man/man1/gpgrt-config.1"
 			],
 			"name": "libgpg-error-devel",
 			"provides": [
+				"binary(gpgrt-config)",
+				"binary(yat2m)",
 				"pkgconfig(gpg-error)"
 			]
 		}
 	},
 	"source-name": "libgpg-error",
-	"source-release": "9",
-	"source-version": "1.60"
+	"source-release": "11",
+	"source-version": "1.61"
 }

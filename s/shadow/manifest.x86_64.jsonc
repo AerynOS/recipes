@@ -4,6 +4,7 @@
 	"packages": {
 		"shadow": {
 			"build-depends": [
+				"binary(msgfmt)",
 				"binary(xsltproc)",
 				"docbook",
 				"docbook-xsl",
@@ -11,6 +12,7 @@
 				"pkgconfig(libattr)",
 				"pkgconfig(libcrypt)",
 				"pkgconfig(libeconf)",
+				"pkgconfig(libsystemd)",
 				"pkgconfig(pam)"
 			],
 			"depends": [
@@ -21,7 +23,8 @@
 				"soname(libcrypt.so.2(x86_64))",
 				"soname(libeconf.so.0(x86_64))",
 				"soname(libpam.so.0(x86_64))",
-				"soname(libpam_misc.so.0(x86_64))"
+				"soname(libpam_misc.so.0(x86_64))",
+				"soname(libsystemd.so.0(x86_64))"
 			],
 			"files": [
 				"/usr/bin/chage",
@@ -144,6 +147,7 @@
 		},
 		"shadow-devel": {
 			"build-depends": [
+				"binary(msgfmt)",
 				"binary(xsltproc)",
 				"docbook",
 				"docbook-xsl",
@@ -151,6 +155,7 @@
 				"pkgconfig(libattr)",
 				"pkgconfig(libcrypt)",
 				"pkgconfig(libeconf)",
+				"pkgconfig(libsystemd)",
 				"pkgconfig(pam)"
 			],
 			"depends": [
@@ -164,6 +169,6 @@
 		}
 	},
 	"source-name": "shadow",
-	"source-release": "7",
-	"source-version": "4.18.0"
+	"source-release": "8",
+	"source-version": "4.19.4"
 }

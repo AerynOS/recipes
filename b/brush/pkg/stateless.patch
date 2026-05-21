@@ -1,34 +1,28 @@
-diff --git a/brush-core/src/shell.rs b/brush-core/src/shell.rs
-index ae26e85..d7b35d0 100644
---- a/brush-core/src/shell.rs
-+++ b/brush-core/src/shell.rs
-@@ -895,14 +895,14 @@ impl Shell {
-             }
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Reilly Brogan <reilly@reillybrogan.com>
+Date: Tue, 19 May 2026 12:50:12 -0500
+Subject: [PATCH] stateless
+
+---
+ brush-core/src/sys/unix/fs.rs | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/brush-core/src/sys/unix/fs.rs b/brush-core/src/sys/unix/fs.rs
+index f5b6968..f724ffe 100644
+--- a/brush-core/src/sys/unix/fs.rs
++++ b/brush-core/src/sys/unix/fs.rs
+@@ -227,12 +227,12 @@ pub const fn try_open_special_file(_path: &Path) -> Option<Result<std::fs::File,
  
-             //
--            // Source /etc/profile if it exists.
-+            // Source /usr/share/defaults/profile if it exists.
-             //
-             // Next source the first of these that exists and is readable (if any):
-             //     * ~/.bash_profile
-             //     * ~/.bash_login
-             //     * ~/.profile
-             //
--            self.source_if_exists(Path::new("/etc/profile"), &params)
-+            self.source_if_exists(Path::new("/usr/share/defaults/profile"), &params)
-                 .await?;
-             if let Some(home_path) = self.home_dir() {
-                 if self.options.sh_mode {
-@@ -936,10 +936,10 @@ impl Shell {
-                         //
-                         // Otherwise, for non-login interactive shells, load in this order:
-                         //
--                        //     /etc/bash.bashrc
-+                        //     /usr/share/defaults/bashrc
-                         //     ~/.bashrc
-                         //
--                        self.source_if_exists(Path::new("/etc/bash.bashrc"), &params)
-+                        self.source_if_exists(Path::new("/usr/share/defaults/bashrc"), &params)
-                             .await?;
-                         if let Some(home_path) = self.home_dir() {
-                             self.source_if_exists(home_path.join(".bashrc").as_path(), &params)
+ /// Returns the path to the system-wide shell profile script.
+ pub fn get_system_profile_path() -> Option<&'static Path> {
+-    Some(Path::new("/etc/profile"))
++    Some(Path::new("/usr/share/defaults/profile"))
+ }
+ 
+ /// Returns the path to the system-wide shell rc script.
+ pub fn get_system_rc_path() -> Option<&'static Path> {
+-    Some(Path::new("/etc/bash.bashrc"))
++    Some(Path::new("/usr/share/defaults/bashrc"))
+ }
+ 
+ /// Returns true if the string contains a path separator character.

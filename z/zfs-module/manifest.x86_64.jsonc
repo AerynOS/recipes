@@ -1,0 +1,63 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"zfs-module-gaming": {
+			"build-depends": [
+				"binary(eu-readelf)",
+				"binary(zstd)",
+				"linux-gaming-devel",
+				"linux-lts-devel",
+				"linux-stable-devel"
+			],
+			"depends": [
+				"linux-gaming",
+				"sysbinary(depmod)"
+			],
+			"files": [
+				"/usr/lib/modules/7.0.9-10.gaming/extra/fs/zfs/spl.ko.zst",
+				"/usr/lib/modules/7.0.9-10.gaming/extra/fs/zfs/zfs.ko.zst"
+			],
+			"name": "zfs-module-gaming"
+		},
+		"zfs-module-lts": {
+			"build-depends": [
+				"binary(eu-readelf)",
+				"binary(zstd)",
+				"linux-gaming-devel",
+				"linux-lts-devel",
+				"linux-stable-devel"
+			],
+			"depends": [
+				"linux-lts",
+				"sysbinary(depmod)"
+			],
+			"files": [
+				"/usr/lib/modules/6.18.32-11.lts/extra/fs/zfs/spl.ko.zst",
+				"/usr/lib/modules/6.18.32-11.lts/extra/fs/zfs/zfs.ko.zst"
+			],
+			"name": "zfs-module-lts"
+		},
+		"zfs-module-stable": {
+			"build-depends": [
+				"binary(eu-readelf)",
+				"binary(zstd)",
+				"linux-gaming-devel",
+				"linux-lts-devel",
+				"linux-stable-devel"
+			],
+			"depends": [
+				"linux-stable",
+				"sysbinary(depmod)"
+			],
+			"files": [
+				"/usr/lib/modules/7.0.9-34.stable/extra/fs/zfs/spl.ko.zst",
+				"/usr/lib/modules/7.0.9-34.stable/extra/fs/zfs/zfs.ko.zst"
+			],
+			"name": "zfs-module-stable"
+		}
+	},
+	"source-name": "zfs-module",
+	"source-release": "3",
+	"source-version": "2.4.2"
+}

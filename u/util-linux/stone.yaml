@@ -2,8 +2,8 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : util-linux
-version     : "2.42"
-release     : 20
+version     : "2.42.1"
+release     : 21
 summary     : Random collection of Linux utilities
 license     :
     - BSD-3-Clause
@@ -17,7 +17,7 @@ homepage    : https://www.kernel.org/pub/linux/utils/util-linux
 description : |
     Random collection of Linux utilities
 upstreams   :
-    - https://mirrors.edge.kernel.org/pub/linux/utils/util-linux/v2.42/util-linux-2.42.tar.xz : 3452b260bbaa775d6e749ac3bb22111785003fc1f444970025c8da26dfa758e9
+    - https://mirrors.edge.kernel.org/pub/linux/utils/util-linux/v2.42/util-linux-2.42.1.tar.xz : 82e9158eb12a9b0b569d84e1687fed9dd18fe89ccd8ef5ac3427218a7c0d7f7f
 builddeps   :
     - binary(asciidoctor)
     - binary(bison)
@@ -43,9 +43,7 @@ emul32      : true
 profiles    :
     - emul32:
         setup: |
-            %patch %(pkgdir)/0001-fix-build-with-econf.patch
             %patch %(pkgdir)/0001-downstream-Update-default-PATH.patch
-            %patch %(pkgdir)/ftbfs-libeconf.patch
 
             # Because we're checking out the git source we need to create this file so the version string won't contain "-dirty"
             if [ ! -f ".tarball-version" ]; then
@@ -92,9 +90,7 @@ profiles    :
             %meson_install
             rm -fv %(installroot)%(libdir)/*.a
 setup       : |
-    %patch %(pkgdir)/0001-fix-build-with-econf.patch
     %patch %(pkgdir)/0001-downstream-Update-default-PATH.patch
-    %patch %(pkgdir)/ftbfs-libeconf.patch
 
     # Because we're checking out the git source we need to create this file so the version string won't contain "-dirty"
     if [[ ! -f ".tarball-version" ]]; then

@@ -4,6 +4,7 @@
 	"packages": {
 		"libksba": {
 			"build-depends": [
+				"binary(bison)",
 				"pkgconfig(gpg-error)"
 			],
 			"depends": [
@@ -12,7 +13,7 @@
 			],
 			"files": [
 				"/usr/lib/libksba.so.8",
-				"/usr/lib/libksba.so.8.14.8",
+				"/usr/lib/libksba.so.8.16.0",
 				"/usr/share/info/ksba.info"
 			],
 			"name": "libksba",
@@ -22,6 +23,7 @@
 		},
 		"libksba-devel": {
 			"build-depends": [
+				"binary(bison)",
 				"pkgconfig(gpg-error)"
 			],
 			"depends": [
@@ -41,6 +43,6 @@
 		}
 	},
 	"source-name": "libksba",
-	"source-release": "4",
-	"source-version": "1.6.8"
+	"source-release": "5",
+	"source-version": "1.8.0"
 }

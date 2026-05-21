@@ -2,11 +2,18 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : nettle
-version     : "3.10.2"
-release     : 7
+version     : "4.0"
+release     : 9
 homepage    : https://www.lysator.liu.se/~nisse/nettle/
 upstreams   :
-    - https://ftp.gnu.org/gnu/nettle/nettle-3.10.2.tar.gz : fe9ff51cb1f2abb5e65a6b8c10a92da0ab5ab6eaf26e7fc2b675c45f1fb519b5
+    - https://ftp.gnu.org/gnu/nettle/nettle-4.0.tar.gz:
+        hash: 3addbc00da01846b232fb3bc453538ea5468da43033f21bb345cb1e9073f5094
+        unpackdir: current
+
+    # Don't delete this section, just comment it out if it's not needed. The build recipe accounts for it possibly not existing
+    # - https://ftp.gnu.org/gnu/nettle/nettle-3.10.2.tar.gz:
+    #     hash: fe9ff51cb1f2abb5e65a6b8c10a92da0ab5ab6eaf26e7fc2b675c45f1fb519b5
+    #     unpackdir: compat
 summary     : Low-level cryptographic library
 description : |
    A low-level cryptographic library
@@ -17,10 +24,41 @@ builddeps   :
 checkdeps   :
     - binary(valgrind)
 setup       : |
-    %configure --disable-static
+    if [ -d ../compat ]; then
+        pushd ../compat
+
+        %configure \
+            --disable-static
+
+        popd
+    fi
+
+    %configure \
+        --disable-static
 build       : |
-    %make
+    if [ -d ../compat ]; then
+        pushd ../compat
+            %ccache_zero
+            env CCACHE_BASEDIR="${PWD}" %make
+            %ccache_stats
+        popd
+    fi
+
+    %ccache_zero
+    env CCACHE_BASEDIR="${PWD}" %make
+    %ccache_stats
 install     : |
+    if [ -d ../compat ]; then
+        pushd ../compat
+            mkdir tmp
+            make install DESTDIR="${PWD}/tmp"
+
+            # Only copy the sonames
+            %install_dir %(installroot)/%(libdir)
+            find ${PWD}/tmp/%(libdir) -name "*.so.*" -print -exec mv {} %(installroot)/%(libdir) \;
+        popd
+    fi
+
     %make_install
     rm %(installroot)%(datadir)/info/dir
 check       : |
@@ -34,5 +72,5 @@ packages    :
             - /usr/lib/libhogweed.so.*
             - /usr/lib/libnettle.so.*
 tuning      :
-    - lto
+    - lto: full
     - optimize: speed

@@ -17,6 +17,7 @@
 				"pkgconfig(libsharpyuv)",
 				"pkgconfig(libtiff-4)",
 				"pkgconfig(openh264)",
+				"pkgconfig(openjph)",
 				"pkgconfig(rav1e)",
 				"pkgconfig(sdl2-compat)",
 				"pkgconfig(x264)",
@@ -43,6 +44,7 @@
 				"pkgconfig(libsharpyuv)",
 				"pkgconfig(libtiff-4)",
 				"pkgconfig(openh264)",
+				"pkgconfig(openjph)",
 				"pkgconfig(rav1e)",
 				"pkgconfig(sdl2-compat)",
 				"pkgconfig(x264)",
@@ -64,7 +66,7 @@
 			],
 			"files": [
 				"/usr/lib/libheif.so.1",
-				"/usr/lib/libheif.so.1.21.2"
+				"/usr/lib/libheif.so.1.22.0"
 			],
 			"name": "libheif",
 			"provides": [
@@ -86,6 +88,7 @@
 				"pkgconfig(libsharpyuv)",
 				"pkgconfig(libtiff-4)",
 				"pkgconfig(openh264)",
+				"pkgconfig(openjph)",
 				"pkgconfig(rav1e)",
 				"pkgconfig(sdl2-compat)",
 				"pkgconfig(x264)",
@@ -101,6 +104,7 @@
 				"/usr/include/libheif/heif_aux_images.h",
 				"/usr/include/libheif/heif_brands.h",
 				"/usr/include/libheif/heif_color.h",
+				"/usr/include/libheif/heif_components.h",
 				"/usr/include/libheif/heif_context.h",
 				"/usr/include/libheif/heif_cxx.h",
 				"/usr/include/libheif/heif_decoding.h",
@@ -112,6 +116,7 @@
 				"/usr/include/libheif/heif_items.h",
 				"/usr/include/libheif/heif_library.h",
 				"/usr/include/libheif/heif_metadata.h",
+				"/usr/include/libheif/heif_omaf.h",
 				"/usr/include/libheif/heif_plugin.h",
 				"/usr/include/libheif/heif_properties.h",
 				"/usr/include/libheif/heif_regions.h",
@@ -149,6 +154,7 @@
 				"pkgconfig(libsharpyuv)",
 				"pkgconfig(libtiff-4)",
 				"pkgconfig(openh264)",
+				"pkgconfig(openjph)",
 				"pkgconfig(rav1e)",
 				"pkgconfig(sdl2-compat)",
 				"pkgconfig(x264)",
@@ -187,6 +193,7 @@
 				"pkgconfig(libsharpyuv)",
 				"pkgconfig(libtiff-4)",
 				"pkgconfig(openh264)",
+				"pkgconfig(openjph)",
 				"pkgconfig(rav1e)",
 				"pkgconfig(sdl2-compat)",
 				"pkgconfig(x264)",
@@ -223,6 +230,7 @@
 				"pkgconfig(libsharpyuv)",
 				"pkgconfig(libtiff-4)",
 				"pkgconfig(openh264)",
+				"pkgconfig(openjph)",
 				"pkgconfig(rav1e)",
 				"pkgconfig(sdl2-compat)",
 				"pkgconfig(x264)",
@@ -260,6 +268,7 @@
 				"pkgconfig(libsharpyuv)",
 				"pkgconfig(libtiff-4)",
 				"pkgconfig(openh264)",
+				"pkgconfig(openjph)",
 				"pkgconfig(rav1e)",
 				"pkgconfig(sdl2-compat)",
 				"pkgconfig(x264)",
@@ -296,6 +305,7 @@
 				"pkgconfig(libsharpyuv)",
 				"pkgconfig(libtiff-4)",
 				"pkgconfig(openh264)",
+				"pkgconfig(openjph)",
 				"pkgconfig(rav1e)",
 				"pkgconfig(sdl2-compat)",
 				"pkgconfig(x264)",
@@ -333,6 +343,7 @@
 				"pkgconfig(libsharpyuv)",
 				"pkgconfig(libtiff-4)",
 				"pkgconfig(openh264)",
+				"pkgconfig(openjph)",
 				"pkgconfig(rav1e)",
 				"pkgconfig(sdl2-compat)",
 				"pkgconfig(x264)",
@@ -368,6 +379,7 @@
 				"pkgconfig(libsharpyuv)",
 				"pkgconfig(libtiff-4)",
 				"pkgconfig(openh264)",
+				"pkgconfig(openjph)",
 				"pkgconfig(rav1e)",
 				"pkgconfig(sdl2-compat)",
 				"pkgconfig(x264)",
@@ -389,6 +401,43 @@
 				"soname(libheif/libheif-openh264dec.so(x86_64))"
 			]
 		},
+		"libheif-plugin-openjph": {
+			"build-depends": [
+				"binary(doxygen)",
+				"pkgconfig(SvtAv1Enc)",
+				"pkgconfig(aom)",
+				"pkgconfig(dav1d)",
+				"pkgconfig(libavcodec)",
+				"pkgconfig(libavutil)",
+				"pkgconfig(libde265)",
+				"pkgconfig(libjpeg)",
+				"pkgconfig(libopenjp2)",
+				"pkgconfig(libpng)",
+				"pkgconfig(libsharpyuv)",
+				"pkgconfig(libtiff-4)",
+				"pkgconfig(openh264)",
+				"pkgconfig(openjph)",
+				"pkgconfig(rav1e)",
+				"pkgconfig(sdl2-compat)",
+				"pkgconfig(x264)",
+				"pkgconfig(x265)",
+				"pkgconfig(zlib)"
+			],
+			"depends": [
+				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libheif.so.1(x86_64))",
+				"soname(libopenjph.so.0.27(x86_64))",
+				"soname(libstdc++.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/lib/libheif/libheif-jphenc.so"
+			],
+			"name": "libheif-plugin-openjph",
+			"provides": [
+				"soname(libheif/libheif-jphenc.so(x86_64))"
+			]
+		},
 		"libheif-plugin-rav1e": {
 			"build-depends": [
 				"binary(doxygen)",
@@ -404,6 +453,7 @@
 				"pkgconfig(libsharpyuv)",
 				"pkgconfig(libtiff-4)",
 				"pkgconfig(openh264)",
+				"pkgconfig(openjph)",
 				"pkgconfig(rav1e)",
 				"pkgconfig(sdl2-compat)",
 				"pkgconfig(x264)",
@@ -440,6 +490,7 @@
 				"pkgconfig(libsharpyuv)",
 				"pkgconfig(libtiff-4)",
 				"pkgconfig(openh264)",
+				"pkgconfig(openjph)",
 				"pkgconfig(rav1e)",
 				"pkgconfig(sdl2-compat)",
 				"pkgconfig(x264)",
@@ -476,6 +527,7 @@
 				"pkgconfig(libsharpyuv)",
 				"pkgconfig(libtiff-4)",
 				"pkgconfig(openh264)",
+				"pkgconfig(openjph)",
 				"pkgconfig(rav1e)",
 				"pkgconfig(sdl2-compat)",
 				"pkgconfig(x264)",
@@ -512,6 +564,7 @@
 				"pkgconfig(libsharpyuv)",
 				"pkgconfig(libtiff-4)",
 				"pkgconfig(openh264)",
+				"pkgconfig(openjph)",
 				"pkgconfig(rav1e)",
 				"pkgconfig(sdl2-compat)",
 				"pkgconfig(x264)",
@@ -548,6 +601,7 @@
 				"pkgconfig(libsharpyuv)",
 				"pkgconfig(libtiff-4)",
 				"pkgconfig(openh264)",
+				"pkgconfig(openjph)",
 				"pkgconfig(rav1e)",
 				"pkgconfig(sdl2-compat)",
 				"pkgconfig(x264)",
@@ -556,6 +610,7 @@
 			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libSDL2-2.0.so.0(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libgcc_s.so.1(x86_64))",
@@ -564,7 +619,9 @@
 				"soname(libm.so.6(x86_64))",
 				"soname(libpng16.so.16(x86_64))",
 				"soname(libstdc++.so.6(x86_64))",
-				"soname(libtiff.so.6(x86_64))"
+				"soname(libtiff.so.6(x86_64))",
+				"soname(libwebp.so.7(x86_64))",
+				"soname(libwebpmux.so.3(x86_64))"
 			],
 			"files": [
 				"/usr/bin/heif-convert",
@@ -591,6 +648,6 @@
 		}
 	},
 	"source-name": "libheif",
-	"source-release": "7",
-	"source-version": "1.21.2"
+	"source-release": "8",
+	"source-version": "1.22.0"
 }

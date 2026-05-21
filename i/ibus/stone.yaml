@@ -2,35 +2,40 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : ibus
-version     : "1.5.33"
-release     : 11
+version     : "1.5.34"
+release     : 12
 homepage    : https://github.com/ibus/ibus
 upstreams   :
-    - https://github.com/ibus/ibus/releases/download/1.5.33/ibus-1.5.33.tar.gz : 58941c9b8285891c776b67fb2039eebe0d61d63a51578519febfc5481b91e831
+    - https://github.com/ibus/ibus/releases/download/1.5.34/ibus-1.5.34.tar.gz : 12a72210ce5250f8a66df562a75e034e67b2bce74c4df2983dc86d1154894943
 summary     : Intelligent Input Bus for Linux/Unix
 description : |
     Intelligent Input Bus for Linux/Unix
 license     :
     - LGPL-2.1-or-later
 builddeps   :
+    - binary(bison)
+    - binary(flex)
     - binary(gtkdocize)
     - binary(msgfmt)
     - binary(tar)
     - binary(valac)
-    - binary(vapigen)
     - pkgconfig(dbus-1)
     - pkgconfig(dbus-python)
     - pkgconfig(dbusmenu-gtk3-0.4)
     - pkgconfig(dconf)
     - pkgconfig(gdk-wayland-3.0)
     - pkgconfig(glib-2.0)
+    - pkgconfig(gnome-desktop-4)
     - pkgconfig(gobject-introspection-1.0)
     - pkgconfig(gtk+-3.0)
     - pkgconfig(gtk4)
     - pkgconfig(iso-codes)
+    - pkgconfig(libevdev)
     - pkgconfig(libnotify)
+    - pkgconfig(libudev)
     - pkgconfig(pygobject-3.0)
     - pkgconfig(systemd)
+    - pkgconfig(vapigen)
     - pkgconfig(wayland-client)
     - pkgconfig(wayland-protocols)
     - pkgconfig(x11)
@@ -45,12 +50,16 @@ setup       : |
     %patch %(pkgdir)/0001-dconf-Use-dbus-run-session-to-set-up-dconf-overrides.patch
     %patch %(pkgdir)/0001-Stateless-dconf.patch
     %patch %(pkgdir)/0001-use-bash-for-dconf-script.patch
-    %patch %(pkgdir)/segv-bus-proxy.patch
 
     # Can we disable xim now that we have appindicator? Needs more investigation
     %reconfigure \
         --disable-gtk2 \
+        --disable-python2 \
         --disable-static \
+        --enable-python-library \
+        --enable-vala \
+        --enable-wayland \
+        --with-python=python3 \
         CC_FOR_BUILD=${CC}
 build       : |
     # ld.lld: error: undefined symbol: indicator_unregister_connection

@@ -1,0 +1,36 @@
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : ludusavi
+version     : "0.31.0"
+release     : 1
+upstreams   :
+    - https://github.com/mtkennerly/ludusavi/archive/refs/tags/v0.31.0.tar.gz : e7dcfa4fb17fcd2be9ef34d55fe0ca0d3f79fdf570107aeaa5b4e76910e2f8a1
+homepage    : https://youki-dev.github.io/youki/
+license     : MIT
+summary     : Backup tool for PC game saves
+description : |
+    Backup tool for PC game saves
+networking  : true
+builddeps   :
+    - pkgconfig(atk)
+    - pkgconfig(bzip2)
+    - pkgconfig(gdk-3.0)
+    - pkgconfig(glib-2.0)
+    - pkgconfig(libzstd)
+    - pkgconfig(sqlite3)
+environment  : |
+    export LIBSQLITE3_SYS_USE_PKG_CONFIG=1
+    export ZSTD_SYS_USE_PKG_CONFIG=1
+setup       : |
+    %cargo_fetch
+build       : |
+    %cargo_build
+install     : |
+    %cargo_install
+
+    %install_file assets/linux/com.mtkennerly.ludusavi.metainfo.xml -t %(installroot)%(datadir)/metainfo/
+    %install_file assets/linux/com.mtkennerly.ludusavi.desktop -t %(installroot)%(datadir)/applications/
+
+    %install_file assets/icon.png %(installroot)%(datadir)/icons/hicolor/64x64/apps/com.mtkennerly.ludusavi.png
+    %install_file assets/icon.svg %(installroot)%(datadir)/icons/hicolor/scalable/apps/com.mtkennerly.ludusavi.png

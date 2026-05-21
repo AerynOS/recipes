@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : plymouth
-version     : "24.004.60+git.45655f12"
-release     : 12
+version     : "26.134.222"
+release     : 13
 homepage    : https://www.freedesktop.org/wiki/Software/Plymouth/
 upstreams   :
-    - git|https://gitlab.freedesktop.org/plymouth/plymouth.git : 45655f12fa2d5553ab4ba509f2e203c249191664
+    - https://www.freedesktop.org/software/plymouth/releases/plymouth-26.134.222.tar.xz : 6ee1068216c5047923fabf0f6aa583e9d77cab383077358df3fc22f2ee398bb0
 summary     : Graphical Boot Animation and Logger
 description : |
     Graphical Boot Animation and Logger
@@ -39,7 +39,9 @@ environment : |
     %export_docbook_catalogs
 setup       : |
     %patch %(pkgdir)/0001-Set-plymouth-defaults.patch
-    %patch %(pkgdir)/0001-Fix-build-with-uutils-date.patch
+
+    # Might need if we use git source again
+    # %patch %(pkgdir)/0001-Fix-build-with-uutils-date.patch
 
     %meson \
         --libexecdir=lib \

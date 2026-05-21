@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : go-task
-version     : "3.50.0"
-release     : 12
+version     : "3.51.1"
+release     : 13
 homepage    : https://taskfile.dev/
 upstreams   :
-    - https://github.com/go-task/task/archive/refs/tags/v3.50.0.tar.gz : d026cc8b9a766d623b8d42ae83986268cb2af91927d0ec66015e4053292dce88
+    - https://github.com/go-task/task/archive/refs/tags/v3.51.1.tar.gz : ee12bd4bd445df59de17d9b4376f8afb6a623facce34169479af8b0569220034
 summary     : A task runner / simpler Make alternative written in Go
 description : |
     A task runner / simpler Make alternative written in Go
@@ -18,9 +18,6 @@ networking  : true
 environment : |
     export GO111MODULE=auto
     export GOFLAGS="-buildmode=pie -trimpath -mod=readonly -modcacherw -ldflags=-linkmode=external"
-
-    # Make sure the version ends up in the binary. go-releaser typically handles this but we're not using that
-    sed -i "s|version = \"\"|version = \"v%(version)\"|g" internal/version/version.go
 build       : |
     go build -v -o bin ./cmd/task
 install     : |

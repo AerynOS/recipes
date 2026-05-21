@@ -1,0 +1,24 @@
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : permissionstests
+version     : "0"
+release     : 1
+homepage    : https://aerynos.com
+license     : MPL-2.0
+summary     : Test that boulder and moss handle file permissions properly
+description : |
+    Boulder saves individual file permissions, and moss is supposed to apply them.
+
+    This package sets up test cases that are quick to build and install for testing purposes.
+install     : |
+    # ensure the umask is explicitly shown during build for reference
+    umask
+    _t=%(installroot)%(datadir)/%(name)
+    %install_dir %(installroot)%(datadir)/%(name)/
+    for p in 7777 6777 5777 4777 3777 2777 1777 0777 0775 0755
+    do
+        touch ${_t}/file.${p}
+        touch ${_t}/dir.${p}
+        chmod -c ${p} ${_t}/file.${p} ${_t}/dir.${p}
+    done

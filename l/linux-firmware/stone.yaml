@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : linux-firmware
-version     : "20260410"
-release     : 39
+version     : "20260519"
+release     : 40
 homepage    : https://kernel.org
 upstreams   :
-    - git|https://gitlab.com/kernel-firmware/linux-firmware.git : dc85ccedc9c973682fbcf4d628ca61174bcc3120
+    - git|https://gitlab.com/kernel-firmware/linux-firmware.git : d962a6a309b78778f458dc94713845eee105be14
 summary     : Firmware to allow devices to function correctly
 description : |
     Firmware to allow devices to function correctly
@@ -202,8 +202,8 @@ packages    :
             - /usr/lib/firmware/rt3071.bin*
             - /usr/lib/firmware/rt3090.bin*
             - /usr/lib/firmware/rt3290.bin*
-            - /usr/lib/firmware/vpu_d.bin*
-            - /usr/lib/firmware/vpu_p.bin*
+            # - /usr/lib/firmware/vpu_d.bin*
+            # - /usr/lib/firmware/vpu_p.bin*
             - /usr/lib/firmware/mediatek
 
     - "%(name)-mellanox":
@@ -281,6 +281,9 @@ packages    :
         summary: Support for misc hardware
         # This should include all firmware that is either excluded from an above package or otherwise not subpackaged (the "catch-all")
         paths:
+            - /usr/lib/firmware/1*0x*.bin*
+            - /usr/lib/firmware/3*0x*.bin*
+            - /usr/lib/firmware/8*0x*.bin*
             - /usr/lib/firmware/8E8*.bin*
             - /usr/lib/firmware/8EF*.bin*
             - /usr/lib/firmware/INT8866RCA2*
@@ -357,6 +360,7 @@ packages    :
             - /usr/lib/firmware/keyspan/
             - /usr/lib/firmware/keyspan_pda/
             - /usr/lib/firmware/korg/
+            - /usr/lib/firmware/Lontium/
             - /usr/lib/firmware/matrox/
             - /usr/lib/firmware/meson/
             - /usr/lib/firmware/microchip/

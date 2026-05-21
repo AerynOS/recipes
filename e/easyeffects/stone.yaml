@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : easyeffects
-version     : "8.2.1"
-release     : 25
+version     : "8.2.2"
+release     : 27
 homepage    : https://github.com/wwmm/easyeffects
 upstreams   :
-    - https://github.com/wwmm/easyeffects/archive/refs/tags/v8.2.1.tar.gz : e3970357d4e9297d722fca1ee74b7f2c4d7e038f8072589405f4cc29a2a61e89
+    - https://github.com/wwmm/easyeffects/archive/refs/tags/v8.2.2.tar.gz : 291b6b1913d828164dda77d37f74a3c2171884cecdcf8b29458dec78df62572f
 summary     : Audio effects for PipeWire applications
 description : |
     Limiter, compressor, convolver, equalizer and auto volume and many other plugins for PipeWire applications
@@ -41,6 +41,7 @@ builddeps   :
     - pkgconfig(webrtc-audio-processing-2)
     - ladspa-devel
     - zita-convolver-devel
+    # x42-plugins
 rundeps     :
     # Qt6 Wayland support
     - qt6-wayland

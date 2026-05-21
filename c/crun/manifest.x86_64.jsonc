@@ -4,9 +4,11 @@
 	"packages": {
 		"crun": {
 			"build-depends": [
+				"binary(go-md2man)",
+				"binary(gperf)",
+				"binary(python3)",
 				"pkgconfig(libcap)",
 				"pkgconfig(libseccomp)",
-				"pkgconfig(python3)",
 				"pkgconfig(systemd)",
 				"pkgconfig(yajl)"
 			],
@@ -23,21 +25,21 @@
 				"/usr/bin/crun",
 				"/usr/lib/libcrun.so.0",
 				"/usr/lib/libcrun.so.0.0.0",
-				"/usr/lib/python3.14/site-packages/python_crun.so",
 				"/usr/share/man/man1/crun.1"
 			],
 			"name": "crun",
 			"provides": [
 				"binary(crun)",
-				"soname(libcrun.so.0(x86_64))",
-				"soname(python3.14/site-packages/python_crun.so(x86_64))"
+				"soname(libcrun.so.0(x86_64))"
 			]
 		},
 		"crun-devel": {
 			"build-depends": [
+				"binary(go-md2man)",
+				"binary(gperf)",
+				"binary(python3)",
 				"pkgconfig(libcap)",
 				"pkgconfig(libseccomp)",
-				"pkgconfig(python3)",
 				"pkgconfig(systemd)",
 				"pkgconfig(yajl)"
 			],
@@ -51,6 +53,6 @@
 		}
 	},
 	"source-name": "crun",
-	"source-release": "2",
-	"source-version": "1.26"
+	"source-release": "3",
+	"source-version": "1.27.1"
 }

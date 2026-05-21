@@ -33,16 +33,29 @@ assignments {
 
 	desktop-environment {
 		cosmic-comp
+		dms
+		fuzzel
+		gamescope
 		gnome-shell
+		hyprland
+		hyprlauncher
 		i3wm
+		ironbar
 		kwin
 		labwc
-        mango
-        niri
+		mango
+		mutter
+		niri
+		plasmashell
+		qs
+		riftbar
 		sway
-        weston
+		tofi
+		walker
+		waybar
+		weston
+		wmenu
 		Hyprland
-		gamescope
 		Xorg
 	}
 
@@ -60,7 +73,7 @@ assignments {
 		eopkg
 		flatpak
 		fwupd
-        moss
+		moss
 		packagekitd
 		pacman
 		update-initramfs
@@ -69,17 +82,27 @@ assignments {
 
 	batch {
 		include name="sbuild-*"
+		include name="x86_64-aerynos-linux-*"
+		include name="x86_64-linux-gnu-*"
+		include name="x86_64-pc-linux-*"
+		include name="x86_64-solus-linux-*"
 		"7z"
 		"7za"
 		"7zr"
 		ar
+		bindgen
 		boinc
-        boulder
+		boulder
+		bsdtar
+		bsdtar-static
 		c++
 		cargo
+		cc
 		ccache
 		clang
+		clang++
 		cmake
+		cpio
 		cpp
 		FAHClient
 		FAHCoreWrapper
@@ -89,6 +112,7 @@ assignments {
 		gradle
 		javac
 		ld
+		ld.bfd
 		ld.lld
 		ldc2
 		ldmd2
@@ -98,7 +122,9 @@ assignments {
 		meson
 		mold
 		mvn
+		nasm
 		ninja
+		pahole
 		rust-analyzer
 		rustc
 		sbuild
@@ -109,6 +135,7 @@ assignments {
 		unrar
 		zig
 		zip
+		zstd
 	}
 }
 

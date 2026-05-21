@@ -2,10 +2,10 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : haruna
-version     : "1.7.1"
-release     : 13
+version     : "1.8.1"
+release     : 16
 upstreams   :
-    - https://download.kde.org/stable/haruna/1.7.1/haruna-1.7.1.tar.xz : b29a717151b9d65f5abd736a3a774282d3014e281c8b89f2b79cc021042406e2
+    - https://download.kde.org/stable/haruna/1.8.1/haruna-1.8.1.tar.xz : 01f154e3161292da606899c3017f863362e00bb2402a2796be5e8d6849fc4b4b
 homepage    : https://invent.kde.org/multimedia/haruna/
 license     :
     - BSD-3-Clause
@@ -35,6 +35,7 @@ builddeps   :
     - cmake(Qt6Core5Compat)
     - cmake(Qt6CorePrivate)
     - cmake(Qt6Qml)
+    - cmake(Qt6ShaderTools)
     - pkgconfig(libavcodec)
     - pkgconfig(libavfilter)
     - pkgconfig(libavformat)

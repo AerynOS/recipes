@@ -1,0 +1,83 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : zfs
+version     : "2.4.2"
+release     : 1
+upstreams   :
+    - https://github.com/openzfs/zfs/releases/download/zfs-2.4.2/zfs-2.4.2.tar.gz : 7e260d0e6af295bea4c5e241cac0a1aef07b58d8dd8035f7898ade3b1bbec78f
+homepage    : https://openzfs.github.io/openzfs-docs/
+license     : CDDL-1.0
+summary     : An advanced file system and volume manager
+description : |
+    An advanced file system and volume manager
+builddeps   :
+    - binary(msgfmt)
+    - binary(python3)
+    - pkgconfig(blkid)
+    - pkgconfig(libcrypto)
+    - pkgconfig(libtirpc)
+    - pkgconfig(libunwind)
+    - pkgconfig(pam)
+    - pkgconfig(python3)
+    - pkgconfig(udev)
+    - pkgconfig(uuid)
+    - pkgconfig(zlib)
+    - python(cffi)
+    - python(packaging)
+    - python(setuptools)
+    - libaio-devel
+setup       : |
+    %patch %(pkgdir)/0001-Stateless.patch
+
+    # ld.lld: error: undefined symbol: __start_zfs_tunables
+    export LDFLAGS+=" -Wl,--no-gc-sections"
+
+    %configure \
+        --disable-static \
+        --disable-sysvinit \
+        --with-config=user \
+        --with-mounthelperdir=%(sbindir) \
+        --with-pamconfigsdir=%(vendordir)/pam.d \
+        --with-udevdir=%(libdir)/udev \
+        --with-vendor=aerynos \
+        --without-dracutdir
+build       : |
+    %make
+install     : |
+    %make_install
+
+    %tmpfiles "# Make sure that the /etc/zfs directory exists so that ZFS can write to it"
+    %tmpfiles "d /etc/zfs 0755 root root"
+
+    # Unneeded
+    rm -rfv %(installroot)%(datadir)/initramfs-tools
+packages    :
+    - "%(name)-libs":
+        summary: "Library files for %(name)"
+        description: |
+            Library files for %(name), typically pulled in as a dependency of another package.
+        paths:
+            - /usr/lib/libnvpair.so.*
+            - /usr/lib/libuutil.so.*
+            - /usr/lib/libzfs*.so.*
+            - /usr/lib/libzpool.so.*
+
+    - "%(name)-test":
+        summary: "%(name) test infrastructure"
+        description: "%(name) test infrastructure"
+        paths:
+            - /usr/share/zfs/*.sh
+            - /usr/share/zfs/runfiles/
+            - /usr/share/zfs/test-runner/
+            - /usr/share/zfs/zfs-tests/
+
+    - "python-pyzfs":
+        summary: Python wrapper for libzfs_core
+        description: |
+            This package provides a python wrapper for the libzfs_core C library.
+        license: Apache-2.0
+        rundeps:
+            - "%(name)-libs"
+        paths:
+            - /usr/lib/python3.*/site-packages/
