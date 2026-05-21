@@ -1,0 +1,27 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : gst-thumbnailers
+version     : "1.0.0"
+release     : 1
+homepage    : https://gitlab.gnome.org/GNOME/gst-thumbnailers
+upstreams   :
+    - https://gitlab.gnome.org/GNOME/gst-thumbnailers/-/archive/1.0.0/gst-thumbnailers-1.0.0.tar.gz : c547dccf46dba59c11cc60af9e88643e30bd72324e66708ab0f85bcd0999d1e3
+summary     : GStreamer video and audio file thumbnailer
+description : |
+    GStreamer video and audio file thumbnailer
+license     : GPL-3.0-or-later
+builddeps   :
+    - binary(cargo)
+    - pkgconfig(glycin-2)
+    - pkgconfig(gstreamer-1.0)
+    - pkgconfig(gstreamer-app-1.0)
+    - pkgconfig(gstreamer-plugins-bad-1.0)
+    - pkgconfig(gstreamer-plugins-base-1.0)
+networking  : true
+setup       : |
+    %meson
+build       : |
+    %meson_build
+install     : |
+    %meson_install
