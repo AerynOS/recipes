@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : monado
-version     : "25.1.0+git.628c83b4"
+version     : "25.1.0+git.d1690a6f"
 release     : 1
 homepage    : https://monado.dev/
 upstreams   :
-    - git|https://gitlab.freedesktop.org/monado/monado.git : 628c83b4eb173250ed7f305b3bce6a0b41a54791
+    - git|https://gitlab.freedesktop.org/monado/monado.git : d1690a6f8d4316a05f87bc51f0c4bd820d52b5f5
 summary     : The open source XR runtime
 description : |
     Monado is an open source XR runtime delivering immersive experiences such as VR and AR on mobile, PC/desktop,
@@ -60,9 +60,6 @@ builddeps   :
 rundeps     :
     - xr-hardware
 setup       : |
-    # Fix Pavlov VR broken controller mappings (from Lyris): https://discord.com/channels/1065291958328758352/1093090359464165470/1495868738992341113
-    %patch %(pkgdir)/0001-fix-pavlov-controller-mappings.patch
-
     %cmake
 build       : |
     %cmake_build
