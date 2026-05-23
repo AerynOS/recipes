@@ -1,0 +1,74 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"libjack2": {
+			"build-depends": [
+				"binary(python)",
+				"pkgconfig(alsa)",
+				"pkgconfig(dbus-1)",
+				"pkgconfig(eigen3)",
+				"pkgconfig(expat)",
+				"pkgconfig(opus)",
+				"pkgconfig(samplerate)"
+			],
+			"depends": [
+				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libopus.so.0(x86_64))",
+				"soname(libsamplerate.so.0(x86_64))",
+				"soname(libstdc++.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/lib/libjack.so.0",
+				"/usr/lib/libjack.so.0.1.0"
+			],
+			"name": "libjack2",
+			"provides": [
+				"soname(libjack.so.0(x86_64))"
+			]
+		},
+		"libjack2-devel": {
+			"build-depends": [
+				"binary(python)",
+				"pkgconfig(alsa)",
+				"pkgconfig(dbus-1)",
+				"pkgconfig(eigen3)",
+				"pkgconfig(expat)",
+				"pkgconfig(opus)",
+				"pkgconfig(samplerate)"
+			],
+			"depends": [
+				"libjack2"
+			],
+			"files": [
+				"/usr/include/jack/control.h",
+				"/usr/include/jack/intclient.h",
+				"/usr/include/jack/jack.h",
+				"/usr/include/jack/jslist.h",
+				"/usr/include/jack/metadata.h",
+				"/usr/include/jack/midiport.h",
+				"/usr/include/jack/net.h",
+				"/usr/include/jack/ringbuffer.h",
+				"/usr/include/jack/session.h",
+				"/usr/include/jack/statistics.h",
+				"/usr/include/jack/systemdeps.h",
+				"/usr/include/jack/thread.h",
+				"/usr/include/jack/transport.h",
+				"/usr/include/jack/types.h",
+				"/usr/include/jack/uuid.h",
+				"/usr/include/jack/weakjack.h",
+				"/usr/include/jack/weakmacros.h",
+				"/usr/lib/libjack.so",
+				"/usr/lib/pkgconfig/jack.pc"
+			],
+			"name": "libjack2-devel",
+			"provides": [
+				"pkgconfig(jack)"
+			]
+		}
+	},
+	"source-name": "jack2",
+	"source-release": "1",
+	"source-version": "1.9.22"
+}
