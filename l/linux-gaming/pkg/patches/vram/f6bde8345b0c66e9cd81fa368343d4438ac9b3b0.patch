@@ -163,7 +163,7 @@ diff --git a/drivers/gpu/drm/ttm/ttm_resource.c b/drivers/gpu/drm/ttm/ttm_resour
 index 192fca24f37e..a8a836f6e376 100644
 --- a/drivers/gpu/drm/ttm/ttm_resource.c
 +++ b/drivers/gpu/drm/ttm/ttm_resource.c
-@@ -373,30 +373,52 @@ void ttm_resource_fini(struct ttm_resource_manager *man,
+@@ -373,33 +373,52 @@ void ttm_resource_fini(struct ttm_resource_manager *man,
  }
  EXPORT_SYMBOL(ttm_resource_fini);
  
@@ -212,8 +212,11 @@ index 192fca24f37e..a8a836f6e376 100644
  
 -	if (man->cg) {
 -		ret = dmem_cgroup_try_charge(man->cg, bo->base.size, &pool, ret_limit_pool);
--		if (ret)
+-		if (ret) {
+-			if (ret == -EAGAIN)
+-				ret = -ENOSPC;
 -			return ret;
+-		}
 -	}
 -
  	ret = man->func->alloc(man, bo, place, res_ptr);
