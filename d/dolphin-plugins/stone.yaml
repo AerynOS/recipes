@@ -1,0 +1,34 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : dolphin-plugins
+version     : "26.04.1"
+release     : 1
+homepage    : https://apps.kde.org/de/dolphin_plugins/
+upstreams   :
+    - https://download.kde.org/stable/release-service/26.04.1/src/dolphin-plugins-26.04.1.tar.xz : eff4e09163ef6785fa4f93074f32be7e7e2bb0173f16a06bdfaabc3860f06d02
+summary     : Plugins for Dolphin
+description : |
+    These plugins integrate Dolphin with the revision control systems Bazaar, Mercurial and Git.
+    A Dropbox plugin gives action items to keep your files synced to the Dropbox service.
+    A disk image integration plugin adds a mount or unmount action.
+license     : GPL-2.0-or-later
+builddeps   :
+    - binary(python3)
+    - cmake(DolphinVcs)
+    - cmake(ECM)
+    - cmake(KF6Config)
+    - cmake(KF6CoreAddons)
+    - cmake(KF6I18n)
+    - cmake(KF6KIO)
+    - cmake(KF6Solid)
+    - cmake(KF6TextEditor)
+    - cmake(KF6TextWidgets)
+    - cmake(KF6XmlGui)
+    - cmake(Qt6)
+setup       : |
+    %cmake_kf6
+build       : |
+    %cmake_build
+install     : |
+    %cmake_install
