@@ -1,0 +1,24 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : tuckr
+version     : "0.13.1"
+release     : 1
+homepage    : https://raphgl.github.io/Tuckr/
+upstreams   :
+    - https://github.com/RaphGL/Tuckr/archive/refs/tags/0.13.1.tar.gz : 4b3bdc51e5de5961d89021f28e5aa1ae976fe37330ffafaa5042ed7d6ee2c7c7
+summary     : Super powered replacement for GNU Stow
+description : |
+    Tuckr is a dotfile manager inspired by Stow and Git. Tuckr aims to make dotfile management less painful. It follows the same model as Stow, symlinking files onto $HOME. It works on all the major OSes (Linux, Windows, BSDs and MacOS).
+    Tuckr aims to bring the simplicity of Stow to a dotfile manager with a very small learning curve. To achieve that goal Tuckr tries to only cover what is directly needed to manage dotfiles and nothing else.
+    We won't wrap git, rm, cp or reimplement the functionality that are perfeclty covered by other utilities in the system unless it greatly impacts usability.
+license     : GPL-3.0-or-later
+networking  : true
+setup       : |
+    %cargo_fetch
+build       : |
+    %cargo_build
+install     : |
+    %cargo_install
+check       : |
+    %cargo_test
