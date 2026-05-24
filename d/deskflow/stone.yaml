@@ -1,0 +1,45 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : deskflow
+version     : "1.26.0"
+release     : 1
+homepage    : https://github.com/deskflow/deskflow
+upstreams   :
+    - https://github.com/deskflow/deskflow/archive/refs/tags/v1.26.0.tar.gz : 3ed16983bb8a037ebe90b0dd642e7af44e17b258d601995a54fd0324b949f9eb
+summary     : Share a single keyboard and mouse between multiple computers
+description : |
+    Deskflow is a free and open source keyboard and mouse sharing app. Use the keyboard, mouse,
+    or trackpad of one computer to control nearby computers, and work seamlessly between them.
+    It's like a software KVM (but without the video). TLS encryption is enabled by default.
+    Wayland is supported. Clipboard sharing is supported.
+license     : GPL-2.0-only
+builddeps   :
+    - binary(doxygen)
+    - binary(help2man)
+    - cmake(Qt6)
+    - cmake(Qt6LinguistTools)
+    - pkgconfig(glib-2.0)
+    - pkgconfig(gtest)
+    - pkgconfig(ice)
+    - pkgconfig(libei-1.0)
+    - pkgconfig(libportal)
+    - pkgconfig(sm)
+    - pkgconfig(x11)
+    - pkgconfig(xext)
+    - pkgconfig(xi)
+    - pkgconfig(xinerama)
+    - pkgconfig(xkbcommon)
+    - pkgconfig(xkbfile)
+    - pkgconfig(xrandr)
+    - pkgconfig(xtst)
+setup       : |
+    %cmake
+build       : |
+    %cmake_build
+install     : |
+    %cmake_install
+packages    :
+    - "%(name)-docs":
+        paths:
+            - /usr/share/doc/deskflow
