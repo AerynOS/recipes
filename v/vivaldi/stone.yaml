@@ -1,0 +1,66 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : vivaldi
+version     : "8.0.4033.34"
+release     : 1
+homepage    : https://vivaldi.com/
+upstreams   :
+    - https://downloads.vivaldi.com/stable/vivaldi-stable_8.0.4033.34-1_amd64.deb:
+        hash: d2c410b2224b4ad053ce3adde8944aceb67f1d46694faf0eded2dd2c40a5ec84
+        unpack: false
+        rename: vivaldi.deb
+summary     : Experience the web in a whole new way with Vivaldi
+description : |
+    Vivaldi is a browser that has the features you need, a style that fits and values you can stand by.
+    Your browser matters. Take control with Vivaldi.
+license     : Distributable
+builddeps   :
+    - binary(ar)
+    - binary(bsdtar-static)
+    # - binary(ffmpeg) # TODO: Use ffmpeg that provides soname(libffmpeg.so(x86_64) for rundep
+setup       : |
+    ar xf %(sourcedir)/vivaldi.deb
+    bsdtar-static xf data.tar.xz
+
+    # The appdata directory is deprecated (From gentoo)
+    mkdir -p usr/share/metainfo
+    mv usr/share/appdata/vivaldi.appdata.xml usr/share/metainfo/vivaldi.metainfo.xml
+
+    # Remove cron job for updating from Debian repos (From gentoo)
+    rm -rf opt/vivaldi/cron
+    rm -rf etc/cron.daily/
+
+    # Remove scripts that will most likely break things (From gentoo)
+    rm -f opt/vivaldi/update-ffmpeg
+
+    # Qt5 is obsolete now (From gentoo)
+    rm -f opt/vivaldi/libqt5_shim.so
+install     : |
+    %install_dir %(installroot)%(bindir)
+    %install_dir %(installroot)/usr/share
+    %install_dir %(installroot)/usr/share/applications
+    %install_dir %(installroot)/usr/share/metainfo
+    %install_dir %(installroot)%(libdir)/vivaldi
+
+    cp -R usr/share/applications/* %(installroot)/usr/share/applications/
+    cp usr/share/metainfo/vivaldi.metainfo.xml %(installroot)/usr/share/metainfo/
+
+    # We do not use /opt for binary packages in AerynOS, so just use /usr/share (From Solus)
+    cp -R opt/vivaldi/* %(installroot)%(libdir)/vivaldi/
+    sed -i 's|/opt/vivaldi/vivaldi|%(bindir)/vivaldi|g' %(installroot)/usr/share/applications/*.desktop
+
+    # SUID-Bit for the Chromium-Sandbox (From Arch Linux)
+    chmod 4755 %(installroot)%(libdir)/vivaldi/vivaldi-sandbox
+
+    # TODO: Currently, there isn't a provider for soname(libffmpeg.so(x86_64) that can replace the internal restrictive shipped ffmpeg from Vivaldi
+    # rm -f %(installroot)%(libdir)/vivaldi/libffmpeg.so
+
+    # Restore bin link (From Solus)
+    ln -sf %(libdir)/vivaldi/vivaldi %(installroot)%(bindir)/vivaldi-stable
+
+    # From Solus
+    for icon_size in 16 24 32 48 64 128 256; do
+        %install_dir %(installroot)/usr/share/icons/hicolor/${icon_size}x${icon_size}/apps
+        mv %(installroot)%(libdir)/vivaldi/product_logo_${icon_size}.png %(installroot)/usr/share/icons/hicolor/${icon_size}x${icon_size}/apps/vivaldi.png
+    done
