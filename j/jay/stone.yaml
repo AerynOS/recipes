@@ -1,0 +1,37 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name: jay
+version: "1.13.0"
+release: 1
+homepage: https://github.com/mahkoh/jay
+upstreams:
+  - https://github.com/mahkoh/jay/archive/refs/tags/v1.13.0.tar.gz:
+      hash: 3253ca3a7e2de23263538954ce0145c01cb7df74c78d49622fddc055f120274d
+summary: Jay is a Wayland compositor for Linux with an i3-like tiling layout
+description: |
+  Jay is a Wayland compositor for Linux with an i3-like tiling layout, Vulkan and OpenGL rendering, multi-GPU support, screen sharing, and more.
+license:
+  - GPL-3.0-or-later
+networking: true
+builddeps:
+  - pkgconfig(cairo)
+  - pkgconfig(pango)
+  - pkgconfig(libinput)
+  - pkgconfig(libudev)
+  - pkgconfig(pangocairo)
+  - pkgconfig(fontconfig)
+  - pkgconfig(gobject-2.0)
+  - pkgconfig(gbm)
+setup: |
+  %cargo_fetch
+build: |
+  %cargo_build
+install: |
+  %cargo_install
+
+  %install_file %(pkgdir)/jay.desktop -t %(installroot)%(datadir)/wayland-sessions/
+  %install_file etc/jay.portal -t %(installroot)%(datadir)/xdg-desktop-portal/portals/
+  %install_file etc/jay-portals.conf -t %(installroot)%(datadir)/xdg-desktop-portal/
+
+  # TODO: When moss supports xattrs make sure to add CAP_SYS_NICE to the binary

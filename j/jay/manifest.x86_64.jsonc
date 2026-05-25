@@ -1,0 +1,46 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"jay": {
+			"build-depends": [
+				"pkgconfig(cairo)",
+				"pkgconfig(fontconfig)",
+				"pkgconfig(gbm)",
+				"pkgconfig(gobject-2.0)",
+				"pkgconfig(libinput)",
+				"pkgconfig(libudev)",
+				"pkgconfig(pango)",
+				"pkgconfig(pangocairo)"
+			],
+			"depends": [
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(ld-linux-x86-64.so.2(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libcairo.so.2(x86_64))",
+				"soname(libfontconfig.so.1(x86_64))",
+				"soname(libgbm.so.1(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libgobject-2.0.so.0(x86_64))",
+				"soname(libinput.so.10(x86_64))",
+				"soname(libm.so.6(x86_64))",
+				"soname(libpango-1.0.so.0(x86_64))",
+				"soname(libpangocairo-1.0.so.0(x86_64))",
+				"soname(libudev.so.1(x86_64))"
+			],
+			"files": [
+				"/usr/bin/jay",
+				"/usr/share/wayland-sessions/jay.desktop",
+				"/usr/share/xdg-desktop-portal/jay-portals.conf",
+				"/usr/share/xdg-desktop-portal/portals/jay.portal"
+			],
+			"name": "jay",
+			"provides": [
+				"binary(jay)"
+			]
+		}
+	},
+	"source-name": "jay",
+	"source-release": "1",
+	"source-version": "1.13.0"
+}
