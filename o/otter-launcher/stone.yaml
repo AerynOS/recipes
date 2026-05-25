@@ -1,0 +1,28 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : otter-launcher
+version     : "0.7.4"
+release     : 1
+homepage    : https://github.com/kuokuo123/otter-launcher
+upstreams   :
+    - https://github.com/kuokuo123/otter-launcher/archive/refs/tags/v0.7.4.tar.gz : 5dd28883dab5148c867961de8cb33018ebf4becaf3cb66cf2d6d4a5ed531c893
+summary     : minimalist, blazingly fast, keyboard-centric
+description : |
+     A hackable cli/tui launcher built for keyboard-centric wm users, featuring vi & emacs keybinds, ansi decoration, etc.
+license     :
+    - GPL-3.0-or-later
+networking  : true
+rundeps     :
+    - binary(fzf)
+build       : |
+    cargo build --release
+install     : |
+    %install_bin target/release/%(name)
+    %install_dir %(installroot)%(vendordir)/%(name)
+    %install_file config_example/config.toml %(installroot)%(vendordir)/%(name)/config.toml
+    %install_dir %(installroot)%(datadir)/licenses/%(name)
+    %install_file LICENSE %(installroot)%(datadir)/licenses/%(name)
+    ln -s /usr/bin/%(name) %(installroot)%(bindir)/ot
+check       : |
+    %cargo_test
