@@ -2,31 +2,33 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : atkmm-2.28
-version     : "2.28.4"
-release     : 3
-homepage    : https://gitlab.gnome.org/GNOME/atkmm
+version     : "2.28.5"
+release     : 4
+homepage    : https://gtkmm.gnome.org
 upstreams   :
-    - https://download.gnome.org/sources/atkmm/2.28/atkmm-2.28.4.tar.xz : 0a142a8128f83c001efb8014ee463e9a766054ef84686af953135e04d28fdab3
+    - https://download.gnome.org/sources/atkmm/2.28/atkmm-2.28.5.tar.xz : ae449192a582a2582a95e0602b15d792bbd639e836339b81ef916aa87540ac5c
 summary     : C++ bindings for ATK
 description : |
     atkmm is the C++ binding for the ATK library.
 license     : LGPL-2.1-or-later
 builddeps   :
+    - binary(dot)
+    - binary(doxygen)
     - binary(m4)
-    - binary(mm-common-get)
     - binary(perl)
     - binary(python3)
     - binary(xsltproc)
     - pkgconfig(atk)
     - pkgconfig(glibmm-2.4)
-packages    :
-    - "%(name)-devel":
-        paths:
-            - /usr/lib/*/proc/*
-            - /usr/lib/*/include/*
+    - pkgconfig(mm-common-libstdc++)
 setup       : |
     %meson
 build       : |
     %meson_build
 install     : |
     %meson_install
+packages    :
+    - "%(name)-devel":
+        paths:
+            - /usr/lib/*/proc/*
+            - /usr/lib/*/include/*

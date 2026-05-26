@@ -4,13 +4,15 @@
 	"packages": {
 		"atkmm-2.28": {
 			"build-depends": [
+				"binary(dot)",
+				"binary(doxygen)",
 				"binary(m4)",
-				"binary(mm-common-get)",
 				"binary(perl)",
 				"binary(python3)",
 				"binary(xsltproc)",
 				"pkgconfig(atk)",
-				"pkgconfig(glibmm-2.4)"
+				"pkgconfig(glibmm-2.4)",
+				"pkgconfig(mm-common-libstdc++)"
 			],
 			"depends": [
 				"soname(libatk-1.0.so.0(x86_64))",
@@ -32,13 +34,15 @@
 		},
 		"atkmm-2.28-devel": {
 			"build-depends": [
+				"binary(dot)",
+				"binary(doxygen)",
 				"binary(m4)",
-				"binary(mm-common-get)",
 				"binary(perl)",
 				"binary(python3)",
 				"binary(xsltproc)",
 				"pkgconfig(atk)",
-				"pkgconfig(glibmm-2.4)"
+				"pkgconfig(glibmm-2.4)",
+				"pkgconfig(mm-common-libstdc++)"
 			],
 			"depends": [
 				"atkmm-2.28",
@@ -102,6 +106,6 @@
 		}
 	},
 	"source-name": "atkmm-2.28",
-	"source-release": "3",
-	"source-version": "2.28.4"
+	"source-release": "4",
+	"source-version": "2.28.5"
 }
