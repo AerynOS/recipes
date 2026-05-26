@@ -5,6 +5,7 @@
 		"gamescope": {
 			"build-depends": [
 				"binary(glslangValidator)",
+				"pkgconfig(catch2-with-main)",
 				"pkgconfig(egl)",
 				"pkgconfig(gbm)",
 				"pkgconfig(glesv2)",
@@ -55,7 +56,6 @@
 				"soname(libXi.so.6(x86_64))",
 				"soname(libXmu.so.6(x86_64))",
 				"soname(libXrender.so.1(x86_64))",
-				"soname(libXtst.so.6(x86_64))",
 				"soname(libXxf86vm.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libcap.so.2(x86_64))",
@@ -146,6 +146,6 @@
 		}
 	},
 	"source-name": "gamescope",
-	"source-release": "8",
-	"source-version": "3.16.23"
+	"source-release": "9",
+	"source-version": "3.16.24"
 }
