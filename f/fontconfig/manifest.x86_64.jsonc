@@ -19,6 +19,7 @@
 				"/usr/bin/fc-cache",
 				"/usr/bin/fc-cat",
 				"/usr/bin/fc-conflist",
+				"/usr/bin/fc-genconf",
 				"/usr/bin/fc-list",
 				"/usr/bin/fc-match",
 				"/usr/bin/fc-pattern",
@@ -26,8 +27,9 @@
 				"/usr/bin/fc-scan",
 				"/usr/bin/fc-validate",
 				"/usr/lib/libfontconfig.so.1",
-				"/usr/lib/libfontconfig.so.1.16.0",
+				"/usr/lib/libfontconfig.so.1.17.0",
 				"/usr/lib/tmpfiles.d/fontconfig.conf",
+				"/usr/share/fontconfig/conf.avail/05-macos.conf",
 				"/usr/share/fontconfig/conf.avail/05-reset-dirs-sample.conf",
 				"/usr/share/fontconfig/conf.avail/09-autohint-if-no-hinting.conf",
 				"/usr/share/fontconfig/conf.avail/10-autohint.conf",
@@ -72,6 +74,7 @@
 				"/usr/share/fontconfig/conf.avail/70-yes-bitmaps.conf",
 				"/usr/share/fontconfig/conf.avail/80-delicious.conf",
 				"/usr/share/fontconfig/conf.avail/90-synthetic.conf",
+				"/usr/share/fontconfig/conf.default/05-macos.conf",
 				"/usr/share/fontconfig/conf.default/10-hinting-slight.conf",
 				"/usr/share/fontconfig/conf.default/10-scale-bitmap-fonts.conf",
 				"/usr/share/fontconfig/conf.default/10-yes-antialias.conf",
@@ -81,6 +84,7 @@
 				"/usr/share/fontconfig/conf.default/40-nonlatin.conf",
 				"/usr/share/fontconfig/conf.default/45-generic.conf",
 				"/usr/share/fontconfig/conf.default/45-latin.conf",
+				"/usr/share/fontconfig/conf.default/48-guessfamily.conf",
 				"/usr/share/fontconfig/conf.default/48-spacing.conf",
 				"/usr/share/fontconfig/conf.default/49-sansserif.conf",
 				"/usr/share/fontconfig/conf.default/50-user.conf",
@@ -106,6 +110,7 @@
 				"binary(fc-cache)",
 				"binary(fc-cat)",
 				"binary(fc-conflist)",
+				"binary(fc-genconf)",
 				"binary(fc-list)",
 				"binary(fc-match)",
 				"binary(fc-pattern)",
@@ -130,7 +135,7 @@
 			],
 			"files": [
 				"/usr/lib32/libfontconfig.so.1",
-				"/usr/lib32/libfontconfig.so.1.16.0"
+				"/usr/lib32/libfontconfig.so.1.17.0"
 			],
 			"name": "fontconfig-32bit",
 			"provides": [
@@ -187,6 +192,6 @@
 		}
 	},
 	"source-name": "fontconfig",
-	"source-release": "16",
-	"source-version": "2.17.1"
+	"source-release": "17",
+	"source-version": "2.18.0"
 }
