@@ -16,7 +16,7 @@
 				"pkgconfig(pixman-1)",
 				"pkgconfig(wayland-protocols)",
 				"pkgconfig(wayland-server)",
-				"pkgconfig(wlroots)",
+				"pkgconfig(wlroots-0.20)",
 				"pkgconfig(xcb-icccm)",
 				"pkgconfig(xkbcommon)"
 			],
@@ -46,7 +46,7 @@
 				"soname(libwayland-client.so.0(x86_64))",
 				"soname(libwayland-cursor.so.0(x86_64))",
 				"soname(libwayland-server.so.0(x86_64))",
-				"soname(libwlroots-0.19.so(x86_64))",
+				"soname(libwlroots-0.20.so(x86_64))",
 				"soname(libxcb-icccm.so.4(x86_64))",
 				"soname(libxcb.so.1(x86_64))",
 				"soname(libxkbcommon.so.0(x86_64))",
@@ -99,6 +99,6 @@
 		}
 	},
 	"source-name": "sway",
-	"source-release": "10",
-	"source-version": "1.11"
+	"source-release": "11",
+	"source-version": "1.12"
 }

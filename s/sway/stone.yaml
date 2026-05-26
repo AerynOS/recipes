@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : sway
-version     : "1.11"
-release     : 10
+version     : "1.12"
+release     : 11
 homepage    : https://github.com/swaywm/sway
 upstreams   :
-    - https://github.com/swaywm/sway/releases/download/1.11/sway-1.11.tar.gz : 0e37a55b7c3379230e97e1ad982542b75016a0c7d6676198604e557f9b373dae
+    - https://github.com/swaywm/sway/releases/download/1.12/sway-1.12.tar.gz : a7b1becc217433c11c6284d36bcea0687b87b77b0ed26a384565292ec321f2b1
 summary     : i3-compatible Wayland compositor
 description : |
     sway is an i3-compatible Wayland compositor.
@@ -25,7 +25,7 @@ builddeps   :
     - pkgconfig(pixman-1)
     - pkgconfig(wayland-protocols)
     - pkgconfig(wayland-server)
-    - pkgconfig(wlroots)
+    - pkgconfig(wlroots-0.20)
     - pkgconfig(xcb-icccm)
     - pkgconfig(xkbcommon)
     # Note: fish and bash-completions are searched for by the build but they
