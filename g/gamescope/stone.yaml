@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : gamescope
-version     : "3.16.23"
-release     : 8
+version     : "3.16.24"
+release     : 9
 homepage    : https://github.com/ValveSoftware/gamescope
 upstreams   :
-    - git|https://github.com/ValveSoftware/gamescope.git : f8b33d38c5acc35825c7966b208222770c4a623e
+    - git|https://github.com/ValveSoftware/gamescope.git : 6ea6b21e83a3077d60ee5ab044b472dfc399189d
     - git|https://github.com/misyltoad/GamescopeShaders.git : 64d7a0570e15dc5c9aeef084278b9eb4cc1abb25
 summary     : SteamOS session compositing window manager
 description : |
@@ -17,6 +17,7 @@ license     :
 networking  : true
 builddeps   :
     - binary(glslangValidator)
+    - pkgconfig(catch2-with-main)
     - pkgconfig(egl)
     - pkgconfig(gbm)
     - pkgconfig(glesv2)
@@ -24,9 +25,9 @@ builddeps   :
     - pkgconfig(jsoncpp)
     - pkgconfig(lcms2)
     - pkgconfig(libcap)
+    - pkgconfig(libdecor-0)
     - pkgconfig(libdisplay-info)
     - pkgconfig(libdrm)
-    - pkgconfig(libdecor-0)
     - pkgconfig(libeis-1.0)
     - pkgconfig(libinput)
     - pkgconfig(libpipewire-0.3)
@@ -54,9 +55,15 @@ builddeps   :
 rundeps     :
     - binary(Xwayland)
 setup       : |
+    # Needed to populate the source properly. Otherwise we have errors due to empty source folders.
+    git submodule init src/reshade
+    git submodule init thirdparty/SPIRV-Headers
+    git -c protocol.file.allow=always submodule update
+
     %meson \
         --wrap-mode=default \
-        -Dforce_fallback_for="libliftoff,stb,vkroots,wlroots"
+        -Dforce_fallback_for="glm,libliftoff,stb,vkroots,wlroots" \
+        -Dpipewire=enabled
 build       : |
     %meson_build
 install     : |
