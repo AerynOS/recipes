@@ -16,8 +16,9 @@
 			],
 			"files": [
 				"/usr/bin/less",
-				"/usr/bin/lessecho",
 				"/usr/bin/lesskey",
+				"/usr/lib/less/less-osc8-open",
+				"/usr/lib/less/lessecho",
 				"/usr/share/defaults/less/10_default_PAGER_less.sh",
 				"/usr/share/defaults/profile.d/10_default_PAGER_less.sh",
 				"/usr/share/man/man1/less.1",
@@ -27,12 +28,11 @@
 			"name": "less",
 			"provides": [
 				"binary(less)",
-				"binary(lessecho)",
 				"binary(lesskey)"
 			]
 		}
 	},
 	"source-name": "less",
-	"source-release": "15",
-	"source-version": "692"
+	"source-release": "16",
+	"source-version": "702"
 }
