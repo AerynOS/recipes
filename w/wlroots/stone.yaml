@@ -2,16 +2,22 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : wlroots
-version     : "0.19.3"
-release     : 10
+version     : "0.20.1"
+release     : 11
 homepage    : https://gitlab.freedesktop.org/wlroots/wlroots/
 upstreams   :
-    - https://gitlab.freedesktop.org/wlroots/wlroots/-/releases/0.19.3/downloads/wlroots-0.19.3.tar.gz : 5d02693175e5afd9af5f10e3e4976d6e9249dc39a90eb17d23fa5f54b125ccc5
+    - https://gitlab.freedesktop.org/wlroots/wlroots/-/releases/0.20.1/downloads/wlroots-0.20.1.tar.gz:
+        hash: a8541187baecaa2620938afacde88266cb7efa5928cb09d579d8efb07bc4901b
+        unpackdir: current
+
+    # Don't delete this section, just comment it out if it's not needed. The build recipe accounts for it possibly not existing
+    - https://gitlab.freedesktop.org/wlroots/wlroots/-/releases/0.19.3/downloads/wlroots-0.19.3.tar.gz:
+        hash: 5d02693175e5afd9af5f10e3e4976d6e9249dc39a90eb17d23fa5f54b125ccc5
+        unpackdir: compat
 summary     : A modular Wayland compositor library
 description : |
     Pluggable, composable, unopinionated modules for building a Wayland compositor.
-license     :
-    - MIT
+license     : MIT
 builddeps   :
     - binary(glslangValidator)
     - cmake(VulkanHeaders)
@@ -42,12 +48,40 @@ tuning      :
     - lto: false
     - symbolic: false
 setup       : |
+    if [ -d ../compat ]; then
+        pushd ../compat
+        %meson
+        popd
+    fi
+
     %meson
 build       : |
-    %meson_build
+    if [ -d ../compat ]; then
+        pushd ../compat
+            %ccache_zero
+            env CCACHE_BASEDIR="${PWD}" %meson_build
+            %ccache_stats
+        popd
+    fi
+
+    %ccache_zero
+    env CCACHE_BASEDIR="${PWD}" %meson_build
+    %ccache_stats
 test        : |
+    if [ -d ../compat ]; then
+        pushd ../compat
+            %meson_test
+        popd
+    fi
+
     %meson_test
 install     : |
+    if [ -d ../compat ]; then
+        pushd ../compat
+            %meson_install
+        popd
+    fi
+
     %meson_install
 
     # Create an unversioned symlink so we can continue to use `pkgconfig(wlroots)`
