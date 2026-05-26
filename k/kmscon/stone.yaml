@@ -2,10 +2,10 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : kmscon
-version     : "9.3.5"
-release     : 9
+version     : "10.0.0"
+release     : 10
 upstreams   :
-    - https://github.com/kmscon/kmscon/archive/refs/tags/v9.3.5.tar.gz : 14975a8c1ddcc163b1afecd2207c9fd2e05b88e8a00246701fabf9dffce52ee9
+    - https://github.com/kmscon/kmscon/archive/refs/tags/v10.0.0.tar.gz : 7074956472c42d14977922f9ef6d2ec101f8d88e549f0108c1f51cb9d2b437dd
 homepage    : https://www.freedesktop.org/wiki/Software/kmscon
 license     :
     - MIT
@@ -14,6 +14,7 @@ summary     : KMS/DRM based virtual Console Emulator
 description : |
     kmscon is a system console for linux. It does not depend on any graphics-server on your system (like X.org), but instead provides a raw console layer that can be used independently. It can replace the linux kernel console entirely but was designed to work well side-by-side, too. Even though initially targeted at providing internationalization to the system-console, it has grown into a fully modularized console layer including features like multi-head support, internationalized font rendering, XKB-compatible keyboard handling, hardware-accelerated graphics access and more.
 builddeps   :
+    - binary(tic)
     - binary(xsltproc)
     - pkgconfig(egl)
     - pkgconfig(fontconfig)
@@ -21,6 +22,7 @@ builddeps   :
     - pkgconfig(gbm)
     - pkgconfig(glesv2)
     - pkgconfig(libdrm)
+    - pkgconfig(libseat)
     - pkgconfig(libtsm)
     - pkgconfig(pangoft2)
     - pkgconfig(systemd)
@@ -34,6 +36,9 @@ build       : |
 install     : |
     %meson_install
 
+    %install_dir %(installroot)%(vendordir)
+    mv %(installroot)%(sysconfdir)/pam.d %(installroot)%(vendordir)
+
     # Make it the default
     # - we need to undo this until the issue with kmscon hogging the display
     #   despite a display manager being active is fixed. Upstream is aware.
@@ -41,6 +46,10 @@ install     : |
 check       : |
     %meson_test
 packages    :
+    - "%(name)":
+        rundeps:
+            - "terminfo-%(name)"
+
     - "%(name)-gl":
         summary: Adds OpenGL/DRM support to kmscon
         description: Adds OpenGL/DRM support to kmscon
@@ -49,3 +58,9 @@ packages    :
         paths:
             - /usr/lib/kmscon/mod-drm3d.so
             - /usr/lib/kmscon/mod-gltex.so
+
+    - "terminfo-%(name)":
+        summary: Terminfo for %(name)
+        description: Terminfo for %(name), split out so that it can be used from ncurses
+        paths:
+            - /usr/share/terminfo/

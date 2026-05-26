@@ -4,6 +4,7 @@
 	"packages": {
 		"kmscon": {
 			"build-depends": [
+				"binary(tic)",
 				"binary(xsltproc)",
 				"pkgconfig(check)",
 				"pkgconfig(egl)",
@@ -12,6 +13,7 @@
 				"pkgconfig(gbm)",
 				"pkgconfig(glesv2)",
 				"pkgconfig(libdrm)",
+				"pkgconfig(libseat)",
 				"pkgconfig(libtsm)",
 				"pkgconfig(pangoft2)",
 				"pkgconfig(systemd)",
@@ -26,11 +28,12 @@
 				"soname(libgobject-2.0.so.0(x86_64))",
 				"soname(libpango-1.0.so.0(x86_64))",
 				"soname(libpangoft2-1.0.so.0(x86_64))",
-				"soname(libsystemd.so.0(x86_64))",
+				"soname(libseat.so.1(x86_64))",
 				"soname(libtsm.so.4(x86_64))",
 				"soname(libudev.so.1(x86_64))",
 				"soname(libxkbcommon.so.0(x86_64))",
-				"soname(libz.so.1(x86_64))"
+				"soname(libz.so.1(x86_64))",
+				"terminfo-kmscon"
 			],
 			"files": [
 				"/usr/bin/kmscon",
@@ -40,7 +43,8 @@
 				"/usr/lib/kmscon/mod-pango.so",
 				"/usr/lib/kmscon/mod-unifont.so",
 				"/usr/lib/systemd/system/kmscon.service",
-				"/usr/lib/systemd/system/kmsconvt@.service"
+				"/usr/lib/systemd/system/kmsconvt@.service",
+				"/usr/share/defaults/pam.d/kmscon"
 			],
 			"name": "kmscon",
 			"provides": [
@@ -53,6 +57,7 @@
 		},
 		"kmscon-gl": {
 			"build-depends": [
+				"binary(tic)",
 				"binary(xsltproc)",
 				"pkgconfig(check)",
 				"pkgconfig(egl)",
@@ -61,6 +66,7 @@
 				"pkgconfig(gbm)",
 				"pkgconfig(glesv2)",
 				"pkgconfig(libdrm)",
+				"pkgconfig(libseat)",
 				"pkgconfig(libtsm)",
 				"pkgconfig(pangoft2)",
 				"pkgconfig(systemd)",
@@ -83,9 +89,31 @@
 				"soname(kmscon/mod-drm3d.so(x86_64))",
 				"soname(kmscon/mod-gltex.so(x86_64))"
 			]
+		},
+		"terminfo-kmscon": {
+			"build-depends": [
+				"binary(tic)",
+				"binary(xsltproc)",
+				"pkgconfig(check)",
+				"pkgconfig(egl)",
+				"pkgconfig(fontconfig)",
+				"pkgconfig(freetype2)",
+				"pkgconfig(gbm)",
+				"pkgconfig(glesv2)",
+				"pkgconfig(libdrm)",
+				"pkgconfig(libseat)",
+				"pkgconfig(libtsm)",
+				"pkgconfig(pangoft2)",
+				"pkgconfig(systemd)",
+				"pkgconfig(xkbcommon)"
+			],
+			"files": [
+				"/usr/share/terminfo/k/kmscon"
+			],
+			"name": "terminfo-kmscon"
 		}
 	},
 	"source-name": "kmscon",
-	"source-release": "9",
-	"source-version": "9.3.5"
+	"source-release": "10",
+	"source-version": "10.0.0"
 }
