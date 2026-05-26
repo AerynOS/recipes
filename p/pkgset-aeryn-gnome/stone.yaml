@@ -3,7 +3,7 @@
 
 name        : pkgset-aeryn-gnome
 version     : "2025.10" # I guess let's just match the OS version for now
-release     : 6
+release     : 7
 homepage    : https://aerynos.com/
 # No upstreams!
 summary     : pkgset virtual packages - GNOME Desktop
@@ -32,6 +32,7 @@ packages    :
             - binary(ptyxis)
             - gnome-backgrounds
             - gnome-desktop-defaults
+            - gst-thumbnailers
             - pkgset-aeryn-base-desktop
             - sysbinary(gdm)
         paths:
