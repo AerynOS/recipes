@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : bazaar
-version     : "0.7.10"
-release     : 2
+version     : "0.8.1"
+release     : 3
 homepage    : https://github.com/kolunmi/bazaar
 upstreams   :
-    - git|https://github.com/kolunmi/bazaar.git : 97d488552ae4d5e81ad1cdf9a7df5edb67b56fed
+    - git|https://github.com/kolunmi/bazaar.git : 43ce9f792d10e0f328b6cc1c08aa218d052db9f9
 summary     : New App Store for GNOME
 description : |
     Bazaar is a new app store for GNOME with a focus on discovering and installing applications and add-ons from Flatpak remotes, particularly Flathub.
@@ -20,16 +20,19 @@ builddeps   :
     - pkgconfig(glycin-2)
     - pkgconfig(glycin-gtk4-2)
     - pkgconfig(gtk4)
+    - pkgconfig(gtksourceview-5)
     - pkgconfig(json-glib-1.0)
     - pkgconfig(libadwaita-1)
     - pkgconfig(libdex-1)
     - pkgconfig(libproxy-1.0)
     - pkgconfig(libsecret-1)
     - pkgconfig(libsoup-3.0)
+    - pkgconfig(malcontent-0)
     - pkgconfig(md4c)
     - pkgconfig(webkitgtk-6.0)
     - pkgconfig(xmlb)
     - pkgconfig(yaml-0.1)
+    - python(babel)
 setup       : |
     # Fixes build failure
     export CFLAGS="${CFLAGS} -Wno-format-nonliteral"
