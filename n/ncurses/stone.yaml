@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : ncurses
-version     : "6.6-20260418"
-release     : 24
+version     : "6.6-20260523"
+release     : 25
 homepage    : https://invisible-island.net/ncurses/ncurses.html
 upstreams   :
-    - https://invisible-island.net/archives/ncurses/current/ncurses-6.6-20260418.tgz : b2e7c61e5769b77b200250a38c21d736c3a6eb147df02e58ef2d505cb3d10c04
+    - https://invisible-island.net/archives/ncurses/current/ncurses-6.6-20260523.tgz : 6ec5663baf1dbd0cb5f9760eb931fe3611d3df906ded812eff6eb26dd8d7375a
 summary     : Console display library
 description : |
     The ncurses (new curses) library is a free software emulation of curses in System V Release 4.0 (SVr4), and more. It uses terminfo format, supports pads and color and multiple highlights and forms characters and function-key mapping, and has all the other SVr4-curses enhancements over BSD curses. SVr4 curses became the basis of X/Open Curses.
@@ -85,6 +85,7 @@ packages    :
             - terminfo-foot
             - terminfo-ghostty
             - terminfo-kitty # Not sure why ncurses has a bare kitty terminfo but it doesn't confict so whatever
+            - terminfo-kmscon
         paths:
             - /usr/share/tabset/
             - /usr/share/terminfo/
