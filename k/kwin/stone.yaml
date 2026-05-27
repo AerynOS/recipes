@@ -3,7 +3,7 @@
 
 name        : kwin
 version     : "6.6.5"
-release     : 30
+release     : 31
 upstreams   :
     - https://download.kde.org/stable/plasma/6.6.5/kwin-6.6.5.tar.xz : 6c187ce7a5506090b438ef900103836fa0537674dde8b31e5b497ef321643cb4
 homepage    : https://kde.org/plasma-desktop/
@@ -79,6 +79,7 @@ tuning      :
     - lto: full
     - optimize: speed
 setup       : |
+    %patch %(pkgdir)/9278.patch
     %cmake_kf6
 build       : |
     %cmake_build
