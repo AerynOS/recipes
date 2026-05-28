@@ -1,0 +1,27 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"bazelisk": {
+			"build-depends": [
+				"binary(go)"
+			],
+			"depends": [
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(libc.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/bin/bazel",
+				"/usr/bin/bazelisk"
+			],
+			"name": "bazelisk",
+			"provides": [
+				"binary(bazel)",
+				"binary(bazelisk)"
+			]
+		}
+	},
+	"source-name": "bazelisk",
+	"source-release": "1",
+	"source-version": "1.29.0"
+}
