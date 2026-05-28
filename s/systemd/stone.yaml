@@ -2,8 +2,8 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : systemd
-version     : "257.13"
-release     : 82
+version     : "258.8"
+release     : 83
 summary     : A System and Service Manager
 license     :
     - GPL-2.0-or-later
@@ -13,7 +13,7 @@ homepage    : http://www.freedesktop.org/wiki/Software/systemd
 description : |
     A System and Service Manager
 upstreams   :
-    - https://github.com/systemd/systemd/archive/refs/tags/v257.13.tar.gz : 1eb7d5f9ff8a426ff880a3cded9ce819613ba8003ac5ddde9eca162f14ddabe7
+    - https://github.com/systemd/systemd/archive/refs/tags/v258.8.tar.gz : 3b0559f1f7119e42d4a61bee8dfe699478a3e6272cb4ca7404ca2a4e1f0c447c
 builddeps   :
     - binary(bpftool)
     - binary(gcc)
@@ -37,7 +37,9 @@ builddeps   :
     - pkgconfig(libdw)
     - pkgconfig(libffi)
     - pkgconfig(libfido2)
+    - pkgconfig(libgcrypt)
     - pkgconfig(libidn2)
+    - pkgconfig(libiptc)
     - pkgconfig(libkmod)
     - pkgconfig(liblz4)
     - pkgconfig(liblzma)
@@ -58,6 +60,7 @@ builddeps   :
     - pkgconfig32(libzstd)
     - pkgconfig32(mount)
     - python(jinja2)
+    - python(pefile)
     - docbook
     - docbook-xsl
     - gettext-devel
@@ -75,7 +78,6 @@ environment : |
     %export_docbook_catalogs
 setup       : |
     %patch %(pkgdir)/patches/downstream/0001-tmpfiles-Make-var-cache-ldconfig-world-readable.patch
-    %patch %(pkgdir)/patches/downstream/0001-downstream-Disable-kernel-auditing-by-default.patch
     %patch %(pkgdir)/patches/downstream/0001-tmpfiles-Allow-nsswitch-clobber-at-non-boot-interval.patch
     %patch %(pkgdir)/patches/downstream/0001-gpt-auto-generate-Stop-automounting-xbootldr-and-esp.patch
     %patch %(pkgdir)/patches/downstream/0001-path-lookup-Include-stateless-xdg-path-by-default.patch
@@ -88,7 +90,7 @@ setup       : |
     # None for now
 
     # ERROR: File fuzz-unit-file/dm-back-slash.swap does not exist.
-    mv "test/fuzz/fuzz-unit-file/dm-back\x2dslash.swap" "test/fuzz/fuzz-unit-file/dm-back-slash.swap"
+    # mv "test/fuzz/fuzz-unit-file/dm-back\x2dslash.swap" "test/fuzz/fuzz-unit-file/dm-back-slash.swap"
 
     _IS_64BIT_BOOL="true"
     _IS_64BIT_FEAT="enabled"
@@ -129,7 +131,9 @@ setup       : |
         -Dfirstboot=${_IS_64BIT_BOOL} \
         -Dfirst-boot-full-preset=true \
         -Dfuzz-tests=false \
+        -Dgcrypt=${_IS_64BIT_BOOL} \
         -Dgshadow=${_IS_64BIT_BOOL} \
+        -Dgnutls=${_IS_64BIT_BOOL} \
         -Dhibernate=${_IS_64BIT_BOOL} \
         -Dhomed=${_IS_64BIT_FEAT} \
         -Dhostnamed=${_IS_64BIT_BOOL} \
