@@ -1,0 +1,32 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : bazelisk
+version     : "1.29.0"
+release     : 1
+homepage    : https://github.com/bazelbuild/bazelisk
+upstreams   :
+    - https://github.com/bazelbuild/bazelisk/archive/refs/tags/v1.29.0.tar.gz : 7e4c7b8ade016052e63c1553cb4fbe0c4fe921e1e66913d49eef074ed894e933
+summary     : A user-friendly launcher for Bazel
+description : |
+    Bazelisk is a wrapper for Bazel written in Go.
+license     :
+    - Apache-2.0
+tuning      :
+    - lto: false
+networking  : true
+builddeps   :
+    - binary(git)
+    - binary(go)
+setup       : |
+    mkdir -p %(builddir)
+build       : |
+    export CGO_CFLAGS="${CFLAGS}"
+    export CGO_CXXFLAGS="${CXXFLAGS}"
+    export CGO_LDFLAGS="${LDFLAGS}"
+    export GOFLAGS="-buildmode=pie -trimpath -ldflags=-linkmode=external -mod=readonly -modcacherw"
+
+    go build -o %(builddir) .
+install     : |
+    %install_bin %(builddir)/%(name)
+    ln -sf bazelisk %(installroot)%(bindir)/bazel
