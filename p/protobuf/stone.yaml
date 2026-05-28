@@ -2,19 +2,25 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : protobuf
-version     : "31.0"
-release     : 9
+version     : "35.0"
+release     : 10
 homepage    : https://github.com/protocolbuffers/protobuf
 upstreams   :
-    - https://github.com/protocolbuffers/protobuf/releases/download/v31.0/protobuf-31.0.tar.gz : 29372fc269325b491126d204931eda436bf9a593f46b3467fac42c40f9b32944
+    - https://github.com/protocolbuffers/protobuf/releases/download/v35.0/protobuf-35.0.tar.gz : 8f907baca4b34a3b4854103ba5811e418fb6e2ff11fe0d8df9e8280b11d79926
 summary     : Protocol Buffers - Google's data interchange format
 description : |
     Protocol Buffers - Google's data interchange format
 license     : BSD-3-Clause
 builddeps   :
+    - binary(bazel)
     - cmake(absl)
+    - pkgconfig(python3)
     - pkgconfig(zlib)
+    - python(build)
+    - python(wheel)
+networking  : true
 setup       : |
+    bazel --version
     %cmake \
         -DBUILD_SHARED_LIBS=ON \
         -DCMAKE_SKIP_INSTALL_RPATH=ON \
@@ -24,8 +30,11 @@ setup       : |
         -Dprotobuf_LOCAL_DEPENDENCIES_ONLY=OFF
 build       : |
     %cmake_build
+    bazel build //python/dist:binary_wheel
 install     : |
     %cmake_install
+    cd bazel-bin/python
+    %pyproject_install
 packages    :
     - "%(name)-devel":
         paths:
@@ -38,3 +47,10 @@ packages    :
             - "%(name)-devel"
         paths:
             - /usr/lib/lib*.a
+    - "python-%(name)":
+        summary: Python 3 bindings for %(name)
+        description: Python 3 bindings for %(name)
+        rundeps:
+           - python-libs
+        paths:
+          - /usr/lib/python3*
