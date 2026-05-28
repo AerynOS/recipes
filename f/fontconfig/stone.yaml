@@ -3,7 +3,7 @@
 
 name        : fontconfig
 version     : "2.18.0"
-release     : 17
+release     : 18
 homepage    : https://www.freedesktop.org/wiki/Software/fontconfig
 upstreams   :
     - https://gitlab.freedesktop.org/api/v4/projects/890/packages/generic/fontconfig/2.18.0/fontconfig-2.18.0.tar.xz : e7064a4725431ddba06ff8b971ec5a4b422e23b0169ce215747beedcb30e9073
@@ -26,6 +26,8 @@ builddeps   :
 emul32      : true
 setup       : |
     %patch %(pkgdir)/stateless/Support-user-config.patch
+
+    %patch %(pkgdir)/upstream-01.patch
 
     %meson \
         -Dbaseconfig-dir=%(sysconfdir)/fonts \
