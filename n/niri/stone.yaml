@@ -3,7 +3,7 @@
 
 name        : niri
 version     : "26.04"
-release     : 17
+release     : 18
 summary     : Niri Desktop Compositor
 license     : GPL-3.0
 homepage    : https://github.com/YaLTeR/niri
@@ -33,7 +33,6 @@ builddeps   :
     - pkgconfig(xkbcommon)
 rundeps    :
     - binary(gnome-keyring)
-    - binary(xwayland-satellite)
     - xdg-desktop-portal-gnome
     - xdg-desktop-portal-gtk
 setup       : |
