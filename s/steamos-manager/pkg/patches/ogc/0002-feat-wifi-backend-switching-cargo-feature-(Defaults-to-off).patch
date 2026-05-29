@@ -1,0 +1,159 @@
+From 667e48b6a590f4bb74bad9e8c6916bc397da913a Mon Sep 17 00:00:00 2001
+From: Kyle Gospodnetich <me@kylegospodneti.ch>
+Date: Wed, 27 May 2026 19:37:24 -0700
+Subject: [PATCH] feat: wifi-backend-switching cargo feature (default off)
+
+---
+ steamos-manager/Cargo.toml            |  4 ++++
+ steamos-manager/src/bin/steamosctl.rs |  2 ++
+ steamos-manager/src/manager/root.rs   |  7 ++++--
+ steamos-manager/src/manager/user.rs   |  2 ++
+ steamos-manager/src/wifi.rs           | 34 ++++++++++++++++-----------
+ 5 files changed, 33 insertions(+), 16 deletions(-)
+
+diff --git a/steamos-manager/Cargo.toml b/steamos-manager/Cargo.toml
+index 68078ee..ddc5a55 100644
+--- a/steamos-manager/Cargo.toml
++++ b/steamos-manager/Cargo.toml
+@@ -38,3 +38,7 @@ udev = { version = "^0.9.3", features = ["send", "sync"] }
+ xdg = "3.0"
+ zbus = { version = "5", default-features = false, features = ["tokio"] }
+ zbus_xml = "5"
++
++[features]
++default = []
++wifi-backend-switching = []
+diff --git a/steamos-manager/src/bin/steamosctl.rs b/steamos-manager/src/bin/steamosctl.rs
+index adaa355..2be9ed3 100644
+--- a/steamos-manager/src/bin/steamosctl.rs
++++ b/steamos-manager/src/bin/steamosctl.rs
+@@ -168,6 +168,7 @@ enum Commands {
+     SuggestedDefaultPerformanceProfile,
+ 
+     /// Set the Wi-Fi backend, if possible
++    #[cfg(feature = "wifi-backend-switching")]
+     SetWifiBackend {
+         /// Supported backends are `iwd`, `wpa_supplicant`
+         backend: WifiBackend,
+@@ -602,6 +603,7 @@ async fn main() -> Result<()> {
+             let value = proxy.tdp_limit_min().await?;
+             println!("TDP limit min: {value}");
+         }
++        #[cfg(feature = "wifi-backend-switching")]
+         Commands::SetWifiBackend { backend } => {
+             let proxy = WifiBackend1Proxy::new(&conn).await?;
+             proxy.set_wifi_backend(backend.to_string().as_str()).await?;
+diff --git a/steamos-manager/src/manager/root.rs b/steamos-manager/src/manager/root.rs
+index 2b56d8a..2f8a6b2 100644
+--- a/steamos-manager/src/manager/root.rs
++++ b/steamos-manager/src/manager/root.rs
+@@ -42,9 +42,11 @@ use crate::process::{run_script, script_output};
+ use crate::session::root::{clean_temporary_sessions, set_default_session, set_temporary_session};
+ use crate::sysfs::SysfsWritten;
+ use crate::wifi::{
+-    WifiBackend, WifiDebugMode, WifiPowerManagement, extract_wifi_trace, generate_wifi_dump,
+-    set_wifi_backend, set_wifi_debug_mode, set_wifi_power_management_state,
++    WifiDebugMode, WifiPowerManagement, extract_wifi_trace, generate_wifi_dump,
++    set_wifi_debug_mode, set_wifi_power_management_state,
+ };
++#[cfg(feature = "wifi-backend-switching")]
++use crate::wifi::{WifiBackend, set_wifi_backend};
+ use crate::{SerialOrderValidator, path};
+ 
+ #[derive(PartialEq, Debug, Copy, Clone)]
+@@ -544,6 +546,7 @@ impl SteamOSManager {
+         }
+     }
+ 
++    #[cfg(feature = "wifi-backend-switching")]
+     async fn set_wifi_backend(&mut self, backend: u32) -> fdo::Result<()> {
+         if self.wifi_debug_mode == WifiDebugMode::Tracing {
+             return Err(fdo::Error::Failed(String::from(
+diff --git a/steamos-manager/src/manager/user.rs b/steamos-manager/src/manager/user.rs
+index 63e85fb..38fb600 100644
+--- a/steamos-manager/src/manager/user.rs
++++ b/steamos-manager/src/manager/user.rs
+@@ -1294,6 +1294,7 @@ impl WifiBackend1 {
+         }
+     }
+ 
++    #[cfg(feature = "wifi-backend-switching")]
+     #[zbus(property)]
+     async fn set_wifi_backend(
+         &self,
+@@ -1337,6 +1338,7 @@ impl WifiDebug1 {
+         }
+     }
+ 
++    #[cfg(feature = "wifi-backend-switching")]
+     #[zbus(property)]
+     async fn set_wifi_backend(
+         &self,
+diff --git a/steamos-manager/src/wifi.rs b/steamos-manager/src/wifi.rs
+index 9379fa2..be960a8 100644
+--- a/steamos-manager/src/wifi.rs
++++ b/steamos-manager/src/wifi.rs
+@@ -269,6 +269,7 @@ pub(crate) async fn set_wifi_debug_mode(
+ //
+ // Originally discussed in:
+ // https://gitlab.steamos.cloud/holo/holo/-/merge_requests/747
++#[cfg(feature = "wifi-backend-switching")]
+ async fn ensure_default_interface() -> Result<()> {
+     if !list_wifi_interfaces().await?.is_empty() {
+         return Ok(());
+@@ -345,22 +346,25 @@ async fn set_nm_settings(
+     let unit = SystemdUnit::new(connection, "NetworkManager.service").await?;
+ 
+     if restart {
+-        let backend_unit = SystemdUnit::new(
+-            connection,
+-            match backend {
+-                WifiBackend::Iwd => "wpa_supplicant.service",
+-                WifiBackend::WPASupplicant => "iwd.service",
+-            },
+-        )
+-        .await?;
++        #[cfg(feature = "wifi-backend-switching")]
++        {
++            let backend_unit = SystemdUnit::new(
++                connection,
++                match backend {
++                    WifiBackend::Iwd => "wpa_supplicant.service",
++                    WifiBackend::WPASupplicant => "iwd.service",
++                },
++            )
++            .await?;
+ 
+-        unit.stop(JobMode::Fail).await?.wait().await?;
+-        // These systemd units are not set to enabled permanently, NetworkManager will pull them as necessary
+-        backend_unit.disable().await?;
+-        backend_unit.stop(JobMode::Fail).await?.wait().await?;
++            unit.stop(JobMode::Fail).await?.wait().await?;
++            // These systemd units are not set to enabled permanently, NetworkManager will pull them as necessary
++            backend_unit.disable().await?;
++            backend_unit.stop(JobMode::Fail).await?.wait().await?;
+ 
+-        ensure_default_interface().await?;
+-        unit.start(JobMode::Fail).await?;
++            ensure_default_interface().await?;
++            unit.start(JobMode::Fail).await?;
++        }
+     } else {
+         unit.reload(JobMode::Fail).await?.wait().await?;
+     }
+@@ -371,6 +375,7 @@ pub(crate) async fn get_wifi_backend() -> Result<WifiBackend> {
+     Ok(get_nm_settings().await?.backend)
+ }
+ 
++#[cfg(feature = "wifi-backend-switching")]
+ pub(crate) async fn set_wifi_backend(backend: WifiBackend, connection: &Connection) -> Result<()> {
+     let mut settings = get_nm_settings().await?;
+     settings.backend = backend;
+@@ -652,6 +657,7 @@ mod test {
+         );
+     }
+ 
++    #[cfg(feature = "wifi-backend-switching")]
+     #[tokio::test]
+     async fn test_set_nm_settings_restart() {
+         let mut h = testing::start();
