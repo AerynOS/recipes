@@ -2,8 +2,8 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : systemd
-version     : "258.9"
-release     : 86
+version     : "259.7"
+release     : 87
 summary     : A System and Service Manager
 license     :
     - GPL-2.0-or-later
@@ -13,7 +13,7 @@ homepage    : http://www.freedesktop.org/wiki/Software/systemd
 description : |
     A System and Service Manager
 upstreams   :
-    - https://github.com/systemd/systemd/archive/refs/tags/v258.9.tar.gz : ae8a6265d8439fc5193b84e56a83ba60ea56f1fe6248d8214f69e663c695bdff
+    - https://github.com/systemd/systemd/archive/refs/tags/v259.7.tar.gz : 80e9f60f62154e0f76a97bbdd8d020c84f723c3f4a9fded2cdb880efd11b877f
 builddeps   :
     - binary(bpftool)
     - binary(gcc)
@@ -39,7 +39,6 @@ builddeps   :
     - pkgconfig(libfido2)
     - pkgconfig(libgcrypt)
     - pkgconfig(libidn2)
-    - pkgconfig(libiptc)
     - pkgconfig(libkmod)
     - pkgconfig(liblz4)
     - pkgconfig(liblzma)
@@ -47,6 +46,7 @@ builddeps   :
     - pkgconfig(libpcre2-8)
     - pkgconfig(libqrencode)
     - pkgconfig(libseccomp)
+    - pkgconfig(mount)
     - pkgconfig(openssl)
     - pkgconfig(p11-kit-1)
     - pkgconfig(pam)
@@ -55,16 +55,17 @@ builddeps   :
     - pkgconfig(tss2-esys)
     - pkgconfig(xkbcommon)
     - pkgconfig(zlib)
-    - pkgconfig32(libcap)
     - pkgconfig32(libxcrypt)
     - pkgconfig32(libzstd)
-    - pkgconfig32(mount)
     - python(jinja2)
+    - python(lxml)
     - python(pefile)
     - docbook
     - docbook-xsl
     - gettext-devel
     # libaudit (+32bit)
+    # systemtap
+    # libselinux/libapparmor
 rundeps     :
     # Dash is now the default system shell (/usr/bin/sh) so we need to ensure it is always present and pulled in on existing systems
     - binary(dash)
@@ -131,9 +132,9 @@ setup       : |
         -Dfirstboot=${_IS_64BIT_BOOL} \
         -Dfirst-boot-full-preset=true \
         -Dfuzz-tests=false \
-        -Dgcrypt=${_IS_64BIT_BOOL} \
+        -Dgcrypt=${_IS_64BIT_FEAT} \
         -Dgshadow=${_IS_64BIT_BOOL} \
-        -Dgnutls=${_IS_64BIT_BOOL} \
+        -Dgnutls=${_IS_64BIT_FEAT} \
         -Dhibernate=${_IS_64BIT_BOOL} \
         -Dhomed=${_IS_64BIT_FEAT} \
         -Dhostnamed=${_IS_64BIT_BOOL} \
@@ -220,6 +221,7 @@ setup       : |
         -Dutmp-gid=13 \
         -Dvconsole=${_IS_64BIT_BOOL} \
         -Dvideo-gid=12 \
+        -Dvmspawn=${_IS_64BIT_FEAT} \
         -Dwheel-gid=28 \
         -Dwheel-group=true \
         -Dxdg-autostart=${_IS_64BIT_BOOL} \
@@ -248,7 +250,7 @@ install     : |
     rm -rf %(installroot)%(datadir)/factory/etc/pam.d
 
     # config.
-    %install_file %(pkgdir)/configs/00-journald.conf %(installroot)%(libdir)/systemd/journald.conf.d/00-journald.conf
+    %install_file %(pkgdir)/configs/journald/00-journald.conf %(installroot)%(libdir)/systemd/journald.conf.d/00-journald.conf
     %install_file %(pkgdir)/configs/10-timeout-abort.conf %(installroot)%(libdir)/systemd/system/service.d/10-timeout-abort.conf
     %install_file %(pkgdir)/configs/00-timeouts.conf %(installroot)%(libdir)/systemd/system.conf.d/00-timeouts.conf
     %install_file %(pkgdir)/configs/00-timeouts.conf %(installroot)%(libdir)/systemd/user.conf.d/00-timeouts.conf
@@ -340,6 +342,10 @@ packages    :
     - "%(name)-shared":
         summary: Internal libraries used by various systemd binaries
         description: Internal libraries used by various systemd binaries
+        rundeps:
+            # This specific list should only contain dependencies used by sysusers/tmpfiles
+            - soname(libacl.so.1(x86_64))
+            # libaudit
         paths:
             - /usr/lib/systemd/libsystemd-core-*.so
             - /usr/lib/systemd/libsystemd-shared-*.so
@@ -351,14 +357,20 @@ packages    :
             - "%(name)-tmpfiles"
             # These dependencies are all dlopen()ed
             # readelf -p .note.dlopen /usr/lib/systemd/libsystemd-shared-*.so
+            - soname(libacl.so.1(x86_64))
+            - soname(libarchive.so.13(x86_64))
             - soname(libbpf.so.1(x86_64))
+            - soname(libblkid.so.1(x86_64))
             - soname(libdw.so.1(x86_64))
             - soname(libelf.so.1(x86_64))
             - soname(libidn2.so.0(x86_64))
             - soname(libkmod.so.2(x86_64))
+            - soname(libmount.so.1(x86_64))
+            - soname(libpam.so.0(x86_64))
             - soname(libpcre2-8.so.0(x86_64))
             - soname(libpwquality.so.1(x86_64))
             - soname(libqrencode.so.4(x86_64))
+            - soname(libseccomp.so.2(x86_64))
             - soname(libzstd.so.1(x86_64))
             # Keyboard layout support
             - soname(libxkbcommon.so.0(x86_64))
@@ -572,6 +584,7 @@ packages    :
             - /usr/lib/systemd/system/systemd-nspawn@.*
             - /usr/lib/systemd/system/systemd-nsresourced.*
             - /usr/lib/systemd/system/systemd-portabled.*
+            - /usr/lib/systemd/system/systemd-vnspawn@.*
             - /usr/lib/systemd/system/var-lib-machines.mount
             - /usr/lib/systemd/systemd-export
             - /usr/lib/systemd/systemd-import*
@@ -582,9 +595,16 @@ packages    :
             - /usr/lib/systemd/systemd-nsresourcework
             - /usr/lib/systemd/systemd-portabled
             - /usr/lib/systemd/systemd-pull
+            - /usr/lib/systemd/user/dbus-org.freedesktop.import1.service
+            - /usr/lib/systemd/user/dbus-org.freedesktop.machine1.service
             - /usr/lib/systemd/user/machine.slice
             - /usr/lib/systemd/user/machines.target
-            - /usr/lib/systemd/user/systemd-nspawn@.service
+            - /usr/lib/systemd/user/sockets.target.wants/systemd-importd.socket
+            - /usr/lib/systemd/user/sockets.target.wants/systemd-machined.socket
+            - /usr/lib/systemd/user/systemd-importd*
+            - /usr/lib/systemd/user/systemd-machined*
+            - /usr/lib/systemd/user/systemd-nspawn@*
+            - /usr/lib/systemd/user/systemd-vmspawn@*
             - /usr/lib/tmpfiles.d/portables.conf
             - /usr/lib/tmpfiles.d/systemd-nspawn.conf
             - /usr/sbin/mount.ddi
@@ -592,6 +612,9 @@ packages    :
             - /usr/share/bash-completion/completions/machinectl
             - /usr/share/bash-completion/completions/portablectl
             - /usr/share/bash-completion/completions/systemd-nspawn
+            - /usr/share/bash-completion/completions/systemd-vmspawn
+            - /usr/share/dbus-1/services/org.freedesktop.import1.service
+            - /usr/share/dbus-1/services/org.freedesktop.machine1.service
             - /usr/share/dbus-1/system-services/org.freedesktop.import1.service
             - /usr/share/dbus-1/system-services/org.freedesktop.machine1.service
             - /usr/share/dbus-1/system-services/org.freedesktop.portable1.service
@@ -604,6 +627,7 @@ packages    :
             - /usr/share/man/man1/portablectl.1*
             - /usr/share/man/man1/systemd-dissect.1*
             - /usr/share/man/man1/systemd-nspawn.1*
+            - /usr/share/man/man1/systemd-vmspawn.1*
             - /usr/share/man/man5/org.freedesktop.import1.5*
             - /usr/share/man/man5/systemd.nspawn.5*
             - /usr/share/man/man8/systemd-import-generator.8*
