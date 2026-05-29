@@ -2,8 +2,8 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : systemd
-version     : "258.8"
-release     : 83
+version     : "259.7"
+release     : 84
 summary     : A System and Service Manager
 license     :
     - GPL-2.0-or-later
@@ -13,9 +13,11 @@ homepage    : http://www.freedesktop.org/wiki/Software/systemd
 description : |
     A System and Service Manager
 upstreams   :
-    - https://github.com/systemd/systemd/archive/refs/tags/v258.8.tar.gz : 3b0559f1f7119e42d4a61bee8dfe699478a3e6272cb4ca7404ca2a4e1f0c447c
+    - https://github.com/systemd/systemd/archive/refs/tags/v259.7.tar.gz : 80e9f60f62154e0f76a97bbdd8d020c84f723c3f4a9fded2cdb880efd11b877f
+toolchain   : gnu
 builddeps   :
     - binary(bpftool)
+    - binary(clang)
     - binary(gcc)
     - binary(gperf)
     - binary(m4)
