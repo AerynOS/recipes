@@ -2,8 +2,8 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : systemd
-version     : "258.8"
-release     : 83
+version     : "260.3"
+release     : 84
 summary     : A System and Service Manager
 license     :
     - GPL-2.0-or-later
@@ -13,9 +13,11 @@ homepage    : http://www.freedesktop.org/wiki/Software/systemd
 description : |
     A System and Service Manager
 upstreams   :
-    - https://github.com/systemd/systemd/archive/refs/tags/v258.8.tar.gz : 3b0559f1f7119e42d4a61bee8dfe699478a3e6272cb4ca7404ca2a4e1f0c447c
+    - https://github.com/systemd/systemd/archive/refs/tags/v260.3.tar.gz : a73fe51d2d9422e6bcffedbde6c5e57c4bc6ac2a6dd86937092f84e354f6d31d
+toolchain   : gnu
 builddeps   :
     - binary(bpftool)
+    - binary(clang)
     - binary(gcc)
     - binary(gperf)
     - binary(m4)
@@ -87,7 +89,9 @@ setup       : |
     %patch %(pkgdir)/patches/downstream/0001-Don-t-build-32bit-EFI-stub.patch
 
     # Upstream patches
-    # None for now
+    # units: order networkd resolve hook After=network-pre.target
+    # https://github.com/systemd/systemd/issues/42353
+    #%patch %(pkgdir)/patches/upstream/42370.patch
 
     # ERROR: File fuzz-unit-file/dm-back-slash.swap does not exist.
     # mv "test/fuzz/fuzz-unit-file/dm-back\x2dslash.swap" "test/fuzz/fuzz-unit-file/dm-back-slash.swap"
@@ -237,7 +241,7 @@ install     : |
     fi
 
     # Stateless: Clean up /var directories, they are created via tmpfiles already
-    rmdir %(installroot)/var/lib/systemd %(installroot)/var/lib %(installroot)/var
+    #rmdir %(installroot)/var/lib/systemd %(installroot)/var/lib %(installroot)/var
 
     # Don't clobber pam!
     rm -rf %(installroot)%(datadir)/factory/etc/pam.d
