@@ -2,8 +2,8 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : systemd
-version     : "259.7"
-release     : 87
+version     : "260.3"
+release     : 88
 summary     : A System and Service Manager
 license     :
     - GPL-2.0-or-later
@@ -13,7 +13,7 @@ homepage    : http://www.freedesktop.org/wiki/Software/systemd
 description : |
     A System and Service Manager
 upstreams   :
-    - https://github.com/systemd/systemd/archive/refs/tags/v259.7.tar.gz : 80e9f60f62154e0f76a97bbdd8d020c84f723c3f4a9fded2cdb880efd11b877f
+    - https://github.com/systemd/systemd/archive/refs/tags/v260.3.tar.gz : a73fe51d2d9422e6bcffedbde6c5e57c4bc6ac2a6dd86937092f84e354f6d31d
 builddeps   :
     - binary(bpftool)
     - binary(gcc)
@@ -66,6 +66,7 @@ builddeps   :
     # libaudit (+32bit)
     # systemtap
     # libselinux/libapparmor
+    # jekyll?
 rundeps     :
     # Dash is now the default system shell (/usr/bin/sh) so we need to ensure it is always present and pulled in on existing systems
     - binary(dash)
@@ -205,7 +206,6 @@ setup       : |
         -Dsysupdate=disabled \
         -Dsysupdated=disabled \
         -Dsysusers=${_IS_64BIT_BOOL} \
-        -Dsysvinit-path="" \
         -Dtape-gid=4 \
         -Dtests=false \
         -Dtimedated=${_IS_64BIT_BOOL} \
@@ -242,9 +242,6 @@ install     : |
 
         exit 0
     fi
-
-    # Stateless: Clean up /var directories, they are created via tmpfiles already
-    rmdir %(installroot)/var/lib/systemd %(installroot)/var/lib %(installroot)/var
 
     # Don't clobber pam!
     rm -rf %(installroot)%(datadir)/factory/etc/pam.d
@@ -361,6 +358,7 @@ packages    :
             - soname(libarchive.so.13(x86_64))
             - soname(libbpf.so.1(x86_64))
             - soname(libblkid.so.1(x86_64))
+            - soname(libcrypt.so.2(x86_64))
             - soname(libdw.so.1(x86_64))
             - soname(libelf.so.1(x86_64))
             - soname(libidn2.so.0(x86_64))
@@ -439,6 +437,7 @@ packages    :
         paths:
             - /usr/bin/bootctl
             - /usr/lib/systemd/boot/efi/
+            - /usr/lib/systemd/boot/hwids/
             - /usr/lib/systemd/system-generators/systemd-bless-boot-generator
             - /usr/lib/systemd/system/sockets.target.wants/systemd-bootctl.socket
             - /usr/lib/systemd/system/sysinit.target.wants/systemd-boot-random-seed.service
@@ -470,6 +469,7 @@ packages    :
             - /usr/bin/coredumpctl
             - /usr/lib/sysctl.d/50-coredump.conf
             - /usr/lib/systemd/system/sockets.target.wants/systemd-coredump.socket
+            - /usr/lib/systemd/system/system-update-pre.target.wants/systemd-coredump.socket
             - /usr/lib/systemd/system/systemd-coredump*.*
             - /usr/lib/systemd/system.conf.d/20-coredump-aeryn.conf
             - /usr/lib/systemd/systemd-coredump
@@ -562,12 +562,13 @@ packages    :
             - /usr/bin/portablectl
             # - /usr/bin/storagectl
             - /usr/bin/systemd-dissect
-            # - /usr/bin/systemd-mstack
+            - /usr/bin/systemd-mstack
             - /usr/bin/systemd-nspawn
             - /usr/bin/systemd-sysupdate
             - /usr/bin/systemd-vmspawn
             - /usr/lib/systemd/import-pubring.pgp
             - /usr/lib/systemd/network/80-namespace-*
+            - /usr/lib/systemd/oci-registry/
             - /usr/lib/systemd/portable/
             - /usr/lib/systemd/system-generators/systemd-import-generator
             - /usr/lib/systemd/system/dbus-org.freedesktop.import1.service
@@ -597,17 +598,21 @@ packages    :
             - /usr/lib/systemd/systemd-pull
             - /usr/lib/systemd/user/dbus-org.freedesktop.import1.service
             - /usr/lib/systemd/user/dbus-org.freedesktop.machine1.service
+            - /usr/lib/systemd/user/dbus-org.freedesktop.portable1.service
             - /usr/lib/systemd/user/machine.slice
             - /usr/lib/systemd/user/machines.target
+            - /usr/lib/systemd/user/portable/
             - /usr/lib/systemd/user/sockets.target.wants/systemd-importd.socket
             - /usr/lib/systemd/user/sockets.target.wants/systemd-machined.socket
             - /usr/lib/systemd/user/systemd-importd*
             - /usr/lib/systemd/user/systemd-machined*
             - /usr/lib/systemd/user/systemd-nspawn@*
+            - /usr/lib/systemd/user/systemd-portabled*
             - /usr/lib/systemd/user/systemd-vmspawn@*
             - /usr/lib/tmpfiles.d/portables.conf
             - /usr/lib/tmpfiles.d/systemd-nspawn.conf
             - /usr/sbin/mount.ddi
+            - /usr/sbin/mount.mstack
             - /usr/share/bash-completion/completions/importctl
             - /usr/share/bash-completion/completions/machinectl
             - /usr/share/bash-completion/completions/portablectl
@@ -615,6 +620,7 @@ packages    :
             - /usr/share/bash-completion/completions/systemd-vmspawn
             - /usr/share/dbus-1/services/org.freedesktop.import1.service
             - /usr/share/dbus-1/services/org.freedesktop.machine1.service
+            - /usr/share/dbus-1/services/org.freedesktop.portable1.service
             - /usr/share/dbus-1/system-services/org.freedesktop.import1.service
             - /usr/share/dbus-1/system-services/org.freedesktop.machine1.service
             - /usr/share/dbus-1/system-services/org.freedesktop.portable1.service
@@ -624,12 +630,15 @@ packages    :
             - /usr/share/man/man1/importctl.1*
             - /usr/share/man/man1/machinectl.1*
             - /usr/share/man/man1/mount.ddi.1*
+            - /usr/share/man/man1/mount.mstack.1*
             - /usr/share/man/man1/portablectl.1*
             - /usr/share/man/man1/systemd-dissect.1*
+            - /usr/share/man/man1/systemd-mstack.1*
             - /usr/share/man/man1/systemd-nspawn.1*
             - /usr/share/man/man1/systemd-vmspawn.1*
             - /usr/share/man/man5/org.freedesktop.import1.5*
             - /usr/share/man/man5/systemd.nspawn.5*
+            - /usr/share/man/man7/systemd.mstack.7*
             - /usr/share/man/man8/systemd-import-generator.8*
             - /usr/share/man/man8/systemd-importd*.8*
             - /usr/share/man/man8/systemd-machined*.8*
