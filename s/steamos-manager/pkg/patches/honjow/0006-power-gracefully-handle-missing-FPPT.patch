@@ -11,7 +11,7 @@ diff --git a/steamos-manager/src/power.rs b/steamos-manager/src/power.rs
 index f36f6f3..dcb1301 100644
 --- a/steamos-manager/src/power.rs
 +++ b/steamos-manager/src/power.rs
-@@ -563,12 +563,16 @@ impl TdpLimitManager for FirmwareAttributeLimitManager {
+@@ -574,12 +574,13 @@ impl TdpLimitManager for FirmwareAttribu
          )
          .await
          .inspect_err(|message| error!("Error writing to sysfs file: {message}"))?;
@@ -20,8 +20,7 @@ index f36f6f3..dcb1301 100644
 -            fppt_value.to_string().as_bytes(),
 -        )
 -        .await
--        .inspect_err(|message| error!("Error writing to sysfs file: {message}"))
-+
+-        .inspect_err(|message| error!("Error writing to sysfs file: {message}"))?;
 +        // Only write to FPPT if the path exists
 +        let fppt_path = base.join(Self::FPPT_SUFFIX).join("current_value");
 +        if try_exists(&fppt_path).await.unwrap_or(false) {
@@ -29,11 +28,9 @@ index f36f6f3..dcb1301 100644
 +                .await
 +                .inspect_err(|message| error!("Error writing to sysfs file: {message}"))?;
 +        }
-+
-+        Ok(())
+         Ok(())
      }
  
-     async fn get_tdp_limit_range(&self) -> Result<RangeInclusive<u32>> {
 -- 
 2.52.0
 
