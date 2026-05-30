@@ -5,6 +5,8 @@
 
 ## This is a list of packages that should be removed from the repo once moss supports package removal
 
+NB: Each entry *must* contain all sub-packages created by the package!
+
 ### Moved into other gcc packages
 - gcc-devel
 - gcc-32bit-devel
@@ -233,4 +235,5 @@
 - libatomic-32bit-static
 
 ### Deprecate (use gst-thumbnailers instead)
-  - ffmpegthumbnailer
+- ffmpegthumbnailer
+- ffmpegthumbnailer-devel
