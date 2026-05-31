@@ -3,7 +3,7 @@
 
 name        : plymouth
 version     : "26.134.222"
-release     : 13
+release     : 14
 homepage    : https://www.freedesktop.org/wiki/Software/Plymouth/
 upstreams   :
     - https://www.freedesktop.org/software/plymouth/releases/plymouth-26.134.222.tar.xz : 6ee1068216c5047923fabf0f6aa583e9d77cab383077358df3fc22f2ee398bb0
@@ -39,6 +39,9 @@ environment : |
     %export_docbook_catalogs
 setup       : |
     %patch %(pkgdir)/0001-Set-plymouth-defaults.patch
+
+    # https://gitlab.freedesktop.org/plymouth/plymouth/-/merge_requests/388
+    %patch %(pkgdir)/0001-ply-device-manager-fix-default-XKB-keymap-fallback.patch
 
     # Might need if we use git source again
     # %patch %(pkgdir)/0001-Fix-build-with-uutils-date.patch
