@@ -1,0 +1,50 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : plezy
+version     : "2.9.1"
+release     : 1
+homepage    : https://github.com/edde746/plezy
+upstreams   :
+    - https://github.com/edde746/plezy/archive/refs/tags/2.9.1.tar.gz:
+        hash: 289854360090fe54c85e3f31337adfb5a4aff2c7c657449fd290602cd91756b6
+        unpackdir: plezy
+    - https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.44.6-stable.tar.xz:
+        hash: a6320fd72e9a2690c08e2a6a70874a30cb120dee7c78f49d2c628bd7c9e20525
+        unpackdir: plezy/flutter
+summary     : Modern cross-platform Plex & Jellyfin client built with Flutter
+description : |
+    A modern client for Plex and Jellyfin on desktop, mobile, and TV. Built with Flutter for native performance and a clean interface.
+license     : GPL-3.0-or-later
+networking  : true
+builddeps   :
+    - binary(cmake)
+    - binary(ninja)
+    - binary(which)
+    - pkgconfig(gtk+-3.0)
+    - pkgconfig(libcurl)
+    - pkgconfig(libevdev)
+    - pkgconfig(mpv)
+    - openjdk-25-devel
+environment: |
+    # Flutter
+    export PATH="$PATH:%(workdir)/flutter/bin"
+    export JAVA_HOME=%(libdir)/openjdk-25
+setup       : |
+    # Everything below translated from AUR PKGBUILD
+    flutter --disable-analytics
+    flutter pub get
+build       : |
+    flutter build linux --verbose --release
+install     : |
+    _build_folder=build/linux/x64/release/bundle
+
+    %install_dir %(installroot)%(libdir)/%(name)
+    %install_exe ${_build_folder}/%(name) -t %(installroot)%(libdir)/%(name)
+    cp -R ${_build_folder}/* %(installroot)%(libdir)/%(name)
+
+    %install_file linux/packaging/com.edde746.%(name).desktop -t %(installroot)%(datadir)/applications/
+    %install_file assets/%(name).svg -t %(installroot)%(datadir)/icons/hicolor/scalable/apps/
+
+    %install_dir %(installroot)%(bindir)
+    ln -srvf %(installroot)%(libdir)/%(name)/%(name) %(installroot)%(bindir)/%(name)
