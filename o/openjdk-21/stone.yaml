@@ -3,7 +3,7 @@
 
 name        : openjdk-21
 version     : "21.0.11"
-release     : 4
+release     : 5
 upstreams   :
     - https://github.com/openjdk/jdk21u/archive/refs/tags/jdk-21.0.11-ga.tar.gz:
         hash: 76b8310966649ea8a6340f92d4f19f6f84e3083b682a514c8f1999c93373385f
@@ -124,32 +124,32 @@ build       : |
 
     %ccache_stats
 install     : |
-    jvm_dir="%(libdir)/openjdk-21"
+    jvm_dir="%(libdir)/%(name)"
     %install_dir %(installroot)${jvm_dir}
     cp -ra build/linux-x86_64-server-release/images/jdk/* %(installroot)${jvm_dir}
 
     # Remove license files and demo files
-    rm -rfv %(installroot)/${jvm_dir}/{legal,demo}/
+    rm -rfv %(installroot)${jvm_dir}/{legal,demo}/
 
     # System headers
-    %install_dir %(installroot)/%(includedir)/openjdk-21
-    mv %(installroot)/${jvm_dir}/include/* %(installroot)/%(includedir)/openjdk-21
-    ln -srvf %(installroot)/%(includedir)/openjdk-21 %(installroot)/${jvm_dir}/include
+    %install_dir %(installroot)%(includedir)
+    mv %(installroot)${jvm_dir}/include %(installroot)%(includedir)/openjdk-21
+    ln -srv %(installroot)%(includedir)/openjdk-21 %(installroot)${jvm_dir}/include
 
     # Man pages
-    %install_dir %(installroot)/%(datadir)
-    mv %(installroot)/${jvm_dir}/man %(installroot)/%(datadir)
-    find %(installroot)/%(mandir) -type f -print -exec rename -- ".1" "-21.1" {} \;
+    %install_dir %(installroot)%(datadir)
+    mv %(installroot)${jvm_dir}/man %(installroot)%(datadir)
+    find %(installroot)%(mandir) -type f -print -exec rename -- ".1" "-21.1" {} \;
 
     # System JVM symlinks for applications that check for this path
-    %install_dir %(installroot)/%(libdir)/jvm
-    ln -srv %(installroot)/${jvm_dir} %(installroot)/%(libdir)/jvm/openjdk-21
+    %install_dir %(installroot)%(libdir)/jvm
+    ln -srv %(installroot)${jvm_dir} %(installroot)%(libdir)/jvm/%(name)
 
     # Fix binary symlinks
     %install_dir %(installroot)%(bindir)
-    pushd %(installroot)/${jvm_dir}/bin
+    pushd %(installroot)${jvm_dir}/bin
     for bin in *; do
-        ln -srv %(installroot)/${jvm_dir}/bin/${bin} %(installroot)%(bindir)/${bin}-21
+        ln -srv %(installroot)${jvm_dir}/bin/${bin} %(installroot)%(bindir)/${bin}-21
     done
     popd
 tuning      :
