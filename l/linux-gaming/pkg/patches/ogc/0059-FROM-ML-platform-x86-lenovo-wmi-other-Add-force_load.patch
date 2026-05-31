@@ -1,0 +1,65 @@
+From 8a59e1d28bc0cb73089d08459a416d07749896ae Mon Sep 17 00:00:00 2001
+From: "Derek J. Clark" <derekjohn.clark@gmail.com>
+Date: Sun, 10 May 2026 04:25:44 +0000
+Subject: [PATCH 059/100] [FROM-ML] platform/x86: lenovo-wmi-other: Add
+ force_load_psy_ext module parameter
+
+Some Lenovo BIOS have been shown to have incomplete and/or broken
+capability data and WMI attribute IDs. In some cases the capability data
+reports that a feature is not supported when the get/set methods are
+fully implemented. It is also possible that the ACPI methods from the
+ideapad_laptop driver we defer to could be bugged while the WMI method
+is fully working. To aid end users in submitting more complete bug
+reports in these situations, add an override to skip the ACPI and
+compatibility checks to force load the power supply extension as if it
+is fully supported and has no conflicts.
+
+Signed-off-by: Derek J. Clark <derekjohn.clark@gmail.com>
+---
+ drivers/platform/x86/lenovo/wmi-other.c | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
+
+diff --git a/drivers/platform/x86/lenovo/wmi-other.c b/drivers/platform/x86/lenovo/wmi-other.c
+index 4d95a9109f5e..007fef658bfe 100644
+--- a/drivers/platform/x86/lenovo/wmi-other.c
++++ b/drivers/platform/x86/lenovo/wmi-other.c
+@@ -185,6 +185,16 @@ MODULE_PARM_DESC(relax_fan_constraint,
+ 	"Enabling this may results in HWMON attributes being out-of-sync, "
+ 	"and setting a too low RPM stops the fan. Use with caution.");
+ 
++/* Visibility of power supply extensions */
++static bool force_load_psy_ext;
++module_param(force_load_psy_ext, bool, 0444);
++MODULE_PARM_DESC(force_load_psy_ext,
++	"This option will skip checking if the ideapad_laptop driver will conflict "
++	"with adding an extension to set the battery charge behavior and battery charge "
++	"control end threshold. It will also skip checking if the BIOS reports that "
++	"those features are fully supported. It is recommended to blacklist the ideapad "
++	"driver before using this option.");
++
+ /* ======== HWMON (component: lenovo-wmi-capdata 00 & fan) ======== */
+ 
+ /**
+@@ -898,6 +908,11 @@ static void lwmi_om_psy_ext_init(struct lwmi_om_priv *priv)
+ 
+ 	priv->bh_registered = false;
+ 
++	if (force_load_psy_ext) {
++		props = LWMI_PSY_PROP_BEHAVIOUR | LWMI_PSY_PROP_THRESHOLD;
++		goto load_psy_ext;
++	}
++
+ 	/* Deconflict ideapad_laptop driver */
+ 	ret = acpi_get_devices(ideapad_hid, lwmi_acpi_match, &handle, NULL);
+ 	if (ret)
+@@ -915,6 +930,7 @@ static void lwmi_om_psy_ext_init(struct lwmi_om_priv *priv)
+ 	if (!props)
+ 		return;
+ 
++load_psy_ext:
+ 	/* Add battery hooks */
+ 	priv->battery_ext = lwmi_psy_exts[props];
+ 	priv->battery_hook.add_battery = lwmi_add_battery;
+-- 
+2.54.0
+
