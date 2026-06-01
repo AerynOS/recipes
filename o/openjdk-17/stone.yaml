@@ -3,7 +3,7 @@
 
 name        : openjdk-17
 version     : "17.0.19"
-release     : 4
+release     : 5
 upstreams   :
     - https://github.com/openjdk/jdk17u/archive/refs/tags/jdk-17.0.19-ga.tar.gz:
         hash: b165f0dd120f4455904b76cf87dd9352fd23f88c2e9a33c2532fabacc3cca962
@@ -126,34 +126,34 @@ build       : |
 install     : |
     make install
 
-    jvm_dir="%(libdir)/openjdk-17"
-    %install_dir %(installroot)/%(libdir)
-    mv %(installroot)/%(prefix)/jvm/openjdk-* %(installroot)/${jvm_dir}
-    rmdir %(installroot)/%(prefix)/jvm
+    jvm_dir="%(libdir)/%(name)"
+    %install_dir %(installroot)%(libdir)
+    mv %(installroot)%(prefix)/jvm/openjdk-* %(installroot)${jvm_dir}
+    rmdir %(installroot)%(prefix)/jvm
 
     # Remove license files and demo files
-    rm -rfv %(installroot)/${jvm_dir}/{legal,demo}/
+    rm -rfv %(installroot)${jvm_dir}/{legal,demo}/
 
     # System headers
-    %install_dir %(installroot)/%(includedir)/openjdk-17
-    mv %(installroot)/${jvm_dir}/include/* %(installroot)/%(includedir)/openjdk-17
-    ln -srvf %(installroot)/%(includedir)/openjdk-17 %(installroot)/${jvm_dir}/include
+    %install_dir %(installroot)%(includedir)
+    mv %(installroot)${jvm_dir}/include %(installroot)%(includedir)/%(name)
+    ln -srv %(installroot)%(includedir)/%(name) %(installroot)${jvm_dir}/include
 
     # Man pages
-    %install_dir %(installroot)/%(datadir)
-    mv %(installroot)/${jvm_dir}/man %(installroot)/%(datadir)
-    find %(installroot)/%(mandir) -type f -print -exec rename -- ".1" "-17.1" {} \;
+    %install_dir %(installroot)%(datadir)
+    mv %(installroot)${jvm_dir}/man %(installroot)%(datadir)
+    find %(installroot)%(mandir) -type f -print -exec rename -- ".1" "-17.1" {} \;
 
     # System JVM symlinks for applications that check for this path
-    %install_dir %(installroot)/%(libdir)/jvm
-    ln -srv %(installroot)/${jvm_dir} %(installroot)/%(libdir)/jvm/openjdk-17
+    %install_dir %(installroot)%(libdir)/jvm
+    ln -srv %(installroot)${jvm_dir} %(installroot)%(libdir)/jvm/%(name)
 
     # Fix binary symlinks
-    pushd %(installroot)/%(bindir)
+    pushd %(installroot)%(bindir)
     for bin in *; do
         rm -v ${bin}
-        if test -f %(installroot)/${jvm_dir}/bin/${bin}; then
-            ln -srv %(installroot)/${jvm_dir}/bin/${bin} ${bin}-17
+        if test -f %(installroot)${jvm_dir}/bin/${bin}; then
+            ln -srv %(installroot)${jvm_dir}/bin/${bin} ${bin}-17
         fi
     done
     popd
