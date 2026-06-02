@@ -236,6 +236,7 @@ NB: Each entry *must* contain all sub-packages created by the package!
 
 ### Deprecate (use gst-thumbnailers instead)
 - ffmpegthumbnailer
+- ffmpegthumbnailer-dbginfo
 - ffmpegthumbnailer-devel
 - ffmpegthumbnailer-dbginfo
 
