@@ -1,7 +1,7 @@
-From 41e68ee1735060da0fb7c4ace58dc1b26cd059de Mon Sep 17 00:00:00 2001
+From ce801b395563354766b6d4667f0af8464efc7065 Mon Sep 17 00:00:00 2001
 From: Natalie Vock <natalie.vock@gmx.de>
 Date: Sun, 31 Aug 2025 17:17:20 +0200
-Subject: [PATCH 004/100] [FROM-ML] cgroup/dmem: Add queries for protection
+Subject: [PATCH 04/89] [FROM-ML] cgroup/dmem: Add queries for protection
  values
 
 Callers can use this feedback to be more aggressive in making space for
@@ -50,10 +50,10 @@ index dd4869f1d736..1a88cd0c9eb0 100644
  { }
  
 diff --git a/kernel/cgroup/dmem.c b/kernel/cgroup/dmem.c
-index 9d95824dc6fa..28227405f7cf 100644
+index 003cd8651de6..b980a73d3d2a 100644
 --- a/kernel/cgroup/dmem.c
 +++ b/kernel/cgroup/dmem.c
-@@ -694,6 +694,68 @@ int dmem_cgroup_try_charge(struct dmem_cgroup_region *region, u64 size,
+@@ -695,6 +695,68 @@ int dmem_cgroup_try_charge(struct dmem_cgroup_region *region, u64 size,
  }
  EXPORT_SYMBOL_GPL(dmem_cgroup_try_charge);
  

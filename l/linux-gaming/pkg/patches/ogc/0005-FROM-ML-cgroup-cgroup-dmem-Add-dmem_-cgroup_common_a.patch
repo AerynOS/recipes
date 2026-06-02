@@ -1,7 +1,7 @@
-From c11e24f23b30160f65c1533b4b2de48510e89de1 Mon Sep 17 00:00:00 2001
+From d794c5d2e501f00158c58bd9ed15398c7f5d3d9f Mon Sep 17 00:00:00 2001
 From: Natalie Vock <natalie.vock@gmx.de>
 Date: Sun, 14 Sep 2025 18:35:45 +0200
-Subject: [PATCH 005/100] [FROM-ML] cgroup,cgroup/dmem: Add
+Subject: [PATCH 05/89] [FROM-ML] cgroup,cgroup/dmem: Add
  (dmem_)cgroup_common_ancestor helper
 
 This helps to find a common subtree of two resources, which is important
@@ -19,7 +19,7 @@ Signed-off-by: Natalie Vock <natalie.vock@gmx.de>
  3 files changed, 59 insertions(+)
 
 diff --git a/include/linux/cgroup.h b/include/linux/cgroup.h
-index bc892e3b37ee..560ae995e3a5 100644
+index b61b9b7849df..bdebbfdb7f46 100644
 --- a/include/linux/cgroup.h
 +++ b/include/linux/cgroup.h
 @@ -561,6 +561,27 @@ static inline struct cgroup *cgroup_ancestor(struct cgroup *cgrp,
@@ -78,10 +78,10 @@ index 1a88cd0c9eb0..9d72457c4cb9 100644
  { }
  
 diff --git a/kernel/cgroup/dmem.c b/kernel/cgroup/dmem.c
-index 28227405f7cf..29197d3801ac 100644
+index b980a73d3d2a..7c9853b05ef8 100644
 --- a/kernel/cgroup/dmem.c
 +++ b/kernel/cgroup/dmem.c
-@@ -756,6 +756,35 @@ bool dmem_cgroup_below_low(struct dmem_cgroup_pool_state *root,
+@@ -757,6 +757,35 @@ bool dmem_cgroup_below_low(struct dmem_cgroup_pool_state *root,
  }
  EXPORT_SYMBOL_GPL(dmem_cgroup_below_low);
  

@@ -1,7 +1,7 @@
-From 5762ac7b3ec11708993c94c80f9888272cb95bb9 Mon Sep 17 00:00:00 2001
+From ea231344546df235afa50172b902af98b52e1cbe Mon Sep 17 00:00:00 2001
 From: Matthew Schwartz <matthew.schwartz@linux.dev>
 Date: Sat, 20 Dec 2025 19:59:53 -0800
-Subject: [PATCH 002/100] [FROM-ML] misc: rtsx_pcr: prevent pm_schedule_suspend
+Subject: [PATCH 02/89] [FROM-ML] misc: rtsx_pcr: prevent pm_schedule_suspend
  for RTS525A
 
 The chip's pm_schedule_suspend sequence can sometimes cause SD card

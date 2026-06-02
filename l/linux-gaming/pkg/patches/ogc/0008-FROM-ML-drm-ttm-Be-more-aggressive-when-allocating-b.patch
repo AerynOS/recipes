@@ -1,7 +1,7 @@
-From 2f9a76091d6355fe2df4c5f6cdaf378a9d768fd9 Mon Sep 17 00:00:00 2001
+From 38c9f39a6faefc75fe26ba20649829092d4cee92 Mon Sep 17 00:00:00 2001
 From: Natalie Vock <natalie.vock@gmx.de>
 Date: Thu, 11 Sep 2025 11:30:59 +0200
-Subject: [PATCH 008/100] [FROM-ML] drm/ttm: Be more aggressive when allocating
+Subject: [PATCH 08/89] [FROM-ML] drm/ttm: Be more aggressive when allocating
  below protection limit
 
 When the cgroup's memory usage is below the low/min limit and allocation
@@ -16,7 +16,7 @@ Signed-off-by: Natalie Vock <natalie.vock@gmx.de>
  1 file changed, 48 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
-index 45a54e4045ef..24657ddfc03d 100644
+index 60df388eb174..02a0e9c27d7c 100644
 --- a/drivers/gpu/drm/ttm/ttm_bo.c
 +++ b/drivers/gpu/drm/ttm/ttm_bo.c
 @@ -496,6 +496,10 @@ struct ttm_bo_alloc_state {
