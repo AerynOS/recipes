@@ -1,7 +1,7 @@
-From 3aaf1f1ff2df254884d57ce95b81a2da22f156aa Mon Sep 17 00:00:00 2001
+From f6efc8477c42570bddd31f58c9b8cf5b0da8c81a Mon Sep 17 00:00:00 2001
 From: Natalie Vock <natalie.vock@gmx.de>
 Date: Wed, 25 Feb 2026 11:29:40 +0100
-Subject: [PATCH 007/100] [FROM-ML] drm/ttm: Split cgroup charge and resource
+Subject: [PATCH 07/89] [FROM-ML] drm/ttm: Split cgroup charge and resource
  allocation
 
 Coupling resource allocation and cgroup charging is racy when charging
@@ -27,12 +27,12 @@ a different ttm_place.
 Signed-off-by: Natalie Vock <natalie.vock@gmx.de>
 ---
  drivers/gpu/drm/ttm/ttm_bo.c       | 66 ++++++++++++++++++++----------
- drivers/gpu/drm/ttm/ttm_resource.c | 48 ++++++++++++++++------
+ drivers/gpu/drm/ttm/ttm_resource.c | 51 +++++++++++++++--------
  include/drm/ttm/ttm_resource.h     |  6 ++-
- 3 files changed, 85 insertions(+), 35 deletions(-)
+ 3 files changed, 85 insertions(+), 38 deletions(-)
 
 diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
-index ef68197e3aae..45a54e4045ef 100644
+index 9cd5704d9e81..60df388eb174 100644
 --- a/drivers/gpu/drm/ttm/ttm_bo.c
 +++ b/drivers/gpu/drm/ttm/ttm_bo.c
 @@ -490,8 +490,12 @@ int ttm_bo_evict_first(struct ttm_device *bdev, struct ttm_resource_manager *man
@@ -135,7 +135,7 @@ index ef68197e3aae..45a54e4045ef 100644
  	if (lret == 0)
 @@ -798,6 +817,7 @@ static int ttm_bo_alloc_resource(struct ttm_buffer_object *bo,
  				res, &alloc_state);
- 
+  
  		if (ret == -ENOSPC) {
 +			dmem_cgroup_uncharge(alloc_state.charge_pool, bo->base.size);
  			dmem_cgroup_pool_state_put(alloc_state.limit_pool);
@@ -161,10 +161,10 @@ index ef68197e3aae..45a54e4045ef 100644
  			return ret;
  		}
 diff --git a/drivers/gpu/drm/ttm/ttm_resource.c b/drivers/gpu/drm/ttm/ttm_resource.c
-index 192fca24f37e..a8a836f6e376 100644
+index bfd9c68fcd9c..d4a1d1c3813c 100644
 --- a/drivers/gpu/drm/ttm/ttm_resource.c
 +++ b/drivers/gpu/drm/ttm/ttm_resource.c
-@@ -373,33 +373,52 @@ void ttm_resource_fini(struct ttm_resource_manager *man,
+@@ -386,33 +386,52 @@ void ttm_resource_fini(struct ttm_resource_manager *man,
  }
  EXPORT_SYMBOL(ttm_resource_fini);
  
@@ -234,10 +234,10 @@ index 192fca24f37e..a8a836f6e376 100644
  	spin_lock(&bo->bdev->lru_lock);
  	ttm_resource_add_bulk_move(*res_ptr, bo);
 diff --git a/include/drm/ttm/ttm_resource.h b/include/drm/ttm/ttm_resource.h
-index 33e80f30b8b8..549b5b796884 100644
+index a5d386583fb6..e567b7ec8218 100644
 --- a/include/drm/ttm/ttm_resource.h
 +++ b/include/drm/ttm/ttm_resource.h
-@@ -456,10 +456,14 @@ void ttm_resource_init(struct ttm_buffer_object *bo,
+@@ -458,10 +458,14 @@ void ttm_resource_init(struct ttm_buffer_object *bo,
  void ttm_resource_fini(struct ttm_resource_manager *man,
  		       struct ttm_resource *res);
  

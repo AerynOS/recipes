@@ -1,24 +1,8 @@
-# Security
-
-# Dirty Frag / Copy Fail 2: Electric Boogaloo (CVE-2026-43284, CVE-2026-43500)
-# https://www.openwall.com/lists/oss-security/2026/05/07/8
-# https://github.com/V4bel/dirtyfrag
-# CVE-2026-43284
-# https://git.kernel.org/pub/scm/linux/kernel/git/netdev/net.git/commit/?id=f4c50a4034e62ab75f1d5cdd191dd5f9c77fdff4
-# CVE-2026-43500
-# https://lore.kernel.org/all/afKV2zGR6rrelPC7@v4bel/
-# v3: https://lore.kernel.org/all/af2kdW2F1gJ9U-Gg@v4bel/
-# Not used: https://lore.kernel.org/all/agDTmXM2wXnJflYc@v4bel/
-# https://lore.kernel.org/all/20260511160753.607296-1-dhowells@redhat.com/
-# https://lore.kernel.org/all/177877877003.17572.12084366985884137835.git-patchwork-notify@kernel.org/
-# https://lore.kernel.org/netdev/20260515230516.2718212-1-dhowells@redhat.com/
-security/0003-dirty-frag-rxrpc-fix-from-netdev-list.patch
-
 # Enable x86_64-v2 build optimisations
 more-ISA-levels-and-uarches-for-kernel-6.16+.patch
 
 # Add OGC patch-set
-# https://github.com/OpenGamingCollective/linux/releases/tag/v7.0.9-ogc3
+# https://github.com/OpenGamingCollective/linux/commits/ogc-7.0.11
 ogc/0001-FROM-ML-mmc-rtsx_pci_sdmmc-drop-MMC_CAP_AGGRESSIVE_P.patch
 ogc/0002-FROM-ML-misc-rtsx_pcr-prevent-pm_schedule_suspend-fo.patch
 ogc/0003-FROM-ML-mmc-rtsx_pci_sdmmc-increase-delay-after-powe.patch
@@ -30,95 +14,84 @@ ogc/0008-FROM-ML-drm-ttm-Be-more-aggressive-when-allocating-b.patch
 ogc/0009-FROM-ML-drm-ttm-Use-common-ancestor-of-evictor-and-e.patch
 ogc/0010-FROM-ML-drm-nouveau-Userspace-can-now-make-use-of-me.patch
 ogc/0011-FROM-ML-Commit-f77f281b6118-fsverity-use-a-hashtable.patch
-#ogc/0012-FROM-ML-HID-pass-the-buffer-size-to-hid_report_raw_e.patch
-#ogc/0013-FROM-ML-HID-core-introduce-hid_safe_input_report.patch
-ogc/0014-FROM_UPSTREAM-HID-hid-lenovo-go-Add-Lenovo-Legion-Go.patch
-ogc/0015-FROM_UPSTREAM-HID-hid-lenovo-go-Add-Feature-Status-A.patch
-ogc/0016-FROM_UPSTREAM-HID-hid-lenovo-go-Add-Rumble-and-Hapti.patch
-ogc/0017-FROM_UPSTREAM-HID-hid-lenovo-go-Add-FPS-Mode-DPI-set.patch
-ogc/0018-FROM_UPSTREAM-HID-hid-lenovo-go-Add-RGB-LED-control-.patch
-ogc/0019-FROM_UPSTREAM-HID-hid-lenovo-go-Add-Calibration-Sett.patch
-ogc/0020-FROM_UPSTREAM-HID-hid-lenovo-go-Add-OS-Mode-Toggle.patch
-ogc/0021-FROM_UPSTREAM-HID-hid-lenovo-go-s-Add-Lenovo-Legion-.patch
-ogc/0022-FROM_UPSTREAM-HID-hid-lenovo-go-s-Add-MCU-ID-Attribu.patch
-ogc/0023-FROM_UPSTREAM-HID-hid-lenovo-go-s-Add-Feature-Status.patch
-ogc/0024-FROM_UPSTREAM-HID-hid-lenovo-go-s-Add-Touchpad-Mode-.patch
-ogc/0025-FROM_UPSTREAM-HID-hid-lenovo-go-s-Add-RGB-LED-contro.patch
-ogc/0026-FROM_UPSTREAM-HID-hid-lenovo-go-s-Add-IMU-and-Touchp.patch
-ogc/0027-FROM_UPSTREAM-HID-hid-lenovo-go-s-Remove-unneeded-se.patch
-ogc/0028-FROM_UPSTREAM-HID-hid-lenovo-go-Remove-unneeded-semi.patch
-ogc/0029-FROM_UPSTREAM-HID-hid-lenovo-go-s-Fix-spelling-mista.patch
-ogc/0030-FROM_UPSTREAM-HID-hid-lenovo-go-s-restore-OS_TYPE-af.patch
-ogc/0031-FROM_UPSTREAM-HID-hid-lenovo-go-reject-non-USB-devic.patch
-ogc/0032-FROM-ML-HID-hid-msi-Add-MSI-Claw-configuration-drive.patch
-ogc/0033-FROM-ML-HID-hid-msi-Add-M-key-mapping-attributes.patch
-ogc/0034-FROM-ML-HID-hid-msi-Add-RGB-control-interface.patch
-ogc/0035-FROM-ML-HID-hid-msi-Add-Rumble-Intensity-Attributes.patch
-ogc/0036-FROM-ML-HID-hid-oxp-Add-OneXPlayer-configuration-dri.patch
-ogc/0037-FROM-ML-HID-hid-oxp-Add-Second-Generation-RGB-Contro.patch
-ogc/0038-FROM-ML-HID-hid-oxp-Add-Second-Generation-Gamepad-Mo.patch
-ogc/0039-FROM-ML-HID-hid-oxp-Add-Button-Mapping-Interface.patch
-ogc/0040-FROM-ML-HID-hid-oxp-Add-Vibration-Intensity-Attribut.patch
-ogc/0041-FROM-ML-platform-x86-ayn-ec-Add-PWM-Fan-HWMON-Interf.patch
-ogc/0042-FROM-ML-platform-x86-ayn-ec-Add-Temperature-Sensors.patch
-ogc/0043-FROM-ML-platform-x86-ayn-ec-Add-RGB-Interface.patch
-ogc/0044-FROM-ML-platform-x86-ayn-ec-Add-AYN-EC-Platform-Docu.patch
-#ogc/0045-FROM_UPSTREAM-ASoC-amd-acp-Add-DMI-quirk-for-Valve-S.patch
-#ogc/0046-FROM-ML-platform-x86-lenovo-wmi-helpers-Fix-memory-l.patch
-#ogc/0047-FROM-ML-platform-x86-lenovo-wmi-other-Balance-IDA-id.patch
-#ogc/0048-FROM-ML-platform-x86-lenovo-wmi-other-Balance-compon.patch
-#ogc/0049-FROM-ML-platform-x86-lenovo-wmi-other-Zero-initializ.patch
-#ogc/0050-FROM-ML-platform-x86-lenovo-wmi-other-Fix-tunable_at.patch
-ogc/0051-FROM-ML-platform-x86-lenovo-Decouple-lenovo-wmi-game.patch
-#ogc/0052-FROM-ML-platform-x86-lenovo-wmi-helpers-Move-gamezon.patch
-#ogc/0053-FROM-ML-platform-x86-lenovo-wmi-other-Add-Attribute-.patch
-#ogc/0054-FROM-ML-platform-x86-lenovo-wmi-other-Limit-adding-a.patch
-ogc/0055-FROM-ML-platform-x86-lenovo-wmi-other-Add-missing-CP.patch
-ogc/0056-FROM-ML-platform-x86-lenovo-wmi-other-Add-GPU-tunabl.patch
-ogc/0057-FROM-ML-platform-x86-lenovo-wmi-other-Rename-LWMI_OM.patch
-ogc/0058-FROM-ML-platform-x86-lenovo-wmi-other-Add-WMI-batter.patch
-ogc/0059-FROM-ML-platform-x86-lenovo-wmi-other-Add-force_load.patch
-ogc/0060-FROM-ML-platform-x86-lenovo-wmi-helpers-Add-helper-f.patch
-ogc/0061-FROM-ML-platform-x86-lenovo-wmi-capdata-Add-debugfs-.patch
-#ogc/0062-FROM-ML-net-skbuff-preserve-shared-frag-marker-durin.patch
-ogc/0063-FROM-ML-platform-x86-msi-wmi-platform-Use-input-buff.patch
-ogc/0064-FROM-ML-platform-x86-msi-wmi-platform-Add-unlocked-m.patch
-ogc/0065-FROM-ML-platform-x86-msi-wmi-platform-Add-quirk-syst.patch
-ogc/0066-FROM-ML-platform-x86-msi-wmi-platform-Add-support-fo.patch
-ogc/0067-FROM-ML-platform-x86-msi-wmi-platform-Add-platform-p.patch
-ogc/0068-FROM-ML-platform-x86-msi-wmi-platform-Add-PL1-PL2-su.patch
-ogc/0069-FROM-ML-platform-x86-msi-wmi-platform-Add-charge_thr.patch
-ogc/0070-FROM-ML-platform-x86-msi-wmi-platform-Drop-excess-fa.patch
-ogc/0071-FROM-ML-platform-x86-msi-wmi-platform-Update-header-.patch
-ogc/0072-FROM-ML-platform-x86-msi-wmi-platform-Restore-fan-cu.patch
-ogc/0073-Revert-FROM-ML-HID-hid-msi-Add-Rumble-Intensity-Attr.patch
-ogc/0074-Revert-FROM-ML-HID-hid-msi-Add-RGB-control-interface.patch
-ogc/0075-Revert-FROM-ML-HID-hid-msi-Add-M-key-mapping-attribu.patch
-ogc/0076-Revert-FROM-ML-HID-hid-msi-Add-MSI-Claw-configuratio.patch
-ogc/0077-FROM-ML-HID-hid-msi-Add-MSI-Claw-configuration-drive.patch
-ogc/0078-FROM-ML-HID-hid-msi-Add-M-key-mapping-attributes.patch
-ogc/0079-FROM-ML-HID-hid-msi-Add-RGB-control-interface.patch
-ogc/0080-FROM-ML-HID-hid-msi-Add-Rumble-Intensity-Attributes.patch
-ogc/0081-FOR-UPSTREAM-hid-asus-ally-Add-joystick-LED-ring-sup.patch
-ogc/0082-FOR-UPSTREAM-hid-asus-ally-do-MCY-FW-validation-in-h.patch
-ogc/0083-FOR-UPSTREAM-hid-asus-ally-initial-Ally-X-gamepad-br.patch
-ogc/0084-FOR-UPSTREAM-hid-asus-ally-initial-gamepad-configura.patch
-ogc/0085-FOR-UPSTREAM-hid-asus-ally-add-button-remap-attribut.patch
-ogc/0086-FOR-UPSTREAM-hid-asus-ally-add-gamepad-mode-selectio.patch
-ogc/0087-FOR-UPSTREAM-hid-asus-ally-Turbo-settings-for-button.patch
-ogc/0088-FOR-UPSTREAM-hid-asus-ally-add-vibration-intensity-s.patch
-ogc/0089-FOR-UPSTREAM-hid-asus-ally-add-JS-deadzones.patch
-ogc/0090-FOR-UPSTREAM-hid-asus-ally-add-trigger-deadzones.patch
-ogc/0091-FOR-UPSTREAM-hid-asus-ally-add-anti-deadzones.patch
-ogc/0092-FOR-UPSTREAM-hid-asus-ally-add-JS-response-curves.patch
-ogc/0093-FOR-UPSTREAM-hid-asus-ally-mcu_version-attribute.patch
-ogc/0094-FOR-UPSTREAM-hid-asus-ally-add-calibrations-wip.patch
-ogc/0095-FOR-UPSTREAM-debug-by-default.patch
-ogc/0096-FOR-UPSTREAM-hid-asus-ally-grab-short-press-QAM-on-R.patch
-ogc/0097-FOR-UPSTREAM-hid-asus-ally-disable-wakeup-attribute-.patch
-#ogc/0098-FROM-ML-Bluetooth-btmtk-accept-too-short-WMT-FUNC_CT.patch
-ogc/0099-FROM-ML-include-device.h-Add-named-device-attributes.patch
-ogc/0100-FROM-ML-HID-Include-firmware-version-in-the-uevent.patch
+ogc/0012-FROM_UPSTREAM-HID-hid-lenovo-go-Add-Lenovo-Legion-Go.patch
+ogc/0013-FROM_UPSTREAM-HID-hid-lenovo-go-Add-Feature-Status-A.patch
+ogc/0014-FROM_UPSTREAM-HID-hid-lenovo-go-Add-Rumble-and-Hapti.patch
+ogc/0015-FROM_UPSTREAM-HID-hid-lenovo-go-Add-FPS-Mode-DPI-set.patch
+ogc/0016-FROM_UPSTREAM-HID-hid-lenovo-go-Add-RGB-LED-control-.patch
+ogc/0017-FROM_UPSTREAM-HID-hid-lenovo-go-Add-Calibration-Sett.patch
+ogc/0018-FROM_UPSTREAM-HID-hid-lenovo-go-Add-OS-Mode-Toggle.patch
+ogc/0019-FROM_UPSTREAM-HID-hid-lenovo-go-s-Add-Lenovo-Legion-.patch
+ogc/0020-FROM_UPSTREAM-HID-hid-lenovo-go-s-Add-MCU-ID-Attribu.patch
+ogc/0021-FROM_UPSTREAM-HID-hid-lenovo-go-s-Add-Feature-Status.patch
+ogc/0022-FROM_UPSTREAM-HID-hid-lenovo-go-s-Add-Touchpad-Mode-.patch
+ogc/0023-FROM_UPSTREAM-HID-hid-lenovo-go-s-Add-RGB-LED-contro.patch
+ogc/0024-FROM_UPSTREAM-HID-hid-lenovo-go-s-Add-IMU-and-Touchp.patch
+ogc/0025-FROM_UPSTREAM-HID-hid-lenovo-go-s-Remove-unneeded-se.patch
+ogc/0026-FROM_UPSTREAM-HID-hid-lenovo-go-Remove-unneeded-semi.patch
+ogc/0027-FROM_UPSTREAM-HID-hid-lenovo-go-s-Fix-spelling-mista.patch
+ogc/0028-FROM_UPSTREAM-HID-hid-lenovo-go-s-restore-OS_TYPE-af.patch
+ogc/0029-FROM_UPSTREAM-HID-hid-lenovo-go-reject-non-USB-devic.patch
+ogc/0030-FROM-ML-HID-hid-msi-Add-MSI-Claw-configuration-drive.patch
+ogc/0031-FROM-ML-HID-hid-msi-Add-M-key-mapping-attributes.patch
+ogc/0032-FROM-ML-HID-hid-msi-Add-RGB-control-interface.patch
+ogc/0033-FROM-ML-HID-hid-msi-Add-Rumble-Intensity-Attributes.patch
+ogc/0034-FROM-ML-HID-hid-oxp-Add-OneXPlayer-configuration-dri.patch
+ogc/0035-FROM-ML-HID-hid-oxp-Add-Second-Generation-RGB-Contro.patch
+ogc/0036-FROM-ML-HID-hid-oxp-Add-Second-Generation-Gamepad-Mo.patch
+ogc/0037-FROM-ML-HID-hid-oxp-Add-Button-Mapping-Interface.patch
+ogc/0038-FROM-ML-HID-hid-oxp-Add-Vibration-Intensity-Attribut.patch
+ogc/0039-FROM-ML-platform-x86-ayn-ec-Add-PWM-Fan-HWMON-Interf.patch
+ogc/0040-FROM-ML-platform-x86-ayn-ec-Add-Temperature-Sensors.patch
+ogc/0041-FROM-ML-platform-x86-ayn-ec-Add-RGB-Interface.patch
+ogc/0042-FROM-ML-platform-x86-ayn-ec-Add-AYN-EC-Platform-Docu.patch
+ogc/0043-FROM-ML-platform-x86-lenovo-Decouple-lenovo-wmi-game.patch
+ogc/0044-FROM-ML-platform-x86-lenovo-wmi-other-Add-missing-CP.patch
+ogc/0045-FROM-ML-platform-x86-lenovo-wmi-other-Add-GPU-tunabl.patch
+ogc/0046-FROM-ML-platform-x86-lenovo-wmi-other-Rename-LWMI_OM.patch
+ogc/0047-FROM-ML-platform-x86-lenovo-wmi-other-Add-WMI-batter.patch
+ogc/0048-FROM-ML-platform-x86-lenovo-wmi-other-Add-force_load.patch
+ogc/0049-FROM-ML-platform-x86-lenovo-wmi-helpers-Add-helper-f.patch
+ogc/0050-FROM-ML-platform-x86-lenovo-wmi-capdata-Add-debugfs-.patch
+ogc/0051-FROM-ML-platform-x86-msi-wmi-platform-Use-input-buff.patch
+ogc/0052-FROM-ML-platform-x86-msi-wmi-platform-Add-unlocked-m.patch
+ogc/0053-FROM-ML-platform-x86-msi-wmi-platform-Add-quirk-syst.patch
+ogc/0054-FROM-ML-platform-x86-msi-wmi-platform-Add-support-fo.patch
+ogc/0055-FROM-ML-platform-x86-msi-wmi-platform-Add-platform-p.patch
+ogc/0056-FROM-ML-platform-x86-msi-wmi-platform-Add-PL1-PL2-su.patch
+ogc/0057-FROM-ML-platform-x86-msi-wmi-platform-Add-charge_thr.patch
+ogc/0058-FROM-ML-platform-x86-msi-wmi-platform-Drop-excess-fa.patch
+ogc/0059-FROM-ML-platform-x86-msi-wmi-platform-Update-header-.patch
+ogc/0060-FROM-ML-platform-x86-msi-wmi-platform-Restore-fan-cu.patch
+ogc/0061-Revert-FROM-ML-HID-hid-msi-Add-Rumble-Intensity-Attr.patch
+ogc/0062-Revert-FROM-ML-HID-hid-msi-Add-RGB-control-interface.patch
+ogc/0063-Revert-FROM-ML-HID-hid-msi-Add-M-key-mapping-attribu.patch
+ogc/0064-Revert-FROM-ML-HID-hid-msi-Add-MSI-Claw-configuratio.patch
+ogc/0065-FROM-ML-HID-hid-msi-Add-MSI-Claw-configuration-drive.patch
+ogc/0066-FROM-ML-HID-hid-msi-Add-M-key-mapping-attributes.patch
+ogc/0067-FROM-ML-HID-hid-msi-Add-RGB-control-interface.patch
+ogc/0068-FROM-ML-HID-hid-msi-Add-Rumble-Intensity-Attributes.patch
+ogc/0069-FOR-UPSTREAM-hid-asus-ally-Add-joystick-LED-ring-sup.patch
+ogc/0070-FOR-UPSTREAM-hid-asus-ally-do-MCY-FW-validation-in-h.patch
+ogc/0071-FOR-UPSTREAM-hid-asus-ally-initial-Ally-X-gamepad-br.patch
+ogc/0072-FOR-UPSTREAM-hid-asus-ally-initial-gamepad-configura.patch
+ogc/0073-FOR-UPSTREAM-hid-asus-ally-add-button-remap-attribut.patch
+ogc/0074-FOR-UPSTREAM-hid-asus-ally-add-gamepad-mode-selectio.patch
+ogc/0075-FOR-UPSTREAM-hid-asus-ally-Turbo-settings-for-button.patch
+ogc/0076-FOR-UPSTREAM-hid-asus-ally-add-vibration-intensity-s.patch
+ogc/0077-FOR-UPSTREAM-hid-asus-ally-add-JS-deadzones.patch
+ogc/0078-FOR-UPSTREAM-hid-asus-ally-add-trigger-deadzones.patch
+ogc/0079-FOR-UPSTREAM-hid-asus-ally-add-anti-deadzones.patch
+ogc/0080-FOR-UPSTREAM-hid-asus-ally-add-JS-response-curves.patch
+ogc/0081-FOR-UPSTREAM-hid-asus-ally-mcu_version-attribute.patch
+ogc/0082-FOR-UPSTREAM-hid-asus-ally-add-calibrations-wip.patch
+ogc/0083-FOR-UPSTREAM-debug-by-default.patch
+ogc/0084-FOR-UPSTREAM-hid-asus-ally-grab-short-press-QAM-on-R.patch
+ogc/0085-FOR-UPSTREAM-hid-asus-ally-disable-wakeup-attribute-.patch
+ogc/0086-FROM-ML-include-device.h-Add-named-device-attributes.patch
+ogc/0087-FROM-ML-HID-Include-firmware-version-in-the-uevent.patch
+ogc/0088-platform-x86-msi-wmi-platform-Fix-issue-with-LLVM.patch
+ogc/0089-FROM-ML-platform-x86-asus-armoury-gate-PPT-writes-be.patch
 
 # Gaming patches from CachyOS and Manjaro
 gaming/0000-usb-vhci-hcd-Unconditionally-allow-system-suspend.patch

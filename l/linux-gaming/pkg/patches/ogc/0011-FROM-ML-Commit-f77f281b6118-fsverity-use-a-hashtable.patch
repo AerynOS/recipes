@@ -1,7 +1,7 @@
-From 1fb6aff4ed2426f6d39c32f62a768f368f0b469f Mon Sep 17 00:00:00 2001
+From 2b78159e10f2819c64c25d19c3a1ef0925916d8a Mon Sep 17 00:00:00 2001
 From: Colin Walters <walters@verbum.org>
 Date: Thu, 7 May 2026 16:05:44 -0700
-Subject: [PATCH 011/100] [FROM-ML] Commit f77f281b6118 ("fsverity: use a
+Subject: [PATCH 11/89] [FROM-ML] Commit f77f281b6118 ("fsverity: use a
  hashtable to find the fsverity_info") that broke `ovl_ensure_verity_loaded`
  in the case when the inode was not in core.
 

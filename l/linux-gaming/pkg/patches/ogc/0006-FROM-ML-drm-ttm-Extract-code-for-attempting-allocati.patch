@@ -1,7 +1,7 @@
-From d770c01119703439a2d2a7e0e3d490851691e31f Mon Sep 17 00:00:00 2001
+From da8bee279ce62afbf51688399bf96a922e8919af Mon Sep 17 00:00:00 2001
 From: Natalie Vock <natalie.vock@gmx.de>
 Date: Wed, 15 Oct 2025 14:43:26 +0200
-Subject: [PATCH 006/100] [FROM-ML] drm/ttm: Extract code for attempting
+Subject: [PATCH 06/89] [FROM-ML] drm/ttm: Extract code for attempting
  allocation in a place
 
 Move all code for attempting allocation for a specific place to
@@ -23,11 +23,11 @@ No functional change intended.
 Signed-off-by: Natalie Vock <natalie.vock@gmx.de>
 Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 ---
- drivers/gpu/drm/ttm/ttm_bo.c | 101 +++++++++++++++++++++++++++--------
- 1 file changed, 79 insertions(+), 22 deletions(-)
+ drivers/gpu/drm/ttm/ttm_bo.c | 103 +++++++++++++++++++++++++++--------
+ 1 file changed, 80 insertions(+), 23 deletions(-)
 
 diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
-index 0765d69423d2..ef68197e3aae 100644
+index 08d07ffbb167..9cd5704d9e81 100644
 --- a/drivers/gpu/drm/ttm/ttm_bo.c
 +++ b/drivers/gpu/drm/ttm/ttm_bo.c
 @@ -489,6 +489,62 @@ int ttm_bo_evict_first(struct ttm_device *bdev, struct ttm_resource_manager *man
@@ -165,9 +165,10 @@ index 0765d69423d2..ef68197e3aae 100644
 -				dmem_cgroup_pool_state_put(limit_pool);
 -				continue;
 -			}
+-
 +		ret = ttm_bo_alloc_at_place(bo, place, ctx, force_space,
 +				res, &alloc_state);
- 
++ 
 +		if (ret == -ENOSPC) {
 +			dmem_cgroup_pool_state_put(alloc_state.limit_pool);
 +			continue;
