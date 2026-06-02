@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : crun
-version     : "1.27.1"
-release     : 3
+version     : "1.28"
+release     : 4
 homepage    : https://github.com/containers/crun
 upstreams   :
-    - https://github.com/containers/crun/releases/download/1.27.1/crun-1.27.1.tar.zst : a1b9829c1de814719df65e2ba3922eb56249c5939a50be769f91e948193cac55
+    - https://github.com/containers/crun/releases/download/1.28/crun-1.28.tar.zst : 62b82f7db89df3652970d9ad76f635a177d09bcb543c8d1dae13a749cd3e6e35
 summary     : A fast and low-memory footprint OCI Container Runtime fully written in C
 description : |
     A fast and lightweight fully featured OCI runtime and C library for running containers
@@ -17,13 +17,15 @@ builddeps   :
     - binary(go-md2man)
     - binary(gperf)
     - binary(python3)
+    - pkgconfig(json-c)
+    - pkgconfig(libblake3)
     - pkgconfig(libcap)
     - pkgconfig(libseccomp)
     # - pkgconfig(python3)
     - pkgconfig(systemd)
-    - pkgconfig(yajl)
     # criu
 setup       : |
+    %patch %(pkgdir)/2102.patch
     # What even uses the python bindings? They shouldn't be re-enabled until there's a note here what they're for
     %configure \
         --disable-static \

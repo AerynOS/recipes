@@ -7,19 +7,23 @@
 				"binary(go-md2man)",
 				"binary(gperf)",
 				"binary(python3)",
+				"pkgconfig(json-c)",
+				"pkgconfig(libblake3)",
 				"pkgconfig(libcap)",
 				"pkgconfig(libseccomp)",
-				"pkgconfig(systemd)",
-				"pkgconfig(yajl)"
+				"pkgconfig(systemd)"
 			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(libblake3.so.0(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libcap.so.2(x86_64))",
+				"soname(libjson-c.so.5(x86_64))",
 				"soname(libm.so.6(x86_64))",
 				"soname(libseccomp.so.2(x86_64))",
+				"soname(libstdc++.so.6(x86_64))",
 				"soname(libsystemd.so.0(x86_64))",
-				"soname(libyajl.so.2(x86_64))"
+				"soname(libtbb.so.12(x86_64))"
 			],
 			"files": [
 				"/usr/bin/crun",
@@ -38,10 +42,11 @@
 				"binary(go-md2man)",
 				"binary(gperf)",
 				"binary(python3)",
+				"pkgconfig(json-c)",
+				"pkgconfig(libblake3)",
 				"pkgconfig(libcap)",
 				"pkgconfig(libseccomp)",
-				"pkgconfig(systemd)",
-				"pkgconfig(yajl)"
+				"pkgconfig(systemd)"
 			],
 			"depends": [
 				"crun"
@@ -53,6 +58,6 @@
 		}
 	},
 	"source-name": "crun",
-	"source-release": "3",
-	"source-version": "1.27.1"
+	"source-release": "4",
+	"source-version": "1.28"
 }
