@@ -238,7 +238,6 @@ NB: Each entry *must* contain all sub-packages created by the package!
 - ffmpegthumbnailer
 - ffmpegthumbnailer-dbginfo
 - ffmpegthumbnailer-devel
-- ffmpegthumbnailer-dbginfo
 
 ### No longer used
 - yajl
