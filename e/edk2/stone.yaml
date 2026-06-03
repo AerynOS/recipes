@@ -2,10 +2,10 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : edk2
-version     : "202602"
-release     : 6
+version     : "202605"
+release     : 7
 upstreams   :
-    - git|https://github.com/tianocore/edk2 : b7a715f7c03c45c6b4575bf88596bfd79658b8ce
+    - git|https://github.com/tianocore/edk2 : b03a21a63e3bd001f52c527e5a57feddb53a690b
 homepage    : https://github.com/tianocore/tianocore.github.io/wiki/EDK-II
 license     :
     - BSD-2-Clause
@@ -47,6 +47,9 @@ environment : |
     _NETWORK_TLS=(
         -D NETWORK_TLS_ENABLE
     )
+
+    # The build directly sources scripts
+    set +o nounset
 
     # Sanitize build environment
     unset CFLAGS CXXFLAGS LDFLAGS
