@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : libxkbcommon
-version     : "1.13.1"
-release     : 15
+version     : "1.13.2"
+release     : 16
 homepage    : https://xkbcommon.org
 upstreams   :
-    - https://github.com/xkbcommon/libxkbcommon/archive/refs/tags/xkbcommon-1.13.1.tar.gz : aeb951964c2f7ecc08174cb5517962d157595e9e3f38fc4a130b91dc2f9fec18
+    - https://github.com/xkbcommon/libxkbcommon/archive/refs/tags/xkbcommon-1.13.2.tar.gz : acc4d5f7c3cbba5f9f8d08d8bdbeede84ecede46792f47929aa9321873385528
 summary     : Library for handling of keyboard descriptions
 description : |
     xkbcommon is a library for handling of keyboard descriptions, including
@@ -24,11 +24,13 @@ builddeps   :
     - pkgconfig32(wayland-scanner)
     - pkgconfig32(xcb)
     - pkgconfig32(xcb-xkb)
+    - pkgconfig(xkeyboard-config)
     - python(jinja2)
-    - xkeyboard-config
 rundeps     :
     - xkeyboard-config
 setup       : |
+    %patch %(pkgdir)/1038.patch
+
     %meson \
         -Denable-docs=false
 build       : |

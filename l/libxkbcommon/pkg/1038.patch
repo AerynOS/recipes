@@ -1,0 +1,184 @@
+From aa818c48ead1a2b3e9bb7e60f800fdd26e467b03 Mon Sep 17 00:00:00 2001
+From: Pierre Le Marre <dev@wismill.eu>
+Date: Thu, 12 Mar 2026 13:01:16 +0100
+Subject: [PATCH 1/3] tools: Fix info if xkeyboard-config is unavailable
+
+---
+ tools/info.c | 16 ++++++++++++++--
+ 1 file changed, 14 insertions(+), 2 deletions(-)
+
+diff --git a/tools/info.c b/tools/info.c
+index faf0cf754..4c4f0aaa2 100644
+--- a/tools/info.c
++++ b/tools/info.c
+@@ -86,8 +86,20 @@ main(int argc, char **argv)
+         { "XKB_CONFIG_ROOT", DFLT_XKB_CONFIG_ROOT },
+         { "XKB_CONFIG_LEGACY_ROOT", DFLT_XKB_LEGACY_ROOT },
+         { "XKB_CONFIG_EXTRA_PATH", DFLT_XKB_CONFIG_EXTRA_PATH },
+-        { "XKB_CONFIG_UNVERSIONED_EXTENSIONS_PATH", DFLT_XKB_CONFIG_UNVERSIONED_EXTENSIONS_PATH },
+-        { "XKB_CONFIG_VERSIONED_EXTENSIONS_PATH", DFLT_XKB_CONFIG_VERSIONED_EXTENSIONS_PATH },
++        { "XKB_CONFIG_UNVERSIONED_EXTENSIONS_PATH",
++#ifdef DFLT_XKB_CONFIG_UNVERSIONED_EXTENSIONS_PATH
++          DFLT_XKB_CONFIG_UNVERSIONED_EXTENSIONS_PATH
++#else
++          ""
++#endif
++        },
++        { "XKB_CONFIG_VERSIONED_EXTENSIONS_PATH",
++#ifdef DFLT_XKB_CONFIG_UNVERSIONED_EXTENSIONS_PATH
++          DFLT_XKB_CONFIG_VERSIONED_EXTENSIONS_PATH
++#else
++          ""
++#endif
++        },
+         { "XKB_DEFAULT_RULES", DEFAULT_XKB_RULES },
+         { "XKB_DEFAULT_MODEL", DEFAULT_XKB_MODEL },
+         { "XKB_DEFAULT_LAYOUT", DEFAULT_XKB_LAYOUT },
+
+From 5576595fdd78924a9e4a8b51da0dbd79475cab6c Mon Sep 17 00:00:00 2001
+From: Pierre Le Marre <dev@wismill.eu>
+Date: Sun, 8 Mar 2026 10:52:21 +0100
+Subject: [PATCH 2/3] tools: Fix displaying layout with no name
+
+---
+ tools/tools-common.c | 22 +++++++++++++++-------
+ 1 file changed, 15 insertions(+), 7 deletions(-)
+
+diff --git a/tools/tools-common.c b/tools/tools-common.c
+index e225d03ec..d2f65f288 100644
+--- a/tools/tools-common.c
++++ b/tools/tools-common.c
+@@ -262,11 +262,15 @@ print_layouts(struct xkb_state *state, enum xkb_state_component changed,
+                    (k == 0) ? 0 : (unsigned int) sizeof(label) - 1, "",
+                    changed_indicator, types[k].label,
+                    types[k].padding, "", layout);
+-            if (types[k].component == XKB_STATE_LAYOUT_LOCKED ||
+-                types[k].component == XKB_STATE_LAYOUT_EFFECTIVE)
+-                printf(" \"%s\"\n", xkb_keymap_layout_get_name(keymap, layout));
+-            else
++            const char * const layout_name =
++                xkb_keymap_layout_get_name(keymap, layout);
++            if (layout_name &&
++                (types[k].component == XKB_STATE_LAYOUT_LOCKED ||
++                 types[k].component == XKB_STATE_LAYOUT_EFFECTIVE)) {
++                printf(" \"%s\"\n", layout_name);
++            } else {
+                 printf("\n");
++            }
+         }
+     } else if (changed) {
+         for (unsigned int k = 0; k < ARRAY_SIZE(types); k++) {
+@@ -280,14 +284,16 @@ print_layouts(struct xkb_state *state, enum xkb_state_component changed,
+     if (keycode != XKB_KEYCODE_INVALID) {
+         const xkb_layout_index_t layout =
+             xkb_state_key_get_layout(state, keycode);
++        const char * const layout_name =
++            xkb_keymap_layout_get_name(keymap, layout);
+         if (verbose) {
+             printf("%*s%skey:       %"PRIu32" \"%s\"\n",
+                    (unsigned int) sizeof(label) - 1, "",
+                    (changed ? " " : ""),
+-                   layout, xkb_keymap_layout_get_name(keymap, layout));
++                   layout, (layout_name ? layout_name : "(no name)"));
+         } else {
+             printf(INDENT "layout: %"PRIu32"  \"%s\"\n",
+-                   layout, xkb_keymap_layout_get_name(keymap, layout));
++                   layout, (layout_name ? layout_name : "(no name)"));
+         }
+     }
+ }
+@@ -521,8 +527,10 @@ tools_print_one_liner_keycode_state(const char *prefix,
+ 
+     const xkb_layout_index_t layout = xkb_state_key_get_layout(state, keycode);
+     if (options & PRINT_LAYOUT) {
++        const char * const layout_name =
++            xkb_keymap_layout_get_name(keymap, layout);
+         printf("layout [ #%"PRIu32" %s ] ",
+-               layout, xkb_keymap_layout_get_name(keymap, layout));
++               layout, (layout_name ? layout_name : "(no name)"));
+     }
+ 
+     printf("level [ %"PRIu32" ] ",
+
+From 3a492d3a82db28b7cc9b7dc98a2917b647c046ce Mon Sep 17 00:00:00 2001
+From: Pierre Le Marre <dev@wismill.eu>
+Date: Sat, 30 May 2026 12:54:17 +0200
+Subject: [PATCH 3/3] doc: Fix Markdown
+
+---
+ NEWS.md   | 14 +++++++-------
+ README.md | 10 ++++++++--
+ 2 files changed, 15 insertions(+), 9 deletions(-)
+
+diff --git a/NEWS.md b/NEWS.md
+index 717590372..2019bd74f 100644
+--- a/NEWS.md
++++ b/NEWS.md
+@@ -4,9 +4,9 @@ libxkbcommon [1.13.2] – 2026-05-30
+ [1.13.2]: https://github.com/xkbcommon/libxkbcommon/tree/xkbcommon-1.13.2
+ 
+ 
+-# API
++## API
+ 
+-## New
++### New
+ 
+ - Updated keysyms from latest [xorgproto] \(commit: `fcb7e9a1a0b593a44740d83b0babddd331fea830`):
+ 
+@@ -31,22 +31,22 @@ libxkbcommon [1.13.2] – 2026-05-30
+   [xorgproto-112]: https://gitlab.freedesktop.org/xorg/proto/xorgproto/-/merge_requests/112
+ - Added keysyms UTF translations for numeric phone keys `XF86Numeric[0-9]`.
+ 
+-## Fixes
++### Fixes
+ 
+ - Fixed include statement of default section, possibly broken in some custom configurations.
+ 
+ 
+-# Tools
++## Tools
+ 
+-## New
++### New
+ 
+ - Added new tool `xkbcli info` to print information about libxkbcommon configuration,
+   for debugging purposes.
+ 
+ 
+-# Build system
++## Build system
+ 
+-## Breaking changes
++### Breaking changes
+ 
+ - Raised minimal meson version requirement to 1.4.0. ([#954](https://github.com/xkbcommon/libxkbcommon/issues/954))
+ 
+diff --git a/README.md b/README.md
+index 1e76300e8..a93c398c3 100644
+--- a/README.md
++++ b/README.md
+@@ -58,7 +58,10 @@ keymap is built.
+ 
+ [Custom layouts](doc/custom-configuration.md)
+ </dt>
+-<dd>Quick start for adding a *custom layout* or option</dd>
++<dd>
++
++Quick start for adding a *custom layout* or option
++</dd>
+ <dt>
+ 
+ [Keymap format](doc/keymap-text-format-v1-v2.md)
+@@ -68,7 +71,10 @@ keymap is built.
+ 
+ [Tools](./README.md#tools)
+ </dt>
+-<dd>Introduction to the `xkbcli` application</dd>
++<dd>
++
++Introduction to the `xkbcli` application
++</dd>
+ <dt>
+ 
+ [FAQ](doc/faq.md)

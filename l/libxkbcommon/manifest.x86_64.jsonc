@@ -7,14 +7,14 @@
 				"binary(bison)",
 				"binary(m4)",
 				"pkgconfig(wayland-protocols)",
+				"pkgconfig(xkeyboard-config)",
 				"pkgconfig32(icu-uc)",
 				"pkgconfig32(libxml-2.0)",
 				"pkgconfig32(wayland-client)",
 				"pkgconfig32(wayland-scanner)",
 				"pkgconfig32(xcb)",
 				"pkgconfig32(xcb-xkb)",
-				"python(jinja2)",
-				"xkeyboard-config"
+				"python(jinja2)"
 			],
 			"depends": [
 				"soname(libc.so.6(x86_64))",
@@ -23,9 +23,9 @@
 			],
 			"files": [
 				"/usr/lib/libxkbcommon.so.0",
-				"/usr/lib/libxkbcommon.so.0.13.1",
+				"/usr/lib/libxkbcommon.so.0.13.2",
 				"/usr/lib/libxkbregistry.so.0",
-				"/usr/lib/libxkbregistry.so.0.13.1"
+				"/usr/lib/libxkbregistry.so.0.13.2"
 			],
 			"name": "libxkbcommon",
 			"provides": [
@@ -38,14 +38,14 @@
 				"binary(bison)",
 				"binary(m4)",
 				"pkgconfig(wayland-protocols)",
+				"pkgconfig(xkeyboard-config)",
 				"pkgconfig32(icu-uc)",
 				"pkgconfig32(libxml-2.0)",
 				"pkgconfig32(wayland-client)",
 				"pkgconfig32(wayland-scanner)",
 				"pkgconfig32(xcb)",
 				"pkgconfig32(xcb-xkb)",
-				"python(jinja2)",
-				"xkeyboard-config"
+				"python(jinja2)"
 			],
 			"depends": [
 				"interpreter(/usr/lib32/ld-linux.so.2(386))",
@@ -59,22 +59,23 @@
 			],
 			"files": [
 				"/usr/lib32/libxkbcommon-x11.so.0",
-				"/usr/lib32/libxkbcommon-x11.so.0.13.1",
+				"/usr/lib32/libxkbcommon-x11.so.0.13.2",
 				"/usr/lib32/libxkbcommon.so.0",
-				"/usr/lib32/libxkbcommon.so.0.13.1",
+				"/usr/lib32/libxkbcommon.so.0.13.2",
 				"/usr/lib32/libxkbcommon/xkbcommon/xkbcli-compile-compose",
 				"/usr/lib32/libxkbcommon/xkbcommon/xkbcli-compile-keymap",
 				"/usr/lib32/libxkbcommon/xkbcommon/xkbcli-dump-keymap",
 				"/usr/lib32/libxkbcommon/xkbcommon/xkbcli-dump-keymap-wayland",
 				"/usr/lib32/libxkbcommon/xkbcommon/xkbcli-dump-keymap-x11",
 				"/usr/lib32/libxkbcommon/xkbcommon/xkbcli-how-to-type",
+				"/usr/lib32/libxkbcommon/xkbcommon/xkbcli-info",
 				"/usr/lib32/libxkbcommon/xkbcommon/xkbcli-interactive",
 				"/usr/lib32/libxkbcommon/xkbcommon/xkbcli-interactive-evdev",
 				"/usr/lib32/libxkbcommon/xkbcommon/xkbcli-interactive-wayland",
 				"/usr/lib32/libxkbcommon/xkbcommon/xkbcli-interactive-x11",
 				"/usr/lib32/libxkbcommon/xkbcommon/xkbcli-list",
 				"/usr/lib32/libxkbregistry.so.0",
-				"/usr/lib32/libxkbregistry.so.0.13.1"
+				"/usr/lib32/libxkbregistry.so.0.13.2"
 			],
 			"name": "libxkbcommon-32bit",
 			"provides": [
@@ -88,14 +89,14 @@
 				"binary(bison)",
 				"binary(m4)",
 				"pkgconfig(wayland-protocols)",
+				"pkgconfig(xkeyboard-config)",
 				"pkgconfig32(icu-uc)",
 				"pkgconfig32(libxml-2.0)",
 				"pkgconfig32(wayland-client)",
 				"pkgconfig32(wayland-scanner)",
 				"pkgconfig32(xcb)",
 				"pkgconfig32(xcb-xkb)",
-				"python(jinja2)",
-				"xkeyboard-config"
+				"python(jinja2)"
 			],
 			"depends": [
 				"libxkbcommon-32bit",
@@ -124,14 +125,14 @@
 				"binary(bison)",
 				"binary(m4)",
 				"pkgconfig(wayland-protocols)",
+				"pkgconfig(xkeyboard-config)",
 				"pkgconfig32(icu-uc)",
 				"pkgconfig32(libxml-2.0)",
 				"pkgconfig32(wayland-client)",
 				"pkgconfig32(wayland-scanner)",
 				"pkgconfig32(xcb)",
 				"pkgconfig32(xcb-xkb)",
-				"python(jinja2)",
-				"xkeyboard-config"
+				"python(jinja2)"
 			],
 			"depends": [
 				"libxkbcommon",
@@ -160,14 +161,14 @@
 				"binary(bison)",
 				"binary(m4)",
 				"pkgconfig(wayland-protocols)",
+				"pkgconfig(xkeyboard-config)",
 				"pkgconfig32(icu-uc)",
 				"pkgconfig32(libxml-2.0)",
 				"pkgconfig32(wayland-client)",
 				"pkgconfig32(wayland-scanner)",
 				"pkgconfig32(xcb)",
 				"pkgconfig32(xcb-xkb)",
-				"python(jinja2)",
-				"xkeyboard-config"
+				"python(jinja2)"
 			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
@@ -183,6 +184,7 @@
 				"/usr/lib/libxkbcommon/xkbcommon/xkbcli-dump-keymap",
 				"/usr/lib/libxkbcommon/xkbcommon/xkbcli-dump-keymap-wayland",
 				"/usr/lib/libxkbcommon/xkbcommon/xkbcli-how-to-type",
+				"/usr/lib/libxkbcommon/xkbcommon/xkbcli-info",
 				"/usr/lib/libxkbcommon/xkbcommon/xkbcli-interactive",
 				"/usr/lib/libxkbcommon/xkbcommon/xkbcli-interactive-evdev",
 				"/usr/lib/libxkbcommon/xkbcommon/xkbcli-interactive-wayland",
@@ -192,6 +194,7 @@
 				"/usr/share/man/man1/xkbcli-compile-keymap.1",
 				"/usr/share/man/man1/xkbcli-dump-keymap-wayland.1",
 				"/usr/share/man/man1/xkbcli-how-to-type.1",
+				"/usr/share/man/man1/xkbcli-info.1",
 				"/usr/share/man/man1/xkbcli-interactive-evdev.1",
 				"/usr/share/man/man1/xkbcli-interactive-wayland.1",
 				"/usr/share/man/man1/xkbcli-list.1",
@@ -207,14 +210,14 @@
 				"binary(bison)",
 				"binary(m4)",
 				"pkgconfig(wayland-protocols)",
+				"pkgconfig(xkeyboard-config)",
 				"pkgconfig32(icu-uc)",
 				"pkgconfig32(libxml-2.0)",
 				"pkgconfig32(wayland-client)",
 				"pkgconfig32(wayland-scanner)",
 				"pkgconfig32(xcb)",
 				"pkgconfig32(xcb-xkb)",
-				"python(jinja2)",
-				"xkeyboard-config"
+				"python(jinja2)"
 			],
 			"depends": [
 				"soname(libc.so.6(x86_64))",
@@ -224,7 +227,7 @@
 			],
 			"files": [
 				"/usr/lib/libxkbcommon-x11.so.0",
-				"/usr/lib/libxkbcommon-x11.so.0.13.1"
+				"/usr/lib/libxkbcommon-x11.so.0.13.2"
 			],
 			"name": "libxkbcommon-x11",
 			"provides": [
@@ -236,14 +239,14 @@
 				"binary(bison)",
 				"binary(m4)",
 				"pkgconfig(wayland-protocols)",
+				"pkgconfig(xkeyboard-config)",
 				"pkgconfig32(icu-uc)",
 				"pkgconfig32(libxml-2.0)",
 				"pkgconfig32(wayland-client)",
 				"pkgconfig32(wayland-scanner)",
 				"pkgconfig32(xcb)",
 				"pkgconfig32(xcb-xkb)",
-				"python(jinja2)",
-				"xkeyboard-config"
+				"python(jinja2)"
 			],
 			"depends": [
 				"libxkbcommon-x11",
@@ -266,14 +269,14 @@
 				"binary(bison)",
 				"binary(m4)",
 				"pkgconfig(wayland-protocols)",
+				"pkgconfig(xkeyboard-config)",
 				"pkgconfig32(icu-uc)",
 				"pkgconfig32(libxml-2.0)",
 				"pkgconfig32(wayland-client)",
 				"pkgconfig32(wayland-scanner)",
 				"pkgconfig32(xcb)",
 				"pkgconfig32(xcb-xkb)",
-				"python(jinja2)",
-				"xkeyboard-config"
+				"python(jinja2)"
 			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
@@ -294,6 +297,6 @@
 		}
 	},
 	"source-name": "libxkbcommon",
-	"source-release": "15",
-	"source-version": "1.13.1"
+	"source-release": "16",
+	"source-version": "1.13.2"
 }
