@@ -3,7 +3,7 @@
 
 name        : spice-gtk
 version     : "0.43"
-release     : 3
+release     : 4
 homepage    : https://www.spice-space.org/download/gtk
 upstreams   :
     - https://gitlab.freedesktop.org/-/project/64/uploads/88f5d31a961da9921add46ca3f0be904/spice-gtk-0.43.tar.xz :
@@ -43,7 +43,6 @@ builddeps   :
     - pkgconfig(opus)
     - pkgconfig(polkit-gobject-1)
     - pkgconfig(spice-protocol)
-    - pkgconfig(usbutils)
     - pkgconfig(vapigen)
     - pkgconfig(wayland-client)
     - pkgconfig(wayland-cursor)
