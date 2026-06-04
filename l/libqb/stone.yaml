@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : libqb
-version     : "2.0.9"
-release     : 4
+version     : "2.0.10"
+release     : 5
 homepage    : https://github.com/ClusterLabs/libqb
 upstreams   :
-    - https://github.com/ClusterLabs/libqb/releases/download/v2.0.9/libqb-2.0.9.tar.xz : 61a83753199c86a47a69f615778e81b56ac0a58d07751230444e76500b6b210b
+    - https://github.com/ClusterLabs/libqb/releases/download/v2.0.10/libqb-2.0.10.tar.xz : 326a69fb5b2ee4479f0db4f98d10d670ad0798b5ded8c4cfd585b765fd8941e8
 summary     : A library for high performance inter-process communication
 description : |
     A library for high performance inter-process communication
@@ -22,11 +22,12 @@ builddeps   :
     - pkgconfig(libxml-2.0)
 setup       : |
     # Doesn't like `date` from uutils-coreutils
-    %configure --disable-static \
+    %configure \
+        --disable-static \
+        --enable-systemd-journal \
         ax_cv_prog_date_type=gnu \
         ax_cv_prog_date_gnu_utc=yes \
-        ax_cv_prog_date_gnu_date=yes \
-        --enable-systemd-journal
+        ax_cv_prog_date_gnu_date=yes
 build       : |
     %make
 install     : |
