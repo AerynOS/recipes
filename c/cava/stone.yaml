@@ -3,7 +3,7 @@
 
 name        : cava
 version     : "0.10.7"
-release     : 4
+release     : 5
 homepage    : https://github.com/LukashonakV/cava
 upstreams   :
     - https://github.com/LukashonakV/cava/archive/refs/tags/0.10.7.tar.gz : 50cc6413e9c96c503657f814744a2baf429a24ff9fed31a8343e0ed285269eff
@@ -15,13 +15,13 @@ builddeps   :
     - pkgconfig(alsa)
     - pkgconfig(fftw3)
     - pkgconfig(gl)
+    - pkgconfig(jack)
     - pkgconfig(iniparser)
     - pkgconfig(libpipewire-0.3)
     - pkgconfig(libpulse)
     - pkgconfig(ncursesw)
     - pkgconfig(sdl2)
     - pkgconfig(sndio)
-    # jack
 setup       : |
     %meson \
         -Dbuild_target=all
