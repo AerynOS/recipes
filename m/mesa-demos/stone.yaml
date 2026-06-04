@@ -3,7 +3,7 @@
 
 name        : mesa-demos
 version     : "9.0.0"
-release     : 5
+release     : 6
 homepage    : https://gitlab.freedesktop.org/mesa/demos
 upstreams   :
     - https://archive.mesa3d.org/demos/mesa-demos-9.0.0.tar.xz : 3046a3d26a7b051af7ebdd257a5f23bfeb160cad6ed952329cdff1e9f1ed496b
@@ -20,7 +20,6 @@ builddeps   :
     - pkgconfig(egl)
     - pkgconfig(gbm)
     - pkgconfig(gl)
-    - pkgconfig(glesv1_cm)
     - pkgconfig(glesv2)
     - pkgconfig(glu)
     - pkgconfig(glut)
@@ -33,8 +32,10 @@ builddeps   :
     - pkgconfig(wayland-protocols)
     - pkgconfig(x11)
     - pkgconfig(xcb)
+    - pkgconfig(xext)
     - pkgconfig(xfont2)
     - pkgconfig(xkbcommon)
+    - pkgconfig(xkbcommon-x11)
 setup       : |
     %meson
 build       : |

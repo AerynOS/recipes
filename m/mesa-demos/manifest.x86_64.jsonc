@@ -9,7 +9,6 @@
 				"pkgconfig(egl)",
 				"pkgconfig(gbm)",
 				"pkgconfig(gl)",
-				"pkgconfig(glesv1_cm)",
 				"pkgconfig(glesv2)",
 				"pkgconfig(glu)",
 				"pkgconfig(glut)",
@@ -22,8 +21,10 @@
 				"pkgconfig(wayland-protocols)",
 				"pkgconfig(x11)",
 				"pkgconfig(xcb)",
+				"pkgconfig(xext)",
 				"pkgconfig(xfont2)",
-				"pkgconfig(xkbcommon)"
+				"pkgconfig(xkbcommon)",
+				"pkgconfig(xkbcommon-x11)"
 			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
@@ -674,7 +675,6 @@
 				"pkgconfig(egl)",
 				"pkgconfig(gbm)",
 				"pkgconfig(gl)",
-				"pkgconfig(glesv1_cm)",
 				"pkgconfig(glesv2)",
 				"pkgconfig(glu)",
 				"pkgconfig(glut)",
@@ -687,8 +687,10 @@
 				"pkgconfig(wayland-protocols)",
 				"pkgconfig(x11)",
 				"pkgconfig(xcb)",
+				"pkgconfig(xext)",
 				"pkgconfig(xfont2)",
-				"pkgconfig(xkbcommon)"
+				"pkgconfig(xkbcommon)",
+				"pkgconfig(xkbcommon-x11)"
 			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
@@ -731,6 +733,6 @@
 		}
 	},
 	"source-name": "mesa-demos",
-	"source-release": "5",
+	"source-release": "6",
 	"source-version": "9.0.0"
 }
