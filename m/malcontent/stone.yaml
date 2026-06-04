@@ -3,10 +3,10 @@
 
 name        : malcontent
 version     : "0.14.0"
-release     : 1
+release     : 2
 homepage    : https://gitlab.freedesktop.org/pwithnall/malcontent
 upstreams   :
-    - git|https://gitlab.freedesktop.org/pwithnall/malcontent : d28f6635359d02d1068d8b21fb5810e5074b7903
+    - https://tecnocode.co.uk/downloads/malcontent/malcontent-0.14.0.tar.xz : 951c2732106254b2f4d22c06061d1a813d8b6310a045afc638c1e1a0c97e4e69
 summary     : Parental control support for applications
 description : |
     libmalcontent implements parental controls support which can be used by applications to filter or limit the access of child accounts to inappropriate content.
@@ -14,8 +14,8 @@ license     : LGPL-2.1-or-later
 networking  : true
 builddeps   :
     - binary(itstool)
-    - binary(meson)
     - binary(msgfmt)
+    - binary(python3)
     - binary(update-desktop-database)
     - pkgconfig(accountsservice)
     - pkgconfig(dbus-1)
@@ -40,13 +40,62 @@ install     : |
 
 packages    :
     - "lib%(name)":
+        summary: Libraries for %(name)
+        description: Libraries for %(name)
         paths:
-            - /usr/include/malcontent-0
             - /usr/lib/girepository-1.0/Malcontent-0.typelib
-            - /usr/lib/libmalcontent-0.so*
-            - /usr/lib/pkgconfig/malcontent-0.pc
-            - /usr/share/gir-1.0/Malcontent-0.gir
+            - /usr/lib/libmalcontent-0.so.*
+            - /usr/lib/libnss_malcontent.so.*
+
+    - "%(name)-ui-libs":
+        summary: Libraries for %(name)
+        description: Libraries for %(name)
+        paths:
+            - /usr/lib/girepository-1.0/MalcontentUi-1.typelib
+            - /usr/lib/libmalcontent-ui-1.so.*
+
+    - "%(name)-ui-devel":
+        summary: Development files for libmalcontent-ui
+        description: Development files for libmalcontent-ui
+        rundeps:
+            - "%(name)-ui-libs"
+        paths:
+            - /usr/include/malcontent-ui-1/
+            - /usr/lib/girepository-1.0/MalcontentUi-1.typelib
+            - /usr/lib/libmalcontent-ui-1.so
+            - /usr/share/gir-1.0/MalcontentUi-1.gir
+            - /usr/lib/pkgconfig/malcontent-ui-1.pc
+
+    - "%(name)-control":
+        summary: Parental Controls UI
+        description: Parental Controls UI
+        rundeps:
+            - "%(name)"
+        paths:
+            - /usr/bin/malcontent-control
+            - /usr/share/applications/org.freedesktop.MalcontentControl.desktop
+            - /usr/share/icons/
+            - /usr/share/metainfo/org.freedesktop.MalcontentControl.metainfo.xml
 
     - "%(name)-docs":
         paths:
             - /usr/share/doc/
+
+    - "%(name)-pam":
+        summary: Parental Controls PAM Module
+        description: Parental Controls PAM Module
+        paths:
+            - /usr/lib/security/pam_malcontent.so
+
+    - "%(name)-tools":
+        summary: Parental Controls Tools
+        description: Parental Controls Tools
+        rundeps:
+            - "%(name)"
+        paths:
+            - /usr/bin/malcontent-client
+            - /usr/share/man/man8/malcontent-client.8*
+
+    - "%(name)":
+        rundeps:
+            - polkit

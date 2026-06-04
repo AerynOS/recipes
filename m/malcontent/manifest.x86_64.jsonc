@@ -5,8 +5,8 @@
 		"libmalcontent": {
 			"build-depends": [
 				"binary(itstool)",
-				"binary(meson)",
 				"binary(msgfmt)",
+				"binary(python3)",
 				"binary(update-desktop-database)",
 				"pkgconfig(accountsservice)",
 				"pkgconfig(dbus-1)",
@@ -23,44 +23,31 @@
 				"pkgconfig(pam)"
 			],
 			"depends": [
-				"pkgconfig(accountsservice)",
-				"pkgconfig(gio-2.0)",
-				"pkgconfig(gio-unix-2.0)",
-				"pkgconfig(glib-2.0)",
-				"pkgconfig(gobject-2.0)",
 				"soname(libaccountsservice.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
+				"soname(libcdb.so.1(x86_64))",
 				"soname(libgio-2.0.so.0(x86_64))",
 				"soname(libglib-2.0.so.0(x86_64))",
 				"soname(libgobject-2.0.so.0(x86_64))"
 			],
 			"files": [
-				"/usr/include/malcontent-0/libmalcontent/app-filter.h",
-				"/usr/include/malcontent-0/libmalcontent/enums.h",
-				"/usr/include/malcontent-0/libmalcontent/malcontent.h",
-				"/usr/include/malcontent-0/libmalcontent/manager.h",
-				"/usr/include/malcontent-0/libmalcontent/session-limits.h",
-				"/usr/include/malcontent-0/libmalcontent/user-manager.h",
-				"/usr/include/malcontent-0/libmalcontent/user.h",
-				"/usr/include/malcontent-0/libmalcontent/web-filter.h",
 				"/usr/lib/girepository-1.0/Malcontent-0.typelib",
-				"/usr/lib/libmalcontent-0.so",
 				"/usr/lib/libmalcontent-0.so.0",
 				"/usr/lib/libmalcontent-0.so.0.14.0",
-				"/usr/lib/pkgconfig/malcontent-0.pc",
-				"/usr/share/gir-1.0/Malcontent-0.gir"
+				"/usr/lib/libnss_malcontent.so.0.14.0",
+				"/usr/lib/libnss_malcontent.so.2"
 			],
 			"name": "libmalcontent",
 			"provides": [
-				"pkgconfig(malcontent-0)",
-				"soname(libmalcontent-0.so.0(x86_64))"
+				"soname(libmalcontent-0.so.0(x86_64))",
+				"soname(libnss_malcontent.so.2(x86_64))"
 			]
 		},
 		"malcontent": {
 			"build-depends": [
 				"binary(itstool)",
-				"binary(meson)",
 				"binary(msgfmt)",
+				"binary(python3)",
 				"binary(update-desktop-database)",
 				"pkgconfig(accountsservice)",
 				"pkgconfig(dbus-1)",
@@ -78,37 +65,21 @@
 			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
-				"soname(libadwaita-1.so.0(x86_64))",
-				"soname(libappstream.so.5(x86_64))",
+				"polkit",
 				"soname(libc.so.6(x86_64))",
 				"soname(libcdb.so.1(x86_64))",
-				"soname(libflatpak.so.0(x86_64))",
 				"soname(libgio-2.0.so.0(x86_64))",
 				"soname(libglib-2.0.so.0(x86_64))",
 				"soname(libgobject-2.0.so.0(x86_64))",
-				"soname(libgraphene-1.0.so.0(x86_64))",
 				"soname(libgsystemservice-0.so.0(x86_64))",
-				"soname(libgtk-4.so.1(x86_64))",
-				"soname(libjson-glib-1.0.so.0(x86_64))",
 				"soname(libmalcontent-0.so.0(x86_64))",
-				"soname(libpam.so.0(x86_64))",
-				"soname(libpango-1.0.so.0(x86_64))",
-				"soname(libpolkit-gobject-1.so.0(x86_64))",
 				"soname(libsoup-3.0.so.0(x86_64))"
 			],
 			"files": [
-				"/usr/bin/malcontent-client",
-				"/usr/bin/malcontent-control",
-				"/usr/lib/girepository-1.0/MalcontentUi-1.typelib",
-				"/usr/lib/libmalcontent-ui-1.so.0.14.0",
-				"/usr/lib/libmalcontent-ui-1.so.1",
-				"/usr/lib/libnss_malcontent.so.0.14.0",
-				"/usr/lib/libnss_malcontent.so.2",
 				"/usr/lib/malcontent/malcontent-timer-extension-agent",
 				"/usr/lib/malcontent/malcontent-timerd",
 				"/usr/lib/malcontent/malcontent-webd",
 				"/usr/lib/malcontent/malcontent-webd-update",
-				"/usr/lib/security/pam_malcontent.so",
 				"/usr/lib/systemd/system/malcontent-timer-extension-agent.service",
 				"/usr/lib/systemd/system/malcontent-timerd.service",
 				"/usr/lib/systemd/system/malcontent-webd-update.service",
@@ -121,7 +92,6 @@
 				"/usr/share/accountsservice/interfaces/com.endlessm.ParentalControls.AppFilter.xml",
 				"/usr/share/accountsservice/interfaces/com.endlessm.ParentalControls.SessionLimits.xml",
 				"/usr/share/accountsservice/interfaces/org.freedesktop.Malcontent.WebFilter.xml",
-				"/usr/share/applications/org.freedesktop.MalcontentControl.desktop",
 				"/usr/share/dbus-1/interfaces/com.endlessm.ParentalControls.AccountInfo.xml",
 				"/usr/share/dbus-1/interfaces/com.endlessm.ParentalControls.AppFilter.xml",
 				"/usr/share/dbus-1/interfaces/com.endlessm.ParentalControls.SessionLimits.xml",
@@ -231,8 +201,6 @@
 				"/usr/share/help/uk/malcontent/legal.xml",
 				"/usr/share/help/uk/malcontent/restricting-applications.page",
 				"/usr/share/help/uk/malcontent/software-installation.page",
-				"/usr/share/icons/hicolor/scalable/apps/org.freedesktop.MalcontentControl.svg",
-				"/usr/share/icons/hicolor/symbolic/apps/org.freedesktop.MalcontentControl-symbolic.svg",
 				"/usr/share/locale/af/LC_MESSAGES/malcontent.mo",
 				"/usr/share/locale/ar/LC_MESSAGES/malcontent.mo",
 				"/usr/share/locale/bg/LC_MESSAGES/malcontent.mo",
@@ -285,29 +253,68 @@
 				"/usr/share/locale/vi/LC_MESSAGES/malcontent.mo",
 				"/usr/share/locale/zh_CN/LC_MESSAGES/malcontent.mo",
 				"/usr/share/locale/zh_TW/LC_MESSAGES/malcontent.mo",
-				"/usr/share/man/man8/malcontent-client.8",
 				"/usr/share/man/man8/malcontent-timer-extension-agent.8",
 				"/usr/share/man/man8/malcontent-timerd.8",
 				"/usr/share/man/man8/malcontent-webd.8",
-				"/usr/share/metainfo/org.freedesktop.MalcontentControl.metainfo.xml",
 				"/usr/share/polkit-1/actions/com.endlessm.ParentalControls.policy",
 				"/usr/share/polkit-1/actions/org.freedesktop.MalcontentControl.policy",
 				"/usr/share/polkit-1/rules.d/com.endlessm.ParentalControls.rules"
 			],
-			"name": "malcontent",
-			"provides": [
-				"binary(malcontent-client)",
-				"binary(malcontent-control)",
+			"name": "malcontent"
+		},
+		"malcontent-control": {
+			"build-depends": [
+				"binary(itstool)",
+				"binary(msgfmt)",
+				"binary(python3)",
+				"binary(update-desktop-database)",
+				"pkgconfig(accountsservice)",
+				"pkgconfig(dbus-1)",
+				"pkgconfig(flatpak)",
+				"pkgconfig(gi-docgen)",
+				"pkgconfig(glib-testing-0)",
+				"pkgconfig(gnome-desktop-4)",
+				"pkgconfig(gobject-introspection-1.0)",
+				"pkgconfig(gsystemservice-0)",
+				"pkgconfig(gtk4)",
+				"pkgconfig(libadwaita-1)",
+				"pkgconfig(libcdb)",
+				"pkgconfig(libsoup-3.0)",
+				"pkgconfig(pam)"
+			],
+			"depends": [
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"malcontent",
+				"soname(libadwaita-1.so.0(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libgio-2.0.so.0(x86_64))",
+				"soname(libglib-2.0.so.0(x86_64))",
+				"soname(libgobject-2.0.so.0(x86_64))",
+				"soname(libgraphene-1.0.so.0(x86_64))",
+				"soname(libgtk-4.so.1(x86_64))",
+				"soname(libjson-glib-1.0.so.0(x86_64))",
+				"soname(libmalcontent-0.so.0(x86_64))",
 				"soname(libmalcontent-ui-1.so.1(x86_64))",
-				"soname(libnss_malcontent.so.2(x86_64))",
-				"soname(security/pam_malcontent.so(x86_64))"
+				"soname(libpango-1.0.so.0(x86_64))",
+				"soname(libpolkit-gobject-1.so.0(x86_64))"
+			],
+			"files": [
+				"/usr/bin/malcontent-control",
+				"/usr/share/applications/org.freedesktop.MalcontentControl.desktop",
+				"/usr/share/icons/hicolor/scalable/apps/org.freedesktop.MalcontentControl.svg",
+				"/usr/share/icons/hicolor/symbolic/apps/org.freedesktop.MalcontentControl-symbolic.svg",
+				"/usr/share/metainfo/org.freedesktop.MalcontentControl.metainfo.xml"
+			],
+			"name": "malcontent-control",
+			"provides": [
+				"binary(malcontent-control)"
 			]
 		},
 		"malcontent-devel": {
 			"build-depends": [
 				"binary(itstool)",
-				"binary(meson)",
 				"binary(msgfmt)",
+				"binary(python3)",
 				"binary(update-desktop-database)",
 				"pkgconfig(accountsservice)",
 				"pkgconfig(dbus-1)",
@@ -326,35 +333,35 @@
 			"depends": [
 				"malcontent",
 				"pkgconfig(accountsservice)",
-				"pkgconfig(appstream)",
-				"pkgconfig(flatpak)",
 				"pkgconfig(gio-2.0)",
+				"pkgconfig(gio-unix-2.0)",
 				"pkgconfig(glib-2.0)",
-				"pkgconfig(gobject-2.0)",
-				"pkgconfig(gtk4)",
-				"pkgconfig(libadwaita-1)",
-				"pkgconfig(malcontent-0)"
+				"pkgconfig(gobject-2.0)"
 			],
 			"files": [
-				"/usr/include/malcontent-ui-1/libmalcontent-ui/malcontent-ui.h",
-				"/usr/include/malcontent-ui-1/libmalcontent-ui/restrict-applications-dialog.h",
-				"/usr/include/malcontent-ui-1/libmalcontent-ui/restrict-applications-selector.h",
-				"/usr/include/malcontent-ui-1/libmalcontent-ui/user-controls.h",
-				"/usr/lib/libmalcontent-ui-1.so",
+				"/usr/include/malcontent-0/libmalcontent/app-filter.h",
+				"/usr/include/malcontent-0/libmalcontent/enums.h",
+				"/usr/include/malcontent-0/libmalcontent/malcontent.h",
+				"/usr/include/malcontent-0/libmalcontent/manager.h",
+				"/usr/include/malcontent-0/libmalcontent/session-limits.h",
+				"/usr/include/malcontent-0/libmalcontent/user-manager.h",
+				"/usr/include/malcontent-0/libmalcontent/user.h",
+				"/usr/include/malcontent-0/libmalcontent/web-filter.h",
+				"/usr/lib/libmalcontent-0.so",
 				"/usr/lib/libnss_malcontent.so",
-				"/usr/lib/pkgconfig/malcontent-ui-1.pc",
-				"/usr/share/gir-1.0/MalcontentUi-1.gir"
+				"/usr/lib/pkgconfig/malcontent-0.pc",
+				"/usr/share/gir-1.0/Malcontent-0.gir"
 			],
 			"name": "malcontent-devel",
 			"provides": [
-				"pkgconfig(malcontent-ui-1)"
+				"pkgconfig(malcontent-0)"
 			]
 		},
 		"malcontent-docs": {
 			"build-depends": [
 				"binary(itstool)",
-				"binary(meson)",
 				"binary(msgfmt)",
+				"binary(python3)",
 				"binary(update-desktop-database)",
 				"pkgconfig(accountsservice)",
 				"pkgconfig(dbus-1)",
@@ -664,9 +671,164 @@
 				"/usr/share/doc/libmalcontent-ui-1/urlmap.js"
 			],
 			"name": "malcontent-docs"
+		},
+		"malcontent-pam": {
+			"build-depends": [
+				"binary(itstool)",
+				"binary(msgfmt)",
+				"binary(python3)",
+				"binary(update-desktop-database)",
+				"pkgconfig(accountsservice)",
+				"pkgconfig(dbus-1)",
+				"pkgconfig(flatpak)",
+				"pkgconfig(gi-docgen)",
+				"pkgconfig(glib-testing-0)",
+				"pkgconfig(gnome-desktop-4)",
+				"pkgconfig(gobject-introspection-1.0)",
+				"pkgconfig(gsystemservice-0)",
+				"pkgconfig(gtk4)",
+				"pkgconfig(libadwaita-1)",
+				"pkgconfig(libcdb)",
+				"pkgconfig(libsoup-3.0)",
+				"pkgconfig(pam)"
+			],
+			"depends": [
+				"soname(libc.so.6(x86_64))",
+				"soname(libgio-2.0.so.0(x86_64))",
+				"soname(libglib-2.0.so.0(x86_64))",
+				"soname(libgobject-2.0.so.0(x86_64))",
+				"soname(libmalcontent-0.so.0(x86_64))",
+				"soname(libpam.so.0(x86_64))"
+			],
+			"files": [
+				"/usr/lib/security/pam_malcontent.so"
+			],
+			"name": "malcontent-pam",
+			"provides": [
+				"soname(security/pam_malcontent.so(x86_64))"
+			]
+		},
+		"malcontent-tools": {
+			"build-depends": [
+				"binary(itstool)",
+				"binary(msgfmt)",
+				"binary(python3)",
+				"binary(update-desktop-database)",
+				"pkgconfig(accountsservice)",
+				"pkgconfig(dbus-1)",
+				"pkgconfig(flatpak)",
+				"pkgconfig(gi-docgen)",
+				"pkgconfig(glib-testing-0)",
+				"pkgconfig(gnome-desktop-4)",
+				"pkgconfig(gobject-introspection-1.0)",
+				"pkgconfig(gsystemservice-0)",
+				"pkgconfig(gtk4)",
+				"pkgconfig(libadwaita-1)",
+				"pkgconfig(libcdb)",
+				"pkgconfig(libsoup-3.0)",
+				"pkgconfig(pam)"
+			],
+			"depends": [
+				"malcontent"
+			],
+			"files": [
+				"/usr/bin/malcontent-client",
+				"/usr/share/man/man8/malcontent-client.8"
+			],
+			"name": "malcontent-tools",
+			"provides": [
+				"binary(malcontent-client)"
+			]
+		},
+		"malcontent-ui-devel": {
+			"build-depends": [
+				"binary(itstool)",
+				"binary(msgfmt)",
+				"binary(python3)",
+				"binary(update-desktop-database)",
+				"pkgconfig(accountsservice)",
+				"pkgconfig(dbus-1)",
+				"pkgconfig(flatpak)",
+				"pkgconfig(gi-docgen)",
+				"pkgconfig(glib-testing-0)",
+				"pkgconfig(gnome-desktop-4)",
+				"pkgconfig(gobject-introspection-1.0)",
+				"pkgconfig(gsystemservice-0)",
+				"pkgconfig(gtk4)",
+				"pkgconfig(libadwaita-1)",
+				"pkgconfig(libcdb)",
+				"pkgconfig(libsoup-3.0)",
+				"pkgconfig(pam)"
+			],
+			"depends": [
+				"malcontent-ui-libs",
+				"pkgconfig(accountsservice)",
+				"pkgconfig(appstream)",
+				"pkgconfig(flatpak)",
+				"pkgconfig(gio-2.0)",
+				"pkgconfig(glib-2.0)",
+				"pkgconfig(gobject-2.0)",
+				"pkgconfig(gtk4)",
+				"pkgconfig(libadwaita-1)",
+				"pkgconfig(malcontent-0)"
+			],
+			"files": [
+				"/usr/include/malcontent-ui-1/libmalcontent-ui/malcontent-ui.h",
+				"/usr/include/malcontent-ui-1/libmalcontent-ui/restrict-applications-dialog.h",
+				"/usr/include/malcontent-ui-1/libmalcontent-ui/restrict-applications-selector.h",
+				"/usr/include/malcontent-ui-1/libmalcontent-ui/user-controls.h",
+				"/usr/lib/girepository-1.0/MalcontentUi-1.typelib",
+				"/usr/lib/libmalcontent-ui-1.so",
+				"/usr/lib/pkgconfig/malcontent-ui-1.pc",
+				"/usr/share/gir-1.0/MalcontentUi-1.gir"
+			],
+			"name": "malcontent-ui-devel",
+			"provides": [
+				"pkgconfig(malcontent-ui-1)"
+			]
+		},
+		"malcontent-ui-libs": {
+			"build-depends": [
+				"binary(itstool)",
+				"binary(msgfmt)",
+				"binary(python3)",
+				"binary(update-desktop-database)",
+				"pkgconfig(accountsservice)",
+				"pkgconfig(dbus-1)",
+				"pkgconfig(flatpak)",
+				"pkgconfig(gi-docgen)",
+				"pkgconfig(glib-testing-0)",
+				"pkgconfig(gnome-desktop-4)",
+				"pkgconfig(gobject-introspection-1.0)",
+				"pkgconfig(gsystemservice-0)",
+				"pkgconfig(gtk4)",
+				"pkgconfig(libadwaita-1)",
+				"pkgconfig(libcdb)",
+				"pkgconfig(libsoup-3.0)",
+				"pkgconfig(pam)"
+			],
+			"depends": [
+				"soname(libadwaita-1.so.0(x86_64))",
+				"soname(libappstream.so.5(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libflatpak.so.0(x86_64))",
+				"soname(libgio-2.0.so.0(x86_64))",
+				"soname(libglib-2.0.so.0(x86_64))",
+				"soname(libgobject-2.0.so.0(x86_64))",
+				"soname(libgtk-4.so.1(x86_64))",
+				"soname(libmalcontent-0.so.0(x86_64))"
+			],
+			"files": [
+				"/usr/lib/libmalcontent-ui-1.so.0.14.0",
+				"/usr/lib/libmalcontent-ui-1.so.1"
+			],
+			"name": "malcontent-ui-libs",
+			"provides": [
+				"soname(libmalcontent-ui-1.so.1(x86_64))"
+			]
 		}
 	},
 	"source-name": "malcontent",
-	"source-release": "1",
+	"source-release": "2",
 	"source-version": "0.14.0"
 }
