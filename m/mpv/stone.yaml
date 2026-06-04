@@ -3,7 +3,7 @@
 
 name        : mpv
 version     : "0.41.0"
-release     : 14
+release     : 15
 homepage    : https://mpv.io/
 upstreams   :
     - https://github.com/mpv-player/mpv/archive/refs/tags/v0.41.0.tar.gz : ee21092a5ee427353392360929dc64645c54479aefdb5babc5cfbb5fad626209
@@ -24,7 +24,7 @@ builddeps   :
     - pkgconfig(egl)
     - pkgconfig(ffnvcodec)
     - pkgconfig(gbm)
-    # pkgconfig(jack)
+    - pkgconfig(jack)
     - pkgconfig(lcms2)
     - pkgconfig(libarchive)
     - pkgconfig(libass)
