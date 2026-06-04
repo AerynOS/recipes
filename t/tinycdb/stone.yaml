@@ -3,7 +3,7 @@
 
 name        : tinycdb
 version     : "0.81"
-release     : 1
+release     : 2
 homepage    : https://www.corpit.ru/mjt/tinycdb.html
 upstreams   :
     - https://www.corpit.ru/mjt/tinycdb/tinycdb-0.81.tar.gz : 469de2d445bf54880f652f4b6dc95c7cdf6f5502c35524a45b2122d70d47ebc2
@@ -11,14 +11,15 @@ summary     : Very fast and simple package for creating and reading constant dat
 description : |
     Very fast and simple package for creating and reading constant data bases
 license     : MIT
-builddeps   :
-    - binary(ar)
+setup       : |
+    %patch %(pkgdir)/shared.patch
 build       : |
     make_options=(
-      CFLAGS="$CFLAGS"
-      LDFLAGS="$LDFLAGS"
-      all
-      shared
+        CC=%(cc)
+        CFLAGS="$CFLAGS"
+        LDFLAGS="$LDFLAGS"
+        all
+        shared
     )
 
     %make "${make_options[@]}"
