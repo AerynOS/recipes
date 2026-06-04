@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : cairomm
-version     : "1.18.0"
-release     : 4
+version     : "1.18.1"
+release     : 5
 homepage    : https://www.cairographics.org/cairomm/
 upstreams   :
-    - https://gitlab.freedesktop.org/cairo/cairomm/-/archive/1.18.0/cairomm-1.18.0.tar.gz : aec941f5b1c25392fec2b079edbd322d54520efc7c6a7a48eef111e14a67ca64
+    - https://gitlab.freedesktop.org/cairo/cairomm/-/archive/1.18.1/cairomm-1.18.1.tar.gz : 5515952f586c1d7ed745ccd4cce09766e152b66d551a61b57c5d6d5af323154e
 summary     : C++ interface to cairo (1.16 ABI)
 description : |
     This library provides a C++ interface to cairo (1.16 ABI)
@@ -17,8 +17,10 @@ builddeps   :
     - binary(perl)
     - binary(python3)
     - binary(xsltproc)
+    - cmake(Boost)
     - pkgconfig(cairo)
     - pkgconfig(fontconfig)
+    - pkgconfig(mm-common-libstdc++)
     - pkgconfig(sigc++-3.0)
 setup       : |
     %meson
