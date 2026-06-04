@@ -4,6 +4,8 @@
 	"packages": {
 		"cairomm-1.14": {
 			"build-depends": [
+				"binary(bison)",
+				"binary(flex)",
 				"pkgconfig(cairo)",
 				"pkgconfig(mm-common-util)",
 				"pkgconfig(sigc++-2.0)"
@@ -27,6 +29,8 @@
 		},
 		"cairomm-1.14-devel": {
 			"build-depends": [
+				"binary(bison)",
+				"binary(flex)",
 				"pkgconfig(cairo)",
 				"pkgconfig(mm-common-util)",
 				"pkgconfig(sigc++-2.0)"
@@ -90,6 +94,6 @@
 		}
 	},
 	"source-name": "cairomm-1.14",
-	"source-release": "3",
-	"source-version": "1.14.5"
+	"source-release": "4",
+	"source-version": "1.14.6"
 }

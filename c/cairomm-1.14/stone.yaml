@@ -2,22 +2,25 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : cairomm-1.14
-version     : "1.14.5"
-release     : 3
+version     : "1.14.6"
+release     : 4
 homepage    : https://www.cairographics.org
 upstreams   :
-    - https://www.cairographics.org/releases/cairomm-1.14.5.tar.xz : 70136203540c884e89ce1c9edfb6369b9953937f6cd596d97c78c9758a5d48db
+    - https://www.cairographics.org/releases/cairomm-1.14.6.tar.xz : 7e0d5c7f29175d573a03ab5c45aef63f48dd91a5caf335a404cd763e4b7cea4a
 summary     : C++ bindings for Cairo
 description : |
     cairomm is the C++ binding for the Cairo library.
 license     : LGPL-2.1-or-later
 builddeps   :
+    - binary(bison)
+    - binary(flex)
     - pkgconfig(cairo)
     - pkgconfig(mm-common-util)
     - pkgconfig(sigc++-2.0)
 setup       : |
-    %autogen --disable-static \
-             --disable-documentation
+    %autogen \
+        --disable-static \
+        --disable-documentation
 build       : |
     %make
 install     : |
