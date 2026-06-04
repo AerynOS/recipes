@@ -3,7 +3,7 @@
 
 name        : sdl3
 version     : "3.4.10"
-release     : 15
+release     : 16
 homepage    : https://libsdl.org
 upstreams   :
     - https://github.com/libsdl-org/SDL/releases/download/release-3.4.10/SDL3-3.4.10.tar.gz : 12b34280415ec8418c864408b93d008a20a6530687ee613d60bfbd20411f2785
@@ -17,6 +17,7 @@ builddeps   :
     - pkgconfig(egl)
     - pkgconfig(fribidi)
     - pkgconfig(gbm)
+    - pkgconfig(jack)
     - pkgconfig(ibus-1.0)
     - pkgconfig(libdecor-0)
     - pkgconfig(libdrm)
@@ -37,7 +38,6 @@ builddeps   :
     - pkgconfig(xrandr)
     - pkgconfig(xscrnsaver)
     - pkgconfig(xtst)
-    # jack
 tuning      :
     - lto: full
 setup       : |
