@@ -3,7 +3,7 @@
 
 name        : qt6-webengine
 version     : "6.11.1"
-release     : 27
+release     : 28
 homepage    : https://www.qt.io
 upstreams   :
     - https://download.qt.io/official_releases/qt/6.11/6.11.1/submodules/qtwebengine-everywhere-src-6.11.1.tar.xz: 679c66ccc6c158fc215e9c58ef160331ecd29974232e345c05161889f8667083
@@ -13,7 +13,7 @@ upstreams   :
 # Don't edit anything between the BEGIN_UPSTREAMS and END_UPSTREAMS tags
 ##@@BEGIN_UPSTREAMS
     - git|https://invent.kde.org/qt/qt/qtwebengine-chromium.git:
-        ref: 3e03a3473e9d7cf073cc11e0dd21941019bd7d70
+        ref: 03b27c14186b88d821551a0cc312b5455a7202e5
 ##@@END_UPSTREAMS
 summary     : Qt6 Webengine Module
 description : |
@@ -97,6 +97,12 @@ setup       : |
 
     # enable building with glibc 2.43
     %patch %(pkgdir)/ftbfs-glibc-2.43.patch
+
+    # Backports
+    %patch %(pkgdir)/QTBUG-145344.patch
+
+    # Causes crashes
+    %patch %(pkgdir)/0001-Revert-Backport-CVE-2026-9998-Integer-overflow-in-Sk.patch -d src/3rdparty
 
     # TODO: fix webengine_rust_build=ON which might be due to missing PTY support in boulder
     %cmake_qt6 \
