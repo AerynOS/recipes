@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : graphite
-version     : "1.3.14"
-release     : 8
+version     : "1.3.15"
+release     : 9
 homepage    : https://graphite.sil.org
 upstreams   :
-    - https://github.com/silnrsi/graphite/releases/download/1.3.14/graphite2-1.3.14.tgz : f99d1c13aa5fa296898a181dff9b82fb25f6cc0933dbaa7a475d8109bd54209d
+    - https://github.com/silnrsi/graphite/releases/download/1.3.15/graphite2-1.3.15.tgz : c6bc8b4252724665297f7cad0c55897285c673f9b8e6db3522ace833593fe0b1
 summary     : Allows the creation of fonts with complex behaviors
 description : |
     Graphite is a system that can be used to create “smart fonts” capable of displaying writing systems with various complex behaviors. A smart font contains not only letter shapes but also additional instructions indicating how to combine and position the letters in complex ways.
@@ -14,7 +14,8 @@ description : |
     Graphite was primarily developed to provide the flexibility needed for minority languages which often need to be written according to slightly different rules than well-known languages that use the same script.
 license     :
     - LGPL-2.1-or-later
-# builddeps   :
+builddeps   :
+    - binary(python3)
 #     - pkgconfig(freetype2) # Only used for building tests, and building tests fails
 #     - a2x Docs (need a few other things)
 checkdeps   :
@@ -22,7 +23,6 @@ checkdeps   :
 emul32      : true
 setup       : |
     %patch %(pkgdir)/ftbfs-libstdc-15.patch
-    %patch %(pkgdir)/ftbfs-cmake-4.patch
 
     %cmake \
         -DGRAPHITE2_VM_TYPE=call \
