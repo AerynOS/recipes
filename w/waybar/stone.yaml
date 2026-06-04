@@ -3,7 +3,7 @@
 
 name        : waybar
 version     : "0.15.0"
-release     : 9
+release     : 10
 homepage    : https://github.com/Alexays/Waybar
 upstreams   :
     - https://github.com/Alexays/Waybar/archive/refs/tags/0.15.0.tar.gz : 21c2bbef88c40473c355003582f9331d2f9b8a01efdcce0935edfc5f6b023a3e
@@ -22,7 +22,7 @@ builddeps   :
     - pkgconfig(gio-unix-2.0)
     - pkgconfig(gtk-layer-shell-0)
     - pkgconfig(gtkmm-3.0)
-    # - pkgconfig(jack)
+    - pkgconfig(jack)
     - pkgconfig(jsoncpp)
     - pkgconfig(libcava)
     - pkgconfig(libevdev)

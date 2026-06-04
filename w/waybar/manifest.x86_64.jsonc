@@ -13,6 +13,7 @@
 				"pkgconfig(gio-unix-2.0)",
 				"pkgconfig(gtk-layer-shell-0)",
 				"pkgconfig(gtkmm-3.0)",
+				"pkgconfig(jack)",
 				"pkgconfig(jsoncpp)",
 				"pkgconfig(libcava)",
 				"pkgconfig(libevdev)",
@@ -57,6 +58,7 @@
 				"soname(libgtk-layer-shell.so.0(x86_64))",
 				"soname(libgtkmm-3.0.so.1(x86_64))",
 				"soname(libinput.so.10(x86_64))",
+				"soname(libjack.so.0(x86_64))",
 				"soname(libjsoncpp.so.27(x86_64))",
 				"soname(libm.so.6(x86_64))",
 				"soname(libnl-3.so.200(x86_64))",
@@ -100,6 +102,7 @@
 				"/usr/share/man/man5/waybar-idle-inhibitor.5",
 				"/usr/share/man/man5/waybar-image.5",
 				"/usr/share/man/man5/waybar-inhibitor.5",
+				"/usr/share/man/man5/waybar-jack.5",
 				"/usr/share/man/man5/waybar-keyboard-state.5",
 				"/usr/share/man/man5/waybar-memory.5",
 				"/usr/share/man/man5/waybar-menu.5",
@@ -139,6 +142,6 @@
 		}
 	},
 	"source-name": "waybar",
-	"source-release": "9",
+	"source-release": "10",
 	"source-version": "0.15.0"
 }
