@@ -3,7 +3,7 @@
 
 name        : openal
 version     : "1.25.2"
-release     : 6
+release     : 7
 upstreams   :
     - https://github.com/kcat/openal-soft/archive/refs/tags/1.25.2.tar.gz : fb27e5839aa11f0e5b9d33756965291fad5d6909ab928ea1f796f4a1a6877894
 homepage    : https://openal-soft.org/
@@ -16,6 +16,7 @@ builddeps   :
     - pkgconfig(alsa)
     - pkgconfig(dbus-1)
     - pkgconfig(fmt)
+    - pkgconfig(jack)
     - pkgconfig(libavcodec)
     - pkgconfig(libavdevice)
     - pkgconfig(libavformat)
@@ -28,7 +29,6 @@ builddeps   :
     - pkgconfig(sdl3)
     - pkgconfig(sndfile)
     - pkgconfig(zlib)
-    # JACK
 setup       : |
     # TODO: Rebase this patch
     # patch %(pkgdir)/unbundle-fmt.patch
