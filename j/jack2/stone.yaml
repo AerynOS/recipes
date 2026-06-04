@@ -1,0 +1,60 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : jack2
+version     : 1.9.22
+release     : 1
+homepage    : https://jackaudio.org/
+upstreams   :
+    - https://github.com/jackaudio/jack2/archive/v1.9.22.tar.gz : 1e42b9fc4ad7db7befd414d45ab2f8a159c0b30fcd6eee452be662298766a849
+summary     : The JACK low-latency audio server
+description : |
+    JACK Audio Connection Kit (or JACK) is a professional sound server API and
+    pair of daemon implementations to provide real-time, low-latency connections
+    for both audio and MIDI data between applications.
+license     :
+    - GPL-2.0-or-later
+builddeps   :
+    - binary(python)
+    - pkgconfig(alsa)
+    - pkgconfig(dbus-1)
+    - pkgconfig(eigen3)
+    - pkgconfig(expat)
+    - pkgconfig(opus)
+    - pkgconfig(samplerate)
+tuning      :
+    # Clients crash if built with LTO
+    - lto: false
+setup       : |
+    %patch %(pkgdir)/waf-python3.12.patch
+
+    python ./waf configure \
+        --prefix=%(prefix) \
+        --classic \
+        --dbus
+build       : |
+    python ./waf
+install     : |
+    python ./waf install \
+        --destdir=%(installroot)
+
+    # This is currently libary only (Pipewire provides a JACK-compatible server)
+    rm -rfv %(installroot)/%(bindir) \
+            %(installroot)%(libdir)/jack/ \
+            %(installroot)%(datadir)
+
+    # Currently we only need libjack
+    rm -rfv %(installroot)%(libdir)/libjacknet* \
+            %(installroot)%(libdir)/libjackserver*
+packages    :
+    - "lib%(name)":
+        paths:
+            - /usr/lib/libjack.so.*
+
+    - "lib%(name)-devel":
+        rundeps:
+            - "lib%(name)"
+        paths:
+            - /usr/include/jack/
+            - /usr/lib/libjack.so
+            - /usr/lib/pkgconfig/jack.pc
