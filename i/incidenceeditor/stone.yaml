@@ -2,10 +2,10 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : incidenceeditor
-version     : "26.04.1"
-release     : 13
+version     : "26.04.2"
+release     : 14
 upstreams   :
-    - https://download.kde.org/stable/release-service/26.04.1/src/incidenceeditor-26.04.1.tar.xz : 401b2152aba9318c49c42022f32a9ea2c592da5db3f11c50ae93d319f53bd94c
+    - https://download.kde.org/stable/release-service/26.04.2/src/incidenceeditor-26.04.2.tar.xz : ad3da4dd53a47f072c16e277fe3b841ad0e3dddf29906cf9492fef32ee7eb664
 homepage    : https://kontact.kde.org/
 license     :
     - GPL-2.0-or-later
@@ -16,7 +16,6 @@ description : |
 builddeps   :
     # Temporary, boulder doesn't handle build ordering resolution correctly when builddeps are added by macros, so add ECM manually
     - cmake(ECM)
-    - cmake(KGantt6)
     - cmake(KF6CalendarCore)
     - cmake(KF6Codecs)
     - cmake(KF6GuiAddons)
@@ -24,6 +23,7 @@ builddeps   :
     - cmake(KF6IconThemes)
     - cmake(KF6KIO)
     - cmake(KF6TextWidgets)
+    - cmake(KGantt6)
     - cmake(KPim6Akonadi)
     - cmake(KPim6AkonadiCalendar)
     - cmake(KPim6AkonadiMime)
