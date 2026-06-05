@@ -2,10 +2,10 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : dolphin
-version     : "26.04.1"
-release     : 26
+version     : "26.04.2"
+release     : 27
 upstreams   :
-    - https://download.kde.org/stable/release-service/26.04.1/src/dolphin-26.04.1.tar.xz : ba4da5192f7e45f392feaa74dfb18fddddcf9dbcc8f9abeb3f670e83ed9e4f57
+    - https://download.kde.org/stable/release-service/26.04.2/src/dolphin-26.04.2.tar.xz : c7e90beb8ce13aea091494ae7ddfabde999b1297986a596403828010bec59346
 homepage    : https://kde.org/applications/system/org.kde.dolphin
 license     :
     - GFDL-1.2-or-later
@@ -19,9 +19,9 @@ builddeps   :
     - cmake(KF6Baloo)
     - cmake(KF6BalooWidgets)
     - cmake(KF6Bookmarks)
-    - cmake(KF6Config)
     - cmake(KF6Codecs)
     - cmake(KF6Completion)
+    - cmake(KF6Config)
     - cmake(KF6CoreAddons)
     - cmake(KF6Crash)
     - cmake(KF6DBusAddons)
