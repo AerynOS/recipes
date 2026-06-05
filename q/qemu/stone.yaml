@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : qemu
-version     : "11.0.0"
-release     : 33
+version     : "11.0.1"
+release     : 34
 homepage    : http://www.qemu.org/
 upstreams   :
-    - https://download.qemu.org/qemu-11.0.0.tar.xz : c04ca36012653f32d11c674d370cf52a710e7d3f18c2d8b63e4932052a4854d6
+    - https://download.qemu.org/qemu-11.0.1.tar.xz : 0d235f5820278d914a3155ec27af8e4258d697ea892895570807d69c0cb8cd64
 summary     :  A generic and open source machine emulator and virtualizer
 description : |
      A generic and open source machine emulator and virtualizer
@@ -33,6 +33,7 @@ builddeps   :
     - pkgconfig(gtk+-3.0)
     - pkgconfig(gtk+-x11-3.0)
     - pkgconfig(gvnc-1.0)
+    - pkgconfig(jack)
     - pkgconfig(libbpf)
     - pkgconfig(libcap-ng)
     - pkgconfig(libcbor)
@@ -71,7 +72,6 @@ builddeps   :
     - python(sphinx-rtd-theme)
     - libaio-devel
     # TODO:
-    # - jack
     # - libiscsi
     # - libcacard
     # - libxdp
@@ -170,6 +170,14 @@ packages    :
             - "%(name)-common"
         paths:
             - /usr/lib/qemu/audio-dbus.so
+
+    - "%(name)-audio-jack":
+        summary: QEMU JACK audio driver
+        description: QEMU JACK audio driver
+        rundeps:
+            - "%(name)-common"
+        paths:
+            - /usr/lib/qemu/audio-jack.so
 
     - "%(name)-audio-oss":
         summary: QEMU OSS audio driver
@@ -619,7 +627,6 @@ packages    :
             - "%(name)-base"
             - "%(name)-audio-alsa"
             - "%(name)-audio-dbus"
-            - "%(name)-audio-oss"
             - "%(name)-audio-pa"
             - "%(name)-audio-pipewire"
             - "%(name)-audio-sdl"
@@ -657,6 +664,8 @@ packages    :
         rundeps:
             - "%(name)-desktop"
             - "%(name)-docs"
+            - "%(name)-audio-jack"
+            - "%(name)-audio-oss"
             - "%(name)-hw-s390x-virtio-gpu-ccw"
             - "%(name)-pr-helper"
             - "%(name)-system-aarch64"
