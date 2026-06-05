@@ -3,7 +3,7 @@
 
 name        : pipewire
 version     : "1.6.6"
-release     : 32
+release     : 33
 homepage    : https://pipewire.org/
 upstreams   :
    - https://gitlab.freedesktop.org/pipewire/pipewire/-/archive/1.6.6/pipewire-1.6.6.tar.gz : b2a0a8de6946b8145a453639c936555beb0cbf2f2486e0b1c676cffdaaf029d9
@@ -26,6 +26,7 @@ builddeps   :
     - pkgconfig(glib-2.0)
     - pkgconfig(gstreamer-1.0)
     - pkgconfig(gstreamer-video-1.0)
+    - pkgconfig(jack)
     - pkgconfig(lc3)
     - pkgconfig(ldacBT-enc)
     - pkgconfig(libavcodec)
@@ -57,7 +58,6 @@ builddeps   :
     # libffado?
     # lc3plus
     # libcamera
-    # jack
     # ldacbt-dec
     # libapparmor
     # libselinux
@@ -75,6 +75,12 @@ build       : |
     %meson_build
 install     : |
     %meson_install
+
+    %install_dir %(installroot)%(vendordir)/security/limits.d
+    mv %(installroot)%(sysconfdir)/security/limits.d/* %(installroot)%(vendordir)/security/limits.d
+    rmdir -v %(installroot)%(sysconfdir)/security/limits.d \
+             %(installroot)%(sysconfdir)/security/ \
+             %(installroot)%(sysconfdir)/
 packages    :
     - "%(name)-libs":
         summary: "Library files for %(name)"
