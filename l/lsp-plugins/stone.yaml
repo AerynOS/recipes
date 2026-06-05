@@ -3,7 +3,7 @@
 
 name        : lsp-plugins
 version     : "1.2.29"
-release     : 10
+release     : 11
 homepage    : https://lsp-plug.in
 upstreams   :
     - https://github.com/sadko4u/lsp-plugins/releases/download/1.2.29/lsp-plugins-src-1.2.29.tar.gz : 404297c3add879c508db06d5119e11efc1d0473527d2a69ed39ec77c1d1972f2
@@ -17,17 +17,19 @@ builddeps   :
     - pkgconfig(gl)
     - pkgconfig(gstreamer-1.0)
     - pkgconfig(gstreamer-audio-1.0)
+    - pkgconfig(jack)
     - pkgconfig(xrandr)
 setup       : |
-    # Currently we build just the lv2 and gstreamer plugins. xdg depends on jack which we don't yet have
     make config \
         PREFIX=%(prefix) \
         LIBDIR=%(libdir) \
-        FEATURES="gst lv2"
+        FEATURES="gst jack lv2 xdg"
 build       : |
     %make
 install     : |
     %make_install
+
+    find %(installroot) -empty -type d -delete -print
 packages    :
     - "%(name)-gstreamer":
         summary: Linux Studio Plugins - gstreamer format
@@ -41,3 +43,12 @@ packages    :
         description: Linux Studio Plugins - LV2 format
         paths:
             - /usr/lib/lv2
+
+    - "%(name)-standalone":
+        summary: Linux Studio Plugins - LV2 format
+        description: Linux Studio Plugins - LV2 format
+        paths:
+            - /usr/bin/lsp-plugins*
+            - /usr/lib/lsp-plugins/liblsp-plugins-jack*.so
+            - /usr/share/icons/
+            - /usr/share/applications/lsp-plugins.desktop
