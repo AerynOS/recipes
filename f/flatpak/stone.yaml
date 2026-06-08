@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : flatpak
-version     : "1.16.6"
-release     : 20
+version     : "1.18.0"
+release     : 21
 homepage    : https://www.flatpak.org/
 upstreams   :
-    - https://github.com/flatpak/flatpak/releases/download/1.16.6/flatpak-1.16.6.tar.xz : 1e63e7f3fe44b602f34d92a6fe46fd8a3bc6be9460c03c2681e57976c658eec3
+    - https://github.com/flatpak/flatpak/releases/download/1.18.0/flatpak-1.18.0.tar.xz : a5857a66c4039dda05d92bdcb2b033d788cd2589610167f0ec5f0ec8d4fac6f2
     - https://dl.flathub.org/repo/flathub.flatpakrepo:
         hash: 3371dd250e61d9e1633630073fefda153cd4426f72f4afa0c3373ae2e8fea03a
         unpack: false
@@ -18,22 +18,24 @@ license     :
     - LGPL-2.1-or-later
 builddeps   :
     - binary(bison)
-    - binary(bwrap)
-    - binary(xdg-dbus-proxy)
     - binary(m4)
     - binary(msgfmt)
     - binary(python)
+    - binary(socat)
     - binary(wayland-scanner)
+    - binary(xdg-dbus-proxy)
     - binary(xmlto)
     - binary(xsltproc)
-    - binary(yacc)
     - pkgconfig(appstream)
     - pkgconfig(dconf)
     - pkgconfig(fuse3)
     - pkgconfig(gdk-pixbuf-2.0)
     - pkgconfig(glib-2.0)
+    - pkgconfig(gio-2.0)
+    - pkgconfig(gio-unix-2.0)
     - pkgconfig(gobject-introspection-1.0)
-    - pkgconfig(gpgme-glib)
+    - pkgconfig(gpgme)
+    - pkgconfig(gtk-doc)
     - pkgconfig(json-glib-1.0)
     - pkgconfig(libarchive)
     - pkgconfig(libcap)
@@ -42,14 +44,15 @@ builddeps   :
     - pkgconfig(libsystemd)
     - pkgconfig(libxml-2.0)
     - pkgconfig(libzstd)
+    - pkgconfig(malcontent-0)
     - pkgconfig(ostree-1)
     - pkgconfig(polkit-agent-1)
+    - pkgconfig(wayland-client)
     - pkgconfig(wayland-protocols)
     - pkgconfig(xau)
     - python(pyparsing)
     - docbook
     - docbook-xsl
-    # malcontent-0
 networking  : true
 rundeps     :
     - binary(bwrap)
@@ -58,13 +61,9 @@ rundeps     :
 environment : |
     %export_docbook_catalogs
 setup       : |
-    %patch %(pkgdir)/0001-fix-Build-with-glibc-2.43.patch
-
     %meson \
-        -Ddbus_config_dir=/usr/share/dbus-1/system.d \
         -Ddocbook_docs=disabled \
         -Dgir=enabled \
-        -Dhttp_backend=curl \
         -Dlibzstd=enabled \
         -Dsystem_fusermount=fusermount3 \
         -Dsystem_bubblewrap=%(bindir)/bwrap \
