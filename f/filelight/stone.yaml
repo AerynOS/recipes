@@ -2,10 +2,10 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : filelight
-version     : "26.04.1"
-release     : 13
+version     : "26.04.2"
+release     : 14
 upstreams   :
-    - https://download.kde.org/stable/release-service/26.04.1/src/filelight-26.04.1.tar.xz : 4661cc46e4f89ccc6ac130c9c3be2eeed0598781a80ddda428c6dedcf49f8c03
+    - https://download.kde.org/stable/release-service/26.04.2/src/filelight-26.04.2.tar.xz : e8c8f686814363d321107fc70db1d34eaed3d757bb79767c43e7976c08bd6ff8
 homepage    : https://apps.kde.org/filelight/
 license     :
     - GFDL-1.2-or-later
@@ -20,8 +20,8 @@ builddeps   :
     - cmake(KF6Config)
     - cmake(KF6Crash)
     - cmake(KF6DocTools)
-    - cmake(KF6KIO)
     - cmake(KF6I18n)
+    - cmake(KF6KIO)
     - cmake(KF6QQC2DesktopStyle)
     - cmake(Qt6Quick)
     - kf6-kirigami

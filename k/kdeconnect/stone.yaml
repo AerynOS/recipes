@@ -2,10 +2,10 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : kdeconnect
-version     : "26.04.1"
-release     : 18
+version     : "26.04.2"
+release     : 19
 upstreams   :
-    - https://download.kde.org/stable/release-service/26.04.1/src/kdeconnect-kde-26.04.1.tar.xz : c58277e16caac9e440211ce82cd07ca874d6f47ebdea58c44d237b5b84e3a538
+    - https://download.kde.org/stable/release-service/26.04.2/src/kdeconnect-kde-26.04.2.tar.xz : 45a197a2f2e7e400e6cf42f351cf92ca06807f1023f17378f128a3314c7fc176
 homepage    : https://kdeconnect.kde.org/
 license     : GPL-2.0-only
 summary     : KDE Connect adds communication between KDE and your smartphone.
@@ -42,9 +42,9 @@ builddeps   :
     - pkgconfig(libei-1.0)
     - pkgconfig(libevdev)
     - pkgconfig(openssl)
-    - pkgconfig(xkbcommon)
     - pkgconfig(wayland-client)
     - pkgconfig(wayland-protocols)
+    - pkgconfig(xkbcommon)
 setup       : |
     # We may need WITH_X11=ON for xwayland, but for now we're trying without it so as to avoid packaging libfakekey
     %cmake_kf6 \

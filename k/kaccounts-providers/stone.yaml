@@ -2,10 +2,10 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : kaccounts-providers
-version     : "26.04.1"
-release     : 16
+version     : "26.04.2"
+release     : 17
 upstreams   :
-    - https://download.kde.org/stable/release-service/26.04.1/src/kaccounts-providers-26.04.1.tar.xz : d50bc3e14d3591cc9e23454cb789d514e5f47a2e86e6500ee80de1b6e73eb9b7
+    - https://download.kde.org/stable/release-service/26.04.2/src/kaccounts-providers-26.04.2.tar.xz : 0d3f278ffac88af2db4c7ba7d9cab4622a2e19dbb39fbd144f1daa1075caf8a0
 homepage    : https://kde.org/
 license     : GPL-2.0-or-later
 summary     : KDE Providers
@@ -14,11 +14,11 @@ description : |
 builddeps   :
     # Temporary, boulder doesn't handle build ordering resolution correctly when builddeps are added by macros, so add ECM manually
     - cmake(ECM)
+    - cmake(KAccounts6)
     - cmake(KF6CoreAddons)
     - cmake(KF6I18n)
     - cmake(KF6KIO)
     - cmake(KF6Package)
-    - cmake(KAccounts6)
     - cmake(QCoro6)
     - cmake(Qt6Qml)
     - cmake(Qt6WebEngineQuick)
