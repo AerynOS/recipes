@@ -3,7 +3,7 @@
 
 name        : pipewire
 version     : "1.6.6"
-release     : 33
+release     : 34
 homepage    : https://pipewire.org/
 upstreams   :
    - https://gitlab.freedesktop.org/pipewire/pipewire/-/archive/1.6.6/pipewire-1.6.6.tar.gz : b2a0a8de6946b8145a453639c936555beb0cbf2f2486e0b1c676cffdaaf029d9
@@ -26,7 +26,6 @@ builddeps   :
     - pkgconfig(glib-2.0)
     - pkgconfig(gstreamer-1.0)
     - pkgconfig(gstreamer-video-1.0)
-    - pkgconfig(jack)
     - pkgconfig(lc3)
     - pkgconfig(ldacBT-enc)
     - pkgconfig(libavcodec)
@@ -62,11 +61,16 @@ builddeps   :
     # libapparmor
     # libselinux
 setup       : |
+    # `jack` means integration with a separate JACK server, not the built-in JACK server (`pipewire-jack`)
     %meson \
         -Dbluez5=enabled \
         -Dffmpeg=enabled \
         -Dgstreamer=enabled \
+        -Djack=disabled \
+        -Djack-devel=true \
+        -Dlibjack-path=%(libdir) \
         -Dman=enabled \
+        -Dpipewire-jack=enabled \
         -Dsession-managers=[] \
         -Dudev=enabled \
         -Dudevrulesdir=%(libdir)/udev/rules.d \
@@ -101,3 +105,24 @@ packages    :
         description: GStreamer pipewire plugin
         paths:
             - /usr/lib/gstreamer-1.0/
+
+    - "libjack3":
+        summary: "JACK library files for %(name)"
+        description: "JACK library files for %(name)"
+        paths:
+            - /usr/bin/pw-jack
+            - /usr/lib/libjack.so.*
+            - /usr/lib/libjacknet.so.*
+            - /usr/share/man/man1/pw-jack.1*
+            - /usr/share/man/man5/pipewire-jack.conf.5*
+
+    - "libjack3-devel":
+        summary: "JACK library files for %(name) - Devel"
+        description: "JACK library files for %(name) - Devel"
+        rundeps:
+            - "libjack3"
+        paths:
+            - /usr/include/jack/
+            - /usr/lib/libjack.so
+            - /usr/lib/libjacknet.so
+            - /usr/lib/pkgconfig/jack.pc
