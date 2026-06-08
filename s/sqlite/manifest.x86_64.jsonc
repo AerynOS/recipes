@@ -4,6 +4,7 @@
 	"packages": {
 		"sqlite": {
 			"build-depends": [
+				"binary(zcat)",
 				"pkgconfig(readline)",
 				"pkgconfig32(zlib)"
 			],
@@ -18,7 +19,7 @@
 			"files": [
 				"/usr/bin/sqlite3",
 				"/usr/lib/libsqlite3.so.0",
-				"/usr/lib/libsqlite3.so.3.53.1",
+				"/usr/lib/libsqlite3.so.3.53.2",
 				"/usr/share/man/man1/sqlite3.1"
 			],
 			"name": "sqlite",
@@ -29,6 +30,7 @@
 		},
 		"sqlite-32bit": {
 			"build-depends": [
+				"binary(zcat)",
 				"pkgconfig(readline)",
 				"pkgconfig32(zlib)"
 			],
@@ -40,7 +42,7 @@
 			],
 			"files": [
 				"/usr/lib32/libsqlite3.so.0",
-				"/usr/lib32/libsqlite3.so.3.53.1"
+				"/usr/lib32/libsqlite3.so.3.53.2"
 			],
 			"name": "sqlite-32bit",
 			"provides": [
@@ -49,6 +51,7 @@
 		},
 		"sqlite-32bit-devel": {
 			"build-depends": [
+				"binary(zcat)",
 				"pkgconfig(readline)",
 				"pkgconfig32(zlib)"
 			],
@@ -67,6 +70,7 @@
 		},
 		"sqlite-devel": {
 			"build-depends": [
+				"binary(zcat)",
 				"pkgconfig(readline)",
 				"pkgconfig32(zlib)"
 			],
@@ -86,6 +90,6 @@
 		}
 	},
 	"source-name": "sqlite",
-	"source-release": "20",
-	"source-version": "3.53.1"
+	"source-release": "21",
+	"source-version": "3.53.2"
 }

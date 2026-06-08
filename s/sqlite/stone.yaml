@@ -2,16 +2,27 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : sqlite
-version     : "3.53.1"
-release     : 20
+version     : "3.53.2"
+release     : 21
 homepage    : https://www.sqlite.org
 upstreams   :
-    - https://www.sqlite.org/2026/sqlite-autoconf-3530100.tar.gz : 83e6b2020a034e9a7ad4a72feea59e1ad52f162e09cbd26735a3ffb98359fc4f
+    - https://www.sqlite.org/2026/sqlite-autoconf-3530200.tar.gz:
+        hash: 588ad51949419a56ebe81fe56193d510c559eb94c9a57748387860b5d3069316
+        unpackdir: sqlite
+
+    - git|https://github.com/ClickHouse/ClickBench.git:
+        ref: 39e175c2bf6fcd58376260cb39ef9f66edaf889b
+        clonedir: ClickBench
+
+    - https://datasets.clickhouse.com/hits_compatible/hits.csv.gz:
+        hash: 189c37a5f2020d20ef9ebc0b9d4cf2204fe78658bbab235f0313d41447410ddd
+        unpack: false
 summary     : Small, self-contained SQL database engine
 description : |
     SQLite is a C-language library that implements a small, fast, self-contained, high-reliability, full-featured, SQL database engine. SQLite is the most used database engine in the world. SQLite is built into all mobile phones and most computers and comes bundled inside countless other applications that people use every day.
 license     : Public Domain
 builddeps   :
+    - binary(zcat)
     - pkgconfig32(zlib)
     - pkgconfig(readline)
 tuning      :
@@ -27,6 +38,27 @@ profiles    :
         environment: |
             # Used by sqlite3 command line
             extra_args="--enable-readline"
+            export CFLAGS+=" -mllvm -vp-counters-per-site=4"
+        workload: |
+            pushd ../ClickBench/sqlite
+
+            # Expected to fail
+            set +o pipefail
+            zcat %(sourcedir)/hits.csv.gz | head -n 5000000 > sample.csv
+            set -o pipefail
+
+            %(workdir)/sqlite3 mydb <create.sql
+            %(workdir)/sqlite3 mydb '.import --csv sample.csv hits'
+            wc -c mydb
+
+            cat queries.sql | while read query; do
+                sync
+
+                echo "$query"
+                for i in $(seq 1 3); do
+                    %(workdir)/sqlite3 mydb <<<"${query}"
+                done
+            done
 setup       : |
     # When this C-preprocessor macro is defined, SQLite includes some additional APIs that provide convenient access to meta-data about tables and queries
     export CPPFLAGS+=" -DSQLITE_ENABLE_COLUMN_METADATA=1"
