@@ -248,3 +248,6 @@ NB: Each entry *must* contain all sub-packages created by the package!
 - libjack2
 - libjack2-devel
 - jack2-dbginfo
+
+### Renamed to vlc-plugin-jack
+- vlc-plugin-jack2

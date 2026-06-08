@@ -972,7 +972,7 @@
 				"soname(vlc/plugins/codec/libgstdecode_plugin.so(x86_64))"
 			]
 		},
-		"vlc-plugin-jack2": {
+		"vlc-plugin-jack": {
 			"build-depends": [
 				"binary(bison)",
 				"binary(flex)",
@@ -1057,11 +1057,88 @@
 				"/usr/lib/vlc/plugins/access/libaccess_jack_plugin.so",
 				"/usr/lib/vlc/plugins/audio_output/libjack_plugin.so"
 			],
-			"name": "vlc-plugin-jack2",
+			"name": "vlc-plugin-jack",
 			"provides": [
 				"soname(vlc/plugins/access/libaccess_jack_plugin.so(x86_64))",
 				"soname(vlc/plugins/audio_output/libjack_plugin.so(x86_64))"
 			]
+		},
+		"vlc-plugin-jack2": {
+			"build-depends": [
+				"binary(bison)",
+				"binary(flex)",
+				"binary(tar)",
+				"binary(valgrind)",
+				"pkgconfig(Qt5Gui)",
+				"pkgconfig(Qt5Svg)",
+				"pkgconfig(Qt5Widgets)",
+				"pkgconfig(Qt5X11Extras)",
+				"pkgconfig(alsa)",
+				"pkgconfig(aom)",
+				"pkgconfig(avahi-client)",
+				"pkgconfig(dav1d)",
+				"pkgconfig(dbus-1)",
+				"pkgconfig(dvdnav)",
+				"pkgconfig(dvdread)",
+				"pkgconfig(flac)",
+				"pkgconfig(freetype2)",
+				"pkgconfig(gnutls)",
+				"pkgconfig(gstreamer-app-1.0)",
+				"pkgconfig(gstreamer-video-1.0)",
+				"pkgconfig(gtk+-3.0)",
+				"pkgconfig(ice)",
+				"pkgconfig(jack)",
+				"pkgconfig(libarchive)",
+				"pkgconfig(libass)",
+				"pkgconfig(libavcodec)",
+				"pkgconfig(libavformat)",
+				"pkgconfig(libavutil)",
+				"pkgconfig(libcddb)",
+				"pkgconfig(libchromaprint)",
+				"pkgconfig(libgcrypt)",
+				"pkgconfig(libidn2)",
+				"pkgconfig(libjpeg)",
+				"pkgconfig(libmtp)",
+				"pkgconfig(libnfs)",
+				"pkgconfig(libnotify)",
+				"pkgconfig(libpng)",
+				"pkgconfig(libpulse)",
+				"pkgconfig(librsvg-2.0)",
+				"pkgconfig(libsecret-1)",
+				"pkgconfig(libssh2)",
+				"pkgconfig(libswscale)",
+				"pkgconfig(libsystemd)",
+				"pkgconfig(libva)",
+				"pkgconfig(libva-drm)",
+				"pkgconfig(libva-wayland)",
+				"pkgconfig(libvncclient)",
+				"pkgconfig(lua)",
+				"pkgconfig(minizip)",
+				"pkgconfig(ncursesw)",
+				"pkgconfig(ogg)",
+				"pkgconfig(opus)",
+				"pkgconfig(protobuf-lite)",
+				"pkgconfig(samplerate)",
+				"pkgconfig(sm)",
+				"pkgconfig(smbclient)",
+				"pkgconfig(soxr)",
+				"pkgconfig(speex)",
+				"pkgconfig(taglib)",
+				"pkgconfig(theoradec)",
+				"pkgconfig(vdpau)",
+				"pkgconfig(vorbis)",
+				"pkgconfig(vpl)",
+				"pkgconfig(vpx)",
+				"pkgconfig(x264)",
+				"pkgconfig(x265)",
+				"pkgconfig(xcb-keysyms)",
+				"pkgconfig(xpm)",
+				"pkgconfig(zlib)"
+			],
+			"files": [
+				"/usr/share/doc/vlc-plugin-jack2/README"
+			],
+			"name": "vlc-plugin-jack2"
 		},
 		"vlc-plugin-kde": {
 			"build-depends": [
@@ -1963,7 +2040,7 @@
 				"vlc-plugin-ffmpeg",
 				"vlc-plugin-gnome",
 				"vlc-plugin-gstreamer",
-				"vlc-plugin-jack2",
+				"vlc-plugin-jack",
 				"vlc-plugin-kde",
 				"vlc-plugin-lua",
 				"vlc-plugin-notify",
@@ -3072,6 +3149,6 @@
 		}
 	},
 	"source-name": "vlc",
-	"source-release": "22",
+	"source-release": "23",
 	"source-version": "3.0.23"
 }
