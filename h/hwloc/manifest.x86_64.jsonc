@@ -5,16 +5,20 @@
 		"hwloc": {
 			"build-depends": [
 				"binary(doxygen)",
+				"binary(gs)",
 				"pkgconfig(OpenCL)",
 				"pkgconfig(cairo)",
+				"pkgconfig(ice)",
+				"pkgconfig(level-zero)",
 				"pkgconfig(libxml-2.0)",
 				"pkgconfig(ncursesw)",
+				"pkgconfig(numa)",
 				"pkgconfig(pciaccess)",
-				"pkgconfig(udev)"
+				"pkgconfig(udev)",
+				"pkgconfig(x11)"
 			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
-				"soname(libX11.so.6(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libcairo.so.2(x86_64))",
 				"soname(libhwloc.so.15(x86_64))",
@@ -88,20 +92,24 @@
 		"hwloc-devel": {
 			"build-depends": [
 				"binary(doxygen)",
+				"binary(gs)",
 				"pkgconfig(OpenCL)",
 				"pkgconfig(cairo)",
+				"pkgconfig(ice)",
+				"pkgconfig(level-zero)",
 				"pkgconfig(libxml-2.0)",
 				"pkgconfig(ncursesw)",
+				"pkgconfig(numa)",
 				"pkgconfig(pciaccess)",
-				"pkgconfig(udev)"
+				"pkgconfig(udev)",
+				"pkgconfig(x11)"
 			],
 			"depends": [
-				"hwloc",
-				"pkgconfig(libxml-2.0)",
-				"pkgconfig(pciaccess)"
+				"hwloc"
 			],
 			"files": [
 				"/usr/include/hwloc.h",
+				"/usr/include/hwloc/amdsmi.h",
 				"/usr/include/hwloc/autogen/config.h",
 				"/usr/include/hwloc/bitmap.h",
 				"/usr/include/hwloc/cpukinds.h",
@@ -237,6 +245,9 @@
 				"/usr/share/man/man3/hwloc_alloc_membind.3",
 				"/usr/share/man/man3/hwloc_alloc_membind_policy.3",
 				"/usr/share/man/man3/hwloc_allow_flags_e.3",
+				"/usr/share/man/man3/hwloc_amdsmi_get_device_cpuset.3",
+				"/usr/share/man/man3/hwloc_amdsmi_get_device_osdev.3",
+				"/usr/share/man/man3/hwloc_amdsmi_get_device_osdev_by_index.3",
 				"/usr/share/man/man3/hwloc_bitmap_allbut.3",
 				"/usr/share/man/man3/hwloc_bitmap_alloc.3",
 				"/usr/share/man/man3/hwloc_bitmap_alloc_full.3",
@@ -555,6 +566,7 @@
 				"/usr/share/man/man3/hwloc_windows_get_nr_processor_groups.3",
 				"/usr/share/man/man3/hwloc_windows_get_processor_group_cpuset.3",
 				"/usr/share/man/man3/hwlocality_advanced_io.3",
+				"/usr/share/man/man3/hwlocality_amdsmi.3",
 				"/usr/share/man/man3/hwlocality_api_error_reporting.3",
 				"/usr/share/man/man3/hwlocality_api_version.3",
 				"/usr/share/man/man3/hwlocality_bitmap.3",
@@ -612,24 +624,26 @@
 		"hwloc-libs": {
 			"build-depends": [
 				"binary(doxygen)",
+				"binary(gs)",
 				"pkgconfig(OpenCL)",
 				"pkgconfig(cairo)",
+				"pkgconfig(ice)",
+				"pkgconfig(level-zero)",
 				"pkgconfig(libxml-2.0)",
 				"pkgconfig(ncursesw)",
+				"pkgconfig(numa)",
 				"pkgconfig(pciaccess)",
-				"pkgconfig(udev)"
+				"pkgconfig(udev)",
+				"pkgconfig(x11)"
 			],
 			"depends": [
-				"soname(libOpenCL.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libm.so.6(x86_64))",
-				"soname(libpciaccess.so.0(x86_64))",
-				"soname(libudev.so.1(x86_64))",
-				"soname(libxml2.so.16(x86_64))"
+				"soname(libudev.so.1(x86_64))"
 			],
 			"files": [
 				"/usr/lib/libhwloc.so.15",
-				"/usr/lib/libhwloc.so.15.10.2",
+				"/usr/lib/libhwloc.so.15.10.3",
 				"/usr/share/hwloc/hwloc-valgrind.supp",
 				"/usr/share/hwloc/hwloc.dtd",
 				"/usr/share/hwloc/hwloc2-diff.dtd",
@@ -640,9 +654,46 @@
 			"provides": [
 				"soname(libhwloc.so.15(x86_64))"
 			]
+		},
+		"hwloc-plugins": {
+			"build-depends": [
+				"binary(doxygen)",
+				"binary(gs)",
+				"pkgconfig(OpenCL)",
+				"pkgconfig(cairo)",
+				"pkgconfig(ice)",
+				"pkgconfig(level-zero)",
+				"pkgconfig(libxml-2.0)",
+				"pkgconfig(ncursesw)",
+				"pkgconfig(numa)",
+				"pkgconfig(pciaccess)",
+				"pkgconfig(udev)",
+				"pkgconfig(x11)"
+			],
+			"depends": [
+				"hwloc-libs",
+				"soname(libOpenCL.so.1(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libpciaccess.so.0(x86_64))",
+				"soname(libxml2.so.16(x86_64))",
+				"soname(libze_loader.so.1(x86_64))"
+			],
+			"files": [
+				"/usr/lib/hwloc/hwloc_levelzero.so",
+				"/usr/lib/hwloc/hwloc_opencl.so",
+				"/usr/lib/hwloc/hwloc_pci.so",
+				"/usr/lib/hwloc/hwloc_xml_libxml.so"
+			],
+			"name": "hwloc-plugins",
+			"provides": [
+				"soname(hwloc/hwloc_levelzero.so(x86_64))",
+				"soname(hwloc/hwloc_opencl.so(x86_64))",
+				"soname(hwloc/hwloc_pci.so(x86_64))",
+				"soname(hwloc/hwloc_xml_libxml.so(x86_64))"
+			]
 		}
 	},
 	"source-name": "hwloc",
-	"source-release": "6",
-	"source-version": "2.13.0"
+	"source-release": "7",
+	"source-version": "2.14.0"
 }

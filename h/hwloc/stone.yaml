@@ -2,25 +2,31 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : hwloc
-version     : "2.13.0"
-release     : 6
+version     : "2.14.0"
+release     : 7
 summary     : Portable Hardware Locality
 license     : BSD-3-Clause
 homepage    : https://www.open-mpi.org/projects/hwloc/
 description : |
     Portable Hardware Locality - portable abstraction of hierarchical architectures
 upstreams   :
-    - https://download.open-mpi.org/release/hwloc/v2.13/hwloc-2.13.0.tar.gz: 1514a5253f0a5c23bc006d3bdd30a6f6125c9a8dc9b5fa4984913d1fff45315d
+    - https://download.open-mpi.org/release/hwloc/v2.14/hwloc-2.14.0.tar.gz: c4e473493cd5e75898bc72a8cbcd3cc722bfb271c9c8b9b4071fd21567835531
 builddeps   :
     - binary(doxygen)
+    - binary(gs)
     - pkgconfig(OpenCL)
-    - pkgconfig(cairo) # Re-enable post-rebuilds
+    - pkgconfig(cairo)
+    - pkgconfig(ice)
+    - pkgconfig(level-zero)
     - pkgconfig(libxml-2.0)
     - pkgconfig(ncursesw)
+    - pkgconfig(numa)
     - pkgconfig(pciaccess)
     - pkgconfig(udev)
+    - pkgconfig(x11)
 setup       : |
-    %configure
+    %configure \
+        --enable-plugins
 build       : |
     %make
 install     : |
@@ -35,3 +41,11 @@ packages    :
             - /usr/share/hwloc/hwloc*.dtd
             - /usr/share/hwloc/hwloc-valgrind.supp
             - /usr/share/man/man7
+
+    - "%(name)-plugins":
+        summary: "Plugins for %(name)"
+        description: "Plugins for %(name)"
+        rundeps:
+            - "%(name)-libs"
+        paths:
+            - /usr/lib/hwloc/hwloc_*.so
