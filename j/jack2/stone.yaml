@@ -3,7 +3,7 @@
 
 name        : jack2
 version     : 1.9.22
-release     : 1
+release     : 2
 homepage    : https://jackaudio.org/
 upstreams   :
     - https://github.com/jackaudio/jack2/archive/v1.9.22.tar.gz : 1e42b9fc4ad7db7befd414d45ab2f8a159c0b30fcd6eee452be662298766a849
@@ -25,36 +25,18 @@ builddeps   :
 tuning      :
     # Clients crash if built with LTO
     - lto: false
-setup       : |
-    %patch %(pkgdir)/waf-python3.12.patch
-
-    python ./waf configure \
-        --prefix=%(prefix) \
-        --classic \
-        --dbus
-build       : |
-    python ./waf
 install     : |
-    python ./waf install \
-        --destdir=%(installroot)
-
-    # This is currently libary only (Pipewire provides a JACK-compatible server)
-    rm -rfv %(installroot)/%(bindir) \
-            %(installroot)%(libdir)/jack/ \
-            %(installroot)%(datadir)
-
-    # Currently we only need libjack
-    rm -rfv %(installroot)%(libdir)/libjacknet* \
-            %(installroot)%(libdir)/libjackserver*
+    for i in libjack2 libjack2-devel; do
+        %install_dir %(installroot)%(docdir)/${i}
+        echo "DEPRECATED" > %(installroot)%(docdir)/${i}/README
+    done
 packages    :
     - "lib%(name)":
         paths:
-            - /usr/lib/libjack.so.*
+            - /usr/share/doc/libjack2/README
 
     - "lib%(name)-devel":
         rundeps:
             - "lib%(name)"
         paths:
-            - /usr/include/jack/
-            - /usr/lib/libjack.so
-            - /usr/lib/pkgconfig/jack.pc
+            - /usr/share/doc/libjack2-devel/README
