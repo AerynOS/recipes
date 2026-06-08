@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : zsh
-version     : "5.9"
-release     : 7
+version     : "5.9.1"
+release     : 8
 homepage    : https://zsh.sourceforge.io
 upstreams   :
-    - https://sourceforge.net/projects/zsh/files/zsh/5.9/zsh-5.9.tar.xz : 9b8d1ecedd5b5e81fbf1918e876752a7dd948e05c1a0dba10ab863842d45acd5
+    - https://sourceforge.net/projects/zsh/files/zsh/5.9.1/zsh-5.9.1.tar.xz : 5d20bec03f981dc4e9a09ec245e7415388ff641f79c5c5c416b5042e58d8280d
 summary     : Extensible shell designed for interactive use
 description : |
     Zsh is a shell designed for interactive use, although it is also a powerful scripting language. Many of the useful features of bash, ksh, and tcsh were incorporated into zsh; many original features were added.
@@ -19,21 +19,11 @@ builddeps   :
     - gdbm-devel
 setup       : |
     # Various patches for newer PCRE2 and GCC (please for the love of god just release a new version)
-    %patch %(pkgdir)/patches/0001-50629-do-not-use-egrep-in-tests.patch
-    %patch %(pkgdir)/patches/0002-50641-use-int-main-in-test-C-codes-in-configure.patch
-    %patch %(pkgdir)/patches/0003-50658-test-Enable-to-switch-between-C-UTF-8-locales-.patch
-    %patch %(pkgdir)/patches/0004-50662-unset-LC_-for-all-the-tests.patch
-    %patch %(pkgdir)/patches/0005-51207-fix-for-read-d-when-the-delimiter-is-a-byte-0x.patch
-    %patch %(pkgdir)/patches/0006-51214-handle-read-d-and-a-delimiter-that-can-t-be-de.patch
-    %patch %(pkgdir)/patches/0007-51483-Enable-assignment-and-expansion-of-parameters-.patch
-    %patch %(pkgdir)/patches/0008-51484-Extend-named-reference-handling-for-special-pa.patch
-    %patch %(pkgdir)/patches/0009-51723-migrate-pcre-module-to-pcre2.patch
-    %patch %(pkgdir)/patches/0010-51728-assign-pcre-named-capture-groups-to-a-hash.patch
-    %patch %(pkgdir)/patches/0011-51738-support-pcre-s-alternative-DFA-matching-algori.patch
-    %patch %(pkgdir)/patches/0012-51877-do-not-build-pcre-module-if-pcre2-config-is-no.patch
-    %patch %(pkgdir)/patches/0013-51889-fix-module-loading-problem-with-full-RELRO.patch
-    %patch %(pkgdir)/patches/006-52383-Avoid-incompatible-pointer-types-in-terminfo-g.patch
-    %patch %(pkgdir)/patches/010-gcc14.patch
+    %patch %(pkgdir)/patches/upstream/0001-51207-fix-for-read-d-when-the-delimiter-is-a-byte-0x.patch
+    %patch %(pkgdir)/patches/upstream/0002-51214-handle-read-d-and-a-delimiter-that-can-t-be-de.patch
+    %patch %(pkgdir)/patches/upstream/0003-51483-Enable-assignment-and-expansion-of-parameters-.patch
+    %patch %(pkgdir)/patches/upstream/0004-51484-Extend-named-reference-handling-for-special-pa.patch
+    %patch %(pkgdir)/patches/upstream/0005-51889-fix-module-loading-problem-with-full-RELRO.patch
 
     # Use the default Aeryn path as fallback
     %patch %(pkgdir)/patches/0001-downstream-Update-default-PATH.patch
