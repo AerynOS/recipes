@@ -3,7 +3,7 @@
 
 name        : gnome-software
 version     : "50.2"
-release     : 27
+release     : 28
 homepage    : https://apps.gnome.org/Software/
 upstreams   :
     - https://download.gnome.org/sources/gnome-software/50/gnome-software-50.2.tar.xz : cacae85d57e46d18f4a7c8fe334bf35c8c18e75b8a66fad56e0ce2a00e1cfe3f
@@ -27,7 +27,7 @@ builddeps   :
     - pkgconfig(json-glib-1.0)
     - pkgconfig(libadwaita-1)
     - pkgconfig(libsoup-3.0)
-    # pkgconfig(malcontent-0)
+    - pkgconfig(malcontent-0)
     - pkgconfig(ostree-1)
     # pkgconfig(packagekit-glib2)
     - pkgconfig(polkit-gobject-1)
@@ -43,7 +43,6 @@ setup       : |
     %meson \
         -Dfwupd=false \
         -Dgtk_doc=false \
-        -Dmalcontent=false \
         -Dpackagekit=false \
         -Dtests=false
 build       : |

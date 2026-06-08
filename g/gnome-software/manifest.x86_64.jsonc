@@ -19,6 +19,7 @@
 				"pkgconfig(json-glib-1.0)",
 				"pkgconfig(libadwaita-1)",
 				"pkgconfig(libsoup-3.0)",
+				"pkgconfig(malcontent-0)",
 				"pkgconfig(ostree-1)",
 				"pkgconfig(polkit-gobject-1)",
 				"pkgconfig(sysprof-capture-4)",
@@ -40,6 +41,7 @@
 				"soname(libgudev-1.0.so.0(x86_64))",
 				"soname(libjson-glib-1.0.so.0(x86_64))",
 				"soname(libm.so.6(x86_64))",
+				"soname(libmalcontent-0.so.0(x86_64))",
 				"soname(libostree-1.so.1(x86_64))",
 				"soname(libpango-1.0.so.0(x86_64))",
 				"soname(libpolkit-gobject-1.so.0(x86_64))",
@@ -61,6 +63,7 @@
 				"/usr/lib/gnome-software/plugins-23/libgs_plugin_generic-updates.so",
 				"/usr/lib/gnome-software/plugins-23/libgs_plugin_hardcoded-blocklist.so",
 				"/usr/lib/gnome-software/plugins-23/libgs_plugin_icons.so",
+				"/usr/lib/gnome-software/plugins-23/libgs_plugin_malcontent.so",
 				"/usr/lib/gnome-software/plugins-23/libgs_plugin_modalias.so",
 				"/usr/lib/gnome-software/plugins-23/libgs_plugin_os-release.so",
 				"/usr/lib/gnome-software/plugins-23/libgs_plugin_provenance-license.so",
@@ -603,6 +606,7 @@
 				"soname(gnome-software/plugins-23/libgs_plugin_generic-updates.so(x86_64))",
 				"soname(gnome-software/plugins-23/libgs_plugin_hardcoded-blocklist.so(x86_64))",
 				"soname(gnome-software/plugins-23/libgs_plugin_icons.so(x86_64))",
+				"soname(gnome-software/plugins-23/libgs_plugin_malcontent.so(x86_64))",
 				"soname(gnome-software/plugins-23/libgs_plugin_modalias.so(x86_64))",
 				"soname(gnome-software/plugins-23/libgs_plugin_os-release.so(x86_64))",
 				"soname(gnome-software/plugins-23/libgs_plugin_provenance-license.so(x86_64))",
@@ -628,6 +632,7 @@
 				"pkgconfig(json-glib-1.0)",
 				"pkgconfig(libadwaita-1)",
 				"pkgconfig(libsoup-3.0)",
+				"pkgconfig(malcontent-0)",
 				"pkgconfig(ostree-1)",
 				"pkgconfig(polkit-gobject-1)",
 				"pkgconfig(sysprof-capture-4)",
@@ -708,6 +713,6 @@
 		}
 	},
 	"source-name": "gnome-software",
-	"source-release": "27",
+	"source-release": "28",
 	"source-version": "50.2"
 }
