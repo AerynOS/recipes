@@ -2,19 +2,24 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : libgphoto2
-version     : "2.5.33"
-release     : 2
+version     : "2.5.34"
+release     : 3
 homepage    : http://www.gphoto.org/proj/libgphoto2/
 upstreams   :
-    - https://sourceforge.net/projects/gphoto/files/libgphoto/2.5.33/libgphoto2-2.5.33.tar.bz2 : c55504e725cf44b6ca67e1cd7504ad36dc98d7a0469a9e8d627fd0fb3848aa1d
+    - https://sourceforge.net/projects/gphoto/files/libgphoto/2.5.34/libgphoto2-2.5.34.tar.bz2 : 5df9e774eb4ab6087a193afff84dcafe9f666e3443fe29e73e6779f659ff7f28
 summary     : libgphoto2 is the core library designed to allow access to digital camera by external programs
 description : |
     libgphoto2 is the core library designed to allow access to digital camera by external programs
 license     : LGPL-2.1-or-later
 builddeps   :
+    - binary(dot)
+    - binary(doxygen)
+    - binary(msgfmt)
+    - binary(tar)
     - pkgconfig(libcurl)
     - pkgconfig(libexif)
     - pkgconfig(libjpeg)
+    - pkgconfig(libtiff-4)
     - pkgconfig(libusb-1.0)
     - pkgconfig(libxml-2.0)
     - libtool-ltldl-devel
@@ -25,9 +30,6 @@ build       : |
 install     : |
     %make_install
 
-    # Remove unused udev helper
-    rm -f %(installroot)%(libdir)/libgphoto2/print-camera-list
-
     # Install hwdb and udev rules
     export LD_LIBRARY_PATH="%(installroot)%(libdir)"
     export CAMLIBS="%(installroot)%(libdir)/libgphoto2/%(version)"
@@ -35,6 +37,9 @@ install     : |
         | %install_file /dev/stdin "%(installroot)%(libdir)/hwdb.d/20-gphoto.hwdb"
     %(installroot)%(libdir)/libgphoto2/print-camera-list udev-rules version 201 \
         | %install_file /dev/stdin "%(installroot)%(udevrulesdir)/40-gphoto.rules"
+
+    # Remove unused udev helper
+    rm -f %(installroot)%(libdir)/libgphoto2/print-camera-list
 packages    :
     - "%(name)":
         paths:
