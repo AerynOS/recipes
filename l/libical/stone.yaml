@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : libical
-version     : "3.0.20"
-release     : 8
+version     : "4.0.2"
+release     : 9
 homepage    : https://github.com/libical/libical
 upstreams   :
-    - https://github.com/libical/libical/releases/download/v3.0.20/libical-3.0.20.tar.gz : e73de92f5a6ce84c1b00306446b290a2b08cdf0a80988eca0a2c9d5c3510b4c2
+    - https://github.com/libical/libical/releases/download/v4.0.2/libical-4.0.2.tar.gz : 39a979bb5474af3c4601c83dc71512c1121dee56722b3d8d8668ed75bd78ccdd
 summary     : iCalendar support library
 description : |
     Libical is an Open Source implementation of the iCalendar protocols and protocol data units.
@@ -14,24 +14,55 @@ license     :
     - MPL-2.0-no-copyleft-exception
     - LGPL-2.1
 builddeps   :
+    - binary(doxygen)
+    - binary(gi-docgen)
     - binary(perl)
-    - binary(python3)
     - binary(vapigen)
+    - pkgconfig(glib-2.0)
     - pkgconfig(gobject-2.0)
     - pkgconfig(gobject-introspection-1.0)
+    - pkgconfig(icu-i18n)
+    - pkgconfig(icu-uc)
     - pkgconfig(libxml-2.0)
-packages    :
-    - "%(name)-devel":
-        paths:
-            - /usr/share/vala/vapi
-            - /usr/lib/cmake
 setup       : |
-    %cmake -DENABLE_GTK_DOC=OFF \
-           -DSHARED_ONLY=TRUE \
-           -DGOBJECT_INTROSPECTION=TRUE \
-           -DICAL_GLIB_VAPI=TRUE \
-           -DICAL_GLIB=TRUE
+    %cmake \
+        -DENABLE_GTK_DOC=OFF \
+        -DLIBICAL_GLIB=TRUE \
+        -DLIBICAL_GLIB_VAPI=TRUE \
+        -DLIBICAL_GOBJECT_INTROSPECTION=TRUE \
+        -DLIBICAL_JAVA_BINDINGS=FALSE
 build       : |
     %cmake_build
 install     : |
     %cmake_install
+
+    rm -f %(installroot)%(libdir)/libical/libical/ical-glib-src-generator \
+          %(installroot)%(libdir)/cmake/LibIcal/IcalGlib*
+    find %(installroot) -type d -empty -print -delete
+packages    :
+    - "%(name)-devel":
+        paths:
+            - /usr/lib/cmake
+
+    - "%(name)-glib":
+        summary: GObject wrapper for libical library
+        description: GObject wrapper for libical library
+        paths:
+            - /usr/lib/libical-glib.so.*
+            - /usr/lib/girepository-1.0/ICalGLib*.typelib
+
+    - "%(name)-glib-devel":
+        summary: GObject wrapper for libical library - Devel
+        description: GObject wrapper for libical library - Devel
+        rundeps:
+            - "%(name)-glib"
+        paths:
+            - /usr/include/libical-glib/
+            - /usr/lib/libical-glib.so
+            - /usr/lib/pkgconfig/libical-glib.pc
+            - /usr/share/gir-1.0/ICalGLib*.gir
+            - /usr/share/vala/vapi/libical-glib.vapi
+
+    - "%(name)-docs":
+        paths:
+            - /usr/share/doc
