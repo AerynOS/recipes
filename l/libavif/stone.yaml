@@ -2,15 +2,15 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : libavif
-version     : "1.4.1"
-release     : 9
+version     : "1.4.2"
+release     : 10
 summary     : Library for encoding and decoding .avif files
 license     : BSD-2-Clause
 homepage    : https://github.com/AOMediaCodec/libavif
 description : |
     libavif aims to be a friendly and portable C implementation of the AV1 Image File Format, capable of both encoding and decoding.
 upstreams   :
-    - https://github.com/AOMediaCodec/libavif/archive/refs/tags/v1.4.1.tar.gz : d4aea31a4becb3273ba7968221be2e48148ba05eb8a68d14e671963e17785648
+    - https://github.com/AOMediaCodec/libavif/archive/refs/tags/v1.4.2.tar.gz : 2b645287340ba5a631d268b551dc2d72bd73ac33335962dd36dcdb6d8366921d
 # TODO: Add libargparse as source and build it as part of the build
 networking  : true #libargparse
 builddeps   :
