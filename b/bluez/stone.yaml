@@ -3,7 +3,7 @@
 
 name        : bluez
 version     : "5.86"
-release     : 11
+release     : 12
 homepage    : https://www.bluez.org/
 upstreams   :
     - https://www.kernel.org/pub/linux/bluetooth/bluez-5.86.tar.xz : 99f144540c6070591e4c53bcb977eb42664c62b7b36cb35a29cf72ded339621d
@@ -33,6 +33,11 @@ setup       : |
     %patch %(pkgdir)/0001-stateless.patch
     %patch %(pkgdir)/0002-Make-main.conf-stateless.patch
 
+    %patch %(pkgdir)/upstream-01.patch
+    %patch %(pkgdir)/upstream-02.patch
+    %patch %(pkgdir)/upstream-03.patch
+
+    # Remove ICAL_LIBS="-lical -licalvcal" in future release
     %reconfigure \
         --enable-experimental \
         --enable-hid2hci \
@@ -42,7 +47,8 @@ setup       : |
         --enable-sixaxis \
         --enable-testing \
         --with-dbusconfdir=%(datadir) \
-        --with-vendordir=%(vendordir)/bluetooth
+        --with-vendordir=%(vendordir)/bluetooth \
+        ICAL_LIBS="-lical -licalvcal"
 build       : |
     %make
 install     : |
