@@ -1,13 +1,22 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Reilly Brogan <reilly@reillybrogan.com>
+Date: Tue, 9 Jun 2026 10:40:56 -0500
+Subject: [PATCH] messaging
+
+---
+ apps/desktop/src/main/messaging.main.ts | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
 diff --git a/apps/desktop/src/main/messaging.main.ts b/apps/desktop/src/main/messaging.main.ts
-index bc8d9ae468..15418fd92b 100644
+index ba5e07cf21..307c10a155 100644
 --- a/apps/desktop/src/main/messaging.main.ts
 +++ b/apps/desktop/src/main/messaging.main.ts
-@@ -136,7 +136,7 @@ export class MessagingMain {
+@@ -140,7 +140,7 @@ export class MessagingMain {
    Version=${app.getVersion()}
    Name=Bitwarden
    Comment=Bitwarden startup script
--  Exec=${app.getPath("exe")}
-+  Exec=bitwarden-desktop
+-  Exec=${app.getPath("exe")} ${AUTOSTART_FLAG}
++  Exec=bitwarden-desktop ${AUTOSTART_FLAG}
    StartupNotify=false
    Terminal=false`;
  
