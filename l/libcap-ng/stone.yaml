@@ -2,23 +2,43 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : libcap-ng
-version     : "0.8.5"
-release     : 6
+version     : "0.9.3"
+release     : 7
 summary     : Libcap-ng is a library that makes using posix capabilities easier
 license     : LGPL-2.1-or-later
 homepage    : https://people.redhat.com/sgrubb/libcap-ng/
 description : |
     The libcap-ng library should make programming with posix capabilities easier. The library has some utilities to help you analyse a system for apps that may have too much privileges.
 upstreams   :
-    - https://people.redhat.com/sgrubb/libcap-ng/libcap-ng-0.8.5.tar.gz: 3ba5294d1cbdfa98afaacfbc00b6af9ed2b83e8a21817185dfd844cc8c7ac6ff
+    - https://github.com/stevegrubb/libcap-ng/archive/refs/tags/v0.9.3.tar.gz: fe11ebbb55904763b3532f19069f13ec319042634620180a03bd4653d301563e
 emul32      : true
 builddeps   :
+    - binary(bison)
+    - binary(flex)
     - binary(swig)
     - pkgconfig(python3)
     - pkgconfig32(libattr)
+    # libaudit for cap-audit
 tuning      :
     - nosemantic
     - optimize: size
+profiles    :
+    - emul32:
+        setup: |
+            %autogen \
+                --disable-static \
+                --without-python3
+setup       : |
+    %autogen \
+        --disable-static \
+        --with-python3
+build       : |
+    %make
+install     : |
+    %make_install
+# Note that these will fail if ran in a host that does not match the version of the kernel headers
+check       : |
+    %make check || true
 packages    :
     - "python-capng":
         summary: "Libcap-ng is a library that makes using posix capabilities easier - Python library"
@@ -28,19 +48,20 @@ packages    :
         paths:
             - /usr/lib/python*
         rundeps:
-            - binary(python3)
-profiles    :
-    - emul32:
-        setup: |
-            %configure --disable-static --without-python --without-python3
-setup       : |
-    %configure --disable-static \
-               --without-python \
-               --with-python3
-build       : |
-    %make
-install     : |
-    %make_install
-# Note that these will fail if ran in a host that does not match the version of the kernel headers
-check       : |
-    %make check || true
+            - python-libs
+
+    - "%(name)-utils":
+        summary: Utilities for analyzing and setting file capabilities
+        description: |
+            The libcap-ng-utils package contains applications to analyze the
+            posix capabilities of all the program running on a system. It also
+            lets you set the file system based capabilities, and use cap-audit
+            to determine the necessary capabilities for a program.
+        paths:
+            - /usr/bin/filecap
+            - /usr/bin/netcap
+            - /usr/bin/pscap
+            - /usr/share/bash-completion/completions/libcap-ng.bash_completion
+            - /usr/share/man/man8/filecap*
+            - /usr/share/man/man8/netcap*
+            - /usr/share/man/man8/pscap*
