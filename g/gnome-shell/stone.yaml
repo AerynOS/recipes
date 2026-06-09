@@ -3,7 +3,7 @@
 
 name        : gnome-shell
 version     : "50.2"
-release     : 49
+release     : 50
 homepage    : https://gitlab.gnome.org/GNOME/gnome-shell
 upstreams   :
     - https://download.gnome.org/sources/gnome-shell/50/gnome-shell-50.2.tar.xz : 53215420e50efdd4d0611ba5b59e10cb4c89fa3f51e2addfd95cade061a09a29
@@ -75,6 +75,7 @@ rundeps     :
 setup       : |
     # Redonkulous logo sizes are redonkulous
     %patch %(pkgdir)/3674.patch
+    %patch %(pkgdir)/ftbfs-ical-4.patch
     %meson \
         -Dtests=false
 build       : |
