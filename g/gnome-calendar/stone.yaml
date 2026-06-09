@@ -3,7 +3,7 @@
 
 name        : gnome-calendar
 version     : "50.0"
-release     : 6
+release     : 7
 homepage    : https://apps.gnome.org/Calendar/
 upstreams   :
     - https://download.gnome.org/sources/gnome-calendar/50/gnome-calendar-50.0.tar.xz : 4b75df071a52d98fb35e647d018030129d24d9007790d02457746c98617aeab0
@@ -30,6 +30,7 @@ builddeps   :
     - pkgconfig(libical)
     - pkgconfig(libsoup-3.0)
 setup       : |
+    %patch %(pkgdir)/ftbfs-ical-4.patch
     %meson
 build       : |
     %meson_build
