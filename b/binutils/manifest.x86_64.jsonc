@@ -21,11 +21,11 @@
 			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
-				"soname(libbfd-2.46.0.so(x86_64))",
+				"soname(libbfd-2.46.1.so(x86_64))",
 				"soname(libblake3.so.0(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libjansson.so.4(x86_64))",
-				"soname(libopcodes-2.46.0.so(x86_64))",
+				"soname(libopcodes-2.46.1.so(x86_64))",
 				"soname(libsframe.so.3(x86_64))",
 				"soname(libz.so.1(x86_64))",
 				"soname(libzstd.so.1(x86_64))"
@@ -404,11 +404,11 @@
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"soname(ld-linux-x86-64.so.2(x86_64))",
-				"soname(libbfd-2.46.0.so(x86_64))",
+				"soname(libbfd-2.46.1.so(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libm.so.6(x86_64))",
-				"soname(libopcodes-2.46.0.so(x86_64))",
+				"soname(libopcodes-2.46.1.so(x86_64))",
 				"soname(libsframe.so.3(x86_64))",
 				"soname(libstdc++.so.6(x86_64))",
 				"soname(libz.so.1(x86_64))",
@@ -519,20 +519,20 @@
 				"soname(libzstd.so.1(x86_64))"
 			],
 			"files": [
-				"/usr/lib/libbfd-2.46.0.so",
-				"/usr/lib/libopcodes-2.46.0.so",
+				"/usr/lib/libbfd-2.46.1.so",
+				"/usr/lib/libopcodes-2.46.1.so",
 				"/usr/lib/libsframe.so.3",
 				"/usr/lib/libsframe.so.3.0.0"
 			],
 			"name": "binutils-libs",
 			"provides": [
-				"soname(libbfd-2.46.0.so(x86_64))",
-				"soname(libopcodes-2.46.0.so(x86_64))",
+				"soname(libbfd-2.46.1.so(x86_64))",
+				"soname(libopcodes-2.46.1.so(x86_64))",
 				"soname(libsframe.so.3(x86_64))"
 			]
 		}
 	},
 	"source-name": "binutils",
 	"source-release": "27",
-	"source-version": "2.46.0+git.908827bf"
+	"source-version": "2.46.1+git.5e565948"
 }
