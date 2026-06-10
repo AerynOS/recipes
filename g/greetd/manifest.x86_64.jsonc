@@ -17,6 +17,9 @@
 			],
 			"files": [
 				"/usr/bin/greetd",
+				"/usr/lib/systemd/system/greetd.service",
+				"/usr/lib/sysusers.d/greetd.conf/greetd.sysusers",
+				"/usr/share/defaults/greetd/config.toml",
 				"/usr/share/defaults/pam.d/greetd",
 				"/usr/share/man/man1/greetd.1",
 				"/usr/share/man/man5/greetd.5",
@@ -29,6 +32,6 @@
 		}
 	},
 	"source-name": "greetd",
-	"source-release": "6",
+	"source-release": "7",
 	"source-version": "0.10.3"
 }
