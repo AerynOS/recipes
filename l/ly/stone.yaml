@@ -3,7 +3,7 @@
 
 name        : ly
 version     : "1.4.1"
-release     : 2
+release     : 3
 homepage    : https://github.com/fairyglade/ly
 upstreams   :
     - https://codeberg.org/fairyglade/ly/archive/v1.4.1.tar.gz : 16fe5f07cc7a23930880b14d905883644cdc4b574d1c146629f6b98ee8fbbab9
@@ -19,30 +19,33 @@ builddeps   :
 environment : |
     _zig=zig-0.16
 build       : |
+    # *Look* for configuration stuff in /etc/ly
     ${_zig} build \
         --summary all \
         --verbose \
-        -Doptimize=ReleaseFast \
+        -Doptimize=ReleaseSafe \
         -Dcpu=x86_64_v2 \
         -Ddest_directory=%(installroot) \
         -Dprefix_directory=%(prefix) \
-        -Dconfig_directory=%(vendordir) \
+        -Dconfig_directory=%(sysconfdir) \
         -Dinit_system=systemd
 install     : |
+    # *Install* configuration stuff in /usr/share/defaults/ly (= stateless config dir)
     ${_zig} build installexe \
         -Ddest_directory=%(installroot) \
         -Dprefix_directory=%(prefix) \
         -Dconfig_directory=%(vendordir) \
         -Dinit_system=systemd
 
-    # Config files → /usr/share/defaults/ly/
-    %install_dir %(installroot)%(vendordir)/ly/lang
-    install -Dm0644 %(pkgdir)/config.ini %(installroot)%(vendordir)/ly/config.ini
-    install -Dm0755 %(pkgdir)/startup.sh %(installroot)%(vendordir)/ly/startup.sh
-    install -Dm0755 res/setup.sh %(installroot)%(vendordir)/ly/setup.sh
+    # Ensure that /etc/ly points to /usr/share/defaults/ly where defaults were installed
+    %tmpfiles "# Create /etc/ly symlink pointing to stateless vendor ly display manager config"
+    %tmpfiles "L? %(sysconfdir)/ly - - - - %(vendordir)/ly"
 
-    %tmpfiles "# Create /etc/ly/ override directory for ly display manager config"
-    %tmpfiles "d /etc/ly 0755 root root -"
+    # Config files /etc/ly → /usr/share/defaults/ly/
+    %install_dir %(installroot)%(vendordir)/ly/lang
+    %install_file %(pkgdir)/config.ini -t %(installroot)%(vendordir)/ly/
+    %install_exe  %(pkgdir)/startup.sh -t %(installroot)%(vendordir)/ly/
+    %install_exe  res/setup.sh %(installroot)%(vendordir)/ly/setup.sh
 
     # PAM (AerynOS: /usr/share/defaults/pam.d/)
     %install_dir %(installroot)%(vendordir)/pam.d
