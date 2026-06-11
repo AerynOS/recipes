@@ -1,7 +1,7 @@
-From 6bcc5b8da224b4ad2eebd3ff724d82d6a0aad340 Mon Sep 17 00:00:00 2001
+From 20842126c2d935b4bd808c11d77019b9daa31714 Mon Sep 17 00:00:00 2001
 From: Matthew Schwartz <matthew.schwartz@linux.dev>
 Date: Sat, 20 Dec 2025 19:57:41 -0800
-Subject: [PATCH 01/89] [FROM-ML] mmc: rtsx_pci_sdmmc: drop
+Subject: [PATCH 01/73] [FROM-ML] mmc: rtsx_pci_sdmmc: drop
  MMC_CAP_AGGRESSIVE_PM for RTS525A
 
 Using MMC_CAP_AGGRESSIVE_PM on RTS525A card readers causes game
@@ -18,10 +18,10 @@ Signed-off-by: Matthew Schwartz <matthew.schwartz@linux.dev>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/mmc/host/rtsx_pci_sdmmc.c b/drivers/mmc/host/rtsx_pci_sdmmc.c
-index 4db3328f46df..b4a531e8c889 100644
+index 8dfbc62f165b..ab7dbc7c7a18 100644
 --- a/drivers/mmc/host/rtsx_pci_sdmmc.c
 +++ b/drivers/mmc/host/rtsx_pci_sdmmc.c
-@@ -1497,7 +1497,7 @@ static void realtek_init_host(struct realtek_pci_sdmmc *host)
+@@ -1421,7 +1421,7 @@ static void realtek_init_host(struct realtek_pci_sdmmc *host)
  	mmc->caps = MMC_CAP_4_BIT_DATA | MMC_CAP_SD_HIGHSPEED |
  		MMC_CAP_MMC_HIGHSPEED | MMC_CAP_BUS_WIDTH_TEST |
  		MMC_CAP_UHS_SDR12 | MMC_CAP_UHS_SDR25;

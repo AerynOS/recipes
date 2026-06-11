@@ -1,7 +1,7 @@
-From 20114e2fafe41fe29f0ef603d2c042d831d8c4b4 Mon Sep 17 00:00:00 2001
+From 8a167ef5eeba91a55487579b374842948c933de3 Mon Sep 17 00:00:00 2001
 From: Natalie Vock <natalie.vock@gmx.de>
 Date: Sun, 14 Sep 2025 18:45:08 +0200
-Subject: [PATCH 09/89] [FROM-ML] drm/ttm: Use common ancestor of evictor and
+Subject: [PATCH 09/73] [FROM-ML] drm/ttm: Use common ancestor of evictor and
  evictee as limit pool
 
 When checking whether to skip certain buffers because they're protected
@@ -30,10 +30,10 @@ Signed-off-by: Natalie Vock <natalie.vock@gmx.de>
  1 file changed, 40 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
-index 02a0e9c27d7c..2516ada2d40c 100644
+index 4b56016ab6a9..277d3af23e30 100644
 --- a/drivers/gpu/drm/ttm/ttm_bo.c
 +++ b/drivers/gpu/drm/ttm/ttm_bo.c
-@@ -628,11 +628,48 @@ static s64 ttm_bo_evict_cb(struct ttm_lru_walk *walk, struct ttm_buffer_object *
+@@ -627,11 +627,48 @@ static s64 ttm_bo_evict_cb(struct ttm_lru_walk *walk, struct ttm_buffer_object *
  {
  	struct ttm_bo_evict_walk *evict_walk =
  		container_of(walk, typeof(*evict_walk), walk);

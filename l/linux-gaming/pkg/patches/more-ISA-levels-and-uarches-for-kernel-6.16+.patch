@@ -120,7 +120,7 @@ diff --git a/arch/x86/Kconfig.cpu b/arch/x86/Kconfig.cpu
 index f928cf6e3252..2802936f2e62 100644
 --- a/arch/x86/Kconfig.cpu
 +++ b/arch/x86/Kconfig.cpu
-@@ -31,6 +31,7 @@ choice
+@@ -30,6 +30,7 @@ choice
  	  - "Pentium-4" for the Intel Pentium 4 or P4-based Celeron.
  	  - "K6" for the AMD K6, K6-II and K6-III (aka K6-3D).
  	  - "Athlon" for the AMD K7 family (Athlon/Duron/Thunderbird).
@@ -128,7 +128,7 @@ index f928cf6e3252..2802936f2e62 100644
  	  - "Crusoe" for the Transmeta Crusoe series.
  	  - "Efficeon" for the Transmeta Efficeon series.
  	  - "Winchip-C6" for original IDT Winchip.
-@@ -41,7 +42,10 @@ choice
+@@ -40,7 +41,10 @@ choice
  	  - "CyrixIII/VIA C3" for VIA Cyrix III or VIA C3.
  	  - "VIA C3-2" for VIA C3-2 "Nehemiah" (model 9 and above).
  	  - "VIA C7" for VIA C7.
@@ -139,7 +139,7 @@ index f928cf6e3252..2802936f2e62 100644
  
  	  See each option's help text for additional details. If you don't know
  	  what to do, choose "Pentium-Pro".
-@@ -135,10 +139,21 @@ config MPENTIUM4
+@@ -120,10 +124,21 @@ config MPENTIUM4
  		-Mobile Pentium 4
  		-Mobile Pentium 4 M
  		-Extreme Edition (Gallatin)
@@ -161,7 +161,7 @@ index f928cf6e3252..2802936f2e62 100644
  
  config MK6
  	bool "K6/K6-II/K6-III"
-@@ -281,6 +296,402 @@ config X86_GENERIC
+@@ -258,6 +273,402 @@ config X86_GENERIC
  	  This is really intended for distributors who need more
  	  generic optimizations.
  
@@ -564,7 +564,7 @@ index f928cf6e3252..2802936f2e62 100644
  #
  # Define implied options from the CPU selection here
  config X86_INTERNODE_CACHE_SHIFT
-@@ -290,8 +701,8 @@ config X86_INTERNODE_CACHE_SHIFT
+@@ -267,8 +678,8 @@ config X86_INTERNODE_CACHE_SHIFT
  
  config X86_L1_CACHE_SHIFT
  	int
@@ -572,10 +572,10 @@ index f928cf6e3252..2802936f2e62 100644
 -	default "6" if MK7 || MPENTIUMM || MATOM || MVIAC7 || X86_GENERIC || X86_64
 +	default "7" if MPENTIUM4 || MPSC
 +	default "6" if MK7 || MK8 || MPENTIUMM || MCORE2 || MATOM || MVIAC7 || X86_GENERIC || GENERIC_CPU || MK8SSE3 || MK10 || MBARCELONA || MBOBCAT || MJAGUAR || MBULLDOZER || MPILEDRIVER || MSTEAMROLLER || MEXCAVATOR || MZEN || MZEN2 || MZEN3 || MZEN4 || MZEN5 || MNEHALEM || MWESTMERE || MSILVERMONT || MGOLDMONT || MGOLDMONTPLUS || MSANDYBRIDGE || MIVYBRIDGE || MHASWELL || MBROADWELL || MSKYLAKE || MSKYLAKEX || MCANNONLAKE || MICELAKE_CLIENT || MICELAKE_SERVER || MCASCADELAKE || MCOOPERLAKE || MTIGERLAKE || MSAPPHIRERAPIDS || MROCKETLAKE || MALDERLAKE || MRAPTORLAKE || MMETEORLAKE || MEMERALDRAPIDS || MDIAMONDRAPIDS || X86_NATIVE_CPU
- 	default "4" if MELAN || M486SX || M486 || MGEODEGX1
+ 	default "4" if MGEODEGX1
  	default "5" if MWINCHIP3D || MWINCHIPC6 || MCRUSOE || MEFFICEON || MCYRIXIII || MK6 || MPENTIUMIII || MPENTIUMII || M686 || M586MMX || M586TSC || M586 || MVIAC3_2 || MGEODE_LX
  
-@@ -309,19 +720,19 @@ config X86_ALIGNMENT_16
+@@ -286,19 +697,19 @@ config X86_ALIGNMENT_16
  
  config X86_INTEL_USERCOPY
  	def_bool y
@@ -599,7 +599,7 @@ index f928cf6e3252..2802936f2e62 100644
  
  config X86_CX8
  	def_bool y
-@@ -331,12 +742,12 @@ config X86_CX8
+@@ -308,12 +719,12 @@ config X86_CX8
  # generates cmov.
  config X86_CMOV
  	def_bool y
@@ -611,9 +611,9 @@ index f928cf6e3252..2802936f2e62 100644
  	default "64" if X86_64
 -	default "6" if X86_32 && (MPENTIUM4 || MPENTIUMM || MPENTIUMIII || MPENTIUMII || M686 || MVIAC3_2 || MVIAC7 || MEFFICEON || MATOM || MK7)
 +	default "6" if X86_32 && (MPENTIUM4 || MPENTIUMM || MPENTIUMIII || MPENTIUMII || M686 || MVIAC3_2 || MVIAC7 || MEFFICEON || MATOM || MCORE2 || MK7 || MK8)
- 	default "5" if X86_32 && X86_CX8
- 	default "4"
+ 	default "5"
  
+ config X86_DEBUGCTLMSR
 diff --git a/arch/x86/Makefile b/arch/x86/Makefile
 index 1913d342969b..6c165daccb3d 100644
 --- a/arch/x86/Makefile
