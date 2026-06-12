@@ -3,7 +3,7 @@
 
 name        : ly
 version     : "1.4.1"
-release     : 3
+release     : 4
 homepage    : https://github.com/fairyglade/ly
 upstreams   :
     - https://codeberg.org/fairyglade/ly/archive/v1.4.1.tar.gz : 16fe5f07cc7a23930880b14d905883644cdc4b574d1c146629f6b98ee8fbbab9
@@ -14,8 +14,8 @@ license     : WTFPL
 networking  : true
 builddeps   :
     - binary(zig-0.16)
-    - pkgconfig(xcb)
     - pkgconfig(pam)
+    - pkgconfig(xcb)
 environment : |
     _zig=zig-0.16
 build       : |
@@ -23,7 +23,7 @@ build       : |
     ${_zig} build \
         --summary all \
         --verbose \
-        -Doptimize=ReleaseSafe \
+        -Doptimize=ReleaseFast \
         -Dcpu=x86_64_v2 \
         -Ddest_directory=%(installroot) \
         -Dprefix_directory=%(prefix) \
