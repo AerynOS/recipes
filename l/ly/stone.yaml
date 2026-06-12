@@ -41,13 +41,18 @@ install     : |
     %tmpfiles "# Create /etc/ly symlink pointing to stateless vendor ly display manager config"
     %tmpfiles "L? %(sysconfdir)/ly - - - - %(vendordir)/ly"
 
+    ## The below blocks are being kept for reference;
+    ## due to the "trick" of configuring with %(sysconfdir)
+    ## but installing with %(vendordir), they are no longer necessary.
+    ## (verified by building with the commented out blocks and checking jsonc manifest)
+
     # Config files /etc/ly → /usr/share/defaults/ly/
-    %install_dir %(installroot)%(vendordir)/ly/lang
-    %install_file %(pkgdir)/config.ini -t %(installroot)%(vendordir)/ly/
-    %install_exe  %(pkgdir)/startup.sh -t %(installroot)%(vendordir)/ly/
-    %install_exe  res/setup.sh %(installroot)%(vendordir)/ly/setup.sh
+    # %install_dir %(installroot)%(vendordir)/ly/lang
+    # %install_file %(pkgdir)/config.ini -t %(installroot)%(vendordir)/ly/
+    # %install_exe  %(pkgdir)/startup.sh -t %(installroot)%(vendordir)/ly/
+    # %install_exe  res/setup.sh %(installroot)%(vendordir)/ly/setup.sh
 
     # PAM (AerynOS: /usr/share/defaults/pam.d/)
-    %install_dir %(installroot)%(vendordir)/pam.d
-    %install_file res/pam.d/ly-linux %(installroot)%(vendordir)/pam.d/ly
-    %install_file res/pam.d/ly-linux-autologin %(installroot)%(vendordir)/pam.d/ly-autologin
+    # %install_dir %(installroot)%(vendordir)/pam.d
+    # %install_file res/pam.d/ly-linux %(installroot)%(vendordir)/pam.d/ly
+    # %install_file res/pam.d/ly-linux-autologin %(installroot)%(vendordir)/pam.d/ly-autologin
