@@ -2,13 +2,13 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : cosmic-initial-setup
-version     : "1.0.15.git+8eabeaf"
-release     : 26
+version     : "1.0.16"
+release     : 27
 summary     : Cosmic Initial Setup
 license     : GPL-3.0
 homepage    : https://github.com/pop-os/cosmic-initial-setup
 upstreams   :
-    - git|https://github.com/pop-os/cosmic-initial-setup.git : 8eabeaf64804dd74ef2da7803b42f21ed1b498e2
+    - https://github.com/pop-os/cosmic-initial-setup/archive/refs/tags/epoch-1.0.16.tar.gz : f7d0192cc311db1ce9f8221d340dc1ad3a29d201c66d68a93387284d5526339c
 description : |
     Cosmic Desktop Intial Setup Application
 builddeps   :
@@ -21,10 +21,6 @@ builddeps   :
     - pkgconfig(xkbcommon)
 networking  : true
 setup       : |
-    git remote set-url origin https://github.com/pop-os/cosmic-initial-setup.git
-    git lfs install
-    git lfs pull
-
     %patch %(pkgdir)/0001-Allow-xdg-directory-to-be-overridden.patch
 
     %cargo_fetch
