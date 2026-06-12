@@ -1,0 +1,60 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"amneziawg-module-gaming": {
+			"build-depends": [
+				"binary(eu-readelf)",
+				"binary(zstd)",
+				"linux-gaming-devel",
+				"linux-lts-devel",
+				"linux-stable-devel"
+			],
+			"depends": [
+				"linux-gaming",
+				"sysbinary(depmod)"
+			],
+			"files": [
+				"/usr/lib/modules/7.1.4-21.gaming/extra/amneziawg.ko.zst"
+			],
+			"name": "amneziawg-module-gaming"
+		},
+		"amneziawg-module-lts": {
+			"build-depends": [
+				"binary(eu-readelf)",
+				"binary(zstd)",
+				"linux-gaming-devel",
+				"linux-lts-devel",
+				"linux-stable-devel"
+			],
+			"depends": [
+				"linux-lts",
+				"sysbinary(depmod)"
+			],
+			"files": [
+				"/usr/lib/modules/6.18.39-21.lts/extra/amneziawg.ko.zst"
+			],
+			"name": "amneziawg-module-lts"
+		},
+		"amneziawg-module-stable": {
+			"build-depends": [
+				"binary(eu-readelf)",
+				"binary(zstd)",
+				"linux-gaming-devel",
+				"linux-lts-devel",
+				"linux-stable-devel"
+			],
+			"depends": [
+				"linux-stable",
+				"sysbinary(depmod)"
+			],
+			"files": [
+				"/usr/lib/modules/7.1.4-45.stable/extra/amneziawg.ko.zst"
+			],
+			"name": "amneziawg-module-stable"
+		}
+	},
+	"source-name": "amneziawg-module",
+	"source-release": "1",
+	"source-version": "1.0.20260611"
+}
