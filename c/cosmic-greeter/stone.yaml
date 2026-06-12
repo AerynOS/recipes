@@ -2,13 +2,13 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : cosmic-greeter
-version     : "1.0.15.git+178d522"
-release     : 51
+version     : "1.0.16"
+release     : 52
 summary     : Cosmic Desktop Greeter
 license     : GPL-3.0
 homepage    : https://github.com/pop-os/cosmic-greeter
 upstreams   :
-    - git|https://github.com/pop-os/cosmic-greeter.git : 178d5222ee580377f91b25e4e01ed98597d39664
+    - https://github.com/pop-os/cosmic-greeter/archive/refs/tags/epoch-1.0.16.tar.gz : c72453348c04e876b62bcf6f6bf5d4a180e2c6d5632dea15b7e21911ddeca6d1
 description : |
     Cosmic Desktop Greeter
 builddeps   :
@@ -34,6 +34,8 @@ setup       : |
 
     %cargo_fetch
     %patch %(pkgdir)/0001-debian-Port-sample-service-pam-to-Serpent-OS.patch
+    # For building from tarballs revert https://github.com/pop-os/cosmic-greeter/pull/203
+    %patch %(pkgdir)/0001-no-git-hash.patch
 build       : |
     %cargo_build --all
 install     : |
