@@ -3,7 +3,7 @@
 
 name        : drkonqi
 version     : "6.6.5"
-release     : 16
+release     : 17
 upstreams   :
     - https://download.kde.org/stable/plasma/6.6.5/drkonqi-6.6.5.tar.xz : b2b104d5f30224bca88280246ca990ac314d81cb1bf0d3857613ff683db92d82
 homepage    : https://kde.org/plasma-desktop/
@@ -57,6 +57,8 @@ tuning      :
     - lto: full
     - optimize: speed
 setup       : |
+    %patch %(pkgdir)/upstream-01.patch
+
     %cmake_kf6 \
         -DWITH_PYTHON_VENDORING=OFF
 build       : |
