@@ -21,6 +21,8 @@ builddeps   :
     - pkgconfig(gudev-1.0)
     - pkgconfig(libadwaita-1)
     - pkgconfig(pygobject-3.0)
+rundeps     :
+    - libnotify
 setup       : |
     %meson
 build       : |
