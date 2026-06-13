@@ -3,7 +3,7 @@
 
 name        : kimap
 version     : "26.04.2"
-release     : 15
+release     : 16
 upstreams   :
     - https://download.kde.org/stable/release-service/26.04.2/src/kimap-26.04.2.tar.xz : 0cdb8c01869f82891375f5c7587f02ef8a751e68031aed94e3d0b47f301fc9a8
 homepage    : https://kde.org
@@ -17,9 +17,11 @@ builddeps   :
     - cmake(KF6CoreAddons)
     - cmake(KF6I18n)
     - cmake(KF6KIO)
-    - cmake(KPim6Mime)
+    - cmake(KF6Mime)
     - pkgconfig(libsasl2)
 setup       : |
+    %patch %(pkgdir)/kf6kmime.patch
+
     %cmake_kf6
 build       : |
     %cmake_build
@@ -28,4 +30,4 @@ install     : |
 packages    :
     - "%(name)-devel":
         rundeps:
-            - cmake(KPim6Mime)
+            - cmake(KF6Mime)
