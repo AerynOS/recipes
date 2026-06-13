@@ -14,11 +14,11 @@
 				"cmake(KF6I18n)",
 				"cmake(KF6KCMUtils)",
 				"cmake(KF6KIO)",
+				"cmake(KF6Mime)",
 				"cmake(KF6Runner)",
 				"cmake(KF6TextUtils)",
 				"cmake(KPim6Akonadi)",
 				"cmake(KPim6AkonadiMime)",
-				"cmake(KPim6Mime)",
 				"cmake(xapian)"
 			],
 			"depends": [
@@ -33,13 +33,13 @@
 				"soname(libKF6I18n.so.6(x86_64))",
 				"soname(libKF6KCMUtils.so.6(x86_64))",
 				"soname(libKF6KCMUtilsCore.so.6(x86_64))",
+				"soname(libKF6Mime.so.6(x86_64))",
 				"soname(libKF6Runner.so.6(x86_64))",
 				"soname(libKF6TextUtils.so.1(x86_64))",
 				"soname(libKF6WidgetsAddons.so.6(x86_64))",
 				"soname(libKPim6AkonadiAgentBase.so.6(x86_64))",
 				"soname(libKPim6AkonadiCore.so.6(x86_64))",
 				"soname(libKPim6AkonadiMime.so.6(x86_64))",
-				"soname(libKPim6Mime.so.6(x86_64))",
 				"soname(libQt6Core.so.6(x86_64))",
 				"soname(libQt6DBus.so.6(x86_64))",
 				"soname(libQt6Gui.so.6(x86_64))",
@@ -150,16 +150,17 @@
 				"cmake(KF6I18n)",
 				"cmake(KF6KCMUtils)",
 				"cmake(KF6KIO)",
+				"cmake(KF6Mime)",
 				"cmake(KF6Runner)",
 				"cmake(KF6TextUtils)",
 				"cmake(KPim6Akonadi)",
 				"cmake(KPim6AkonadiMime)",
-				"cmake(KPim6Mime)",
 				"cmake(xapian)"
 			],
 			"depends": [
 				"akonadi-search",
 				"cmake(KF6CalendarCore)",
+				"cmake(KF6Mime)",
 				"cmake(KPim6AkonadiMime)"
 			],
 			"files": [
@@ -207,6 +208,6 @@
 		}
 	},
 	"source-name": "akonadi-search",
-	"source-release": "16",
+	"source-release": "17",
 	"source-version": "26.04.2"
 }
