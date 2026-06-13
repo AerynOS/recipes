@@ -3,7 +3,7 @@
 
 name        : kmime
 version     : "26.04.2"
-release     : 15
+release     : 16
 upstreams   :
     - https://download.kde.org/stable/release-service/26.04.2/src/kmime-26.04.2.tar.xz : 7473522f42d84684cd71fe7549cc668a1fcfd91716a72860dc9bcbaa8569ed6d
 homepage    : https://kde.org
@@ -21,7 +21,17 @@ build       : |
     %cmake_build
 install     : |
     %cmake_install
+
+    # Temporary, make co-installable with kmime
+    rm -rfv %(installroot)%(datadir)/locale \
+            %(installroot)%(datadir)/qlogg*
+    find %(installroot) -type d -empty -print -delete
 packages    :
+    - "%(name)":
+        rundeps:
+            - kf6-kmime
+
     - "%(name)-devel":
         rundeps:
+            - kf6-kmime-devel
             - cmake(KF6Codecs)
