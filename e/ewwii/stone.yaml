@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : ewwii
-version     : "0.7.0"
-release     : 6
+version     : "0.9.0"
+release     : 7
 homepage    : https://ewwii-sh.github.io/
 upstreams   :
-    - https://github.com/Ewwii-sh/ewwii/archive/refs/tags/v0.7.0.tar.gz : ad3177f1316739fa7eb826ee323214fe8c7f6f12ae89ed6f03a380eea821f4f1
+    - https://github.com/Ewwii-sh/ewwii/archive/refs/tags/v0.9.0.tar.gz : a1c3d21c2824bf2c1eb13232f0932f6c0242dbca2236bdbef8420f9575ca5764
 summary     :  An eww rewrite that is powerful, flexible, and extensible.
 description : |
     Ewwii (ElKowar's Wacky Widgets improved interface) is a fork and rewrite of Eww (ElKowar's Wacky Widgets) which is a widget system made in Rust, which lets you create your own widgets similarly to how you can in AwesomeWM.
@@ -22,8 +22,6 @@ builddeps   :
     - pkgconfig(pango)
 networking  : true
 setup       : |
-    %patch %(pkgdir)/0001-chore-update-Cargo.lock.patch
-
     %cargo_fetch
 build       : |
     %cargo_build
