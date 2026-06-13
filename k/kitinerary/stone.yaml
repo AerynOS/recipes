@@ -3,7 +3,7 @@
 
 name        : kitinerary
 version     : "26.04.2"
-release     : 26
+release     : 27
 upstreams   :
     - https://download.kde.org/stable/release-service/26.04.2/src/kitinerary-26.04.2.tar.xz : 86eea983c969fa1fed2bdc22a46f800c02b66c512087da6f0072324d28e6d5c6
 homepage    : https://invent.kde.org/pim/kitinerary
@@ -17,7 +17,7 @@ builddeps   :
     - cmake(KF6CalendarCore)
     - cmake(KF6Contacts)
     - cmake(KF6I18n)
-    - cmake(KPim6Mime)
+    - cmake(KF6Mime)
     - cmake(KPim6PkPass)
     - cmake(Qt6Qml)
     - cmake(libphonenumber)
@@ -29,6 +29,7 @@ builddeps   :
     - pkgconfig(zlib)
     - pkgconfig(zxing)
 setup       : |
+    %patch %(pkgdir)/kf6kmime.patch
     %cmake_kf6
 build       : |
     %cmake_build
