@@ -11,6 +11,7 @@
 				"cmake(KF6I18n)",
 				"cmake(KF6IconThemes)",
 				"cmake(KF6KIO)",
+				"cmake(KF6Mime)",
 				"cmake(KF6TextWidgets)",
 				"cmake(KGantt6)",
 				"cmake(KPim6Akonadi)",
@@ -22,7 +23,6 @@
 				"cmake(KPim6IdentityManagementCore)",
 				"cmake(KPim6LdapWidgets)",
 				"cmake(KPim6Libkdepim)",
-				"cmake(KPim6Mime)",
 				"cmake(KPim6PimCommonAkonadi)",
 				"cmake(KPim6TextEdit)"
 			],
@@ -40,6 +40,7 @@
 				"soname(libKF6KIOCore.so.6(x86_64))",
 				"soname(libKF6KIOGui.so.6(x86_64))",
 				"soname(libKF6KIOWidgets.so.6(x86_64))",
+				"soname(libKF6Mime.so.6(x86_64))",
 				"soname(libKF6TextWidgets.so.6(x86_64))",
 				"soname(libKF6WidgetsAddons.so.6(x86_64))",
 				"soname(libKF6XmlGui.so.6(x86_64))",
@@ -56,7 +57,6 @@
 				"soname(libKPim6IdentityManagementCore.so.6(x86_64))",
 				"soname(libKPim6LdapCore.so.6(x86_64))",
 				"soname(libKPim6Libkdepim.so.6(x86_64))",
-				"soname(libKPim6Mime.so.6(x86_64))",
 				"soname(libKPim6PimCommonAkonadi.so.6(x86_64))",
 				"soname(libKPim6TextEdit.so.6(x86_64))",
 				"soname(libQt6Core.so.6(x86_64))",
@@ -136,6 +136,7 @@
 				"cmake(KF6I18n)",
 				"cmake(KF6IconThemes)",
 				"cmake(KF6KIO)",
+				"cmake(KF6Mime)",
 				"cmake(KF6TextWidgets)",
 				"cmake(KGantt6)",
 				"cmake(KPim6Akonadi)",
@@ -147,17 +148,16 @@
 				"cmake(KPim6IdentityManagementCore)",
 				"cmake(KPim6LdapWidgets)",
 				"cmake(KPim6Libkdepim)",
-				"cmake(KPim6Mime)",
 				"cmake(KPim6PimCommonAkonadi)",
 				"cmake(KPim6TextEdit)"
 			],
 			"depends": [
 				"cmake(KF6CalendarCore)",
+				"cmake(KF6Mime)",
 				"cmake(KPim6AkonadiMime)",
 				"cmake(KPim6CalendarSupport)",
 				"cmake(KPim6CalendarUtils)",
 				"cmake(KPim6EventViews)",
-				"cmake(KPim6Mime)",
 				"incidenceeditor"
 			],
 			"files": [
@@ -193,6 +193,6 @@
 		}
 	},
 	"source-name": "incidenceeditor",
-	"source-release": "14",
+	"source-release": "15",
 	"source-version": "26.04.2"
 }
