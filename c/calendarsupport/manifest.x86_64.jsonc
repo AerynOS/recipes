@@ -11,12 +11,12 @@
 				"cmake(KF6Holidays)",
 				"cmake(KF6I18n)",
 				"cmake(KF6KIO)",
+				"cmake(KF6Mime)",
 				"cmake(KF6TextCustomEditor)",
 				"cmake(KPim6Akonadi)",
 				"cmake(KPim6AkonadiCalendar)",
 				"cmake(KPim6CalendarUtils)",
-				"cmake(KPim6IdentityManagementCore)",
-				"cmake(KPim6Mime)"
+				"cmake(KPim6IdentityManagementCore)"
 			],
 			"depends": [
 				"soname(libKF6CalendarCore.so.6(x86_64))",
@@ -30,6 +30,7 @@
 				"soname(libKF6KIOCore.so.6(x86_64))",
 				"soname(libKF6KIOGui.so.6(x86_64))",
 				"soname(libKF6KIOWidgets.so.6(x86_64))",
+				"soname(libKF6Mime.so.6(x86_64))",
 				"soname(libKF6Service.so.6(x86_64))",
 				"soname(libKF6WidgetsAddons.so.6(x86_64))",
 				"soname(libKPim6AkonadiCalendar.so.6(x86_64))",
@@ -37,7 +38,6 @@
 				"soname(libKPim6AkonadiWidgets.so.6(x86_64))",
 				"soname(libKPim6CalendarUtils.so.6(x86_64))",
 				"soname(libKPim6IdentityManagementCore.so.6(x86_64))",
-				"soname(libKPim6Mime.so.6(x86_64))",
 				"soname(libQt6Core.so.6(x86_64))",
 				"soname(libQt6Gui.so.6(x86_64))",
 				"soname(libQt6PrintSupport.so.6(x86_64))",
@@ -147,18 +147,18 @@
 				"cmake(KF6Holidays)",
 				"cmake(KF6I18n)",
 				"cmake(KF6KIO)",
+				"cmake(KF6Mime)",
 				"cmake(KF6TextCustomEditor)",
 				"cmake(KPim6Akonadi)",
 				"cmake(KPim6AkonadiCalendar)",
 				"cmake(KPim6CalendarUtils)",
-				"cmake(KPim6IdentityManagementCore)",
-				"cmake(KPim6Mime)"
+				"cmake(KPim6IdentityManagementCore)"
 			],
 			"depends": [
 				"calendarsupport",
+				"cmake(KF6Mime)",
 				"cmake(KPim6AkonadiCalendar)",
-				"cmake(KPim6IdentityManagementCore)",
-				"cmake(KPim6Mime)"
+				"cmake(KPim6IdentityManagementCore)"
 			],
 			"files": [
 				"/usr/include/KPim6/CalendarSupport/CalendarSupport/ArchiveDialog",
@@ -218,6 +218,6 @@
 		}
 	},
 	"source-name": "calendarsupport",
-	"source-release": "14",
+	"source-release": "15",
 	"source-version": "26.04.2"
 }

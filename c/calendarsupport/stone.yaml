@@ -3,7 +3,7 @@
 
 name        : calendarsupport
 version     : "26.04.2"
-release     : 14
+release     : 15
 upstreams   :
     - https://download.kde.org/stable/release-service/26.04.2/src/calendarsupport-26.04.2.tar.xz : 7720a72f3f4180873d407c56cb076db268158f2a8d20dcd066a615d8285e35b9
 homepage    : https://kontact.kde.org/
@@ -22,13 +22,14 @@ builddeps   :
     - cmake(KF6Holidays)
     - cmake(KF6I18n)
     - cmake(KF6KIO)
+    - cmake(KF6Mime)
     - cmake(KF6TextCustomEditor)
     - cmake(KPim6Akonadi)
     - cmake(KPim6AkonadiCalendar)
     - cmake(KPim6CalendarUtils)
     - cmake(KPim6IdentityManagementCore)
-    - cmake(KPim6Mime)
 setup       : |
+    %patch %(pkgdir)/kf6kmime.patch
     %cmake_kf6
 build       : |
     %cmake_build
@@ -39,4 +40,4 @@ packages    :
         rundeps:
             - cmake(KPim6AkonadiCalendar)
             - cmake(KPim6IdentityManagementCore)
-            - cmake(KPim6Mime)
+            - cmake(KF6Mime)
