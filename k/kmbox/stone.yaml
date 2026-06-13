@@ -3,7 +3,7 @@
 
 name        : kmbox
 version     : "26.04.2"
-release     : 15
+release     : 16
 upstreams   :
     - https://download.kde.org/stable/release-service/26.04.2/src/kmbox-26.04.2.tar.xz : 27e796610b7e7a2249b4673fd8a27b59c92d5a6fe1a9af9e35ecd6308cde8f15
 homepage    : https://kde.org
@@ -14,8 +14,9 @@ description : |
 builddeps   :
     # Temporary, boulder doesn't handle build ordering resolution correctly when builddeps are added by macros, so add ECM manually
     - cmake(ECM)
-    - cmake(KPim6Mime)
+    - cmake(KF6Mime)
 setup       : |
+    %patch %(pkgdir)/kf6kmime.patch
     %cmake_kf6
 build       : |
     %cmake_build
@@ -24,4 +25,4 @@ install     : |
 packages    :
     - "%(name)-devel":
         rundeps:
-            - cmake(KPim6Mime)
+            - cmake(KF6Mime)
