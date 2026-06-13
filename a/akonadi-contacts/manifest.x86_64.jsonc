@@ -10,13 +10,13 @@
 				"cmake(KF6I18n)",
 				"cmake(KF6IconThemes)",
 				"cmake(KF6KIO)",
+				"cmake(KF6Mime)",
 				"cmake(KF6Prison)",
 				"cmake(KF6TextUtils)",
 				"cmake(KF6TextWidgets)",
 				"cmake(KF6XmlGui)",
 				"cmake(KPim6Akonadi)",
-				"cmake(KPim6GrantleeTheme)",
-				"cmake(KPim6Mime)"
+				"cmake(KPim6GrantleeTheme)"
 			],
 			"depends": [
 				"soname(libKF6Codecs.so.6(x86_64))",
@@ -32,6 +32,7 @@
 				"soname(libKF6IconThemes.so.6(x86_64))",
 				"soname(libKF6KIOCore.so.6(x86_64))",
 				"soname(libKF6KIOWidgets.so.6(x86_64))",
+				"soname(libKF6Mime.so.6(x86_64))",
 				"soname(libKF6Prison.so.6(x86_64))",
 				"soname(libKF6TextTemplate.so.6(x86_64))",
 				"soname(libKF6TextUtils.so.1(x86_64))",
@@ -41,7 +42,6 @@
 				"soname(libKPim6AkonadiCore.so.6(x86_64))",
 				"soname(libKPim6AkonadiWidgets.so.6(x86_64))",
 				"soname(libKPim6GrantleeTheme.so.6(x86_64))",
-				"soname(libKPim6Mime.so.6(x86_64))",
 				"soname(libQt6Core.so.6(x86_64))",
 				"soname(libQt6Gui.so.6(x86_64))",
 				"soname(libQt6Widgets.so.6(x86_64))",
@@ -198,13 +198,13 @@
 				"cmake(KF6I18n)",
 				"cmake(KF6IconThemes)",
 				"cmake(KF6KIO)",
+				"cmake(KF6Mime)",
 				"cmake(KF6Prison)",
 				"cmake(KF6TextUtils)",
 				"cmake(KF6TextWidgets)",
 				"cmake(KF6XmlGui)",
 				"cmake(KPim6Akonadi)",
-				"cmake(KPim6GrantleeTheme)",
-				"cmake(KPim6Mime)"
+				"cmake(KPim6GrantleeTheme)"
 			],
 			"depends": [
 				"akonadi-contacts",
@@ -308,6 +308,6 @@
 		}
 	},
 	"source-name": "akonadi-contacts",
-	"source-release": "15",
+	"source-release": "16",
 	"source-version": "26.04.2"
 }
