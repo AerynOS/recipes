@@ -3,7 +3,7 @@
 
 name        : mimetreeparser
 version     : "26.04.2"
-release     : 24
+release     : 25
 upstreams   :
     - https://download.kde.org/stable/release-service/26.04.2/src/mimetreeparser-26.04.2.tar.xz : f15b6268261255888e3e986d67b8f39f0d57144e87d99b46e8fabe78cad300dc
 homepage    : https://kde.org
@@ -30,13 +30,14 @@ builddeps   :
     - cmake(KF6ColorScheme)
     - cmake(KF6I18n)
     - cmake(KF6KIO)
+    - cmake(KF6Mime)
     - cmake(KF6WidgetsAddons)
     - cmake(KPim6Mbox)
     - cmake(KPim6Libkleo)
-    - cmake(KPim6Mime)
     - cmake(Qt6CorePrivate)
     - cmake(Qt6Qml)
 setup       : |
+    %patch %(pkgdir)/kf6kmime.patch
     %cmake_kf6
 build       : |
     %cmake_build
