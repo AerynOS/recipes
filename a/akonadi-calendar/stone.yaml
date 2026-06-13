@@ -3,7 +3,7 @@
 
 name        : akonadi-calendar
 version     : "26.04.2"
-release     : 16
+release     : 17
 upstreams   :
     - https://download.kde.org/stable/release-service/26.04.2/src/akonadi-calendar-26.04.2.tar.xz : 8300ea894acdbdd7496feff870ecfdd368687104a3442ed82abef09f58e774fa
 homepage    : https://kde.org
@@ -19,6 +19,7 @@ builddeps   :
     - cmake(KF6DBusAddons)
     - cmake(KF6I18n)
     - cmake(KF6KIO)
+    - cmake(KF6Mime)
     - cmake(KF6Notifications)
     - cmake(KF6WidgetsAddons)
     - cmake(KF6XmlGui)
@@ -26,8 +27,8 @@ builddeps   :
     - cmake(KPim6IdentityManagementCore)
     - cmake(KPim6MailTransport)
     - cmake(KPim6MessageCore)
-    - cmake(KPim6Mime)
 setup       : |
+    %patch %(pkgdir)/kf6kmime.patch
     %cmake_kf6
 build       : |
     %cmake_build
