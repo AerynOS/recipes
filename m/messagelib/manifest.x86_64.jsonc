@@ -17,6 +17,7 @@
 				"cmake(KF6ItemViews)",
 				"cmake(KF6JobWidgets)",
 				"cmake(KF6KIO)",
+				"cmake(KF6Mime)",
 				"cmake(KF6NewStuff)",
 				"cmake(KF6Notifications)",
 				"cmake(KF6Sonnet)",
@@ -60,6 +61,7 @@
 				"soname(libKF6KIOFileWidgets.so.6(x86_64))",
 				"soname(libKF6KIOGui.so.6(x86_64))",
 				"soname(libKF6KIOWidgets.so.6(x86_64))",
+				"soname(libKF6Mime.so.6(x86_64))",
 				"soname(libKF6Service.so.6(x86_64))",
 				"soname(libKF6SonnetUi.so.6(x86_64))",
 				"soname(libKF6SyntaxHighlighting.so.6(x86_64))",
@@ -86,7 +88,6 @@
 				"soname(libKPim6Libkleo.so.6(x86_64))",
 				"soname(libKPim6MailTransport.so.6(x86_64))",
 				"soname(libKPim6Mbox.so.6(x86_64))",
-				"soname(libKPim6Mime.so.6(x86_64))",
 				"soname(libKPim6PimCommon.so.6(x86_64))",
 				"soname(libKPim6PimCommonAkonadi.so.6(x86_64))",
 				"soname(libKPim6TextEdit.so.6(x86_64))",
@@ -621,6 +622,7 @@
 				"cmake(KF6ItemViews)",
 				"cmake(KF6JobWidgets)",
 				"cmake(KF6KIO)",
+				"cmake(KF6Mime)",
 				"cmake(KF6NewStuff)",
 				"cmake(KF6Notifications)",
 				"cmake(KF6Sonnet)",
@@ -642,10 +644,10 @@
 				"cmake(Qt6WebEngineWidgets)"
 			],
 			"depends": [
+				"cmake(KF6Mime)",
 				"cmake(KPim6AkonadiMime)",
 				"cmake(KPim6IdentityManagementWidgets)",
 				"cmake(KPim6Libkleo)",
-				"cmake(KPim6Mime)",
 				"cmake(KPim6PimCommon)",
 				"cmake(Qt6WebEngineWidgets)",
 				"messagelib"
@@ -1235,6 +1237,6 @@
 		}
 	},
 	"source-name": "messagelib",
-	"source-release": "18",
+	"source-release": "19",
 	"source-version": "26.04.2"
 }

@@ -3,7 +3,7 @@
 
 name        : messagelib
 version     : "26.04.2"
-release     : 18
+release     : 19
 upstreams   :
     - https://download.kde.org/stable/release-service/26.04.2/src/messagelib-26.04.2.tar.xz : abf7bf08d9bf82fad7886e29877f1e26b762345026c667de56b4f70e69166f85
 homepage    : https://kde.org
@@ -28,6 +28,7 @@ builddeps   :
     - cmake(KF6ItemViews)
     - cmake(KF6JobWidgets)
     - cmake(KF6KIO)
+    - cmake(KF6Mime)
     - cmake(KF6NewStuff)
     - cmake(KF6Notifications)
     - cmake(KF6Sonnet)
@@ -48,6 +49,7 @@ builddeps   :
     - cmake(QGpgmeQt6)
     - cmake(Qt6WebEngineWidgets)
 setup       : |
+    %patch %(pkgdir)/kf6kmime.patch
     %cmake_kf6
 build       : |
     %cmake_build
@@ -56,9 +58,9 @@ install     : |
 packages    :
     - "%(name)-devel":
         rundeps:
+            - cmake(KF6Mime)
             - cmake(KPim6AkonadiMime)
             - cmake(KPim6IdentityManagementWidgets)
             - cmake(KPim6Libkleo)
-            - cmake(KPim6Mime)
             - cmake(KPim6PimCommon)
             - cmake(Qt6WebEngineWidgets)
