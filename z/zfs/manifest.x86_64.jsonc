@@ -51,12 +51,12 @@
 				"/usr/lib/python3.14/site-packages/libzfs_core/test/__pycache__/test_nvlist.cpython-314.pyc",
 				"/usr/lib/python3.14/site-packages/libzfs_core/test/test_libzfs_core.py",
 				"/usr/lib/python3.14/site-packages/libzfs_core/test/test_nvlist.py",
-				"/usr/lib/python3.14/site-packages/pyzfs-2.4.2-py3.14.egg-info/PKG-INFO",
-				"/usr/lib/python3.14/site-packages/pyzfs-2.4.2-py3.14.egg-info/SOURCES.txt",
-				"/usr/lib/python3.14/site-packages/pyzfs-2.4.2-py3.14.egg-info/dependency_links.txt",
-				"/usr/lib/python3.14/site-packages/pyzfs-2.4.2-py3.14.egg-info/not-zip-safe",
-				"/usr/lib/python3.14/site-packages/pyzfs-2.4.2-py3.14.egg-info/requires.txt",
-				"/usr/lib/python3.14/site-packages/pyzfs-2.4.2-py3.14.egg-info/top_level.txt"
+				"/usr/lib/python3.14/site-packages/pyzfs-2.4.3-py3.14.egg-info/PKG-INFO",
+				"/usr/lib/python3.14/site-packages/pyzfs-2.4.3-py3.14.egg-info/SOURCES.txt",
+				"/usr/lib/python3.14/site-packages/pyzfs-2.4.3-py3.14.egg-info/dependency_links.txt",
+				"/usr/lib/python3.14/site-packages/pyzfs-2.4.3-py3.14.egg-info/not-zip-safe",
+				"/usr/lib/python3.14/site-packages/pyzfs-2.4.3-py3.14.egg-info/requires.txt",
+				"/usr/lib/python3.14/site-packages/pyzfs-2.4.3-py3.14.egg-info/top_level.txt"
 			],
 			"name": "python-pyzfs",
 			"provides": [
@@ -152,7 +152,6 @@
 				"/usr/share/bash-completion/completions/zfs",
 				"/usr/share/bash-completion/completions/zpool",
 				"/usr/share/defaults/pam.d/zfs_key",
-				"/usr/share/defaults/sudo/sudoers.d/zfs",
 				"/usr/share/defaults/zfs/environment",
 				"/usr/share/defaults/zfs/zed.d/all-debug.sh",
 				"/usr/share/defaults/zfs/zed.d/all-syslog.sh",
@@ -2106,6 +2105,7 @@
 				"/usr/share/zfs/zfs-tests/tests/functional/deadman/deadman_sync.ksh",
 				"/usr/share/zfs/zfs-tests/tests/functional/deadman/deadman_zio.ksh",
 				"/usr/share/zfs/zfs-tests/tests/functional/dedup/cleanup.ksh",
+				"/usr/share/zfs/zfs-tests/tests/functional/dedup/dedup_bclone_pruned.ksh",
 				"/usr/share/zfs/zfs-tests/tests/functional/dedup/dedup_fdt_create.ksh",
 				"/usr/share/zfs/zfs-tests/tests/functional/dedup/dedup_fdt_import.ksh",
 				"/usr/share/zfs/zfs-tests/tests/functional/dedup/dedup_fdt_pacing.ksh",
@@ -2610,6 +2610,7 @@
 				"/usr/share/zfs/zfs-tests/tests/functional/redacted_send/redacted_incrementals.ksh",
 				"/usr/share/zfs/zfs-tests/tests/functional/redacted_send/redacted_largeblocks.ksh",
 				"/usr/share/zfs/zfs-tests/tests/functional/redacted_send/redacted_many_clones.ksh",
+				"/usr/share/zfs/zfs-tests/tests/functional/redacted_send/redacted_max_blkid.ksh",
 				"/usr/share/zfs/zfs-tests/tests/functional/redacted_send/redacted_mixed_recsize.ksh",
 				"/usr/share/zfs/zfs-tests/tests/functional/redacted_send/redacted_mounts.ksh",
 				"/usr/share/zfs/zfs-tests/tests/functional/redacted_send/redacted_negative.ksh",
@@ -2682,6 +2683,7 @@
 				"/usr/share/zfs/zfs-tests/tests/functional/removal/removal_with_ganging.ksh",
 				"/usr/share/zfs/zfs-tests/tests/functional/removal/removal_with_hole.ksh",
 				"/usr/share/zfs/zfs-tests/tests/functional/removal/removal_with_indirect.ksh",
+				"/usr/share/zfs/zfs-tests/tests/functional/removal/removal_with_missing_log.ksh",
 				"/usr/share/zfs/zfs-tests/tests/functional/removal/removal_with_remove.ksh",
 				"/usr/share/zfs/zfs-tests/tests/functional/removal/removal_with_scrub.ksh",
 				"/usr/share/zfs/zfs-tests/tests/functional/removal/removal_with_send.ksh",
@@ -3106,6 +3108,6 @@
 		}
 	},
 	"source-name": "zfs",
-	"source-release": "1",
-	"source-version": "2.4.2"
+	"source-release": "2",
+	"source-version": "2.4.3"
 }

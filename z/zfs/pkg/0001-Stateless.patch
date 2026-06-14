@@ -1,11 +1,10 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Reilly Brogan <reilly@reillybrogan.com>
-Date: Mon, 20 May 2024 14:20:39 -0500
-Subject: [PATCH] Stateless
+Date: Sun, 14 Jun 2026 12:34:42 -0500
+Subject: [PATCH] stateless
 
-Signed-off-by: Reilly Brogan <reilly@reillybrogan.com>
 ---
- Makefile.in                                   | 33 ++++---------------
+ Makefile.in                                   | 31 +++----------------
  cmd/zed/zed.d/Makefile.am                     | 12 ++-----
  cmd/zed/zed.h                                 |  2 +-
  cmd/zpool/Makefile.am                         |  8 +----
@@ -13,7 +12,7 @@ Signed-off-by: Reilly Brogan <reilly@reillybrogan.com>
  cmd/zpool/zpool_util.h                        |  1 +
  config/zfs-build.m4                           |  5 ++-
  configure                                     |  5 ++-
- etc/Makefile.am                               | 17 ++--------
+ etc/Makefile.am                               | 15 ++-------
  etc/default/{zfs.in => environment.in}        |  0
  .../system/zfs-import-cache.service.in        |  1 +
  etc/systemd/system/zfs-import-scan.service.in |  1 +
@@ -24,14 +23,14 @@ Signed-off-by: Reilly Brogan <reilly@reillybrogan.com>
  etc/systemd/system/zfs-trim@.service.in       |  1 +
  etc/systemd/system/zfs-volume-wait.service.in |  1 +
  etc/systemd/system/zfs-zed.service.in         |  1 +
- 19 files changed, 34 insertions(+), 64 deletions(-)
+ 19 files changed, 32 insertions(+), 62 deletions(-)
  rename etc/default/{zfs.in => environment.in} (100%)
 
 diff --git a/Makefile.in b/Makefile.in
-index e6427e7..8ef8108 100644
+index b9d3aeb..e155248 100644
 --- a/Makefile.in
 +++ b/Makefile.in
-@@ -3780,7 +3780,7 @@ SUBDIRS = include $(am__append_88) $(am__append_97)
+@@ -3788,7 +3788,7 @@ SUBDIRS = include $(am__append_87) $(am__append_96)
  @CONFIG_USER_TRUE@	libuutil.la libzutil.la $(LTLIBINTL) \
  @CONFIG_USER_TRUE@	$(am__append_14) -lm $(LIBBLKID_LIBS) \
  @CONFIG_USER_TRUE@	$(LIBUUID_LIBS)
@@ -40,7 +39,7 @@ index e6427e7..8ef8108 100644
  @CONFIG_USER_TRUE@dist_zpoolexec_SCRIPTS = \
  @CONFIG_USER_TRUE@	cmd/zpool/zpool.d/ata_err \
  @CONFIG_USER_TRUE@	cmd/zpool/zpool.d/cmd_to \
-@@ -3970,12 +3970,12 @@ SUBDIRS = include $(am__append_88) $(am__append_97)
+@@ -3978,12 +3978,12 @@ SUBDIRS = include $(am__append_87) $(am__append_96)
  
  
  # SPDX-License-Identifier: CDDL-1.0
@@ -55,15 +54,10 @@ index e6427e7..8ef8108 100644
  @BUILD_LINUX_TRUE@@CONFIG_USER_TRUE@dist_zedexec_SCRIPTS = \
  @BUILD_LINUX_TRUE@@CONFIG_USER_TRUE@	cmd/zed/zed.d/all-debug.sh \
  @BUILD_LINUX_TRUE@@CONFIG_USER_TRUE@	cmd/zed/zed.d/all-syslog.sh \
-@@ -4124,23 +4124,17 @@ SUBDIRS = include $(am__append_88) $(am__append_97)
+@@ -4130,19 +4130,13 @@ SUBDIRS = include $(am__append_87) $(am__append_96)
+ @CONFIG_USER_TRUE@@PAM_ZFS_ENABLED_TRUE@	$(LIBCRYPTO_LIBS)
+ @CONFIG_USER_TRUE@@PAM_ZFS_ENABLED_TRUE@contrib_pam_zfs_key_pam_zfs_key_la_LDFLAGS = -version-info 1:0:0 -avoid-version -module -shared
  @CONFIG_USER_TRUE@@PAM_ZFS_ENABLED_TRUE@dist_pamconfigs_DATA = contrib/pam_zfs_key/zfs_key
- 
- # SPDX-License-Identifier: CDDL-1.0
--@CONFIG_USER_TRUE@sudoersddir = $(sysconfdir)/sudoers.d
-+@CONFIG_USER_TRUE@sudoersddir = $(datadir)/defaults/sudo/sudoers.d
- @CONFIG_USER_TRUE@sudoersd_DATA = \
- @CONFIG_USER_TRUE@	etc/sudoers.d/zfs
- 
 -@CONFIG_USER_TRUE@sysconf_zfsdir = $(sysconfdir)/zfs
 -@CONFIG_USER_TRUE@dist_sysconf_zfs_DATA = \
 -@CONFIG_USER_TRUE@	etc/zfs/vdev_id.conf.alias.example \
@@ -82,7 +76,7 @@ index e6427e7..8ef8108 100644
  
  @BUILD_LINUX_TRUE@@CONFIG_USER_TRUE@@INIT_SYSV_TRUE@init_SCRIPTS = \
  @BUILD_LINUX_TRUE@@CONFIG_USER_TRUE@@INIT_SYSV_TRUE@	etc/init.d/zfs-import \
-@@ -4177,8 +4171,6 @@ SUBDIRS = include $(am__append_88) $(am__append_97)
+@@ -4179,8 +4173,6 @@ SUBDIRS = include $(am__append_87) $(am__append_96)
  @BUILD_LINUX_TRUE@@CONFIG_USER_TRUE@@INIT_SYSTEMD_TRUE@	libzfs.la
  
  @BUILD_LINUX_TRUE@@CONFIG_USER_TRUE@@INIT_SYSTEMD_TRUE@etc_systemd_system_generators_zfs_mount_generator_LDFLAGS = -pthread
@@ -91,7 +85,7 @@ index e6427e7..8ef8108 100644
  
  @CONFIG_USER_TRUE@noinst_LTLIBRARIES = libavl.la libicp.la libshare.la \
  @CONFIG_USER_TRUE@	libspl_assert.la libspl.la libtpool.la \
-@@ -14585,12 +14577,6 @@ scripts-install-data-hook: scripts/common.sh.in Makefile
+@@ -14571,12 +14563,6 @@ scripts-install-data-hook: scripts/common.sh.in Makefile
  		$< >$(DESTDIR)$(datadir)/$(PACKAGE)/common.sh
  @CONFIG_USER_TRUE@$(call SUBST,fsck.zfs,cmd/)
  @CONFIG_USER_TRUE@zpool-install-data-hook:
@@ -104,7 +98,7 @@ index e6427e7..8ef8108 100644
  @CONFIG_USER_TRUE@	set -x; printf '%s\n' $(zpoolcompatlinks) | \
  @CONFIG_USER_TRUE@	while read -r canon alias; do \
  @CONFIG_USER_TRUE@		$(LN_S) -f "$${canon}" "$(DESTDIR)$(zpoolcompatdir)/$${alias}"; \
-@@ -14598,13 +14584,6 @@ scripts-install-data-hook: scripts/common.sh.in Makefile
+@@ -14584,13 +14570,6 @@ scripts-install-data-hook: scripts/common.sh.in Makefile
  
  @CONFIG_USER_TRUE@cmd-zstream-install-exec-hook:
  @CONFIG_USER_TRUE@	cd $(DESTDIR)$(sbindir) && $(LN_S) -f zstream zstreamdump
@@ -223,10 +217,10 @@ index 3af23c5..fa321d9 100644
  /*
   * Basic utility functions
 diff --git a/config/zfs-build.m4 b/config/zfs-build.m4
-index 77c9154..37f6345 100644
+index 49e46df..8ddab0c 100644
 --- a/config/zfs-build.m4
 +++ b/config/zfs-build.m4
-@@ -651,6 +651,9 @@ AC_DEFUN([ZFS_AC_DEFAULT_PACKAGE], [
+@@ -663,6 +663,9 @@ AC_DEFUN([ZFS_AC_DEFAULT_PACKAGE], [
  		fedora|openeuler|redhat|sles|toss)
  			initconfdir=/etc/sysconfig
  			;;
@@ -236,7 +230,7 @@ index 77c9154..37f6345 100644
  		freebsd)
  			initconfdir=$sysconfdir/rc.conf.d
  			;;
-@@ -674,7 +677,7 @@ AC_DEFUN([ZFS_AC_DEFAULT_PACKAGE], [
+@@ -686,7 +689,7 @@ AC_DEFUN([ZFS_AC_DEFAULT_PACKAGE], [
  
  	AC_MSG_CHECKING([default bash completion directory])
  	case "$VENDOR" in
@@ -246,10 +240,10 @@ index 77c9154..37f6345 100644
  			;;
  		freebsd)
 diff --git a/configure b/configure
-index 9334c50..0a0c10e 100755
+index dd7148c..cd60c22 100755
 --- a/configure
 +++ b/configure
-@@ -121790,6 +121790,9 @@ printf %s "checking default init config directory... " >&6; }
+@@ -123014,6 +123014,9 @@ printf %s "checking default init config directory... " >&6; }
  		fedora|openeuler|redhat|sles|toss)
  			initconfdir=/etc/sysconfig
  			;;
@@ -259,7 +253,7 @@ index 9334c50..0a0c10e 100755
  		freebsd)
  			initconfdir=$sysconfdir/rc.conf.d
  			;;
-@@ -121818,7 +121821,7 @@ printf "%s\n" "no" >&6; }
+@@ -123042,7 +123045,7 @@ printf "%s\n" "no" >&6; }
  	{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking default bash completion directory" >&5
  printf %s "checking default bash completion directory... " >&6; }
  	case "$VENDOR" in
@@ -269,18 +263,11 @@ index 9334c50..0a0c10e 100755
  			;;
  		freebsd)
 diff --git a/etc/Makefile.am b/etc/Makefile.am
-index 58b3cf5..d89f30a 100644
+index a795bec..5b2d093 100644
 --- a/etc/Makefile.am
 +++ b/etc/Makefile.am
-@@ -1,19 +1,12 @@
+@@ -1,13 +1,6 @@
  # SPDX-License-Identifier: CDDL-1.0
--sudoersddir = $(sysconfdir)/sudoers.d
-+sudoersddir = $(datadir)/defaults/sudo/sudoers.d
- sudoersd_DATA = \
- 	%D%/sudoers.d/zfs
- 
- dist_noinst_DATA += $(sudoersd_DATA)
- 
  
 -sysconf_zfsdir = $(sysconfdir)/zfs
 -
@@ -294,7 +281,7 @@ index 58b3cf5..d89f30a 100644
  
  sysconf_zfs_DATA = \
  	%D%/zfs/zfs-functions
-@@ -25,7 +18,7 @@ $(call SHELLCHECK_OPTS,$(sysconf_zfs_DATA)): SHELLCHECK_SHELL = sh
+@@ -19,7 +12,7 @@ $(call SHELLCHECK_OPTS,$(sysconf_zfs_DATA)): SHELLCHECK_SHELL = sh
  
  if BUILD_LINUX
  initconf_DATA = \
@@ -303,7 +290,7 @@ index 58b3cf5..d89f30a 100644
  
  SUBSTFILES          += $(initconf_DATA)
  SHELLCHECKSCRIPTS   += $(initconf_DATA)
-@@ -94,8 +87,4 @@ CPPCHECKTARGETS += $(systemdgenerator_PROGRAMS)
+@@ -88,8 +81,4 @@ CPPCHECKTARGETS += $(systemdgenerator_PROGRAMS)
  endif
  
  
