@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : uutils-coreutils
-version     : "0.8.0"
-release     : 35
+version     : "0.9.0"
+release     : 36
 homepage    : https://uutils.github.io/coreutils/
 upstreams   :
-    - https://github.com/uutils/coreutils/archive/refs/tags/0.8.0.tar.gz : 03f765fd23e9cc66f8789edc6928644d8eae5e5a7962d83795739d0a8a85eaef
+    - https://github.com/uutils/coreutils/archive/refs/tags/0.9.0.tar.gz : dafe0126ee4ed55c7cd60c6b559f43724a74751deed3c1b078f4f510311acab2
 summary     : Cross-platform Rust rewrite of the GNU coreutils
 description : |
     Cross-platform Rust rewrite of the GNU coreutils
@@ -27,9 +27,6 @@ environment : |
     export UUTILS_FEATURES="feat_acl,feat_systemd_logind,unix,uudoc"
     export RUSTFLAGS="$RUSTFLAGS -C codegen-units=1"
 setup       : |
-    # Breaks building openjdk
-    %patch %(pkgdir)/upstream-01.patch
-
     %cargo_fetch
 build       : |
     %cargo_build --features $UUTILS_FEATURES
