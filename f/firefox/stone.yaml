@@ -2,12 +2,12 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : firefox
-version     : "151.0.4"
-release     : 68
+version     : "152.0"
+release     : 69
 homepage    : https://www.mozilla.org/
 upstreams   :
-    - https://releases.mozilla.org/pub/firefox/releases/151.0.4/source/firefox-151.0.4.source.tar.xz:
-        hash: ffda1991cc3b9b35d3c034314d253a51d6a20f603b693db2f55a00fa840e83a7
+    - https://releases.mozilla.org/pub/firefox/releases/152.0/source/firefox-152.0.source.tar.xz:
+        hash: 5e5f9acb550d065a43934e0fcd11ed3ec22f7266fc9ad63df757406b432a5127
         unpackdir: firefox
 summary     : Firefox web browser
 description : |
@@ -82,10 +82,6 @@ setup       : |
     # Set up google safe browsing API key for AerynOS
     cp %(pkgdir)/build/aerynos-google-safebrowsing-api-key .
     echo "ac_add_options --with-google-safebrowsing-api-keyfile=%(workdir)/aerynos-google-safebrowsing-api-key" >> mozconfig
-
-    # Try to remove this in Firefox 152
-    %patch %(pkgdir)/patches/ftbfs-glibc-2.43-2.patch
-    sed -i 's/f8ad2b69fa472e332b50572c1b2dcc1c8a0fa783a1199aad245398d3df421b4b/dfdde6b4d42603fd3fe087a96bc0e7258ed38891154132a55b1eeac504f6f3c6/g' third_party/rust/glslopt/.cargo-checksum.json
 
     ./mach configure
 build       : |
