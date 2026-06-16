@@ -1,0 +1,107 @@
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : tesseract
+version     : "5.5.2"
+release     : 1
+upstreams   :
+    - https://github.com/tesseract-ocr/tesseract/archive/refs/tags/5.5.2.tar.gz : 6235ea0dae45ea137f59c09320406f5888383741924d98855bd2ce0d16b54f21
+homepage    : https://github.com/tesseract-ocr/tesseract
+license     : Apache-2.0
+summary     : Raw OCR Engine
+description : |
+    Raw OCR Engine
+builddeps   :
+    - binary(asciidoc)
+    - binary(xsltproc)
+    - cmake(Leptonica)
+    - pkgconfig(cairo)
+    - pkgconfig(fontconfig)
+    - pkgconfig(icu-i18n)
+    - pkgconfig(icu-uc)
+    - pkgconfig(libarchive)
+    - pkgconfig(libcurl)
+    - pkgconfig(libtiff-4)
+    - pkgconfig(pango)
+    - pkgconfig(pangocairo)
+    - pkgconfig(pangoft2)
+    - docbook
+    - docbook-xsl
+environment : |
+    %export_docbook_catalogs
+setup       : |
+    %patch %(pkgdir)/cmake.patch
+
+    %cmake \
+        -DBUILD_SHARED_LIBS=ON \
+        -DTESSDATA_PREFIX=%(datadir)/tesseract
+build       : |
+    %cmake_build
+
+    # Manually build man pages
+    man_xslt=http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xsl
+    for file in doc/*.asc; do
+        asciidoc -b docbook -d manpage -o - $file | xsltproc --nonet -o ${file/.asc/} $man_xslt -
+    done
+install     : |
+    %cmake_install
+
+    %install_dir %(installroot)%(mandir)/{man1,man5}
+    cp -a doc/*.1 %(installroot)%(mandir)/man1/
+    cp -a doc/*.5 %(installroot)%(mandir)/man5/
+packages    :
+    - "%(name)-libs":
+        summary: "Library files for %(name)"
+        description: |
+            Library files for %(name), typically pulled in as a dependency of another package.
+        rundeps:
+            - "%(name)-common"
+            # This should probably be a recommends?
+            - tesseract-langpack-eng
+        paths:
+            - /usr/lib/libtesseract.so.*
+
+    - "%(name)-common":
+        summary: "Configuration files for %(name)"
+        description: |
+            Configuration files for %(name)
+        paths:
+            - /usr/share/tesseract/
+
+    - "%(name)-tools":
+        summary: "Training tools for %(name)"
+        description: |
+            Training tools for %(name)
+        paths:
+            - /usr/bin/ambiguous_words
+            - /usr/bin/classifier_tester
+            - /usr/bin/cntraining
+            - /usr/bin/combine_lang_model
+            - /usr/bin/combine_tessdata
+            - /usr/bin/dawg2wordlist
+            - /usr/bin/lstmeval
+            - /usr/bin/lstmtraining
+            - /usr/bin/merge_unicharsets
+            - /usr/bin/mftraining
+            - /usr/bin/set_unicharset_properties
+            - /usr/bin/shapeclustering
+            - /usr/bin/text2image
+            - /usr/bin/unicharset_extractor
+            - /usr/bin/wordlist2dawg
+            - /usr/share/man/man1/ambiguous_words.1*
+            - /usr/share/man/man1/classifier_tester.1*
+            - /usr/share/man/man1/cntraining.1*
+            - /usr/share/man/man1/combine_lang_model.1*
+            - /usr/share/man/man1/combine_tessdata.1*
+            - /usr/share/man/man1/dawg2wordlist.1*
+            - /usr/share/man/man1/lstmeval.1*
+            - /usr/share/man/man1/lstmtraining.1*
+            - /usr/share/man/man1/merge_unicharsets.1*
+            - /usr/share/man/man1/mftraining.1*
+            - /usr/share/man/man1/set_unicharset_properties.1*
+            - /usr/share/man/man1/shapeclustering.1*
+            - /usr/share/man/man1/text2image.1*
+            - /usr/share/man/man1/unicharset_extractor.1*
+            - /usr/share/man/man1/wordlist2dawg.1*
+            - /usr/share/man/man5/unicharambigs.5*
+            - /usr/share/man/man5/unicharset.5*
