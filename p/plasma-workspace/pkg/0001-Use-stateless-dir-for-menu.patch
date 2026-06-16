@@ -12,12 +12,12 @@ diff --git a/CMakeLists.txt b/CMakeLists.txt
 index c5b4ad6477..81ca19850f 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -394,7 +394,7 @@ add_subdirectory(login-sessions)
+@@ -389,7 +389,7 @@ add_subdirectory(login-sessions)
  add_subdirectory(lookandfeel)
  
  if (INSTALL_SDDM_WAYLAND_SESSION)
--    install(FILES sddm-wayland-session/plasma-wayland.conf DESTINATION /etc/sddm.conf.d)
-+    install(FILES sddm-wayland-session/plasma-wayland.conf DESTINATION /usr/share/sddm/sddm.conf.d)
+-    install(FILES sddm-wayland-session/plasma-wayland.conf DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/sddm/sddm.conf.d)
++    install(FILES sddm-wayland-session/plasma-wayland.conf DESTINATION ${CMAKE_INSTALL_PREFIX}/share/sddm/sddm.conf.d)
  else()
      message(STATUS "INSTALL_SDDM_WAYLAND_SESSION is disabled. As soon as it's installed, SDDM will default to use Wayland and KWin for its greeter session (BETA, do not deploy to final users yet).")
  endif()
