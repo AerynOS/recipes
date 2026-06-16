@@ -2,10 +2,10 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : print-manager
-version     : "6.6.5"
-release     : 24
+version     : "6.7.0"
+release     : 25
 upstreams   :
-    - https://download.kde.org/stable/plasma/6.6.5/print-manager-6.6.5.tar.xz : 65e1e6f559411995c68516f45c5e7b7fc242bfa2b68711e6204b319981a3ae6d
+    - https://download.kde.org/stable/plasma/6.7.0/print-manager-6.7.0.tar.xz : bf7b6a930edc1b83de77ae585743bda4e1a3a582ade6d202a2fba2616adca5b3
 homepage    : https://kde.org/plasma-desktop/
 license     : GPL-2.0-or-later
 summary     : Tool for managing print jobs and printers
@@ -21,17 +21,22 @@ builddeps   :
     - cmake(KF6DBusAddons)
     - cmake(KF6I18n)
     - cmake(KF6KCMUtils)
-    - cmake(KF6Kirigami)
     - cmake(KF6KIO)
+    - cmake(KF6Kirigami)
+    - cmake(KF6KirigamiAddons)
     - cmake(KF6Notifications)
     - cmake(KF6WidgetsAddons)
     - cmake(KF6WindowSystem)
     - cmake(Plasma)
     - cmake(Qt6CorePrivate)
     - pkgconfig(cups)
+    - kf6-kdeclarative
+    - kf6-kitemmodels
 rundeps     :
     - binary(smbspool)
     - cups
+    - kf6-kdeclarative
+    - kf6-kitemmodels
     - plasma-workspace
 tuning      :
     - lto: full
