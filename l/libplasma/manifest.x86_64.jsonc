@@ -26,9 +26,14 @@
 				"cmake(Qt6Qml)",
 				"cmake(Qt6Quick)",
 				"cmake(Qt6Svg)",
-				"cmake(Qt6WaylandClient)"
+				"cmake(Qt6WaylandClient)",
+				"kf6-kirigami",
+				"pkgconfig(wayland-protocols)",
+				"qt6-5compat"
 			],
 			"depends": [
+				"kf6-kirigami",
+				"qt6-5compat",
 				"soname(libEGL.so.1(x86_64))",
 				"soname(libGLX.so.0(x86_64))",
 				"soname(libKF6ColorScheme.so.6(x86_64))",
@@ -68,9 +73,9 @@
 				"soname(libxcb.so.1(x86_64))"
 			],
 			"files": [
-				"/usr/lib/libPlasma.so.6.6.5",
+				"/usr/lib/libPlasma.so.6.7.0",
 				"/usr/lib/libPlasma.so.7",
-				"/usr/lib/libPlasmaQuick.so.6.6.5",
+				"/usr/lib/libPlasmaQuick.so.6.7.0",
 				"/usr/lib/libPlasmaQuick.so.7",
 				"/usr/lib/qt6/plugins/kf6/kirigami/platform/KirigamiPlasmaStyle.so",
 				"/usr/lib/qt6/plugins/kf6/packagestructure/plasma_applet.so",
@@ -157,6 +162,7 @@
 				"/usr/lib/qt6/qml/org/kde/plasma/core/qmldir",
 				"/usr/lib/qt6/qml/org/kde/plasma/extras/ActionTextField.qml",
 				"/usr/lib/qt6/qml/org/kde/plasma/extras/BasicPlasmoidHeading.qml",
+				"/usr/lib/qt6/qml/org/kde/plasma/extras/ContextualHelpButton.qml",
 				"/usr/lib/qt6/qml/org/kde/plasma/extras/DescriptiveLabel.qml",
 				"/usr/lib/qt6/qml/org/kde/plasma/extras/ExpandableListItem.qml",
 				"/usr/lib/qt6/qml/org/kde/plasma/extras/Heading.qml",
@@ -419,7 +425,10 @@
 				"cmake(Qt6Qml)",
 				"cmake(Qt6Quick)",
 				"cmake(Qt6Svg)",
-				"cmake(Qt6WaylandClient)"
+				"cmake(Qt6WaylandClient)",
+				"kf6-kirigami",
+				"pkgconfig(wayland-protocols)",
+				"qt6-5compat"
 			],
 			"depends": [
 				"cmake(KF6CoreAddons)",
@@ -471,7 +480,6 @@
 				"/usr/lib/cmake/Plasma/PlasmaConfig.cmake",
 				"/usr/lib/cmake/Plasma/PlasmaConfigVersion.cmake",
 				"/usr/lib/cmake/Plasma/PlasmaMacros.cmake",
-				"/usr/lib/cmake/Plasma/PlasmaQchTargets.cmake",
 				"/usr/lib/cmake/Plasma/PlasmaTargets-release.cmake",
 				"/usr/lib/cmake/Plasma/PlasmaTargets.cmake",
 				"/usr/lib/cmake/PlasmaQuick/PlasmaQuickConfig.cmake",
@@ -480,8 +488,6 @@
 				"/usr/lib/cmake/PlasmaQuick/PlasmaQuickTargets.cmake",
 				"/usr/lib/libPlasma.so",
 				"/usr/lib/libPlasmaQuick.so",
-				"/usr/share/doc/qt6/Plasma.qch",
-				"/usr/share/doc/qt6/Plasma.tags",
 				"/usr/share/kdevappwizard/templates/cpp-plasmoid6.tar.bz2",
 				"/usr/share/kdevappwizard/templates/plasma6-wallpaper-with-qml-extension.tar.bz2",
 				"/usr/share/kdevappwizard/templates/plasma6-wallpaper.tar.bz2",
@@ -495,6 +501,6 @@
 		}
 	},
 	"source-name": "libplasma",
-	"source-release": "27",
-	"source-version": "6.6.5"
+	"source-release": "28",
+	"source-version": "6.7.0"
 }
