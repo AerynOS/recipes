@@ -1,0 +1,38 @@
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : union
+version     : "6.7.2"
+release     : 1
+upstreams   :
+    - https://download.kde.org/stable/plasma/6.7.2/union-6.7.2.tar.xz : d67436c579077ad5ac2fac4a333873c5983666746d45c7e780d6384d9a0f8de6
+homepage    : https://kde.org/plasma-desktop/
+license     :
+    - LGPL-2.1-only
+    - LGPL-3.0-only
+summary     : A Qt style supporting both QtQuick and QtWidgets
+description : |
+    A Qt style supporting both QtQuick and QtWidgets
+builddeps   :
+    - cmake(Breeze)
+    # Temporary, boulder doesn't handle build ordering resolution correctly when builddeps are added by macros, so add ECM manually
+    - cmake(ECM)
+    - cmake(KF6ColorScheme)
+    - cmake(KF6CoreAddons)
+    - cmake(KF6GuiAddons)
+    - cmake(KF6IconThemes)
+    - cmake(KF6KirigamiPlatform)
+    - cmake(Qt6ShaderTools)
+    - cmake(cxx-rust-cssparser)
+rundeps     :
+    - breeze
+tuning      :
+    - lto: full
+    - optimize: speed
+setup       : |
+    %cmake_kf6 \
+        -DBUILD_OUTPUT_QTWIDGETS=ON
+build       : |
+    %cmake_build
+install     : |
+    %cmake_install
