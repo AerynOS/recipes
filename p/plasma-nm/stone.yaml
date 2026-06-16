@@ -2,10 +2,10 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : plasma-nm
-version     : "6.6.5"
-release     : 26
+version     : "6.7.0"
+release     : 27
 upstreams   :
-    - https://download.kde.org/stable/plasma/6.6.5/plasma-nm-6.6.5.tar.xz : c92d09d2978dbbe6b5c897beac822cd053c17473f1d61506e152bfcb46b70b9b
+    - https://download.kde.org/stable/plasma/6.7.0/plasma-nm-6.7.0.tar.xz : b29680cc17c4bbe52e3b988d5be437ec4b524b554fa180ead13bc8910144cf98
 homepage    : https://kde.org/plasma-desktop/
 license     :
     - GPL-2.0-only
@@ -22,25 +22,28 @@ builddeps   :
     - cmake(KF6DBusAddons)
     - cmake(KF6I18n)
     - cmake(KF6JobWidgets)
-    - cmake(KF6KIO)
     - cmake(KF6KCMUtils)
+    - cmake(KF6KIO)
     - cmake(KF6Kirigami)
     - cmake(KF6ModemManagerQt)
     - cmake(KF6NetworkManagerQt)
     - cmake(KF6Notifications)
-    - cmake(KF6QuickCharts)
     - cmake(KF6Prison)
+    - cmake(KF6QuickCharts)
     - cmake(KF6Service)
     - cmake(KF6Solid)
     - cmake(KF6Svg)
-    - cmake(KF6Wallet)
     - cmake(KF6WidgetsAddons)
     - cmake(KF6WindowSystem)
     - cmake(Plasma)
-    - cmake(Qca-qt6)
     - cmake(QCoro6)
     - cmake(Qt6CorePrivate)
+    - cmake(Qt6Keychain)
     - cmake(Qt6Quick)
+    - pkgconfig(libcrypto)
+    - pkgconfig(libnm)
+    - pkgconfig(mobile-broadband-provider-info)
+    - kf6-kirigami-addons
 tuning      :
     - lto: full
     - optimize: speed
@@ -57,8 +60,10 @@ packages    :
     - "%(name)":
         rundeps:
             - kf6-kirigami
+            - kf6-kirigami-addons
             - kf6-kquickcharts # QML dep
             - kf6-prison
+            - mobile-broadband-provider-info
             - networkmanager
         paths:
             - /usr/lib/libplasmanm_*.so
