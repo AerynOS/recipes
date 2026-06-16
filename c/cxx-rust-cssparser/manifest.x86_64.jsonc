@@ -1,0 +1,60 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"cxx-rust-cssparser": {
+			"build-depends": [
+				"binary(python3)",
+				"cmake(Corrosion)",
+				"cmake(ECM)"
+			],
+			"depends": [
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(ld-linux-x86-64.so.2(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libm.so.6(x86_64))",
+				"soname(libstdc++.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/bin/cxx-rust-cssparser-parse",
+				"/usr/lib/libcxx-rust-cssparser.so.1",
+				"/usr/lib/libcxx-rust-cssparser.so.1.0.0"
+			],
+			"name": "cxx-rust-cssparser",
+			"provides": [
+				"binary(cxx-rust-cssparser-parse)",
+				"soname(libcxx-rust-cssparser.so.1(x86_64))"
+			]
+		},
+		"cxx-rust-cssparser-devel": {
+			"build-depends": [
+				"binary(python3)",
+				"cmake(Corrosion)",
+				"cmake(ECM)"
+			],
+			"depends": [
+				"cxx-rust-cssparser"
+			],
+			"files": [
+				"/usr/include/cxx-rust-cssparser/Color.h",
+				"/usr/include/cxx-rust-cssparser/CssParser.h",
+				"/usr/include/cxx-rust-cssparser/Selector.h",
+				"/usr/include/cxx-rust-cssparser/Value.h",
+				"/usr/include/cxx-rust-cssparser/cssparser_export.h",
+				"/usr/lib/cmake/cxx-rust-cssparser/cxx-rust-cssparserConfig.cmake",
+				"/usr/lib/cmake/cxx-rust-cssparser/cxx-rust-cssparserConfigVersion.cmake",
+				"/usr/lib/cmake/cxx-rust-cssparser/cxx-rust-cssparserTargets-release.cmake",
+				"/usr/lib/cmake/cxx-rust-cssparser/cxx-rust-cssparserTargets.cmake",
+				"/usr/lib/libcxx-rust-cssparser.so"
+			],
+			"name": "cxx-rust-cssparser-devel",
+			"provides": [
+				"cmake(cxx-rust-cssparser)"
+			]
+		}
+	},
+	"source-name": "cxx-rust-cssparser",
+	"source-release": "1",
+	"source-version": "1.0.0"
+}
