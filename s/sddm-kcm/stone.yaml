@@ -2,10 +2,10 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : sddm-kcm
-version     : "6.6.5"
-release     : 18
+version     : "6.7.0"
+release     : 19
 upstreams   :
-    - https://download.kde.org/stable/plasma/6.6.5/sddm-kcm-6.6.5.tar.xz : 449811823f1f68add9642eae2127e2aa1f0761cf8ce3c37db7c27e616e8bffd8
+    - https://download.kde.org/stable/plasma/6.7.0/sddm-kcm-6.7.0.tar.xz : 03b1dea3a738048a064633b9edb802716004f4630b3f6a7f068fd074d719ef4d
 homepage    : https://kde.org/plasma-desktop/
 license     : GPL-2.0-or-later
 summary     : Config module for SDDM
@@ -14,13 +14,13 @@ description : |
 builddeps   :
     # Temporary, boulder doesn't handle build ordering resolution correctly when builddeps are added by macros, so add ECM manually
     - cmake(ECM)
-    - cmake(KF6CoreAddons)
-    - cmake(KF6Auth)
-    - cmake(KF6KIO)
-    - cmake(KF6I18n)
     - cmake(KF6Archive)
-    - cmake(KF6NewStuff)
+    - cmake(KF6Auth)
+    - cmake(KF6CoreAddons)
+    - cmake(KF6I18n)
     - cmake(KF6KCMUtils)
+    - cmake(KF6KIO)
+    - cmake(KF6NewStuff)
     - cmake(KF6Service)
     - cmake(Qt6Quick)
 tuning      :
