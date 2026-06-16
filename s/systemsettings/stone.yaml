@@ -2,10 +2,10 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : systemsettings
-version     : "6.6.5"
-release     : 23
+version     : "6.7.0"
+release     : 24
 upstreams   :
-    - https://download.kde.org/stable/plasma/6.6.5/systemsettings-6.6.5.tar.xz : 61334eff64567ad209e279f60c6d1ab13b670f9a300fde9480fe93596232a986
+    - https://download.kde.org/stable/plasma/6.7.0/systemsettings-6.7.0.tar.xz : 59f24a45046b669d1ac16f80ee78323eb6f172130abac31c6d65cf61f05fa79f
 homepage    : https://kde.org/plasma-desktop/
 license     :
     - GFDL-1.2-only
@@ -17,25 +17,25 @@ builddeps   :
     # Temporary, boulder doesn't handle build ordering resolution correctly when builddeps are added by macros, so add ECM manually
     - cmake(ECM)
     - cmake(KF6Auth)
+    - cmake(KF6ColorScheme)
+    - cmake(KF6Config)
     - cmake(KF6Crash)
-    - cmake(KF6ItemViews)
-    - cmake(KF6ItemModels)
-    - cmake(KF6KCMUtils)
+    - cmake(KF6DBusAddons)
+    - cmake(KF6DocTools)
+    - cmake(KF6GuiAddons)
     - cmake(KF6I18n)
-    - cmake(KF6KIO)
-    - cmake(KF6Service)
     - cmake(KF6IconThemes)
+    - cmake(KF6ItemModels)
+    - cmake(KF6ItemViews)
+    - cmake(KF6JobWidgets)
+    - cmake(KF6KCMUtils)
+    - cmake(KF6KIO)
+    - cmake(KF6Kirigami)
+    - cmake(KF6Runner)
+    - cmake(KF6Service)
     - cmake(KF6WidgetsAddons)
     - cmake(KF6WindowSystem)
     - cmake(KF6XmlGui)
-    - cmake(KF6DBusAddons)
-    - cmake(KF6Config)
-    - cmake(KF6GuiAddons)
-    - cmake(KF6Kirigami)
-    - cmake(KF6JobWidgets)
-    - cmake(KF6Runner)
-    - cmake(KF6ColorScheme)
-    - cmake(KF6DocTools)
     - cmake(PlasmaActivities)
     - cmake(Qt6CorePrivate)
     - cmake(Qt6Quick)
