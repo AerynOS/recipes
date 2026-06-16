@@ -1,0 +1,1063 @@
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : tesseract-tessdata
+version     : "4.1.0"
+release     : 1
+upstreams   :
+    - git|https://github.com/tesseract-ocr/tessdata_fast.git : 65727574dfcd264acbb0c3e07860e4e9e9b22185
+homepage    : https://github.com/tesseract-ocr/tessdata_fast
+license     : Apache-2.0
+summary     : Trained models for the Tesseract Open Source OCR Engine
+description : |
+    Trained models for the Tesseract Open Source OCR Engine
+install     : |
+    %install_dir %(installroot)%(datadir)/tesseract/tessdata/
+    cp -a *.traineddata %(installroot)%(datadir)/tesseract/tessdata/
+
+##@@BEGIN_PACKAGES
+packages    :
+    - "tesseract-langpack-afr":
+        summary: "Tesseract OCR data - (afr)"
+        description: "Tesseract OCR data - (afr)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/afr.traineddata
+
+    - "tesseract-langpack-amh":
+        summary: "Tesseract OCR data - (amh)"
+        description: "Tesseract OCR data - (amh)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/amh.traineddata
+
+    - "tesseract-langpack-ara":
+        summary: "Tesseract OCR data - (ara)"
+        description: "Tesseract OCR data - (ara)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/ara.traineddata
+
+    - "tesseract-langpack-asm":
+        summary: "Tesseract OCR data - (asm)"
+        description: "Tesseract OCR data - (asm)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/asm.traineddata
+
+    - "tesseract-langpack-aze":
+        summary: "Tesseract OCR data - (aze)"
+        description: "Tesseract OCR data - (aze)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/aze.traineddata
+
+    - "tesseract-langpack-aze_cyrl":
+        summary: "Tesseract OCR data - (aze_cyrl)"
+        description: "Tesseract OCR data - (aze_cyrl)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/aze_cyrl.traineddata
+
+    - "tesseract-langpack-bel":
+        summary: "Tesseract OCR data - (bel)"
+        description: "Tesseract OCR data - (bel)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/bel.traineddata
+
+    - "tesseract-langpack-ben":
+        summary: "Tesseract OCR data - (ben)"
+        description: "Tesseract OCR data - (ben)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/ben.traineddata
+
+    - "tesseract-langpack-bod":
+        summary: "Tesseract OCR data - (bod)"
+        description: "Tesseract OCR data - (bod)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/bod.traineddata
+
+    - "tesseract-langpack-bos":
+        summary: "Tesseract OCR data - (bos)"
+        description: "Tesseract OCR data - (bos)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/bos.traineddata
+
+    - "tesseract-langpack-bre":
+        summary: "Tesseract OCR data - (bre)"
+        description: "Tesseract OCR data - (bre)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/bre.traineddata
+
+    - "tesseract-langpack-bul":
+        summary: "Tesseract OCR data - (bul)"
+        description: "Tesseract OCR data - (bul)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/bul.traineddata
+
+    - "tesseract-langpack-cat":
+        summary: "Tesseract OCR data - (cat)"
+        description: "Tesseract OCR data - (cat)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/cat.traineddata
+
+    - "tesseract-langpack-ceb":
+        summary: "Tesseract OCR data - (ceb)"
+        description: "Tesseract OCR data - (ceb)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/ceb.traineddata
+
+    - "tesseract-langpack-ces":
+        summary: "Tesseract OCR data - (ces)"
+        description: "Tesseract OCR data - (ces)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/ces.traineddata
+
+    - "tesseract-langpack-chi_sim":
+        summary: "Tesseract OCR data - (chi_sim)"
+        description: "Tesseract OCR data - (chi_sim)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/chi_sim.traineddata
+
+    - "tesseract-langpack-chi_sim_vert":
+        summary: "Tesseract OCR data - (chi_sim_vert)"
+        description: "Tesseract OCR data - (chi_sim_vert)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/chi_sim_vert.traineddata
+
+    - "tesseract-langpack-chi_tra":
+        summary: "Tesseract OCR data - (chi_tra)"
+        description: "Tesseract OCR data - (chi_tra)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/chi_tra.traineddata
+
+    - "tesseract-langpack-chi_tra_vert":
+        summary: "Tesseract OCR data - (chi_tra_vert)"
+        description: "Tesseract OCR data - (chi_tra_vert)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/chi_tra_vert.traineddata
+
+    - "tesseract-langpack-chr":
+        summary: "Tesseract OCR data - (chr)"
+        description: "Tesseract OCR data - (chr)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/chr.traineddata
+
+    - "tesseract-langpack-cos":
+        summary: "Tesseract OCR data - (cos)"
+        description: "Tesseract OCR data - (cos)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/cos.traineddata
+
+    - "tesseract-langpack-cym":
+        summary: "Tesseract OCR data - (cym)"
+        description: "Tesseract OCR data - (cym)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/cym.traineddata
+
+    - "tesseract-langpack-dan":
+        summary: "Tesseract OCR data - (dan)"
+        description: "Tesseract OCR data - (dan)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/dan.traineddata
+
+    - "tesseract-langpack-dan_frak":
+        summary: "Tesseract OCR data - (dan_frak)"
+        description: "Tesseract OCR data - (dan_frak)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/dan_frak.traineddata
+
+    - "tesseract-langpack-deu":
+        summary: "Tesseract OCR data - (deu)"
+        description: "Tesseract OCR data - (deu)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/deu.traineddata
+
+    - "tesseract-langpack-deu_frak":
+        summary: "Tesseract OCR data - (deu_frak)"
+        description: "Tesseract OCR data - (deu_frak)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/deu_frak.traineddata
+
+    - "tesseract-langpack-div":
+        summary: "Tesseract OCR data - (div)"
+        description: "Tesseract OCR data - (div)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/div.traineddata
+
+    - "tesseract-langpack-dzo":
+        summary: "Tesseract OCR data - (dzo)"
+        description: "Tesseract OCR data - (dzo)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/dzo.traineddata
+
+    - "tesseract-langpack-ell":
+        summary: "Tesseract OCR data - (ell)"
+        description: "Tesseract OCR data - (ell)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/ell.traineddata
+
+    - "tesseract-langpack-eng":
+        summary: "Tesseract OCR data - (eng)"
+        description: "Tesseract OCR data - (eng)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/eng.traineddata
+
+    - "tesseract-langpack-enm":
+        summary: "Tesseract OCR data - (enm)"
+        description: "Tesseract OCR data - (enm)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/enm.traineddata
+
+    - "tesseract-langpack-epo":
+        summary: "Tesseract OCR data - (epo)"
+        description: "Tesseract OCR data - (epo)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/epo.traineddata
+
+    - "tesseract-equ":
+        summary: "Equation traineddata for tesseract"
+        description: "Equation traineddata for tesseract"
+        rundeps:
+            - tesseract
+        paths:
+          - /usr/share/tesseract/tessdata/equ.traineddata
+
+    - "tesseract-langpack-est":
+        summary: "Tesseract OCR data - (est)"
+        description: "Tesseract OCR data - (est)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/est.traineddata
+
+    - "tesseract-langpack-eus":
+        summary: "Tesseract OCR data - (eus)"
+        description: "Tesseract OCR data - (eus)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/eus.traineddata
+
+    - "tesseract-langpack-fao":
+        summary: "Tesseract OCR data - (fao)"
+        description: "Tesseract OCR data - (fao)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/fao.traineddata
+
+    - "tesseract-langpack-fas":
+        summary: "Tesseract OCR data - (fas)"
+        description: "Tesseract OCR data - (fas)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/fas.traineddata
+
+    - "tesseract-langpack-fil":
+        summary: "Tesseract OCR data - (fil)"
+        description: "Tesseract OCR data - (fil)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/fil.traineddata
+
+    - "tesseract-langpack-fin":
+        summary: "Tesseract OCR data - (fin)"
+        description: "Tesseract OCR data - (fin)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/fin.traineddata
+
+    - "tesseract-langpack-fra":
+        summary: "Tesseract OCR data - (fra)"
+        description: "Tesseract OCR data - (fra)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/fra.traineddata
+
+    - "tesseract-langpack-frk":
+        summary: "Tesseract OCR data - (frk)"
+        description: "Tesseract OCR data - (frk)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/frk.traineddata
+
+    - "tesseract-langpack-frm":
+        summary: "Tesseract OCR data - (frm)"
+        description: "Tesseract OCR data - (frm)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/frm.traineddata
+
+    - "tesseract-langpack-fry":
+        summary: "Tesseract OCR data - (fry)"
+        description: "Tesseract OCR data - (fry)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/fry.traineddata
+
+    - "tesseract-langpack-gla":
+        summary: "Tesseract OCR data - (gla)"
+        description: "Tesseract OCR data - (gla)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/gla.traineddata
+
+    - "tesseract-langpack-gle":
+        summary: "Tesseract OCR data - (gle)"
+        description: "Tesseract OCR data - (gle)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/gle.traineddata
+
+    - "tesseract-langpack-glg":
+        summary: "Tesseract OCR data - (glg)"
+        description: "Tesseract OCR data - (glg)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/glg.traineddata
+
+    - "tesseract-langpack-grc":
+        summary: "Tesseract OCR data - (grc)"
+        description: "Tesseract OCR data - (grc)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/grc.traineddata
+
+    - "tesseract-langpack-guj":
+        summary: "Tesseract OCR data - (guj)"
+        description: "Tesseract OCR data - (guj)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/guj.traineddata
+
+    - "tesseract-langpack-hat":
+        summary: "Tesseract OCR data - (hat)"
+        description: "Tesseract OCR data - (hat)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/hat.traineddata
+
+    - "tesseract-langpack-heb":
+        summary: "Tesseract OCR data - (heb)"
+        description: "Tesseract OCR data - (heb)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/heb.traineddata
+
+    - "tesseract-langpack-hin":
+        summary: "Tesseract OCR data - (hin)"
+        description: "Tesseract OCR data - (hin)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/hin.traineddata
+
+    - "tesseract-langpack-hrv":
+        summary: "Tesseract OCR data - (hrv)"
+        description: "Tesseract OCR data - (hrv)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/hrv.traineddata
+
+    - "tesseract-langpack-hun":
+        summary: "Tesseract OCR data - (hun)"
+        description: "Tesseract OCR data - (hun)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/hun.traineddata
+
+    - "tesseract-langpack-hye":
+        summary: "Tesseract OCR data - (hye)"
+        description: "Tesseract OCR data - (hye)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/hye.traineddata
+
+    - "tesseract-langpack-iku":
+        summary: "Tesseract OCR data - (iku)"
+        description: "Tesseract OCR data - (iku)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/iku.traineddata
+
+    - "tesseract-langpack-ind":
+        summary: "Tesseract OCR data - (ind)"
+        description: "Tesseract OCR data - (ind)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/ind.traineddata
+
+    - "tesseract-langpack-isl":
+        summary: "Tesseract OCR data - (isl)"
+        description: "Tesseract OCR data - (isl)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/isl.traineddata
+
+    - "tesseract-langpack-ita":
+        summary: "Tesseract OCR data - (ita)"
+        description: "Tesseract OCR data - (ita)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/ita.traineddata
+
+    - "tesseract-langpack-ita_old":
+        summary: "Tesseract OCR data - (ita_old)"
+        description: "Tesseract OCR data - (ita_old)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/ita_old.traineddata
+
+    - "tesseract-langpack-jav":
+        summary: "Tesseract OCR data - (jav)"
+        description: "Tesseract OCR data - (jav)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/jav.traineddata
+
+    - "tesseract-langpack-jpn":
+        summary: "Tesseract OCR data - (jpn)"
+        description: "Tesseract OCR data - (jpn)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/jpn.traineddata
+
+    - "tesseract-langpack-jpn_vert":
+        summary: "Tesseract OCR data - (jpn_vert)"
+        description: "Tesseract OCR data - (jpn_vert)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/jpn_vert.traineddata
+
+    - "tesseract-langpack-kan":
+        summary: "Tesseract OCR data - (kan)"
+        description: "Tesseract OCR data - (kan)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/kan.traineddata
+
+    - "tesseract-langpack-kat":
+        summary: "Tesseract OCR data - (kat)"
+        description: "Tesseract OCR data - (kat)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/kat.traineddata
+
+    - "tesseract-langpack-kat_old":
+        summary: "Tesseract OCR data - (kat_old)"
+        description: "Tesseract OCR data - (kat_old)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/kat_old.traineddata
+
+    - "tesseract-langpack-kaz":
+        summary: "Tesseract OCR data - (kaz)"
+        description: "Tesseract OCR data - (kaz)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/kaz.traineddata
+
+    - "tesseract-langpack-khm":
+        summary: "Tesseract OCR data - (khm)"
+        description: "Tesseract OCR data - (khm)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/khm.traineddata
+
+    - "tesseract-langpack-kir":
+        summary: "Tesseract OCR data - (kir)"
+        description: "Tesseract OCR data - (kir)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/kir.traineddata
+
+    - "tesseract-langpack-kmr":
+        summary: "Tesseract OCR data - (kmr)"
+        description: "Tesseract OCR data - (kmr)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/kmr.traineddata
+
+    - "tesseract-langpack-kor":
+        summary: "Tesseract OCR data - (kor)"
+        description: "Tesseract OCR data - (kor)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/kor.traineddata
+
+    - "tesseract-langpack-kor_vert":
+        summary: "Tesseract OCR data - (kor_vert)"
+        description: "Tesseract OCR data - (kor_vert)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/kor_vert.traineddata
+
+    - "tesseract-langpack-lao":
+        summary: "Tesseract OCR data - (lao)"
+        description: "Tesseract OCR data - (lao)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/lao.traineddata
+
+    - "tesseract-langpack-lat":
+        summary: "Tesseract OCR data - (lat)"
+        description: "Tesseract OCR data - (lat)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/lat.traineddata
+
+    - "tesseract-langpack-lav":
+        summary: "Tesseract OCR data - (lav)"
+        description: "Tesseract OCR data - (lav)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/lav.traineddata
+
+    - "tesseract-langpack-lit":
+        summary: "Tesseract OCR data - (lit)"
+        description: "Tesseract OCR data - (lit)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/lit.traineddata
+
+    - "tesseract-langpack-ltz":
+        summary: "Tesseract OCR data - (ltz)"
+        description: "Tesseract OCR data - (ltz)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/ltz.traineddata
+
+    - "tesseract-langpack-mal":
+        summary: "Tesseract OCR data - (mal)"
+        description: "Tesseract OCR data - (mal)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/mal.traineddata
+
+    - "tesseract-langpack-mar":
+        summary: "Tesseract OCR data - (mar)"
+        description: "Tesseract OCR data - (mar)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/mar.traineddata
+
+    - "tesseract-langpack-mkd":
+        summary: "Tesseract OCR data - (mkd)"
+        description: "Tesseract OCR data - (mkd)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/mkd.traineddata
+
+    - "tesseract-langpack-mlt":
+        summary: "Tesseract OCR data - (mlt)"
+        description: "Tesseract OCR data - (mlt)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/mlt.traineddata
+
+    - "tesseract-langpack-mon":
+        summary: "Tesseract OCR data - (mon)"
+        description: "Tesseract OCR data - (mon)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/mon.traineddata
+
+    - "tesseract-langpack-mri":
+        summary: "Tesseract OCR data - (mri)"
+        description: "Tesseract OCR data - (mri)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/mri.traineddata
+
+    - "tesseract-langpack-msa":
+        summary: "Tesseract OCR data - (msa)"
+        description: "Tesseract OCR data - (msa)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/msa.traineddata
+
+    - "tesseract-langpack-mya":
+        summary: "Tesseract OCR data - (mya)"
+        description: "Tesseract OCR data - (mya)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/mya.traineddata
+
+    - "tesseract-langpack-nep":
+        summary: "Tesseract OCR data - (nep)"
+        description: "Tesseract OCR data - (nep)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/nep.traineddata
+
+    - "tesseract-langpack-nld":
+        summary: "Tesseract OCR data - (nld)"
+        description: "Tesseract OCR data - (nld)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/nld.traineddata
+
+    - "tesseract-langpack-nor":
+        summary: "Tesseract OCR data - (nor)"
+        description: "Tesseract OCR data - (nor)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/nor.traineddata
+
+    - "tesseract-langpack-oci":
+        summary: "Tesseract OCR data - (oci)"
+        description: "Tesseract OCR data - (oci)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/oci.traineddata
+
+    - "tesseract-langpack-ori":
+        summary: "Tesseract OCR data - (ori)"
+        description: "Tesseract OCR data - (ori)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/ori.traineddata
+
+    - "tesseract-osd":
+        summary: "Orientation & Script Detection Data for tesseract"
+        description: "Orientation & Script Detection Data for tesseract"
+        rundeps:
+            - tesseract
+        paths:
+          - /usr/share/tesseract/tessdata/osd.traineddata
+
+    - "tesseract-langpack-pan":
+        summary: "Tesseract OCR data - (pan)"
+        description: "Tesseract OCR data - (pan)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/pan.traineddata
+
+    - "tesseract-langpack-pol":
+        summary: "Tesseract OCR data - (pol)"
+        description: "Tesseract OCR data - (pol)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/pol.traineddata
+
+    - "tesseract-langpack-por":
+        summary: "Tesseract OCR data - (por)"
+        description: "Tesseract OCR data - (por)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/por.traineddata
+
+    - "tesseract-langpack-pus":
+        summary: "Tesseract OCR data - (pus)"
+        description: "Tesseract OCR data - (pus)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/pus.traineddata
+
+    - "tesseract-langpack-que":
+        summary: "Tesseract OCR data - (que)"
+        description: "Tesseract OCR data - (que)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/que.traineddata
+
+    - "tesseract-langpack-ron":
+        summary: "Tesseract OCR data - (ron)"
+        description: "Tesseract OCR data - (ron)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/ron.traineddata
+
+    - "tesseract-langpack-rus":
+        summary: "Tesseract OCR data - (rus)"
+        description: "Tesseract OCR data - (rus)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/rus.traineddata
+
+    - "tesseract-langpack-san":
+        summary: "Tesseract OCR data - (san)"
+        description: "Tesseract OCR data - (san)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/san.traineddata
+
+    - "tesseract-langpack-sin":
+        summary: "Tesseract OCR data - (sin)"
+        description: "Tesseract OCR data - (sin)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/sin.traineddata
+
+    - "tesseract-langpack-slk":
+        summary: "Tesseract OCR data - (slk)"
+        description: "Tesseract OCR data - (slk)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/slk.traineddata
+
+    - "tesseract-langpack-slk_frak":
+        summary: "Tesseract OCR data - (slk_frak)"
+        description: "Tesseract OCR data - (slk_frak)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/slk_frak.traineddata
+
+    - "tesseract-langpack-slv":
+        summary: "Tesseract OCR data - (slv)"
+        description: "Tesseract OCR data - (slv)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/slv.traineddata
+
+    - "tesseract-langpack-snd":
+        summary: "Tesseract OCR data - (snd)"
+        description: "Tesseract OCR data - (snd)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/snd.traineddata
+
+    - "tesseract-langpack-spa":
+        summary: "Tesseract OCR data - (spa)"
+        description: "Tesseract OCR data - (spa)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/spa.traineddata
+
+    - "tesseract-langpack-spa_old":
+        summary: "Tesseract OCR data - (spa_old)"
+        description: "Tesseract OCR data - (spa_old)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/spa_old.traineddata
+
+    - "tesseract-langpack-sqi":
+        summary: "Tesseract OCR data - (sqi)"
+        description: "Tesseract OCR data - (sqi)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/sqi.traineddata
+
+    - "tesseract-langpack-srp":
+        summary: "Tesseract OCR data - (srp)"
+        description: "Tesseract OCR data - (srp)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/srp.traineddata
+
+    - "tesseract-langpack-srp_latn":
+        summary: "Tesseract OCR data - (srp_latn)"
+        description: "Tesseract OCR data - (srp_latn)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/srp_latn.traineddata
+
+    - "tesseract-langpack-sun":
+        summary: "Tesseract OCR data - (sun)"
+        description: "Tesseract OCR data - (sun)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/sun.traineddata
+
+    - "tesseract-langpack-swa":
+        summary: "Tesseract OCR data - (swa)"
+        description: "Tesseract OCR data - (swa)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/swa.traineddata
+
+    - "tesseract-langpack-swe":
+        summary: "Tesseract OCR data - (swe)"
+        description: "Tesseract OCR data - (swe)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/swe.traineddata
+
+    - "tesseract-langpack-syr":
+        summary: "Tesseract OCR data - (syr)"
+        description: "Tesseract OCR data - (syr)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/syr.traineddata
+
+    - "tesseract-langpack-tam":
+        summary: "Tesseract OCR data - (tam)"
+        description: "Tesseract OCR data - (tam)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/tam.traineddata
+
+    - "tesseract-langpack-tat":
+        summary: "Tesseract OCR data - (tat)"
+        description: "Tesseract OCR data - (tat)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/tat.traineddata
+
+    - "tesseract-langpack-tel":
+        summary: "Tesseract OCR data - (tel)"
+        description: "Tesseract OCR data - (tel)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/tel.traineddata
+
+    - "tesseract-langpack-tgk":
+        summary: "Tesseract OCR data - (tgk)"
+        description: "Tesseract OCR data - (tgk)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/tgk.traineddata
+
+    - "tesseract-langpack-tgl":
+        summary: "Tesseract OCR data - (tgl)"
+        description: "Tesseract OCR data - (tgl)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/tgl.traineddata
+
+    - "tesseract-langpack-tha":
+        summary: "Tesseract OCR data - (tha)"
+        description: "Tesseract OCR data - (tha)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/tha.traineddata
+
+    - "tesseract-langpack-tir":
+        summary: "Tesseract OCR data - (tir)"
+        description: "Tesseract OCR data - (tir)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/tir.traineddata
+
+    - "tesseract-langpack-ton":
+        summary: "Tesseract OCR data - (ton)"
+        description: "Tesseract OCR data - (ton)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/ton.traineddata
+
+    - "tesseract-langpack-tur":
+        summary: "Tesseract OCR data - (tur)"
+        description: "Tesseract OCR data - (tur)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/tur.traineddata
+
+    - "tesseract-langpack-uig":
+        summary: "Tesseract OCR data - (uig)"
+        description: "Tesseract OCR data - (uig)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/uig.traineddata
+
+    - "tesseract-langpack-ukr":
+        summary: "Tesseract OCR data - (ukr)"
+        description: "Tesseract OCR data - (ukr)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/ukr.traineddata
+
+    - "tesseract-langpack-urd":
+        summary: "Tesseract OCR data - (urd)"
+        description: "Tesseract OCR data - (urd)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/urd.traineddata
+
+    - "tesseract-langpack-uzb":
+        summary: "Tesseract OCR data - (uzb)"
+        description: "Tesseract OCR data - (uzb)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/uzb.traineddata
+
+    - "tesseract-langpack-uzb_cyrl":
+        summary: "Tesseract OCR data - (uzb_cyrl)"
+        description: "Tesseract OCR data - (uzb_cyrl)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/uzb_cyrl.traineddata
+
+    - "tesseract-langpack-vie":
+        summary: "Tesseract OCR data - (vie)"
+        description: "Tesseract OCR data - (vie)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/vie.traineddata
+
+    - "tesseract-langpack-yid":
+        summary: "Tesseract OCR data - (yid)"
+        description: "Tesseract OCR data - (yid)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/yid.traineddata
+
+    - "tesseract-langpack-yor":
+        summary: "Tesseract OCR data - (yor)"
+        description: "Tesseract OCR data - (yor)"
+        rundeps:
+            - tesseract-common
+        paths:
+          - /usr/share/tesseract/tessdata/yor.traineddata
+
+##@@END_PACKAGES
+
+
+
+
+
+
+
+
+
+
+
