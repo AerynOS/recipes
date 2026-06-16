@@ -1,7 +1,7 @@
-From f6efc8477c42570bddd31f58c9b8cf5b0da8c81a Mon Sep 17 00:00:00 2001
+From ed22ce3ce7274265315cf9867d294cfeae0a1549 Mon Sep 17 00:00:00 2001
 From: Natalie Vock <natalie.vock@gmx.de>
 Date: Wed, 25 Feb 2026 11:29:40 +0100
-Subject: [PATCH 07/89] [FROM-ML] drm/ttm: Split cgroup charge and resource
+Subject: [PATCH 07/73] [FROM-ML] drm/ttm: Split cgroup charge and resource
  allocation
 
 Coupling resource allocation and cgroup charging is racy when charging
@@ -32,10 +32,10 @@ Signed-off-by: Natalie Vock <natalie.vock@gmx.de>
  3 files changed, 85 insertions(+), 38 deletions(-)
 
 diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
-index 9cd5704d9e81..60df388eb174 100644
+index 69b3cff2ab17..824dad2935ef 100644
 --- a/drivers/gpu/drm/ttm/ttm_bo.c
 +++ b/drivers/gpu/drm/ttm/ttm_bo.c
-@@ -490,8 +490,12 @@ int ttm_bo_evict_first(struct ttm_device *bdev, struct ttm_resource_manager *man
+@@ -489,8 +489,12 @@ int ttm_bo_evict_first(struct ttm_device *bdev, struct ttm_resource_manager *man
  }
  
  struct ttm_bo_alloc_state {
@@ -48,7 +48,7 @@ index 9cd5704d9e81..60df388eb174 100644
  };
  
  /**
-@@ -520,28 +524,39 @@ static int ttm_bo_alloc_at_place(struct ttm_buffer_object *bo,
+@@ -519,28 +523,39 @@ static int ttm_bo_alloc_at_place(struct ttm_buffer_object *bo,
  	bool may_evict;
  	int ret;
  
@@ -104,7 +104,7 @@ index 9cd5704d9e81..60df388eb174 100644
  	return 0;
  }
  
-@@ -596,8 +611,9 @@ static s64 ttm_bo_evict_cb(struct ttm_lru_walk *walk, struct ttm_buffer_object *
+@@ -595,8 +610,9 @@ static s64 ttm_bo_evict_cb(struct ttm_lru_walk *walk, struct ttm_buffer_object *
  
  	evict_walk->evicted++;
  	if (evict_walk->res)
@@ -116,7 +116,7 @@ index 9cd5704d9e81..60df388eb174 100644
  	if (lret == 0)
  		return 1;
  out:
-@@ -636,6 +652,8 @@ static int ttm_bo_evict_alloc(struct ttm_device *bdev,
+@@ -635,6 +651,8 @@ static int ttm_bo_evict_alloc(struct ttm_device *bdev,
  	};
  	s64 lret;
  
@@ -125,7 +125,7 @@ index 9cd5704d9e81..60df388eb174 100644
  	evict_walk.walk.arg.trylock_only = true;
  	lret = ttm_lru_walk_for_evict(&evict_walk.walk, bdev, man, 1);
  
-@@ -666,6 +684,7 @@ static int ttm_bo_evict_alloc(struct ttm_device *bdev,
+@@ -665,6 +683,7 @@ static int ttm_bo_evict_alloc(struct ttm_device *bdev,
  		goto retry;
  	}
  out:
@@ -133,7 +133,7 @@ index 9cd5704d9e81..60df388eb174 100644
  	if (lret < 0)
  		return lret;
  	if (lret == 0)
-@@ -798,6 +817,7 @@ static int ttm_bo_alloc_resource(struct ttm_buffer_object *bo,
+@@ -797,6 +816,7 @@ static int ttm_bo_alloc_resource(struct ttm_buffer_object *bo,
  				res, &alloc_state);
   
  		if (ret == -ENOSPC) {
@@ -141,7 +141,7 @@ index 9cd5704d9e81..60df388eb174 100644
  			dmem_cgroup_pool_state_put(alloc_state.limit_pool);
  			continue;
  		} else if (ret == -EBUSY) {
-@@ -806,11 +826,15 @@ static int ttm_bo_alloc_resource(struct ttm_buffer_object *bo,
+@@ -805,11 +825,15 @@ static int ttm_bo_alloc_resource(struct ttm_buffer_object *bo,
  
  			dmem_cgroup_pool_state_put(alloc_state.limit_pool);
  
@@ -161,7 +161,7 @@ index 9cd5704d9e81..60df388eb174 100644
  			return ret;
  		}
 diff --git a/drivers/gpu/drm/ttm/ttm_resource.c b/drivers/gpu/drm/ttm/ttm_resource.c
-index bfd9c68fcd9c..d4a1d1c3813c 100644
+index 154d6739256f..02eca679cb68 100644
 --- a/drivers/gpu/drm/ttm/ttm_resource.c
 +++ b/drivers/gpu/drm/ttm/ttm_resource.c
 @@ -386,33 +386,52 @@ void ttm_resource_fini(struct ttm_resource_manager *man,

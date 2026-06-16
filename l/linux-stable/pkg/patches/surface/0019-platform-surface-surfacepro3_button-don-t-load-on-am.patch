@@ -32,11 +32,10 @@ index 2755601f979c..4240c98ca226 100644
   *
   * Returns true if the driver should bind to this device, i.e. the device is
   * either MSWH0028 (Pro 3) or MSHW0040 on a Pro 4 or Book 1.
-@@ -157,30 +158,11 @@ static int surface_button_resume(struct device *dev)
- static bool surface_button_check_MSHW0040(struct acpi_device *dev)
+@@ -158,29 +158,10 @@ static int surface_button_resume(struct
+ static bool surface_button_check_MSHW0040(struct device *dev, acpi_handle handle)
  {
- 	acpi_handle handle = dev->handle;
--	union acpi_object *result;
+ 	union acpi_object *result;
 -	u64 oem_platform_rev = 0;	// valid revisions are nonzero
 -
 -	// get OEM platform revision
@@ -57,8 +56,8 @@ index 2755601f979c..4240c98ca226 100644
 -		ACPI_FREE(result);
 -	}
 -
--	dev_dbg(&dev->dev, "OEM Platform Revision %llu\n", oem_platform_rev);
- 
+-	dev_dbg(dev, "OEM Platform Revision %llu\n", oem_platform_rev);
+-
 -	return oem_platform_rev == 0;
 +	// make sure that OEM platform revision DSM call does not exist
 +	return !acpi_check_dsm(handle, &MSHW0040_DSM_UUID,

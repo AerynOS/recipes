@@ -1,7 +1,7 @@
-From da8bee279ce62afbf51688399bf96a922e8919af Mon Sep 17 00:00:00 2001
+From de30da41f622e7e498fd8061c7eaac2a1e612ef5 Mon Sep 17 00:00:00 2001
 From: Natalie Vock <natalie.vock@gmx.de>
 Date: Wed, 15 Oct 2025 14:43:26 +0200
-Subject: [PATCH 06/89] [FROM-ML] drm/ttm: Extract code for attempting
+Subject: [PATCH 06/73] [FROM-ML] drm/ttm: Extract code for attempting
  allocation in a place
 
 Move all code for attempting allocation for a specific place to
@@ -27,10 +27,10 @@ Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
  1 file changed, 80 insertions(+), 23 deletions(-)
 
 diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
-index 08d07ffbb167..9cd5704d9e81 100644
+index bcd76f6bb7f0..69b3cff2ab17 100644
 --- a/drivers/gpu/drm/ttm/ttm_bo.c
 +++ b/drivers/gpu/drm/ttm/ttm_bo.c
-@@ -489,6 +489,62 @@ int ttm_bo_evict_first(struct ttm_device *bdev, struct ttm_resource_manager *man
+@@ -488,6 +488,62 @@ int ttm_bo_evict_first(struct ttm_device *bdev, struct ttm_resource_manager *man
  	return ret;
  }
  
@@ -93,7 +93,7 @@ index 08d07ffbb167..9cd5704d9e81 100644
  /**
   * struct ttm_bo_evict_walk - Parameters for the evict walk.
   */
-@@ -504,12 +560,13 @@ struct ttm_bo_evict_walk {
+@@ -503,12 +559,13 @@ struct ttm_bo_evict_walk {
  	/** @evicted: Number of successful evictions. */
  	unsigned long evicted;
  
@@ -109,7 +109,7 @@ index 08d07ffbb167..9cd5704d9e81 100644
  };
  
  static s64 ttm_bo_evict_cb(struct ttm_lru_walk *walk, struct ttm_buffer_object *bo)
-@@ -518,8 +575,9 @@ static s64 ttm_bo_evict_cb(struct ttm_lru_walk *walk, struct ttm_buffer_object *
+@@ -517,8 +574,9 @@ static s64 ttm_bo_evict_cb(struct ttm_lru_walk *walk, struct ttm_buffer_object *
  		container_of(walk, typeof(*evict_walk), walk);
  	s64 lret;
  
@@ -121,7 +121,7 @@ index 08d07ffbb167..9cd5704d9e81 100644
  		return 0;
  
  	if (bo->pin_count || !bo->bdev->funcs->eviction_valuable(bo, evict_walk->place))
-@@ -561,7 +619,7 @@ static int ttm_bo_evict_alloc(struct ttm_device *bdev,
+@@ -560,7 +618,7 @@ static int ttm_bo_evict_alloc(struct ttm_device *bdev,
  			      struct ttm_operation_ctx *ctx,
  			      struct ww_acquire_ctx *ticket,
  			      struct ttm_resource **res,
@@ -130,7 +130,7 @@ index 08d07ffbb167..9cd5704d9e81 100644
  {
  	struct ttm_bo_evict_walk evict_walk = {
  		.walk = {
-@@ -574,7 +632,7 @@ static int ttm_bo_evict_alloc(struct ttm_device *bdev,
+@@ -573,7 +631,7 @@ static int ttm_bo_evict_alloc(struct ttm_device *bdev,
  		.place = place,
  		.evictor = evictor,
  		.res = res,
@@ -139,7 +139,7 @@ index 08d07ffbb167..9cd5704d9e81 100644
  	};
  	s64 lret;
  
-@@ -725,9 +783,8 @@ static int ttm_bo_alloc_resource(struct ttm_buffer_object *bo,
+@@ -724,9 +782,8 @@ static int ttm_bo_alloc_resource(struct ttm_buffer_object *bo,
  
  	for (i = 0; i < placement->num_placement; ++i) {
  		const struct ttm_place *place = &placement->placement[i];
@@ -150,7 +150,7 @@ index 08d07ffbb167..9cd5704d9e81 100644
  
  		man = ttm_manager_type(bdev, place->mem_type);
  		if (!man || !ttm_resource_manager_used(man))
-@@ -737,25 +794,25 @@ static int ttm_bo_alloc_resource(struct ttm_buffer_object *bo,
+@@ -736,25 +793,25 @@ static int ttm_bo_alloc_resource(struct ttm_buffer_object *bo,
  				    TTM_PL_FLAG_FALLBACK))
  			continue;
  

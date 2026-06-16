@@ -1,7 +1,7 @@
-From 38c9f39a6faefc75fe26ba20649829092d4cee92 Mon Sep 17 00:00:00 2001
+From a0e35dbd13afe98e094837b7b99e24cf1fef3cd1 Mon Sep 17 00:00:00 2001
 From: Natalie Vock <natalie.vock@gmx.de>
 Date: Thu, 11 Sep 2025 11:30:59 +0200
-Subject: [PATCH 08/89] [FROM-ML] drm/ttm: Be more aggressive when allocating
+Subject: [PATCH 08/73] [FROM-ML] drm/ttm: Be more aggressive when allocating
  below protection limit
 
 When the cgroup's memory usage is below the low/min limit and allocation
@@ -16,10 +16,10 @@ Signed-off-by: Natalie Vock <natalie.vock@gmx.de>
  1 file changed, 48 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
-index 60df388eb174..02a0e9c27d7c 100644
+index 824dad2935ef..4b56016ab6a9 100644
 --- a/drivers/gpu/drm/ttm/ttm_bo.c
 +++ b/drivers/gpu/drm/ttm/ttm_bo.c
-@@ -496,6 +496,10 @@ struct ttm_bo_alloc_state {
+@@ -495,6 +495,10 @@ struct ttm_bo_alloc_state {
  	struct dmem_cgroup_pool_state *limit_pool;
  	/** @in_evict: Whether we are currently evicting buffers */
  	bool in_evict;
@@ -30,7 +30,7 @@ index 60df388eb174..02a0e9c27d7c 100644
  };
  
  /**
-@@ -545,6 +549,42 @@ static int ttm_bo_alloc_at_place(struct ttm_buffer_object *bo,
+@@ -544,6 +548,42 @@ static int ttm_bo_alloc_at_place(struct ttm_buffer_object *bo,
  		}
  	}
  
@@ -73,7 +73,7 @@ index 60df388eb174..02a0e9c27d7c 100644
  	ret = ttm_resource_alloc(bo, place, res, alloc_state->charge_pool);
  	if (ret) {
  		if (ret == -ENOSPC && may_evict)
-@@ -657,8 +697,12 @@ static int ttm_bo_evict_alloc(struct ttm_device *bdev,
+@@ -656,8 +696,12 @@ static int ttm_bo_evict_alloc(struct ttm_device *bdev,
  	evict_walk.walk.arg.trylock_only = true;
  	lret = ttm_lru_walk_for_evict(&evict_walk.walk, bdev, man, 1);
  
@@ -88,7 +88,7 @@ index 60df388eb174..02a0e9c27d7c 100644
  		evict_walk.try_low = true;
  		lret = ttm_lru_walk_for_evict(&evict_walk.walk, bdev, man, 1);
  	}
-@@ -679,7 +723,8 @@ static int ttm_bo_evict_alloc(struct ttm_device *bdev,
+@@ -678,7 +722,8 @@ static int ttm_bo_evict_alloc(struct ttm_device *bdev,
  	} while (!lret && evict_walk.evicted);
  
  	/* We hit the low limit? Try once more */
