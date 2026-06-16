@@ -1,0 +1,152 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"leptonica": {
+			"build-depends": [
+				"cmake(OpenJPEG)",
+				"giflib-devel",
+				"pkgconfig(libjpeg)",
+				"pkgconfig(libpng)",
+				"pkgconfig(libtiff-4)",
+				"pkgconfig(libwebp)",
+				"pkgconfig(zlib)"
+			],
+			"depends": [
+				"soname(libc.so.6(x86_64))",
+				"soname(libgif.so.7(x86_64))",
+				"soname(libjpeg.so.8(x86_64))",
+				"soname(libm.so.6(x86_64))",
+				"soname(libopenjp2.so.7(x86_64))",
+				"soname(libpng16.so.16(x86_64))",
+				"soname(libtiff.so.6(x86_64))",
+				"soname(libwebp.so.7(x86_64))",
+				"soname(libwebpmux.so.3(x86_64))",
+				"soname(libz.so.1(x86_64))"
+			],
+			"files": [
+				"/usr/lib/libleptonica.so.6",
+				"/usr/lib/libleptonica.so.6.0.0"
+			],
+			"name": "leptonica",
+			"provides": [
+				"soname(libleptonica.so.6(x86_64))"
+			]
+		},
+		"leptonica-devel": {
+			"build-depends": [
+				"cmake(OpenJPEG)",
+				"giflib-devel",
+				"pkgconfig(libjpeg)",
+				"pkgconfig(libpng)",
+				"pkgconfig(libtiff-4)",
+				"pkgconfig(libwebp)",
+				"pkgconfig(zlib)"
+			],
+			"depends": [
+				"leptonica",
+				"pkgconfig(libjpeg)",
+				"pkgconfig(libopenjp2)",
+				"pkgconfig(libpng)",
+				"pkgconfig(libtiff-4)",
+				"pkgconfig(libwebp)",
+				"pkgconfig(libwebpmux)",
+				"pkgconfig(zlib)"
+			],
+			"files": [
+				"/usr/include/leptonica/allheaders.h",
+				"/usr/include/leptonica/alltypes.h",
+				"/usr/include/leptonica/array.h",
+				"/usr/include/leptonica/array_internal.h",
+				"/usr/include/leptonica/arrayaccess.h",
+				"/usr/include/leptonica/bbuffer.h",
+				"/usr/include/leptonica/bilateral.h",
+				"/usr/include/leptonica/bmf.h",
+				"/usr/include/leptonica/bmfdata.h",
+				"/usr/include/leptonica/bmp.h",
+				"/usr/include/leptonica/ccbord.h",
+				"/usr/include/leptonica/ccbord_internal.h",
+				"/usr/include/leptonica/colorfill.h",
+				"/usr/include/leptonica/dewarp.h",
+				"/usr/include/leptonica/endianness.h",
+				"/usr/include/leptonica/environ.h",
+				"/usr/include/leptonica/gplot.h",
+				"/usr/include/leptonica/hashmap.h",
+				"/usr/include/leptonica/heap.h",
+				"/usr/include/leptonica/imageio.h",
+				"/usr/include/leptonica/jbclass.h",
+				"/usr/include/leptonica/leptwin.h",
+				"/usr/include/leptonica/list.h",
+				"/usr/include/leptonica/morph.h",
+				"/usr/include/leptonica/pix.h",
+				"/usr/include/leptonica/pix_internal.h",
+				"/usr/include/leptonica/ptra.h",
+				"/usr/include/leptonica/queue.h",
+				"/usr/include/leptonica/rbtree.h",
+				"/usr/include/leptonica/readbarcode.h",
+				"/usr/include/leptonica/recog.h",
+				"/usr/include/leptonica/regutils.h",
+				"/usr/include/leptonica/stack.h",
+				"/usr/include/leptonica/stringcode.h",
+				"/usr/include/leptonica/sudoku.h",
+				"/usr/include/leptonica/watershed.h",
+				"/usr/lib/cmake/leptonica/LeptonicaConfig-version.cmake",
+				"/usr/lib/cmake/leptonica/LeptonicaConfig.cmake",
+				"/usr/lib/cmake/leptonica/LeptonicaTargets-release.cmake",
+				"/usr/lib/cmake/leptonica/LeptonicaTargets.cmake",
+				"/usr/lib/liblept.so",
+				"/usr/lib/libleptonica.so",
+				"/usr/lib/pkgconfig/lept.pc"
+			],
+			"name": "leptonica-devel",
+			"provides": [
+				"cmake(Leptonica)",
+				"pkgconfig(lept)"
+			]
+		},
+		"leptonica-tools": {
+			"build-depends": [
+				"cmake(OpenJPEG)",
+				"giflib-devel",
+				"pkgconfig(libjpeg)",
+				"pkgconfig(libpng)",
+				"pkgconfig(libtiff-4)",
+				"pkgconfig(libwebp)",
+				"pkgconfig(zlib)"
+			],
+			"depends": [
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libleptonica.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/bin/convertfilestopdf",
+				"/usr/bin/convertfilestops",
+				"/usr/bin/convertformat",
+				"/usr/bin/convertsegfilestopdf",
+				"/usr/bin/convertsegfilestops",
+				"/usr/bin/converttopdf",
+				"/usr/bin/converttops",
+				"/usr/bin/fileinfo",
+				"/usr/bin/imagetops",
+				"/usr/bin/xtractprotos"
+			],
+			"name": "leptonica-tools",
+			"provides": [
+				"binary(convertfilestopdf)",
+				"binary(convertfilestops)",
+				"binary(convertformat)",
+				"binary(convertsegfilestopdf)",
+				"binary(convertsegfilestops)",
+				"binary(converttopdf)",
+				"binary(converttops)",
+				"binary(fileinfo)",
+				"binary(imagetops)",
+				"binary(xtractprotos)"
+			]
+		}
+	},
+	"source-name": "leptonica",
+	"source-release": "1",
+	"source-version": "1.87.0"
+}

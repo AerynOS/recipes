@@ -1,0 +1,36 @@
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : leptonica
+version     : "1.87.0"
+release     : 1
+upstreams   :
+    - https://github.com/DanBloomberg/leptonica/releases/download/1.87.0/leptonica-1.87.0.tar.gz : c73363397f96eb1295602bf44d708a994ad42046c791bf03ea0505d829bdb6a7
+homepage    : https://github.com/danbloomberg/leptonica
+license     : Leptonica
+summary     : C library for efficient image processing and image analysis operations
+description : |
+    C library for efficient image processing and image analysis operations
+builddeps   :
+    - cmake(OpenJPEG)
+    - pkgconfig(libjpeg)
+    - pkgconfig(libpng)
+    - pkgconfig(libtiff-4)
+    - pkgconfig(libwebp)
+    - pkgconfig(zlib)
+    - giflib-devel
+setup       : |
+    %cmake \
+        -DBUILD_PROG=ON \
+        -DBUILD_SHARED_LIBS=ON \
+        -DSYM_LINK=ON
+build       : |
+    %cmake_build
+install     : |
+    %cmake_install
+packages    :
+    - "%(name)-tools":
+        summary: Leptonica utility tools
+        description: Leptonica utility tools
+        paths:
+            - /usr/bin/
