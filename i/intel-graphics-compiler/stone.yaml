@@ -2,24 +2,24 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : intel-graphics-compiler
-version     : "2.34.4"
-release     : 5
+version     : "2.36.3"
+release     : 6
 homepage    : https://github.com/intel/intel-graphics-compiler
 upstreams   :
-    - https://github.com/intel/intel-graphics-compiler/archive/refs/tags/v2.34.4.tar.gz :
-        hash: 6d96812589094ff24249e9a3a580befb2ce934c39aa19dd5f6d66aff979ed7eb
-        rename: igc
-    - https://github.com/intel/vc-intrinsics/archive/refs/tags/v0.25.0.tar.gz :
+    - https://github.com/intel/intel-graphics-compiler/archive/refs/tags/v2.36.3.tar.gz:
+        hash: 10ad6588806a1d75a9953d5fa48273f1d129ea63246f4cb51993fd95086cad77
+        unpackdir: igc
+    - https://github.com/intel/vc-intrinsics/archive/refs/tags/v0.25.0.tar.gz:
         hash: 83d6e0528feb6a47f7818e7c1dd3305dd8a48fb1103d279571dad517a93a8d39
-        rename: vc-intrinsics
-    - https://github.com/llvm/llvm-project/releases/download/llvmorg-16.0.6/llvm-project-16.0.6.src.tar.xz :
-        hash: ce5e71081d17ce9e86d7cbcfa28c4b04b9300f8fb7e78422b1feb6bc52c3028e
-        rename: llvm-project
-    - git|https://github.com/intel/opencl-clang.git :
-        ref: 07e7c931d8bdb38549a907cf04fd06a278f7cdce
+        unpackdir: vc-intrinsics
+    - https://github.com/llvm/llvm-project/releases/download/llvmorg-17.0.6/llvm-project-17.0.6.src.tar.xz:
+        hash: 58a8818c60e6627064f312dbf46c02d9949956558340938b71cf731ad8bc0813
+        unpackdir: llvm-project
+    - git|https://github.com/intel/opencl-clang.git:
+        ref: 54ed27657aab5324f2102a8bfa3fe4ad37ec7345
         clonedir: llvm-project/llvm/projects/opencl-clang
-    - git|https://github.com/KhronosGroup/SPIRV-LLVM-Translator.git :
-        ref: 308a0d7acfd7330e64d72a1cd23d272deafb113b
+    - git|https://github.com/KhronosGroup/SPIRV-LLVM-Translator.git:
+        ref: 112b565bc334d937b8ac8f99c81178e6657bc155
         clonedir: llvm-project/llvm/projects/llvm-spirv
 summary     : Intel Graphics Compiler for OpenCL
 description : |
@@ -70,7 +70,7 @@ setup       : |
         -DIGC_OPTION__ARCHITECTURE_TARGET=Linux64 \
         -DIGC_OPTION__CLANG_MODE=Source \
         -DIGC_OPTION__LLD_MODE=Source \
-        -DIGC_OPTION__LLVM_PREFERRED_VERSION="16.0.6" \
+        -DIGC_OPTION__LLVM_PREFERRED_VERSION="17.0.6" \
         -DIGC_OPTION__LLVM_MODE=Source \
         -DIGC_OPTION__LINK_KHRONOS_SPIRV_TRANSLATOR=ON \
         -DIGC_OPTION__SPIRV_TOOLS_MODE=Prebuilds \
