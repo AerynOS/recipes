@@ -2,10 +2,10 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : plasma-pa
-version     : "6.6.5"
-release     : 25
+version     : "6.7.0"
+release     : 26
 upstreams   :
-    - https://download.kde.org/stable/plasma/6.6.5/plasma-pa-6.6.5.tar.xz : b63c01981ea0d329fd08013eff24b247b60922abe1497be01234660c15cb3826
+    - https://download.kde.org/stable/plasma/6.7.0/plasma-pa-6.7.0.tar.xz : badce8811107ee57720716275ac5fc12116689bc34ce493cabe7228e1b658f51
 homepage    : https://kde.org/plasma-desktop/
 license     :
     - GPL-2.0-only
@@ -23,10 +23,10 @@ builddeps   :
     - cmake(KF6DocTools)
     - cmake(KF6GlobalAccel)
     - cmake(KF6I18n)
+    - cmake(KF6ItemModels)
     - cmake(KF6KCMUtils)
     - cmake(KF6Kirigami)
     - cmake(KF6KirigamiAddons)
-    - cmake(KF6ItemModels)
     - cmake(KF6PulseAudioQt)
     - cmake(KF6StatusNotifierItem)
     - cmake(KF6Svg)
