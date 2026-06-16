@@ -2,10 +2,10 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : kscreen
-version     : "6.6.5"
-release     : 25
+version     : "6.7.0"
+release     : 26
 upstreams   :
-    - https://download.kde.org/stable/plasma/6.6.5/kscreen-6.6.5.tar.xz : 753ebc00cf75359c2e7ba3aabb20ff3596d0fbbe2f0b6d3ed6098d27282a3276
+    - https://download.kde.org/stable/plasma/6.7.0/kscreen-6.7.0.tar.xz : ad57a4326a64979a68aa5068a7151702d9b02db0720670e4be3e178905beda56
 homepage    : https://kde.org/plasma-desktop/
 license     :
     - GPL-2.0-or-later
@@ -21,6 +21,7 @@ builddeps   :
     - cmake(KF6DBusAddons)
     - cmake(KF6I18n)
     - cmake(KF6ImageFormats)
+    - cmake(KF6ItemModels)
     - cmake(KF6KCMUtils)
     - cmake(KF6Screen)
     - cmake(KF6Svg)
@@ -31,9 +32,11 @@ builddeps   :
     - cmake(Qt6WaylandClient)
     - pkgconfig(wayland-protocols)
     - pkgconfig(xi)
+    - plasma5support # QML dep
 rundeps     :
     - kf6-kimageformats # Required to load HDR test image
     - kf6-kirigami # QML dep for HDR calibrator
+    - plasma5support # QML dep
 tuning      :
     - lto: full
     - optimize: speed

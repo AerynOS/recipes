@@ -10,6 +10,7 @@
 				"cmake(KF6DBusAddons)",
 				"cmake(KF6I18n)",
 				"cmake(KF6ImageFormats)",
+				"cmake(KF6ItemModels)",
 				"cmake(KF6KCMUtils)",
 				"cmake(KF6Screen)",
 				"cmake(KF6Svg)",
@@ -19,12 +20,14 @@
 				"cmake(Qt6CorePrivate)",
 				"cmake(Qt6WaylandClient)",
 				"pkgconfig(wayland-protocols)",
-				"pkgconfig(xi)"
+				"pkgconfig(xi)",
+				"plasma5support"
 			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"kf6-kimageformats",
 				"kf6-kirigami",
+				"plasma5support",
 				"soname(libKF6ConfigCore.so.6(x86_64))",
 				"soname(libKF6ConfigGui.so.6(x86_64))",
 				"soname(libKF6CoreAddons.so.6(x86_64))",
@@ -209,6 +212,7 @@
 				"/usr/share/locale/nl/LC_MESSAGES/kscreen_common.mo",
 				"/usr/share/locale/nl/LC_MESSAGES/kscreen_osd.mo",
 				"/usr/share/locale/nl/LC_MESSAGES/plasma_applet_org.kde.kscreen.mo",
+				"/usr/share/locale/nn/LC_MESSAGES/hdrcalibrator.mo",
 				"/usr/share/locale/nn/LC_MESSAGES/kcm_kscreen.mo",
 				"/usr/share/locale/nn/LC_MESSAGES/kscreen_common.mo",
 				"/usr/share/locale/nn/LC_MESSAGES/plasma_applet_org.kde.kscreen.mo",
@@ -301,6 +305,6 @@
 		}
 	},
 	"source-name": "kscreen",
-	"source-release": "25",
-	"source-version": "6.6.5"
+	"source-release": "26",
+	"source-version": "6.7.0"
 }
