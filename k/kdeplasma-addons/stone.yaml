@@ -2,10 +2,10 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : kdeplasma-addons
-version     : "6.6.5"
-release     : 24
+version     : "6.7.0"
+release     : 25
 upstreams   :
-    - https://download.kde.org/stable/plasma/6.6.5/kdeplasma-addons-6.6.5.tar.xz : 48fdae7cfaa26042a59027fbe8df83789b172458bc2af0a23a015a04b8071af9
+    - https://download.kde.org/stable/plasma/6.7.0/kdeplasma-addons-6.7.0.tar.xz : 8b86b0b79b0af2da097d81dce099913d43574e08c4428a7925870692178b4298
 homepage    : https://kde.org/plasma-desktop/
 license     :
     - GPL-2.0-or-later
@@ -14,6 +14,7 @@ summary     : A plugin based system monitoring daemon
 description : |
     A plugin based system monitoring daemon
 builddeps   :
+    - cmake(Corrosion)
     # Temporary, boulder doesn't handle build ordering resolution correctly when builddeps are added by macros, so add ECM manually
     - cmake(ECM)
     - cmake(KF6Auth)
@@ -24,11 +25,11 @@ builddeps   :
     - cmake(KF6GlobalAccel)
     - cmake(KF6Holidays)
     - cmake(KF6I18n)
-    - cmake(KF6KIO)
-    - cmake(KF6KCMUtils)
-    - cmake(KF6KirigamiAddons)
     - cmake(KF6ItemModels)
     - cmake(KF6JobWidgets)
+    - cmake(KF6KCMUtils)
+    - cmake(KF6KIO)
+    - cmake(KF6KirigamiAddons)
     - cmake(KF6NewStuff)
     - cmake(KF6Notifications)
     - cmake(KF6Runner)
@@ -38,7 +39,6 @@ builddeps   :
     - cmake(KF6UnitConversion)
     - cmake(KF6XmlGui)
     - cmake(Plasma)
-    - cmake(Plasma5Support) # TODO: remove in next version
     - cmake(Qt6Core5Compat)
     - cmake(Qt6CorePrivate)
     - cmake(Qt6Qml)
@@ -52,6 +52,10 @@ rundeps     :
 tuning      :
     - lto: full
     - optimize: speed
+networking  : true # Cargo deps
+environment : |
+    # Uses a cargo crate (qmk-via-api) which breaks the build if built with LTO
+    export RUSTFLAGS="${RUSTFLAGS/ -C lto=fat/}"
 setup       : |
     %cmake_kf6
 build       : |
