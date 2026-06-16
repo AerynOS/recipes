@@ -2,10 +2,10 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : plymouth-kcm
-version     : "6.6.5"
-release     : 16
+version     : "6.7.0"
+release     : 17
 upstreams   :
-    - https://download.kde.org/stable/plasma/6.6.5/plymouth-kcm-6.6.5.tar.xz : 7946c9192e3efc908bb471fe64248780dc81424d85b3737ad2af68fa5e41afaa
+    - https://download.kde.org/stable/plasma/6.7.0/plymouth-kcm-6.7.0.tar.xz : 2ab558ef0b26fd4e02fa26786412f6f1b7bc5076407bb9ee47a7c1c9f7e02547
 homepage    : https://kde.org/plasma-desktop/
 license     : LGPL-2.0-or-later
 summary     : KCM to manage the Plymouth (Boot) theme
@@ -14,8 +14,8 @@ description : |
 builddeps   :
     # Temporary, boulder doesn't handle build ordering resolution correctly when builddeps are added by macros, so add ECM manually
     - cmake(ECM)
-    - cmake(KF6Auth)
     - cmake(KF6Archive)
+    - cmake(KF6Auth)
     - cmake(KF6Config)
     - cmake(KF6I18n)
     - cmake(KF6KCMUtils)
