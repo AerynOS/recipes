@@ -15,6 +15,8 @@ install     : |
     %install_dir %(installroot)%(datadir)/tesseract/tessdata/
     cp -a *.traineddata %(installroot)%(datadir)/tesseract/tessdata/
 
+#### Don't modify anything below here manually. Instead run the generate.py script
+
 ##@@BEGIN_PACKAGES
 packages    :
     - "tesseract-langpack-afr":
