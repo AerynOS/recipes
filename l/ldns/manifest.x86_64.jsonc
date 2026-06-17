@@ -5,6 +5,7 @@
 		"ldns": {
 			"build-depends": [
 				"binary(ar)",
+				"binary(doxygen)",
 				"pkgconfig(libpcap)",
 				"pkgconfig(openssl)"
 			],
@@ -103,6 +104,7 @@
 		"ldns-devel": {
 			"build-depends": [
 				"binary(ar)",
+				"binary(doxygen)",
 				"pkgconfig(libpcap)",
 				"pkgconfig(openssl)"
 			],
@@ -629,6 +631,7 @@
 		"ldns-libs": {
 			"build-depends": [
 				"binary(ar)",
+				"binary(doxygen)",
 				"pkgconfig(libpcap)",
 				"pkgconfig(openssl)"
 			],
@@ -639,7 +642,7 @@
 			],
 			"files": [
 				"/usr/lib/libldns.so.3",
-				"/usr/lib/libldns.so.3.6.0"
+				"/usr/lib/libldns.so.3.9.0"
 			],
 			"name": "ldns-libs",
 			"provides": [
@@ -648,6 +651,6 @@
 		}
 	},
 	"source-name": "ldns",
-	"source-release": "5",
-	"source-version": "1.9.0"
+	"source-release": "6",
+	"source-version": "1.9.2"
 }
