@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : thunderbird
-version     : "151.0"
-release     : 44
+version     : "152.0"
+release     : 45
 homepage    : https://www.thunderbird.net/
 upstreams   :
-    - https://releases.mozilla.org/pub/thunderbird/releases/151.0/source/thunderbird-151.0.source.tar.xz : c8a8ca3ca31dffa75eca3f330e03c390bff6fa24333f180d9e9a994dfb4306ae
+    - https://releases.mozilla.org/pub/thunderbird/releases/152.0/source/thunderbird-152.0.source.tar.xz : fe1e79221bfb911b4dceb3ecb8cd47ffc1025704d9170e691694dcf991507924
 summary     : Thunderbird Email Client
 description : |
     Thunderbird Email Client
@@ -66,8 +66,8 @@ setup       : |
     sed -e 's|@@JOBCOUNT@@|%(jobs)|' -e 's|@@LIBDIR@@|%(libdir)|' -i mozconfig
 
     # https://bugzilla.mozilla.org/show_bug.cgi?id=2041134
-    sed -i 's/log\.warn(/log.warning(/' \
-        comm/build/moz.configure/gecko_source.configure
+    # sed -i 's/log\.warn(/log.warning(/' \
+    #     comm/build/moz.configure/gecko_source.configure
 
     if [ $FULL_BUILD -ne 0 ]; then
         # PGO build, no LTO
@@ -77,10 +77,6 @@ setup       : |
         echo "ac_add_options MOZ_LTO=cross,full" >> mozconfig
         echo "ac_add_options --enable-lto=cross,full" >> mozconfig
     fi
-
-    %patch %(pkgdir)/patches/ftbfs-glibc-2.43-2.patch
-    sed -i 's/f8ad2b69fa472e332b50572c1b2dcc1c8a0fa783a1199aad245398d3df421b4b/dfdde6b4d42603fd3fe087a96bc0e7258ed38891154132a55b1eeac504f6f3c6/g' third_party/rust/glslopt/.cargo-checksum.json
-    sed -i 's/f8ad2b69fa472e332b50572c1b2dcc1c8a0fa783a1199aad245398d3df421b4b/dfdde6b4d42603fd3fe087a96bc0e7258ed38891154132a55b1eeac504f6f3c6/g' comm/third_party/rust/glslopt/.cargo-checksum.json
 
     ./mach configure
 build       : |
