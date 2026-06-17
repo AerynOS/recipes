@@ -2,10 +2,10 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : spectacle
-version     : "6.6.5"
-release     : 25
+version     : "6.7.0"
+release     : 26
 upstreams   :
-    - https://download.kde.org/stable/plasma/6.6.5/spectacle-6.6.5.tar.xz : a37df7731a6bc89bc23ac08ad1f995ce9f1efb330f3ebad9bf926dca6ebb5fc7
+    - https://download.kde.org/stable/plasma/6.7.0/spectacle-6.7.0.tar.xz : 4b0e49de21b218ff5f1302d0cde6e06720bc4524396c8500d36cd644c9d50c64
 homepage    : https://kde.org/plasma-desktop/
 license     : GPL-2.0-only
 summary     : KDE Screenshot Utility
@@ -40,6 +40,7 @@ builddeps   :
     - cmake(Qt6Multimedia)
     - cmake(Qt6Qml)
     - cmake(Qt6WaylandClient)
+    - cmake(Tesseract)
 tuning      :
     - lto: full
     - optimize: speed

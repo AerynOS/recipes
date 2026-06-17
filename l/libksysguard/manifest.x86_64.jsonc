@@ -45,21 +45,23 @@
 				"soname(libnl-3.so.200(x86_64))",
 				"soname(libpcap.so.1(x86_64))",
 				"soname(libsensors.so.5(x86_64))",
-				"soname(libstdc++.so.6(x86_64))"
+				"soname(libstdc++.so.6(x86_64))",
+				"soname(libudev.so.1(x86_64))"
 			],
 			"files": [
+				"/usr/bin/ksysguard-identify",
 				"/usr/lib/kf6/kauth/ksysguardprocesslist_helper",
 				"/usr/lib/kf6/ksysguard/ksgrd_network_helper",
 				"/usr/lib/libKSysGuardFormatter.so.2",
-				"/usr/lib/libKSysGuardFormatter.so.6.6.5",
+				"/usr/lib/libKSysGuardFormatter.so.6.7.0",
 				"/usr/lib/libKSysGuardSensorFaces.so.2",
-				"/usr/lib/libKSysGuardSensorFaces.so.6.6.5",
+				"/usr/lib/libKSysGuardSensorFaces.so.6.7.0",
 				"/usr/lib/libKSysGuardSensors.so.2",
-				"/usr/lib/libKSysGuardSensors.so.6.6.5",
+				"/usr/lib/libKSysGuardSensors.so.6.7.0",
 				"/usr/lib/libKSysGuardSystemStats.so.2",
-				"/usr/lib/libKSysGuardSystemStats.so.6.6.5",
-				"/usr/lib/libprocesscore.so.10",
-				"/usr/lib/libprocesscore.so.6.6.5",
+				"/usr/lib/libKSysGuardSystemStats.so.6.7.0",
+				"/usr/lib/libprocesscore.so.11",
+				"/usr/lib/libprocesscore.so.6.7.0",
 				"/usr/lib/qt6/plugins/kf6/packagestructure/ksysguard_sensorface.so",
 				"/usr/lib/qt6/plugins/ksysguard/process/ksysguard_plugin_gpu.so",
 				"/usr/lib/qt6/plugins/ksysguard/process/ksysguard_plugin_network.so",
@@ -701,11 +703,12 @@
 			],
 			"name": "libksysguard",
 			"provides": [
+				"binary(ksysguard-identify)",
 				"soname(libKSysGuardFormatter.so.2(x86_64))",
 				"soname(libKSysGuardSensorFaces.so.2(x86_64))",
 				"soname(libKSysGuardSensors.so.2(x86_64))",
 				"soname(libKSysGuardSystemStats.so.2(x86_64))",
-				"soname(libprocesscore.so.10(x86_64))",
+				"soname(libprocesscore.so.11(x86_64))",
 				"soname(qt6/plugins/kf6/packagestructure/ksysguard_sensorface.so(x86_64))",
 				"soname(qt6/plugins/ksysguard/process/ksysguard_plugin_gpu.so(x86_64))",
 				"soname(qt6/plugins/ksysguard/process/ksysguard_plugin_network.so(x86_64))",
@@ -750,6 +753,7 @@
 				"/usr/include/ksysguard/formatter/formatter_export.h",
 				"/usr/include/ksysguard/processcore/enums.h",
 				"/usr/include/ksysguard/processcore/formatter.h",
+				"/usr/include/ksysguard/processcore/gpu_utils.h",
 				"/usr/include/ksysguard/processcore/process.h",
 				"/usr/include/ksysguard/processcore/process_attribute.h",
 				"/usr/include/ksysguard/processcore/process_attribute_model.h",
@@ -795,6 +799,6 @@
 		}
 	},
 	"source-name": "libksysguard",
-	"source-release": "25",
-	"source-version": "6.6.5"
+	"source-release": "26",
+	"source-version": "6.7.0"
 }

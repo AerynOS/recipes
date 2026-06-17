@@ -2,10 +2,10 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : powerdevil
-version     : "6.6.5"
-release     : 26
+version     : "6.7.0"
+release     : 27
 upstreams   :
-    - https://download.kde.org/stable/plasma/6.6.5/powerdevil-6.6.5.tar.xz : b125f64e73cc8dcf9e3e7e3f154f4febb4406426597cad6ebbe8c48332e35e7b
+    - https://download.kde.org/stable/plasma/6.7.0/powerdevil-6.7.0.tar.xz : 7635efffd503e78d92bcc03033d5681e51577ec92bc6da72f2ab2828bb0a34db
 homepage    : https://kde.org/plasma-desktop/
 license     : GPL-2.0-or-later
 summary     : Manages the power settings of KDE Plasma
@@ -19,13 +19,13 @@ builddeps   :
     - cmake(KF6Crash)
     - cmake(KF6DBusAddons)
     - cmake(KF6DocTools)
+    - cmake(KF6GlobalAccel)
     - cmake(KF6I18n)
     - cmake(KF6IdleTime)
     - cmake(KF6ItemModels)
-    - cmake(KF6GlobalAccel)
+    - cmake(KF6KCMUtils)
     - cmake(KF6KIO)
     - cmake(KF6Kirigami)
-    - cmake(KF6KCMUtils)
     - cmake(KF6Notifications)
     - cmake(KF6Runner)
     - cmake(KF6Screen)
@@ -33,13 +33,13 @@ builddeps   :
     - cmake(KF6WindowSystem)
     - cmake(KF6XmlGui)
     - cmake(LibKWorkspace)
+    - cmake(Plasma)
+    - cmake(PlasmaActivities)
+    - cmake(PlasmaWaylandProtocols)
     - cmake(QCoro6)
     - cmake(Qt6CorePrivate)
     - cmake(Qt6Qml)
     - cmake(Qt6WaylandClient)
-    - cmake(Plasma)
-    - cmake(PlasmaActivities)
-    - cmake(PlasmaWaylandProtocols)
     - pkgconfig(ddcutil)
     - pkgconfig(udev)
 tuning      :

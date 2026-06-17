@@ -4,6 +4,7 @@
 	"packages": {
 		"kdeplasma-addons": {
 			"build-depends": [
+				"cmake(Corrosion)",
 				"cmake(ECM)",
 				"cmake(KF6Auth)",
 				"cmake(KF6Config)",
@@ -27,7 +28,6 @@
 				"cmake(KF6UnitConversion)",
 				"cmake(KF6XmlGui)",
 				"cmake(Plasma)",
-				"cmake(Plasma5Support)",
 				"cmake(Qt6Core5Compat)",
 				"cmake(Qt6CorePrivate)",
 				"cmake(Qt6Qml)",
@@ -40,6 +40,7 @@
 				"kf6-kirigami-addons",
 				"kf6-kitemmodels",
 				"qt6-quick3d",
+				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libKF6AuthCore.so.6(x86_64))",
 				"soname(libKF6CalendarEvents.so.6(x86_64))",
 				"soname(libKF6ConfigCore.so.6(x86_64))",
@@ -47,6 +48,7 @@
 				"soname(libKF6CoreAddons.so.6(x86_64))",
 				"soname(libKF6DBusAddons.so.6(x86_64))",
 				"soname(libKF6GlobalAccel.so.6(x86_64))",
+				"soname(libKF6GuiAddons.so.6(x86_64))",
 				"soname(libKF6Holidays.so.6(x86_64))",
 				"soname(libKF6I18n.so.6(x86_64))",
 				"soname(libKF6JobWidgets.so.6(x86_64))",
@@ -75,19 +77,22 @@
 				"soname(libQt6WebEngineQuick.so.6(x86_64))",
 				"soname(libQt6Widgets.so.6(x86_64))",
 				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libicui18n.so.78(x86_64))",
 				"soname(libicuuc.so.78(x86_64))",
 				"soname(libm.so.6(x86_64))",
-				"soname(libstdc++.so.6(x86_64))"
+				"soname(libstdc++.so.6(x86_64))",
+				"soname(libudev.so.1(x86_64))"
 			],
 			"files": [
+				"/usr/lib/kf6/kameleon-qmk-helper",
 				"/usr/lib/kf6/kauth/kameleonhelper",
 				"/usr/lib/libplasmapotdprovidercore.so.2",
 				"/usr/lib/libplasmapotdprovidercore.so.2.0.0",
 				"/usr/lib/libplasmaweatherdata.so.6",
-				"/usr/lib/libplasmaweatherdata.so.6.6.5",
+				"/usr/lib/libplasmaweatherdata.so.6.7.0",
 				"/usr/lib/libplasmaweatherion.so.6",
-				"/usr/lib/libplasmaweatherion.so.6.6.5",
+				"/usr/lib/libplasmaweatherion.so.6.7.0",
 				"/usr/lib/qt6/plugins/kf6/kded/kameleon.so",
 				"/usr/lib/qt6/plugins/kf6/krunner/kcms/kcm_krunner_charrunner.so",
 				"/usr/lib/qt6/plugins/kf6/krunner/kcms/kcm_krunner_dictionary.so",
@@ -160,7 +165,9 @@
 				"/usr/lib/qt6/qml/org/kde/plasmacalendar/astronomicaleventsconfig/libplasmacalendarastronomicaleventsconfig.so",
 				"/usr/lib/qt6/qml/org/kde/plasmacalendar/astronomicaleventsconfig/plasmacalendarastronomicaleventsconfig.qmltypes",
 				"/usr/lib/qt6/qml/org/kde/plasmacalendar/astronomicaleventsconfig/qmldir",
+				"/usr/share/dbus-1/system-services/org.kde.kameleon.qmk.helper.service",
 				"/usr/share/dbus-1/system-services/org.kde.kameleonhelper.service",
+				"/usr/share/dbus-1/system.d/org.kde.kameleon.qmk.helper.conf",
 				"/usr/share/dbus-1/system.d/org.kde.kameleonhelper.conf",
 				"/usr/share/icons/hicolor/scalable/apps/accessories-dictionary.svgz",
 				"/usr/share/kdevappwizard/templates/plasmapotdprovider.tar.bz2",
@@ -947,6 +954,7 @@
 				"/usr/share/locale/hu/LC_MESSAGES/plasma_runner_krunner_dictionary.mo",
 				"/usr/share/locale/hu/LC_MESSAGES/plasma_runner_spellcheckrunner.mo",
 				"/usr/share/locale/hu/LC_MESSAGES/plasma_wallpaper_org.kde.potd.mo",
+				"/usr/share/locale/hu/LC_MESSAGES/plasma_wallpaper_org.kde.tiled.mo",
 				"/usr/share/locale/ia/LC_MESSAGES/kwin_effect_cube.mo",
 				"/usr/share/locale/ia/LC_MESSAGES/plasma_addons_engine_dict.mo",
 				"/usr/share/locale/ia/LC_MESSAGES/plasma_addons_profiles_utility.mo",
@@ -1288,6 +1296,7 @@
 				"/usr/share/locale/lv/LC_MESSAGES/plasma_runner_krunner_dictionary.mo",
 				"/usr/share/locale/lv/LC_MESSAGES/plasma_runner_spellcheckrunner.mo",
 				"/usr/share/locale/lv/LC_MESSAGES/plasma_wallpaper_org.kde.potd.mo",
+				"/usr/share/locale/lv/LC_MESSAGES/plasma_wallpaper_org.kde.tiled.mo",
 				"/usr/share/locale/ml/LC_MESSAGES/plasma_addons_engine_dict.mo",
 				"/usr/share/locale/ml/LC_MESSAGES/plasma_applet_org.kde.plasma.addons.katesessions.mo",
 				"/usr/share/locale/ml/LC_MESSAGES/plasma_applet_org.kde.plasma.binaryclock.mo",
@@ -2149,6 +2158,7 @@
 				"/usr/share/plasma/wallpapers/org.kde.tiled/metadata.json",
 				"/usr/share/plasma/wallpapers/org.kde.tiled/metadata.json.license",
 				"/usr/share/plasma/weather/noaa_station_list.xml",
+				"/usr/share/polkit-1/actions/org.kde.kameleon.qmk.helper.policy",
 				"/usr/share/polkit-1/actions/org.kde.kameleonhelper.policy",
 				"/usr/share/qlogging-categories6/kdeplasma-addons.categories",
 				"/usr/share/qlogging-categories6/kdeplasma-addons.renamecategories"
@@ -2214,6 +2224,7 @@
 		},
 		"kdeplasma-addons-devel": {
 			"build-depends": [
+				"cmake(Corrosion)",
 				"cmake(ECM)",
 				"cmake(KF6Auth)",
 				"cmake(KF6Config)",
@@ -2237,7 +2248,6 @@
 				"cmake(KF6UnitConversion)",
 				"cmake(KF6XmlGui)",
 				"cmake(Plasma)",
-				"cmake(Plasma5Support)",
 				"cmake(Qt6Core5Compat)",
 				"cmake(Qt6CorePrivate)",
 				"cmake(Qt6Qml)",
@@ -2251,21 +2261,38 @@
 			"files": [
 				"/usr/include/plasma/potdprovider/plasma_potd_export.h",
 				"/usr/include/plasma/potdprovider/potdprovider.h",
+				"/usr/include/plasma/weather/currentday.h",
+				"/usr/include/plasma/weather/forecast.h",
+				"/usr/include/plasma/weather/futuredays.h",
+				"/usr/include/plasma/weather/ion.h",
+				"/usr/include/plasma/weather/lastday.h",
+				"/usr/include/plasma/weather/lastobservation.h",
+				"/usr/include/plasma/weather/locations.h",
+				"/usr/include/plasma/weather/metadata.h",
+				"/usr/include/plasma/weather/plasmaweatherdata_export.h",
+				"/usr/include/plasma/weather/plasmaweatherion_export.h",
+				"/usr/include/plasma/weather/station.h",
+				"/usr/include/plasma/weather/warnings.h",
 				"/usr/lib/cmake/PlasmaPotdProvider/PlasmaPotdProviderConfig.cmake",
 				"/usr/lib/cmake/PlasmaPotdProvider/PlasmaPotdProviderConfigVersion.cmake",
 				"/usr/lib/cmake/PlasmaPotdProvider/PlasmaPotdProviderTargets-release.cmake",
 				"/usr/lib/cmake/PlasmaPotdProvider/PlasmaPotdProviderTargets.cmake",
+				"/usr/lib/cmake/PlasmaWeather/PlasmaWeatherConfig.cmake",
+				"/usr/lib/cmake/PlasmaWeather/PlasmaWeatherConfigVersion.cmake",
+				"/usr/lib/cmake/PlasmaWeather/PlasmaWeatherTargets-release.cmake",
+				"/usr/lib/cmake/PlasmaWeather/PlasmaWeatherTargets.cmake",
 				"/usr/lib/libplasmapotdprovidercore.so",
 				"/usr/lib/libplasmaweatherdata.so",
 				"/usr/lib/libplasmaweatherion.so"
 			],
 			"name": "kdeplasma-addons-devel",
 			"provides": [
-				"cmake(PlasmaPotdProvider)"
+				"cmake(PlasmaPotdProvider)",
+				"cmake(PlasmaWeather)"
 			]
 		}
 	},
 	"source-name": "kdeplasma-addons",
-	"source-release": "24",
-	"source-version": "6.6.5"
+	"source-release": "25",
+	"source-version": "6.7.0"
 }

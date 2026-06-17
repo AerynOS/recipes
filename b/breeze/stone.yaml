@@ -2,10 +2,10 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : breeze
-version     : "6.6.5"
-release     : 19
+version     : "6.7.0"
+release     : 20
 upstreams   :
-    - https://download.kde.org/stable/plasma/6.6.5/breeze-6.6.5.tar.xz : 06c4c3e466cd03a8c1e411a38b04756b6e145879a560534b2fc44666d41330f4
+    - https://download.kde.org/stable/plasma/6.7.0/breeze-6.7.0.tar.xz : cf375bbaaa45f5ba1b3df036bf0c40b7edfd789eb26f6e46f9dd1d325769cbd5
 homepage    : https://kde.org/plasma-desktop/
 license     :
     - BSD-3-Clause
@@ -25,7 +25,6 @@ builddeps   :
     - cmake(KF6I18n)
     - cmake(KF6IconThemes)
     - cmake(KF6KCMUtils)
-    - cmake(KF6KirigamiPlatform)
     - cmake(KF6WindowSystem)
     - cmake(Qt6Svg)
 tuning      :

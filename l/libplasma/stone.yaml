@@ -2,10 +2,10 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : libplasma
-version     : "6.6.5"
-release     : 27
+version     : "6.7.0"
+release     : 28
 upstreams   :
-    - https://download.kde.org/stable/plasma/6.6.5/libplasma-6.6.5.tar.xz : 82e02b2098f4bac90f28cdd4f9d3a4da4557440ec8347220d8fee293c1f98d8b
+    - https://download.kde.org/stable/plasma/6.7.0/libplasma-6.7.0.tar.xz : 8a85e4c9eb2c3c00b5683cce3aa2c949d06b956c88789c1b1c110b6abae20312
 homepage    : https://kde.org/plasma-desktop/
 license     :
     - BSD-3-Clause
@@ -32,8 +32,8 @@ builddeps   :
     - cmake(KF6KirigamiPlatform)
     - cmake(KF6Notifications)
     - cmake(KF6Package)
-    - cmake(KF6WindowSystem)
     - cmake(KF6Svg)
+    - cmake(KF6WindowSystem)
     - cmake(PlasmaActivities)
     - cmake(PlasmaWaylandProtocols)
     - cmake(Qt6CorePrivate)
@@ -41,6 +41,9 @@ builddeps   :
     - cmake(Qt6Quick)
     - cmake(Qt6Svg)
     - cmake(Qt6WaylandClient)
+    - pkgconfig(wayland-protocols)
+    - kf6-kirigami
+    - qt6-5compat
 tuning      :
     - lto: full
     - optimize: speed
@@ -51,6 +54,11 @@ build       : |
 install     : |
     %cmake_install
 packages    :
+    - "%(name)":
+        rundeps:
+            - kf6-kirigami
+            - qt6-5compat
+
     - "%(name)-devel":
         rundeps:
             - cmake(KF6CoreAddons)

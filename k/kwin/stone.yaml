@@ -2,10 +2,10 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : kwin
-version     : "6.6.5"
-release     : 31
+version     : "6.7.0"
+release     : 32
 upstreams   :
-    - https://download.kde.org/stable/plasma/6.6.5/kwin-6.6.5.tar.xz : 6c187ce7a5506090b438ef900103836fa0537674dde8b31e5b497ef321643cb4
+    - https://download.kde.org/stable/plasma/6.7.0/kwin-6.7.0.tar.xz : d20b798094a9f58e57de55eca3d58b1cdcb7db2939eb8bf73918c4fab6d9aec5
 homepage    : https://kde.org/plasma-desktop/
 license     :
     - GFDL-1.2-only
@@ -14,6 +14,8 @@ summary     : KDE window manager
 description : |
     KWin is the window manager for the KDE Plasma Desktop. It gives you complete control over your windows, making sure they're not in the way but aid you in your task. It paints the window decoration, the bar on top of every window with (configurable) buttons like close, maximize and minimize. It also handles placing of windows and switching between them.
 builddeps   :
+    - binary(glslangValidator)
+    - binary(glslc)
     - binary(Xwayland)
     - cmake(Aurorae)
     - cmake(Breeze)
@@ -56,6 +58,7 @@ builddeps   :
     - cmake(Qt6Sensors)
     - cmake(Qt6Svg)
     - cmake(Qt6WaylandClient)
+    - cmake(VulkanLoader)
     - pkgconfig(egl)
     - pkgconfig(epoxy)
     - pkgconfig(fontconfig)
@@ -67,19 +70,20 @@ builddeps   :
     - pkgconfig(libdisplay-info)
     - pkgconfig(libdrm)
     - pkgconfig(libeis-1.0)
+    - pkgconfig(libevdev)
     - pkgconfig(libinput)
     - pkgconfig(libpipewire-0.3)
     - pkgconfig(libsystemd)
     - pkgconfig(libxcvt)
     - pkgconfig(udev)
+    - pkgconfig(wayland-protocols)
     - pkgconfig(xkbcommon)
     - pkgconfig(xkbcommon-x11)
-    - pkgconfig(wayland-protocols)
+    - milou
 tuning      :
     - lto: full
     - optimize: speed
 setup       : |
-    %patch %(pkgdir)/9278.patch
     %cmake_kf6
 build       : |
     %cmake_build
@@ -96,6 +100,7 @@ packages    :
             - kf6-kdeclarative # QML dep
             - kf6-kirigami # QML dep
             - libplasma # QML dep
+            - milou # QML dep
             - binary(Xwayland)
 
     - "%(name)-libs":

@@ -2,10 +2,10 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : aurorae
-version     : "6.6.5"
-release     : 19
+version     : "6.7.0"
+release     : 20
 upstreams   :
-    - https://download.kde.org/stable/plasma/6.6.5/aurorae-6.6.5.tar.xz : e7c3de710a75f99df8c4f80a741e3d1e90e5c5cadae44a3d180861d0f5c9dcf9
+    - https://download.kde.org/stable/plasma/6.7.0/aurorae-6.7.0.tar.xz : 538223ebe7521305d29873c278f85e7910eb7810a31d2a69698ede76a5c0da3c
 homepage    : https://kde.org/plasma-desktop/
 license     :
     - GPL-2.0-or-later
@@ -17,7 +17,6 @@ description : |
 builddeps   :
     # Temporary, boulder doesn't handle build ordering resolution correctly when builddeps are added by macros, so add ECM manually
     - cmake(ECM)
-    - cmake(Qt6Quick)
     - cmake(KDecoration3)
     - cmake(KF6ColorScheme)
     - cmake(KF6Config)
@@ -27,6 +26,7 @@ builddeps   :
     - cmake(KF6NewStuff)
     - cmake(KF6Package)
     - cmake(KF6Svg)
+    - cmake(Qt6Quick)
 tuning      :
     - lto: full
     - optimize: speed

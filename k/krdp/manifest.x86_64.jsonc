@@ -20,11 +20,13 @@
 				"cmake(Qt6Keychain)",
 				"cmake(Qt6Quick)",
 				"cmake(Qt6WaylandClient)",
+				"kf6-kirigami-addons",
 				"pkgconfig(pam)"
 			],
 			"depends": [
 				"binary(openssl)",
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"kf6-kirigami-addons",
 				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libKF6ConfigCore.so.6(x86_64))",
 				"soname(libKF6ConfigGui.so.6(x86_64))",
@@ -35,6 +37,8 @@
 				"soname(libKF6KCMUtilsCore.so.6(x86_64))",
 				"soname(libKF6KCMUtilsQuick.so.6(x86_64))",
 				"soname(libKF6StatusNotifierItem.so.6(x86_64))",
+				"soname(libKPipeWire.so.6(x86_64))",
+				"soname(libKPipeWireDmaBuf.so.6(x86_64))",
 				"soname(libKPipeWireRecord.so.6(x86_64))",
 				"soname(libQt6Core.so.6(x86_64))",
 				"soname(libQt6DBus.so.6(x86_64))",
@@ -56,7 +60,7 @@
 			"files": [
 				"/usr/bin/krdpserver",
 				"/usr/lib/libKRdp.so.6",
-				"/usr/lib/libKRdp.so.6.6.5",
+				"/usr/lib/libKRdp.so.6.7.0",
 				"/usr/lib/qt6/plugins/plasma/kcms/systemsettings/kcm_krdpserver.so",
 				"/usr/lib/systemd/user-preset/00-krdp.preset",
 				"/usr/lib/systemd/user/app-org.kde.krdpserver.service",
@@ -101,8 +105,10 @@
 				"/usr/share/locale/ia/LC_MESSAGES/kcm_krdpserver.mo",
 				"/usr/share/locale/ia/LC_MESSAGES/krdpserver.mo",
 				"/usr/share/locale/is/LC_MESSAGES/kcm_krdpserver.mo",
+				"/usr/share/locale/is/LC_MESSAGES/krdpserver.mo",
 				"/usr/share/locale/it/LC_MESSAGES/kcm_krdpserver.mo",
 				"/usr/share/locale/it/LC_MESSAGES/krdpserver.mo",
+				"/usr/share/locale/ja/LC_MESSAGES/kcm_krdpserver.mo",
 				"/usr/share/locale/ka/LC_MESSAGES/kcm_krdpserver.mo",
 				"/usr/share/locale/ka/LC_MESSAGES/krdpserver.mo",
 				"/usr/share/locale/ko/LC_MESSAGES/kcm_krdpserver.mo",
@@ -131,6 +137,8 @@
 				"/usr/share/locale/sk/LC_MESSAGES/krdpserver.mo",
 				"/usr/share/locale/sl/LC_MESSAGES/kcm_krdpserver.mo",
 				"/usr/share/locale/sl/LC_MESSAGES/krdpserver.mo",
+				"/usr/share/locale/sv/LC_MESSAGES/kcm_krdpserver.mo",
+				"/usr/share/locale/sv/LC_MESSAGES/krdpserver.mo",
 				"/usr/share/locale/tr/LC_MESSAGES/kcm_krdpserver.mo",
 				"/usr/share/locale/tr/LC_MESSAGES/krdpserver.mo",
 				"/usr/share/locale/uk/LC_MESSAGES/kcm_krdpserver.mo",
@@ -167,6 +175,7 @@
 				"cmake(Qt6Keychain)",
 				"cmake(Qt6Quick)",
 				"cmake(Qt6WaylandClient)",
+				"kf6-kirigami-addons",
 				"pkgconfig(pam)"
 			],
 			"depends": [
@@ -184,6 +193,6 @@
 		}
 	},
 	"source-name": "krdp",
-	"source-release": "23",
-	"source-version": "6.6.5"
+	"source-release": "24",
+	"source-version": "6.7.0"
 }

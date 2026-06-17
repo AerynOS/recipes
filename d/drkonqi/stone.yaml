@@ -2,10 +2,10 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : drkonqi
-version     : "6.6.5"
-release     : 17
+version     : "6.7.0"
+release     : 18
 upstreams   :
-    - https://download.kde.org/stable/plasma/6.6.5/drkonqi-6.6.5.tar.xz : b2b104d5f30224bca88280246ca990ac314d81cb1bf0d3857613ff683db92d82
+    - https://download.kde.org/stable/plasma/6.7.0/drkonqi-6.7.0.tar.xz : 55e6626ebc5008998a22755c8cd271f2335872a50cddf65f158fdd5cd237d7d3
 homepage    : https://kde.org/plasma-desktop/
 license     :
     - GPL-2.0-or-later
@@ -17,9 +17,9 @@ builddeps   :
     - binary(coredumpctl)
     - binary(eu-unstrip)
     - binary(gdb)
+    - binary(python3)
     # Temporary, boulder doesn't handle build ordering resolution correctly when builddeps are added by macros, so add ECM manually
     - cmake(ECM)
-    - cmake(Qt6Quick)
     - cmake(KF6Config)
     - cmake(KF6CoreAddons)
     - cmake(KF6Crash)
@@ -35,10 +35,10 @@ builddeps   :
     - cmake(KF6WidgetsAddons)
     - cmake(KF6WindowSystem)
     - cmake(PolkitQt6-1)
+    - cmake(Qt6Quick)
     - pkgconfig(systemd)
-    - python(pygdbmi)
     - python(psutil)
-    - binary(python3)
+    - python(pygdbmi)
     - python(sentry-sdk)
     - kf6-kirigami
     - kf6-kitemmodels
@@ -46,9 +46,9 @@ rundeps     :
     - binary(coredumpctl)
     - binary(eu-unstrip)
     - binary(gdb)
-    - python(pygdbmi)
     - binary(python3)
     - python(psutil)
+    - python(pygdbmi)
     - python(sentry-sdk)
     - kf6-kirigami
     - kf6-kitemmodels
@@ -57,8 +57,6 @@ tuning      :
     - lto: full
     - optimize: speed
 setup       : |
-    %patch %(pkgdir)/upstream-01.patch
-
     %cmake_kf6 \
         -DWITH_PYTHON_VENDORING=OFF
 build       : |

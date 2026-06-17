@@ -2,10 +2,10 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : krdp
-version     : "6.6.5"
-release     : 23
+version     : "6.7.0"
+release     : 24
 upstreams   :
-    - https://download.kde.org/stable/plasma/6.6.5/krdp-6.6.5.tar.xz : 85e35131f640c269f8db6b2f858fb043f6f6266b1f65030129d110c0adcb8061
+    - https://download.kde.org/stable/plasma/6.7.0/krdp-6.7.0.tar.xz : e65ca56cf2f966994510dccecd53892922e261ad7dba9911d2f374060293c6db
 homepage    : https://kde.org/plasma-desktop/
 license     : LGPL-2.1-or-later
 summary     : Library and examples for creating an RDP server
@@ -15,8 +15,6 @@ builddeps   :
     # Temporary, boulder doesn't handle build ordering resolution correctly when builddeps are added by macros, so add ECM manually
     - cmake(ECM)
     - cmake(FreeRDP)
-    - cmake(Qt6Quick)
-    - cmake(Qt6WaylandClient)
     - cmake(KF6Config)
     - cmake(KF6CoreAddons)
     - cmake(KF6Crash)
@@ -29,9 +27,13 @@ builddeps   :
     - cmake(PlasmaWaylandProtocols)
     - cmake(Qt6CorePrivate)
     - cmake(Qt6Keychain)
+    - cmake(Qt6Quick)
+    - cmake(Qt6WaylandClient)
     - pkgconfig(pam)
+    - kf6-kirigami-addons
 rundeps     :
     - binary(openssl)
+    - kf6-kirigami-addons
 tuning      :
     - lto: full
     - optimize: speed

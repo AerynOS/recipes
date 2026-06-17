@@ -30,7 +30,8 @@
 				"cmake(Qt6CorePrivate)",
 				"cmake(Qt6Multimedia)",
 				"cmake(Qt6Qml)",
-				"cmake(Qt6WaylandClient)"
+				"cmake(Qt6WaylandClient)",
+				"cmake(Tesseract)"
 			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
@@ -43,6 +44,7 @@
 				"soname(libKF6GlobalAccel.so.6(x86_64))",
 				"soname(libKF6GuiAddons.so.6(x86_64))",
 				"soname(libKF6I18n.so.6(x86_64))",
+				"soname(libKF6I18nQml.so.6(x86_64))",
 				"soname(libKF6JobWidgets.so.6(x86_64))",
 				"soname(libKF6KIOCore.so.6(x86_64))",
 				"soname(libKF6KIOGui.so.6(x86_64))",
@@ -74,6 +76,7 @@
 				"soname(libopencv_core.so.413(x86_64))",
 				"soname(libopencv_imgproc.so.413(x86_64))",
 				"soname(libstdc++.so.6(x86_64))",
+				"soname(libtesseract.so.5.5(x86_64))",
 				"soname(libwayland-client.so.0(x86_64))",
 				"soname(libxcb-cursor.so.0(x86_64))",
 				"soname(libxcb-image.so.0(x86_64))",
@@ -201,7 +204,8 @@
 				"cmake(Qt6CorePrivate)",
 				"cmake(Qt6Multimedia)",
 				"cmake(Qt6Qml)",
-				"cmake(Qt6WaylandClient)"
+				"cmake(Qt6WaylandClient)",
+				"cmake(Tesseract)"
 			],
 			"files": [
 				"/usr/share/doc/HTML/ca/spectacle/Annotate.png",
@@ -250,6 +254,6 @@
 		}
 	},
 	"source-name": "spectacle",
-	"source-release": "25",
-	"source-version": "6.6.5"
+	"source-release": "26",
+	"source-version": "6.7.0"
 }

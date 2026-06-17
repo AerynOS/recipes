@@ -2,10 +2,10 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : plasma-integration
-version     : "6.6.5"
-release     : 23
+version     : "6.7.0"
+release     : 24
 upstreams   :
-    - https://download.kde.org/stable/plasma/6.6.5/plasma-integration-6.6.5.tar.xz : c28482dc8d3387b9a770fdc999dd13480b14714568395c8d86bd568b0181920a
+    - https://download.kde.org/stable/plasma/6.7.0/plasma-integration-6.7.0.tar.xz : 537b05cd4bab1b0706fb31f9823f8666df7295e647e75614f02b6bf1458eff1d
 homepage    : https://kde.org/plasma-desktop/
 license     :
     - GPL-2.0-or-later
@@ -25,7 +25,6 @@ builddeps   :
     - cmake(KF6Notifications)
     - cmake(KF6StatusNotifierItem)
     - cmake(KF6WindowSystem)
-    - cmake(KF6XmlGui)
     - cmake(PlasmaWaylandProtocols)
     - cmake(Qt6CorePrivate)
     - cmake(Qt6QuickControls2)

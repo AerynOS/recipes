@@ -2,10 +2,10 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : discover
-version     : "6.6.5"
-release     : 19
+version     : "6.7.0"
+release     : 20
 upstreams   :
-    - https://download.kde.org/stable/plasma/6.6.5/discover-6.6.5.tar.xz : 0d1471adf4b0b3bf92ac93225e2e4860493677f3fb9a02dbf44b193ae7c15357
+    - https://download.kde.org/stable/plasma/6.7.0/discover-6.7.0.tar.xz : 03d4a2b175717656bfee907f4fb94120b86cdcc8663d94e7924ac6f277a55b27
 homepage    : https://apps.kde.org/discover/
 license     : GPL-2.0-or-later
 summary     : Discover helps you find and install applications, games, and tools.
@@ -18,8 +18,8 @@ builddeps   :
     - cmake(KF6Archive)
     - cmake(KF6Attica)
     - cmake(KF6Auth)
-    - cmake(KF6CoreAddons)
     - cmake(KF6Config)
+    - cmake(KF6CoreAddons)
     - cmake(KF6Crash)
     - cmake(KF6DBusAddons)
     - cmake(KF6I18n)

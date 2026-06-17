@@ -2,10 +2,10 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : libksysguard
-version     : "6.6.5"
-release     : 25
+version     : "6.7.0"
+release     : 26
 upstreams   :
-    - https://download.kde.org/stable/plasma/6.6.5/libksysguard-6.6.5.tar.xz : f088854a021028b7b0f6a735c89e9aa53bd13e903af11ed16a49c944e33b00df
+    - https://download.kde.org/stable/plasma/6.7.0/libksysguard-6.7.0.tar.xz : e34c01438399fc23090cde4d47225bcd8f60899d138ecae99cc599659536ace3
 homepage    : https://kde.org/plasma-desktop/
 license     :
     - GPL-2.0-or-later
@@ -16,16 +16,16 @@ description : |
 builddeps   :
     # Temporary, boulder doesn't handle build ordering resolution correctly when builddeps are added by macros, so add ECM manually
     - cmake(ECM)
-    - cmake(Qt6CorePrivate)
-    - cmake(Qt6Qml)
     - cmake(KF6Auth)
-    - cmake(KF6CoreAddons)
     - cmake(KF6Config)
+    - cmake(KF6CoreAddons)
     - cmake(KF6I18n)
     - cmake(KF6NewStuff)
     - cmake(KF6Package)
     - cmake(KF6Service)
     - cmake(KF6Solid)
+    - cmake(Qt6CorePrivate)
+    - cmake(Qt6Qml)
     - pkgconfig(libcap)
     - pkgconfig(libdrm)
     - pkgconfig(libnl-3.0)

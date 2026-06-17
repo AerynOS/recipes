@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : plasma-login-manager
-version     : "6.6.5"
-release     : 19
+version     : "6.7.0"
+release     : 20
 homepage    : https://kde.org/plasma-desktop/
 upstreams   :
-    - https://download.kde.org/stable/plasma/6.6.5/plasma-login-manager-6.6.5.tar.xz : 1758f00003133265d4963adabe068f557028b5358f431fc448f58beedc4d0f7f
+    - https://download.kde.org/stable/plasma/6.7.0/plasma-login-manager-6.7.0.tar.xz : 03c58596141cc1262c2b1c5749d9b64d6e7225c9728d421c6e5afb6493566ee1
 summary     : Display manager for KDE Plasam
 description : |
     Plasma Login provides a display manager for KDE Plasma, forked from SDDM and with a new frontend providing a greeter, wallpaper plugin integration and System Settings module (KCM).
@@ -14,7 +14,6 @@ license     : GPL-2.0-only
 builddeps   :
     # Temporary, boulder doesn't handle build ordering resolution correctly when builddeps are added by macros, so add ECM manually
     - cmake(ECM)
-    - cmake(Qt6Qml)
     - cmake(KF6Auth)
     - cmake(KF6Config)
     - cmake(KF6DBusAddons)
@@ -29,6 +28,7 @@ builddeps   :
     - cmake(LibKWorkspace)
     - cmake(PlasmaQuick)
     - cmake(Qt6CorePrivate)
+    - cmake(Qt6Qml)
     - cmake(Qt6ShaderTools)
     - pkgconfig(pam)
     - pkgconfig(systemd)
