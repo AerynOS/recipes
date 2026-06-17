@@ -1,7 +1,7 @@
-From bb96a445773c2b4444f8d04be9e66e895883c216 Mon Sep 17 00:00:00 2001
+From 155b6185efe729e106e8d32eb318fdbf87bd001f Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Tomasz=20Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>
 Date: Wed, 14 Jan 2026 20:28:06 +0100
-Subject: [PATCH 17/28] drm/amd/display: Support HDMI VRRmax=0
+Subject: [PATCH 16/28] drm/amd/display: Support HDMI VRRmax=0
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -26,10 +26,10 @@ Signed-off-by: Tomasz Pakuła <tomasz.pakula.oficjalny@gmail.com>
  2 files changed, 20 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index bc9b155b6c8c..4ebd00d3de0d 100644
+index 88ad9f83fc23..114ec9de9303 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -13353,15 +13353,28 @@ static void aconn_range_from_vsdb(struct amdgpu_dm_connector *aconn,
+@@ -13357,15 +13357,28 @@ static void aconn_range_from_vsdb(struct amdgpu_dm_connector *aconn,
  }
  
  /**
@@ -61,7 +61,7 @@ index bc9b155b6c8c..4ebd00d3de0d 100644
  }
  
  /*
-@@ -13531,8 +13544,8 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
+@@ -13522,8 +13535,8 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
  	/* DP -> HDMI PCON */
  	} else if (pcon_allowed) {
  		/* Prefer HDMI VRR */

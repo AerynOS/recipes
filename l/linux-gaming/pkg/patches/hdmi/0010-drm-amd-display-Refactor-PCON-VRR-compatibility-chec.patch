@@ -1,7 +1,7 @@
-From 169fe739f35404560a49fe812afb6334ee5736e7 Mon Sep 17 00:00:00 2001
+From 73c558a95236723645cd9f58af2e9e00a3280c80 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Tomasz=20Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>
 Date: Sun, 18 Jan 2026 14:10:22 +0100
-Subject: [PATCH 11/28] drm/amd/display: Refactor PCON VRR compatibility check
+Subject: [PATCH 10/28] drm/amd/display: Refactor PCON VRR compatibility check
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -23,12 +23,12 @@ Signed-off-by: Tomasz Pakuła <tomasz.pakula.oficjalny@gmail.com>
  3 files changed, 22 insertions(+), 31 deletions(-)
 
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index ef3d7217cbb7..6c7cb5f7a65d 100644
+index 23c8fcff3477..68c1fde18792 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -13426,8 +13426,8 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
+@@ -13418,8 +13418,8 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
+ 	struct dpcd_caps dpcd_caps = {0};
  	const struct edid *edid;
- 	bool check_mccs_freesync = false;
  	bool freesync_capable = false;
 +	bool pcon_allowed = false;
  	bool is_pcon = false;
@@ -36,7 +36,7 @@ index ef3d7217cbb7..6c7cb5f7a65d 100644
  
  	if (!connector->state) {
  		drm_err(adev_to_drm(adev), "%s - Connector has no state", __func__);
-@@ -13464,6 +13464,7 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
+@@ -13456,6 +13456,7 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
  	if (amdgpu_dm_connector->dc_link) {
  		dpcd_caps = amdgpu_dm_connector->dc_link->dpcd_caps;
  		is_pcon = dpcd_caps.dongle_type == DISPLAY_DONGLE_DP_HDMI_CONVERTER;
@@ -44,8 +44,8 @@ index ef3d7217cbb7..6c7cb5f7a65d 100644
  	}
  
  	/* Copy current range and do not touch display_info afterwards */
-@@ -13504,13 +13505,10 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
- 		check_mccs_freesync = true;
+@@ -13495,13 +13496,10 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
+ 		freesync_capable = is_freesync_capable(amdgpu_dm_connector);
  	}
  
 -	if (amdgpu_dm_connector->dc_link && is_pcon)

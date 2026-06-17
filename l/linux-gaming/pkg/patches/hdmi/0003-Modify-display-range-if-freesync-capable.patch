@@ -1,4 +1,4 @@
-From 282c324cad85220205051b4ec440a4c44c52728a Mon Sep 17 00:00:00 2001
+From b89000f46a95f5381827cfd99c936092d6a946ca Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Tomasz=20Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>
 Date: Wed, 1 Apr 2026 09:50:34 +0200
 Subject: [PATCH 03/28] Modify display range if freesync capable
@@ -8,10 +8,10 @@ Subject: [PATCH 03/28] Modify display range if freesync capable
  1 file changed, 5 insertions(+)
 
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 9fee44e775a8..6e374352c4ff 100644
+index c1abdb9bb4b9..5cdbfcfcf92c 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -13483,6 +13483,11 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
+@@ -13485,6 +13485,11 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
  	if (dm_con_state)
  		dm_con_state->freesync_capable = freesync_capable;
  

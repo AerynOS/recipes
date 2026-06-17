@@ -1,7 +1,7 @@
-From 8157ff060311fa15ee69ac88823bc39945e16505 Mon Sep 17 00:00:00 2001
+From f8f5fe907d73fc6e12f062f6236e908a2ca4ec05 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Tomasz=20Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>
 Date: Sat, 17 Jan 2026 16:49:11 +0100
-Subject: [PATCH 23/28] drm/amd/display: Enable HDMI VRR
+Subject: [PATCH 22/28] drm/amd/display: Enable HDMI VRR
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -16,14 +16,14 @@ Use VTEM info packet as vrr_infopacket
 
 Signed-off-by: Tomasz Pakuła <tomasz.pakula.oficjalny@gmail.com>
 ---
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  | 18 ++++++++++++++----
- .../amd/display/modules/freesync/freesync.c    |  4 ++++
- .../amd/display/modules/inc/mod_info_packet.h  |  1 +
- .../display/modules/info_packet/info_packet.c  |  1 +
- 4 files changed, 20 insertions(+), 4 deletions(-)
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c    | 16 ++++++++++++----
+ .../drm/amd/display/modules/freesync/freesync.c  |  4 ++++
+ .../amd/display/modules/inc/mod_info_packet.h    |  1 +
+ .../display/modules/info_packet/info_packet.c    |  1 +
+ 4 files changed, 18 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 1bada88e18e1..b8026b993819 100644
+index 1da6d2427ac1..09438073b933 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
 @@ -9709,7 +9709,10 @@ static void update_freesync_state_on_stream(
@@ -38,7 +38,7 @@ index 1bada88e18e1..b8026b993819 100644
  		      aconn->vsdb_info.replay_mode)) {
  		pack_sdp_v1_3 = aconn->pack_sdp_v1_3;
  
-@@ -13535,10 +13538,17 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
+@@ -13527,8 +13530,14 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
  		}
  
  	/* HDMI */
@@ -49,16 +49,20 @@ index 1bada88e18e1..b8026b993819 100644
 +		if (hdmi_vrr.supported) {
 +			amdgpu_dm_connector->as_type = ADAPTIVE_SYNC_TYPE_HDMI;
 +			aconn_range_from_hdmi(amdgpu_dm_connector, &hdmi_vrr, &vsdb_info);
-+		} else if (vsdb_info.freesync_supported) {
++		} else if (vsdb_info.freesync_supported)
 +			aconn_range_from_vsdb(amdgpu_dm_connector, &vsdb_info);
-+			check_mccs_freesync = true;
-+		}
 +
  		freesync_capable = is_freesync_capable(amdgpu_dm_connector);
--		check_mccs_freesync = true;
  	}
  
- 	/* DP -> HDMI PCON */
+@@ -13540,7 +13549,6 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
+ 		else if (vsdb_info.freesync_supported) {
+ 			amdgpu_dm_connector->vsdb_info = vsdb_info;
+ 			aconn_range_from_vsdb(amdgpu_dm_connector, &vsdb_info);
+-			check_mccs_freesync = true;
+ 		}
+ 
+ 		amdgpu_dm_connector->pack_sdp_v1_3 = true;
 diff --git a/drivers/gpu/drm/amd/display/modules/freesync/freesync.c b/drivers/gpu/drm/amd/display/modules/freesync/freesync.c
 index f3b41087678b..5d5f56bb7afb 100644
 --- a/drivers/gpu/drm/amd/display/modules/freesync/freesync.c

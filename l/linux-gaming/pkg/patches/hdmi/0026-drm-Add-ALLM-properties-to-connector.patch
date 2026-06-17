@@ -1,7 +1,7 @@
-From 587bf000527f457865c9ce67c4e1884fc7a8d477 Mon Sep 17 00:00:00 2001
+From 9d0217782b413963ab94492cfa58c2b5c7957ca2 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Tomasz=20Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>
 Date: Thu, 12 Feb 2026 00:19:05 +0100
-Subject: [PATCH 27/28] drm: Add ALLM properties to connector
+Subject: [PATCH 26/28] drm: Add ALLM properties to connector
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -29,10 +29,10 @@ Signed-off-by: Tomasz Pakuła <tomasz.pakula.oficjalny@gmail.com>
  3 files changed, 156 insertions(+)
 
 diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
-index 5bd5bf6661df..9f79fe045391 100644
+index 5eaf0e8a494b..c80b044ac78d 100644
 --- a/drivers/gpu/drm/drm_atomic_uapi.c
 +++ b/drivers/gpu/drm/drm_atomic_uapi.c
-@@ -905,6 +905,8 @@ static int drm_atomic_connector_set_property(struct drm_connector *connector,
+@@ -930,6 +930,8 @@ static int drm_atomic_connector_set_property(struct drm_connector *connector,
  		state->content_type = val;
  	} else if (property == connector->scaling_mode_property) {
  		state->scaling_mode = val;
@@ -41,7 +41,7 @@ index 5bd5bf6661df..9f79fe045391 100644
  	} else if (property == config->content_protection_property) {
  		if (val == DRM_MODE_CONTENT_PROTECTION_ENABLED) {
  			drm_dbg_kms(dev, "only drivers can set CP Enabled\n");
-@@ -1002,6 +1004,8 @@ drm_atomic_connector_get_property(struct drm_connector *connector,
+@@ -1027,6 +1029,8 @@ drm_atomic_connector_get_property(struct drm_connector *connector,
  		*val = state->colorspace;
  	} else if (property == connector->scaling_mode_property) {
  		*val = state->scaling_mode;
