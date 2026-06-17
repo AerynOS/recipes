@@ -359,6 +359,7 @@
 				"/usr/bin/mariadb-import",
 				"/usr/bin/mariadb-install-db",
 				"/usr/bin/mariadb-ldb",
+				"/usr/bin/mariadb-migrate-config-file",
 				"/usr/bin/mariadb-plugin",
 				"/usr/bin/mariadb-secure-installation",
 				"/usr/bin/mariadb-service-convert",
@@ -451,6 +452,7 @@
 				"/usr/lib/mariadb/plugin/server_audit.so",
 				"/usr/lib/mariadb/plugin/simple_password_check.so",
 				"/usr/lib/mariadb/plugin/sql_errlog.so",
+				"/usr/lib/mariadb/plugin/test_pam_modules/pam_mariadb_mtr.so",
 				"/usr/lib/mariadb/plugin/type_mysql_json.so",
 				"/usr/lib/mariadb/plugin/wsrep_info.so",
 				"/usr/lib/security/pam_user_map.so",
@@ -481,7 +483,6 @@
 				"/usr/share/doc/mariadb/COPYING",
 				"/usr/share/doc/mariadb/CREDITS",
 				"/usr/share/doc/mariadb/INSTALL-BINARY",
-				"/usr/share/doc/mariadb/README-wsrep",
 				"/usr/share/doc/mariadb/README.md",
 				"/usr/share/doc/mariadb/THIRDPARTY",
 				"/usr/share/doc/mariadb/hashicorp_key_management.txt",
@@ -652,6 +653,7 @@
 				"binary(mariadb-import)",
 				"binary(mariadb-install-db)",
 				"binary(mariadb-ldb)",
+				"binary(mariadb-migrate-config-file)",
 				"binary(mariadb-plugin)",
 				"binary(mariadb-secure-installation)",
 				"binary(mariadb-service-convert)",
@@ -743,6 +745,7 @@
 				"soname(mariadb/plugin/server_audit.so(x86_64))",
 				"soname(mariadb/plugin/simple_password_check.so(x86_64))",
 				"soname(mariadb/plugin/sql_errlog.so(x86_64))",
+				"soname(mariadb/plugin/test_pam_modules/pam_mariadb_mtr.so(x86_64))",
 				"soname(mariadb/plugin/type_mysql_json.so(x86_64))",
 				"soname(mariadb/plugin/wsrep_info.so(x86_64))",
 				"soname(security/pam_user_map.so(x86_64))",
@@ -917,9 +920,6 @@
 			],
 			"files": [
 				"/usr/include/mysql/server/big_endian.h",
-				"/usr/include/mysql/server/byte_order_generic.h",
-				"/usr/include/mysql/server/byte_order_generic_x86.h",
-				"/usr/include/mysql/server/byte_order_generic_x86_64.h",
 				"/usr/include/mysql/server/decimal.h",
 				"/usr/include/mysql/server/errmsg.h",
 				"/usr/include/mysql/server/handler_ername.h",
@@ -1480,6 +1480,6 @@
 		}
 	},
 	"source-name": "mariadb",
-	"source-release": "5",
-	"source-version": "11.8.6"
+	"source-release": "6",
+	"source-version": "11.8.8"
 }
