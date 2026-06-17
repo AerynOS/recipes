@@ -1,0 +1,71 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"msgpack-c": {
+			"build-depends": [
+				"binary(doxygen)",
+				"cmake(GTest)",
+				"cmake(cJSON)",
+				"pkgconfig(zlib)"
+			],
+			"depends": [
+				"soname(libc.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/lib/libmsgpack-c.so.2",
+				"/usr/lib/libmsgpack-c.so.2.0.0"
+			],
+			"name": "msgpack-c",
+			"provides": [
+				"soname(libmsgpack-c.so.2(x86_64))"
+			]
+		},
+		"msgpack-c-devel": {
+			"build-depends": [
+				"binary(doxygen)",
+				"cmake(GTest)",
+				"cmake(cJSON)",
+				"pkgconfig(zlib)"
+			],
+			"depends": [
+				"msgpack-c"
+			],
+			"files": [
+				"/usr/include/msgpack.h",
+				"/usr/include/msgpack/fbuffer.h",
+				"/usr/include/msgpack/gcc_atomic.h",
+				"/usr/include/msgpack/object.h",
+				"/usr/include/msgpack/pack.h",
+				"/usr/include/msgpack/pack_define.h",
+				"/usr/include/msgpack/pack_template.h",
+				"/usr/include/msgpack/sbuffer.h",
+				"/usr/include/msgpack/sysdep.h",
+				"/usr/include/msgpack/timestamp.h",
+				"/usr/include/msgpack/unpack.h",
+				"/usr/include/msgpack/unpack_define.h",
+				"/usr/include/msgpack/unpack_template.h",
+				"/usr/include/msgpack/util.h",
+				"/usr/include/msgpack/version.h",
+				"/usr/include/msgpack/version_master.h",
+				"/usr/include/msgpack/vrefbuffer.h",
+				"/usr/include/msgpack/zbuffer.h",
+				"/usr/include/msgpack/zone.h",
+				"/usr/lib/cmake/msgpack-c/msgpack-c-config-version.cmake",
+				"/usr/lib/cmake/msgpack-c/msgpack-c-config.cmake",
+				"/usr/lib/cmake/msgpack-c/msgpack-c-targets-release.cmake",
+				"/usr/lib/cmake/msgpack-c/msgpack-c-targets.cmake",
+				"/usr/lib/libmsgpack-c.so",
+				"/usr/lib/pkgconfig/msgpack-c.pc"
+			],
+			"name": "msgpack-c-devel",
+			"provides": [
+				"cmake(msgpack-c)",
+				"pkgconfig(msgpack-c)"
+			]
+		}
+	},
+	"source-name": "msgpack-c",
+	"source-release": "1",
+	"source-version": "7.0.1"
+}

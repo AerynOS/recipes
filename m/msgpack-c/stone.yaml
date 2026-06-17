@@ -1,0 +1,28 @@
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : msgpack-c
+version     : "7.0.1"
+release     : 1
+upstreams   :
+    - https://github.com/msgpack/msgpack-c/releases/download/c-7.0.1/msgpack-c-7.0.1.tar.gz : 2d80f190ab89b73b513025d8aef09b144e5c07b3734dfe99dd0137725d355504
+homepage    : https://msgpack.org/
+license     : BSL-1.0
+summary     : An efficient object serialization library
+description : |
+    MessagePack is an efficient binary serialization format. It lets you exchange data among multiple languages like JSON. But it's faster and smaller. Small integers are encoded into a single byte, and typical short strings require only one extra byte in addition to the strings themselves.
+builddeps   :
+    - binary(doxygen)
+    - cmake(cJSON)
+    - cmake(GTest)
+    - pkgconfig(zlib)
+setup       : |
+    %cmake \
+        -DMSGPACK_BUILD_TESTS=ON \
+        -DBUILD_SHARED_LIBS=ON
+build       : |
+    %cmake_build
+install     : |
+    %cmake_install
+check      : |
+    ctest %(builddir)
