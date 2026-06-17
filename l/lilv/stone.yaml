@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : lilv
-version     : "0.26.4"
-release     : 6
+version     : "0.28.0"
+release     : 7
 homepage    : https://gitlab.com/lv2/lilv
 upstreams   :
-    - https://gitlab.com/lv2/lilv/-/archive/v0.26.4/lilv-v0.26.4.tar.gz : 3281f33237385de3efa515e3f6463548bfb8feb358d52961c7d7350094b7d321
+    - https://gitlab.com/lv2/lilv/-/archive/v0.28.0/lilv-v0.28.0.tar.gz : 006065dcb59ccaad5463e6bb4598160e41dd6474a959838e74820f60a849bfdb
 summary     : LV2 host library
 description : |
     LV2 host library
@@ -15,14 +15,18 @@ license     :
     - BSD-3-Clause
     - ISC
 builddeps   :
+    - binary(doxygen)
+    - binary(sphinx-build)
     - pkgconfig(lv2)
     - pkgconfig(serd-0)
     - pkgconfig(sndfile)
     - pkgconfig(sord-0)
     - pkgconfig(sratom-0)
     - pkgconfig(zix-0)
+    # sphinxygen for docs
 setup       : |
-    %meson
+    %meson \
+        -Ddocs=disabled
 build       : |
     %meson_build
 install     : |

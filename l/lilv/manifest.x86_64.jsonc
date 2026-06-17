@@ -4,6 +4,8 @@
 	"packages": {
 		"lilv": {
 			"build-depends": [
+				"binary(doxygen)",
+				"binary(sphinx-build)",
 				"pkgconfig(lv2)",
 				"pkgconfig(serd-0)",
 				"pkgconfig(sndfile)",
@@ -38,6 +40,8 @@
 		},
 		"lilv-devel": {
 			"build-depends": [
+				"binary(doxygen)",
+				"binary(sphinx-build)",
 				"pkgconfig(lv2)",
 				"pkgconfig(serd-0)",
 				"pkgconfig(sndfile)",
@@ -66,6 +70,8 @@
 		},
 		"lilv-libs": {
 			"build-depends": [
+				"binary(doxygen)",
+				"binary(sphinx-build)",
 				"pkgconfig(lv2)",
 				"pkgconfig(serd-0)",
 				"pkgconfig(sndfile)",
@@ -82,7 +88,7 @@
 			],
 			"files": [
 				"/usr/lib/liblilv-0.so.0",
-				"/usr/lib/liblilv-0.so.0.26.4"
+				"/usr/lib/liblilv-0.so.0.28.0"
 			],
 			"name": "lilv-libs",
 			"provides": [
@@ -91,6 +97,8 @@
 		},
 		"python-lilv": {
 			"build-depends": [
+				"binary(doxygen)",
+				"binary(sphinx-build)",
 				"pkgconfig(lv2)",
 				"pkgconfig(serd-0)",
 				"pkgconfig(sndfile)",
@@ -110,6 +118,6 @@
 		}
 	},
 	"source-name": "lilv",
-	"source-release": "6",
-	"source-version": "0.26.4"
+	"source-release": "7",
+	"source-version": "0.28.0"
 }
