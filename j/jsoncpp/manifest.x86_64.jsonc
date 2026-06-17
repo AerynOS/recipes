@@ -11,12 +11,10 @@
 				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
-				"/usr/lib/libjsoncpp.so.27",
 				"/usr/lib/libjsoncpp.so.28"
 			],
 			"name": "jsoncpp",
 			"provides": [
-				"soname(libjsoncpp.so.27(x86_64))",
 				"soname(libjsoncpp.so.28(x86_64))"
 			]
 		},
@@ -35,19 +33,16 @@
 				"/usr/include/json/value.h",
 				"/usr/include/json/version.h",
 				"/usr/include/json/writer.h",
-				"/usr/lib/cmake/jsoncpp/jsoncpp-namespaced-targets.cmake",
-				"/usr/lib/cmake/jsoncpp/jsoncppConfig.cmake",
 				"/usr/lib/libjsoncpp.so",
 				"/usr/lib/pkgconfig/jsoncpp.pc"
 			],
 			"name": "jsoncpp-devel",
 			"provides": [
-				"cmake(jsoncpp)",
 				"pkgconfig(jsoncpp)"
 			]
 		}
 	},
 	"source-name": "jsoncpp",
-	"source-release": "9",
+	"source-release": "10",
 	"source-version": "1.9.8"
 }

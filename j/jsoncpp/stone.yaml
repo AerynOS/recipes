@@ -3,7 +3,7 @@
 
 name        : jsoncpp
 version     : "1.9.8"
-release     : 9
+release     : 10
 homepage    : https://github.com/open-source-parsers/jsoncpp/
 upstreams   :
     - https://github.com/open-source-parsers/jsoncpp/archive/1.9.8.tar.gz :
@@ -11,9 +11,9 @@ upstreams   :
         unpackdir: current
 
     # TODO: Because this package is used by cmake you will need to add compat libraries any time the soname changes
-    - https://github.com/open-source-parsers/jsoncpp/archive/1.9.7.tar.gz :
-        hash: 830bf352d822d8558e9d0eb19d640d2e38536b4b6699c30a4488da09d5b1df18
-        unpackdir: compat
+    # - https://github.com/open-source-parsers/jsoncpp/archive/1.9.7.tar.gz :
+    #     hash: 830bf352d822d8558e9d0eb19d640d2e38536b4b6699c30a4488da09d5b1df18
+    #     unpackdir: compat
 summary     : JsonCpp is a C++ library that allows manipulating JSON values
 description : |
     JsonCpp is a C++ library that allows manipulating JSON values, including
@@ -59,3 +59,7 @@ install     : |
     fi
 
     %meson_install
+
+    # Breaks OpenXR build
+    # https://github.com/open-source-parsers/jsoncpp/issues/1568
+    rm -rf %(installroot)%(libdir)/cmake
