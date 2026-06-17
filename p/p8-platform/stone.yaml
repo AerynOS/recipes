@@ -1,0 +1,26 @@
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : p8-platform
+version     : "2.1.0.1"
+release     : 1
+summary     : Platform support library used by libCEC and binary add-ons for Kodi
+license     : GPL-2.0-or-later
+homepage    : https://github.com/Pulse-Eight/platform
+description : |
+    Platform support library used by libCEC and binary add-ons for Kodi
+upstreams   :
+    - https://github.com/Pulse-Eight/platform/archive/p8-platform-2.1.0.1.tar.gz : 064f8d2c358895c7e0bea9ae956f8d46f3f057772cb97f2743a11d478a0f68a0
+tuning      :
+    - lto: full
+setup       : |
+    %cmake \
+    -DBUILD_SHARED_LIBS=1 \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_INSTALL_LIBDIR=/usr/lib \
+    -DCMAKE_INSTALL_LIBDIR_NOARCH=/usr/lib \
+    -DCMAKE_POLICY_VERSION_MINIMUM=3.5
+build       : |
+    %cmake_build
+install     : |
+    %cmake_install
