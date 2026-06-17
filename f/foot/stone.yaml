@@ -3,7 +3,7 @@
 
 name        : foot
 version     : "1.27.0"
-release     : 4
+release     : 5
 homepage    : https://codeberg.org/dnkl/foot
 upstreams   :
     - https://codeberg.org/dnkl/foot/archive/1.27.0.tar.gz : 4e6131cc859ec6a36569f1978cf3617cc3836a681d13d228ded1b4885dab7770
@@ -17,6 +17,7 @@ builddeps   :
     - pkgconfig(fcft)
     - pkgconfig(fontconfig)
     - pkgconfig(freetype2)
+    - pkgconfig(libutf8proc)
     - pkgconfig(ncurses)
     - pkgconfig(pixman-1)
     - pkgconfig(tllist)
@@ -26,7 +27,6 @@ builddeps   :
     - pkgconfig(wayland-protocols)
     - pkgconfig(wayland-scanner)
     - pkgconfig(xkbcommon)
-    # libutf8proc
 dependencies: |
     - library(fcft)
 tuning:
