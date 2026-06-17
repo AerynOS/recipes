@@ -2,20 +2,22 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : lsof
-version     : "4.99.6"
-release     : 4
+version     : "4.99.7"
+release     : 5
 homepage    : https://github.com/lsof-org/lsof
 upstreams   :
-    - https://github.com/lsof-org/lsof/archive/refs/tags/4.99.6.tar.gz : 2ce65158694e9c44dfc54916f5b843d887763c03128e0a1c77d62ae106537009
+    - https://github.com/lsof-org/lsof/releases/download/4.99.7/lsof-4.99.7.tar.gz : 4a10391aab0b8ce1f539e82a1966693b2a6cf225972a6504ebb7ec4fa71675de
 summary     : LiSt Open Files
 description : |
     LiSt Open Files
 license     : BSD-4-Clause-UC
 builddeps   :
+    - binary(bison)
+    - binary(flex)
     - binary(soelim)
     - pkgconfig(libtirpc)
 setup       : |
-    %reconfigure
+    %configure
 build       : |
     %make
 install     : |

@@ -4,6 +4,8 @@
 	"packages": {
 		"lsof": {
 			"build-depends": [
+				"binary(bison)",
+				"binary(flex)",
 				"binary(soelim)",
 				"pkgconfig(libtirpc)"
 			],
@@ -26,6 +28,8 @@
 		},
 		"lsof-devel": {
 			"build-depends": [
+				"binary(bison)",
+				"binary(flex)",
 				"binary(soelim)",
 				"pkgconfig(libtirpc)"
 			],
@@ -42,6 +46,6 @@
 		}
 	},
 	"source-name": "lsof",
-	"source-release": "4",
-	"source-version": "4.99.6"
+	"source-release": "5",
+	"source-version": "4.99.7"
 }
