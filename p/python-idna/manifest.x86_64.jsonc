@@ -8,16 +8,23 @@
 				"python(pytest)"
 			],
 			"depends": [
-				"python-libs"
+				"binary(python3)"
 			],
 			"files": [
-				"/usr/lib/python3.14/site-packages/idna-3.13.dist-info/METADATA",
-				"/usr/lib/python3.14/site-packages/idna-3.13.dist-info/RECORD",
-				"/usr/lib/python3.14/site-packages/idna-3.13.dist-info/WHEEL",
-				"/usr/lib/python3.14/site-packages/idna-3.13.dist-info/licenses/LICENSE.md",
+				"/usr/bin/idna",
+				"/usr/lib/python3.14/site-packages/idna-3.18.dist-info/METADATA",
+				"/usr/lib/python3.14/site-packages/idna-3.18.dist-info/RECORD",
+				"/usr/lib/python3.14/site-packages/idna-3.18.dist-info/WHEEL",
+				"/usr/lib/python3.14/site-packages/idna-3.18.dist-info/entry_points.txt",
+				"/usr/lib/python3.14/site-packages/idna-3.18.dist-info/licenses/LICENSE.md",
 				"/usr/lib/python3.14/site-packages/idna/__init__.py",
+				"/usr/lib/python3.14/site-packages/idna/__main__.py",
 				"/usr/lib/python3.14/site-packages/idna/__pycache__/__init__.cpython-314.opt-1.pyc",
 				"/usr/lib/python3.14/site-packages/idna/__pycache__/__init__.cpython-314.pyc",
+				"/usr/lib/python3.14/site-packages/idna/__pycache__/__main__.cpython-314.opt-1.pyc",
+				"/usr/lib/python3.14/site-packages/idna/__pycache__/__main__.cpython-314.pyc",
+				"/usr/lib/python3.14/site-packages/idna/__pycache__/cli.cpython-314.opt-1.pyc",
+				"/usr/lib/python3.14/site-packages/idna/__pycache__/cli.cpython-314.pyc",
 				"/usr/lib/python3.14/site-packages/idna/__pycache__/codec.cpython-314.opt-1.pyc",
 				"/usr/lib/python3.14/site-packages/idna/__pycache__/codec.cpython-314.pyc",
 				"/usr/lib/python3.14/site-packages/idna/__pycache__/compat.cpython-314.opt-1.pyc",
@@ -32,6 +39,7 @@
 				"/usr/lib/python3.14/site-packages/idna/__pycache__/package_data.cpython-314.pyc",
 				"/usr/lib/python3.14/site-packages/idna/__pycache__/uts46data.cpython-314.opt-1.pyc",
 				"/usr/lib/python3.14/site-packages/idna/__pycache__/uts46data.cpython-314.pyc",
+				"/usr/lib/python3.14/site-packages/idna/cli.py",
 				"/usr/lib/python3.14/site-packages/idna/codec.py",
 				"/usr/lib/python3.14/site-packages/idna/compat.py",
 				"/usr/lib/python3.14/site-packages/idna/core.py",
@@ -43,11 +51,12 @@
 			],
 			"name": "python-idna",
 			"provides": [
+				"binary(idna)",
 				"python(idna)"
 			]
 		}
 	},
 	"source-name": "python-idna",
-	"source-release": "4",
-	"source-version": "3.13"
+	"source-release": "5",
+	"source-version": "3.18"
 }
