@@ -4,10 +4,20 @@ Date: Sat, 7 Oct 2023 12:01:22 -0500
 Subject: [PATCH] Use fully qualified app_id
 
 ---
- src/cmd_line.rs   | 6 +++---
- src/window/mod.rs | 2 +-
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ assets/neovide.desktop | 1 -
+ src/cmd_line.rs        | 6 +++---
+ src/window/mod.rs      | 2 +-
+ 3 files changed, 4 insertions(+), 5 deletions(-)
 
+diff --git a/assets/neovide.desktop b/assets/neovide.desktop
+index a39ec42..851d871 100644
+--- a/assets/neovide.desktop
++++ b/assets/neovide.desktop
+@@ -8,4 +8,3 @@ Categories=Utility;TextEditor;
+ Comment=No Nonsense Neovim Client in Rust
+ MimeType=text/english;text/plain;text/x-makefile;text/x-c++hdr;text/x-c++src;text/x-chdr;text/x-csrc;text/x-java;text/x-moc;text/x-pascal;text/x-tcl;text/x-tex;application/x-shellscript;text/x-c;text/x-c++;
+ StartupNotify=true
+-StartupWMClass=neovide
 diff --git a/src/cmd_line.rs b/src/cmd_line.rs
 index ce63a19..2c50eae 100644
 --- a/src/cmd_line.rs
