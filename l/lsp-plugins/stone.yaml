@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : lsp-plugins
-version     : "1.2.29"
-release     : 11
+version     : "1.2.33"
+release     : 12
 homepage    : https://lsp-plug.in
 upstreams   :
-    - https://github.com/sadko4u/lsp-plugins/releases/download/1.2.29/lsp-plugins-src-1.2.29.tar.gz : 404297c3add879c508db06d5119e11efc1d0473527d2a69ed39ec77c1d1972f2
+    - https://github.com/sadko4u/lsp-plugins/releases/download/1.2.33/lsp-plugins-src-1.2.33.tar.gz : 2b6922105118ac87bd942b0ff3e7bf3c8180227b2ab5c4e50e48deb90ac689bd
 summary     : Linux Studio Plugins Project
 description : |
     Linux Studio Plugins Project
@@ -18,16 +18,23 @@ builddeps   :
     - pkgconfig(gstreamer-1.0)
     - pkgconfig(gstreamer-audio-1.0)
     - pkgconfig(jack)
+    - pkgconfig(libpipewire-0.3)
     - pkgconfig(xrandr)
 setup       : |
     make config \
         PREFIX=%(prefix) \
         LIBDIR=%(libdir) \
-        FEATURES="gst jack lv2 xdg"
+        ARTIFACT_EXPORT_HEADERS=0 \
+        FEATURES="gst jack pipewire launcher standalone lv2 ui xdg" \
+        VERBOSE=1
 build       : |
     %make
 install     : |
     %make_install
+
+    # Nothing builds against this currently
+    rm -rfv %(installroot)%(libdir)/*.a \
+            %(installroot)%(libdir)/pkgconfig/*.pc
 
     find %(installroot) -empty -type d -delete -print
 packages    :
@@ -44,11 +51,24 @@ packages    :
         paths:
             - /usr/lib/lv2
 
+    - "%(name)-lv2-ui":
+        summary: Linux Studio Plugins - LV2 format - GUI
+        description: Linux Studio Plugins - LV2 format - GUI
+        rundeps:
+            - "%(name)-lv2"
+            - "%(name)-standalone"
+        paths:
+            - /usr/lib/lv2/lsp-plugins.lv2/lsp-plugins-lv2ui.so
+
     - "%(name)-standalone":
-        summary: Linux Studio Plugins - LV2 format
-        description: Linux Studio Plugins - LV2 format
+        summary: Linux Studio Plugins - Standalone
+        description: Linux Studio Plugins - Standalone
         paths:
             - /usr/bin/lsp-plugins*
-            - /usr/lib/lsp-plugins/liblsp-plugins-jack*.so
+            - /usr/lib/liblsp-r3d-glx-lib*.so
+            # TODO: Maybe these could be subpackaged. Doesn't really matter since Pipewire provides both
+            - /usr/lib/liblsp-audio-jack-lib*.so
+            - /usr/lib/liblsp-audio-pipewire-lib*.so
+            - /usr/lib/lsp-plugins/liblsp-plugins-standalone*.so
             - /usr/share/icons/
             - /usr/share/applications/lsp-plugins.desktop
