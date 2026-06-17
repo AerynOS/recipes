@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : jsoncpp
-version     : "1.9.7"
-release     : 7
+version     : "1.9.8"
+release     : 8
 homepage    : https://github.com/open-source-parsers/jsoncpp/
 upstreams   :
-    - https://github.com/open-source-parsers/jsoncpp/archive/1.9.7.tar.gz : 830bf352d822d8558e9d0eb19d640d2e38536b4b6699c30a4488da09d5b1df18
+    - https://github.com/open-source-parsers/jsoncpp/archive/1.9.8.tar.gz : 51828cf3574281d2b79ec2a1c56a9e4c20cc1103711321ea96384cffb8d2d904
 
     # TODO: Because this package is used by cmake you will need to add compat libraries any time the soname changes
 summary     : JsonCpp is a C++ library that allows manipulating JSON values
@@ -17,14 +17,8 @@ description : |
     it a convenient format to store user input files.
 license     : MIT
 setup       : |
-    # Remove in future version
-    %patch %(pkgdir)/0001-Fix-string-view.patch
-
     %meson
 build       : |
     %meson_build
 install     : |
     %meson_install
-
-    # https://github.com/open-source-parsers/jsoncpp/issues/1568
-    rm -rf %(installroot)%(libdir)/cmake

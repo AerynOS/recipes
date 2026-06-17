@@ -4,6 +4,7 @@
 	"packages": {
 		"jsoncpp": {
 			"depends": [
+				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libm.so.6(x86_64))",
@@ -32,16 +33,19 @@
 				"/usr/include/json/value.h",
 				"/usr/include/json/version.h",
 				"/usr/include/json/writer.h",
+				"/usr/lib/cmake/jsoncpp/jsoncpp-namespaced-targets.cmake",
+				"/usr/lib/cmake/jsoncpp/jsoncppConfig.cmake",
 				"/usr/lib/libjsoncpp.so",
 				"/usr/lib/pkgconfig/jsoncpp.pc"
 			],
 			"name": "jsoncpp-devel",
 			"provides": [
+				"cmake(jsoncpp)",
 				"pkgconfig(jsoncpp)"
 			]
 		}
 	},
 	"source-name": "jsoncpp",
-	"source-release": "7",
-	"source-version": "1.9.7"
+	"source-release": "8",
+	"source-version": "1.9.8"
 }
