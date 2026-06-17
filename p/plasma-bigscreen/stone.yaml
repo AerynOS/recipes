@@ -1,0 +1,65 @@
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : plasma-bigscreen
+version     : "6.7.2"
+release     : 1
+upstreams   :
+    - https://download.kde.org/stable/plasma/6.7.2/plasma-bigscreen-6.7.2.tar.xz : f0818c9af225a9806e46f3d7b0db126080d227dceaa91065ebf7395e3f22e87d
+homepage    : https://kde.org/plasma-desktop/
+license     :
+    - GPL-2.0-or-later
+summary     : Plasma shell for TVs
+description : |
+    Plasma shell for TVs
+builddeps   :
+    # Temporary, boulder doesn't handle build ordering resolution correctly when builddeps are added by macros, so add ECM manually
+    - cmake(ECM)
+    - cmake(KF6BluezQt)
+    - cmake(KF6Config)
+    - cmake(KF6DBusAddons)
+    - cmake(KF6GlobalAccel)
+    - cmake(KF6I18n)
+    - cmake(KF6IconThemes)
+    - cmake(KF6KCMUtils)
+    - cmake(KF6KIO)
+    - cmake(KF6Kirigami)
+    - cmake(KF6KirigamiAddons)
+    - cmake(KF6Notifications)
+    - cmake(KF6Screen)
+    - cmake(KF6Svg)
+    - cmake(KF6WindowSystem)
+    - cmake(LibKWorkspace)
+    - cmake(LibTaskManager)
+    - cmake(Plasma)
+    - cmake(Plasma5Support)
+    - cmake(PlasmaActivities)
+    - cmake(PlasmaActivitiesStats)
+    - cmake(PlasmaWaylandProtocols)
+    - cmake(QCoro6)
+    - cmake(Qt6Core5Compat)
+    - cmake(Qt6Multimedia)
+    - cmake(Qt6Qml)
+    - cmake(Qt6WaylandClient)
+    - cmake(Qt6WaylandGlobalPrivate)
+    - cmake(Qt6WebEngineCore)
+    - cmake(SDL3)
+    - pkgconfig(libcec)
+    - qt6-5compat
+rundeps     :
+    - kdeconnect
+    - kf6-kirigami
+    - kf6-kirigami-addons
+    - plasma-nano
+    - qqc2-breeze-style
+    - qt6-5compat
+tuning      :
+    - lto: full
+    - optimize: speed
+setup       : |
+    %cmake_kf6 \
+        -DCMAKE_INSTALL_LIBEXECDIR=lib
+build       : |
+    %cmake_build
+install     : |
+    %cmake_install
