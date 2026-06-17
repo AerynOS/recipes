@@ -3,12 +3,17 @@
 
 name        : jsoncpp
 version     : "1.9.8"
-release     : 8
+release     : 9
 homepage    : https://github.com/open-source-parsers/jsoncpp/
 upstreams   :
-    - https://github.com/open-source-parsers/jsoncpp/archive/1.9.8.tar.gz : 51828cf3574281d2b79ec2a1c56a9e4c20cc1103711321ea96384cffb8d2d904
+    - https://github.com/open-source-parsers/jsoncpp/archive/1.9.8.tar.gz :
+        hash: 51828cf3574281d2b79ec2a1c56a9e4c20cc1103711321ea96384cffb8d2d904
+        unpackdir: current
 
     # TODO: Because this package is used by cmake you will need to add compat libraries any time the soname changes
+    - https://github.com/open-source-parsers/jsoncpp/archive/1.9.7.tar.gz :
+        hash: 830bf352d822d8558e9d0eb19d640d2e38536b4b6699c30a4488da09d5b1df18
+        unpackdir: compat
 summary     : JsonCpp is a C++ library that allows manipulating JSON values
 description : |
     JsonCpp is a C++ library that allows manipulating JSON values, including
@@ -17,8 +22,40 @@ description : |
     it a convenient format to store user input files.
 license     : MIT
 setup       : |
+    if [ -d ../compat ]; then
+        pushd ../compat/
+
+        %patch %(pkgdir)/0001-Fix-string-view.patch
+
+        %meson
+        popd
+    fi
+
+    %patch %(pkgdir)/1697.patch
+
     %meson
 build       : |
-    %meson_build
+    if [ -d ../compat ]; then
+        pushd ../compat
+            %ccache_zero
+            env CCACHE_BASEDIR="${PWD}" %meson_build
+            %ccache_stats
+        popd
+    fi
+
+    %ccache_zero
+    env CCACHE_BASEDIR="${PWD}" %meson_build
+    %ccache_stats
 install     : |
+    if [ -d ../compat ]; then
+        pushd ../compat/
+        mkdir tmp
+        DESTDIR="${PWD}/tmp" meson install --no-rebuild -C "%(builddir)"
+
+        # Only copy the sonames
+        %install_dir %(installroot)/%(libdir)
+        find ${PWD}/tmp/%(libdir) -name "libjsoncpp.so.*" -print -exec mv {} %(installroot)/%(libdir) \;
+        popd
+    fi
+
     %meson_install

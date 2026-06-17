@@ -1,0 +1,57 @@
+From 03ecbacb56d3743e4b28fbae81efa1838b2a368c Mon Sep 17 00:00:00 2001
+From: Jordan Bayles <jophba@chromium.org>
+Date: Wed, 17 Jun 2026 01:03:53 -0700
+Subject: [PATCH] fix: bump SOVERSION to 28 for the removed std::string_view
+ symbols (#1694)
+
+The std::string_view convenience methods (Value(std::string_view),
+getString, operator[], get, removeMember, isMember) were exported
+symbols in 1.9.7 -- declared in value.h and defined out-of-line in
+value.cpp. After 1.9.7 the #1661/#1675 ABI-mismatch fixes made them
+header-only `inline`, which removed those symbols from the shared
+library (e.g. Value::removeMember(std::string_view)), but SOVERSION
+stayed at 27.
+
+Removing exported symbols is an incompatible ABI change, so consumers
+built against 1.9.7's libjsoncpp.so.27 fail to resolve those symbols
+against later builds that still claim SONAME .so.27 (issue #1694: a
+system jsoncpp upgrade broke cmake/NFS Ganesha with an undefined-symbol
+error). Bump SOVERSION 27 -> 28 so the changed ABI gets a distinct
+SONAME; affected consumers then get a clean rebuild requirement instead
+of a symbol-lookup crash, and a rebuild against 1.10.0 uses the inline
+methods (no symbol dependency).
+
+The symbols are intentionally not restored: an exported std::string_view
+symbol's presence depends on whether the library was compiled as C++17,
+which is the mismatch #1661 fixed.
+---
+ CMakeLists.txt | 2 +-
+ meson.build    | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index d8e6d4cfa..5d977b71c 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -61,7 +61,7 @@ project(jsoncpp
+         LANGUAGES CXX)
+ 
+ message(STATUS "JsonCpp Version: ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH}")
+-set(PROJECT_SOVERSION 27)
++set(PROJECT_SOVERSION 28)
+ 
+ include(${CMAKE_CURRENT_SOURCE_DIR}/include/PreventInSourceBuilds.cmake)
+ include(${CMAKE_CURRENT_SOURCE_DIR}/include/PreventInBuildInstalls.cmake)
+diff --git a/meson.build b/meson.build
+index 380b7e2bd..858675d9e 100644
+--- a/meson.build
++++ b/meson.build
+@@ -51,7 +51,7 @@ jsoncpp_lib = library(
+     'src/lib_json/json_value.cpp',
+     'src/lib_json/json_writer.cpp',
+   ]),
+-  soversion : 27,
++  soversion : 28,
+   install : true,
+   include_directories : jsoncpp_include_directories,
+   cpp_args: dll_export_flag)

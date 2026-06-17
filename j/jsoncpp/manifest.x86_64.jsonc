@@ -11,11 +11,13 @@
 				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
-				"/usr/lib/libjsoncpp.so.27"
+				"/usr/lib/libjsoncpp.so.27",
+				"/usr/lib/libjsoncpp.so.28"
 			],
 			"name": "jsoncpp",
 			"provides": [
-				"soname(libjsoncpp.so.27(x86_64))"
+				"soname(libjsoncpp.so.27(x86_64))",
+				"soname(libjsoncpp.so.28(x86_64))"
 			]
 		},
 		"jsoncpp-devel": {
@@ -46,6 +48,6 @@
 		}
 	},
 	"source-name": "jsoncpp",
-	"source-release": "8",
+	"source-release": "9",
 	"source-version": "1.9.8"
 }
