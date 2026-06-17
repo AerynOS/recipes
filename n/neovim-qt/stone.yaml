@@ -1,0 +1,31 @@
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : neovim-qt
+version     : "0.2.19"
+release     : 1
+upstreams   :
+    - https://github.com/equalsraf/neovim-qt/archive/refs/tags/v0.2.19.tar.gz : 2c5a5de6813566aeec9449be61e1a8cd8ef85979a9e234d420f2882efcfde382
+homepage    : https://github.com/equalsraf/neovim-qt
+license     : ISC
+summary     : Neovim client library and GUI, in Qt
+description : |
+    Neovim client library and GUI, in Qt
+builddeps   :
+    - binary(doxygen)
+    - binary(nvim)
+    - binary(python)
+    - cmake(Qt6)
+    - cmake(Qt6SvgWidgets)
+    - cmake(msgpack-c)
+rundeps     :
+    - binary(nvim)
+    - qt6-wayland
+setup       : |
+    %cmake \
+        -DUSE_SYSTEM_MSGPACK=ON \
+        -DWITH_QT=Qt6
+build       : |
+    %cmake_build
+install     : |
+    %cmake_install
