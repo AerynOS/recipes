@@ -1,0 +1,55 @@
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : neovide
+version     : "0.16.2"
+release     : 1
+upstreams   :
+    - https://github.com/neovide/neovide/archive/refs/tags/0.16.2.tar.gz : a2016cceab3cba50b6a8b2f6787ae9017a85923575e89a83ebb9d428e8f80ca9
+homepage    : https://neovide.dev/
+license     :
+    - MIT
+    - CC-BY-4.0  # Neovide and rust logo
+    - CC-BY-3.0  # Neovim logo
+summary     : A simple and no-nonsense graphical user interface for Neovim 
+description : |
+    Neovide is a simple graphical user interface for Neovim (an aggressively refactored and updated Vim editor).
+    Where possible there are some graphical improvements, but functionally it should act like the terminal UI.
+    To checkout all the cool features, installation instructions, configuration settings and much more, head on over to neovide.dev.
+networking  : true
+builddeps   :
+    - binary(ar)
+    - binary(curl)
+    - binary(ninja)
+    - binary(python3)
+    - pkgconfig(expat)
+    - pkgconfig(fontconfig)
+    - pkgconfig(freetype2)
+    - pkgconfig(harfbuzz)
+    - pkgconfig(libjpeg)
+    - pkgconfig(libpng)
+rundeps     :
+    - binary(nvim)
+setup       : |
+    %patch %(pkgdir)/0001-Use-fully-qualified-app_id.patch
+
+    %cargo_fetch
+build       : |
+    export SKIA_USE_SYSTEM_LIBRARIES=true
+    export FORCE_SKIA_BUILD=true
+    # export SKIA_GN_COMMAND=gn
+    export SKIA_NINJA_COMMAND=ninja
+
+    %cargo_build --features embed-fonts
+install     : |
+    %cargo_install
+
+    %install_file assets/neovide.desktop %(installroot)%(datadir)/applications/dev.neovide.Neovide.desktop
+
+    # Install variable size icons
+    for s in 16 32 48 256; do
+        %install_file assets/neovide-${s}x${s}.png %(installroot)%(datadir)/icons/hicolor/${s}x${s}/apps/neovide.png
+    done
+
+    # Install scalable icons
+    %install_file assets/neovide.svg %(installroot)%(datadir)/icons/hicolor/symbolic/apps/neovide.svg
