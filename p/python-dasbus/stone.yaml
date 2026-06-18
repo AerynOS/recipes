@@ -1,0 +1,22 @@
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : python-dasbus
+version     : "1.7"
+release     : 1
+homepage    : https://github.com/rhinstaller/dasbus
+upstreams   :
+    - https://pypi.debian.net/dasbus/dasbus-1.7.tar.gz : a8850d841adfe8ee5f7bb9f82cf449ab9b4950dc0633897071718e0d0036b6f6
+summary     : DBus library in Python
+description : |
+    DBus library in Python
+license     : LGPL-2.1-only
+builddeps   :
+    - python(setuptools)
+rundeps     :
+    - python(pygobject)
+    - python-libs
+build       : |
+    %pyproject_build
+install     : |
+    %pyproject_install
