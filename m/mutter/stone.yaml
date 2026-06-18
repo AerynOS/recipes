@@ -3,7 +3,7 @@
 
 name        : mutter
 version     : "50.2"
-release     : 36
+release     : 37
 homepage    : https://gnome.org
 upstreams   :
     - https://download.gnome.org/sources/mutter/50/mutter-50.2.tar.xz : fde8df8a746500c51f1c925b51e57c3dd87007233bef563079e831f53bfa3b56
@@ -94,6 +94,7 @@ rundeps     :
     - binary(pipewire) # DMA-BUF
     - binary(Xwayland)
 setup       : |
+    %patch %(pkgdir)/upstream-01.patch
     %meson \
         -Degl_device=true \
         -Dtests=disabled \
