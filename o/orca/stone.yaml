@@ -1,0 +1,44 @@
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : orca
+version     : "50.2"
+release     : 1
+upstreams   :
+    - https://download.gnome.org/sources/orca/50/orca-50.2.tar.xz : 0714421cde8ec4baf47f18e4b4a12b4e5c4a3cfe3b161569e070fe037713fd04
+homepage    : https://orca.gnome.org/
+license     : LGPL-2.1-or-later
+summary     : Screen reader for individuals who are blind or visually impaired
+description : |
+    Screen reader for individuals who are blind or visually impaired
+builddeps   :
+    - binary(itstool)
+    - binary(msgfmt)
+    - pkgconfig(atk-bridge-2.0)
+    - pkgconfig(atspi-2)
+    - pkgconfig(gtk+-3.0)
+    - pkgconfig(pygobject-3.0)
+    - pkgconfig(systemd)
+    - python(dasbus)
+    - python(psutil)
+    - python-speechd
+    # python-brlapi, python-louis, libwnck (might be x11-only)
+rundeps     :
+    - binary(python3)
+    - python(dasbus)
+    - python(psutil) # Could probably be a recommends
+    - at-spi2-core # Python bindings
+    - python-speechd
+    - speech-dispatcher
+setup       : |
+    %meson
+build       : |
+    %meson_build
+install     : |
+    %meson_install
+
+    %install_dir %(installroot)%(datadir)/xdg/autostart
+    mv %(installroot)%(sysconfdir)/xdg/autostart/orca-autostart.desktop %(installroot)%(datadir)/xdg/autostart/
+    rmdir %(installroot)%(sysconfdir)/xdg/autostart \
+          %(installroot)%(sysconfdir)/xdg/ \
+          %(installroot)%(sysconfdir)/
