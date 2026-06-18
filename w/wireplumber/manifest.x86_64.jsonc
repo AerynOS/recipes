@@ -25,6 +25,7 @@
 				"binary(pipewire)",
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))",
+				"soname(libgio-2.0.so.0(x86_64))",
 				"soname(libglib-2.0.so.0(x86_64))",
 				"soname(libgobject-2.0.so.0(x86_64))",
 				"soname(libpipewire-0.3.so.0(x86_64))",
@@ -106,9 +107,13 @@
 				"/usr/share/locale/uk/LC_MESSAGES/wireplumber.mo",
 				"/usr/share/locale/zh_CN/LC_MESSAGES/wireplumber.mo",
 				"/usr/share/locale/zh_TW/LC_MESSAGES/wireplumber.mo",
-				"/usr/share/wireplumber/scripts/client/access-default.lua",
-				"/usr/share/wireplumber/scripts/client/access-portal.lua",
-				"/usr/share/wireplumber/scripts/client/access-snap.lua",
+				"/usr/share/wireplumber/scripts/client/apply-access.lua",
+				"/usr/share/wireplumber/scripts/client/find-config-access.lua",
+				"/usr/share/wireplumber/scripts/client/find-default-access.lua",
+				"/usr/share/wireplumber/scripts/client/find-flatpak-access.lua",
+				"/usr/share/wireplumber/scripts/client/find-portal-access.lua",
+				"/usr/share/wireplumber/scripts/client/find-snap-access.lua",
+				"/usr/share/wireplumber/scripts/client/select-access.lua",
 				"/usr/share/wireplumber/scripts/default-nodes/apply-default-node.lua",
 				"/usr/share/wireplumber/scripts/default-nodes/find-best-default-node.lua",
 				"/usr/share/wireplumber/scripts/default-nodes/find-selected-default-node.lua",
@@ -235,6 +240,7 @@
 				"/usr/include/wireplumber-0.5/wp/object-interest.h",
 				"/usr/include/wireplumber-0.5/wp/object-manager.h",
 				"/usr/include/wireplumber-0.5/wp/object.h",
+				"/usr/include/wireplumber-0.5/wp/permission-manager.h",
 				"/usr/include/wireplumber-0.5/wp/plugin.h",
 				"/usr/include/wireplumber-0.5/wp/port.h",
 				"/usr/include/wireplumber-0.5/wp/proc-utils.h",
@@ -295,7 +301,7 @@
 			"files": [
 				"/usr/lib/girepository-1.0/Wp-0.5.typelib",
 				"/usr/lib/libwireplumber-0.5.so.0",
-				"/usr/lib/libwireplumber-0.5.so.0.514.0",
+				"/usr/lib/libwireplumber-0.5.so.0.515.0",
 				"/usr/lib/wireplumber-0.5/libwireplumber-module-dbus-connection.so",
 				"/usr/lib/wireplumber-0.5/libwireplumber-module-default-nodes-api.so",
 				"/usr/lib/wireplumber-0.5/libwireplumber-module-file-monitor-api.so",
@@ -338,6 +344,6 @@
 		}
 	},
 	"source-name": "wireplumber",
-	"source-release": "14",
-	"source-version": "0.5.14"
+	"source-release": "15",
+	"source-version": "0.5.15"
 }
