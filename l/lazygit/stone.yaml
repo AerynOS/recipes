@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : lazygit
-version     : "0.60.0"
-release     : 5
+version     : "0.62.2"
+release     : 7
 homepage    : https://github.com/jesseduffield/lazygit
 upstreams   :
-    - https://github.com/jesseduffield/lazygit/archive/refs/tags/v0.60.0.tar.gz : c0cb64f7861e439ef13fa06845e7ab6b219364b7b083c7ff10d851e764e6b16b
+    - https://github.com/jesseduffield/lazygit/archive/refs/tags/v0.62.2.tar.gz : 0bd1cdbaf1a584d2eb2fd14f068a8eaaeaeb80d3e2713c72005de9e4feaf6844
 summary     : A simple terminal UI for git commands
 description : |
     A simple terminal UI for git commands
@@ -22,3 +22,4 @@ build       : |
         "
 install     : |
     %install_bin lazygit
+    %install_file LICENSE -t %(installroot)%(datadir)/licenses/%(name)/
