@@ -29,7 +29,6 @@
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"soname(libadwaita-1.so.0(x86_64))",
 				"soname(libappstream.so.5(x86_64))",
-				"soname(libbge-0.8.1.so(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libcairo.so.2(x86_64))",
 				"soname(libdex-1.so.1(x86_64))",
@@ -45,6 +44,7 @@
 				"soname(libjson-glib-1.0.so.0(x86_64))",
 				"soname(libm.so.6(x86_64))",
 				"soname(libmalcontent-0.so.0(x86_64))",
+				"soname(libmd4c.so.0(x86_64))",
 				"soname(libpango-1.0.so.0(x86_64))",
 				"soname(libproxy.so.1(x86_64))",
 				"soname(libsecret-1.so.0(x86_64))",
@@ -58,6 +58,8 @@
 				"/usr/bin/bazaar-dl-worker",
 				"/usr/bin/bazaar-refresh-worker",
 				"/usr/bin/bge-demo",
+				"/usr/lib/libbge.so.0",
+				"/usr/lib/libbge.so.0.8.3",
 				"/usr/lib/systemd/user/io.github.kolunmi.Bazaar.service",
 				"/usr/share/applications/io.github.kolunmi.Bazaar.desktop",
 				"/usr/share/dbus-1/services/io.github.kolunmi.Bazaar.service",
@@ -99,7 +101,8 @@
 				"binary(bazaar)",
 				"binary(bazaar-dl-worker)",
 				"binary(bazaar-refresh-worker)",
-				"binary(bge-demo)"
+				"binary(bge-demo)",
+				"soname(libbge.so.0(x86_64))"
 			]
 		},
 		"bazaar-devel": {
@@ -129,17 +132,7 @@
 				"bazaar",
 				"pkgconfig(gtk4)",
 				"pkgconfig(gtksourceview-5)",
-				"pkgconfig(md4c)",
-				"soname(libc.so.6(x86_64))",
-				"soname(libgio-2.0.so.0(x86_64))",
-				"soname(libglib-2.0.so.0(x86_64))",
-				"soname(libgobject-2.0.so.0(x86_64))",
-				"soname(libgraphene-1.0.so.0(x86_64))",
-				"soname(libgtk-4.so.1(x86_64))",
-				"soname(libgtksourceview-5.so.0(x86_64))",
-				"soname(libm.so.6(x86_64))",
-				"soname(libmd4c.so.0(x86_64))",
-				"soname(libpango-1.0.so.0(x86_64))"
+				"pkgconfig(md4c)"
 			],
 			"files": [
 				"/usr/include/bge/bge-animation.h",
@@ -150,17 +143,16 @@
 				"/usr/include/bge/bge-wdgt-renderer.h",
 				"/usr/include/bge/bge-wdgt-spec.h",
 				"/usr/include/bge/bge.h",
-				"/usr/lib/libbge-0.8.1.so",
-				"/usr/lib/pkgconfig/bge-0.8.1.pc"
+				"/usr/lib/libbge.so",
+				"/usr/lib/pkgconfig/bge.pc"
 			],
 			"name": "bazaar-devel",
 			"provides": [
-				"pkgconfig(bge-0.8.1)",
-				"soname(libbge-0.8.1.so(x86_64))"
+				"pkgconfig(bge)"
 			]
 		}
 	},
 	"source-name": "bazaar",
-	"source-release": "3",
-	"source-version": "0.8.1"
+	"source-release": "4",
+	"source-version": "0.8.3"
 }
