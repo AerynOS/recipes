@@ -1,14 +1,14 @@
-From 5e2fd645de5a28f464452f0f9d37c110a880f9e1 Mon Sep 17 00:00:00 2001
+From e2e05a94e30ebd3235f26435037cd5f996b6f330 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Tomasz=20Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>
 Date: Sun, 1 Mar 2026 19:41:35 +0100
-Subject: [PATCH 26/28] Force freesync_on_desktop for HDMI
+Subject: [PATCH 25/28] Force freesync_on_desktop for HDMI
 
 ---
  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 4 ++++
  1 file changed, 4 insertions(+)
 
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index bc02debf40b9..539f37a72be7 100644
+index 6745ed09e9e0..0198947fca86 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
 @@ -9799,6 +9799,10 @@ static void update_stream_irq_parameters(

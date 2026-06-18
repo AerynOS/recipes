@@ -1,4 +1,4 @@
-From e6c060dd1882c3276c7bb49660feeaa2d0df14ec Mon Sep 17 00:00:00 2001
+From 68fef123e6eb259d813302fb9aa63c39fece7193 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Tomasz=20Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>
 Date: Mon, 9 Feb 2026 20:25:27 +0100
 Subject: [PATCH 05/28] drm/amd/display: Move DisplayID vrr parsing
@@ -19,10 +19,10 @@ Signed-off-by: Tomasz Pakuła <tomasz.pakula.oficjalny@gmail.com>
  1 file changed, 3 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 87959fde5eb1..7b6d8dbabe23 100644
+index c801a34292fd..607c9cbb964d 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -13419,12 +13419,11 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
+@@ -13423,12 +13423,11 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
  	/* Copy current range and do not touch display_info afterwards */
  	copy_range_to_amdgpu_connector(amdgpu_dm_connector, connector);
  

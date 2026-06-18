@@ -1,7 +1,7 @@
-From 4f74a90b641449a67d8653da49a71c07685cd20a Mon Sep 17 00:00:00 2001
+From 1e5772e9f59f58f3ecc7ac8a9953e0d9dfa5c0b7 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Tomasz=20Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>
 Date: Wed, 14 Jan 2026 20:28:04 +0100
-Subject: [PATCH 12/28] drm/amd/display: Add PCON VRR ID check override
+Subject: [PATCH 11/28] drm/amd/display: Add PCON VRR ID check override
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -25,7 +25,7 @@ Reviewed-by: Harry Wentland <harry.wentland@amd.com>
  5 files changed, 20 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 6c7cb5f7a65d..82c15f1c507b 100644
+index 68c1fde18792..bcef4afb5bf1 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
 @@ -2086,6 +2086,9 @@ static int amdgpu_dm_init(struct amdgpu_device *adev)
@@ -38,7 +38,7 @@ index 6c7cb5f7a65d..82c15f1c507b 100644
  	adev->dm.dc->debug.visual_confirm = amdgpu_dc_visual_confirm;
  
  	/* TODO: Remove after DP2 receiver gets proper support of Cable ID feature */
-@@ -13464,7 +13467,8 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
+@@ -13456,7 +13459,8 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
  	if (amdgpu_dm_connector->dc_link) {
  		dpcd_caps = amdgpu_dm_connector->dc_link->dpcd_caps;
  		is_pcon = dpcd_caps.dongle_type == DISPLAY_DONGLE_DP_HDMI_CONVERTER;

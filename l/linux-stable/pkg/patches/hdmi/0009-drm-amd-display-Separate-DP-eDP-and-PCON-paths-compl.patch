@@ -1,4 +1,4 @@
-From ad733f1e7b5923832ab76ecada5ae478f077140f Mon Sep 17 00:00:00 2001
+From 6bc9fa2daf9634648374a18eec2f946371f0a1b3 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Tomasz=20Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>
 Date: Mon, 9 Feb 2026 20:36:53 +0100
 Subject: [PATCH 09/28] drm/amd/display: Separate DP/eDP and PCON paths
@@ -24,10 +24,10 @@ Signed-off-by: Tomasz Pakuła <tomasz.pakula.oficjalny@gmail.com>
  1 file changed, 11 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index e12872c4950e..fe5cd6fe04e8 100644
+index daa7fc097b65..23c8fcff3477 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -13414,6 +13414,7 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
+@@ -13418,6 +13418,7 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
  	struct dpcd_caps dpcd_caps = {0};
  	const struct edid *edid;
  	bool freesync_capable = false;
@@ -35,7 +35,7 @@ index e12872c4950e..fe5cd6fe04e8 100644
  	enum adaptive_sync_type as_type = ADAPTIVE_SYNC_TYPE_NONE;
  
  	if (!connector->state) {
-@@ -13442,19 +13443,23 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
+@@ -13446,19 +13447,23 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
  	if (!adev->dm.freesync_module || !dc_supports_vrr(sink->ctx->dce_version))
  		goto update;
  
@@ -62,7 +62,7 @@ index e12872c4950e..fe5cd6fe04e8 100644
  		/* Some eDP panels only have the refresh rate range info in DisplayID */
  		if (is_aconn_range_invalid(amdgpu_dm_connector))
  			parse_edid_displayid_vrr(amdgpu_dm_connector, edid);
-@@ -13480,14 +13485,16 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
+@@ -13484,14 +13489,16 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
  			amdgpu_dm_connector->as_type = ADAPTIVE_SYNC_TYPE_EDP;
  		}
  

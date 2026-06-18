@@ -1,7 +1,7 @@
-From 9b8c1c7e261fa7dd565d2f360eb1f4ec8cc0076a Mon Sep 17 00:00:00 2001
+From 487c0ace279bfa672e71b1150ea5a222058a6f9d Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Tomasz=20Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>
 Date: Fri, 16 Jan 2026 16:32:52 +0100
-Subject: [PATCH 18/28] drm/amd/display: Build HDMI vsif in correct slot
+Subject: [PATCH 17/28] drm/amd/display: Build HDMI vsif in correct slot
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -19,7 +19,7 @@ Reviewed-by: Harry Wentland <harry.wentland@amd.com>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 4ebd00d3de0d..1bada88e18e1 100644
+index 114ec9de9303..1da6d2427ac1 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
 @@ -7477,7 +7477,7 @@ create_stream_for_sink(struct drm_connector *connector,

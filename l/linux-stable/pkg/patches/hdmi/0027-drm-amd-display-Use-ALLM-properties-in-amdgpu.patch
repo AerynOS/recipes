@@ -1,7 +1,7 @@
-From 91cb9fa3bc68eeeede3de47895b6d2a6d835e25a Mon Sep 17 00:00:00 2001
+From babafcc4d70a6fc325dea09e0c38ae02c641475d Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Tomasz=20Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>
 Date: Sat, 14 Feb 2026 00:17:22 +0100
-Subject: [PATCH 28/28] drm/amd/display: Use ALLM properties in amdgpu
+Subject: [PATCH 27/28] drm/amd/display: Use ALLM properties in amdgpu
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -24,7 +24,7 @@ Signed-off-by: Tomasz Pakuła <tomasz.pakula.oficjalny@gmail.com>
  6 files changed, 65 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 539f37a72be7..836e630a89dd 100644
+index 0198947fca86..0f89cba15446 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
 @@ -9058,6 +9058,7 @@ void amdgpu_dm_connector_init_helper(struct amdgpu_display_manager *dm,
@@ -124,7 +124,7 @@ index 539f37a72be7..836e630a89dd 100644
  		status = dc_stream_get_status(dm_new_crtc_state->stream);
  
  		if (WARN_ON(!status))
-@@ -13587,8 +13634,12 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
+@@ -13579,8 +13626,12 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
  	}
  
  	if (connector->vrr_capable_property)
@@ -154,7 +154,7 @@ index 74a8fe1a1999..ce460be37676 100644
  
  static inline void amdgpu_dm_set_mst_status(uint8_t *status,
 diff --git a/drivers/gpu/drm/amd/display/dc/core/dc.c b/drivers/gpu/drm/amd/display/dc/core/dc.c
-index 419f894c87b0..04b83df9aba6 100644
+index b3530fbf32f7..6c12fbe40042 100644
 --- a/drivers/gpu/drm/amd/display/dc/core/dc.c
 +++ b/drivers/gpu/drm/amd/display/dc/core/dc.c
 @@ -3350,6 +3350,9 @@ static void copy_stream_update_to_stream(struct dc *dc,
