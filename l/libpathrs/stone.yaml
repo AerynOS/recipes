@@ -1,0 +1,38 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : libpathrs
+version     : "0.2.5"
+release     : 1
+homepage    : https://github.com/cyphar/libpathrs
+upstreams   :
+    - https://github.com/cyphar/libpathrs/archive/refs/tags/go-pathrs/v0.2.5.tar.gz : 0206cfe85ca2a326f819b266b0b8ff3d15ac2d0c6b5f294c93bfc417ef37e66c
+summary     : Safe path resolution library for Linux
+description : |
+    libpathrs provides C-friendly APIs for safe path resolution within potentially untrusted directories on Linux.
+license     :
+    - LGPL-3.0-or-later
+    - MPL-2.0
+builddeps   :
+    - binary(ld.lld)
+    - binary(make)
+    - binary(which)
+networking  : true
+setup       : |
+    %cargo_fetch
+build       : |
+    make release EXTRA_CARGO_FLAGS="--locked --target %(target_triple)"
+install     : |
+    DESTDIR="%(installroot)" ./install.sh \
+        --prefix=/usr \
+        --includedir=%(includedir) \
+        --libdir=%(libdir) \
+        --pkgconfigdir=%(libdir)/pkgconfig \
+        --rust-target=%(target_triple) \
+        --disable-static
+packages    :
+    - "%(name)-devel":
+        paths:
+            - /usr/include/
+            - /usr/lib/libpathrs.so
+            - /usr/lib/pkgconfig/pathrs.pc

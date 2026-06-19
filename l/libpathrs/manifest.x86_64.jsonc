@@ -1,0 +1,48 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"libpathrs": {
+			"build-depends": [
+				"binary(ld.lld)",
+				"binary(make)",
+				"binary(which)"
+			],
+			"depends": [
+				"soname(ld-linux-x86-64.so.2(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))"
+			],
+			"files": [
+				"/usr/lib/libpathrs.so.0",
+				"/usr/lib/libpathrs.so.0.2.5"
+			],
+			"name": "libpathrs",
+			"provides": [
+				"soname(libpathrs.so.0(x86_64))"
+			]
+		},
+		"libpathrs-devel": {
+			"build-depends": [
+				"binary(ld.lld)",
+				"binary(make)",
+				"binary(which)"
+			],
+			"depends": [
+				"libpathrs"
+			],
+			"files": [
+				"/usr/include/pathrs.h",
+				"/usr/lib/libpathrs.so",
+				"/usr/lib/pkgconfig/pathrs.pc"
+			],
+			"name": "libpathrs-devel",
+			"provides": [
+				"pkgconfig(pathrs)"
+			]
+		}
+	},
+	"source-name": "libpathrs",
+	"source-release": "1",
+	"source-version": "0.2.5"
+}
