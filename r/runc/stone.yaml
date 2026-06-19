@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : runc
-version     : "1.4.3"
-release     : 14
+version     : "1.5.0"
+release     : 15
 homepage    : https://runc.io/
 upstreams   :
-    - https://github.com/opencontainers/runc/archive/refs/tags/v1.4.3.tar.gz : e0a89f9e883ce93e740d14bb105b25c665f7d7beade4cfd0714fcafb38855d35
+    - https://github.com/opencontainers/runc/archive/refs/tags/v1.5.0.tar.gz : 1bcd55af6081cf080557b148d906f64e6e4ca886d8345fe4b5510a90b52815d1
 summary     : CLI tool for managing OCI compliant containers
 description : |
     CLI tool for managing OCI compliant containers
@@ -17,19 +17,27 @@ builddeps   :
     - binary(go)
     - binary(go-md2man)
     - pkgconfig(libseccomp)
+    - pkgconfig(pathrs)
 setup       : |
     mkdir -p src/github.com/opencontainers/runc/
     find ./* -prune ! -name src -exec mv {} src/github.com/opencontainers/runc/ \;
 build      : |
     export GOPATH="${PWD}"
-    export BUILDTAGS='seccomp'
+    export RUNC_BUILDTAGS='seccomp apparmor'
     export GOFLAGS="-trimpath -mod=readonly -modcacherw"
-    export CGO_CFLAGS="${CFLAGS}"
+    export CGO_CPPFLAGS="${CPPFLAGS:-}"
+    export CGO_CFLAGS="${CFLAGS:-}"
+    export CGO_CXXFLAGS="${CXXFLAGS:-}"
+    export CGO_LDFLAGS="${LDFLAGS:-}"
 
     # Git SHA corresponding to the release tag
     export COMMIT=$(git ls-remote https://github.com/opencontainers/runc.git refs/tags/v%(version)^{} |awk '{print $1}')
 
     cd src/github.com/opencontainers/runc/
+    go mod download cyphar.com/go-pathrs
+    _go_pathrs="${GOPATH}/pkg/mod/cyphar.com/go-pathrs@v0.2.5/internal/libpathrs/libpathrs_linux.go"
+    chmod u+w "${_go_pathrs}"
+    sed -Ei 's/int64 = C\.(PATHRS_PROC_(ROOT|SELF|THREAD_SELF))/uint64 = C.\1/' "${_go_pathrs}"
     %make runc man
 install     : |
     cd src/github.com/opencontainers/runc/
