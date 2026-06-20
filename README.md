@@ -37,7 +37,7 @@ Other areas of focus:
 
  - Stateless enabling (+ hermetic usr)
  - Kernel enabling
- - Metrics-based performance improvements
+ - Metrics-based performance improvements of packages
  - Package updates and bug fixes
 
 
