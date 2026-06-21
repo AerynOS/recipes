@@ -1,0 +1,87 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"gxml": {
+			"build-depends": [
+				"binary(g-ir-compiler)",
+				"binary(msgfmt)",
+				"binary(valac)",
+				"pkgconfig(gee-0.8)",
+				"pkgconfig(gio-2.0)",
+				"pkgconfig(libxml-2.0)"
+			],
+			"depends": [
+				"soname(libc.so.6(x86_64))",
+				"soname(libgee-0.8.so.2(x86_64))",
+				"soname(libgio-2.0.so.0(x86_64))",
+				"soname(libglib-2.0.so.0(x86_64))",
+				"soname(libgobject-2.0.so.0(x86_64))",
+				"soname(libxml2.so.16(x86_64))"
+			],
+			"files": [
+				"/usr/lib/girepository-1.0/GXml-0.20.typelib",
+				"/usr/lib/libgxml-0.20.so.2",
+				"/usr/lib/libgxml-0.20.so.2.0.2",
+				"/usr/share/locale/ca/LC_MESSAGES/GXml-0.20.mo",
+				"/usr/share/locale/cs/LC_MESSAGES/GXml-0.20.mo",
+				"/usr/share/locale/da/LC_MESSAGES/GXml-0.20.mo",
+				"/usr/share/locale/de/LC_MESSAGES/GXml-0.20.mo",
+				"/usr/share/locale/el/LC_MESSAGES/GXml-0.20.mo",
+				"/usr/share/locale/en_GB/LC_MESSAGES/GXml-0.20.mo",
+				"/usr/share/locale/es/LC_MESSAGES/GXml-0.20.mo",
+				"/usr/share/locale/eu/LC_MESSAGES/GXml-0.20.mo",
+				"/usr/share/locale/fr/LC_MESSAGES/GXml-0.20.mo",
+				"/usr/share/locale/hu/LC_MESSAGES/GXml-0.20.mo",
+				"/usr/share/locale/id/LC_MESSAGES/GXml-0.20.mo",
+				"/usr/share/locale/pl/LC_MESSAGES/GXml-0.20.mo",
+				"/usr/share/locale/pt/LC_MESSAGES/GXml-0.20.mo",
+				"/usr/share/locale/pt_BR/LC_MESSAGES/GXml-0.20.mo",
+				"/usr/share/locale/ro/LC_MESSAGES/GXml-0.20.mo",
+				"/usr/share/locale/sl/LC_MESSAGES/GXml-0.20.mo",
+				"/usr/share/locale/sr/LC_MESSAGES/GXml-0.20.mo",
+				"/usr/share/locale/sr@latin/LC_MESSAGES/GXml-0.20.mo",
+				"/usr/share/locale/sv/LC_MESSAGES/GXml-0.20.mo",
+				"/usr/share/locale/uk/LC_MESSAGES/GXml-0.20.mo",
+				"/usr/share/locale/zh_CN/LC_MESSAGES/GXml-0.20.mo"
+			],
+			"name": "gxml",
+			"provides": [
+				"soname(libgxml-0.20.so.2.0.2(x86_64))"
+			]
+		},
+		"gxml-devel": {
+			"build-depends": [
+				"binary(g-ir-compiler)",
+				"binary(msgfmt)",
+				"binary(valac)",
+				"pkgconfig(gee-0.8)",
+				"pkgconfig(gio-2.0)",
+				"pkgconfig(libxml-2.0)"
+			],
+			"depends": [
+				"gxml",
+				"pkgconfig(gee-0.8)",
+				"pkgconfig(gio-2.0)",
+				"pkgconfig(glib-2.0)",
+				"pkgconfig(gobject-2.0)",
+				"pkgconfig(libxml-2.0)"
+			],
+			"files": [
+				"/usr/include/gxml-0.20/gxml/gxml.h",
+				"/usr/lib/libgxml-0.20.so",
+				"/usr/lib/pkgconfig/gxml-0.20.pc",
+				"/usr/share/gir-1.0/GXml-0.20.gir",
+				"/usr/share/vala/vapi/gxml-0.20.deps",
+				"/usr/share/vala/vapi/gxml-0.20.vapi"
+			],
+			"name": "gxml-devel",
+			"provides": [
+				"pkgconfig(gxml-0.20)"
+			]
+		}
+	},
+	"source-name": "gxml",
+	"source-release": "1",
+	"source-version": "0.20.0"
+}

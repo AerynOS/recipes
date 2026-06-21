@@ -1,0 +1,42 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : planify
+version     : "4.19.4"
+release     : 1
+homepage    : https://useplanify.com/
+upstreams   :
+    - https://github.com/alainm23/planify/archive/refs/tags/v4.19.4.zip : 15df15f0c15455f41d5ec3e508cb27a097e31cee21a7eda4ae1b64851932e802
+summary     :  Task manager with Todoist, Nextcloud & CalDAV support designed for GNOME
+description : |
+     Task manager with Todoist, Nextcloud & CalDAV support designed for GNOME
+license     : GPL-3.0-or-later
+builddeps   :
+    - binary(msgfmt)
+    - binary(update-desktop-database)
+    - binary(valac)
+    - pkgconfig(gee-0.8)
+    - pkgconfig(gio-2.0)
+    - pkgconfig(glib-2.0)
+    - pkgconfig(gtk4)
+    - pkgconfig(gtksourceview-5)
+    - pkgconfig(gxml-0.20)
+    - pkgconfig(icu-uc)
+    - pkgconfig(json-glib-1.0)
+    - pkgconfig(libadwaita-1)
+    - pkgconfig(libecal-2.0)
+    - pkgconfig(libedataserver-1.2)
+    - pkgconfig(libical-glib)
+    - pkgconfig(libportal)
+    - pkgconfig(libportal-gtk4)
+    - pkgconfig(libsecret-1)
+    - pkgconfig(libsoup-3.0)
+    - pkgconfig(libspelling-1)
+    - pkgconfig(sqlite3)
+    - pkgconfig(webkitgtk-6.0)
+setup       : |
+    %meson
+build       : |
+    %meson_build
+install     : |
+    %meson_install
