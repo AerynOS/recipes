@@ -8,6 +8,7 @@
 			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libm.so.6(x86_64))",
 				"soname(libonig.so.5(x86_64))"
@@ -48,6 +49,6 @@
 		}
 	},
 	"source-name": "jq",
-	"source-release": "6",
-	"source-version": "1.8.1"
+	"source-release": "7",
+	"source-version": "1.8.2"
 }
