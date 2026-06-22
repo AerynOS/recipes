@@ -3,7 +3,7 @@
 
 name        : lazygit
 version     : "0.62.2"
-release     : 7
+release     : 8
 homepage    : https://github.com/jesseduffield/lazygit
 upstreams   :
     - https://github.com/jesseduffield/lazygit/archive/refs/tags/v0.62.2.tar.gz : 0bd1cdbaf1a584d2eb2fd14f068a8eaaeaeb80d3e2713c72005de9e4feaf6844
@@ -23,3 +23,5 @@ build       : |
 install     : |
     %install_bin lazygit
     %install_file LICENSE -t %(installroot)%(datadir)/licenses/%(name)/
+tuning      :
+    - golang-modflags: false
