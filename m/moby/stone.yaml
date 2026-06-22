@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : moby
-version     : "29.5.3"
-release     : 24
+version     : "29.6.0"
+release     : 25
 homepage    : https://www.docker.com
 upstreams   :
-    - https://github.com/moby/moby/archive/refs/tags/docker-v29.5.3.tar.gz : 460e3c95fbf86414e88e7cb58551df061c206592bc66680fec75c5cdd551e3bd
+    - https://github.com/moby/moby/archive/refs/tags/docker-v29.6.0.tar.gz : 7b967550d43fb5e0ab448282164cc16b670d26017fc3b6cd6284ceef36998158
 summary     : The open-source application container engine
 description : |
     The open-source application container engine. This package contains the Docker server.
@@ -42,7 +42,7 @@ build      : |
     # dockerd
     PLATFORM="Docker Engine - Community" \
     VERSION=%(version) \
-    DOCKER_BUILDTAGS="journald" \
+    DOCKER_BUILDTAGS="journald libnftables" \
     DISABLE_WARN_OUTSIDE_CONTAINER=1 \
         ./hack/make.sh dynbinary
 
