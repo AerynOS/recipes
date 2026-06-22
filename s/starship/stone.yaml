@@ -2,17 +2,16 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : starship
-version     : "1.24.2"
-release     : 17
+version     : "1.25.1"
+release     : 18
 license     : ISC
 homepage    : https://starship.rs/
 upstreams   :
-    - https://github.com/starship/starship/archive/refs/tags/v1.24.2.tar.gz : b7ab0ef364f527395b46d2fb7f59f9592766b999844325e35f62c8fa4d528795
+    - https://github.com/starship/starship/archive/refs/tags/v1.25.1.tar.gz : 521306b14066ee7e332d998ef5b5b6455fdc6085c52e86b6316a7cdc37bae1d8
 summary     : The minimal, blazing-fast, and infinitely customizable prompt for any shell!
 description : |
     The minimal, blazing-fast, and infinitely customizable prompt for any shell!
 builddeps   :
-    - binary(cargo)
     - binary(cmake)
     - binary(make)
 rundeps     :
@@ -28,14 +27,11 @@ build       : |
     %cargo_build
 install     : |
     %cargo_install
+    %install_file LICENSE -t %(installroot)%(datadir)/licenses/%(name)/
 
-    %install_dir %(installroot)/%(completionsdir)
-    %install_dir %(installroot)/%(datadir)/zsh/site-functions
-    %install_dir %(installroot)/%(datadir)/fish/vendor_completions.d
-
-    target/*/release/starship completions bash > %(installroot)/%(completionsdir)/starship.bash
-    target/*/release/starship completions zsh > %(installroot)/%(datadir)/zsh/site-functions/_starship
-    target/*/release/starship completions fish > %(installroot)/%(datadir)/fish/vendor_completions.d/starship.fish
+    target/*/release/starship completions bash | %install_file /dev/stdin %(installroot)%(bashcompletionsdir)/starship
+    target/*/release/starship completions zsh | %install_file /dev/stdin %(installroot)%(zshcompletionsdir)/_starship
+    target/*/release/starship completions fish | %install_file /dev/stdin %(installroot)%(fishcompletionsdir)/starship.fish
 
     # Default initialisation
     %install_file %(pkgdir)/50-starship.sh %(installroot)%(vendordir)/profile.d/50-starship.sh
