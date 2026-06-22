@@ -3,6 +3,9 @@
 	"manifest-version": "0.2",
 	"packages": {
 		"bottom": {
+			"build-depends": [
+				"binary(bsdtar-static)"
+			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"soname(ld-linux-x86-64.so.2(x86_64))",
@@ -11,7 +14,14 @@
 				"soname(libm.so.6(x86_64))"
 			],
 			"files": [
-				"/usr/bin/btm"
+				"/usr/bin/btm",
+				"/usr/share/applications/bottom.desktop",
+				"/usr/share/bash-completion/completions/btm",
+				"/usr/share/fish/vendor_completions.d/btm.fish",
+				"/usr/share/icons/hicolor/scalable/apps/bottom-system-monitor.svg",
+				"/usr/share/licenses/bottom/LICENSE",
+				"/usr/share/man/man1/btm.1.gz",
+				"/usr/share/zsh/site-functions/_btm"
 			],
 			"name": "bottom",
 			"provides": [
@@ -20,6 +30,6 @@
 		}
 	},
 	"source-name": "bottom",
-	"source-release": "8",
-	"source-version": "0.12.3"
+	"source-release": "9",
+	"source-version": "0.14.1"
 }

@@ -2,21 +2,39 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : bottom
-version     : "0.12.3"
-release     : 8
-homepage    : https://github.com/ClementTsang/bottom
+version     : "0.14.1"
+release     : 9
+homepage    : https://clementtsang.github.io/bottom
 upstreams   :
-    - https://github.com/ClementTsang/bottom/archive/refs/tags/0.12.3.tar.gz : 1c70894f0eceb7034075959ff3080cf4706c11d7c012912c24e777abe4e62b70
+    - https://github.com/ClementTsang/bottom/archive/refs/tags/0.14.1.tar.gz : 7953d2d46f43196734723e9f7657f5adf189b281d9639b499fc7159fa08ed6b2
+    - https://github.com/ClementTsang/bottom/releases/download/0.14.1/completion.tar.gz : a3e0481f3a0a45ed2bb841e261006a91177d50ccab317d09a01fafd7f623e839
+    - https://github.com/ClementTsang/bottom/releases/download/0.14.1/manpage.tar.gz : 36b0f0332cf0af29f10b97cc8a9d6848f2378ccd550536837364a915c4f8c309
 summary     : Yet another cross-platform graphical process/system monitor
 description : |
     A customizable cross-platform graphical process/system monitor for the terminal. Supports Linux, macOS, and Windows. Inspired by gtop, gotop, and htop.
 license     : MIT
 networking  : true
+builddeps   :
+    - binary(bsdtar-static)
 setup       : |
+    bsdtar-static -xf %(sourcedir)/completion.tar.gz
+    bsdtar-static -xf %(sourcedir)/manpage.tar.gz
+
     %cargo_fetch
 build       : |
     %cargo_build --bin btm
 install     : |
     %cargo_install btm
+
+    %install_file LICENSE %(installroot)%(datadir)/licenses/%(name)/LICENSE
+
+    %install_file btm.bash %(installroot)%(bashcompletionsdir)/btm
+    %install_file _btm %(installroot)%(zshcompletionsdir)/_btm
+    %install_file btm.fish %(installroot)%(fishcompletionsdir)/btm.fish
+
+    %install_file btm.1.gz %(installroot)%(mandir)/man1/btm.1.gz
+
+    %install_file desktop/bottom.desktop %(installroot)%(datadir)/applications/bottom.desktop
+    %install_file assets/icons/bottom-system-monitor.svg %(installroot)%(datadir)/icons/hicolor/scalable/apps/bottom-system-monitor.svg
 check       : |
     %cargo_test
