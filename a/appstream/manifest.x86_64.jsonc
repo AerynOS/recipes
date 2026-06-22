@@ -16,6 +16,7 @@
 				"pkgconfig(bash-completion)",
 				"pkgconfig(glib-2.0)",
 				"pkgconfig(gobject-introspection-1.0)",
+				"pkgconfig(libblake3)",
 				"pkgconfig(libcurl)",
 				"pkgconfig(libfyaml)",
 				"pkgconfig(librsvg-2.0)",
@@ -40,7 +41,7 @@
 			"files": [
 				"/usr/bin/appstreamcli",
 				"/usr/lib/girepository-1.0/AppStream-1.0.typelib",
-				"/usr/lib/libappstream.so.1.1.2",
+				"/usr/lib/libappstream.so.1.1.3",
 				"/usr/lib/libappstream.so.5",
 				"/usr/share/appstream/appstream.conf",
 				"/usr/share/bash-completion/completions/appstreamcli",
@@ -72,6 +73,7 @@
 				"/usr/share/locale/it/LC_MESSAGES/appstream.mo",
 				"/usr/share/locale/ja/LC_MESSAGES/appstream.mo",
 				"/usr/share/locale/ka/LC_MESSAGES/appstream.mo",
+				"/usr/share/locale/kk/LC_MESSAGES/appstream.mo",
 				"/usr/share/locale/ko/LC_MESSAGES/appstream.mo",
 				"/usr/share/locale/kw/LC_MESSAGES/appstream.mo",
 				"/usr/share/locale/lt/LC_MESSAGES/appstream.mo",
@@ -118,6 +120,7 @@
 				"pkgconfig(bash-completion)",
 				"pkgconfig(glib-2.0)",
 				"pkgconfig(gobject-introspection-1.0)",
+				"pkgconfig(libblake3)",
 				"pkgconfig(libcurl)",
 				"pkgconfig(libfyaml)",
 				"pkgconfig(librsvg-2.0)",
@@ -129,6 +132,7 @@
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"soname(libappstream.so.5(x86_64))",
+				"soname(libblake3.so.0(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libcairo.so.2(x86_64))",
 				"soname(libfontconfig.so.1(x86_64))",
@@ -145,7 +149,7 @@
 				"/usr/lib/appstream/appstreamcli-compose",
 				"/usr/lib/girepository-1.0/AppStreamCompose-1.0.typelib",
 				"/usr/lib/libappstream-compose.so.0",
-				"/usr/lib/libappstream-compose.so.1.1.2",
+				"/usr/lib/libappstream-compose.so.1.1.3",
 				"/usr/share/man/man1/appstreamcli-compose.1",
 				"/usr/share/metainfo/org.freedesktop.appstream.compose.metainfo.xml"
 			],
@@ -168,6 +172,7 @@
 				"pkgconfig(bash-completion)",
 				"pkgconfig(glib-2.0)",
 				"pkgconfig(gobject-introspection-1.0)",
+				"pkgconfig(libblake3)",
 				"pkgconfig(libcurl)",
 				"pkgconfig(libfyaml)",
 				"pkgconfig(librsvg-2.0)",
@@ -219,6 +224,7 @@
 				"pkgconfig(bash-completion)",
 				"pkgconfig(glib-2.0)",
 				"pkgconfig(gobject-introspection-1.0)",
+				"pkgconfig(libblake3)",
 				"pkgconfig(libcurl)",
 				"pkgconfig(libfyaml)",
 				"pkgconfig(librsvg-2.0)",
@@ -302,6 +308,7 @@
 				"pkgconfig(bash-completion)",
 				"pkgconfig(glib-2.0)",
 				"pkgconfig(gobject-introspection-1.0)",
+				"pkgconfig(libblake3)",
 				"pkgconfig(libcurl)",
 				"pkgconfig(libfyaml)",
 				"pkgconfig(librsvg-2.0)",
@@ -321,7 +328,7 @@
 				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
-				"/usr/lib/libAppStreamQt.so.1.1.2",
+				"/usr/lib/libAppStreamQt.so.1.1.3",
 				"/usr/lib/libAppStreamQt.so.3"
 			],
 			"name": "appstream-qt6",
@@ -343,6 +350,7 @@
 				"pkgconfig(bash-completion)",
 				"pkgconfig(glib-2.0)",
 				"pkgconfig(gobject-introspection-1.0)",
+				"pkgconfig(libblake3)",
 				"pkgconfig(libcurl)",
 				"pkgconfig(libfyaml)",
 				"pkgconfig(librsvg-2.0)",
@@ -393,6 +401,6 @@
 		}
 	},
 	"source-name": "appstream",
-	"source-release": "16",
-	"source-version": "1.1.2"
+	"source-release": "17",
+	"source-version": "1.1.3"
 }
