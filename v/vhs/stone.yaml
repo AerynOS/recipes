@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : vhs
-version     : "0.10.0"
-release     : 1
+version     : "0.11.0"
+release     : 2
 homepage    : https://github.com/charmbracelet/vhs
 upstreams   :
-    - https://github.com/charmbracelet/vhs/archive/refs/tags/v0.10.0.tar.gz : ae37fe7e52ade753f850ab81c7d5344f8e540ab6886f877bf5b613620c909893
+    - https://github.com/charmbracelet/vhs/archive/refs/tags/v0.11.0.tar.gz : c08b8502989fe7e9626c02938f3fc512c2a4ba21f839f455d20d7eb1da7bc39f
 summary     : Your CLI home video recorder
 description : |
     Write terminal GIFs as code for integration testing and demoing your CLI tools.
@@ -24,8 +24,25 @@ setup       : |
     go mod vendor
 build       : |
     # Update themes -- it appears they get compiled in.
-    %make
+    %make all
 
-    go build
+    go build -v -ldflags "-linkmode=external -X main.Version=%(version)" -o vhs .
+
+    # Generate shell completions and manual page artifacts.
+    ./vhs completion bash > vhs.bash
+    ./vhs completion zsh > _vhs
+    ./vhs completion fish > vhs.fish
+    ./vhs manual > vhs.1
 install     : |
     %install_bin vhs
+
+    # Install licenses
+    %install_file LICENSE -t %(installroot)%(datadir)/licenses/%(name)/
+
+    # Install documentation
+    %install_file vhs.1 -t %(installroot)%(mandir)/man1/
+
+    # Completions
+    %install_file vhs.bash %(installroot)%(bashcompletionsdir)/vhs
+    %install_file _vhs %(installroot)%(zshcompletionsdir)/_vhs
+    %install_file vhs.fish %(installroot)%(fishcompletionsdir)/vhs.fish
