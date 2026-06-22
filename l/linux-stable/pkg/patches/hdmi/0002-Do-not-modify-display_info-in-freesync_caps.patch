@@ -1,4 +1,4 @@
-From 833b08de23642601670d760903bb32633519248c Mon Sep 17 00:00:00 2001
+From 60eaca87756680a941ffcf005a328c4243f696e8 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Tomasz=20Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>
 Date: Sun, 1 Mar 2026 19:17:09 +0100
 Subject: [PATCH 02/28] Do not modify display_info in freesync_caps
@@ -8,10 +8,10 @@ Subject: [PATCH 02/28] Do not modify display_info in freesync_caps
  1 file changed, 28 insertions(+), 31 deletions(-)
 
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index b1a878dece42..9fee44e775a8 100644
+index ad0da43a18d3..c1abdb9bb4b9 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -13237,7 +13237,7 @@ static bool parse_edid_cea(struct amdgpu_dm_connector *aconnector,
+@@ -13241,7 +13241,7 @@ static bool parse_edid_cea(struct amdgpu_dm_connector *aconnector,
  	return ret;
  }
  
@@ -20,7 +20,7 @@ index b1a878dece42..9fee44e775a8 100644
  				     const struct edid *edid)
  {
  	u8 *edid_ext = NULL;
-@@ -13270,8 +13270,8 @@ static void parse_edid_displayid_vrr(struct drm_connector *connector,
+@@ -13274,8 +13274,8 @@ static void parse_edid_displayid_vrr(struct drm_connector *connector,
  				max_vfreq = edid_ext[j+10];
  
  			if (max_vfreq && min_vfreq) {
@@ -31,7 +31,7 @@ index b1a878dece42..9fee44e775a8 100644
  
  				return;
  			}
-@@ -13325,40 +13325,34 @@ static bool parse_amd_vsdb_cea(struct amdgpu_dm_connector *aconnector,
+@@ -13329,40 +13329,34 @@ static bool parse_amd_vsdb_cea(struct amdgpu_dm_connector *aconnector,
  	return false;
  }
  
@@ -87,7 +87,7 @@ index b1a878dece42..9fee44e775a8 100644
  }
  
  /**
-@@ -13422,15 +13416,18 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
+@@ -13426,15 +13420,18 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
  	if (amdgpu_dm_connector->dc_link)
  		dpcd_caps = amdgpu_dm_connector->dc_link->dpcd_caps;
  
@@ -109,7 +109,7 @@ index b1a878dece42..9fee44e775a8 100644
  
  		/* eDP */
  		get_amd_vsdb(amdgpu_dm_connector, &vsdb_info);
-@@ -13446,8 +13443,8 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
+@@ -13450,8 +13447,8 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
  		sink->edid_caps.freesync_vcp_code = vsdb_info.freesync_mccs_vcp_code;
  
  		if (vsdb_info.freesync_supported) {
@@ -120,7 +120,7 @@ index b1a878dece42..9fee44e775a8 100644
  		}
  	}
  
-@@ -13464,8 +13461,8 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
+@@ -13468,8 +13465,8 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
  			amdgpu_dm_connector->as_type = as_type;
  
  			parse_amd_vsdb_cea(amdgpu_dm_connector, edid, &vsdb_info);

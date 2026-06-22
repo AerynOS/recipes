@@ -1,4 +1,4 @@
-From 19d87e9cc81737926dbaa0e67897cec68d595367 Mon Sep 17 00:00:00 2001
+From 4a9fee1f68a2192017c63d159a8f94060a44ed5d Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Tomasz=20Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>
 Date: Wed, 14 Jan 2026 20:28:04 +0100
 Subject: [PATCH 01/28] drm/amd/display: Refactor
@@ -19,10 +19,10 @@ Signed-off-by: Tomasz Pakuła <tomasz.pakula.oficjalny@gmail.com>
  1 file changed, 72 insertions(+), 48 deletions(-)
 
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 5fc5d5608506..b1a878dece42 100644
+index f8c13bad4ac2..ad0da43a18d3 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -13291,13 +13291,13 @@ static int get_amd_vsdb(struct amdgpu_dm_connector *aconnector,
+@@ -13295,13 +13295,13 @@ static int get_amd_vsdb(struct amdgpu_dm_connector *aconnector,
  	return connector->display_info.amd_vsdb.version != 0;
  }
  
@@ -38,7 +38,7 @@ index 5fc5d5608506..b1a878dece42 100644
  
  	/*----- drm_find_cea_extension() -----*/
  	/* No EDID or EDID extensions */
-@@ -13318,9 +13318,47 @@ static int parse_hdmi_amd_vsdb(struct amdgpu_dm_connector *aconnector,
+@@ -13322,9 +13322,47 @@ static int parse_hdmi_amd_vsdb(struct amdgpu_dm_connector *aconnector,
  	if (edid_ext[0] != CEA_EXT)
  		return -ENODEV;
  
@@ -88,7 +88,7 @@ index 5fc5d5608506..b1a878dece42 100644
  }
  
  /**
-@@ -13341,13 +13379,14 @@ static int parse_hdmi_amd_vsdb(struct amdgpu_dm_connector *aconnector,
+@@ -13345,13 +13383,14 @@ static int parse_hdmi_amd_vsdb(struct amdgpu_dm_connector *aconnector,
  void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
  				    const struct drm_edid *drm_edid, bool do_mccs)
  {
@@ -104,7 +104,7 @@ index 5fc5d5608506..b1a878dece42 100644
  	const struct edid *edid;
  	bool freesync_capable = false;
  	enum adaptive_sync_type as_type = ADAPTIVE_SYNC_TYPE_NONE;
-@@ -13380,68 +13419,53 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
+@@ -13384,68 +13423,53 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
  
  	edid = drm_edid_raw(drm_edid); // FIXME: Get rid of drm_edid_raw()
  

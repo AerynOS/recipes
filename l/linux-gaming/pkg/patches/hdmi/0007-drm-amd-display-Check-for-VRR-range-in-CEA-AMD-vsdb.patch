@@ -1,4 +1,4 @@
-From 23f7ab647b691a2776c48484fe6ad306b30b3a31 Mon Sep 17 00:00:00 2001
+From ffd4ccd29a672315b3a1b80790b68260373172af Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Tomasz=20Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>
 Date: Mon, 9 Feb 2026 20:23:41 +0100
 Subject: [PATCH 07/28] drm/amd/display: Check for VRR range in CEA AMD vsdb
@@ -29,10 +29,10 @@ Reviewed-by: Harry Wentland <harry.wentland@amd.com>
  1 file changed, 6 insertions(+)
 
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index ec72052d9334..aae24f9fdc1b 100644
+index 07038ceb2899..18307453345d 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -13427,6 +13427,12 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
+@@ -13431,6 +13431,12 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
  		/* Some eDP panels only have the refresh rate range info in DisplayID */
  		if (is_aconn_range_invalid(amdgpu_dm_connector))
  			parse_edid_displayid_vrr(amdgpu_dm_connector, edid);

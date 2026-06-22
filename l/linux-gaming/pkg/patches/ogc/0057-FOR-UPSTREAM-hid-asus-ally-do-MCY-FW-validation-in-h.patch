@@ -1,4 +1,4 @@
-From f16ae3d7731925c8e59da22178b5faf120fb02cd Mon Sep 17 00:00:00 2001
+From 2f05d82aa7440b798461a7beb0ea43e800dffcde Mon Sep 17 00:00:00 2001
 From: Luke Jones <luke@ljones.dev>
 Date: Mon, 24 Mar 2025 15:41:05 +1300
 Subject: [PATCH 57/73] [FOR-UPSTREAM] hid-asus-ally: do MCY FW validation in
@@ -10,9 +10,9 @@ hid-asus-ally if the driver is enabled.
 Signed-off-by: Luke Jones <luke@ljones.dev>
 ---
  drivers/hid/hid-asus-ally.c |  7 +++++++
- drivers/hid/hid-asus.c      | 30 ++++++++++++++++++++----------
+ drivers/hid/hid-asus.c      | 25 +++++++++++++++----------
  drivers/hid/hid-asus.h      |  2 ++
- 3 files changed, 29 insertions(+), 10 deletions(-)
+ 3 files changed, 24 insertions(+), 10 deletions(-)
 
 diff --git a/drivers/hid/hid-asus-ally.c b/drivers/hid/hid-asus-ally.c
 index db5d25609350..8c6eeedb35c0 100644
@@ -47,7 +47,7 @@ index db5d25609350..8c6eeedb35c0 100644
  MODULE_DESCRIPTION("HID Driver for ASUS ROG Ally gamepad configuration.");
  MODULE_LICENSE("GPL");
 diff --git a/drivers/hid/hid-asus.c b/drivers/hid/hid-asus.c
-index 6baa5011d046..9b3fcaae606f 100644
+index 6baa5011d046..48fb1ebcee17 100644
 --- a/drivers/hid/hid-asus.c
 +++ b/drivers/hid/hid-asus.c
 @@ -20,6 +20,10 @@

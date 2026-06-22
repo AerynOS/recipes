@@ -1,4 +1,4 @@
-From 47911ccfb42512f371dac019b4dd10e54e17d9fa Mon Sep 17 00:00:00 2001
+From 044c57f887a0b1577c9c82995d665b01ccae8142 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Tomasz=20Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>
 Date: Mon, 9 Feb 2026 20:10:23 +0100
 Subject: [PATCH 04/28] drm/amd/display: Remove redundant edid checks
@@ -21,10 +21,10 @@ Signed-off-by: Tomasz Pakuła <tomasz.pakula.oficjalny@gmail.com>
  1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 6e374352c4ff..87959fde5eb1 100644
+index 5cdbfcfcf92c..c801a34292fd 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -13423,8 +13423,8 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
+@@ -13427,8 +13427,8 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
  	if (is_aconn_range_invalid(amdgpu_dm_connector))
  		parse_edid_displayid_vrr(amdgpu_dm_connector, edid);
  
@@ -35,7 +35,7 @@ index 6e374352c4ff..87959fde5eb1 100644
  
  		if (dpcd_caps.allow_invalid_MSA_timing_param)
  			freesync_capable = is_freesync_capable(amdgpu_dm_connector);
-@@ -13437,7 +13437,7 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
+@@ -13441,7 +13441,7 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
  			amdgpu_dm_connector->as_type = ADAPTIVE_SYNC_TYPE_EDP;
  		}
  
@@ -44,7 +44,7 @@ index 6e374352c4ff..87959fde5eb1 100644
  		parse_amd_vsdb_cea(amdgpu_dm_connector, edid, &vsdb_info);
  		amdgpu_dm_connector->vsdb_info = vsdb_info;
  		sink->edid_caps.freesync_vcp_code = vsdb_info.freesync_mccs_vcp_code;
-@@ -13451,7 +13451,7 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
+@@ -13455,7 +13455,7 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
  	if (amdgpu_dm_connector->dc_link)
  		as_type = dm_get_adaptive_sync_support_type(amdgpu_dm_connector->dc_link);
  
