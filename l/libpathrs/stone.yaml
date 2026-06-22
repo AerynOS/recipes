@@ -1,0 +1,27 @@
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : libpathrs
+version     : "0.2.5"
+release     : 1
+upstreams   :
+    - https://github.com/cyphar/libpathrs/releases/download/v0.2.5/libpathrs-0.2.5.tar.xz : f8f4a9419eb839cd5decbd120b65f0495bf6eac07155477fe39a8c2a23da589d
+homepage    : https://github.com/cyphar/libpathrs
+license     : MPL-2.0 OR LGPL-3.0-or-later
+summary     : C-friendly API to make path resolution safer on Linux
+description : |
+    C-friendly API to make path resolution safer on Linux
+networking  : true
+setup       : |
+    %patch %(pkgdir)/crate-type.patch
+
+    %cargo_fetch
+build       : |
+    %cargo_build --features=capi
+install     : |
+    ./install.sh DESTDIR="%(installroot)" \
+        --prefix=%(prefix) \
+        --lib=%(libdir) \
+        --disable-static \
+        --rust-target=%(target_triple) \
+        --rust-buildmode=%(cargo_profile)
