@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : pv
-version     : "1.10.5"
-release     : 4
+version     : "1.11.0"
+release     : 6
 homepage    : https://www.ivarch.com/programs/pv.shtml
 upstreams   :
-    - https://www.ivarch.com/programs/sources/pv-1.10.5.tar.gz : ab21b4f8662280646b6a02e1b9f096790918f89c952bbe0d06fef75d3b52fb15
+    - https://www.ivarch.com/programs/sources/pv-1.11.0.tar.gz : fc02c9fc2b82b20a92cc8d98f844be63f22abd98751a8e4abc875e1d803662eb
 summary     : Pipe Viewer
 description : |
     pv (Pipe Viewer) allows a user to see the progress of data through a pipeline, by giving information such as time elapsed, percentage completed (with progress bar), current throughput rate, total data transferred, and ETA.
@@ -19,3 +19,4 @@ build       : |
     %make
 install     : |
     %make_install
+    %install_file docs/COPYING -t %(installroot)%(datadir)/licenses/%(name)/
