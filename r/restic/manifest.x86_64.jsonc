@@ -6,6 +6,9 @@
 			"build-depends": [
 				"binary(go)"
 			],
+			"depends": [
+				"interpreter(/lib64/ld-linux-x86-64.so.2(x86_64))"
+			],
 			"files": [
 				"/usr/bin/restic",
 				"/usr/share/bash-completion/completions/restic",
@@ -56,6 +59,6 @@
 		}
 	},
 	"source-name": "restic",
-	"source-release": "10",
+	"source-release": "11",
 	"source-version": "0.19.0"
 }
