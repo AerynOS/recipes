@@ -3,7 +3,7 @@
 
 name        : skopeo
 version     : "1.23.0"
-release     : 7
+release     : 8
 upstreams   :
     - https://github.com/containers/skopeo/archive/refs/tags/v1.23.0.tar.gz : de96bfc2bb523c852af675ffdadd934484812ce190aa8620e1d5fd6c51442e25
 homepage    : https://github.com/containers/skopeo
@@ -41,3 +41,5 @@ build       : |
     %make docs
 install     : |
     %make_install PREFIX="%(prefix)"
+tuning      :
+    - golang-modflags: false
