@@ -2,18 +2,18 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : lynx
-version     : "2.9.2"
-release     : 4
-homepage    : https://lynx.browser.org/
+version     : "2.9.3"
+release     : 5
+homepage    : https://lynx.invisible-island.net
 upstreams   :
-    - https://invisible-mirror.net/archives/lynx/tarballs/lynx2.9.2.tar.gz : 99f8f28f860094c533100d1cedf058c27fb242ce25e991e2d5f30ece4457a3bf
-summary     : Lynx is a text browser for the World Wide Web
+    - https://invisible-island.net/archives/lynx/tarballs/lynx2.9.3.tar.gz : 6e99e46980974a6d89eceefbb26ca8c7aa7702b78ecb5bad383b859af225d052
+summary     : Lynx is the text web browser
 description : |
     Lynx is the oldest text web browser still actively developed.
 license     :
     - GPL-2.0-or-later
     - LGPL-2.0-or-later
-builddeps    :
+builddeps   :
     - binary(bison)
     - binary(msginit)
     - pkgconfig(bzip2)
@@ -39,3 +39,6 @@ install     : |
     # Stateless config
     %install_file lynx.cfg %(installroot)%(vendordir)/lynx/lynx.cfg
     %install_file samples/lynx.lss %(installroot)%(vendordir)/lynx/lynx.lss
+
+    # Install licenses
+    %install_file COPYHEADER COPYING -t %(installroot)%(datadir)/licenses/%(name)/

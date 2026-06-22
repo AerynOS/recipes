@@ -12,21 +12,21 @@ diff --git a/src/LYMain.c b/src/LYMain.c
 index 1d52bb6..d9efa06 100644
 --- a/src/LYMain.c
 +++ b/src/LYMain.c
-@@ -1542,10 +1542,14 @@ int main(int argc,
+@@ -1547,10 +1547,14 @@ int main(int argc,
       * If the configuration file is not available, inform the user and exit.
       */
      if (!LYCanReadFile(lynx_cfg_file)) {
 -	fprintf(stderr,
--		gettext("\nConfiguration file \"%s\" is not available.\n\n"),
+-		LY_MSG("\nConfiguration file \"%s\" is not available.\n\n"),
 -		lynx_cfg_file);
 -	exit_immediately(EXIT_FAILURE);
 +	FREE(lynx_cfg_file);
 +	StrAllocCopy(lynx_cfg_file, "/usr/share/defaults/lynx/lynx.cfg");
 +	if (!LYCanReadFile(lynx_cfg_file)) {
-+		fprintf(stderr,
-+			gettext("\nConfiguration file \"%s\" is not available.\n\n"),
-+			lynx_cfg_file);
-+		exit_immediately(EXIT_FAILURE);
++	    fprintf(stderr,
++		    LY_MSG("\nConfiguration file \"%s\" is not available.\n\n"),
++		    lynx_cfg_file);
++	    exit_immediately(EXIT_FAILURE);
 +	}
      }
  
@@ -35,16 +35,18 @@ diff --git a/src/LYStyle.c b/src/LYStyle.c
 index 77be188..c927e7c 100644
 --- a/src/LYStyle.c
 +++ b/src/LYStyle.c
-@@ -928,7 +928,11 @@ void init_color_styles(char **from_cmdline, const char *default_styles)
+@@ -926,9 +926,13 @@ void init_color_styles(char **from_cmdline, const char *default_styles)
+     if (user_lss_file != NULL) {
+ 	FREE(lynx_lss_file);
  	lynx_lss_file = find_lss_file(cp = user_lss_file);
- 	*from_cmdline = 0;
+ 	*from_cmdline = NULL;
      } else {
 -	lynx_lss_file = find_lss_file(cp = DeConst(LYNX_LSS_FILE));
-+		if (LYCanReadFile(DeConst(LYNX_LSS_FILE))) {
-+			lynx_lss_file = find_lss_file(cp = DeConst(LYNX_LSS_FILE));
-+		} else {
-+			lynx_lss_file = find_lss_file(cp = "/usr/share/defaults/lynx/lynx.lss");
-+		}
++	if (LYCanReadFile(DeConst(LYNX_LSS_FILE))) {
++	    lynx_lss_file = find_lss_file(cp = DeConst(LYNX_LSS_FILE));
++	} else {
++	    lynx_lss_file = find_lss_file(cp = "/usr/share/defaults/lynx/lynx.lss");
++	}
      }
      CTRACE1((tfp, "init_color_styles(%s)\n", NonNull(lynx_lss_file)));
  
