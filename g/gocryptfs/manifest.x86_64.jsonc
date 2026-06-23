@@ -1,0 +1,34 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"gocryptfs": {
+			"build-depends": [
+				"binary(go)",
+				"binary(pandoc)",
+				"pkgconfig(libcrypto)"
+			],
+			"depends": [
+				"binary(fusermount3)",
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libcrypto.so.3(x86_64))"
+			],
+			"files": [
+				"/usr/bin/gocryptfs",
+				"/usr/bin/gocryptfs-xray",
+				"/usr/share/licenses/gocryptfs/LICENSE",
+				"/usr/share/man/man1/gocryptfs-xray.1",
+				"/usr/share/man/man1/gocryptfs.1"
+			],
+			"name": "gocryptfs",
+			"provides": [
+				"binary(gocryptfs)",
+				"binary(gocryptfs-xray)"
+			]
+		}
+	},
+	"source-name": "gocryptfs",
+	"source-release": "1",
+	"source-version": "2.6.1"
+}
