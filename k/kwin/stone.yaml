@@ -2,10 +2,10 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : kwin
-version     : "6.7.0"
-release     : 33
+version     : "6.7.1"
+release     : 34
 upstreams   :
-    - https://download.kde.org/stable/plasma/6.7.0/kwin-6.7.0.tar.xz : d20b798094a9f58e57de55eca3d58b1cdcb7db2939eb8bf73918c4fab6d9aec5
+    - https://download.kde.org/stable/plasma/6.7.1/kwin-6.7.1.tar.xz : 352bfb34efad1435071960ef4cd392b110a18e1c168d1fdc5cce6b43331d0875
 homepage    : https://kde.org/plasma-desktop/
 license     :
     - GFDL-1.2-only
@@ -84,7 +84,6 @@ tuning      :
     - lto: full
     - optimize: speed
 setup       : |
-    %patch %(pkgdir)/5bc20cf1.patch
     %cmake_kf6
 build       : |
     %cmake_build
