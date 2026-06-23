@@ -2,10 +2,10 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : discover
-version     : "6.7.0"
-release     : 20
+version     : "6.7.1"
+release     : 21
 upstreams   :
-    - https://download.kde.org/stable/plasma/6.7.0/discover-6.7.0.tar.xz : 03d4a2b175717656bfee907f4fb94120b86cdcc8663d94e7924ac6f277a55b27
+    - https://download.kde.org/stable/plasma/6.7.1/discover-6.7.1.tar.xz : 257a5c4a83a194161978d407cc66ce1481b5848b1fa77f1f9fbb27d2116b41f9
 homepage    : https://apps.kde.org/discover/
 license     : GPL-2.0-or-later
 summary     : Discover helps you find and install applications, games, and tools.
@@ -61,6 +61,7 @@ build       : |
     %cmake_build
 install     : |
     %cmake_install
+    chmod -x %(installroot)/usr/share/xdg/autostart/org.kde.discover.notifier.desktop
 packages    :
     - "%(name)":
         paths:
