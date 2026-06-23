@@ -3,7 +3,7 @@
 
 name        : steam-devices
 version     : "1.0.0.61+git.bbf6cf03"
-release     : 2
+release     : 3
 homepage    : https://github.com/ValveSoftware/steam-devices
 upstreams   :
     - git|https://github.com/ValveSoftware/steam-devices.git : bbf6cf03104aed5f73ac2798bdb09dc63ea3adf8
@@ -12,6 +12,8 @@ description : |
     List of devices Steam and SteamVR will want read/write permissions on
 license     : MIT
 setup       : |
+    # Seems to regress SteamOS Handheld Controller profile from inputplumber
+    %patch %(pkgdir)/0000-revert-9443b9d.patch
     %patch %(pkgdir)/0001-fix-udev-rules.patch
 install     : |
     %install_dir %(installroot)%(libdir)/udev/rules.d
