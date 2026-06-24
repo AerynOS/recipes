@@ -19,7 +19,6 @@
 				"pkgconfig(libva)"
 			],
 			"depends": [
-				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libKF6CoreAddons.so.6(x86_64))",
 				"soname(libKF6I18n.so.6(x86_64))",
 				"soname(libQt6Core.so.6(x86_64))",
@@ -35,6 +34,8 @@
 				"soname(libdrm.so.2(x86_64))",
 				"soname(libepoxy.so.0(x86_64))",
 				"soname(libgbm.so.1(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libm.so.6(x86_64))",
 				"soname(libpipewire-0.3.so.0(x86_64))",
 				"soname(libstdc++.so.6(x86_64))",
 				"soname(libva-drm.so.2(x86_64))",
@@ -42,11 +43,11 @@
 			],
 			"files": [
 				"/usr/lib/libKPipeWire.so.6",
-				"/usr/lib/libKPipeWire.so.6.7.0",
+				"/usr/lib/libKPipeWire.so.6.7.1",
 				"/usr/lib/libKPipeWireDmaBuf.so.6",
-				"/usr/lib/libKPipeWireDmaBuf.so.6.7.0",
+				"/usr/lib/libKPipeWireDmaBuf.so.6.7.1",
 				"/usr/lib/libKPipeWireRecord.so.6",
-				"/usr/lib/libKPipeWireRecord.so.6.7.0",
+				"/usr/lib/libKPipeWireRecord.so.6.7.1",
 				"/usr/lib/qt6/qml/org/kde/pipewire/KPipeWire.qmltypes",
 				"/usr/lib/qt6/qml/org/kde/pipewire/kde-qmlmodule.version",
 				"/usr/lib/qt6/qml/org/kde/pipewire/libKPipeWireplugin.so",
@@ -168,6 +169,6 @@
 		}
 	},
 	"source-name": "kpipewire",
-	"source-release": "25",
-	"source-version": "6.7.0"
+	"source-release": "26",
+	"source-version": "6.7.1"
 }
