@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : nushell
-version     : "0.112.2"
-release     : 8
+version     : "0.113.1"
+release     : 9
 homepage    : https://www.nushell.sh/
 upstreams   :
-    - https://github.com/nushell/nushell/archive/refs/tags/0.112.2.tar.gz : 32ebcfe41b6390145e90eb86273e221f22eeacd53ecac5274405f148fb4258c2
+    - https://github.com/nushell/nushell/archive/refs/tags/0.113.1.tar.gz : d2b514b9ec7c1cc5930025528987d730cadcaa0f063227691c837516093328fd
 summary     : A new type of shell
 description : |
     Nu is a new type of shell, that combines the traditional Unix tools with modern languages.
@@ -27,6 +27,9 @@ environment : |
     export LIBSSH2_SYS_USE_PKG_CONFIG=1
     export LIBSQLITE3_SYS_USE_PKG_CONFIG=1
     export ZSTD_SYS_USE_PKG_CONFIG=1
+
+    # polars-core is memory hungry under the global codegen-units=1 setting.
+    export RUSTFLAGS="${RUSTFLAGS/ -C codegen-units=1/}"
 setup       : |
     %cargo_fetch
 build       : |
