@@ -11,12 +11,13 @@
 				"pkgconfig(OpenCL-Headers)"
 			],
 			"depends": [
-				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/lib/libOpenCL.so.1",
 				"/usr/lib/libOpenCL.so.1.0.0",
+				"/usr/share/defaults/ocl-icd/10_default_VENDORS_ocl-icd.sh",
+				"/usr/share/defaults/profile.d/10_default_VENDORS_ocl-icd.sh",
 				"/usr/share/man/man7/libOpenCL.7",
 				"/usr/share/man/man7/libOpenCL.so.7"
 			],
@@ -37,7 +38,6 @@
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"ocl-icd",
 				"pkgconfig(OpenCL-Headers)",
-				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))"
 			],
 			"files": [
@@ -58,6 +58,6 @@
 		}
 	},
 	"source-name": "ocl-icd",
-	"source-release": "5",
+	"source-release": "6",
 	"source-version": "2.3.5"
 }
