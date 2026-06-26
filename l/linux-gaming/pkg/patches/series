@@ -2,7 +2,7 @@
 more-ISA-levels-and-uarches-for-kernel-6.16+.patch
 
 # OGC patch-set
-# https://github.com/OpenGamingCollective/linux/tree/steam-deck-overlays
+# https://github.com/OpenGamingCollective/linux/tree/ogc-7.1.y
 ogc/0001-FROM-ML-mmc-rtsx_pci_sdmmc-drop-MMC_CAP_AGGRESSIVE_P.patch
 ogc/0002-FROM-ML-misc-rtsx_pcr-prevent-pm_schedule_suspend-fo.patch
 ogc/0003-FROM-ML-mmc-rtsx_pci_sdmmc-increase-delay-after-powe.patch
@@ -75,9 +75,15 @@ ogc/0069-FOR-UPSTREAM-hid-asus-ally-add-calibrations-wip.patch
 ogc/0070-FOR-UPSTREAM-debug-by-default.patch
 ogc/0071-FOR-UPSTREAM-hid-asus-ally-grab-short-press-QAM-on-R.patch
 ogc/0072-FOR-UPSTREAM-hid-asus-ally-disable-wakeup-attribute-.patch
+# https://github.com/OpenGamingCollective/linux/tree/steam-deck-overlays
 ogc/0073-EXTERNALLY-MAINTAINED-drm-amd-display-Enable-3-overl.patch
 # https://github.com/OpenGamingCollective/linux/pull/59
 ogc/0001-NOT-FOR-UPSTREAM-platform-x86-msi-wmi-platform-Fix-i.patch
+
+# Valve patches
+# https://github.com/ValveSoftware/steam-devices/pull/83#issuecomment-4786835173
+# https://lore.kernel.org/linux-input/20260624023601.1197134-1-vi@endrift.com/T/
+valve/0000-HID-core-expose-id-attributes-in-sysfs.patch
 
 # Gaming patches from CachyOS and Manjaro
 gaming/0000-usb-vhci-hcd-Unconditionally-allow-system-suspend.patch
@@ -187,6 +193,8 @@ isp4/0007-Documentation-add-documentation-of-AMD-isp-4-driver.patch
 # Upstream patches
 upstream/0000-iwlwifi-fix.patch
 upstream/0000-drm-amdgpu-fix-race-condition-in-amdgpu_vm_wait_idle-during-process-kill.patch
+# https://github.com/CachyOS/linux-cachyos/issues/900
+upstream/0000-drm-amd-display-Fix-ISM-dc_lock-deadlock-during-suspend.patch
 # https://gitlab.freedesktop.org/drm/amd/-/work_items/5396
 upstream/0000-fix-dcn401-color-manager-regression.patch
 # https://invent.kde.org/plasma/kwin/-/merge_requests/9178
