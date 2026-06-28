@@ -5,6 +5,7 @@
 		"systemd": {
 			"build-depends": [
 				"binary(bpftool)",
+				"binary(clang)",
 				"binary(gcc)",
 				"binary(gperf)",
 				"binary(m4)",
@@ -59,7 +60,6 @@
 				"binary(ntp-daemon)",
 				"binary(setfont)",
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
-				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libacl.so.1(x86_64))",
 				"soname(libblkid.so.1(x86_64))",
 				"soname(libbpf.so.1(x86_64))",
@@ -73,6 +73,7 @@
 				"soname(libdw.so.1(x86_64))",
 				"soname(libelf.so.1(x86_64))",
 				"soname(libfdisk.so.1(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libidn2.so.0(x86_64))",
 				"soname(libkmod.so.2(x86_64))",
 				"soname(liblzma.so.5(x86_64))",
@@ -1516,6 +1517,7 @@
 		"systemd-32bit": {
 			"build-depends": [
 				"binary(bpftool)",
+				"binary(clang)",
 				"binary(gcc)",
 				"binary(gperf)",
 				"binary(m4)",
@@ -1566,7 +1568,6 @@
 				"python(pefile)"
 			],
 			"depends": [
-				"soname(ld-linux.so.2(386))",
 				"soname(libc.so.6(386))",
 				"soname(libcap.so.2(386))",
 				"soname(libgcc_s.so.1(386))",
@@ -1595,6 +1596,7 @@
 		"systemd-32bit-devel": {
 			"build-depends": [
 				"binary(bpftool)",
+				"binary(clang)",
 				"binary(gcc)",
 				"binary(gperf)",
 				"binary(m4)",
@@ -1664,6 +1666,7 @@
 		"systemd-devel": {
 			"build-depends": [
 				"binary(bpftool)",
+				"binary(clang)",
 				"binary(gcc)",
 				"binary(gperf)",
 				"binary(m4)",
@@ -2569,6 +2572,7 @@
 		"systemd-journal-remote": {
 			"build-depends": [
 				"binary(bpftool)",
+				"binary(clang)",
 				"binary(gcc)",
 				"binary(gperf)",
 				"binary(m4)",
@@ -2622,6 +2626,7 @@
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libcurl.so.4(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libgnutls.so.30(x86_64))",
 				"soname(libmicrohttpd.so.12(x86_64))",
 				"soname(systemd/libsystemd-shared-258.so(x86_64))",
@@ -2656,6 +2661,7 @@
 		"systemd-networkd": {
 			"build-depends": [
 				"binary(bpftool)",
+				"binary(clang)",
 				"binary(gcc)",
 				"binary(gperf)",
 				"binary(m4)",
@@ -2707,8 +2713,8 @@
 			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
-				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(systemd/libsystemd-shared-258.so(x86_64))"
 			],
 			"files": [
@@ -2774,6 +2780,7 @@
 		"systemd-ukify": {
 			"build-depends": [
 				"binary(bpftool)",
+				"binary(clang)",
 				"binary(gcc)",
 				"binary(gperf)",
 				"binary(m4)",
@@ -2835,6 +2842,6 @@
 		}
 	},
 	"source-name": "systemd",
-	"source-release": "83",
-	"source-version": "258.8"
+	"source-release": "84",
+	"source-version": "258.9"
 }
