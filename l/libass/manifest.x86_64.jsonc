@@ -7,6 +7,7 @@
 				"binary(nasm)",
 				"pkgconfig(freetype2)",
 				"pkgconfig(fribidi)",
+				"pkgconfig(harfbuzz)",
 				"pkgconfig(libpng)"
 			],
 			"depends": [
@@ -19,7 +20,7 @@
 			],
 			"files": [
 				"/usr/lib/libass.so.9",
-				"/usr/lib/libass.so.9.4.1"
+				"/usr/lib/libass.so.9.4.2"
 			],
 			"name": "libass",
 			"provides": [
@@ -31,6 +32,7 @@
 				"binary(nasm)",
 				"pkgconfig(freetype2)",
 				"pkgconfig(fribidi)",
+				"pkgconfig(harfbuzz)",
 				"pkgconfig(libpng)"
 			],
 			"depends": [
@@ -53,6 +55,6 @@
 		}
 	},
 	"source-name": "libass",
-	"source-release": "4",
-	"source-version": "0.17.4"
+	"source-release": "5",
+	"source-version": "0.17.5"
 }
