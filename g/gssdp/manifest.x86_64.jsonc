@@ -14,6 +14,7 @@
 			],
 			"depends": [
 				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libgio-2.0.so.0(x86_64))",
 				"soname(libglib-2.0.so.0(x86_64))",
 				"soname(libgobject-2.0.so.0(x86_64))",
@@ -22,7 +23,7 @@
 			"files": [
 				"/usr/lib/girepository-1.0/GSSDP-1.6.typelib",
 				"/usr/lib/libgssdp-1.6.so.0",
-				"/usr/lib/libgssdp-1.6.so.0.106.5"
+				"/usr/lib/libgssdp-1.6.so.0.106.6"
 			],
 			"name": "gssdp",
 			"provides": [
@@ -95,6 +96,6 @@
 		}
 	},
 	"source-name": "gssdp",
-	"source-release": "3",
-	"source-version": "1.6.5"
+	"source-release": "4",
+	"source-version": "1.6.6"
 }
