@@ -2,10 +2,10 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : kwin
-version     : "6.7.1"
-release     : 34
+version     : "6.7.2"
+release     : 35
 upstreams   :
-    - https://download.kde.org/stable/plasma/6.7.1/kwin-6.7.1.tar.xz : 352bfb34efad1435071960ef4cd392b110a18e1c168d1fdc5cce6b43331d0875
+    - https://download.kde.org/stable/plasma/6.7.2/kwin-6.7.2.tar.xz : 6161a188f66ffac0a330dcf82dec9ecc3e53451b7bddd5d18fa00b1e9aada73b
 homepage    : https://kde.org/plasma-desktop/
 license     :
     - GFDL-1.2-only
@@ -14,9 +14,9 @@ summary     : KDE window manager
 description : |
     KWin is the window manager for the KDE Plasma Desktop. It gives you complete control over your windows, making sure they're not in the way but aid you in your task. It paints the window decoration, the bar on top of every window with (configurable) buttons like close, maximize and minimize. It also handles placing of windows and switching between them.
 builddeps   :
+    - binary(Xwayland)
     - binary(glslangValidator)
     - binary(glslc)
-    - binary(Xwayland)
     - cmake(Aurorae)
     - cmake(Breeze)
     # Temporary, boulder doesn't handle build ordering resolution correctly when builddeps are added by macros, so add ECM manually
