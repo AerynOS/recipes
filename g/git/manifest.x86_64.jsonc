@@ -5,6 +5,7 @@
 		"git": {
 			"build-depends": [
 				"binary(asciidoc)",
+				"binary(cargo)",
 				"binary(msgfmt)",
 				"binary(tar)",
 				"binary(xmlto)",
@@ -21,10 +22,12 @@
 			"depends": [
 				"binary(envsubst)",
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libcrypto.so.3(x86_64))",
 				"soname(libcurl.so.4(x86_64))",
 				"soname(libexpat.so.1(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libglib-2.0.so.0(x86_64))",
 				"soname(libgobject-2.0.so.0(x86_64))",
 				"soname(libpcre2-8.so.0(x86_64))",
@@ -98,6 +101,7 @@
 				"/usr/lib/git/git-core/git-for-each-ref",
 				"/usr/lib/git/git-core/git-for-each-repo",
 				"/usr/lib/git/git-core/git-format-patch",
+				"/usr/lib/git/git-core/git-format-rev",
 				"/usr/lib/git/git-core/git-fsck",
 				"/usr/lib/git/git-core/git-fsck-objects",
 				"/usr/lib/git/git-core/git-fsmonitor--daemon",
@@ -209,6 +213,7 @@
 				"/usr/lib/git/git-core/git-update-server-info",
 				"/usr/lib/git/git-core/git-upload-archive",
 				"/usr/lib/git/git-core/git-upload-pack",
+				"/usr/lib/git/git-core/git-url-parse",
 				"/usr/lib/git/git-core/git-var",
 				"/usr/lib/git/git-core/git-verify-commit",
 				"/usr/lib/git/git-core/git-verify-pack",
@@ -335,6 +340,7 @@
 				"/usr/share/man/man1/git-for-each-ref.1",
 				"/usr/share/man/man1/git-for-each-repo.1",
 				"/usr/share/man/man1/git-format-patch.1",
+				"/usr/share/man/man1/git-format-rev.1",
 				"/usr/share/man/man1/git-fsck-objects.1",
 				"/usr/share/man/man1/git-fsck.1",
 				"/usr/share/man/man1/git-fsmonitor--daemon.1",
@@ -436,6 +442,7 @@
 				"/usr/share/man/man1/git-update-server-info.1",
 				"/usr/share/man/man1/git-upload-archive.1",
 				"/usr/share/man/man1/git-upload-pack.1",
+				"/usr/share/man/man1/git-url-parse.1",
 				"/usr/share/man/man1/git-var.1",
 				"/usr/share/man/man1/git-verify-commit.1",
 				"/usr/share/man/man1/git-verify-pack.1",
@@ -520,6 +527,7 @@
 		"git-gui": {
 			"build-depends": [
 				"binary(asciidoc)",
+				"binary(cargo)",
 				"binary(msgfmt)",
 				"binary(tar)",
 				"binary(xmlto)",
@@ -605,6 +613,7 @@
 		"gitk": {
 			"build-depends": [
 				"binary(asciidoc)",
+				"binary(cargo)",
 				"binary(msgfmt)",
 				"binary(tar)",
 				"binary(xmlto)",
@@ -649,6 +658,6 @@
 		}
 	},
 	"source-name": "git",
-	"source-release": "24",
-	"source-version": "2.54.0"
+	"source-release": "25",
+	"source-version": "2.55.0"
 }
