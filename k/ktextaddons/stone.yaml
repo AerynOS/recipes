@@ -2,10 +2,10 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : ktextaddons
-version     : "2.0.2"
-release     : 11
+version     : "2.1.0"
+release     : 12
 upstreams   :
-    - https://download.kde.org/stable/ktextaddons/ktextaddons-2.0.2.tar.xz : 0d7f82a976ef682f45822b221e2f15cefc0039488bc8c700a6b0e7594aaebdea
+    - https://download.kde.org/stable/ktextaddons/ktextaddons-2.1.0.tar.xz : 42c76b6620dceafa98bb02a9e25ac059b48819f9923b55517c9e087d85d413ae
 homepage    : https://invent.kde.org/libraries/ktextaddons
 license     :
     - GPL-2.0-or-later
@@ -41,13 +41,13 @@ packages    :
         description: Various text handling addons - Qt6 bindings
         paths:
             - /usr/lib/libKF6*.so.*
-            - /usr/lib/libtextautogenerateollama.so.*
-            - /usr/lib/libtextautogenerategenericnetwork.so.*
-            - /usr/lib/libtextautogenerateollama*.so.*
+            - /usr/lib/libmcpprotocol*.so.*
+            - /usr/lib/libtextautogenerate*.so.*
             - /usr/lib/libtextutils-cmark-rc-copy.so.*
             - /usr/lib/qt6/plugins/kf6/speechtotext/
             - /usr/lib/qt6/plugins/kf6/textautogeneratetext/
             - /usr/lib/qt6/plugins/kf6/translator/
+            - /usr/share/config.kcfg/
             - /usr/share/locale/
             - /usr/share/qlogging-categories6/
 
