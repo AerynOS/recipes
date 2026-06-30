@@ -8,9 +8,9 @@
 			],
 			"files": [
 				"/usr/lib/liburing-ffi.so.2",
-				"/usr/lib/liburing-ffi.so.2.14",
+				"/usr/lib/liburing-ffi.so.2.15",
 				"/usr/lib/liburing.so.2",
-				"/usr/lib/liburing.so.2.14"
+				"/usr/lib/liburing.so.2.15"
 			],
 			"name": "liburing",
 			"provides": [
@@ -27,6 +27,7 @@
 				"/usr/include/liburing/barrier.h",
 				"/usr/include/liburing/compat.h",
 				"/usr/include/liburing/io_uring.h",
+				"/usr/include/liburing/io_uring/bpf_filter.h",
 				"/usr/include/liburing/io_uring/query.h",
 				"/usr/include/liburing/io_uring_version.h",
 				"/usr/lib/liburing-ffi.so",
@@ -191,6 +192,8 @@
 				"/usr/share/man/man3/io_uring_recvmsg_payload.3",
 				"/usr/share/man/man3/io_uring_recvmsg_payload_length.3",
 				"/usr/share/man/man3/io_uring_recvmsg_validate.3",
+				"/usr/share/man/man3/io_uring_register_bpf_filter.3",
+				"/usr/share/man/man3/io_uring_register_bpf_filter_task.3",
 				"/usr/share/man/man3/io_uring_register_buf_ring.3",
 				"/usr/share/man/man3/io_uring_register_buffers.3",
 				"/usr/share/man/man3/io_uring_register_buffers_sparse.3",
@@ -211,12 +214,14 @@
 				"/usr/share/man/man3/io_uring_register_napi.3",
 				"/usr/share/man/man3/io_uring_register_personality.3",
 				"/usr/share/man/man3/io_uring_register_probe.3",
+				"/usr/share/man/man3/io_uring_register_query.3",
 				"/usr/share/man/man3/io_uring_register_region.3",
 				"/usr/share/man/man3/io_uring_register_restrictions.3",
 				"/usr/share/man/man3/io_uring_register_ring_fd.3",
 				"/usr/share/man/man3/io_uring_register_sync_cancel.3",
 				"/usr/share/man/man3/io_uring_register_sync_msg.3",
 				"/usr/share/man/man3/io_uring_register_wait_reg.3",
+				"/usr/share/man/man3/io_uring_register_zcrx_ctrl.3",
 				"/usr/share/man/man3/io_uring_resize_rings.3",
 				"/usr/share/man/man3/io_uring_ring_dontfork.3",
 				"/usr/share/man/man3/io_uring_set_iowait.3",
@@ -275,6 +280,6 @@
 		}
 	},
 	"source-name": "liburing",
-	"source-release": "4",
-	"source-version": "2.14"
+	"source-release": "5",
+	"source-version": "2.15"
 }
