@@ -3,6 +3,9 @@
 	"manifest-version": "0.2",
 	"packages": {
 		"attr": {
+			"build-depends": [
+				"binary(msgfmt)"
+			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))"
@@ -12,7 +15,7 @@
 				"/usr/bin/getfattr",
 				"/usr/bin/setfattr",
 				"/usr/lib/libattr.so.1",
-				"/usr/lib/libattr.so.1.1.2502",
+				"/usr/lib/libattr.so.1.1.2600",
 				"/usr/share/defaults/attr/xattr.conf",
 				"/usr/share/doc/attr/CHANGES",
 				"/usr/share/doc/attr/COPYING",
@@ -41,13 +44,16 @@
 			]
 		},
 		"attr-32bit": {
+			"build-depends": [
+				"binary(msgfmt)"
+			],
 			"depends": [
 				"attr",
 				"soname(libc.so.6(386))"
 			],
 			"files": [
 				"/usr/lib32/libattr.so.1",
-				"/usr/lib32/libattr.so.1.1.2502"
+				"/usr/lib32/libattr.so.1.1.2600"
 			],
 			"name": "attr-32bit",
 			"provides": [
@@ -55,6 +61,9 @@
 			]
 		},
 		"attr-32bit-devel": {
+			"build-depends": [
+				"binary(msgfmt)"
+			],
 			"depends": [
 				"attr-32bit",
 				"attr-devel"
@@ -69,6 +78,9 @@
 			]
 		},
 		"attr-devel": {
+			"build-depends": [
+				"binary(msgfmt)"
+			],
 			"depends": [
 				"attr"
 			],
@@ -96,6 +108,6 @@
 		}
 	},
 	"source-name": "attr",
-	"source-release": "6",
-	"source-version": "2.5.2"
+	"source-release": "7",
+	"source-version": "2.6.0"
 }

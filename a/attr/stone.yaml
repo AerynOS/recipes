@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : attr
-version     : "2.5.2"
-release     : 6
+version     : "2.6.0"
+release     : 7
 homepage    : https://savannah.nongnu.org/projects/attr
 upstreams   :
-    - https://download.savannah.nongnu.org/releases/attr/attr-2.5.2.tar.xz : f2e97b0ab7ce293681ab701915766190d607a1dba7fae8a718138150b700a70b
+    - https://download.savannah.nongnu.org/releases/attr/attr-2.6.0.tar.xz : 6c8a2148a7b85043b68492bce43316b0e2e214fc4e628c7ede078e76e216330b
 summary     : Commands for Manipulating Extended Attributes
 description : |
     Commands for Manipulating Extended Attributes
@@ -14,11 +14,14 @@ license     :
     - GPL-2.0-or-later
     - LGPL-2.1-or-later
 emul32      : true
+builddeps   :
+    - binary(msgfmt)
 setup       : |
     %patch %(pkgdir)/0001-Support-stateless-path.patch
 
-    %configure --enable-shared \
-               --disable-static
+    %configure \
+        --enable-shared \
+        --disable-static
 build       : |
     %make
 install     : |
