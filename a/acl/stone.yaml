@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : acl
-version     : "2.3.2"
-release     : 5
+version     : "2.4.0"
+release     : 6
 homepage    : https://savannah.nongnu.org/projects/acl
 upstreams   :
-    - https://download.savannah.gnu.org/releases/acl/acl-2.3.2.tar.xz : 97203a72cae99ab89a067fe2210c1cbf052bc492b479eca7d226d9830883b0bd
+    - https://download.savannah.gnu.org/releases/acl/acl-2.4.0.tar.xz : e661131456d2708a01c614a0f400e11d7d1bfaeb6f3e74b75bb980b72f0161a3
 summary     : Access control list utilities
 description : |
     Commands for Manipulating POSIX Access Control Lists
@@ -15,10 +15,12 @@ license     :
     - LGPL-2.1-or-later
 emul32      : true
 builddeps   :
+    - binary(msgfmt)
     - pkgconfig32(libattr)
 setup       : |
-    %configure --enable-shared \
-               --disable-static
+    %configure \
+        --enable-shared \
+        --disable-static
 build       : |
     %make
 install     : |
