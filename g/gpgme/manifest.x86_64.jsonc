@@ -12,7 +12,6 @@
 			"depends": [
 				"binary(gpg)",
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
-				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libassuan.so.9(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libgpg-error.so.0(x86_64))",
@@ -22,7 +21,7 @@
 				"/usr/bin/gnupg-key-manage",
 				"/usr/bin/gpgme-json",
 				"/usr/lib/libgpgme.so.45",
-				"/usr/lib/libgpgme.so.45.1.0",
+				"/usr/lib/libgpgme.so.45.1.2",
 				"/usr/share/man/man1/gpgme-json.1"
 			],
 			"name": "gpgme",
@@ -98,6 +97,6 @@
 		}
 	},
 	"source-name": "gpgme",
-	"source-release": "8",
-	"source-version": "2.1.0"
+	"source-release": "9",
+	"source-version": "2.1.2"
 }
