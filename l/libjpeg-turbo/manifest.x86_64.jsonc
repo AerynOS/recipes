@@ -7,7 +7,6 @@
 				"binary(nasm)"
 			],
 			"depends": [
-				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))"
 			],
 			"files": [
@@ -79,12 +78,11 @@
 				"binary(nasm)"
 			],
 			"depends": [
-				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/lib/libturbojpeg.so.0",
-				"/usr/lib/libturbojpeg.so.0.4.0"
+				"/usr/lib/libturbojpeg.so.0.5.0"
 			],
 			"name": "turbojpeg",
 			"provides": [
@@ -110,6 +108,6 @@
 		}
 	},
 	"source-name": "libjpeg-turbo",
-	"source-release": "11",
-	"source-version": "3.1.4.1"
+	"source-release": "12",
+	"source-version": "3.2.0"
 }
