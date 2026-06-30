@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : docker-compose
-version     : "5.1.4"
-release     : 19
+version     : "5.2.0"
+release     : 20
 homepage    : https://github.com/docker/compose
 upstreams   :
-    - https://github.com/docker/compose/archive/refs/tags/v5.1.4.tar.gz : 363ce6ccca46f836648f5f4ec9ecfdb6f631daa126570cc3fc69140edeed6794
+    - https://github.com/docker/compose/archive/refs/tags/v5.2.0.tar.gz : 7bc980b6a73728372f7123ec1e2908fc30a4b0c2ff6096d8229853742117b205
 summary     : Define and run multi-container applications with Docker
 description : |
     Define and run multi-container applications with Docker
@@ -22,12 +22,11 @@ environment : |
     export _compose_r=github.com/docker/compose
     export _cli_plugins_dir=%(libdir)/docker/cli-plugins
 setup      : |
-    go mod vendor
+    %go_mod
 build      : |
     export GO111MODULE=auto
 
-    export CGO_CFLAGS="${CFLAGS}"
-    export GOFLAGS="-buildmode=pie -trimpath -mod=readonly -modcacherw -ldflags=-linkmode=external -ldflags=-X=${_compose_r}/v2/internal.Version=v%(version)"
+    export GOFLAGS+=" -ldflags=-X=${_compose_r}/v2/internal.Version=v%(version)"
 
     # Git commit corresponding to the version tag
     export GITCOMMIT=$(git ls-remote https://github.com/docker/compose.git refs/tags/v%(version) |awk '{print $1}')
