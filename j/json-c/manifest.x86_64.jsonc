@@ -4,12 +4,11 @@
 	"packages": {
 		"json-c": {
 			"depends": [
-				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/lib/libjson-c.so.5",
-				"/usr/lib/libjson-c.so.5.4.0"
+				"/usr/lib/libjson-c.so.5.5.0"
 			],
 			"name": "json-c",
 			"provides": [
@@ -51,6 +50,6 @@
 		}
 	},
 	"source-name": "json-c",
-	"source-release": "5",
-	"source-version": "0.18"
+	"source-release": "6",
+	"source-version": "0.19"
 }
