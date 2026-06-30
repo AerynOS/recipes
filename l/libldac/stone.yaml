@@ -2,10 +2,10 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : libldac
-version     : "2.0.2.3"
-release     : 1
+version     : "2.0.2.6"
+release     : 2
 upstreams   :
-    - git|https://github.com/EHfive/ldacBT.git : af2dd23979453bcd1cad7c4086af5fb421a955c5
+    - https://github.com/EHfive/ldacBT/releases/download/v2.0.2.6/ldacBT-2.0.2.6.tar.gz : fee05740e86ee66f4540486d92683ee8e8071119907b57ca762c7e5d943ecef0
     # - git|https://gitlab.com/eh5/libldac.git : 97b85220085eb98a18556f81ecc5612274d619e4
 homepage    : https://android.googlesource.com/platform/external/libldac
 license     : Apache-2.0
@@ -13,8 +13,6 @@ summary     : LDAC Bluetooth encoder library
 description : |
     LDAC Bluetooth encoder library
 setup      : |
-    %patch %(pkgdir)/ftbfs-cmake-4.patch
-
     %cmake
 build      : |
     %cmake_build
