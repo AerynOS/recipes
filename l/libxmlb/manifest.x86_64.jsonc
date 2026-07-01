@@ -15,6 +15,7 @@
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libgio-2.0.so.0(x86_64))",
 				"soname(libglib-2.0.so.0(x86_64))",
 				"soname(libgobject-2.0.so.0(x86_64))",
@@ -56,6 +57,7 @@
 				"/usr/include/libxmlb-2/libxmlb/xb-builder-source-ctx.h",
 				"/usr/include/libxmlb-2/libxmlb/xb-builder-source.h",
 				"/usr/include/libxmlb-2/libxmlb/xb-builder.h",
+				"/usr/include/libxmlb-2/libxmlb/xb-compile-glib-2-62.h",
 				"/usr/include/libxmlb-2/libxmlb/xb-compile.h",
 				"/usr/include/libxmlb-2/libxmlb/xb-machine.h",
 				"/usr/include/libxmlb-2/libxmlb/xb-node-query.h",
@@ -83,6 +85,6 @@
 		}
 	},
 	"source-name": "libxmlb",
-	"source-release": "11",
-	"source-version": "0.3.27"
+	"source-release": "12",
+	"source-version": "0.3.28"
 }
