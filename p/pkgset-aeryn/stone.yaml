@@ -2,8 +2,8 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : pkgset-aeryn
-version     : "2025.12" # I guess let's just match the OS version for now
-release     : 22
+version     : "2026.05" # I guess let's just match the OS version for now
+release     : 23
 homepage    : https://aerynos.com/
 # No upstreams!
 summary     : pkgset virtual packages
@@ -41,6 +41,10 @@ packages    :
             - tzdata
             - util-linux
             - uutils-coreutils
+            # TODO: These are required for booting machines, not containers. Figure out how to handle that
+            - systemd-boot
+            - systemd-coredump
+            - systemd-udev
         paths:
             - /usr/share/doc/pkgset-aeryn-base/README
 
@@ -109,6 +113,8 @@ packages    :
 
             # Used by many graphical daemons
             - polkit
+
+            - systemd-resolved
 
             # Hardware-accelerated TTYs
             # - kmscon-gl
