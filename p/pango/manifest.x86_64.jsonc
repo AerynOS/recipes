@@ -4,6 +4,7 @@
 	"packages": {
 		"pango": {
 			"build-depends": [
+				"binary(gi-docgen)",
 				"binary(rst2man)",
 				"pkgconfig(cairo)",
 				"pkgconfig(fontconfig)",
@@ -47,13 +48,13 @@
 				"/usr/lib/girepository-1.0/PangoOT-1.0.typelib",
 				"/usr/lib/girepository-1.0/PangoXft-1.0.typelib",
 				"/usr/lib/libpango-1.0.so.0",
-				"/usr/lib/libpango-1.0.so.0.5600.4",
+				"/usr/lib/libpango-1.0.so.0.5800.0",
 				"/usr/lib/libpangocairo-1.0.so.0",
-				"/usr/lib/libpangocairo-1.0.so.0.5600.4",
+				"/usr/lib/libpangocairo-1.0.so.0.5800.0",
 				"/usr/lib/libpangoft2-1.0.so.0",
-				"/usr/lib/libpangoft2-1.0.so.0.5600.4",
+				"/usr/lib/libpangoft2-1.0.so.0.5800.0",
 				"/usr/lib/libpangoxft-1.0.so.0",
-				"/usr/lib/libpangoxft-1.0.so.0.5600.4",
+				"/usr/lib/libpangoxft-1.0.so.0.5800.0",
 				"/usr/share/man/man1/pango-list.1",
 				"/usr/share/man/man1/pango-segmentation.1",
 				"/usr/share/man/man1/pango-view.1"
@@ -71,6 +72,7 @@
 		},
 		"pango-devel": {
 			"build-depends": [
+				"binary(gi-docgen)",
 				"binary(rst2man)",
 				"pkgconfig(cairo)",
 				"pkgconfig(fontconfig)",
@@ -170,6 +172,6 @@
 		}
 	},
 	"source-name": "pango",
-	"source-release": "12",
-	"source-version": "1.56.4"
+	"source-release": "13",
+	"source-version": "1.58.0"
 }
