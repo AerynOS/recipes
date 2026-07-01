@@ -1,0 +1,33 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : fcitx5-qt
+version     : "5.1.13"
+release     : 1
+homepage    : https://github.com/fcitx/fcitx5-qt
+upstreams   :
+    - https://github.com/fcitx/fcitx5-qt/archive/refs/tags/5.1.13.tar.gz : 74b2c43ca865ec9ede257bcd3bdadafc20f571900cb2440a4488335e4d4e91cc
+summary     : Qt library and IM module for fcitx5
+description : |
+    Qt library and IM module for fcitx5
+license     : 
+    - BSD-3-Clause
+    - LGPL-2.1-or-later
+builddeps   :
+    - cmake(ECM)
+    - cmake(Fcitx5Utils)
+    - cmake(Qt5)
+    - cmake(Qt6)
+    - cmake(Qt6WaylandClient)
+    - cmake(Qt6WaylandGlobalPrivate)
+    - pkgconfig(xcb)
+    - pkgconfig(xkbcommon)
+    - pkgconfig(xkbcommon-x11)
+    - gettext
+    - gettext-devel
+setup       : |
+    %cmake
+build       : |
+    %cmake_build
+install     : |
+    %cmake_install
