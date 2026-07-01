@@ -1,20 +1,58 @@
 name: systemd_presets
 description: |
     Update preset configuration for systemd units
-after: systemd_sysusers
+after: systemd_tmpfiles
 
 handlers:
     systemd_presets_system:
-        run: /usr/bin/systemctl
-        args: ["preset", "$(name)", "--root=/", "--force"]
+        run: /usr/share/moss/helpers/preset-wrapper.sh
+        args: ["system", "$(name)"]
+
     systemd_presets_user:
-        run: /usr/bin/systemctl
-        args: ["preset", "$(name)", "--root=/", "--force", "--global"]
+        run: /usr/share/moss/helpers/preset-wrapper.sh
+        args: ["user", "$(name)"]
 
 paths:
+    "/usr/lib*/systemd/system/(name:*.automount)":
+        handlers:
+            - systemd_presets_system
+    "/usr/lib*/systemd/system/(name:*.mount)":
+        handlers:
+            - systemd_presets_system
     "/usr/lib*/systemd/system/(name:*.service)":
         handlers:
             - systemd_presets_system
+    "/usr/lib*/systemd/system/(name:*.slice)":
+        handlers:
+            - systemd_presets_system
+    "/usr/lib*/systemd/system/(name:*.socket)":
+        handlers:
+            - systemd_presets_system
+    "/usr/lib*/systemd/system/(name:*.target)":
+        handlers:
+            - systemd_presets_system
+    "/usr/lib*/systemd/system/(name:*.timer)":
+        handlers:
+            - systemd_presets_system
+
+    "/usr/lib*/systemd/user/(name:*.automount)":
+        handlers:
+            - systemd_presets_user
+    "/usr/lib*/systemd/user/(name:*.mount)":
+        handlers:
+            - systemd_presets_user
     "/usr/lib*/systemd/user/(name:*.service)":
+        handlers:
+            - systemd_presets_user
+    "/usr/lib*/systemd/user/(name:*.slice)":
+        handlers:
+            - systemd_presets_user
+    "/usr/lib*/systemd/user/(name:*.socket)":
+        handlers:
+            - systemd_presets_user
+    "/usr/lib*/systemd/user/(name:*.target)":
+        handlers:
+            - systemd_presets_user
+    "/usr/lib*/systemd/user/(name:*.timer)":
         handlers:
             - systemd_presets_user

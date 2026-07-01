@@ -2,8 +2,8 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : systemd
-version     : "258.8"
-release     : 83
+version     : "258.9"
+release     : 84
 summary     : A System and Service Manager
 license     :
     - GPL-2.0-or-later
@@ -13,7 +13,7 @@ homepage    : http://www.freedesktop.org/wiki/Software/systemd
 description : |
     A System and Service Manager
 upstreams   :
-    - https://github.com/systemd/systemd/archive/refs/tags/v258.8.tar.gz : 3b0559f1f7119e42d4a61bee8dfe699478a3e6272cb4ca7404ca2a4e1f0c447c
+    - https://github.com/systemd/systemd/archive/refs/tags/v258.9.tar.gz : ae8a6265d8439fc5193b84e56a83ba60ea56f1fe6248d8214f69e663c695bdff
 builddeps   :
     - binary(bpftool)
     - binary(gcc)
@@ -233,6 +233,11 @@ install     : |
         # Don't need these for the systemd libs
         rm -rfv %(installroot)%(libdir)/systemd/
 
+        for i in %(name)-32bit %(name)-32bit-devel; do
+            %install_dir %(installroot)%(docdir)/${i}
+            echo "DEPRECATED" > %(installroot)%(docdir)/${i}/README
+        done
+
         exit 0
     fi
 
@@ -252,6 +257,19 @@ install     : |
     # Default to BFQ scheduler for rotational drives, and kyber for sata/nvme SSDs
     %install_file %(pkgdir)/configs/60-block-scheduler.rules -t %(installroot)%(udevrulesdir)
 
+    # Coredump configuration
+    %install_file %(pkgdir)/configs/coredump/limits.conf %(installroot)%(vendordir)/security/limits.d/20-coredump-aeryn.conf
+    %install_file %(pkgdir)/configs/coredump/manager.conf %(installroot)%(libdir)/systemd/system.conf.d/20-coredump-aeryn.conf
+    %install_file %(pkgdir)/configs/coredump/manager.conf %(installroot)%(libdir)/systemd/user.conf.d/20-coredump-aeryn.conf
+
+    # OOMD configuration
+    %install_file %(pkgdir)/configs/oomd/defaults.conf %(installroot)%(libdir)/systemd/oomd.conf.d/10-oomd-defaults.conf
+    %install_file %(pkgdir)/configs/oomd/10-oomd-root-slice-defaults.conf %(installroot)%(libdir)/systemd//system/-.slice.d/10-oomd-root-slice-defaults.conf
+    %install_file %(pkgdir)/configs/oomd/10-oomd-user-service-defaults.conf %(installroot)%(libdir)/systemd/system/user@.service.d/10-oomd-defaults.conf
+
+    # Resolved configuration
+    %install_file %(pkgdir)/configs/resolved/00-disable-mdns.conf %(installroot)%(libdir)/systemd/resolved.conf.d/00-disable-mdns.conf
+
     # Allow kmscon to take over
     # - disable until further notice due to KMSCon stealing focus from display managers
     # rm -v %(installroot)%(libdir)/systemd/system/autovt@.service
@@ -270,6 +288,10 @@ install     : |
     # Helper script for use by other triggers
     %install_exe %(pkgdir)/systemd-hook.sh %(installroot)/usr/share/moss/helpers/systemd-hook.sh
 
+    # Stateful preset support
+    %tmpfiles "d /var/lib/moss/triggers/presets 0775 root root -"
+    %install_exe %(pkgdir)/preset-wrapper.sh %(installroot)/usr/share/moss/helpers/preset-wrapper.sh
+
     # install necessary system triggers
     %install_file %(pkgdir)/systemd_etcfiles.yaml %(installroot)/usr/share/moss/triggers/sys.d/systemd_etcfiles.yaml
     %install_file %(pkgdir)/systemd_tmpfiles.yaml %(installroot)/usr/share/moss/triggers/sys.d/systemd_tmpfiles.yaml
@@ -282,28 +304,164 @@ install     : |
     %install_file %(pkgdir)/systemd_hwdb.yaml %(installroot)/usr/share/moss/triggers/tx.d/systemd_hwdb.yaml
 
     %install_exe -t %(installroot)/usr/lib/systemd/system-environment-generators %(pkgdir)/configs/50-xdg-{config,data}-dirs
+
+    %install_dir %(installroot)%(docdir)/%(name)-devel/
+    echo "DEPRECATED" > %(installroot)%(docdir)/%(name)-devel/README
+tuning      :
+    - fortify: lvl2 # lvl3 causes segfaults on boot with Clang
 packages    :
-    - "%(name)":
+    - "%(name)-libs":
+        summary: Libraries for systemd and udev
+        description: Libraries for systemd and udev
+        rundeps:
+            # Default compression for everything thus required
+            - soname(libzstd.so.1(x86_64))
+        paths:
+            - /usr/lib/libnss_*.so.*
+            - /usr/lib/libsystemd.so.*
+            - /usr/lib/libudev.so.*
+            - /usr/share/man/man8/libnss_*.so.*
+
+    - "%(name)-libs-devel":
+        summary: Libraries for systemd and udev - Devel
+        description: Libraries for systemd and udev - Devel
+        rundeps:
+            - "%(name)-libs"
+        paths:
+            - /usr/include/libudev.h
+            - /usr/include/systemd/
+            - /usr/lib/libsystemd.so
+            - /usr/lib/libudev.so
+            - /usr/lib/pkgconfig/
+            - /usr/share/dbus-1/interfaces/
+            - /usr/share/man/man3/
+            - /usr/share/pkgconfig/
+
+    - "%(name)-shared":
+        summary: Internal libraries used by various systemd binaries
+        description: Internal libraries used by various systemd binaries
         rundeps:
             # These dependencies are all dlopen()ed
+            # readelf -p .note.dlopen /usr/lib/systemd/libsystemd-shared-*.so
             - soname(libbpf.so.1(x86_64))
-            - soname(libcryptsetup.so.12(x86_64))
+            - soname(libdw.so.1(x86_64))
+            - soname(libelf.so.1(x86_64))
             - soname(libidn2.so.0(x86_64))
             - soname(libkmod.so.2(x86_64))
             - soname(libpcre2-8.so.0(x86_64))
             - soname(libpwquality.so.1(x86_64))
             - soname(libqrencode.so.4(x86_64))
-            - soname(libxkbcommon.so.0(x86_64))
             - soname(libzstd.so.1(x86_64))
-            # systemd-coredump and systemd-analyze
-            - soname(libdw.so.1(x86_64))
-            - soname(libelf.so.1(x86_64))
+        paths:
+            - /usr/lib/systemd/libsystemd-core-*.so
+            - /usr/lib/systemd/libsystemd-shared-*.so
 
-    - "%(name)-32bit":
+    - "%(name)":
+        rundeps:
+            - "%(name)-libs"
+            # Keyboard layout support
+            - soname(libxkbcommon.so.0(x86_64))
+            # Disk encryption
+            - soname(libcryptsetup.so.12(x86_64))
+            # TPM support
+            - soname(libtss2-esys.so.0(x86_64))
+            - soname(libtss2-mu.so.0(x86_64))
+            - soname(libtss2-rc.so.0(x86_64))
+
+    - "%(name)-32bit-libs":
+        summary: Libraries for systemd and udev - 32bit
+        description: Libraries for systemd and udev - 32bit
         rundeps:
             # Somewhere between Systemd v254 and v257 compression algorithms were switched to dlopen. Our build supports xz/lz4/zstd but since
             # zstd is the default make that the only required dependency
             - soname(libzstd.so.1(386))
+        paths:
+            - /usr/lib32/lib*.so.*
+
+    - "%(name)-32bit-libs-devel":
+        summary: Libraries for systemd and udev - 32bit Devel
+        description: Libraries for systemd and udev - 32bit Devel
+        rundeps:
+            - "%(name)-32bit-libs"
+            - "%(name)-libs-devel"
+        paths:
+            - /usr/lib32/lib*.so
+            - /usr/lib32/pkgconfig/
+
+    - "%(name)-boot":
+        summary: Simple UEFI boot manager
+        description: Simple UEFI boot manager
+        rundeps:
+            - "%(name)"
+        paths:
+            - /usr/bin/bootctl
+            - /usr/lib/systemd/boot/efi/
+            - /usr/lib/systemd/system-generators/systemd-bless-boot-generator
+            - /usr/lib/systemd/system/sockets.target.wants/systemd-bootctl.socket
+            - /usr/lib/systemd/system/sysinit.target.wants/systemd-boot-random-seed.service
+            - /usr/lib/systemd/system/systemd-bless-boot.service
+            - /usr/lib/systemd/system/systemd-boot-random-seed.service
+            - /usr/lib/systemd/system/systemd-boot-clear-sysfail.service
+            - /usr/lib/systemd/system/systemd-boot-random-seed.service
+            - /usr/lib/systemd/system/systemd-boot-update.service
+            - /usr/lib/systemd/system/systemd-bootctl@.service
+            - /usr/lib/systemd/system/systemd-bootctl*.socket
+            - /usr/lib/systemd/systemd-bless-boot
+            - /usr/share/bash-completion/completions/bootctl
+            - /usr/share/man/man1/bootctl.1*
+            - /usr/share/man/man5/loader.conf.5*
+            - /usr/share/man/man7/sd-boot.7*
+            - /usr/share/man/man7/sd-stub.7*
+            - /usr/share/man/man7/systemd-boot.7*
+            - /usr/share/man/man7/systemd-stub.7*
+            - /usr/share/man/man8/systemd-bless-boot*
+            - /usr/share/man/man8/systemd-boot-random-seed.service.8*
+            - /usr/share/zsh/site-functions/_bootctl
+
+    - "%(name)-coredump":
+        summary: Tools for storing and retrieving coredumps
+        description: Tools for storing and retrieving coredumps
+        rundeps:
+            - "%(name)"
+        paths:
+            - /usr/bin/coredumpctl
+            - /usr/lib/sysctl.d/50-coredump.conf
+            - /usr/lib/systemd/system/sockets.target.wants/systemd-coredump.socket
+            - /usr/lib/systemd/system/systemd-coredump*.*
+            - /usr/lib/systemd/system.conf.d/20-coredump-aeryn.conf
+            - /usr/lib/systemd/systemd-coredump
+            - /usr/lib/sysusers.d/systemd-coredump.conf
+            - /usr/lib/systemd/user.conf.d/20-coredump-aeryn.conf
+            - /usr/share/bash-completion/completions/coredumpctl
+            - /usr/share/defaults/security/limits.d/20-coredump-aeryn.conf
+            - /usr/share/man/man1/coredumpctl.1*
+            - /usr/share/man/man5/coredump.conf*.5*
+            - /usr/share/man/man8/systemd-coredump*.8*
+            - /usr/share/zsh/site-functions/_coredumpctl
+
+    - "%(name)-homed":
+        summary: Home area manager
+        description: Home area manager
+        rundeps:
+            - "%(name)"
+            - "%(name)-userdbd"
+        paths:
+            - /usr/bin/homectl
+            - /usr/bin/systemd-home-fallback-shell
+            - /usr/lib/security/pam_systemd_home.so
+            - /usr/lib/systemd/system/systemd-homed*
+            - /usr/lib/systemd/systemd-homed
+            - /usr/lib/systemd/systemd-homework
+            - /usr/share/bash-completion/completions/homectl
+            - /usr/share/dbus-1/system-services/org.freedesktop.home1.service
+            - /usr/share/dbus-1/system.d/org.freedesktop.home1.conf
+            - /usr/share/man/man1/homectl.1*
+            - /usr/share/man/man1/systemd-homed-firstboot.service.1*
+            - /usr/share/man/man5/homed.conf*.5*
+            - /usr/share/man/man5/org.freedesktop.home1.5*
+            - /usr/share/man/man8/pam_systemd_home.8*
+            - /usr/share/man/man8/systemd-homed*.8*
+            - /usr/share/polkit-1/actions/org.freedesktop.home1.policy
 
     - "%(name)-journal-remote":
         summary: tools for sending and receiving remote journal logs
@@ -331,14 +489,16 @@ packages    :
     - "%(name)-networkd":
         summary: systemd-networkd
         description: systemd-networkd
+        rundeps:
+            - "%(name)"
         paths:
             - /usr/bin/networkctl
             - /usr/lib/systemd/network
             - /usr/lib/systemd/system/*networkd*
             - /usr/lib/systemd/*networkd*
             - /usr/lib/sysusers.d/*networkd*
+            - /usr/lib/sysusers.d/systemd-network.conf
             - /usr/lib/tmpfiles.d/*networkd*
-            - /usr/share/dbus-1/interfaces/*network1*
             - /usr/share/dbus-1/system-services/*network1*
             - /usr/share/dbus-1/system.d/*network1*
             - /usr/share/man/man1/network*
@@ -346,6 +506,189 @@ packages    :
             - /usr/share/man/man8/*network*
             - /usr/share/polkit-1/actions/*network*
             - /usr/share/polkit-1/rules.d/*network*
+
+    # Overrides networkd path
+    - "%(name)-container":
+        summary: Systemd container/nspawn tools
+        description: Systemd container/nspawn tools
+        rundeps:
+            - "%(name)"
+        paths:
+            - /usr/bin/importctl
+            - /usr/bin/machinectl
+            - /usr/bin/portablectl
+            # - /usr/bin/storagectl
+            - /usr/bin/systemd-dissect
+            # - /usr/bin/systemd-mstack
+            - /usr/bin/systemd-nspawn
+            - /usr/bin/systemd-sysupdate
+            - /usr/bin/systemd-vmspawn
+            - /usr/lib/systemd/import-pubring.pgp
+            - /usr/lib/systemd/network/80-namespace-*
+            - /usr/lib/systemd/portable/
+            - /usr/lib/systemd/system-generators/systemd-import-generator
+            - /usr/lib/systemd/system/dbus-org.freedesktop.import1.service
+            - /usr/lib/systemd/system/dbus-org.freedesktop.machine1.service
+            - /usr/lib/systemd/system/dbus-org.freedesktop.portable1.service
+            - /usr/lib/systemd/system/machines.target
+            - /usr/lib/systemd/system/machines.target.wants/var-lib-machines.mount
+            - /usr/lib/systemd/system/remote-fs.target.wants/var-lib-machines.mount
+            - /usr/lib/systemd/system/sockets.target.wants/systemd-importd.socket
+            - /usr/lib/systemd/system/sockets.target.wants/systemd-machined.socket
+            - /usr/lib/systemd/system/systemd-importd.*
+            - /usr/lib/systemd/system/systemd-machined.*
+            - /usr/lib/systemd/system/systemd-mountfsd.*
+            - /usr/lib/systemd/system/systemd-nspawn@.*
+            - /usr/lib/systemd/system/systemd-nsresourced.*
+            - /usr/lib/systemd/system/systemd-portabled.*
+            - /usr/lib/systemd/system/var-lib-machines.mount
+            - /usr/lib/systemd/systemd-export
+            - /usr/lib/systemd/systemd-import*
+            - /usr/lib/systemd/systemd-machined
+            - /usr/lib/systemd/systemd-mountfsd
+            - /usr/lib/systemd/systemd-mountwork
+            - /usr/lib/systemd/systemd-nsresourced
+            - /usr/lib/systemd/systemd-nsresourcework
+            - /usr/lib/systemd/systemd-portabled
+            - /usr/lib/systemd/systemd-pull
+            - /usr/lib/systemd/user/machine.slice
+            - /usr/lib/systemd/user/machines.target
+            - /usr/lib/systemd/user/systemd-nspawn@.service
+            - /usr/lib/tmpfiles.d/portables.conf
+            - /usr/lib/tmpfiles.d/systemd-nspawn.conf
+            - /usr/sbin/mount.ddi
+            - /usr/share/bash-completion/completions/importctl
+            - /usr/share/bash-completion/completions/machinectl
+            - /usr/share/bash-completion/completions/portablectl
+            - /usr/share/bash-completion/completions/systemd-nspawn
+            - /usr/share/dbus-1/system-services/org.freedesktop.import1.service
+            - /usr/share/dbus-1/system-services/org.freedesktop.machine1.service
+            - /usr/share/dbus-1/system-services/org.freedesktop.portable1.service
+            - /usr/share/dbus-1/system.d/org.freedesktop.import1.conf
+            - /usr/share/dbus-1/system.d/org.freedesktop.machine1.conf
+            - /usr/share/dbus-1/system.d/org.freedesktop.portable1.conf
+            - /usr/share/man/man1/importctl.1*
+            - /usr/share/man/man1/machinectl.1*
+            - /usr/share/man/man1/mount.ddi.1*
+            - /usr/share/man/man1/portablectl.1*
+            - /usr/share/man/man1/systemd-dissect.1*
+            - /usr/share/man/man1/systemd-nspawn.1*
+            - /usr/share/man/man5/org.freedesktop.import1.5*
+            - /usr/share/man/man5/systemd.nspawn.5*
+            - /usr/share/man/man8/systemd-import-generator.8*
+            - /usr/share/man/man8/systemd-importd*.8*
+            - /usr/share/man/man8/systemd-machined*.8*
+            - /usr/share/man/man8/systemd-mountfsd*.8*
+            - /usr/share/man/man8/systemd-nsresourced*.8*
+            - /usr/share/man/man8/systemd-portabled*.8*
+            - /usr/share/polkit-1/actions/io.systemd.mount-file-system.policy
+            - /usr/share/polkit-1/actions/io.systemd.namespace-resource.policy
+            - /usr/share/polkit-1/actions/org.freedesktop.import1.policy
+            - /usr/share/polkit-1/actions/org.freedesktop.machine1.policy
+            - /usr/share/polkit-1/actions/org.freedesktop.portable1.policy
+            - /usr/share/zsh/site-functions/_machinectl
+            - /usr/share/zsh/site-functions/_sd_machines
+            - /usr/share/zsh/site-functions/_systemd-nspawn
+
+    - "%(name)-oomd":
+        summary: Userspace out-of-memory (OOM) killer
+        description: Userspace out-of-memory (OOM) killer
+        rundeps:
+            - "%(name)"
+        paths:
+            - /usr/bin/oomctl
+            - /usr/lib/systemd/oomd.conf.d/10-oomd-defaults.conf
+            - /usr/lib/systemd/system/-.slice.d/10-oomd-root-slice-defaults.conf
+            - /usr/lib/systemd/system/systemd-oomd.*
+            - /usr/lib/systemd/system/user@.service.d/10-oomd-defaults.conf
+            - /usr/lib/systemd/systemd-oomd
+            - /usr/lib/sysusers.d/systemd-oom.conf
+            - /usr/share/bash-completion/completions/oomctl
+            - /usr/share/dbus-1/system-services/org.freedesktop.oom1.service
+            - /usr/share/dbus-1/system.d/org.freedesktop.oom1.conf
+            - /usr/share/man/man1/oomctl.1*
+            - /usr/share/man/man5/oomd.conf*.5*
+            - /usr/share/man/man5/org.freedesktop.oom1.5*
+            - /usr/share/man/man8/systemd-oomd*.8*
+            - /usr/share/zsh/site-functions/_oomctl
+
+    - "%(name)-resolved":
+        summary: Systemd DNS resolver
+        description: Systemd DNS resolver
+        rundeps:
+            - "%(name)"
+        paths:
+            - /usr/bin/resolvectl
+            - /usr/lib/systemd/resolv.conf
+            - /usr/lib/systemd/resolved.conf.d/00-disable-mdns.conf
+            - /usr/lib/systemd/system/systemd-resolved*
+            - /usr/lib/systemd/systemd-resolved
+            - /usr/lib/sysusers.d/systemd-resolve.conf
+            - /usr/lib/tmpfiles.d/systemd-resolve.conf
+            - /usr/sbin/resolvconf
+            - /usr/share/bash-completion/completions/resolvectl
+            - /usr/share/bash-completion/completions/systemd-resolve
+            - /usr/share/dbus-1/system-services/org.freedesktop.resolve1.service
+            - /usr/share/dbus-1/system.d/org.freedesktop.resolve1.conf
+            - /usr/share/man/man1/resolv*.1*
+            - /usr/share/man/man5/dnssec-trust-anchors.d.5*
+            - /usr/share/man/man5/org.freedesktop.resolve1.5*
+            - /usr/share/man/man5/resolved.conf*.5*
+            - /usr/share/man/man5/systemd.dns*.5*
+            - /usr/share/man/man5/systemd.negative.5*
+            - /usr/share/man/man5/systemd.positive.5*
+            - /usr/share/man/man8/systemd-resolved*.8*
+            - /usr/share/polkit-1/actions/org.freedesktop.resolve1.policy
+            - /usr/share/zsh/site-functions/_resolvectl
+
+    - "%(name)-timesyncd":
+        summary: Minimalistic service to synchronize local time with NTP servers
+        description: Minimalistic service to synchronize local time with NTP servers
+        rundeps:
+            - "%(name)"
+        paths:
+            - /usr/lib/systemd/ntp-units.d/80-systemd-timesync.list
+            - /usr/lib/systemd/system/systemd-time-wait-sync.service
+            - /usr/lib/systemd/system/systemd-timesyncd.service
+            - /usr/lib/systemd/systemd-time-wait-sync
+            - /usr/lib/systemd/systemd-timesyncd
+            - /usr/lib/sysusers.d/systemd-timesync.conf
+            - /usr/share/dbus-1/system-services/org.freedesktop.timesync1.service
+            - /usr/share/dbus-1/system.d/org.freedesktop.timesync1.conf
+            - /usr/share/man/man5/org.freedesktop.timesync1.5*
+            - /usr/share/man/man5/timesyncd.conf*.5*
+            - /usr/share/man/man8/systemd-time-wait-sync.*8*
+            - /usr/share/man/man8/systemd-timesyncd.*8*
+            - /usr/share/polkit-1/actions/org.freedesktop.timesync1.policy
+
+    - "%(name)-udev":
+        summary: hotplug management daemon
+        description: hotplug management daemon
+        rundeps:
+            - "%(name)"
+        paths:
+            - /usr/bin/systemd-hwdb
+            - /usr/bin/udevadm
+            - /usr/lib/systemd/network/99-default.link
+            - /usr/lib/systemd/system/sockets.target.wants/systemd-udevd*
+            - /usr/lib/systemd/system/sysinit.target.wants/systemd-udev*
+            - /usr/lib/systemd/system/systemd-hwdb-update.service
+            - /usr/lib/systemd/system/systemd-udev*
+            - /usr/lib/systemd/systemd-udevd
+            - /usr/lib/tmpfiles.d/static-nodes-permissions.conf
+            - /usr/lib/udev/
+            - /usr/share/bash-completion/completions/systemd-hwdb
+            - /usr/share/bash-completion/completions/udevadm
+            - /usr/share/man/man5/systemd.link.5*
+            - /usr/share/man/man5/udev.conf*.5*
+            - /usr/share/man/man7/hwdb.7*
+            - /usr/share/man/man7/udev.7*
+            - /usr/share/man/man8/systemd-hwdb.8*
+            - /usr/share/man/man8/systemd-udev*
+            - /usr/share/man/man8/udevadm.8*
+            - /usr/share/moss/triggers/tx.d/systemd_hwdb.yaml
+            - /usr/share/zsh/site-functions/_systemd-hwdb
+            - /usr/share/zsh/site-functions/_udevadm
 
     - "%(name)-ukify":
         summary: Tool to build Unified Kernel Images (Unsupported)
@@ -355,3 +698,38 @@ packages    :
             - /usr/bin/ukify
             - /usr/lib/systemd/ukify
             - /usr/share/man/man1/ukify.1
+
+    - "%(name)-userdbd":
+        summary: Dynamic user/group manager
+        description: Dynamic user/group manager
+        rundeps:
+            - "%(name)"
+        paths:
+            - /usr/bin/userdbctl
+            - /usr/lib/systemd/system/systemd-userdb*
+            - /usr/lib/systemd/systemd-userdbd
+            - /usr/lib/systemd/systemd-userwork
+            - /usr/lib/tmpfiles.d/20-systemd-userdb.conf
+            - /usr/share/bash-completion/completions/userdbctl
+            - /usr/share/defaults/ssh/sshd_config.d/20-systemd-userdb.conf
+            - /usr/share/man/man1/userdbctl.1*
+            - /usr/share/man/man8/systemd-userdbd*.8*
+            - /usr/share/zsh/site-functions/_userdbctl
+
+    - "%(name)-devel":
+        rundeps:
+            - "%(name)-libs-devel"
+        paths:
+            - /usr/share/doc/systemd-devel/
+
+    - "%(name)-32bit":
+        rundeps:
+            - "%(name)-32bit-libs"
+        paths:
+            - /usr/share/doc/systemd-32bit/
+
+    - "%(name)-devel":
+        rundeps:
+            - "%(name)-32bit-libs-devel"
+        paths:
+            - /usr/share/doc/systemd-32bit-devel/
