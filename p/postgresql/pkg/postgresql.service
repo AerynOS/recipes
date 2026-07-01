@@ -1,0 +1,21 @@
+[Unit]
+Description=PostgreSQL Database Server
+Documentation=man:postgres(1)
+After=network.target
+BindsTo=postgresql.socket
+After=postgresql.socket
+
+[Service]
+Type=notify
+User=postgres
+Group=postgres
+Environment=PGDATA=/var/lib/postgresql/data
+ExecStartPre=/usr/bin/postgresql-check-db-dir ${PGDATA}
+ExecStart=/usr/bin/postgres -D ${PGDATA} \
+    -c listen_addresses=''
+ExecReload=/bin/kill -HUP $MAINPID
+KillMode=mixed
+KillSignal=SIGINT
+TimeoutSec=300
+OOMScoreAdjust=-500
+
