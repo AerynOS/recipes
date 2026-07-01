@@ -3,6 +3,10 @@ disable systemd-timesyncd.service
 disable systemd-networkd.service
 disable systemd-networkd-wait-online.service
 
+# Enable if installed
+enable systemd-oomd.socket
+enable systemd-oomd.service
+
 # System stuff
 enable dbus.socket
 enable dbus-broker.service
