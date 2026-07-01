@@ -2,11 +2,17 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : shared-mime-info
-version     : "2.4"
-release     : 10
+version     : "2.5.1"
+release     : 11
 homepage    : https://www.freedesktop.org/wiki/Specifications/shared-mime-info-spec/
 upstreams   :
-    - https://gitlab.freedesktop.org/xdg/shared-mime-info/-/archive/2.4/shared-mime-info-2.4.tar.gz : 531291d0387eb94e16e775d7e73788d06d2b2fdd8cd2ac6b6b15287593b6a2de
+    - https://gitlab.freedesktop.org/xdg/shared-mime-info/-/archive/2.5.1/shared-mime-info-2.5.1.tar.gz:
+        hash: ea248ea157b7fa0165f4fe282c84919fa84c3f175553642f229c8f1ab7539128
+        unpackdir: smi
+
+    - git|https://gitlab.freedesktop.org/xdg/xdgmime.git:
+        ref: 04ce4cd90cb3fa77d5348662de221a6f33b21b17
+        clonedir: smi/subprojects/xdgmime
 summary     : Shared MIME Info
 description : |
     The shared-mime-info package contains: The core database of common MIME types, their file extensions and icon names. The update-mime-database command, used to extend the DB and install a new MIME data. The freedesktop.org shared MIME database spec.
