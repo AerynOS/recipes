@@ -3,7 +3,7 @@
 
 name        : gdm
 version     : "50.1"
-release     : 30
+release     : 31
 homepage    : https://gitlab.gnome.org/GNOME/gdm
 upstreams   :
     - https://download.gnome.org/sources/gdm/50/gdm-50.1.tar.xz : 770159373512192410f412b5d0c4678ec1573f1ae4b39c81fe75861fe8890174
@@ -36,6 +36,7 @@ rundeps     :
     - binary(gnome-session)
     - binary(gnome-shell)
     - gnome-settings-daemon
+    - systemd-userdbd
 setup       : |
     %meson \
         -Ddbus-sys=%(datadir)/dbus-1/system.d \
