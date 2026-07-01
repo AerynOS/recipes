@@ -209,6 +209,7 @@
 			"depends": [
 				"qemu-common",
 				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libgio-2.0.so.0(x86_64))",
 				"soname(libglib-2.0.so.0(x86_64))",
 				"soname(libgobject-2.0.so.0(x86_64))"
@@ -285,6 +286,7 @@
 			"depends": [
 				"qemu-common",
 				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libjack.so.0(x86_64))"
 			],
 			"files": [
@@ -801,7 +803,8 @@
 			"depends": [
 				"qemu-common",
 				"soname(libc.so.6(x86_64))",
-				"soname(libcurl.so.4(x86_64))"
+				"soname(libcurl.so.4(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))"
 			],
 			"files": [
 				"/usr/lib/qemu/block-curl.so"
@@ -949,6 +952,7 @@
 			"depends": [
 				"qemu-common",
 				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libnfs.so.16.2.0(x86_64))"
 			],
 			"files": [
@@ -1023,6 +1027,7 @@
 			"depends": [
 				"qemu-common",
 				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libssh.so.4(x86_64))"
 			],
 			"files": [
@@ -1173,6 +1178,7 @@
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libcap-ng.so.0(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libglib-2.0.so.0(x86_64))",
 				"soname(libgmodule-2.0.so.0(x86_64))",
 				"soname(libm.so.6(x86_64))"
@@ -2040,6 +2046,7 @@
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libglib-2.0.so.0(x86_64))",
 				"soname(libgmodule-2.0.so.0(x86_64))",
 				"soname(libm.so.6(x86_64))",
@@ -2125,6 +2132,7 @@
 				"qemu-common",
 				"qemu-ui-spice-core",
 				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libpixman-1.so.0(x86_64))",
 				"soname(libspice-server.so.1(x86_64))"
 			],
@@ -2274,6 +2282,7 @@
 			"depends": [
 				"qemu-common",
 				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libvirglrenderer.so.1(x86_64))"
 			],
 			"files": [
@@ -2713,6 +2722,7 @@
 			"depends": [
 				"qemu-common",
 				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libgnutls.so.30(x86_64))"
 			],
 			"files": [
@@ -2861,6 +2871,7 @@
 			"depends": [
 				"qemu-common",
 				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libusbredirparser.so.1(x86_64))"
 			],
 			"files": [
@@ -2937,6 +2948,7 @@
 				"soname(libaio.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libfuse3.so.4(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libglib-2.0.so.0(x86_64))",
 				"soname(libgmodule-2.0.so.0(x86_64))",
 				"soname(libgnutls.so.30(x86_64))",
@@ -3030,6 +3042,7 @@
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libcap-ng.so.0(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libglib-2.0.so.0(x86_64))",
 				"soname(libgmodule-2.0.so.0(x86_64))",
 				"soname(libgnutls.so.30(x86_64))",
@@ -4078,6 +4091,7 @@
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libcurl.so.4(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libglib-2.0.so.0(x86_64))",
 				"soname(libgmodule-2.0.so.0(x86_64))",
 				"soname(libm.so.6(x86_64))",
@@ -4160,6 +4174,7 @@
 			"depends": [
 				"qemu-common",
 				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libglib-2.0.so.0(x86_64))",
 				"soname(libncursesw.so.6(x86_64))"
 			],
@@ -4236,6 +4251,7 @@
 				"qemu-common",
 				"soname(libc.so.6(x86_64))",
 				"soname(libepoxy.so.0(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libgio-2.0.so.0(x86_64))",
 				"soname(libglib-2.0.so.0(x86_64))",
 				"soname(libgobject-2.0.so.0(x86_64))",
@@ -4476,6 +4492,7 @@
 				"soname(libc.so.6(x86_64))",
 				"soname(libepoxy.so.0(x86_64))",
 				"soname(libgbm.so.1(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libpixman-1.so.0(x86_64))"
 			],
 			"files": [
@@ -4708,6 +4725,7 @@
 				"qemu-common",
 				"qemu-ui-opengl",
 				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libpixman-1.so.0(x86_64))",
 				"soname(libspice-server.so.1(x86_64))"
 			],
@@ -5121,6 +5139,7 @@
 				"soname(libc.so.6(x86_64))",
 				"soname(libepoxy.so.0(x86_64))",
 				"soname(libgbm.so.1(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libglib-2.0.so.0(x86_64))",
 				"soname(libgmodule-2.0.so.0(x86_64))",
 				"soname(libm.so.6(x86_64))",
@@ -5199,6 +5218,7 @@
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libcap-ng.so.0(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libglib-2.0.so.0(x86_64))",
 				"soname(libgmodule-2.0.so.0(x86_64))",
 				"soname(libgnutls.so.30(x86_64))",
@@ -5217,6 +5237,6 @@
 		}
 	},
 	"source-name": "qemu",
-	"source-release": "34",
-	"source-version": "11.0.1"
+	"source-release": "35",
+	"source-version": "11.0.2"
 }
