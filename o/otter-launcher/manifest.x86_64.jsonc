@@ -1,0 +1,29 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"otter-launcher": {
+			"depends": [
+				"binary(fzf)",
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(ld-linux-x86-64.so.2(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))"
+			],
+			"files": [
+				"/usr/bin/ot",
+				"/usr/bin/otter-launcher",
+				"/usr/share/defaults/otter-launcher/config.toml",
+				"/usr/share/licenses/otter-launcher/LICENSE"
+			],
+			"name": "otter-launcher",
+			"provides": [
+				"binary(ot)",
+				"binary(otter-launcher)"
+			]
+		}
+	},
+	"source-name": "otter-launcher",
+	"source-release": "1",
+	"source-version": "0.7.4"
+}
