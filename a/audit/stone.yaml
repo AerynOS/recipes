@@ -1,0 +1,86 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : audit
+version     : "4.1.4"
+release     : 1
+homepage    : https://github.com/linux-audit/audit-userspace
+upstreams   :
+    - https://github.com/linux-audit/audit-userspace/archive/refs/tags/v4.1.4.tar.gz : 8396544ea08c69b39f5c00027549394f2149b31c4a9e693097d6ce134f3ffe3d
+summary     : Userspace components of the audit framework
+description : |
+    The Linux Audit System is designed to make Linux compliant with the requirements from Common Criteria,
+    PCI-DSS, and other security standards by intercepting system calls and serializing audit log entries from privileged user space applications.
+    The framework allows the configured events to be recorded to disk and distributed to plugins in realtime. Each audit event contains the date and time of event,
+    type of event, subject identity, object acted upon, and result (success/fail) of the action if applicable.
+license     :
+    - GPL-2.0-or-later
+    - LGPL-2.1-or-later
+builddeps   :
+    - binary(as)
+    - binary(bison)
+    - binary(flex)
+    - binary(swig)
+    - pkgconfig(libcap-ng)
+    - pkgconfig(python3)
+setup       : |
+    # Use /usr and /bin merge compatible paths in configs (From Arch Linux)
+    %patch %(pkgdir)/audit-4.1.2-executable_paths.patch
+
+    %reconfigure \
+      --disable-gssapi-krb5 \
+      --disable-legacy-actions \
+      --disable-static \
+      --disable-zos-remote \
+      --enable-experimental \
+      --sbindir=/usr/bin \
+      --without-apparmor \
+      --without-golang \
+      --with-io_uring \
+      --with-libcap-ng \
+      --with-nftables \
+      --with-python3
+build       : |
+    %make
+install     : |
+    %make_install
+
+    # Migrate /etc output to the vendor default directory
+    %install_dir %(installroot)%(vendordir)
+    cp -a %(installroot)%(sysconfdir)/* %(installroot)%(vendordir)/
+    rm -rf %(installroot)%(sysconfdir)
+
+    # Explicitly remove remote plugins, binaries and configs (From Solus)
+    rm    %(installroot)/usr/bin/audisp-filter \
+          %(installroot)/usr/bin/audisp-ids \
+          %(installroot)/usr/bin/audisp-remote \
+          %(installroot)/usr/bin/audisp-statsd \
+          %(installroot)%(vendordir)/audit/audisp-filter.conf \
+          %(installroot)%(vendordir)/audit/audisp-remote.conf \
+          %(installroot)%(vendordir)/audit/audisp-statsd.conf \
+          %(installroot)%(vendordir)/audit/ids.conf \
+          %(installroot)%(vendordir)/audit/plugins.d/au-remote.conf \
+          %(installroot)%(vendordir)/audit/plugins.d/au-statsd.conf \
+          %(installroot)%(vendordir)/audit/plugins.d/audisp-ids.conf \
+          %(installroot)%(vendordir)/audit/plugins.d/filter.conf \
+          %(installroot)%(tmpfilesdir)/audit.conf
+
+    # Install tmpfiles.d (Modified From Arch Linux)
+    %install_file %(pkgdir)/audit.tmpfiles %(installroot)%(tmpfilesdir)/audit.conf
+    %install_file %(pkgdir)/audit-plugins.tmpfiles %(installroot)%(tmpfilesdir)/audit-plugins.conf
+packages    :
+    - "%(name)-docs":
+        paths:
+            - /usr/share/man
+
+    - "%(name)-plugins":
+        summary: Plugins for the audit event dispatcher (limited currently)
+        paths:
+            - /usr/lib/tmpfiles.d/audit-plugins.conf
+            - /usr/share/defaults/audit/plugins.d/af_unix.conf
+            - /usr/share/defaults/audit/plugins.d/syslog.conf
+
+    - "%(name)-python":
+        summary: Userspace components of the audit framework - Python bindings
+        paths:
+            - /usr/lib/python3.*
