@@ -2,12 +2,12 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : firefox
-version     : "152.0.1"
-release     : 70
+version     : "152.0.4"
+release     : 71
 homepage    : https://www.mozilla.org/
 upstreams   :
-    - https://releases.mozilla.org/pub/firefox/releases/152.0.1/source/firefox-152.0.1.source.tar.xz:
-        hash: bff037bd04f0df25a330daa7133bea6eee5a02b7ce39da30581580271502f15e
+    - https://releases.mozilla.org/pub/firefox/releases/152.0.4/source/firefox-152.0.4.source.tar.xz:
+        hash: fd89982202cda5353a27307d85d48902d46576d46d1c9e36d55740e63b5216bb
         unpackdir: firefox
 summary     : Firefox web browser
 description : |
@@ -159,3 +159,4 @@ install     : |
     install -D -m 00755 %(pkgdir)/install/firefox-wrapper.sh %(installroot)/%(bindir)/firefox
 tuning      :
     - lto: false # Controlled by the build
+    - thread-exceptions: false # #  error "STL code can only be used with -fno-exceptions"
