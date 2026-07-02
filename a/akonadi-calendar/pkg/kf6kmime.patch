@@ -15,7 +15,7 @@ index 01ad4011..8ee6492c 100644
 @@ -112,7 +112,11 @@ ecm_check_outbound_license(LICENSES GPL-2.0-only FILES ${ALL_SOURCE_FILES})
  include(ECMGenerateQDoc)
  
- set(KPIM_MIME_VERSION "6.7.2")
+ set(KPIM_MIME_VERSION "6.7.3")
 -find_package(KPim6Mime ${KPIM_MIME_VERSION} CONFIG REQUIRED)
 +find_package(KF6Mime ${KF_MIN_VERSION} CONFIG)
 +if(NOT TARGET KF6::Mime)
