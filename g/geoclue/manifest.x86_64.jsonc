@@ -21,6 +21,7 @@
 				"soname(libavahi-common.so.3(x86_64))",
 				"soname(libavahi-glib.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libgio-2.0.so.0(x86_64))",
 				"soname(libglib-2.0.so.0(x86_64))",
 				"soname(libgobject-2.0.so.0(x86_64))",
@@ -59,6 +60,7 @@
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libgeoclue-2.so.0(x86_64))",
 				"soname(libgio-2.0.so.0(x86_64))",
 				"soname(libglib-2.0.so.0(x86_64))",
@@ -132,6 +134,7 @@
 			],
 			"depends": [
 				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libgio-2.0.so.0(x86_64))",
 				"soname(libglib-2.0.so.0(x86_64))",
 				"soname(libgobject-2.0.so.0(x86_64))"
@@ -139,7 +142,9 @@
 			"files": [
 				"/usr/lib/girepository-1.0/Geoclue-2.0.typelib",
 				"/usr/lib/libgeoclue-2.so.0",
-				"/usr/lib/libgeoclue-2.so.0.0.0"
+				"/usr/lib/libgeoclue-2.so.0.0.0",
+				"/usr/share/locale/ka/LC_MESSAGES/geoclue-2.0.mo",
+				"/usr/share/locale/oc/LC_MESSAGES/geoclue-2.0.mo"
 			],
 			"name": "geoclue-libs",
 			"provides": [
@@ -148,6 +153,6 @@
 		}
 	},
 	"source-name": "geoclue",
-	"source-release": "7",
-	"source-version": "2.8.1"
+	"source-release": "8",
+	"source-version": "2.8.2"
 }

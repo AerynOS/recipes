@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : geoclue
-version     : "2.8.1"
-release     : 7
+version     : "2.8.2"
+release     : 8
 homepage    : https://gitlab.freedesktop.org/geoclue/geoclue/-/wikis/home
 upstreams   :
-    - https://gitlab.freedesktop.org/geoclue/geoclue/-/archive/2.8.1/geoclue-2.8.1.tar.gz : 29dd143845ef270a06971c9edc98cdcf71aaad114cfb48dd1c803269c389a483
+    - https://gitlab.freedesktop.org/geoclue/geoclue/-/archive/2.8.2/geoclue-2.8.2.tar.gz : 5435f7d48105fe89a4259f807658281e854881267254bcd4eeac6e26c222055b
 summary     : Geolocation service library
 description : |
     Geoclue is a D-Bus service that provides location information. The goal of the Geoclue project is to make creating location-aware applications as simple as possible.
@@ -40,6 +40,7 @@ packages    :
         paths:
             - /usr/lib/libgeoclue-2.so.*
             - /usr/lib/girepository-1.0/Geoclue-2.0.typelib
+            - /usr/share/locale/
 
     - "%(name)-demos":
         summary: Demo applications for %(name)
