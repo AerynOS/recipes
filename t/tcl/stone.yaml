@@ -2,10 +2,10 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : tcl
-version     : "9.0.3"
-release     : 4
+version     : "9.0.4"
+release     : 5
 upstreams   :
-    - https://sourceforge.net/projects/tcl/files/Tcl/9.0.3/tcl9.0.3-src.tar.gz : 2537ba0c86112c8c953f7c09d33f134dd45c0fb3a71f2d7f7691fd301d2c33a6
+    - https://sourceforge.net/projects/tcl/files/Tcl/9.0.4/tcl9.0.4-src.tar.gz : d0aed49230bc02a65c1e0229e65f34590a4b037ec40d546f32573b467f7551ea
 homepage    : https://www.tcl.tk
 license     : TCL
 summary     : Tool Command Language, pronounced tickle
@@ -14,6 +14,7 @@ description : |
 builddeps   :
     - binary(zip)
     - pkgconfig(zlib)
+    - tzdata
     # TODO: package libtommath, systemtap
 environment : |
     cd unix
@@ -82,6 +83,8 @@ install     : |
 
 packages    :
     - "%(name)":
+        rundeps:
+            - tzdata
         paths:
             - /usr/lib/libtcl9.0.so
 

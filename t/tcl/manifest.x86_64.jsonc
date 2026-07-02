@@ -5,14 +5,16 @@
 		"tcl": {
 			"build-depends": [
 				"binary(zip)",
-				"pkgconfig(zlib)"
+				"pkgconfig(zlib)",
+				"tzdata"
 			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libm.so.6(x86_64))",
-				"soname(libz.so.1(x86_64))"
+				"soname(libz.so.1(x86_64))",
+				"tzdata"
 			],
 			"files": [
 				"/usr/bin/tclsh",
@@ -251,11 +253,11 @@
 				"/usr/share/tcl9.0/tm.tcl",
 				"/usr/share/tcl9.0/word.tcl",
 				"/usr/share/tcl9.0/writefile.tcl",
-				"/usr/share/tcl9/9.0/http-2.10.1.tm",
+				"/usr/share/tcl9/9.0/http-2.10.2.tm",
 				"/usr/share/tcl9/9.0/msgcat-1.7.1.tm",
 				"/usr/share/tcl9/9.0/platform-1.1.0.tm",
 				"/usr/share/tcl9/9.0/platform/shell-1.1.4.tm",
-				"/usr/share/tcl9/9.0/tcltest-2.5.10.tm"
+				"/usr/share/tcl9/9.0/tcltest-2.5.11.tm"
 			],
 			"name": "tcl",
 			"provides": [
@@ -267,7 +269,8 @@
 		"tcl-devel": {
 			"build-depends": [
 				"binary(zip)",
-				"pkgconfig(zlib)"
+				"pkgconfig(zlib)",
+				"tzdata"
 			],
 			"depends": [
 				"pkgconfig(zlib)",
@@ -324,7 +327,8 @@
 		"tcl-docs": {
 			"build-depends": [
 				"binary(zip)",
-				"pkgconfig(zlib)"
+				"pkgconfig(zlib)",
+				"tzdata"
 			],
 			"files": [
 				"/usr/share/man/man3/DString.3tcl",
@@ -926,7 +930,6 @@
 				"/usr/share/man/man3/Tcl_Ungets.3tcl",
 				"/usr/share/man/man3/Tcl_UniChar.3tcl",
 				"/usr/share/man/man3/Tcl_UniCharAtIndex.3tcl",
-				"/usr/share/man/man3/Tcl_UniCharCaseMatch.3tcl",
 				"/usr/share/man/man3/Tcl_UniCharIsAlnum.3tcl",
 				"/usr/share/man/man3/Tcl_UniCharIsAlpha.3tcl",
 				"/usr/share/man/man3/Tcl_UniCharIsControl.3tcl",
@@ -939,8 +942,6 @@
 				"/usr/share/man/man3/Tcl_UniCharIsUpper.3tcl",
 				"/usr/share/man/man3/Tcl_UniCharIsWordChar.3tcl",
 				"/usr/share/man/man3/Tcl_UniCharLen.3tcl",
-				"/usr/share/man/man3/Tcl_UniCharNcasecmp.3tcl",
-				"/usr/share/man/man3/Tcl_UniCharNcmp.3tcl",
 				"/usr/share/man/man3/Tcl_UniCharToLower.3tcl",
 				"/usr/share/man/man3/Tcl_UniCharToTitle.3tcl",
 				"/usr/share/man/man3/Tcl_UniCharToUpper.3tcl",
@@ -1009,6 +1010,6 @@
 		}
 	},
 	"source-name": "tcl",
-	"source-release": "4",
-	"source-version": "9.0.3"
+	"source-release": "5",
+	"source-version": "9.0.4"
 }
