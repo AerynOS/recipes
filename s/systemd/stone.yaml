@@ -3,7 +3,7 @@
 
 name        : systemd
 version     : "258.9"
-release     : 84
+release     : 85
 summary     : A System and Service Manager
 license     :
     - GPL-2.0-or-later
@@ -340,7 +340,15 @@ packages    :
     - "%(name)-shared":
         summary: Internal libraries used by various systemd binaries
         description: Internal libraries used by various systemd binaries
+        paths:
+            - /usr/lib/systemd/libsystemd-core-*.so
+            - /usr/lib/systemd/libsystemd-shared-*.so
+
+    - "%(name)":
         rundeps:
+            - "%(name)-libs"
+            - "%(name)-sysusers"
+            - "%(name)-tmpfiles"
             # These dependencies are all dlopen()ed
             # readelf -p .note.dlopen /usr/lib/systemd/libsystemd-shared-*.so
             - soname(libbpf.so.1(x86_64))
@@ -352,13 +360,6 @@ packages    :
             - soname(libpwquality.so.1(x86_64))
             - soname(libqrencode.so.4(x86_64))
             - soname(libzstd.so.1(x86_64))
-        paths:
-            - /usr/lib/systemd/libsystemd-core-*.so
-            - /usr/lib/systemd/libsystemd-shared-*.so
-
-    - "%(name)":
-        rundeps:
-            - "%(name)-libs"
             # Keyboard layout support
             - soname(libxkbcommon.so.0(x86_64))
             # Disk encryption
@@ -387,6 +388,36 @@ packages    :
         paths:
             - /usr/lib32/lib*.so
             - /usr/lib32/pkgconfig/
+
+    # sysusers and tmpfiles are split so that they can be used as dependencies without pulling in the rest of systemd
+    - "%(name)-sysusers":
+        summary: Creates system users and groups
+        description: Creates system users and groups
+        paths:
+            - /usr/bin/systemd-sysusers
+            - /usr/lib/systemd/system/sysinit.target.wants/systemd-sysusers.service
+            - /usr/lib/systemd/system/systemd-sysusers.service
+            - /usr/lib/sysusers.d/
+            - /usr/share/man/man5/sysusers.d.5*
+            - /usr/share/man/man8/systemd-sysusers*.8*
+            - /usr/share/moss/triggers/sys.d/systemd_sysusers.yaml
+
+    - "%(name)-tmpfiles":
+        summary: Creates, deletes, and cleans up files and directories
+        description: Creates, deletes, and cleans up files and directories
+        rundeps:
+            - "%(name)-sysusers"
+        paths:
+            - /usr/bin/systemd-tmpfiles
+            - /usr/lib/systemd/system/sysinit.target.wants/systemd-tmpfiles*
+            - /usr/lib/systemd/system/systemd-tmpfiles*
+            - /usr/lib/systemd/system/timers.target.wants/systemd-tmpfiles*
+            - /usr/lib/systemd/user/systemd-tmpfiles*
+            - /usr/lib/tmpfiles.d/
+            - /usr/share/man/man5/tmpfiles.d.5*
+            - /usr/share/man/man8/systemd-tmpfiles*
+            - /usr/share/moss/triggers/sys.d/systemd_tmpfiles.yaml
+            - /usr/share/zsh/site-functions/_systemd-tmpfiles
 
     - "%(name)-boot":
         summary: Simple UEFI boot manager
