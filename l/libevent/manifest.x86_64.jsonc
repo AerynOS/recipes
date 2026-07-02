@@ -4,7 +4,8 @@
 	"packages": {
 		"libevent": {
 			"build-depends": [
-				"pkgconfig(openssl)"
+				"pkgconfig(openssl)",
+				"pkgconfig(zlib)"
 			],
 			"depends": [
 				"soname(libc.so.6(x86_64))",
@@ -13,15 +14,15 @@
 			],
 			"files": [
 				"/usr/lib/libevent-2.1.so.7",
-				"/usr/lib/libevent-2.1.so.7.0.1",
+				"/usr/lib/libevent-2.1.so.7.0.2",
 				"/usr/lib/libevent_core-2.1.so.7",
-				"/usr/lib/libevent_core-2.1.so.7.0.1",
+				"/usr/lib/libevent_core-2.1.so.7.0.2",
 				"/usr/lib/libevent_extra-2.1.so.7",
-				"/usr/lib/libevent_extra-2.1.so.7.0.1",
+				"/usr/lib/libevent_extra-2.1.so.7.0.2",
 				"/usr/lib/libevent_openssl-2.1.so.7",
-				"/usr/lib/libevent_openssl-2.1.so.7.0.1",
+				"/usr/lib/libevent_openssl-2.1.so.7.0.2",
 				"/usr/lib/libevent_pthreads-2.1.so.7",
-				"/usr/lib/libevent_pthreads-2.1.so.7.0.1"
+				"/usr/lib/libevent_pthreads-2.1.so.7.0.2"
 			],
 			"name": "libevent",
 			"provides": [
@@ -34,7 +35,8 @@
 		},
 		"libevent-devel": {
 			"build-depends": [
-				"pkgconfig(openssl)"
+				"pkgconfig(openssl)",
+				"pkgconfig(zlib)"
 			],
 			"depends": [
 				"libevent"
@@ -105,6 +107,6 @@
 		}
 	},
 	"source-name": "libevent",
-	"source-release": "4",
-	"source-version": "2.1.12"
+	"source-release": "5",
+	"source-version": "2.1.13"
 }

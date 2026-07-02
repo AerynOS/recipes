@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : libevent
-version     : "2.1.12"
-release     : 4
+version     : "2.1.13"
+release     : 5
 homepage    : https://github.com/libevent/libevent
 upstreams   :
-    - https://github.com/libevent/libevent/releases/download/release-2.1.12-stable/libevent-2.1.12-stable.tar.gz : 92e6de1be9ec176428fd2367677e61ceffc2ee1cb119035037a27d346b0403bb
+    - https://github.com/libevent/libevent/releases/download/release-2.1.13-stable/libevent-2.1.13-stable.tar.gz : f7e9383b8c0baa81b687e5b5eecc01beefaf1b19b64151d95ed61647fe7a315c
 summary     : Event notification library
 description : |
     The libevent API provides a mechanism to execute a callback function when a specific event occurs on a file descriptor or after a timeout has been reached. Furthermore, libevent also support callbacks due to signals or regular timeouts.
@@ -14,9 +14,9 @@ license     :
     - BSD-3-Clause
 builddeps   :
     - pkgconfig(openssl)
+    - pkgconfig(zlib)
 setup       : |
     %patch %(pkgdir)/EVENT__SIZEOF_TIME_T.patch
-    %patch %(pkgdir)/libevent-2.1.12-openssl-compat.patch
     %patch %(pkgdir)/ftbfs-cmake-4.patch
 
     %cmake
