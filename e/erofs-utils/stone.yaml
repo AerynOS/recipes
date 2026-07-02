@@ -2,17 +2,18 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : erofs-utils
-version     : "1.9.1"
-release     : 9
+version     : "1.9.2"
+release     : 10
 homepage    : https://git.kernel.org/pub/scm/linux/kernel/git/xiang/erofs-utils.git
 upstreams   :
-    - https://git.kernel.org/pub/scm/linux/kernel/git/xiang/erofs-utils.git/snapshot/erofs-utils-1.9.1.tar.gz : a9ef5ab67c4b8d2d3e9ed71f39cd008bda653142a720d8a395a36f1110d0c432
+    - https://git.kernel.org/pub/scm/linux/kernel/git/xiang/erofs-utils.git/snapshot/erofs-utils-1.9.2.tar.gz : d915b45646a928174917c44a2c84ba005b161e84ab732cd5d2560371560b8d13
 summary     : EROFS filesystem utilities
 description : |
     EROFS filesystem utilities
 license     :
     - GPL-2.0-or-later
     - Apache-2.0
+    - MIT
 builddeps   :
     - binary(flex)
     - binary(gettext)
