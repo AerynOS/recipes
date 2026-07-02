@@ -5,19 +5,29 @@
 		"exfatprogs": {
 			"build-depends": [
 				"binary(bison)",
-				"binary(flex)"
+				"binary(flex)",
+				"pkgconfig(blkid)"
 			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(libblkid.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))"
 			],
 			"files": [
+				"/usr/bin/chdosattr",
+				"/usr/bin/lsdosattr",
+				"/usr/lib/exfatprogs/exfat-uctbl2bin.sh",
 				"/usr/sbin/dump.exfat",
 				"/usr/sbin/exfat2img",
 				"/usr/sbin/exfatlabel",
 				"/usr/sbin/fsck.exfat",
 				"/usr/sbin/mkfs.exfat",
 				"/usr/sbin/tune.exfat",
+				"/usr/share/doc/exfatprogs/upcase-mandatory.txt",
+				"/usr/share/doc/exfatprogs/upcase-null.txt",
+				"/usr/share/doc/exfatprogs/upcase-recommended.txt",
+				"/usr/share/man/man1/chdosattr.1",
+				"/usr/share/man/man1/lsdosattr.1",
 				"/usr/share/man/man8/dump.exfat.8",
 				"/usr/share/man/man8/exfat2img.8",
 				"/usr/share/man/man8/exfatlabel.8",
@@ -27,6 +37,8 @@
 			],
 			"name": "exfatprogs",
 			"provides": [
+				"binary(chdosattr)",
+				"binary(lsdosattr)",
 				"sysbinary(dump.exfat)",
 				"sysbinary(exfat2img)",
 				"sysbinary(exfatlabel)",
@@ -37,6 +49,6 @@
 		}
 	},
 	"source-name": "exfatprogs",
-	"source-release": "5",
-	"source-version": "1.3.2"
+	"source-release": "6",
+	"source-version": "1.4.2"
 }
