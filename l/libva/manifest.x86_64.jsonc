@@ -4,6 +4,8 @@
 	"packages": {
 		"libva": {
 			"build-depends": [
+				"binary(doxygen)",
+				"pkgconfig32(gl)",
 				"pkgconfig32(libdrm)",
 				"pkgconfig32(wayland-client)",
 				"pkgconfig32(x11)",
@@ -11,6 +13,7 @@
 				"pkgconfig32(xfixes)"
 			],
 			"depends": [
+				"soname(libGL.so.1(x86_64))",
 				"soname(libX11-xcb.so.1(x86_64))",
 				"soname(libX11.so.6(x86_64))",
 				"soname(libXext.so.6(x86_64))",
@@ -23,17 +26,20 @@
 			],
 			"files": [
 				"/usr/lib/libva-drm.so.2",
-				"/usr/lib/libva-drm.so.2.2300.0",
+				"/usr/lib/libva-drm.so.2.2400.0",
+				"/usr/lib/libva-glx.so.2",
+				"/usr/lib/libva-glx.so.2.2400.0",
 				"/usr/lib/libva-wayland.so.2",
-				"/usr/lib/libva-wayland.so.2.2300.0",
+				"/usr/lib/libva-wayland.so.2.2400.0",
 				"/usr/lib/libva-x11.so.2",
-				"/usr/lib/libva-x11.so.2.2300.0",
+				"/usr/lib/libva-x11.so.2.2400.0",
 				"/usr/lib/libva.so.2",
-				"/usr/lib/libva.so.2.2300.0"
+				"/usr/lib/libva.so.2.2400.0"
 			],
 			"name": "libva",
 			"provides": [
 				"soname(libva-drm.so.2(x86_64))",
+				"soname(libva-glx.so.2(x86_64))",
 				"soname(libva-wayland.so.2(x86_64))",
 				"soname(libva-x11.so.2(x86_64))",
 				"soname(libva.so.2(x86_64))"
@@ -41,6 +47,8 @@
 		},
 		"libva-32bit": {
 			"build-depends": [
+				"binary(doxygen)",
+				"pkgconfig32(gl)",
 				"pkgconfig32(libdrm)",
 				"pkgconfig32(wayland-client)",
 				"pkgconfig32(x11)",
@@ -49,6 +57,7 @@
 			],
 			"depends": [
 				"libva",
+				"soname(libGL.so.1(386))",
 				"soname(libX11-xcb.so.1(386))",
 				"soname(libX11.so.6(386))",
 				"soname(libXext.so.6(386))",
@@ -61,17 +70,20 @@
 			],
 			"files": [
 				"/usr/lib32/libva-drm.so.2",
-				"/usr/lib32/libva-drm.so.2.2300.0",
+				"/usr/lib32/libva-drm.so.2.2400.0",
+				"/usr/lib32/libva-glx.so.2",
+				"/usr/lib32/libva-glx.so.2.2400.0",
 				"/usr/lib32/libva-wayland.so.2",
-				"/usr/lib32/libva-wayland.so.2.2300.0",
+				"/usr/lib32/libva-wayland.so.2.2400.0",
 				"/usr/lib32/libva-x11.so.2",
-				"/usr/lib32/libva-x11.so.2.2300.0",
+				"/usr/lib32/libva-x11.so.2.2400.0",
 				"/usr/lib32/libva.so.2",
-				"/usr/lib32/libva.so.2.2300.0"
+				"/usr/lib32/libva.so.2.2400.0"
 			],
 			"name": "libva-32bit",
 			"provides": [
 				"soname(libva-drm.so.2(386))",
+				"soname(libva-glx.so.2(386))",
 				"soname(libva-wayland.so.2(386))",
 				"soname(libva-x11.so.2(386))",
 				"soname(libva.so.2(386))"
@@ -79,6 +91,8 @@
 		},
 		"libva-32bit-devel": {
 			"build-depends": [
+				"binary(doxygen)",
+				"pkgconfig32(gl)",
 				"pkgconfig32(libdrm)",
 				"pkgconfig32(wayland-client)",
 				"pkgconfig32(x11)",
@@ -92,10 +106,12 @@
 			],
 			"files": [
 				"/usr/lib32/libva-drm.so",
+				"/usr/lib32/libva-glx.so",
 				"/usr/lib32/libva-wayland.so",
 				"/usr/lib32/libva-x11.so",
 				"/usr/lib32/libva.so",
 				"/usr/lib32/pkgconfig/libva-drm.pc",
+				"/usr/lib32/pkgconfig/libva-glx.pc",
 				"/usr/lib32/pkgconfig/libva-wayland.pc",
 				"/usr/lib32/pkgconfig/libva-x11.pc",
 				"/usr/lib32/pkgconfig/libva.pc"
@@ -104,12 +120,15 @@
 			"provides": [
 				"pkgconfig32(libva)",
 				"pkgconfig32(libva-drm)",
+				"pkgconfig32(libva-glx)",
 				"pkgconfig32(libva-wayland)",
 				"pkgconfig32(libva-x11)"
 			]
 		},
 		"libva-devel": {
 			"build-depends": [
+				"binary(doxygen)",
+				"pkgconfig32(gl)",
 				"pkgconfig32(libdrm)",
 				"pkgconfig32(wayland-client)",
 				"pkgconfig32(x11)",
@@ -123,6 +142,7 @@
 			"files": [
 				"/usr/include/va/va.h",
 				"/usr/include/va/va_backend.h",
+				"/usr/include/va/va_backend_glx.h",
 				"/usr/include/va/va_backend_prot.h",
 				"/usr/include/va/va_backend_vpp.h",
 				"/usr/include/va/va_backend_wayland.h",
@@ -149,6 +169,7 @@
 				"/usr/include/va/va_fei.h",
 				"/usr/include/va/va_fei_h264.h",
 				"/usr/include/va/va_fei_hevc.h",
+				"/usr/include/va/va_glx.h",
 				"/usr/include/va/va_prot.h",
 				"/usr/include/va/va_str.h",
 				"/usr/include/va/va_tpi.h",
@@ -158,10 +179,12 @@
 				"/usr/include/va/va_wayland.h",
 				"/usr/include/va/va_x11.h",
 				"/usr/lib/libva-drm.so",
+				"/usr/lib/libva-glx.so",
 				"/usr/lib/libva-wayland.so",
 				"/usr/lib/libva-x11.so",
 				"/usr/lib/libva.so",
 				"/usr/lib/pkgconfig/libva-drm.pc",
+				"/usr/lib/pkgconfig/libva-glx.pc",
 				"/usr/lib/pkgconfig/libva-wayland.pc",
 				"/usr/lib/pkgconfig/libva-x11.pc",
 				"/usr/lib/pkgconfig/libva.pc"
@@ -170,12 +193,13 @@
 			"provides": [
 				"pkgconfig(libva)",
 				"pkgconfig(libva-drm)",
+				"pkgconfig(libva-glx)",
 				"pkgconfig(libva-wayland)",
 				"pkgconfig(libva-x11)"
 			]
 		}
 	},
 	"source-name": "libva",
-	"source-release": "7",
-	"source-version": "2.23.0"
+	"source-release": "8",
+	"source-version": "2.24.0"
 }
