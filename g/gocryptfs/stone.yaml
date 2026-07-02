@@ -1,0 +1,25 @@
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : gocryptfs
+version     : "2.6.1"
+release     : 1
+homepage    : https://github.com/rfjakob/gocryptfs 
+upstreams   :
+    - https://github.com/rfjakob/gocryptfs/releases/download/v2.6.1/gocryptfs_v2.6.1_src-deps.tar.gz : 9a966c1340a1a1d92073091643687b1205c46b57017c5da2bf7e97e3f5729a5a
+summary     : Encrypted overlay filesystem written in Go
+description : |
+    Encrypted overlay filesystem written in Go
+license     : MIT
+builddeps   :
+    - binary(go)
+    - binary(pandoc)
+    - pkgconfig(libcrypto)
+rundeps     :
+    - binary(fusermount3)
+build       : |
+    %make
+install     : |
+    %make_install
+tuning      :
+    - golang-modflags: false

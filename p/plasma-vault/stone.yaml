@@ -1,0 +1,45 @@
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : plasma-vault
+version     : "6.7.2"
+release     : 1
+upstreams   :
+    - https://download.kde.org/stable/plasma/6.7.2/plasma-vault-6.7.2.tar.xz : 21f5d55abd0629c4a5e79bb7761b6451aeb3b348646d8cb1da40ed9d1df098d5
+homepage    : https://kde.org/plasma-desktop/
+license     :
+    - BSD-3-Clause
+    - GPL-2.0-or-later
+summary     : Plasma Vault
+description : |
+    Plasma applet and services for creating encrypted vaults
+builddeps   :
+    - binary(gocryptfs)
+    - binary(python3)
+    # Temporary, boulder doesn't handle build ordering resolution correctly when builddeps are added by macros, so add ECM manually
+    - cmake(ECM)
+    - cmake(KF6CoreAddons)
+    - cmake(KF6DBusAddons)
+    - cmake(KF6ItemModels)
+    - cmake(KF6Kirigami)
+    - cmake(KF6NetworkManagerQt)
+    - cmake(KF6KIO)
+    - cmake(KF6I18n)
+    - cmake(KSysGuard)
+    - cmake(Plasma)
+    - cmake(PlasmaActivities)
+    - cmake(Qt6Quick)
+    - pkgconfig(gio-2.0)
+    - pkgconfig(libnm)
+rundeps     :
+    - binary(gocryptfs)
+    - kf6-kirigami
+tuning      :
+    - lto: full
+    - optimize: speed
+setup       : |
+    %cmake_kf6
+build       : |
+    %cmake_build
+install     : |
+    %cmake_install
