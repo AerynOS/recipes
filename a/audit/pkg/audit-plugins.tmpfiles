@@ -1,0 +1,9 @@
+# Create directories if they do not exist.
+d /etc/audit/plugins.d 750 root root - -
+
+# Create configuration files from factory defaults if they do not exist.
+C /etc/audit/plugins.d/af_unix.conf - - - - /usr/share/defaults/audit/plugins.d/af_unix.conf
+C /etc/audit/plugins.d/syslog.conf - - - - /usr/share/defaults/audit/plugins.d/syslog.conf
+
+# Apply custom permissions to existing files and directories.
+z /etc/audit/plugins.d 750 root root - -

@@ -1,0 +1,14 @@
+# Create directories if they do not exist.
+d /etc/audit/rules.d 755 root root - -
+d /var/log/audit 700 root root - -
+
+# Create configuration files from factory defaults if they do not exist.
+C /etc/audit/audit-stop.rules - - - - /usr/share/defaults/audit/audit-stop.rules
+C /etc/audit/auditd.conf - - - - /usr/share/defaults/audit/auditd.conf
+C /etc/audit/rules.d/10-base-config.rules - - - - /usr/share/audit-rules/10-base-config.rules
+C /etc/libaudit.conf - - - - /usr/share/defaults/libaudit.conf
+
+# Apply custom permissions to existing files and directories.
+z /etc/audit/rules.d 755 root root - -
+z /etc/libaudit.conf 640 root root - -
+z /var/log/audit 700 root root - -
