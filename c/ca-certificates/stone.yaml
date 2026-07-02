@@ -3,7 +3,7 @@
 
 name        : ca-certificates
 version     : "20250516" # TODO: Figure out what version we should use
-release     : 17
+release     : 18
 homepage    : https://fedoraproject.org/wiki/CA-Certificates
 # No upstreams!
 summary     : Certificate Authority Files
@@ -65,6 +65,7 @@ packages    :
             - binary(bash)
             - binary(find)
             - binary(ln)
+            - binary(systemd-tmpfiles) # Required for trigger
             - binary(trust)
         paths:
             - /usr/bin
