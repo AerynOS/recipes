@@ -1,0 +1,24 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : iio-niri
+version     : 2.3.0
+release     : 1
+homepage    : https://github.com/Zhaith-Izaliel/iio-niri
+upstreams   :
+    - https://github.com/Zhaith-Izaliel/iio-niri/archive/refs/tags/v2.3.0.tar.gz : 20a7f8630ab89c61924107038b641388740c07dc175e2647c28acc1c89e93526
+summary     : iio-sensor-proxy integration for Niri
+description : |
+    Listen to iio-sensor-proxy and updates Niri output orientation depending on the accelerometer orientation.
+license     : MIT
+builddeps   :
+    - pkgconfig(dbus-1)
+rundeps     :
+    - iio-sensor-proxy
+networking  : true
+setup       : |
+    %cargo_fetch
+build       : |
+    %cargo_build
+install     : |
+    %cargo_install
