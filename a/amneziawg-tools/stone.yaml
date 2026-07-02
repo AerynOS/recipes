@@ -1,0 +1,21 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : amneziawg-tools
+version     : 1.0.20260618-2
+release     : 1
+homepage    : https://github.com/amnezia-vpn/amneziawg-tools
+upstreams   :
+    - https://github.com/amnezia-vpn/amneziawg-tools/archive/refs/tags/v1.0.20260618-2.tar.gz : cbda09c90d0740b6c3d39622da9f96cfdc2b83459d45973aadd7bf77518fdf10
+summary     : Tools for configuring AmneziaWG
+description : |
+    This supplies the main userspace tooling for using and configuring WireGuard
+    tunnels, including the awg(8) and awg-quick(8) utilities.
+license     : GPL-2.0-only
+build       : |
+    %make -C src
+install     : |
+    %make_install -C src \
+        WITH_BASHCOMPLETION=yes \
+        WITH_SYSTEMDUNITS=yes \
+        WITH_WGQUICK=yes
