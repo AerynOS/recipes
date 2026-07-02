@@ -1113,6 +1113,68 @@
 			],
 			"name": "systemd-32bit"
 		},
+		"systemd-32bit-devel": {
+			"build-depends": [
+				"binary(bpftool)",
+				"binary(gcc)",
+				"binary(gperf)",
+				"binary(m4)",
+				"binary(readelf.py)",
+				"binary(rsync)",
+				"binary(xsltproc)",
+				"docbook",
+				"docbook-xsl",
+				"gettext-devel",
+				"pkgconfig(blkid)",
+				"pkgconfig(bzip2)",
+				"pkgconfig(dbus-1)",
+				"pkgconfig(fdisk)",
+				"pkgconfig(glib-2.0)",
+				"pkgconfig(gpg-error)",
+				"pkgconfig(libacl)",
+				"pkgconfig(libarchive)",
+				"pkgconfig(libattr)",
+				"pkgconfig(libbpf)",
+				"pkgconfig(libcryptsetup)",
+				"pkgconfig(libcurl)",
+				"pkgconfig(libdw)",
+				"pkgconfig(libffi)",
+				"pkgconfig(libfido2)",
+				"pkgconfig(libgcrypt)",
+				"pkgconfig(libidn2)",
+				"pkgconfig(libiptc)",
+				"pkgconfig(libkmod)",
+				"pkgconfig(liblz4)",
+				"pkgconfig(liblzma)",
+				"pkgconfig(libmicrohttpd)",
+				"pkgconfig(libpcre2-8)",
+				"pkgconfig(libqrencode)",
+				"pkgconfig(libseccomp)",
+				"pkgconfig(openssl)",
+				"pkgconfig(p11-kit-1)",
+				"pkgconfig(pam)",
+				"pkgconfig(polkit-gobject-1)",
+				"pkgconfig(pwquality)",
+				"pkgconfig(tss2-esys)",
+				"pkgconfig(xkbcommon)",
+				"pkgconfig(zlib)",
+				"pkgconfig32(libcap)",
+				"pkgconfig32(libxcrypt)",
+				"pkgconfig32(libzstd)",
+				"pkgconfig32(mount)",
+				"python(jinja2)",
+				"python(pefile)"
+			],
+			"depends": [
+				"systemd-32bit",
+				"systemd-32bit-libs-devel",
+				"systemd-devel"
+			],
+			"files": [
+				"/usr/share/doc/systemd-32bit-devel/README"
+			],
+			"name": "systemd-32bit-devel"
+		},
 		"systemd-32bit-libs": {
 			"build-depends": [
 				"binary(bpftool)",
@@ -1656,11 +1718,9 @@
 			],
 			"depends": [
 				"systemd",
-				"systemd-32bit-libs-devel",
 				"systemd-libs-devel"
 			],
 			"files": [
-				"/usr/share/doc/systemd-32bit-devel/README",
 				"/usr/share/doc/systemd-devel/README"
 			],
 			"name": "systemd-devel"
@@ -3838,6 +3898,6 @@
 		}
 	},
 	"source-name": "systemd",
-	"source-release": "85",
+	"source-release": "86",
 	"source-version": "258.9"
 }

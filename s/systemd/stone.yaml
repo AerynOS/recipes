@@ -3,7 +3,7 @@
 
 name        : systemd
 version     : "258.9"
-release     : 85
+release     : 86
 summary     : A System and Service Manager
 license     :
     - GPL-2.0-or-later
@@ -759,7 +759,7 @@ packages    :
         paths:
             - /usr/share/doc/systemd-32bit/
 
-    - "%(name)-devel":
+    - "%(name)-32bit-devel":
         rundeps:
             - "%(name)-32bit-libs-devel"
         paths:
