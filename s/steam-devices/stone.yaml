@@ -2,18 +2,16 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : steam-devices
-version     : "1.0.0.61+git.bbf6cf03"
-release     : 3
+version     : "1.0.0.61+git.22ec85e5"
+release     : 4
 homepage    : https://github.com/ValveSoftware/steam-devices
 upstreams   :
-    - git|https://github.com/ValveSoftware/steam-devices.git : bbf6cf03104aed5f73ac2798bdb09dc63ea3adf8
+    - git|https://github.com/ValveSoftware/steam-devices.git : 22ec85e5ff5ea2e15c56d71a41bcbef46356cd60
 summary     : Steam and SteamVR udev rules
 description : |
     List of devices Steam and SteamVR will want read/write permissions on
 license     : MIT
 setup       : |
-    # Seems to regress SteamOS Handheld Controller profile from inputplumber
-    %patch %(pkgdir)/0000-revert-9443b9d.patch
     %patch %(pkgdir)/0001-fix-udev-rules.patch
 install     : |
     %install_dir %(installroot)%(libdir)/udev/rules.d
