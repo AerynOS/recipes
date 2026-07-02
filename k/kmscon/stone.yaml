@@ -2,10 +2,10 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : kmscon
-version     : "10.0.0"
-release     : 10
+version     : "10.0.1"
+release     : 11
 upstreams   :
-    - https://github.com/kmscon/kmscon/archive/refs/tags/v10.0.0.tar.gz : 7074956472c42d14977922f9ef6d2ec101f8d88e549f0108c1f51cb9d2b437dd
+    - https://github.com/kmscon/kmscon/archive/refs/tags/v10.0.1.tar.gz : 62a8db81eebacaf959fd3b062c931c8789594f3bb9368d3c1e9a50280d81198b
 homepage    : https://www.freedesktop.org/wiki/Software/kmscon
 license     :
     - MIT
@@ -16,6 +16,7 @@ description : |
 builddeps   :
     - binary(tic)
     - binary(xsltproc)
+    - pkgconfig(dbus-1)
     - pkgconfig(egl)
     - pkgconfig(fontconfig)
     - pkgconfig(freetype2)
@@ -35,9 +36,6 @@ build       : |
     %meson_build
 install     : |
     %meson_install
-
-    %install_dir %(installroot)%(vendordir)
-    mv %(installroot)%(sysconfdir)/pam.d %(installroot)%(vendordir)
 
     # Make it the default
     # - we need to undo this until the issue with kmscon hogging the display

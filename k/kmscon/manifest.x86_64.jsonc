@@ -7,6 +7,7 @@
 				"binary(tic)",
 				"binary(xsltproc)",
 				"pkgconfig(check)",
+				"pkgconfig(dbus-1)",
 				"pkgconfig(egl)",
 				"pkgconfig(fontconfig)",
 				"pkgconfig(freetype2)",
@@ -22,13 +23,13 @@
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))",
+				"soname(libdbus-1.so.3(x86_64))",
 				"soname(libdrm.so.2(x86_64))",
 				"soname(libfontconfig.so.1(x86_64))",
 				"soname(libfreetype.so.6(x86_64))",
 				"soname(libgobject-2.0.so.0(x86_64))",
 				"soname(libpango-1.0.so.0(x86_64))",
 				"soname(libpangoft2-1.0.so.0(x86_64))",
-				"soname(libseat.so.1(x86_64))",
 				"soname(libtsm.so.4(x86_64))",
 				"soname(libudev.so.1(x86_64))",
 				"soname(libxkbcommon.so.0(x86_64))",
@@ -38,13 +39,11 @@
 			"files": [
 				"/usr/bin/kmscon",
 				"/usr/bin/kmscon-launch-gui",
-				"/usr/lib/kmscon/kmscon/kmscon",
 				"/usr/lib/kmscon/mod-freetype.so",
 				"/usr/lib/kmscon/mod-pango.so",
 				"/usr/lib/kmscon/mod-unifont.so",
 				"/usr/lib/systemd/system/kmscon.service",
-				"/usr/lib/systemd/system/kmsconvt@.service",
-				"/usr/share/defaults/pam.d/kmscon"
+				"/usr/lib/systemd/system/kmsconvt@.service"
 			],
 			"name": "kmscon",
 			"provides": [
@@ -60,6 +59,7 @@
 				"binary(tic)",
 				"binary(xsltproc)",
 				"pkgconfig(check)",
+				"pkgconfig(dbus-1)",
 				"pkgconfig(egl)",
 				"pkgconfig(fontconfig)",
 				"pkgconfig(freetype2)",
@@ -95,6 +95,7 @@
 				"binary(tic)",
 				"binary(xsltproc)",
 				"pkgconfig(check)",
+				"pkgconfig(dbus-1)",
 				"pkgconfig(egl)",
 				"pkgconfig(fontconfig)",
 				"pkgconfig(freetype2)",
@@ -114,6 +115,6 @@
 		}
 	},
 	"source-name": "kmscon",
-	"source-release": "10",
-	"source-version": "10.0.0"
+	"source-release": "11",
+	"source-version": "10.0.1"
 }
