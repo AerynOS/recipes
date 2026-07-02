@@ -27,7 +27,6 @@
 			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
-				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libX11.so.6(x86_64))",
 				"soname(libXrender.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
@@ -195,7 +194,8 @@
 				"/usr/share/man/man1/twopi.1",
 				"/usr/share/man/man1/unflatten.1",
 				"/usr/share/man/man1/vimdot.1",
-				"/usr/share/man/man7/graphviz.7"
+				"/usr/share/man/man7/graphviz.7",
+				"/usr/share/moss/triggers/tx.d/graphviz_plugins.yaml"
 			],
 			"name": "graphviz",
 			"provides": [
@@ -649,7 +649,6 @@
 				"pkgconfig(xaw6)"
 			],
 			"depends": [
-				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libexpat.so.1(x86_64))",
 				"soname(libltdl.so.7(x86_64))",
@@ -730,6 +729,6 @@
 		}
 	},
 	"source-name": "graphviz",
-	"source-release": "20",
+	"source-release": "21",
 	"source-version": "15.1.0"
 }

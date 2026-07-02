@@ -1,0 +1,13 @@
+name: graphviz_plugins
+description: |
+    Register Graphviz plugins
+
+handlers:
+    graphviz_plugins:
+        run: /usr/bin/dot
+        args: ["-c"]
+
+paths:
+    "/usr/lib/graphviz/libgvplugin*.so.*" :
+        handlers:
+            - graphviz_plugins
