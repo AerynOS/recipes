@@ -3,7 +3,7 @@
 
 name        : protobuf
 version     : "35.1"
-release     : 13
+release     : 14
 homepage    : https://github.com/protocolbuffers/protobuf
 upstreams   :
     - https://github.com/protocolbuffers/protobuf/releases/download/v35.1/protobuf-35.1.tar.gz : f0b6838e7522a8da96126d487068c959bc624926368f3024ac8fd03abd0a1ac4
@@ -11,11 +11,15 @@ summary     : Protocol Buffers - Google's data interchange format
 description : |
     Protocol Buffers - Google's data interchange format
 license     : BSD-3-Clause
+networking  : true
 builddeps   :
     - cmake(absl)
+    - pkgconfig(python3)
     - pkgconfig(zlib)
-    # bazelisk/bazel for Python bindings
 setup       : |
+    # bazelisk/bazel for Python bindings
+    %bazel_fetch //python/dist:binary_wheel
+
     %cmake \
         -DBUILD_SHARED_LIBS=ON \
         -DCMAKE_SKIP_INSTALL_RPATH=ON \
@@ -24,9 +28,11 @@ setup       : |
         -Dprotobuf_BUILD_TESTS=OFF \
         -Dprotobuf_LOCAL_DEPENDENCIES_ONLY=OFF
 build       : |
+    %bazel_build //python/dist:binary_wheel
     %cmake_build
 install     : |
     %cmake_install
+    cd bazel-bin/python && %pyproject_install
 packages    :
     - "%(name)-devel":
         paths:
@@ -39,3 +45,11 @@ packages    :
             - "%(name)-devel"
         paths:
             - /usr/lib/lib*.a
+
+    - "python-%(name)":
+        summary: Python3 bindings for %(name)
+        description: Python3 bindings for %(name)
+        rundeps:
+            - "python-libs"
+        paths:
+            - /usr/lib/python*
