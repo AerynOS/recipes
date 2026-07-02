@@ -26,7 +26,7 @@ index 39b9ad3..a3274b6 100644
    # Install the pkg-config.
    install(FILES
            ${CMAKE_CURRENT_BINARY_DIR}/jansson.pc
--          DESTINATION lib/pkgconfig)
+-          DESTINATION ${JANSSON_INSTALL_PKGCONF_DIR})
 +          DESTINATION lib32/pkgconfig)
  
    # Install the configs.
