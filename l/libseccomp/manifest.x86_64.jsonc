@@ -13,7 +13,7 @@
 			],
 			"files": [
 				"/usr/lib/libseccomp.so.2",
-				"/usr/lib/libseccomp.so.2.6.0"
+				"/usr/lib/libseccomp.so.2.6.1"
 			],
 			"name": "libseccomp",
 			"provides": [
@@ -32,7 +32,7 @@
 			],
 			"files": [
 				"/usr/lib32/libseccomp.so.2",
-				"/usr/lib32/libseccomp.so.2.6.0"
+				"/usr/lib32/libseccomp.so.2.6.1"
 			],
 			"name": "libseccomp-32bit",
 			"provides": [
@@ -110,6 +110,7 @@
 				"/usr/share/man/man3/seccomp_syscall_resolve_name_arch.3",
 				"/usr/share/man/man3/seccomp_syscall_resolve_name_rewrite.3",
 				"/usr/share/man/man3/seccomp_syscall_resolve_num_arch.3",
+				"/usr/share/man/man3/seccomp_transaction_start.3",
 				"/usr/share/man/man3/seccomp_version.3"
 			],
 			"name": "libseccomp-devel",
@@ -120,6 +121,6 @@
 		}
 	},
 	"source-name": "libseccomp",
-	"source-release": "6",
-	"source-version": "2.6.0"
+	"source-release": "7",
+	"source-version": "2.6.1"
 }
