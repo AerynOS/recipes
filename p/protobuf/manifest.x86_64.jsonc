@@ -9,7 +9,6 @@
 				"pkgconfig(zlib)"
 			],
 			"depends": [
-				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libabsl_base.so.2605.0.0(x86_64))",
 				"soname(libabsl_cord.so.2605.0.0(x86_64))",
 				"soname(libabsl_cord_internal.so.2605.0.0(x86_64))",
@@ -477,6 +476,7 @@
 				"pkgconfig(zlib)"
 			],
 			"depends": [
+				"protobuf",
 				"python-libs",
 				"soname(libc.so.6(x86_64))"
 			],
@@ -657,6 +657,6 @@
 		}
 	},
 	"source-name": "protobuf",
-	"source-release": "14",
+	"source-release": "15",
 	"source-version": "35.1"
 }

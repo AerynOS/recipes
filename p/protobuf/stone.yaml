@@ -3,7 +3,7 @@
 
 name        : protobuf
 version     : "35.1"
-release     : 14
+release     : 15
 homepage    : https://github.com/protocolbuffers/protobuf
 upstreams   :
     - https://github.com/protocolbuffers/protobuf/releases/download/v35.1/protobuf-35.1.tar.gz : f0b6838e7522a8da96126d487068c959bc624926368f3024ac8fd03abd0a1ac4
@@ -50,6 +50,7 @@ packages    :
         summary: Python3 bindings for %(name)
         description: Python3 bindings for %(name)
         rundeps:
+            - "%(name)"
             - "python-libs"
         paths:
             - /usr/lib/python*
