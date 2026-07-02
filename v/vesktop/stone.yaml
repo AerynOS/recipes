@@ -1,0 +1,26 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : vesktop
+version     : "1.6.5"
+release     : 1
+homepage    : https://github.com/Vencord/Vesktop
+upstreams   :
+    - https://github.com/Vencord/Vesktop/releases/download/v1.6.5/vesktop-1.6.5.x86_64.rpm :
+        hash: 6fd5669fe2d5b1ad9bec10a8af1cf859bd911226528eae923ba70e6ef032c134
+        rename: vesktop.rpm
+summary     : Custom Discord app with Vencord & improved Linux support
+description : |
+   Vesktop is a custom Discord App aiming to give you better performance and improve linux support.
+license     : MIT
+builddeps   :
+  - binary(bsdtar-static)
+install     : |
+  %install_dir %(installroot)%(libdir)/%(name)
+  %install_dir %(installroot)%(bindir)
+  cp -a opt/Vesktop/. %(installroot)%(libdir)/%(name)/
+  ln -srv %(installroot)%(libdir)/%(name)/vesktop %(installroot)%(bindir)/vesktop
+
+  %install_dir %(installroot)%(datadir)/{icons,applications}/hicolor/scalable/apps/
+  %install_file usr/share/icons/hicolor/scalable/apps/vesktop.svg -t %(installroot)%(datadir)/icons/hicolor/scalable/apps/
+  %install_file %(pkgdir)/vesktop.desktop                         -t %(installroot)/%(datadir)/applications/
