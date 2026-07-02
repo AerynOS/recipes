@@ -3,7 +3,7 @@
 
 name        : greetd
 version     : "0.10.3"
-release     : 6
+release     : 7
 homepage    : https://git.sr.ht/~kennylevinsen/greetd
 upstreams   :
     - https://git.sr.ht/~kennylevinsen/greetd/archive/0.10.3.tar.gz : ee5cb70e0add4ca9c9fe57e47581ab0002d44c07743fb5492469f3b570db640b
@@ -13,16 +13,21 @@ description : |
 license     : GPL-3.0
 networking  : true
 builddeps   :
-    - pkgconfig(pam)
     - binary(scdoc)
+    - pkgconfig(pam)
 setup       : |
     %patch %(pkgdir)/0001-Use-vendor-OS-PAM-configuration-only.patch
+    %patch %(pkgdir)/0001-use-vendor-os-configuration.patch
     %cargo_fetch
 build       : |
     %cargo_build --all-features
 install     : |
     %cargo_install
     %install_file %(pkgdir)/greetd.pam %(installroot)%(vendordir)/pam.d/greetd
+
+    %install_file %(name).service -t %(installroot)%(libdir)/systemd/system/
+    %install_file %(pkgdir)/%(name).sysusers -t %(installroot)%(libdir)/sysusers.d/%(name).conf
+    %install_file config.toml -t %(installroot)%(vendordir)/greetd/
 
     pushd man
     %install_dir %(installroot)%(mandir)/man1
