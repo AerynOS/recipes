@@ -1,0 +1,55 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"p8-platform": {
+			"depends": [
+				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libstdc++.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/lib/libp8-platform.so.2",
+				"/usr/lib/libp8-platform.so.2.1.0",
+				"/usr/lib/p8-platform/p8-platform-config.cmake"
+			],
+			"name": "p8-platform",
+			"provides": [
+				"cmake(p8-platform)",
+				"soname(libp8-platform.so.2(x86_64))"
+			]
+		},
+		"p8-platform-devel": {
+			"depends": [
+				"p8-platform"
+			],
+			"files": [
+				"/usr/include/p8-platform/os.h",
+				"/usr/include/p8-platform/posix/os-socket.h",
+				"/usr/include/p8-platform/posix/os-threads.h",
+				"/usr/include/p8-platform/posix/os-types.h",
+				"/usr/include/p8-platform/sockets/cdevsocket.h",
+				"/usr/include/p8-platform/sockets/socket.h",
+				"/usr/include/p8-platform/sockets/tcp.h",
+				"/usr/include/p8-platform/threads/atomics.h",
+				"/usr/include/p8-platform/threads/mutex.h",
+				"/usr/include/p8-platform/threads/threads.h",
+				"/usr/include/p8-platform/util/StdString.h",
+				"/usr/include/p8-platform/util/StringUtils.h",
+				"/usr/include/p8-platform/util/atomic.h",
+				"/usr/include/p8-platform/util/buffer.h",
+				"/usr/include/p8-platform/util/timeutils.h",
+				"/usr/include/p8-platform/util/util.h",
+				"/usr/lib/libp8-platform.so",
+				"/usr/lib/pkgconfig/p8-platform.pc"
+			],
+			"name": "p8-platform-devel",
+			"provides": [
+				"pkgconfig(p8-platform)"
+			]
+		}
+	},
+	"source-name": "p8-platform",
+	"source-release": "1",
+	"source-version": "2.1.0.1"
+}

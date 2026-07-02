@@ -1,0 +1,29 @@
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : cxx-rust-cssparser
+version     : "1.0.0"
+release     : 1
+upstreams   :
+    - https://download.kde.org/stable/cxx-rust-cssparser/cxx-rust-cssparser-1.0.0.tar.xz : df233783cb017d352a7b96d9a0fefca5a1121b8fe384216c28f9544f682e6277
+homepage    : https://kde.org/plasma-desktop/
+license     :
+    - LGPL-2.1-only
+    - LGPL-3.0-only
+summary     : Library for parsing CSS using the Rust cssparser crate
+description : |
+    Library for parsing CSS using the Rust cssparser crate
+builddeps   :
+    - binary(python3)
+    - cmake(Corrosion)
+    # Temporary, boulder doesn't handle build ordering resolution correctly when builddeps are added by macros, so add ECM manually
+    - cmake(ECM)
+tuning      :
+    - lto: false
+networking  : true
+setup       : |
+    %cmake_kf6
+build       : |
+    %cmake_build
+install     : |
+    %cmake_install

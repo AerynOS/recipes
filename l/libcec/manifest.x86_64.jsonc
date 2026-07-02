@@ -1,0 +1,55 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"libcec": {
+			"build-depends": [
+				"binary(python)",
+				"pkgconfig(p8-platform)"
+			],
+			"depends": [
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libp8-platform.so.2(x86_64))",
+				"soname(libstdc++.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/bin/cec-client",
+				"/usr/bin/cec-client-7.1.1",
+				"/usr/bin/cecc-client",
+				"/usr/bin/cecc-client-7.1.1",
+				"/usr/bin/pyCecClient"
+			],
+			"name": "libcec",
+			"provides": [
+				"binary(cec-client)",
+				"binary(cec-client-7.1.1)",
+				"binary(cecc-client)",
+				"binary(cecc-client-7.1.1)",
+				"binary(pyCecClient)"
+			]
+		},
+		"libcec-devel": {
+			"build-depends": [
+				"binary(python)",
+				"pkgconfig(p8-platform)"
+			],
+			"depends": [
+				"libcec"
+			],
+			"files": [
+				"/usr/include/libcec/cec.h",
+				"/usr/include/libcec/cecc.h",
+				"/usr/include/libcec/ceccloader.h",
+				"/usr/include/libcec/cecloader.h",
+				"/usr/include/libcec/cectypes.h",
+				"/usr/include/libcec/version.h"
+			],
+			"name": "libcec-devel"
+		}
+	},
+	"source-name": "libcec",
+	"source-release": "1",
+	"source-version": "7.1.1"
+}

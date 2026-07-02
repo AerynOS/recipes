@@ -1,0 +1,30 @@
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : libcec
+version     : "7.1.1"
+release     : 1
+summary     : Pulse-Eight's libcec for the Pulse-Eight USB-CEC adapter
+license     : GPL-2.0-or-later
+homepage    : http://libcec.pulse-eight.com/
+description : |
+    Pulse-Eight's libcec for the Pulse-Eight USB-CEC adapter
+upstreams   :
+    - https://github.com/Pulse-Eight/libcec/archive/libcec-7.1.1.tar.gz : 7f7da95a4c1e7160d42ca37a3ac80cf6f389b317e14816949e0fa5e2edf4cc64
+builddeps   :
+    - binary(python)
+    - pkgconfig(p8-platform)
+tuning      :
+    - lto: full
+setup       : |
+    %cmake \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DBUILD_SHARED_LIBS=1 \
+        -DHAVE_LINUX_API=1 \
+        -DCMAKE_INSTALL_PREFIX=/usr \
+        -DCMAKE_INSTALL_LIBDIR=/usr/lib \
+        -DCMAKE_INSTALL_LIBDIR_NOARCH=/usr/lib
+build       : |
+    %cmake_build
+install     : |
+    %cmake_install
