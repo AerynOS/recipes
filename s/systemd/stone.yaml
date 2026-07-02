@@ -2,8 +2,8 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : systemd
-version     : "258.9"
-release     : 84
+version     : "260.3"
+release     : 85
 summary     : A System and Service Manager
 license     :
     - GPL-2.0-or-later
@@ -13,7 +13,7 @@ homepage    : http://www.freedesktop.org/wiki/Software/systemd
 description : |
     A System and Service Manager
 upstreams   :
-    - https://github.com/systemd/systemd/archive/refs/tags/v258.9.tar.gz : ae8a6265d8439fc5193b84e56a83ba60ea56f1fe6248d8214f69e663c695bdff
+        - https://github.com/systemd/systemd/archive/refs/tags/v260.3.tar.gz : a73fe51d2d9422e6bcffedbde6c5e57c4bc6ac2a6dd86937092f84e354f6d31d
 builddeps   :
     - binary(bpftool)
     - binary(gcc)
@@ -242,7 +242,7 @@ install     : |
     fi
 
     # Stateless: Clean up /var directories, they are created via tmpfiles already
-    rmdir %(installroot)/var/lib/systemd %(installroot)/var/lib %(installroot)/var
+    #rmdir %(installroot)/var/lib/systemd %(installroot)/var/lib %(installroot)/var
 
     # Don't clobber pam!
     rm -rf %(installroot)%(datadir)/factory/etc/pam.d
