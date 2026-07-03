@@ -3,7 +3,7 @@
 
 name        : opencv
 version     : "4.13.0"
-release     : 18
+release     : 19
 upstreams   :
     - https://github.com/opencv/opencv/archive/refs/tags/4.13.0.tar.gz:
         hash: 1d40ca017ea51c533cf9fd5cbde5b5fe7ae248291ddf2af99d4c17cf8e13017d
@@ -21,12 +21,12 @@ builddeps   :
     - cmake(OpenEXR)
     - cmake(OpenJPEG)
     - cmake(Qt6Core5Compat)
-    - cmake(Tiff)
     - cmake(VulkanHeaders)
     - cmake(hdf5)
     - cmake(libavif)
     - cmake(libjpeg-turbo)
     - cmake(protobuf)
+    - cmake(tiff)
     - pkgconfig(OpenCL)
     - pkgconfig(freetype2)
     - pkgconfig(gstreamer-plugins-base-1.0)
