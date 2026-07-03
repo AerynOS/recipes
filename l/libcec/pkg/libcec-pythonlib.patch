@@ -1,0 +1,25 @@
+From ec1c9acc29636ccfc0686493868a7daeae903339 Mon Sep 17 00:00:00 2001
+From: Andrew Bauer <zonexpertconsulting@outlook.com>
+Date: Sat, 5 Jul 2025 13:30:09 -0500
+Subject: [PATCH] add cec target subfolder
+
+---
+ src/libcec/cmake/CheckPlatformSupport.cmake | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/src/libcec/cmake/CheckPlatformSupport.cmake b/src/libcec/cmake/CheckPlatformSupport.cmake
+index 32b8314d..81d80985 100644
+--- a/src/libcec/cmake/CheckPlatformSupport.cmake
++++ b/src/libcec/cmake/CheckPlatformSupport.cmake
+@@ -370,9 +370,9 @@ else()
+                 DESTINATION ${CMAKE_INSTALL_LIBDIR}/python${PYTHON_VERSION}/${PYTHON_PKG_DIR}/cec)
+       else()
+         install(TARGETS     ${SWIG_MODULE_pycec_REAL_NAME}
+-                DESTINATION ${CMAKE_INSTALL_LIBDIR}/python${PYTHON_VERSION}/${PYTHON_PKG_DIR}/${PYTHON_LIB_INSTALL_PATH})
++                DESTINATION ${CMAKE_INSTALL_LIBDIR}/python${PYTHON_VERSION}/${PYTHON_PKG_DIR}/${PYTHON_LIB_INSTALL_PATH}/cec)
+         install(FILES       ${CMAKE_BINARY_DIR}/src/libcec/cec.py
+-                DESTINATION ${CMAKE_INSTALL_LIBDIR}/python${PYTHON_VERSION}/${PYTHON_PKG_DIR})
++                DESTINATION ${CMAKE_INSTALL_LIBDIR}/python${PYTHON_VERSION}/${PYTHON_PKG_DIR}/cec)
+       endif()
+     endif()
+   endif()
