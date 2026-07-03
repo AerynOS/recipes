@@ -2,22 +2,26 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : scx-scheds
-version     : "1.1.1"
-release     : 9
+version     : "1.1.2"
+release     : 10
 homepage    : https://github.com/sched-ext/scx
 upstreams   :
-    - https://github.com/sched-ext/scx/archive/refs/tags/v1.1.1.tar.gz : 1b162f0a198e379fc1f7016505b78c236acb63d1b8f22d66a4b6fd762ec592fb
+    - https://github.com/sched-ext/scx/archive/refs/tags/v1.1.2.tar.gz : aef3c575dfceb272c7169eb4d7aa2d9c4710298a8f2facf400c3fefa9120bc46
 summary     : sched_ext schedulers
 description : |
     sched_ext schedulers
 networking  : true
-license     :
-    - MIT
+license     : MIT
 builddeps   :
     - binary(find)
     - binary(make)
     - pkgconfig(libbpf)
+    - pkgconfig(liblzma)
     - pkgconfig(libseccomp)
+    - pkgconfig(libzstd)
+    - pkgconfig(openssl)
+environment : |
+    export ZSTD_SYS_USE_PKG_CONFIG=1
 setup       : |
     %cargo_fetch
 build       : |
@@ -27,7 +31,7 @@ install     : |
     find "%(cargo_target_dir)" -maxdepth 1 -type f -executable -exec %install_exe {} -t %(installroot)%(bindir) \;
 
     # Useless stuff not needed
-    rm -v %(installroot)%(bindir)/{scx_arena_selftests,vmlinux_docify,xtask}
+    rm -v %(installroot)%(bindir)/{scx_arena_selftests,vmlinux_docify,xtask,scx-forge-agent,scx_forge}
 packages    :
     - "%(name)-extra":
         summary: Various extra sched_ext schedulers
@@ -35,6 +39,7 @@ packages    :
             Various sched_ext schedulers that are either experimental, for testing purposes, are single-purpose in nature, or require significant additional configuration and know-how to be useful.
         paths:
             - /usr/bin/scx_chaos
+            - /usr/bin/scx_characterize
             - /usr/bin/scx_flow
             - /usr/bin/scx_layered
             - /usr/bin/scx_mitosis
