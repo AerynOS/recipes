@@ -29,9 +29,9 @@
 			],
 			"files": [
 				"/usr/lib/libtiff.so.6",
-				"/usr/lib/libtiff.so.6.2.0",
+				"/usr/lib/libtiff.so.6.3.0",
 				"/usr/lib/libtiffxx.so.6",
-				"/usr/lib/libtiffxx.so.6.2.0"
+				"/usr/lib/libtiffxx.so.6.3.0"
 			],
 			"name": "libtiff",
 			"provides": [
@@ -67,10 +67,10 @@
 				"/usr/include/tiffio.h",
 				"/usr/include/tiffio.hxx",
 				"/usr/include/tiffvers.h",
-				"/usr/lib/cmake/tiff/TiffConfig.cmake",
-				"/usr/lib/cmake/tiff/TiffConfigVersion.cmake",
-				"/usr/lib/cmake/tiff/TiffTargets-release.cmake",
-				"/usr/lib/cmake/tiff/TiffTargets.cmake",
+				"/usr/lib/cmake/tiff/tiff-config-version.cmake",
+				"/usr/lib/cmake/tiff/tiff-config.cmake",
+				"/usr/lib/cmake/tiff/tiff-targets-release.cmake",
+				"/usr/lib/cmake/tiff/tiff-targets.cmake",
 				"/usr/lib/libtiff.so",
 				"/usr/lib/libtiffxx.so",
 				"/usr/lib/pkgconfig/libtiff-4.pc",
@@ -92,6 +92,7 @@
 				"/usr/share/man/man3/TIFFFieldWriteCount.3tiff",
 				"/usr/share/man/man3/TIFFFlush.3tiff",
 				"/usr/share/man/man3/TIFFGetField.3tiff",
+				"/usr/share/man/man3/TIFFGetMaxCompressionRatio.3tiff",
 				"/usr/share/man/man3/TIFFMergeFieldInfo.3tiff",
 				"/usr/share/man/man3/TIFFOpen.3tiff",
 				"/usr/share/man/man3/TIFFPrintDirectory.3tiff",
@@ -135,7 +136,7 @@
 			],
 			"name": "libtiff-devel",
 			"provides": [
-				"cmake(Tiff)",
+				"cmake(tiff)",
 				"pkgconfig(libtiff-4)"
 			]
 		},
@@ -190,6 +191,7 @@
 				"/usr/share/doc/tiff/manual/html/_sources/functions/TIFFFieldWriteCount.rst.txt",
 				"/usr/share/doc/tiff/manual/html/_sources/functions/TIFFFlush.rst.txt",
 				"/usr/share/doc/tiff/manual/html/_sources/functions/TIFFGetField.rst.txt",
+				"/usr/share/doc/tiff/manual/html/_sources/functions/TIFFGetMaxCompressionRatio.rst.txt",
 				"/usr/share/doc/tiff/manual/html/_sources/functions/TIFFMergeFieldInfo.rst.txt",
 				"/usr/share/doc/tiff/manual/html/_sources/functions/TIFFOpen.rst.txt",
 				"/usr/share/doc/tiff/manual/html/_sources/functions/TIFFOpenOptions.rst.txt",
@@ -304,6 +306,7 @@
 				"/usr/share/doc/tiff/manual/html/_sources/releases/v4.6.0.rst.txt",
 				"/usr/share/doc/tiff/manual/html/_sources/releases/v4.7.0.rst.txt",
 				"/usr/share/doc/tiff/manual/html/_sources/releases/v4.7.1.rst.txt",
+				"/usr/share/doc/tiff/manual/html/_sources/releases/v4.7.2.rst.txt",
 				"/usr/share/doc/tiff/manual/html/_sources/rfcs/index.rst.txt",
 				"/usr/share/doc/tiff/manual/html/_sources/rfcs/rfc1_psc.rst.txt",
 				"/usr/share/doc/tiff/manual/html/_sources/rfcs/rfc2_restoring_needed_tools.rst.txt",
@@ -335,10 +338,12 @@
 				"/usr/share/doc/tiff/manual/html/_sources/tools/tiffmedian.rst.txt",
 				"/usr/share/doc/tiff/manual/html/_sources/tools/tiffset.rst.txt",
 				"/usr/share/doc/tiff/manual/html/_sources/tools/tiffsplit.rst.txt",
+				"/usr/share/doc/tiff/manual/html/_static/base-stemmer.js",
 				"/usr/share/doc/tiff/manual/html/_static/basic.css",
 				"/usr/share/doc/tiff/manual/html/_static/contents.png",
 				"/usr/share/doc/tiff/manual/html/_static/doctools.js",
 				"/usr/share/doc/tiff/manual/html/_static/documentation_options.js",
+				"/usr/share/doc/tiff/manual/html/_static/english-stemmer.js",
 				"/usr/share/doc/tiff/manual/html/_static/file.png",
 				"/usr/share/doc/tiff/manual/html/_static/language_data.js",
 				"/usr/share/doc/tiff/manual/html/_static/minus.png",
@@ -370,6 +375,7 @@
 				"/usr/share/doc/tiff/manual/html/functions/TIFFFieldWriteCount.html",
 				"/usr/share/doc/tiff/manual/html/functions/TIFFFlush.html",
 				"/usr/share/doc/tiff/manual/html/functions/TIFFGetField.html",
+				"/usr/share/doc/tiff/manual/html/functions/TIFFGetMaxCompressionRatio.html",
 				"/usr/share/doc/tiff/manual/html/functions/TIFFMergeFieldInfo.html",
 				"/usr/share/doc/tiff/manual/html/functions/TIFFOpen.html",
 				"/usr/share/doc/tiff/manual/html/functions/TIFFOpenOptions.html",
@@ -486,6 +492,7 @@
 				"/usr/share/doc/tiff/manual/html/releases/v4.6.0.html",
 				"/usr/share/doc/tiff/manual/html/releases/v4.7.0.html",
 				"/usr/share/doc/tiff/manual/html/releases/v4.7.1.html",
+				"/usr/share/doc/tiff/manual/html/releases/v4.7.2.html",
 				"/usr/share/doc/tiff/manual/html/rfcs/index.html",
 				"/usr/share/doc/tiff/manual/html/rfcs/rfc1_psc.html",
 				"/usr/share/doc/tiff/manual/html/rfcs/rfc2_restoring_needed_tools.html",
@@ -610,6 +617,6 @@
 		}
 	},
 	"source-name": "libtiff",
-	"source-release": "10",
-	"source-version": "4.7.1"
+	"source-release": "11",
+	"source-version": "4.7.2"
 }
