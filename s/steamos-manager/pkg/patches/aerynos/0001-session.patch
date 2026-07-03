@@ -1,6 +1,6 @@
-diff -Npur steamos-manager-v26.0.1.orig/data/system/reset-oneshot-boot.conf steamos-manager-v26.0.1/data/system/reset-oneshot-boot.conf
---- steamos-manager-v26.0.1.orig/data/system/reset-oneshot-boot.conf	2026-03-05 05:25:34.000000000 +0100
-+++ steamos-manager-v26.0.1/data/system/reset-oneshot-boot.conf	2026-03-19 07:56:55.375903418 +0100
+diff -Npur steamos-manager-v26.3.0.orig/data/system/reset-oneshot-boot.conf steamos-manager-v26.3.0/data/system/reset-oneshot-boot.conf
+--- steamos-manager-v26.3.0.orig/data/system/reset-oneshot-boot.conf	2026-06-04 03:44:13.000000000 +0200
++++ steamos-manager-v26.3.0/data/system/reset-oneshot-boot.conf	2026-07-03 03:07:14.435443142 +0200
 @@ -2,5 +2,4 @@
  # This is a failsafe to reset the login mode back to default after a reboot
  # It shouldn't be strictly needed
@@ -8,12 +8,15 @@ diff -Npur steamos-manager-v26.0.1.orig/data/system/reset-oneshot-boot.conf stea
 -ExecStartPre=-rm /etc/sddm.conf.d/zzt-steamos-temp-login.conf
 -ExecStartPre=-rm /etc/sddm.conf.d/zzt-holo-temp-login.conf
 +ExecStartPre=-rm /etc/sddm.conf.d/zzt-aerynos-temp-login.conf
-diff -Npur steamos-manager-v26.0.1.orig/steamos-manager/src/session.rs steamos-manager-v26.0.1/steamos-manager/src/session.rs
---- steamos-manager-v26.0.1.orig/steamos-manager/src/session.rs	2026-03-05 05:25:34.000000000 +0100
-+++ steamos-manager-v26.0.1/steamos-manager/src/session.rs	2026-03-19 08:15:45.160356577 +0100
-@@ -34,12 +34,12 @@ use crate::{Service, path};
+diff -Npur steamos-manager-v26.3.0.orig/steamos-manager/src/session.rs steamos-manager-v26.3.0/steamos-manager/src/session.rs
+--- steamos-manager-v26.3.0.orig/steamos-manager/src/session.rs	2026-06-04 03:44:13.000000000 +0200
++++ steamos-manager-v26.3.0/steamos-manager/src/session.rs	2026-07-03 03:24:33.564502893 +0200
+@@ -32,14 +32,14 @@ use crate::manager::root::RootManagerPro
+ use crate::systemd::{ActiveState, JobMode, SystemdUnit};
+ use crate::{Service, path};
  
- const CONFIG_PREFIX_USR: &str = "/usr/lib/sddm/sddm.conf.d";
+-const CONFIG_PREFIX_USR: &str = "/usr/lib/sddm/sddm.conf.d";
++const CONFIG_PREFIX_USR: &str = "/usr/share/sddm/sddm.conf.d";
  const CONFIG_PREFIX: &str = "/etc/sddm.conf.d";
 -const SESSION_CHECK_PATH_LEGACY: &str = "steamos.conf";
 -const CONFIG_PATH_LEGACY: &str = "zz-steamos-autologin.conf";
@@ -30,3 +33,24 @@ diff -Npur steamos-manager-v26.0.1.orig/steamos-manager/src/session.rs steamos-m
  
  #[cfg(not(test))]
  static CONFIG_PATHS: OnceCell<ConfigPaths> = OnceCell::const_new();
+@@ -53,16 +53,16 @@ struct ConfigPaths {
+ impl ConfigPaths {
+     async fn resolve() -> Result<ConfigPaths> {
+         // We determine whether we are defaulting to the "holo" or "steamos" naming convention
+-        // based on the name of the config file in CONFIG_PREFIX_USR.
+-        if try_exists(path(CONFIG_PREFIX_USR).join(SESSION_CHECK_PATH_LEGACY)).await? {
++        // based on the name of the config file in CONFIG_PREFIX.
++        if try_exists(path(CONFIG_PREFIX).join(SESSION_CHECK_PATH_LEGACY)).await? {
+             Ok(ConfigPaths {
+-                check: path(CONFIG_PREFIX_USR).join(SESSION_CHECK_PATH_LEGACY),
++                check: path(CONFIG_PREFIX).join(SESSION_CHECK_PATH_LEGACY),
+                 default_config: path(CONFIG_PREFIX).join(CONFIG_PATH_LEGACY),
+                 default_temp_config: path(CONFIG_PREFIX).join(TEMPORARY_CONFIG_PATH_LEGACY),
+             })
+         } else {
+             Ok(ConfigPaths {
+-                check: path(CONFIG_PREFIX_USR).join(SESSION_CHECK_PATH),
++                check: path(CONFIG_PREFIX).join(SESSION_CHECK_PATH),
+                 default_config: path(CONFIG_PREFIX).join(CONFIG_PATH),
+                 default_temp_config: path(CONFIG_PREFIX).join(TEMPORARY_CONFIG_PATH),
+             })
