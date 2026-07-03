@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : mutter
-version     : "50.2"
-release     : 37
+version     : "50.3"
+release     : 38
 homepage    : https://gnome.org
 upstreams   :
-    - https://download.gnome.org/sources/mutter/50/mutter-50.2.tar.xz : fde8df8a746500c51f1c925b51e57c3dd87007233bef563079e831f53bfa3b56
+    - https://download.gnome.org/sources/mutter/50/mutter-50.3.tar.xz : 25663fa7afc96a4c092448990c0da664b7f04dd8d9f5e3b9be2b498b1b303cb4
 summary     : A Wayland display server and compositor library.
 description : |
     A Wayland display server and compositor library.
@@ -94,7 +94,6 @@ rundeps     :
     - binary(pipewire) # DMA-BUF
     - binary(Xwayland)
 setup       : |
-    %patch %(pkgdir)/upstream-01.patch
     %meson \
         -Degl_device=true \
         -Dtests=disabled \
