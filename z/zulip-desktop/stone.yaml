@@ -3,7 +3,7 @@
 
 name        : zulip-desktop
 version     : "5.12.4"
-release     : 4
+release     : 5
 upstreams   :
     - https://github.com/zulip/zulip-desktop/archive/refs/tags/v5.12.4.tar.gz : 2db95b7fe239dde54470d269150185118515ee232ef52684345db55a42c9edfd
 homepage    : https://zulipchat.com
@@ -18,8 +18,7 @@ rundeps     :
     - binary(xdg-open)
 setup       : |
     %patch %(pkgdir)/0001-Disable-auto-update.patch
-
-    sed -i 's/"electron-vite": "^5.0.0",/"electron-vite": "^6.0.0-beta.1",/' package.json
+    %patch %(pkgdir)/0001-linux-Fix-Wayland-app-ID.patch
 
     pnpm install
 build       : |
@@ -30,7 +29,8 @@ install     : |
     %install_dir %(installroot)$zulipdir
     cp -a dist/linux-unpacked/* %(installroot)$zulipdir
 
-    %install_file build/zulip.png -t %(installroot)%(datadir)/icons/hicolor/512x512/apps/
+    %install_file %(pkgdir)/org.zulip.Zulip.desktop -t %(installroot)%(datadir)/applications
+    %install_file build/zulip.png %(installroot)%(datadir)/icons/hicolor/512x512/apps/org.zulip.Zulip.png
 
-    %install_file %(pkgdir)/Zulip.desktop -t %(installroot)%(datadir)/applications
-    %install_exe %(pkgdir)/zulip.sh %(installroot)%(bindir)/zulip
+    %install_dir %(installroot)%(bindir)
+    ln -srv %(installroot)${zulipdir}/zulip %(installroot)%(bindir)/zulip

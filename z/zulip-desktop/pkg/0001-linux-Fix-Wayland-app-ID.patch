@@ -1,0 +1,21 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Reilly Brogan <reilly@reillybrogan.com>
+Date: Fri, 3 Jul 2026 07:36:23 -0500
+Subject: [PATCH] linux: Fix Wayland app ID
+
+---
+ package.json | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/package.json b/package.json
+index e77d401..b8db5e0 100644
+--- a/package.json
++++ b/package.json
+@@ -1,6 +1,7 @@
+ {
+   "name": "zulip",
+   "productName": "Zulip",
++  "desktopName": "org.zulip.Zulip.desktop",
+   "version": "5.12.4",
+   "main": "./out/main/index.js",
+   "description": "Zulip Desktop App",
