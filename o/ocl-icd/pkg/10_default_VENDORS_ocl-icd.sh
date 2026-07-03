@@ -1,1 +1,1 @@
-export OCL_ICD_VENDORS=/etc/OpenCL/vendors:/usr/share/OpenCL/vendors
+export OCL_ICD_VENDORS=/usr/share/OpenCL/vendors
