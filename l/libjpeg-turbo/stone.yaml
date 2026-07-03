@@ -3,7 +3,7 @@
 
 name        : libjpeg-turbo
 version     : "3.2.0"
-release     : 12
+release     : 13
 homepage    : https://libjpeg-turbo.org/
 upstreams   :
     - https://github.com/libjpeg-turbo/libjpeg-turbo/releases/download/3.2.0/libjpeg-turbo-3.2.0.tar.gz : 6f30092cef9fb839779646608f4ee14ae3cbac989c47fa05e841b0841f09878e
@@ -27,6 +27,9 @@ install     : |
     %cmake_install
     rm -fr %(installroot)/usr/share/doc/
     rm -v %(installroot)%(bindir)/tjbench
+
+    %install_dir %(installroot)%(docdir)/turbojpeg-devel/
+    echo "DEPRECATED" > %(installroot)%(docdir)/turbojpeg-devel/README
 check       : |
     %cmake_test
 packages    :
@@ -43,12 +46,15 @@ packages    :
         paths:
             - /usr/lib/libturbojpeg.so.*
 
+    - "%(name)-devel":
+        rundeps:
+            - turbojpeg
+
+    # Merged because the cmake configs reference turbojpeg directly and there's no good way to handle that
     - "turbojpeg-devel":
         summary: TurboJPEG library - development files
         description: TurboJPEG library - development files
         rundeps:
-            - "turbojpeg"
+            - "%(name)-devel"
         paths:
-            - /usr/include/turbojpeg.h
-            - /usr/lib/libturbojpeg.so
-            - /usr/lib/pkgconfig/libturbojpeg.pc
+            - /usr/share/doc/turbojpeg-devel/README

@@ -256,3 +256,6 @@ NB: Each entry *must* contain all sub-packages created by the package!
 - systemd-32bit
 - systemd-32bit-devel
 - systemd-devel
+
+### Merged into libjpeg-turbo-devel
+- turbojpeg-devel

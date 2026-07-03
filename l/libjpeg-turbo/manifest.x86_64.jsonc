@@ -23,24 +23,29 @@
 				"binary(nasm)"
 			],
 			"depends": [
-				"libjpeg-turbo"
+				"libjpeg-turbo",
+				"turbojpeg"
 			],
 			"files": [
 				"/usr/include/jconfig.h",
 				"/usr/include/jerror.h",
 				"/usr/include/jmorecfg.h",
 				"/usr/include/jpeglib.h",
+				"/usr/include/turbojpeg.h",
 				"/usr/lib/cmake/libjpeg-turbo/libjpeg-turboConfig.cmake",
 				"/usr/lib/cmake/libjpeg-turbo/libjpeg-turboConfigVersion.cmake",
 				"/usr/lib/cmake/libjpeg-turbo/libjpeg-turboTargets-release.cmake",
 				"/usr/lib/cmake/libjpeg-turbo/libjpeg-turboTargets.cmake",
 				"/usr/lib/libjpeg.so",
-				"/usr/lib/pkgconfig/libjpeg.pc"
+				"/usr/lib/libturbojpeg.so",
+				"/usr/lib/pkgconfig/libjpeg.pc",
+				"/usr/lib/pkgconfig/libturbojpeg.pc"
 			],
 			"name": "libjpeg-turbo-devel",
 			"provides": [
 				"cmake(libjpeg-turbo)",
-				"pkgconfig(libjpeg)"
+				"pkgconfig(libjpeg)",
+				"pkgconfig(libturbojpeg)"
 			]
 		},
 		"libjpeg-turbo-utils": {
@@ -94,20 +99,15 @@
 				"binary(nasm)"
 			],
 			"depends": [
-				"turbojpeg"
+				"libjpeg-turbo-devel"
 			],
 			"files": [
-				"/usr/include/turbojpeg.h",
-				"/usr/lib/libturbojpeg.so",
-				"/usr/lib/pkgconfig/libturbojpeg.pc"
+				"/usr/share/doc/turbojpeg-devel/README"
 			],
-			"name": "turbojpeg-devel",
-			"provides": [
-				"pkgconfig(libturbojpeg)"
-			]
+			"name": "turbojpeg-devel"
 		}
 	},
 	"source-name": "libjpeg-turbo",
-	"source-release": "12",
+	"source-release": "13",
 	"source-version": "3.2.0"
 }
