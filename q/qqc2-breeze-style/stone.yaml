@@ -1,0 +1,34 @@
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : qqc2-breeze-style
+version     : "6.7.2"
+release     : 1
+upstreams   :
+    - https://download.kde.org/stable/plasma/6.7.2/qqc2-breeze-style-6.7.2.tar.xz : 94e1dad9b110c43d48d8bea7c12e7fa2754e56d1a05a7bb249a03035e77f5b49
+homepage    : https://kde.org/plasma-desktop/
+license     :
+    - GPL-2.0-or-later
+summary     : Breeze Style for QQC2
+description : |
+    Breeze inspired QQC2 Style
+builddeps   :
+    # Temporary, boulder doesn't handle build ordering resolution correctly when builddeps are added by macros, so add ECM manually
+    - cmake(ECM)
+    - cmake(KF6ColorScheme)
+    - cmake(KF6Config)
+    - cmake(KF6GuiAddons)
+    - cmake(KF6IconThemes)
+    - cmake(KF6Kirigami)
+    - cmake(Qt6Qml)
+rundeps     :
+    - kf6-kquickcharts
+tuning      :
+    - lto: full
+    - optimize: speed
+setup       : |
+    %cmake_kf6
+build       : |
+    %cmake_build
+install     : |
+    %cmake_install

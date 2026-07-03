@@ -3,3 +3,7 @@
 # disable sshd socket and sshd service by default
 disable sshd.socket
 disable sshd.service
+
+enable cec-active-source.service
+enable cec-active-source.timer
+enable cec-poweroff-tv.service

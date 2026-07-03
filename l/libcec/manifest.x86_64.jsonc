@@ -1,0 +1,104 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"libcec": {
+			"build-depends": [
+				"binary(swig)",
+				"pkgconfig(libudev)",
+				"pkgconfig(p8-platform)",
+				"pkgconfig(python3)",
+				"pkgconfig(udev)",
+				"pkgconfig(x11)",
+				"pkgconfig(xrandr)"
+			],
+			"depends": [
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(libX11.so.6(x86_64))",
+				"soname(libXrandr.so.2(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libp8-platform.so.2(x86_64))",
+				"soname(libstdc++.so.6(x86_64))",
+				"soname(libudev.so.1(x86_64))"
+			],
+			"files": [
+				"/usr/bin/cec-client",
+				"/usr/bin/cecc-client",
+				"/usr/lib/libcec.so.7",
+				"/usr/lib/libcec.so.7.1.1",
+				"/usr/lib/systemd/system/cec-active-source.service",
+				"/usr/lib/systemd/system/cec-active-source.timer",
+				"/usr/lib/systemd/system/cec-poweroff-tv.service"
+			],
+			"name": "libcec",
+			"provides": [
+				"binary(cec-client)",
+				"binary(cecc-client)",
+				"soname(libcec.so.7(x86_64))"
+			]
+		},
+		"libcec-devel": {
+			"build-depends": [
+				"binary(swig)",
+				"pkgconfig(libudev)",
+				"pkgconfig(p8-platform)",
+				"pkgconfig(python3)",
+				"pkgconfig(udev)",
+				"pkgconfig(x11)",
+				"pkgconfig(xrandr)"
+			],
+			"depends": [
+				"libcec",
+				"pkgconfig(p8-platform)"
+			],
+			"files": [
+				"/usr/include/libcec/cec.h",
+				"/usr/include/libcec/cecc.h",
+				"/usr/include/libcec/ceccloader.h",
+				"/usr/include/libcec/cecloader.h",
+				"/usr/include/libcec/cectypes.h",
+				"/usr/include/libcec/version.h",
+				"/usr/lib/libcec.so",
+				"/usr/lib/pkgconfig/libcec.pc"
+			],
+			"name": "libcec-devel",
+			"provides": [
+				"pkgconfig(libcec)"
+			]
+		},
+		"python-libcec": {
+			"build-depends": [
+				"binary(swig)",
+				"pkgconfig(libudev)",
+				"pkgconfig(p8-platform)",
+				"pkgconfig(python3)",
+				"pkgconfig(udev)",
+				"pkgconfig(x11)",
+				"pkgconfig(xrandr)"
+			],
+			"depends": [
+				"binary(python3)",
+				"soname(libc.so.6(x86_64))",
+				"soname(libcec.so.7(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libp8-platform.so.2(x86_64))",
+				"soname(libpython3.14.so.1.0(x86_64))",
+				"soname(libstdc++.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/bin/pyCecClient",
+				"/usr/lib/python3.14/site-packages/cec/_pycec.so",
+				"/usr/lib/python3.14/site-packages/cec/cec.py"
+			],
+			"name": "python-libcec",
+			"provides": [
+				"binary(pyCecClient)",
+				"soname(python3.14/site-packages/cec/_pycec.so(x86_64))"
+			]
+		}
+	},
+	"source-name": "libcec",
+	"source-release": "1",
+	"source-version": "7.1.1"
+}

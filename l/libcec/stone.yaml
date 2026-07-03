@@ -1,0 +1,58 @@
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : libcec
+version     : "7.1.1"
+release     : 1
+upstreams   :
+    - https://github.com/Pulse-Eight/libcec/archive/libcec-7.1.1.tar.gz : 7f7da95a4c1e7160d42ca37a3ac80cf6f389b317e14816949e0fa5e2edf4cc64
+license     : GPL-2.0-or-later
+homepage    : http://libcec.pulse-eight.com/
+summary     : Pulse-Eight's libcec for the Pulse-Eight USB-CEC adapter
+description : |
+    Pulse-Eight's libcec for the Pulse-Eight USB-CEC adapter
+builddeps   :
+    - binary(swig)
+    - pkgconfig(libudev)
+    - pkgconfig(p8-platform)
+    - pkgconfig(python3)
+    - pkgconfig(udev)
+    - pkgconfig(x11)
+    - pkgconfig(xrandr)
+tuning      :
+    - lto: full
+setup       : |
+    %patch %(pkgdir)/libcec-pythonlib.patch
+
+    %cmake \
+        -DBUILD_SHARED_LIBS=ON \
+        -DHAVE_LINUX_API=ON \
+        -DCMAKE_INSTALL_PREFIX=%(prefix) \
+        -DCMAKE_INSTALL_LIBDIR=%(libdir) \
+        -DCMAKE_INSTALL_LIBDIR_NOARCH=%(libdir)
+build       : |
+    %cmake_build
+install     : |
+    %cmake_install
+
+    # Remove versioned binaries
+    rm -fv %(installroot)%(bindir)/{cec,cecc}-client
+    mv %(installroot)%(bindir)/cec-client-%(version) %(installroot)%(bindir)/cec-client
+    mv %(installroot)%(bindir)/cecc-client-%(version) %(installroot)%(bindir)/cecc-client
+
+    # Systemd automation
+    %install_file systemd/* -t %(installroot)%(libdir)/systemd/system
+
+    # Delete static libs
+    rm -fv %(installroot)%(libdir)/lib*.a
+packages    :
+    - "python-%(name)":
+        summary: "libcec - Python library"
+        description: |
+            libcec - Python library
+        rundeps:
+            # - "%(name)" # Already links to it
+            - binary(python3)
+        paths:
+            - /usr/bin/pyCecClient
+            - /usr/lib/python*
