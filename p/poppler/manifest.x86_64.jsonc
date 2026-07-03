@@ -24,11 +24,11 @@
 			],
 			"depends": [
 				"poppler-data",
-				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libcurl.so.4(x86_64))",
 				"soname(libfontconfig.so.1(x86_64))",
 				"soname(libfreetype.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libgpgmepp.so.7(x86_64))",
 				"soname(libjpeg.so.8(x86_64))",
 				"soname(liblcms2.so.2(x86_64))",
@@ -45,13 +45,13 @@
 				"urw-base35-fonts"
 			],
 			"files": [
-				"/usr/lib/libpoppler.so.161",
-				"/usr/lib/libpoppler.so.161.0.0",
+				"/usr/lib/libpoppler.so.162",
+				"/usr/lib/libpoppler.so.162.0.0",
 				"/usr/share/locale/ca/LC_MESSAGES/pdfsig.mo"
 			],
 			"name": "poppler",
 			"provides": [
-				"soname(libpoppler.so.161(x86_64))"
+				"soname(libpoppler.so.162(x86_64))"
 			]
 		},
 		"poppler-cpp": {
@@ -76,12 +76,13 @@
 			],
 			"depends": [
 				"soname(libc.so.6(x86_64))",
-				"soname(libpoppler.so.161(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libpoppler.so.162(x86_64))",
 				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/lib/libpoppler-cpp.so.3",
-				"/usr/lib/libpoppler-cpp.so.3.0.0"
+				"/usr/lib/libpoppler-cpp.so.3.1.0"
 			],
 			"name": "poppler-cpp",
 			"provides": [
@@ -218,6 +219,7 @@
 				"/usr/include/poppler/Parser.h",
 				"/usr/include/poppler/PopplerCache.h",
 				"/usr/include/poppler/ProfileData.h",
+				"/usr/include/poppler/Ref.h",
 				"/usr/include/poppler/Rendition.h",
 				"/usr/include/poppler/SignatureInfo.h",
 				"/usr/include/poppler/Sound.h",
@@ -298,15 +300,15 @@
 				"poppler-data"
 			],
 			"depends": [
-				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libcairo.so.2(x86_64))",
 				"soname(libfreetype.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libgio-2.0.so.0(x86_64))",
 				"soname(libglib-2.0.so.0(x86_64))",
 				"soname(libgobject-2.0.so.0(x86_64))",
 				"soname(libm.so.6(x86_64))",
-				"soname(libpoppler.so.161(x86_64))",
+				"soname(libpoppler.so.162(x86_64))",
 				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
@@ -398,8 +400,9 @@
 				"soname(libQt6Gui.so.6(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libfreetype.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(liblcms2.so.2(x86_64))",
-				"soname(libpoppler.so.161(x86_64))",
+				"soname(libpoppler.so.162(x86_64))",
 				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
@@ -478,13 +481,13 @@
 			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
-				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libcairo.so.2(x86_64))",
 				"soname(libfreetype.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(liblcms2.so.2(x86_64))",
 				"soname(libm.so.6(x86_64))",
-				"soname(libpoppler.so.161(x86_64))",
+				"soname(libpoppler.so.162(x86_64))",
 				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
@@ -534,6 +537,6 @@
 		}
 	},
 	"source-name": "poppler",
-	"source-release": "23",
-	"source-version": "26.06.0"
+	"source-release": "24",
+	"source-version": "26.07.0"
 }
