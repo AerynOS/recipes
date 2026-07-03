@@ -2,22 +2,20 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : go-task
-version     : "3.51.1"
-release     : 13
+version     : "3.52.0"
+release     : 14
 homepage    : https://taskfile.dev/
 upstreams   :
-    - https://github.com/go-task/task/archive/refs/tags/v3.51.1.tar.gz : ee12bd4bd445df59de17d9b4376f8afb6a623facce34169479af8b0569220034
+    - https://github.com/go-task/task/archive/refs/tags/v3.52.0.tar.gz : 54833f32465c45d222867cc89c6bc138d07c63d2b43f0512e2cdb4b2164ad87e
 summary     : A task runner / simpler Make alternative written in Go
 description : |
     A task runner / simpler Make alternative written in Go
-license     :
-    - MIT
+license     : MIT
 builddeps   :
    - binary(go)
 networking  : true
-environment : |
-    export GO111MODULE=auto
-    export GOFLAGS="-buildmode=pie -trimpath -mod=readonly -modcacherw -ldflags=-linkmode=external"
+setup       : |
+    %go_mod
 build       : |
     go build -v -o bin ./cmd/task
 install     : |
@@ -31,10 +29,9 @@ install     : |
     %install_file completion/zsh/_task %(installroot)/%(zshcompletionsdir)/_task
     %install_file completion/fish/task.fish %(installroot)/%(fishcompletionsdir)/task.fish
 check       : |
-    # Fix wonky tests
-    #export HOME=%(workdir)
-
     # Fix a couple of tests that are broken because we're overriding the version
     sed -i "s|TASK_VERSION=unknown|TASK_VERSION=v%(version)|g" task_test.go
 
-    go test ./...
+    # TODO: Tests broken as of v3.52.0 unless building from git source
+    # see https://github.com/go-task/task/issues/2907
+    go test -skip "TestGitignore|" ./...
