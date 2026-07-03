@@ -3,7 +3,7 @@
 
 name        : libfyaml
 version     : "0.9.6"
-release     : 6
+release     : 7
 upstreams   :
     - https://github.com/pantoniou/libfyaml/releases/download/v0.9.6/libfyaml-0.9.6.tar.gz : a59cc3331e2eb903ec36933ad52a45888041cac31e44f553a00511131242c483
 homepage    : https://github.com/pantoniou/libfyaml
@@ -22,6 +22,7 @@ setup       : |
     %cmake \
         -DENABLE_NETWORK=OFF
 build       : |
+    %patch %(pkgdir)/c11-atomics-fix-for-cxx.patch
     %cmake_build
 install     : |
     %cmake_install
