@@ -2,16 +2,16 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : upower
-version     : "1.90.10"
-release     : 12
+version     : "1.91.3"
+release     : 13
 homepage    : https://upower.freedesktop.org/
 upstreams   :
-    - https://gitlab.freedesktop.org/upower/upower/-/archive/v1.90.10/upower-v1.90.10.tar.gz : 7fcd51bece2526dbee5170feb3ffd1adab5b0cd023575f1fd119d969b73f4b90
+    - https://gitlab.freedesktop.org/upower/upower/-/archive/v1.91.3/upower-v1.91.3.tar.gz : 6cef641ce39f13efc09e12afbb889128d4e9b3596a1faeaaa1b619fdf72403a9
 summary     : UPower is an abstraction for enumerating power devices, listening to device events and querying history and statistics.
 description : |
     UPower is an abstraction for enumerating power devices, listening to device events and querying history and statistics. Any application or service on the system can access the org.freedesktop.UPower service via the system message bus.
 license     :
-    - LGPL-2.0-or-later
+    - GPL-2.0-or-later
 builddeps   :
     - binary(gtkdoc-scan)
     - binary(msgfmt)
