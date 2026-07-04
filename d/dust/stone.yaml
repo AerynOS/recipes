@@ -1,0 +1,33 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : dust
+version     : "1.2.4"
+release     : 1
+homepage    : https://github.com/bootandy/dust
+upstreams   :
+    - https://github.com/bootandy/dust/archive/refs/tags/v1.2.4.tar.gz : 2f6768534bd01727234e67f1dd3754c9547aa18c715f6ee52094e881ebac50e3
+summary     : A more intuitive version of du in rust
+description : |
+    du + rust = dust. Like du but more intuitive.
+license     : Apache-2.0
+networking  : true
+setup       : |
+    %cargo_fetch
+build       : |
+    %cargo_build
+install     : |
+    %cargo_install
+
+    # shell completions
+    %install_file completions/%(name).bash  %(installroot)%(bashcompletionsdir)/%(name)
+    %install_file completions/%(name).fish  %(installroot)%(fishcompletionsdir)/%(name).fish
+    %install_file completions/_%(name)      %(installroot)%(zshcompletionsdir)/_%(name)
+    %install_file completions/%(name).elv   %(installroot)%(elvishcompletionsdir)/%(name).elv
+
+    # manpage
+    %install_file man-page/%(name).1 -t     %(installroot)%(mandir)/man1
+check       : |
+    %cargo_test -- --skip test_permission
+    # skip the tests trying to reach /tmp, not available for cargo
+    # tried to create the folder needed `/tmp/unreadable_dir` but failed anyway
