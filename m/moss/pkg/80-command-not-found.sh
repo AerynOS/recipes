@@ -3,7 +3,7 @@ command_not_found_handle() {
     local FUNCNEST=10
 
     for bin_type in binary sysbinary ; do
-        pkg=`NO_COLOR=1 moss info $bin_type\($cmd\) 2>&1`
+        pkg=`NO_COLOR=1 moss info $bin_type\($cmd\) 2>/dev/null`
         if [[ $? -eq 0 ]]; then
             pkg=$(echo "$pkg" | head -n1 | awk {'print $2'})
             local r
