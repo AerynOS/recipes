@@ -2,21 +2,21 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : vscode-bin
-version     : "1.125.0"
-release     : 26
+version     : "1.127.0"
+release     : 27
 upstreams   :
-    - https://vscode.download.prss.microsoft.com/dbazure/download/stable/93cfdd489c3b228840d0f86ec77c3636277c93ea/code-stable-x64-1781601447.tar.gz:
-        hash: 4d3ba51e90a24f679acb6b5beded6e6f5eb8ae0b6d067077e82738255a317f4f
+    - https://vscode.download.prss.microsoft.com/dbazure/download/stable/4fe60c8b1cdac1c4c174f2fb180d0d758272d713/code-stable-x64-1782814647.tar.gz:
+        hash: e06fb36791c9baf7495d4b7dc0f5aaa8254e7d1a60a5ee43e6c7debc05c962b5
 
-    - https://raw.githubusercontent.com/microsoft/vscode/1.125.0/resources/linux/code.desktop:
+    - https://raw.githubusercontent.com/microsoft/vscode/1.127.0/resources/linux/code.desktop:
         hash: 2f1782b30c4e040efff655fd9cf477930c5a0c81ddae27749b0cbb922c1d248e
         unpack: false
 
-    - https://raw.githubusercontent.com/microsoft/vscode/1.125.0/resources/linux/code-url-handler.desktop:
+    - https://raw.githubusercontent.com/microsoft/vscode/1.127.0/resources/linux/code-url-handler.desktop:
         hash: c361efa7e02fcad759ed80d2fbab67877f33219b981578af6fffaf18aeb12d9b
         unpack: false
 
-    - https://raw.githubusercontent.com/microsoft/vscode/1.125.0/resources/linux/code-workspace.xml:
+    - https://raw.githubusercontent.com/microsoft/vscode/1.127.0/resources/linux/code-workspace.xml:
         hash: 3af748dd6578a1775e8eb7248ba397b7e11840df2ea6ee234ff76fee3dc306cf
         unpack: false
 homepage    : https://code.visualstudio.com/
@@ -25,8 +25,8 @@ summary     : Visual Studio Code (vscode) - Editor for building and debugging mo
 description : |
     Visual Studio Code (vscode) - Editor for building and debugging modern web and cloud applications (official binary version)
 rundeps     :
-    - ca-certificates
     - binary(git)
+    - ca-certificates
  # Causes extension signature validation to fail
 debug       : false
 strip       : false
