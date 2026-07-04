@@ -2,8 +2,8 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : pkgset-aeryn
-version     : "2026.05" # I guess let's just match the OS version for now
-release     : 23
+version     : "2026.07" # I guess let's just match the OS version for now
+release     : 24
 homepage    : https://aerynos.com/
 # No upstreams!
 summary     : pkgset virtual packages
@@ -38,6 +38,8 @@ packages    :
             - shadow
             - systemd
             - systemd-preset-aeryn
+            # TODO: We need some way of gracefully removing this from systems
+            - systemd-resolved
             - tzdata
             - util-linux
             - uutils-coreutils
@@ -113,8 +115,6 @@ packages    :
 
             # Used by many graphical daemons
             - polkit
-
-            - systemd-resolved
 
             # Hardware-accelerated TTYs
             # - kmscon-gl
