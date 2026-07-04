@@ -2,16 +2,17 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : bcachefs-tools
-version     : "1.38.6"
-release     : 14
+version     : "1.38.8"
+release     : 15
 homepage    : https://bcachefs.org
 upstreams   :
-    - https://evilpiepirate.org/bcachefs-tools/bcachefs-tools-vendored-1.38.6.tar.zst : 205af3851de073817a06b835310e7835baade35219b3219c63052c2d617e60b0
+    - https://evilpiepirate.org/bcachefs-tools/bcachefs-tools-vendored-1.38.8.tar.zst : d2befc5191530da099c97198a52753fb94de019282d03d6ff48fe3afebc82c7d
 summary     : BCacheFS filesystem utilities
 description : |
     BCacheFS filesystem utilities
 license     : GPL-2.0-only
 builddeps   :
+    - binary(bindgen)
     - binary(cargo)
     - binary(jq)
     - pkgconfig(blkid)
@@ -25,6 +26,24 @@ builddeps   :
     - pkgconfig(uuid)
     - pkgconfig(zlib)
     - libaio-devel
+tuning      :
+    ### Causes a Clang segfault when enabled. Check this both with a future bcachefs version as well as future Clang versions
+    ## No known upstream bug reports
+    # │B│ 5.  Running pass "jump-threading" on function "check_bucket_to_stripe_ref"
+    # │B│     [CC]     build/fs/fs/check_dir_structure.o
+    # │B│     [CC]     build/fs/fs/check_extents.o
+    # │B│     [CC]     build/fs/fs/check_nlinks.o
+    # │B│     [CC]     build/fs/fs/dirent.o
+    # │B│  #0 0x00007f5331a3caf8 llvm::sys::PrintStackTrace(llvm::raw_ostream&, int) (/usr/lib/libLLVM.so.22.1+0x443caf8)
+    # │B│  #1 0x00007f5331a397c5 llvm::sys::RunSignalHandlers() (/usr/lib/libLLVM.so.22.1+0x44397c5)
+    # │B│  #2 0x00007f5331958cf7 (/usr/lib/libLLVM.so.22.1+0x4358cf7)
+    # │B│  #3 0x00007f532ce43fb0 (/usr/lib/libc.so.6+0x43fb0)
+    # │B│  #4 0x00007f5331b90bf2 llvm::Argument::getRange() const (/usr/lib/libLLVM.so.22.1+0x4590bf2)
+    # │B│  #5 0x00007f53337bc412 llvm::LazyValueInfoImpl::solveBlockValueNonLocal(llvm::Value*, llvm::BasicBlock*) (/usr/lib/libLLVM.so.22.1+0x61bc412)
+    # │B│  #6 0x00007f53337bc006 llvm::LazyValueInfoImpl::solveBlockValueImpl(llvm::Value*, llvm::BasicBlock*) (/usr/lib/libLLVM.so.22.1+0x61bc006)
+    # │B│  #7 0x00007f53337ba971 llvm::LazyValueInfoImpl::solve() (/usr/lib/libLLVM.so.22.1+0x61ba971)
+    # │B│  #8 0x00007f53337c4fbf llvm::LazyValueInfoImpl::getValueOnEdge(llvm::Value*, llvm::BasicBlock*, llvm::BasicBlock*, llvm::Instruction*) (/usr/lib/libLLVM.so.22.1+0x61c4fbf)
+    - thread-exceptions: false
 environment : |
     export MAKE_ARGS="PREFIX=%(prefix) ROOT_SBINDIR=%(sbindir) LIBEXECDIR=%(libdir)/bcachefs-tools"
 setup       : |

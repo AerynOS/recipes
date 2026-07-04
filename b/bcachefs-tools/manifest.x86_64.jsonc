@@ -4,6 +4,7 @@
 	"packages": {
 		"bcachefs-tools": {
 			"build-depends": [
+				"binary(bindgen)",
 				"binary(cargo)",
 				"binary(jq)",
 				"libaio-devel",
@@ -56,6 +57,6 @@
 		}
 	},
 	"source-name": "bcachefs-tools",
-	"source-release": "14",
-	"source-version": "1.38.6"
+	"source-release": "15",
+	"source-version": "1.38.8"
 }
