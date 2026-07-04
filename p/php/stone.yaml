@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : php
-version     : "8.5.7"
-release     : 17
+version     : "8.5.8"
+release     : 18
 homepage    : https://www.php.net/distributions
 upstreams   :
-    - https://www.php.net/distributions/php-8.5.7.tar.xz : 01ba2ed1c2658dacf91bebc8be6a4885f69b811c7993831fc48e26107ab29985
+    - https://www.php.net/distributions/php-8.5.8.tar.xz : 58910198d19e873048fe87cdfe16bc790025417ede3d1651bfa1c4b533d573f2
 summary     : PHP is a popular general-purpose scripting language
 description : |
     PHP is a popular general-purpose scripting language that is especially suited to web development.
@@ -31,13 +31,13 @@ builddeps   :
     - pkgconfig(libsasl2)
     - pkgconfig(libsodium)
     - pkgconfig(libssl)
-    - pkgconfig(tidy)
     - pkgconfig(libwebp)
     - pkgconfig(libxml-2.0)
     - pkgconfig(libzip)
     - pkgconfig(oniguruma)
     - pkgconfig(readline)
     - pkgconfig(sqlite3)
+    - pkgconfig(tidy)
     - pkgconfig(valgrind)
     - pkgconfig(xpm)
     - pkgconfig(zlib)
