@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : thunderbird
-version     : "152.0"
-release     : 45
+version     : "152.0.1"
+release     : 46
 homepage    : https://www.thunderbird.net/
 upstreams   :
-    - https://releases.mozilla.org/pub/thunderbird/releases/152.0/source/thunderbird-152.0.source.tar.xz : fe1e79221bfb911b4dceb3ecb8cd47ffc1025704d9170e691694dcf991507924
+    - https://releases.mozilla.org/pub/thunderbird/releases/152.0.1/source/thunderbird-152.0.1.source.tar.xz : 823b3f02c74aa09f8ce3b706c9c9c87557e3b2b54a69ce03dca916ffabcb80b3
 summary     : Thunderbird Email Client
 description : |
     Thunderbird Email Client
@@ -147,3 +147,6 @@ install     : |
     # Use a wrapper script to configure langpacks
     rm -v %(installroot)/%(bindir)/thunderbird
     install -D -m 00755 %(pkgdir)/install/thunderbird-wrapper.sh %(installroot)/%(bindir)/thunderbird
+tuning      :
+    - lto: false # Controlled by the build
+    - thread-exceptions: false # #  error "STL code can only be used with -fno-exceptions"
