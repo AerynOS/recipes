@@ -2,10 +2,10 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : lact
-version     : "0.9.0"
-release     : 2
+version     : "0.9.1"
+release     : 3
 upstreams   :
-    - https://github.com/ilya-zlobintsev/LACT/archive/refs/tags/v0.9.0.tar.gz : 4a422ef394351704b6506d97e1a8ff262b8cd9af4b81ef1e096bc60c22797bf8
+    - https://github.com/ilya-zlobintsev/LACT/archive/refs/tags/v0.9.1.tar.gz : cb6790ffb99104ffb93502c82e19b9e8d07ec7c1eadf131948694d48eba49789
 homepage    : https://github.com/ilya-zlobintsev/LACT
 license     : MIT
 summary     : Linux GPU Configuration Tool
@@ -19,6 +19,7 @@ builddeps   :
     - pkgconfig(gobject-2.0)
     - pkgconfig(graphene-gobject-1.0)
     - pkgconfig(libadwaita-1)
+    - pkgconfig(libdisplay-info)
     - pkgconfig(libdrm)
 rundeps     :
     - binary(vulkaninfo)

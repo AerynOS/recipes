@@ -10,6 +10,7 @@
 				"pkgconfig(gobject-2.0)",
 				"pkgconfig(graphene-gobject-1.0)",
 				"pkgconfig(libadwaita-1)",
+				"pkgconfig(libdisplay-info)",
 				"pkgconfig(libdrm)"
 			],
 			"depends": [
@@ -20,6 +21,7 @@
 				"soname(libadwaita-1.so.0(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libcairo.so.2(x86_64))",
+				"soname(libdisplay-info.so.3(x86_64))",
 				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libgio-2.0.so.0(x86_64))",
 				"soname(libglib-2.0.so.0(x86_64))",
@@ -46,6 +48,6 @@
 		}
 	},
 	"source-name": "lact",
-	"source-release": "2",
-	"source-version": "0.9.0"
+	"source-release": "3",
+	"source-version": "0.9.1"
 }
