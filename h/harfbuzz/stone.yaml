@@ -3,7 +3,7 @@
 
 name        : harfbuzz
 version     : "14.2.1"
-release     : 35
+release     : 36
 homepage    : https://harfbuzz.github.io/
 upstreams   :
     - https://github.com/harfbuzz/harfbuzz/releases/download/14.2.1/harfbuzz-14.2.1.tar.xz : a54a5d8e9380a41fbb762ce367bcbf7704792dfca0d93f1bbca86c5a57902e0e
@@ -26,6 +26,25 @@ builddeps   :
     - pkgconfig(gobject-introspection-1.0)
     - pkgconfig(graphite2)
     - pkgconfig(icu-uc)
+tuning      :
+    # When thread-exceptions is enabled, the build fails, this is specifically
+    # because of the `-fexceptions` flag being passed to `clang` when linking.
+    #
+    # Specific error:
+    #
+    # ld.lld: error: undefined symbol: __cxa_begin_catch
+    # >>> referenced by hb-aat-layout.cc
+    # >>>               src/libharfbuzz.so.0.61421.0.p/libharfbuzz.so.0.61421.0.lto.hb-aat-layout.cc.o:(__clang_call_terminate)
+    #
+    # ld.lld: error: undefined symbol: std::terminate()
+    # >>> referenced by hb-aat-layout.cc
+    # >>>               src/libharfbuzz.so.0.61421.0.p/libharfbuzz.so.0.61421.0.lto.hb-aat-layout.cc.o:(__clang_call_terminate)
+    #
+    # ld.lld: error: undefined symbol: __gxx_personality_v0
+    # >>> referenced by hb-aat-layout.cc
+    # >>>               src/libharfbuzz.so.0.61421.0.p/libharfbuzz.so.0.61421.0.lto.hb-aat-layout.cc.o:(DW.ref.__gxx_personality_v0)
+    # clang: error: linker command failed with exit code 1 (use -v to see invocation)
+    - thread-exceptions: false
 setup       : |
     %meson \
         -Dgraphite2=enabled \
