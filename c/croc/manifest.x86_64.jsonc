@@ -1,0 +1,29 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"croc": {
+			"build-depends": [
+				"binary(go)"
+			],
+			"depends": [
+				"interpreter(/lib64/ld-linux-x86-64.so.2(x86_64))"
+			],
+			"files": [
+				"/usr/bin/croc",
+				"/usr/lib/systemd/system/croc.service",
+				"/usr/share/bash-completion/completions/croc",
+				"/usr/share/fish/vendor_completions.d/croc.fish",
+				"/usr/share/licenses/croc/LICENSE",
+				"/usr/share/zsh/site-functions/_croc"
+			],
+			"name": "croc",
+			"provides": [
+				"binary(croc)"
+			]
+		}
+	},
+	"source-name": "croc",
+	"source-release": "1",
+	"source-version": "10.4.7"
+}
