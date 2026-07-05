@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : linux-stable
-version     : "7.1.2"
-release     : 40
+version     : "7.1.3"
+release     : 41
 homepage    : https://kernel.org/
 upstreams   :
-        - https://cdn.kernel.org/pub/linux/kernel/v7.x/linux-7.1.2.tar.xz : 37198c93727be247c9fb5309bb86cd5e496c61e5322cd8c4eca9476bb0b5883f
+        - https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/snapshot/linux-7.1.3.tar.gz : ecec8b8f3905f4be0f5c550440924224c0e67423cd1003515b5f1dbf75d2b985
 summary     : The Linux Kernel - Stable
 description : |
     The Linux Kernel - Stable
@@ -60,14 +60,18 @@ builddeps   :
     - linux-firmware-nvidia-graphics
     - rust-devel # Needs Rust source
     - serpent-artwork
-    - systemd # Needs the actual init binary
+    - systemd
+    - systemd-boot # Needs the actual init binary
+    - systemd-udev
 environment : |
     # Maximize ccache efficiency as well as make the build fully reproducible, except for the initrd which needs a timestamp to be signed
     export KBUILD_BUILD_USER=root
     export KBUILD_BUILD_TIMESTAMP=$(date --utc --date=@$SOURCE_DATE_EPOCH +%%F)
 
-    _common_make_args="CC=%(cc) LD=%(ld) ARCH=x86_64 LLVM=1 LLVM_IAS=1 WERROR=0"
+    _common_make_args="CC=%(cc) LD=%(ld) OBJCOPY=%(objcopy) ARCH=x86_64 LLVM=1 LLVM_IAS=1 WERROR=0"
     _common_make_build_args="${_common_make_args} VERBOSE=0 V=0"
+
+    _kernelType=stable
 setup       : |
     if [[ -f %(pkgdir)/patches/series ]]
     then
@@ -81,7 +85,7 @@ setup       : |
         done
     fi
 
-    extraVersion="-%(release).stable"
+    extraVersion="-%(release).${_kernelType}"
     sed -e "s/EXTRAVERSION =.*/EXTRAVERSION = $extraVersion/" -i Makefile
 
     # Make sure the kernel version is consistent with the package version, even if we are using a different source
@@ -115,14 +119,25 @@ build       : |
     %make ${_common_make_build_args} headers
 install     : |
     umask 022
-    kernelVersion="%(version)-%(release).stable"
-    %install_exe arch/x86/boot/bzImage %(installroot)%(libdir)/kernel/$kernelVersion/vmlinuz
+    kernelVersion="%(version)-%(release).${_kernelType}"
+    modulesDir="%(libdir)/modules/$kernelVersion"
+    kernelDir="%(libdir)/kernel/$kernelVersion"
+    headersDir="/usr/src/linux-headers-${kernelVersion}"
+    %install_dir %(installroot)/${kernelDir} %(installroot)/${headersDir} %(installroot)/${modulesDir}
 
-    %install_file .config %(installroot)%(libdir)/kernel/$kernelVersion/config
-    %install_file System.map %(installroot)%(libdir)/kernel/$kernelVersion/System.map
+    # Vmlinux. We place it in the modules directory and then create symlinks so things can find it
+    %install_exe arch/x86/boot/bzImage %(installroot)/${modulesDir}/vmlinux
+    ln -srv %(installroot)/${modulesDir}/vmlinux %(installroot)/${kernelDir}/vmlinuz
+    # Uncompressed vmlinux. Used for extramodule BTF generation
+    %install_exe vmlinux %(installroot)${headersDir}/vmlinux
+
+    # Used for extramodules BTF generation
+    %install_exe tools/bpf/resolve_btfids/resolve_btfids -t %(installroot)${headersDir}/tools/bpf/resolve_btfids/
+
+    %install_file .config %(installroot)/${kernelDir}/config
+    %install_file System.map %(installroot)/${kernelDir}/System.map
 
     # Modules please
-    %install_dir %(installroot)%(libdir)/modules/$kernelVersion
     %make ${_common_make_args} INSTALL_MOD_PATH=%(installroot)/usr modules_install KERNELRELEASE="$kernelVersion" mod-fw= DEPMOD=/usr/bin/true
 
     # Manually construct the debug info from the kernel modules
@@ -203,17 +218,16 @@ install     : |
         --tmpdir /tmp \
         --verbose \
         --zstd \
-        %(installroot)%(libdir)/kernel/$kernelVersion/50-default.initrd
+        %(installroot)/${kernelDir}/50-default.initrd
 
     # Temporary: Help with VMs
-    ln -s $kernelVersion/50-default.initrd %(installroot)%(libdir)/kernel/current.stable.initrd
-    ln -s $kernelVersion/vmlinuz %(installroot)%(libdir)/kernel/current.stable.kernel
-    %install_file %(pkgdir)/boot.json %(installroot)%(libdir)/kernel/$kernelVersion/boot.json
-    sed -e 's/@VERSION@/%(version)-%(release).stable/g' -i %(installroot)%(libdir)/kernel/$kernelVersion/boot.json
+    ln -s $kernelVersion/50-default.initrd %(installroot)%(libdir)/kernel/current.${_kernelType}.initrd
+    ln -s $kernelVersion/vmlinuz %(installroot)%(libdir)/kernel/current.${_kernelType}.kernel
+    %install_file %(pkgdir)/boot.json %(installroot)/${kernelDir}/boot.json
+    sed -e "s|@VERSION@|${kernelVersion}|g" -i %(installroot)/${kernelDir}/boot.json
 
     # Install kernel headers (for modules)
-    headerRoot="/usr/src/linux-headers-%(version)-%(release).stable"
-    dstDir="%(installroot)$headerRoot"
+    dstDir="%(installroot)$headersDir"
     %install_dir $dstDir
 
     # Copy core build files
@@ -247,7 +261,7 @@ install     : |
     rm -vf %(installroot)%(libdir)/modules/$kernelVersion/build || :
     rm -vf %(installroot)%(libdir)/modules/$kernelVersion/source || :
     ln -svf build %(installroot)%(libdir)/modules/$kernelVersion/source
-    ln -svf $headerRoot %(installroot)%(libdir)/modules/$kernelVersion/build
+    ln -svf $headersDir %(installroot)%(libdir)/modules/$kernelVersion/build
 
     # Compress modules with zstd
     find "%(installroot)%(libdir)/modules" -name '*.ko' -print -exec zstd {} \; -exec rm -v {} \;
@@ -266,6 +280,8 @@ install     : |
 
 packages    :
     - "%(name)-devel":
+        rundeps:
+            - binary(pahole)
         paths:
             - /usr/lib/modules/*/build
             - /usr/src/
