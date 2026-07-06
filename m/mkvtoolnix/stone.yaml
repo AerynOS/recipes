@@ -1,0 +1,83 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : mkvtoolnix
+version     : "100.0"
+release     : 1
+homepage    : https://codeberg.org/mbunkus/mkvtoolnix
+upstreams   :
+    - https://codeberg.org/mbunkus/mkvtoolnix/archive/release-100.0.tar.gz : 189a0f92aca523099aa0b532b3850f12d06544882b75ee8c89c33350b42309df
+summary     : MKV Toolkit for Linux
+description : |
+    With these tools one can get information about (mkvinfo) Matroska files, extract tracks/data from (mkvextract) Matroska files and create (mkvmerge) Matroska files from other media files. Matroska is a new multimedia file format aiming to become THE new container format for the future.
+license     : GPL-2.0-or-later
+builddeps   :
+    - binary(make)
+    - binary(rake)
+    - binary(xsltproc)
+    - pkgconfig(Qt6Multimedia)
+    - pkgconfig(Qt6Svg)
+    - pkgconfig(Qt6UiTools)
+    - pkgconfig(dvdread)
+    - pkgconfig(flac)
+    - pkgconfig(fmt)
+    - pkgconfig(gmp)
+    - pkgconfig(gtest)
+    - pkgconfig(libcmark)
+    - pkgconfig(libcurl)
+    - pkgconfig(libebml)
+    - pkgconfig(libmatroska)
+    - pkgconfig(libpcre2-posix)
+    - pkgconfig(ruby)
+    - pkgconfig(vorbis)
+    - boost-devel
+    - docbook
+    - docbook-xsl
+environment : |
+    %export_docbook_catalogs
+setup       : |
+    %autogen --disable-static --disable-update-check --with-words=little
+build       : |
+    rake -j%(jobs) --libdir %(libdir)
+install     : |
+    rake install DESTDIR=%(installroot)
+check       : |
+    rake tests:run_unit
+packages    :
+    - "%(name)-cli":
+        summary: Command-line tools to create, edit and inspect Matroska files
+        description: |
+            Command-line utilities for working with Matroska (MKV) files, including
+            mkvmerge, mkvextract, mkvinfo, and mkvpropedit.
+        paths:
+            - /usr/bin/mkvmerge
+            - /usr/bin/mkvextract
+            - /usr/bin/mkvinfo
+            - /usr/bin/mkvpropedit
+            - /usr/share/bash-completion/
+            - /usr/share/locale/
+            - /usr/share/man/man1/mkvmerge*
+            - /usr/share/man/man1/mkvextract*
+            - /usr/share/man/man1/mkvinfo*
+            - /usr/share/man/man1/mkvpropedit*
+
+    - "%(name)-gui":
+        summary: Graphical editor for Matroska files
+        description: |
+            GUI frontend for MKVToolNix, providing a graphical interface for
+            creating, editing and inspecting Matroska files.
+        rundeps:
+            - "%(name)-cli"
+            - cmark
+            - hicolor-icon-theme
+            - qt6-multimedia
+            - qt6-svg
+            - qt6-wayland
+        paths:
+            - /usr/bin/mkvtoolnix-gui
+            - /usr/share/applications/
+            - /usr/share/icons/
+            - /usr/share/metainfo/
+            - /usr/share/mime/
+            - /usr/share/mkvtoolnix/
+            - /usr/share/man/man1/mkvtoolnix-gui*
