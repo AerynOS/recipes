@@ -3,7 +3,7 @@
 
 name        : qt6-webengine
 version     : "6.11.1"
-release     : 29
+release     : 30
 homepage    : https://www.qt.io
 upstreams   :
     - https://download.qt.io/official_releases/qt/6.11/6.11.1/submodules/qtwebengine-everywhere-src-6.11.1.tar.xz: 679c66ccc6c158fc215e9c58ef160331ecd29974232e345c05161889f8667083
@@ -13,7 +13,7 @@ upstreams   :
 # Don't edit anything between the BEGIN_UPSTREAMS and END_UPSTREAMS tags
 ##@@BEGIN_UPSTREAMS
     - git|https://invent.kde.org/qt/qt/qtwebengine-chromium.git:
-        ref: 803ad8b9d648832ff12691a6ff311ec55e414d5a
+        ref: 99290379f4e2d629c96219b3d6afbd9bc6bcfb65
 ##@@END_UPSTREAMS
 summary     : Qt6 Webengine Module
 description : |
@@ -92,11 +92,10 @@ setup       : |
     # 3rdparty patches
     %patch %(pkgdir)/qtwebengine-link-pipewire.patch -d src/3rdparty
 
-    # enable building with clang-22
-    %patch %(pkgdir)/ftbfs-clang-22.patch
-
-    # enable building with glibc 2.43
-    %patch %(pkgdir)/ftbfs-glibc-2.43.patch
+    # Fixes for building with newer chromium
+    %patch %(pkgdir)/ftbfs-newer-chromium-01.patch
+    %patch %(pkgdir)/ftbfs-newer-chromium-02.patch
+    %patch %(pkgdir)/ftbfs-webrtc.patch -d src/3rdparty/chromium/third_party/webrtc
 
     # Backports
     %patch %(pkgdir)/QTBUG-145344.patch
