@@ -1,0 +1,80 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"libmatroska": {
+			"build-depends": [
+				"pkgconfig(libebml)"
+			],
+			"depends": [
+				"soname(libc.so.6(x86_64))",
+				"soname(libebml.so.5(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libstdc++.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/lib/libmatroska.so.7",
+				"/usr/lib/libmatroska.so.7.0.0"
+			],
+			"name": "libmatroska",
+			"provides": [
+				"soname(libmatroska.so.7(x86_64))"
+			]
+		},
+		"libmatroska-devel": {
+			"build-depends": [
+				"pkgconfig(libebml)"
+			],
+			"depends": [
+				"libmatroska",
+				"pkgconfig(libebml)"
+			],
+			"files": [
+				"/usr/include/matroska/FileKax.h",
+				"/usr/include/matroska/KaxAttached.h",
+				"/usr/include/matroska/KaxAttachments.h",
+				"/usr/include/matroska/KaxBlock.h",
+				"/usr/include/matroska/KaxBlockData.h",
+				"/usr/include/matroska/KaxChapters.h",
+				"/usr/include/matroska/KaxCluster.h",
+				"/usr/include/matroska/KaxClusterData.h",
+				"/usr/include/matroska/KaxConfig.h",
+				"/usr/include/matroska/KaxContentEncoding.h",
+				"/usr/include/matroska/KaxContexts.h",
+				"/usr/include/matroska/KaxCues.h",
+				"/usr/include/matroska/KaxCuesData.h",
+				"/usr/include/matroska/KaxDefines.h",
+				"/usr/include/matroska/KaxInfo.h",
+				"/usr/include/matroska/KaxInfoData.h",
+				"/usr/include/matroska/KaxSeekHead.h",
+				"/usr/include/matroska/KaxSegment.h",
+				"/usr/include/matroska/KaxSemantic.h",
+				"/usr/include/matroska/KaxTag.h",
+				"/usr/include/matroska/KaxTags.h",
+				"/usr/include/matroska/KaxTrackAudio.h",
+				"/usr/include/matroska/KaxTrackEntryData.h",
+				"/usr/include/matroska/KaxTrackVideo.h",
+				"/usr/include/matroska/KaxTracks.h",
+				"/usr/include/matroska/KaxTypes.h",
+				"/usr/include/matroska/KaxVersion.h",
+				"/usr/include/matroska/c/libmatroska.h",
+				"/usr/include/matroska/c/libmatroska_t.h",
+				"/usr/include/matroska/matroska_export.h",
+				"/usr/lib/cmake/Matroska/MatroskaConfig.cmake",
+				"/usr/lib/cmake/Matroska/MatroskaConfigVersion.cmake",
+				"/usr/lib/cmake/Matroska/MatroskaTargets-release.cmake",
+				"/usr/lib/cmake/Matroska/MatroskaTargets.cmake",
+				"/usr/lib/libmatroska.so",
+				"/usr/lib/pkgconfig/libmatroska.pc"
+			],
+			"name": "libmatroska-devel",
+			"provides": [
+				"cmake(Matroska)",
+				"pkgconfig(libmatroska)"
+			]
+		}
+	},
+	"source-name": "libmatroska",
+	"source-release": "1",
+	"source-version": "1.7.1"
+}
