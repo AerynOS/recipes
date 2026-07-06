@@ -34,10 +34,11 @@ enable avahi-daemon.*
 enable cups.socket
 enable cups.path
 
-# Nvidia driver defaults
+# Nvidia driver support services
 enable nvidia-hibernate.service
 enable nvidia-resume.service
 enable nvidia-suspend.service
+enable nvidia-suspend-then-hibernate.service
 
 # Virtualization driver specific daemons. Start by default at boot for VM
 # autostart, but shutdown after 2 mins and socket activated thereafter
