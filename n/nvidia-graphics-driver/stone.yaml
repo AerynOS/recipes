@@ -3,7 +3,7 @@
 
 name        : nvidia-graphics-driver
 version     : "610.43.02"
-release     : 44
+release     : 45
 homepage    : https://www.nvidia.com/
 upstreams   :
     - https://us.download.nvidia.com/XFree86/Linux-x86_64/610.43.02/NVIDIA-Linux-x86_64-610.43.02.run:
@@ -28,6 +28,7 @@ builddeps   :
     - pkgconfig32(libglvnd)
     - pkgconfig32(vulkan)
     - sysbinary(modprobe)
+    - systemd # Needs to detect that we are a systemd distribution or it won't install the systemd units
 install     : |
     sh %(sourcedir)/NVIDIA.run --extract-only --target extracted
     %install_file extracted/firmware/*.bin -t %(installroot)%(libdir)/firmware/nvidia/%(version)
@@ -96,7 +97,9 @@ install     : |
     %install_file %(pkgdir)/80-nvidia-pm.rules %(installroot)%(libdir)/udev/rules.d/80-nvidia.rules
     %install_file extracted/nvidia-drm-outputclass.conf %(installroot)%(datadir)/X11/xorg.conf.d/20-nvidia.conf
 
-    install -m755 extracted/nvidia-modprobe %(installroot)%(bindir)/nvidia-modprobe
+    %install_exe extracted/nvidia-modprobe %(installroot)%(bindir)/nvidia-modprobe
+    # Needs setuid
+    chmod 4755 %(installroot)%(bindir)/nvidia-modprobe
 
     # sort out persistenced
     %install_exe extracted/nvidia-persistenced %(installroot)%(bindir)/nvidia-persistenced
@@ -110,12 +113,6 @@ install     : |
     ln -s nvidia-persistenced.user %(installroot)%(libdir)/userdb/143.user
     %tmpfiles "D /run/nvidia-persistenced 0755 nvidia-persistenced nvidia-persistenced -"
     popd
-
-    # Ensure that systemd services are enabled
-    %install_file %(pkgdir)/*.preset -t %(installroot)/%(libdir)/systemd/system-preset/
-
-    # Various Nvidia modprobe settings (taken from CachyOS)
-    %install_file %(pkgdir)/nvidia.modprobe %(installroot)%(libdir)/modprobe.d/nvidia.conf
 
     # Provided by egl-wayland
     rm -v %(installroot)/usr/lib*/libnvidia-egl-wayland.so* \
@@ -164,6 +161,9 @@ install     : |
     # Lists NVIDIA driver files for container runtimes like nvidia-container-toolkit
     %install_file extracted/sandboxutils-filelist.json -t %(installroot)%(datadir)/nvidia/files.d/
 
+    # For neural network (DLSS etc)
+    %install_file extracted/dlsnetparams.csv -t %(installroot)%(datadir)/nvidia/nvidia-powerd/
+
     # Finally, documentation files for nvidia-settings
     %install_file extracted/nvidia-application-profiles-%(version)-key-documentation %(installroot)%(datadir)/nvidia/nvidia-application-profiles-%(version)-key-documentation
 
@@ -171,8 +171,6 @@ install     : |
     # Taken from https://raw.githubusercontent.com/Frogging-Family/nvidia-all/refs/heads/master/system/limit-vram-usage, check that file for updates
     # TODO: This might not actually work according to profiles.html, open an upstream issue to enable that
     %install_file %(pkgdir)/limit-vram-usage -t %(installroot)%(datadir)/nvidia/nvidia-application-profiles-%(version)-rc.d
-
-    chmod 4755 %(installroot)%(bindir)/nvidia-modprobe
 packages    :
     - "%(name)":
         paths:

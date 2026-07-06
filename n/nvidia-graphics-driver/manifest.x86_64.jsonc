@@ -11,7 +11,8 @@
 				"glibc-32bit",
 				"pkgconfig32(libglvnd)",
 				"pkgconfig32(vulkan)",
-				"sysbinary(modprobe)"
+				"sysbinary(modprobe)",
+				"systemd"
 			],
 			"depends": [
 				"egl-gbm",
@@ -122,11 +123,9 @@
 				"/usr/lib/libnvoptix.so.1",
 				"/usr/lib/libnvoptix.so.610.43.02",
 				"/usr/lib/libvdpau_nvidia.so",
-				"/usr/lib/modprobe.d/nvidia.conf",
 				"/usr/lib/nvidia/wine/_nvngx.dll",
 				"/usr/lib/nvidia/wine/nvngx.dll",
 				"/usr/lib/nvidia/wine/nvngx_dlssg.dll",
-				"/usr/lib/systemd/system-preset/98-nvidia.preset",
 				"/usr/lib/systemd/system-sleep/nvidia",
 				"/usr/lib/systemd/system/nvidia-hibernate.service",
 				"/usr/lib/systemd/system/nvidia-persistenced.service",
@@ -164,6 +163,7 @@
 				"/usr/share/nvidia/nvidia-application-profiles-610.43.02-key-documentation",
 				"/usr/share/nvidia/nvidia-application-profiles-610.43.02-rc",
 				"/usr/share/nvidia/nvidia-application-profiles-610.43.02-rc.d/limit-vram-usage",
+				"/usr/share/nvidia/nvidia-powerd/dlsnetparams.csv",
 				"/usr/share/nvidia/nvoptix.bin",
 				"/usr/share/vulkan/icd.d/nvidia_icd.json",
 				"/usr/share/vulkan/implicit_layer.d/nvidia_layers.json",
@@ -230,7 +230,8 @@
 				"glibc-32bit",
 				"pkgconfig32(libglvnd)",
 				"pkgconfig32(vulkan)",
-				"sysbinary(modprobe)"
+				"sysbinary(modprobe)",
+				"systemd"
 			],
 			"depends": [
 				"egl-gbm-32bit",
@@ -329,7 +330,8 @@
 				"glibc-32bit",
 				"pkgconfig32(libglvnd)",
 				"pkgconfig32(vulkan)",
-				"sysbinary(modprobe)"
+				"sysbinary(modprobe)",
+				"systemd"
 			],
 			"files": [
 				"/usr/lib/firmware/nvidia/610.43.02/gsp_ga10x.bin.zst",
@@ -342,6 +344,6 @@
 		}
 	},
 	"source-name": "nvidia-graphics-driver",
-	"source-release": "44",
+	"source-release": "45",
 	"source-version": "610.43.02"
 }
