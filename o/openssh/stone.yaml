@@ -3,7 +3,7 @@
 
 name        : openssh
 version     : "10.4p1"
-release     : 21
+release     : 22
 summary     : OpenSSH (OpenBSD Secure Shell)
 license     :
     - BSD-2-Clause
@@ -29,13 +29,8 @@ builddeps   :
 setup       : |
     %patch %(pkgdir)/stateless/0001-Make-SSH-stateless.patch
     %patch %(pkgdir)/stateless/0002-Stateless-moduli.patch
-    %patch %(pkgdir)/security/0003-Increase-ECDSA-default-length-to-521.patch
-    %patch %(pkgdir)/stateless/0004-Default-default-secure-ciphers.patch
-    %patch %(pkgdir)/stateless/0005-Always-use-PAM-by-default.patch
-    %patch %(pkgdir)/stateless/0006-Set-default-server-keep-alive.patch
-    %patch %(pkgdir)/stateless/0007-Make-OpenSSH-print-a-MOTD-file-in-usr-share-defaults.patch
-    %patch %(pkgdir)/stateless/0008-Update-sshd_config-to-reflect-UsePAM-yes-default.patch
     %patch %(pkgdir)/stateless/0001-stateless-config.patch
+    %patch %(pkgdir)/stateless/0001-Use-config-drop-ins.patch
 
     # --disable-strip is specified because we want the build toolchain to do it instead
     %reconfigure \
@@ -72,17 +67,33 @@ install     : |
     rmdir %(installroot)/var/empty
     rmdir %(installroot)/var/
 
+    # Default sshd config
+    %install_file %(pkgdir)/sshd_config_aerynos.conf -t %(installroot)/%(vendordir)/ssh/sshd_config.d/
+
+    # Default ssh config
+    %install_file %(pkgdir)/ssh_config_aerynos.conf -t %(installroot)/%(vendordir)/ssh/ssh_config.d/
+
+    # User READMEs
+    %install_file %(pkgdir)/README* -t %(installroot)/%(datadir)/openssh
+
     # sysusers configuration
     %sysusers '# SSHD privilege separation user'
     %sysusers 'g sshd 50 -'
     %sysusers 'u sshd 50 "SSH Daemon" /var/empty'
     mv %(installroot)/%(sysusersdir)/openssh.conf %(installroot)/%(sysusersdir)/openssh-server.conf
 
-    # tmpfiles configuration
+    # tmpfiles configuration (SSHD)
     %tmpfiles "# Create SSH directories directory"
     %tmpfiles "d /etc/ssh - - - -"
+    %tmpfiles "d /etc/ssh/sshd_config.d - - - -"
     %tmpfiles "D /var/empty - - - -"
+    %tmpfiles "L+ /etc/ssh/README.sshd - - - - ../..%(datadir)/%(name)/README.sshd"
     mv %(installroot)/%(tmpfilesdir)/openssh.conf %(installroot)/%(tmpfilesdir)/openssh-server.conf
+
+    # tmpfiles configuration (SSHD)
+    %tmpfiles "d /etc/ssh - - - -"
+    %tmpfiles "d /etc/ssh/ssh_config.d - - - -"
+    %tmpfiles "L+ /etc/ssh/README.ssh - - - - ../..%(datadir)/%(name)/README.ssh"
 
     # preset for packaging operation override of systemd presets that disable sshd
     %install_file %(pkgdir)/90-openssh-server-vendor-enable.preset -t %(installroot)%(libdir)/systemd/system-preset/
@@ -101,9 +112,12 @@ packages    :
             - /usr/share/defaults/pam.d/
             - /usr/share/defaults/ssh/moduli
             - /usr/share/defaults/ssh/sshd_config
+            - /usr/share/defaults/ssh/sshd_config.d/
             - /usr/share/man/*/moduli*
             - /usr/share/man/*/sshd*
             - /usr/share/man/*/sftp-*
+            - /usr/share/openssh/README.sshd
+
     - "%(name)-server-systemd-preset-vendor-enable":
         summary: OpenSSH - Server daemon vendor-enabled systemd preset
         description: |

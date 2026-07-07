@@ -38,7 +38,9 @@
 				"/usr/lib/openssh/ssh-sk-helper",
 				"/usr/lib/systemd/user/ssh-agent.service",
 				"/usr/lib/systemd/user/ssh-agent.socket",
+				"/usr/lib/tmpfiles.d/openssh.conf",
 				"/usr/share/defaults/ssh/ssh_config",
+				"/usr/share/defaults/ssh/ssh_config.d/ssh_config_aerynos.conf",
 				"/usr/share/man/man1/scp.1",
 				"/usr/share/man/man1/sftp.1",
 				"/usr/share/man/man1/ssh-add.1",
@@ -49,7 +51,8 @@
 				"/usr/share/man/man5/ssh_config.5",
 				"/usr/share/man/man8/ssh-keysign.8",
 				"/usr/share/man/man8/ssh-pkcs11-helper.8",
-				"/usr/share/man/man8/ssh-sk-helper.8"
+				"/usr/share/man/man8/ssh-sk-helper.8",
+				"/usr/share/openssh/README.ssh"
 			],
 			"name": "openssh",
 			"provides": [
@@ -97,10 +100,12 @@
 				"/usr/share/defaults/pam.d/sshd",
 				"/usr/share/defaults/ssh/moduli",
 				"/usr/share/defaults/ssh/sshd_config",
+				"/usr/share/defaults/ssh/sshd_config.d/sshd_config_aerynos.conf",
 				"/usr/share/man/man5/moduli.5",
 				"/usr/share/man/man5/sshd_config.5",
 				"/usr/share/man/man8/sftp-server.8",
-				"/usr/share/man/man8/sshd.8"
+				"/usr/share/man/man8/sshd.8",
+				"/usr/share/openssh/README.sshd"
 			],
 			"name": "openssh-server",
 			"provides": [
@@ -127,6 +132,6 @@
 		}
 	},
 	"source-name": "openssh",
-	"source-release": "21",
+	"source-release": "22",
 	"source-version": "10.4p1"
 }
