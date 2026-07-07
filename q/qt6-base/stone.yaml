@@ -3,7 +3,7 @@
 
 name        : qt6-base
 version     : "6.11.1"
-release     : 28
+release     : 29
 homepage    : https://www.qt.io
 upstreams   :
     - https://download.qt.io/official_releases/qt/6.11/6.11.1/submodules/qtbase-everywhere-src-6.11.1.tar.xz : d9594a31228aa23ad6b531719a29b45f0f3989fe6c136d45767ea179f233c1ac
@@ -219,6 +219,7 @@ packages    :
         rundeps:
             - "%(name)-gui"
             - "%(name)-mysql"
+            - "%(name)-postgres"
             - cmake(VulkanHeaders)
             - pkgconfig(gl)
             - pkgconfig(libzstd)
