@@ -2,16 +2,16 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : nvidia-graphics-driver
-version     : "610.43.02"
-release     : 45
+version     : "610.43.03"
+release     : 46
 homepage    : https://www.nvidia.com/
 upstreams   :
-    - https://us.download.nvidia.com/XFree86/Linux-x86_64/610.43.02/NVIDIA-Linux-x86_64-610.43.02.run:
-        hash: 3034a054bb4cdf7752ff8dc272564cb105513804bff53538945901b16ca77463
+    - https://us.download.nvidia.com/XFree86/Linux-x86_64/610.43.03/NVIDIA-Linux-x86_64-610.43.03.run:
+        hash: 45e2d4c134a23c35e50f253a4aa63e7e5e8d17e3d185d4a07c8a58e9612ed392
         unpack: false
         rename: NVIDIA.run
-    - https://download.nvidia.com/XFree86/nvidia-persistenced/nvidia-persistenced-610.43.02.tar.bz2:
-        hash: 74e6df73fb2e92c2d9af40ac535187b43252d847873bdddea2990dd812c69258
+    - https://download.nvidia.com/XFree86/nvidia-persistenced/nvidia-persistenced-610.43.03.tar.bz2:
+        hash: a60534b9adcb26f833f22ff21bdf99905475ca7d8298f43c8929ac3aceaae61f
         rename: nvidia-persistenced.tar.bz2
         extract: false
 summary     : The proprietary NVIDIA graphics driver
@@ -23,12 +23,12 @@ builddeps   :
     - glibc-32bit
     - binary(bzip2)
     - binary(cpio)
+    - binary(systemctl) # Needs to detect that we are a systemd distribution or it won't install the systemd units
     - binary(tar)
     - binary(zstd)
     - pkgconfig32(libglvnd)
     - pkgconfig32(vulkan)
     - sysbinary(modprobe)
-    - systemd # Needs to detect that we are a systemd distribution or it won't install the systemd units
 install     : |
     sh %(sourcedir)/NVIDIA.run --extract-only --target extracted
     %install_file extracted/firmware/*.bin -t %(installroot)%(libdir)/firmware/nvidia/%(version)
@@ -41,17 +41,20 @@ install     : |
         --wine-prefix=%(installroot)%(prefix) \
         --log-file-name=%(workdir)/nvidia-installer.log \
         --ui=none \
-        --no-kernel-modules \
-        --no-x-check \
-        --no-nouveau-check \
-        --no-disable-nouveau \
-        --no-sigwinch-workaround \
-        --no-distro-scripts \
         --no-check-for-alternate-installs \
-        --skip-depmod \
+        --no-disable-nouveau \
+        --no-distro-scripts \
+        --no-install-libglvnd \
+        --no-libglx-indirect \
+        --no-kernel-modules \
+        --no-nouveau-check \
         --no-rebuild-initramfs \
+        --no-sigwinch-workaround \
+        --no-x-check \
+        --skip-depmod \
         --glvnd-egl-config-path=%(installroot)%(datadir)/glvnd/egl_vendor.d \
         --egl-external-platform-config-path=%(installroot)%(datadir)/egl/egl_external_platform.d \
+        --systemd \
         --systemd-unit-prefix=%(installroot)%(libdir)/systemd/system \
         --systemd-sleep-prefix=%(installroot)%(libdir)/systemd/system-sleep \
         --compat32-libdir=/usr/lib32 \
@@ -84,8 +87,6 @@ install     : |
     # unused
     rm -v %(installroot)%(libdir)/libnvidia-gtk2.so*
     rm -v %(installroot)%(libdir)/libnvidia-pkcs11.so*
-    rm -v %(installroot)%(libdir)/libGLX_indirect.so.0
-    rm -v %(installroot)/usr/lib32/libGLX_indirect.so.0
     %install_file extracted/nvidia_icd.json %(installroot)%(datadir)/vulkan/icd.d/nvidia_icd.json
     %install_file extracted/nvidia_icd_vksc.json %(installroot)%(datadir)/vulkansc/icd.d/nvidia_icd.json
     %install_file extracted/nvidia_layers.json %(installroot)%(datadir)/vulkan/implicit_layer.d/nvidia_layers.json
