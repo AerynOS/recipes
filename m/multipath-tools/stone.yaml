@@ -3,7 +3,7 @@
 
 name        : multipath-tools
 version     : "0.14.3"
-release     : 1
+release     : 2
 upstreams   :
     - https://github.com/opensvc/multipath-tools/archive/refs/tags/0.14.3.tar.gz : 206ab1635b09309974e2fdf3bbd1825254638dc9b3d2bbd436d1105cd518d379
 homepage    : https://github.com/opensvc/multipath-tools
@@ -66,5 +66,6 @@ packages    :
         paths:
             - /usr/include/libdmmp
             - /usr/lib/libdmmp.so
+            - /usr/lib/pkgconfig/libdmmp.pc
             - /usr/share/man/man3/dmmp*
             - /usr/share/man/man3/libdmmp.h.3*

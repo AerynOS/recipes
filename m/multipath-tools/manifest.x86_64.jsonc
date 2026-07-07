@@ -64,6 +64,7 @@
 			"files": [
 				"/usr/include/libdmmp/libdmmp.h",
 				"/usr/lib/libdmmp.so",
+				"/usr/lib/pkgconfig/libdmmp.pc",
 				"/usr/share/man/man3/dmmp_context_free.3",
 				"/usr/share/man/man3/dmmp_context_log_func_set.3",
 				"/usr/share/man/man3/dmmp_context_log_priority_get.3",
@@ -95,7 +96,10 @@
 				"/usr/share/man/man3/dmmp_strerror.3",
 				"/usr/share/man/man3/libdmmp.h.3"
 			],
-			"name": "libdmmp-devel"
+			"name": "libdmmp-devel",
+			"provides": [
+				"pkgconfig(libdmmp)"
+			]
 		},
 		"multipath-tools": {
 			"build-depends": [
@@ -164,14 +168,10 @@
 				"/usr/lib/libmpathutil.so",
 				"/usr/lib/libmpathvalid.so",
 				"/usr/lib/libmultipath.so",
-				"/usr/lib/pkgconfig/libdmmp.pc",
 				"/usr/share/man/man3/mpath_persistent_reserve_in.3",
 				"/usr/share/man/man3/mpath_persistent_reserve_out.3"
 			],
-			"name": "multipath-tools-devel",
-			"provides": [
-				"pkgconfig(libdmmp)"
-			]
+			"name": "multipath-tools-devel"
 		},
 		"multipath-tools-libs": {
 			"build-depends": [
@@ -253,6 +253,6 @@
 		}
 	},
 	"source-name": "multipath-tools",
-	"source-release": "1",
+	"source-release": "2",
 	"source-version": "0.14.3"
 }
