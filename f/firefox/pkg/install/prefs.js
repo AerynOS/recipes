@@ -14,7 +14,7 @@ pref("browser.newtabpage.pinned",           '[{"url":"https://aerynos.com/blog/"
 // Default browser check
 pref("browser.shell.checkDefaultBrowser",   false);
 // Set default homepage
-pref("browser.startup.homepage",            "data:text/plain,browser.startup.homepage=https://aerynos.com/blog/");
+pref("browser.startup.homepage",            "https://aerynos.com/blog/");
 // Needed for loading langpacks
 pref("extensions.autoDisableScopes",        0);
 // Do not recommend extensions
