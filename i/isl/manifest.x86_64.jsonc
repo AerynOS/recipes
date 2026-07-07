@@ -12,8 +12,8 @@
 			],
 			"files": [
 				"/usr/lib/libisl.so.23",
-				"/usr/lib/libisl.so.23.4.0",
-				"/usr/share/gdb/auto-load/usr/lib/libisl.so.23.4.0-gdb.py"
+				"/usr/lib/libisl.so.23.5.0",
+				"/usr/share/gdb/auto-load/usr/lib/libisl.so.23.5.0-gdb.py"
 			],
 			"name": "isl",
 			"provides": [
@@ -40,9 +40,14 @@
 				"/usr/include/isl/fixed_box.h",
 				"/usr/include/isl/flow.h",
 				"/usr/include/isl/hash.h",
+				"/usr/include/isl/hbase.h",
+				"/usr/include/isl/hbase_templ.c",
 				"/usr/include/isl/hmap.h",
 				"/usr/include/isl/hmap_templ.c",
+				"/usr/include/isl/hset.h",
+				"/usr/include/isl/hset_templ.c",
 				"/usr/include/isl/id.h",
+				"/usr/include/isl/id_set.h",
 				"/usr/include/isl/id_to_ast_expr.h",
 				"/usr/include/isl/id_to_id.h",
 				"/usr/include/isl/id_to_pw_aff.h",
@@ -91,7 +96,8 @@
 				"/usr/include/isl/version.h",
 				"/usr/include/isl/vertices.h",
 				"/usr/lib/libisl.so",
-				"/usr/lib/pkgconfig/isl.pc"
+				"/usr/lib/pkgconfig/isl.pc",
+				"/usr/share/aclocal/isl_detect_clang.m4"
 			],
 			"name": "isl-devel",
 			"provides": [
@@ -100,6 +106,6 @@
 		}
 	},
 	"source-name": "isl",
-	"source-release": "2",
-	"source-version": "0.27"
+	"source-release": "3",
+	"source-version": "0.28"
 }
