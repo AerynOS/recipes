@@ -1,0 +1,258 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"kpartx": {
+			"build-depends": [
+				"libaio-devel",
+				"pkgconfig(devmapper)",
+				"pkgconfig(json-c)",
+				"pkgconfig(liburcu)",
+				"pkgconfig(mount)"
+			],
+			"depends": [
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libdevmapper.so.1.02(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))"
+			],
+			"files": [
+				"/usr/lib/udev/kpartx_id",
+				"/usr/lib/udev/rules.d/11-dm-parts.rules",
+				"/usr/lib/udev/rules.d/66-kpartx.rules",
+				"/usr/lib/udev/rules.d/68-del-part-nodes.rules",
+				"/usr/sbin/kpartx",
+				"/usr/share/man/man8/kpartx.8"
+			],
+			"name": "kpartx",
+			"provides": [
+				"sysbinary(kpartx)"
+			]
+		},
+		"libdmmp": {
+			"build-depends": [
+				"libaio-devel",
+				"pkgconfig(devmapper)",
+				"pkgconfig(json-c)",
+				"pkgconfig(liburcu)",
+				"pkgconfig(mount)"
+			],
+			"depends": [
+				"soname(libc.so.6(x86_64))",
+				"soname(libjson-c.so.5(x86_64))",
+				"soname(libmpathcmd.so.0(x86_64))"
+			],
+			"files": [
+				"/usr/lib/libdmmp.so.0.2.0"
+			],
+			"name": "libdmmp",
+			"provides": [
+				"soname(libdmmp.so.0.2.0(x86_64))"
+			]
+		},
+		"libdmmp-devel": {
+			"build-depends": [
+				"libaio-devel",
+				"pkgconfig(devmapper)",
+				"pkgconfig(json-c)",
+				"pkgconfig(liburcu)",
+				"pkgconfig(mount)"
+			],
+			"depends": [
+				"libdmmp"
+			],
+			"files": [
+				"/usr/include/libdmmp/libdmmp.h",
+				"/usr/lib/libdmmp.so",
+				"/usr/share/man/man3/dmmp_context_free.3",
+				"/usr/share/man/man3/dmmp_context_log_func_set.3",
+				"/usr/share/man/man3/dmmp_context_log_priority_get.3",
+				"/usr/share/man/man3/dmmp_context_log_priority_set.3",
+				"/usr/share/man/man3/dmmp_context_new.3",
+				"/usr/share/man/man3/dmmp_context_timeout_get.3",
+				"/usr/share/man/man3/dmmp_context_timeout_set.3",
+				"/usr/share/man/man3/dmmp_context_userdata_get.3",
+				"/usr/share/man/man3/dmmp_context_userdata_set.3",
+				"/usr/share/man/man3/dmmp_flush_mpath.3",
+				"/usr/share/man/man3/dmmp_last_error_msg.3",
+				"/usr/share/man/man3/dmmp_log_priority_str.3",
+				"/usr/share/man/man3/dmmp_mpath_array_free.3",
+				"/usr/share/man/man3/dmmp_mpath_array_get.3",
+				"/usr/share/man/man3/dmmp_mpath_kdev_name_get.3",
+				"/usr/share/man/man3/dmmp_mpath_name_get.3",
+				"/usr/share/man/man3/dmmp_mpath_wwid_get.3",
+				"/usr/share/man/man3/dmmp_path_array_get.3",
+				"/usr/share/man/man3/dmmp_path_blk_name_get.3",
+				"/usr/share/man/man3/dmmp_path_group_array_get.3",
+				"/usr/share/man/man3/dmmp_path_group_id_get.3",
+				"/usr/share/man/man3/dmmp_path_group_priority_get.3",
+				"/usr/share/man/man3/dmmp_path_group_selector_get.3",
+				"/usr/share/man/man3/dmmp_path_group_status_get.3",
+				"/usr/share/man/man3/dmmp_path_group_status_str.3",
+				"/usr/share/man/man3/dmmp_path_status_get.3",
+				"/usr/share/man/man3/dmmp_path_status_str.3",
+				"/usr/share/man/man3/dmmp_reconfig.3",
+				"/usr/share/man/man3/dmmp_strerror.3",
+				"/usr/share/man/man3/libdmmp.h.3"
+			],
+			"name": "libdmmp-devel"
+		},
+		"multipath-tools": {
+			"build-depends": [
+				"libaio-devel",
+				"pkgconfig(devmapper)",
+				"pkgconfig(json-c)",
+				"pkgconfig(liburcu)",
+				"pkgconfig(mount)"
+			],
+			"depends": [
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libdevmapper.so.1.02(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libmpathcmd.so.0(x86_64))",
+				"soname(libmpathpersist.so.0(x86_64))",
+				"soname(libmpathutil.so.0(x86_64))",
+				"soname(libmultipath.so.0(x86_64))",
+				"soname(libsystemd.so.0(x86_64))",
+				"soname(libudev.so.1(x86_64))",
+				"soname(liburcu.so.8(x86_64))"
+			],
+			"files": [
+				"/usr/lib/systemd/system/multipathd-queueing.service",
+				"/usr/lib/systemd/system/multipathd.service",
+				"/usr/lib/systemd/system/multipathd.socket",
+				"/usr/lib/tmpfiles.d/multipath.conf",
+				"/usr/lib/udev/rules.d/11-dm-mpath.rules",
+				"/usr/lib/udev/rules.d/56-multipath.rules",
+				"/usr/lib/udev/rules.d/99-z-dm-mpath-late.rules",
+				"/usr/sbin/mpathpersist",
+				"/usr/sbin/multipath",
+				"/usr/sbin/multipathc",
+				"/usr/sbin/multipathd",
+				"/usr/share/man/man5/multipath.conf.5",
+				"/usr/share/man/man8/mpathpersist.8",
+				"/usr/share/man/man8/multipath.8",
+				"/usr/share/man/man8/multipathc.8",
+				"/usr/share/man/man8/multipathd.8"
+			],
+			"name": "multipath-tools",
+			"provides": [
+				"sysbinary(mpathpersist)",
+				"sysbinary(multipath)",
+				"sysbinary(multipathc)",
+				"sysbinary(multipathd)"
+			]
+		},
+		"multipath-tools-devel": {
+			"build-depends": [
+				"libaio-devel",
+				"pkgconfig(devmapper)",
+				"pkgconfig(json-c)",
+				"pkgconfig(liburcu)",
+				"pkgconfig(mount)"
+			],
+			"depends": [
+				"multipath-tools"
+			],
+			"files": [
+				"/usr/include/mpath_cmd.h",
+				"/usr/include/mpath_persist.h",
+				"/usr/include/mpath_valid.h",
+				"/usr/lib/libmpathcmd.so",
+				"/usr/lib/libmpathpersist.so",
+				"/usr/lib/libmpathutil.so",
+				"/usr/lib/libmpathvalid.so",
+				"/usr/lib/libmultipath.so",
+				"/usr/lib/pkgconfig/libdmmp.pc",
+				"/usr/share/man/man3/mpath_persistent_reserve_in.3",
+				"/usr/share/man/man3/mpath_persistent_reserve_out.3"
+			],
+			"name": "multipath-tools-devel",
+			"provides": [
+				"pkgconfig(libdmmp)"
+			]
+		},
+		"multipath-tools-libs": {
+			"build-depends": [
+				"libaio-devel",
+				"pkgconfig(devmapper)",
+				"pkgconfig(json-c)",
+				"pkgconfig(liburcu)",
+				"pkgconfig(mount)"
+			],
+			"depends": [
+				"soname(libaio.so.1(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libdevmapper.so.1.02(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libm.so.6(x86_64))",
+				"soname(libmount.so.1(x86_64))",
+				"soname(libudev.so.1(x86_64))",
+				"soname(liburcu.so.8(x86_64))"
+			],
+			"files": [
+				"/usr/lib/libmpathcmd.so.0",
+				"/usr/lib/libmpathpersist.so.0",
+				"/usr/lib/libmpathutil.so.0",
+				"/usr/lib/libmpathvalid.so.0",
+				"/usr/lib/libmultipath.so.0",
+				"/usr/lib/multipath/libcheckcciss_tur.so",
+				"/usr/lib/multipath/libcheckdirectio.so",
+				"/usr/lib/multipath/libcheckemc_clariion.so",
+				"/usr/lib/multipath/libcheckhp_sw.so",
+				"/usr/lib/multipath/libcheckrdac.so",
+				"/usr/lib/multipath/libcheckreadsector0.so",
+				"/usr/lib/multipath/libchecktur.so",
+				"/usr/lib/multipath/libforeign-nvme.so",
+				"/usr/lib/multipath/libprioalua.so",
+				"/usr/lib/multipath/libprioana.so",
+				"/usr/lib/multipath/libprioconst.so",
+				"/usr/lib/multipath/libpriodatacore.so",
+				"/usr/lib/multipath/libprioemc.so",
+				"/usr/lib/multipath/libpriohds.so",
+				"/usr/lib/multipath/libpriohp_sw.so",
+				"/usr/lib/multipath/libprioiet.so",
+				"/usr/lib/multipath/libprioontap.so",
+				"/usr/lib/multipath/libpriopath_latency.so",
+				"/usr/lib/multipath/libpriorandom.so",
+				"/usr/lib/multipath/libpriordac.so",
+				"/usr/lib/multipath/libpriosysfs.so",
+				"/usr/lib/multipath/libprioweightedpath.so"
+			],
+			"name": "multipath-tools-libs",
+			"provides": [
+				"soname(libmpathcmd.so.0(x86_64))",
+				"soname(libmpathpersist.so.0(x86_64))",
+				"soname(libmpathutil.so.0(x86_64))",
+				"soname(libmpathvalid.so.0(x86_64))",
+				"soname(libmultipath.so.0(x86_64))",
+				"soname(multipath/libcheckcciss_tur.so(x86_64))",
+				"soname(multipath/libcheckdirectio.so(x86_64))",
+				"soname(multipath/libcheckemc_clariion.so(x86_64))",
+				"soname(multipath/libcheckhp_sw.so(x86_64))",
+				"soname(multipath/libcheckrdac.so(x86_64))",
+				"soname(multipath/libcheckreadsector0.so(x86_64))",
+				"soname(multipath/libchecktur.so(x86_64))",
+				"soname(multipath/libforeign-nvme.so(x86_64))",
+				"soname(multipath/libprioalua.so(x86_64))",
+				"soname(multipath/libprioana.so(x86_64))",
+				"soname(multipath/libprioconst.so(x86_64))",
+				"soname(multipath/libpriodatacore.so(x86_64))",
+				"soname(multipath/libprioemc.so(x86_64))",
+				"soname(multipath/libpriohds.so(x86_64))",
+				"soname(multipath/libpriohp_sw.so(x86_64))",
+				"soname(multipath/libprioiet.so(x86_64))",
+				"soname(multipath/libprioontap.so(x86_64))",
+				"soname(multipath/libpriopath_latency.so(x86_64))",
+				"soname(multipath/libpriorandom.so(x86_64))",
+				"soname(multipath/libpriordac.so(x86_64))",
+				"soname(multipath/libpriosysfs.so(x86_64))",
+				"soname(multipath/libprioweightedpath.so(x86_64))"
+			]
+		}
+	},
+	"source-name": "multipath-tools",
+	"source-release": "1",
+	"source-version": "0.14.3"
+}
