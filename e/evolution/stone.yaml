@@ -67,3 +67,31 @@ build       : |
     %cmake_build
 install     : |
     %cmake_install
+packages    :
+    - "%(name)-help":
+        summary: Help files for %(name)
+        description: This package contains user documentation for %(name)
+        rundeps:
+            - "%(name)"
+        paths:
+            - /usr/share/help/
+
+    - "%(name)-bogofilter":
+        summary: Bogofilter plugin for Evolution
+        description: Bogofilter plugin for Evolution
+        rundeps:
+            - "%(name)"
+        paths:
+            - /usr/lib/evolution/modules/module-bogofilter.so
+            - /usr/share/glib-2.0/schemas/org.gnome.evolution.bogofilter.gschema.xml
+            - /usr/share/metainfo/org.gnome.Evolution-bogofilter.metainfo.xml
+
+    - "%(name)-spamassassin":
+        summary: SpamAssassin plugin for Evolution
+        description: SpamAssassin plugin for Evolution
+        rundeps:
+            - "%(name)"
+        paths:
+            - /usr/lib/evolution/modules/module-spamassassin.so
+            - /usr/share/glib-2.0/schemas/org.gnome.evolution.spamassassin.gschema.xml
+            - /usr/share/metainfo/org.gnome.Evolution-spamassassin.metainfo.xml
