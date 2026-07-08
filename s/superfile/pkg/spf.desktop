@@ -1,0 +1,16 @@
+# Upstream ships asset/spf.desktop; vendored here with:
+# - Icon=spf (upstream uses utilities-terminal) for website/public/logo.svg
+# - Utility dropped from Categories (upstream had both System and Utility); use System like yazi
+
+[Desktop Entry]
+Name=spf
+GenericName=superfile
+Comment=fancy and modern terminal file manager
+Type=Application
+MimeType=inode/directory
+Icon=spf
+Terminal=true
+TryExec=spf
+Exec=spf %u
+Categories=System;FileManager;FileTools;ConsoleOnly
+Keywords=File;Manager;Explorer

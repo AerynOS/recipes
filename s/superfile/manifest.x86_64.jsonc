@@ -6,8 +6,15 @@
 			"build-depends": [
 				"binary(go)"
 			],
+			"depends": [
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(libc.so.6(x86_64))"
+			],
 			"files": [
-				"/usr/bin/spf"
+				"/usr/bin/spf",
+				"/usr/share/applications/spf.desktop",
+				"/usr/share/icons/hicolor/scalable/apps/spf.svg",
+				"/usr/share/metainfo/io.github.yorukot.superfile.metainfo.xml"
 			],
 			"name": "superfile",
 			"provides": [
@@ -16,6 +23,6 @@
 		}
 	},
 	"source-name": "superfile",
-	"source-release": "1",
-	"source-version": "1.5.0"
+	"source-release": "2",
+	"source-version": "1.6.0"
 }
