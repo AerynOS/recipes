@@ -2,20 +2,25 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : superfile
-version     : "1.5.0"
-release     : 1
+version     : "1.6.0"
+release     : 2
 homepage    : https://github.com/yorukot/superfile
 upstreams   :
-    - https://github.com/yorukot/superfile/archive/refs/tags/v1.5.0.tar.gz : bb394f73817d164b9756613ccd850fb3dd5fd5ee898defd86b27eecd4cec48bf
+    - https://github.com/yorukot/superfile/archive/refs/tags/v1.6.0.tar.gz : 7340ce9e3e7db401164310dd5d2d1dfa3ccf76118ac49d192b0fac2a292c5b0d
 summary     : Pretty fancy and modern terminal file manager
 description : |
     Pretty fancy and modern terminal file manager
-license     :
-    - MIT
+license     : MIT
 networking  : true
 builddeps   :
-  - binary(go)
+    - binary(go)
 build       : |
-    CGO_ENABLED=0 go build -o ./bin/spf
+    go build -v -o ./bin/spf
 install     : |
     %install_bin bin/spf
+
+    %install_file %(pkgdir)/spf.desktop -t %(installroot)%(datadir)/applications/
+    %install_file website/public/logo.svg %(installroot)%(datadir)/icons/hicolor/scalable/apps/spf.svg
+    %install_file %(pkgdir)/io.github.yorukot.superfile.metainfo.xml -t %(installroot)%(datadir)/metainfo/
+tuning      :
+    - golang-modflags: false
