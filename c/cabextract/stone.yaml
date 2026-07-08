@@ -3,10 +3,11 @@
 
 name        : cabextract
 version     : "1.11"
-release     : 1
+release     : 2
 homepage    : https://www.cabextract.org.uk
 upstreams   :
-    - https://www.cabextract.org.uk/cabextract-1.11.tar.gz : b5546db1155e4c718ff3d4b278573604f30dd64c3c5bfd4657cd089b823a3ac6
+    # Official tar rejects the Boulder user-agent
+    - https://github.com/kyz/libmspack/archive/refs/tags/v1.11.tar.gz : 284e0e51fee991c40e8cbbc0f5e635f99722796a3642a14397989fc00b862f72
 summary     : cabextract is Free Software for extracting Microsoft cabinet files
 description : |
     cabextract is Free Software for extracting Microsoft cabinet files, also called .CAB files.
@@ -15,8 +16,14 @@ description : |
     cabextract supports all features and formats of Microsoft cabinet files and Windows CE
     installation files. It can also look inside other files for embedded cabinets.
 license     : LGPL-2.1-only
+builddeps   :
+    - binary(tar)
+    - pkgconfig(libmspack)
+environment : |
+    cd cabextract
 setup       : |
-    %configure
+    %reconfigure \
+        --with-external-libmspack
 build       : |
     %make
 install     : |

@@ -3,9 +3,14 @@
 	"manifest-version": "0.2",
 	"packages": {
 		"cabextract": {
+			"build-depends": [
+				"binary(tar)",
+				"pkgconfig(libmspack)"
+			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
-				"soname(libc.so.6(x86_64))"
+				"soname(libc.so.6(x86_64))",
+				"soname(libmspack.so.0(x86_64))"
 			],
 			"files": [
 				"/usr/bin/cabextract",
@@ -18,6 +23,6 @@
 		}
 	},
 	"source-name": "cabextract",
-	"source-release": "1",
+	"source-release": "2",
 	"source-version": "1.11"
 }
