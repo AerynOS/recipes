@@ -2,10 +2,10 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : zxing-cpp
-version     : "3.0.2"
-release     : 4
+version     : "3.1.0"
+release     : 5
 upstreams   :
-    - https://github.com/zxing-cpp/zxing-cpp/releases/download/v3.0.2/zxing-cpp-3.0.2.tar.gz : e957f13e2ad4e31badb3d9af3f6ba8999a3ca3c9cc4d6bafc98032f9cce1a090
+    - https://github.com/zxing-cpp/zxing-cpp/releases/download/v3.1.0/zxing-cpp-3.1.0.tar.gz : a3eb825154f05242283e7d94d8ebdcf95beb3a534eba393cce504e91c9b215bd
 homepage    : https://github.com/zxing-cpp/zxing-cpp
 license     : Apache-2.0
 summary     : ZXing-C++ ("zebra crossing") is an open-source, multi-format linear/matrix barcode image processing library implemented in C++
@@ -17,8 +17,8 @@ builddeps   :
     - cmake(pybind11)
     - cmake(zint)
     - pkgconfig(python3)
-    - python(pybind11)
-    - python(setuptools)
+    - python(nanobind)
+    - python(scikit-build-core)
 # TODO STB so this can be de-vendored
 # This is the only package that uses STB currently, so open up networking so it can just download it
 networking  : true
@@ -30,6 +30,7 @@ setup       : |
     # ZXING_PYTHON_MODULE=ON builds the Python shared library but not the metadata, so we still need to build the wheel with pyproject
     %cmake \
         -DZXING_EXAMPLES=OFF \
+        -DZXING_PYTHON_INSTALL_LIBDIR=%(libdir) \
         -DZXING_PYTHON_MODULE=ON \
         -DZXING_USE_BUNDLED_ZINT=OFF
 build       : |
@@ -48,11 +49,13 @@ install     : |
 
     # Substitute the python shared library built by pyproject which is statically linked with the shared one built by cmake
     python_version=$(python -c 'import sys; print(".".join(map(str, sys.version_info[:2])))')
-    pushd %(installroot)%(libdir)/python${python_version}/site-packages/
-    python_lib=$(find . -type f -iname "zxingcpp.cpython*")
-    rm -v ${python_lib}
+    pushd %(installroot)%(libdir)/python${python_version}/site-packages/zxingcpp/
+    python_lib=$(find . -type f -iname "zxingcpp.abi3*")
     mv -f %(installroot)%(libdir)/${python_lib:2} .
     patchelf --remove-rpath ${python_lib}
+
+    # Not needed since it's built by the wheel
+    rm -rfv %(installroot)%(libdir)/*.{py,pyi,typed}
 packages    :
     - "python-%(name)":
         summary: Python bindings for %(name)
