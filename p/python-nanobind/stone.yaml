@@ -1,0 +1,39 @@
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : python-nanobind
+version     : "2.13.0"
+release     : 1
+homepage    : https://nanobind.readthedocs.org
+upstreams   :
+    - https://pypi.debian.net/nanobind/nanobind-2.13.0.tar.gz : c7b04d6a6a4cd57985571e605539399b51331ae455d7fce576a5e2fcb89b1dcf
+summary     : Tiny and efficient C++/Python bindings
+description : |
+    Tiny and efficient C++/Python bindings
+license     : BSD-3-Clause
+builddeps   :
+    - binary(cmake)
+    - binary(ninja)
+    - pkgconfig(eigen3)
+    - pkgconfig(python3)
+    - python(scikit-build-core)
+    # TODO: Package robin-map so we can devendor that
+rundeps     :
+    - python-libs
+build       : |
+    SKBUILD_CMAKE_ARGS="-DCMAKE_BUILD_TYPE=Release"
+    %pyproject_build
+install     : |
+    %pyproject_install
+
+    python_version=$(python -c "import sys; print(sys.version[:4])")
+    %install_dir %(installroot)%(includedir) %(installroot)%(libdir)/cmake
+    ln -rsv %(installroot)%(libdir)/python${python_version}/site-packages/nanobind/include/nanobind \
+        %(installroot)%(includedir)/nanobind
+    ln -rsv %(installroot)%(libdir)/python${python_version}/site-packages/nanobind/cmake \
+        %(installroot)%(libdir)/cmake/nanobind
+packages    :
+    - "%(name)":
+        paths:
+            - /usr/include/
+            - /usr/lib/cmake/
