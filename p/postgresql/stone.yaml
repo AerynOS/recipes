@@ -3,7 +3,7 @@
 
 name        : postgresql
 version     : "18.4"
-release     : 1
+release     : 2
 homepage    : https://www.postgresql.org/
 upstreams   :
     - https://ftp.postgresql.org/pub/source/v18.4/postgresql-18.4.tar.gz : 450aa8f2da06c46f8221916e82ae06b04fb1040f8f00643dbf8b7d663caac0b9
@@ -54,6 +54,8 @@ builddeps   :
 environment : |
     %export_docbook_catalogs
 setup       : |
+    %patch %(pkgdir)/default-socket.patch
+
     %meson \
         -Ddocs=enabled \
         -Dllvm=enabled \
@@ -74,6 +76,14 @@ install     : |
 
     # No static
     rm -fv %(installroot)%(libdir)/lib*.a
+
+    %install_file %(pkgdir)/*.{service,socket} -t %(installroot)%(libdir)/systemd/system/
+    %install_exe %(pkgdir)/postgresql-setup %(installroot)%(libexecdir)/postgresql-check-db-dir
+
+    %sysusers "u! postgres - 'PostgreSQL Database Server' -"
+    %tmpfiles "d /var/lib/postgresql 0700 postgres postgres -"
+
+    %install_file %(pkgdir)/postgresql.pam %(installroot)%(vendordir)/pam.d/postgresql
 packages    :
     - "libpq":
         summary: PostgreSQL C client library

@@ -313,6 +313,7 @@
 				"/usr/lib/postgresql/pgxml.so",
 				"/usr/lib/postgresql/plpgsql.so",
 				"/usr/lib/postgresql/postgres_fdw.so",
+				"/usr/lib/postgresql/postgresql-check-db-dir",
 				"/usr/lib/postgresql/refint.so",
 				"/usr/lib/postgresql/seg.so",
 				"/usr/lib/postgresql/sslinfo.so",
@@ -339,6 +340,12 @@
 				"/usr/lib/postgresql/utf8_and_uhc.so",
 				"/usr/lib/postgresql/utf8_and_win.so",
 				"/usr/lib/postgresql/uuid-ossp.so",
+				"/usr/lib/systemd/system/postgresql-initdb.service",
+				"/usr/lib/systemd/system/postgresql.service",
+				"/usr/lib/systemd/system/postgresql.socket",
+				"/usr/lib/sysusers.d/postgresql.conf",
+				"/usr/lib/tmpfiles.d/postgresql.conf",
+				"/usr/share/defaults/pam.d/postgresql",
 				"/usr/share/doc/postgresql/extension/autoinc.example",
 				"/usr/share/doc/postgresql/extension/insert_username.example",
 				"/usr/share/doc/postgresql/extension/moddatetime.example",
@@ -3107,6 +3114,6 @@
 		}
 	},
 	"source-name": "postgresql",
-	"source-release": "1",
+	"source-release": "2",
 	"source-version": "18.4"
 }

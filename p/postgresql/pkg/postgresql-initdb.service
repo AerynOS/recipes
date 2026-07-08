@@ -1,0 +1,12 @@
+[Unit]
+Description=PostgreSQL Initialization Service
+ConditionPathExists=|!/var/lib/postgresql/data
+
+[Service]
+User=postgres
+Group=postgres
+WorkingDirectory=/var/lib/postgresql
+Environment=PGDATA=/var/lib/postgresql/data
+ExecStart=/usr/lib/postgresql/postgresql-check-db-dir ${PGDATA}
+Type=oneshot
+RemainAfterExit=yes

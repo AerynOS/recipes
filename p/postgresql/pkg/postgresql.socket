@@ -3,7 +3,7 @@ Description=PostgreSQL Database Server Socket
 PartOf=postgresql.service
 
 [Socket]
-ListenStream=/tmp/.s.PGSQL.5432
+ListenStream=/run/postgresql/.s.PGSQL.5432
 ListenStream=127.0.0.1:5432
 ListenStream=[::1]:5432
 SocketMode=0755
