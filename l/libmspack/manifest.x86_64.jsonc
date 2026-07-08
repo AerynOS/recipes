@@ -1,0 +1,44 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"libmspack": {
+			"build-depends": [
+				"binary(bison)",
+				"binary(flex)"
+			],
+			"depends": [
+				"soname(libc.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/lib/libmspack.so.0",
+				"/usr/lib/libmspack.so.0.1.0"
+			],
+			"name": "libmspack",
+			"provides": [
+				"soname(libmspack.so.0(x86_64))"
+			]
+		},
+		"libmspack-devel": {
+			"build-depends": [
+				"binary(bison)",
+				"binary(flex)"
+			],
+			"depends": [
+				"libmspack"
+			],
+			"files": [
+				"/usr/include/mspack.h",
+				"/usr/lib/libmspack.so",
+				"/usr/lib/pkgconfig/libmspack.pc"
+			],
+			"name": "libmspack-devel",
+			"provides": [
+				"pkgconfig(libmspack)"
+			]
+		}
+	},
+	"source-name": "libmspack",
+	"source-release": "1",
+	"source-version": "1.11"
+}

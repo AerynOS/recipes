@@ -1,0 +1,26 @@
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : libmspack
+version     : "1.11"
+release     : 1
+upstreams   :
+    # Official tar rejects the Boulder user-agent
+    - https://github.com/kyz/libmspack/archive/refs/tags/v1.11.tar.gz : 284e0e51fee991c40e8cbbc0f5e635f99722796a3642a14397989fc00b862f72
+homepage    : https://www.cabextract.org.uk/libmspack/
+license     : LGPL-2.1-only
+summary     : Library for CAB and related files compression and decompression
+description : |
+    Library for CAB and related files compression and decompression
+builddeps   :
+    - binary(bison)
+    - binary(flex)
+environment : |
+    cd libmspack
+setup       : |
+    %reconfigure \
+        --disable-static
+build       : |
+    %make
+install     : |
+    %make_install
