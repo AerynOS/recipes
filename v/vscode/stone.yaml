@@ -1,0 +1,38 @@
+## SPDX-FileCopyrightText: © 2026- AerynOS Developers
+## SPDX-License-Identifier: MPL-2.0
+name        : vscode
+version     : 1.91.0
+release     : 1
+homepage    : https://code.visualstudio.com/
+upstreams   :
+    - https://vscode.download.prss.microsoft.com/dbazure/download/stable/ea1445cc7016315d0f5728f8e8b12a45dc0a7286/code-stable-x64-1719859971.tar.gz : bbae6204694a6d26b4448f69ff0cba4f3fdd03c8f324455abbcdbe1c7a05ee2f
+summary     : Visual Studio Code - Code Editing. Redefined.
+description : |
+    Visual Studio Code is a lightweight but powerful source code editor which
+    runs on your desktop and is available for Windows, macOS and Linux.
+    It comes with built-in support for JavaScript, TypeScript and Node.js
+    and has a rich ecosystem of extensions for other languages and runtimes.
+license     :
+    - Proprietary
+setup       : |
+    # Precompiled binary, no setup required
+build       : |
+    # Precompiled binary, no build required
+install     : |
+    # Create target directories in the installation root
+    mkdir -p %(installroot)%(libdir)/vscode
+    mkdir -p %(installroot)%(bindir)
+    mkdir -p %(installroot)%(datadir)/applications
+    mkdir -p %(installroot)%(datadir)/pixmaps
+
+    # Copy all files from the current build directory (which contains the extracted VS Code)
+    cp -r * %(installroot)%(libdir)/vscode/
+
+    # Create launch symlink in /usr/bin
+    ln -sf %(libdir)/vscode/bin/code %(installroot)%(bindir)/code
+
+    # Install icon from the extracted package
+    cp %(installroot)%(libdir)/vscode/resources/app/resources/linux/code.png %(installroot)%(datadir)/pixmaps/code.png
+
+    # Create the desktop file directly, escaping % as \x25 to prevent boulder macro expansion
+    printf '[Desktop Entry]\nName=Visual Studio Code\nComment=Code Editing. Redefined.\nGenericName=Text Editor\nExec=/usr/bin/code --unity-launch \x25F\nIcon=code\nType=Application\nStartupNotify=true\nStartupWMClass=Code\nCategories=Utility;TextEditor;Development;IDE;\nMimeType=text/plain;inode/directory;application/x-code-workspace;\nActions=new-empty-window;\n\n[Desktop Action new-empty-window]\nName=New Empty Window\nExec=/usr/bin/code --new-window \x25F\nIcon=code\n' > %(installroot)%(datadir)/applications/code.desktop
