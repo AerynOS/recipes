@@ -1,0 +1,53 @@
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : evolution-ews
+version     : "3.60.2"
+release     : 1
+upstreams   :
+    - https://download.gnome.org/sources/evolution-ews/3.60/evolution-ews-3.60.2.tar.xz : 940205818f6988411457ddf5804d210f3515c26e33415debd8fbb2731b1daf2b
+homepage    : https://www.hadrons.org/software/libmd
+license     : LGPL-2.1-or-later
+summary     : MS Exchange integration through Exchange Web Services
+description : |
+    MS Exchange integration through Exchange Web Services
+builddeps   :
+    - binary(glib-mkenums)
+    - binary(intltool-update)
+    - binary(msgfmt)
+    - binary(msgmerge)
+    - pkgconfig(camel-1.2)
+    - pkgconfig(evolution-calendar-3.0)
+    - pkgconfig(evolution-data-server-1.2)
+    - pkgconfig(evolution-mail-3.0)
+    - pkgconfig(evolution-shell-3.0)
+    - pkgconfig(glib-2.0)
+    - pkgconfig(gtk+-3.0)
+    - pkgconfig(json-glib-1.0)
+    - pkgconfig(libebackend-1.2)
+    - pkgconfig(libebook-1.2)
+    - pkgconfig(libecal-2.0)
+    - pkgconfig(libedata-book-1.2)
+    - pkgconfig(libedata-cal-2.0)
+    - pkgconfig(libedataserver-1.2)
+    - pkgconfig(libical-glib)
+    - pkgconfig(libmspack)
+    - pkgconfig(libsoup-3.0)
+setup       : |
+    %cmake
+build       : |
+    %cmake_build
+install     : |
+    %cmake_install
+packages    :
+    - "%(name)-core":
+        summary: Core files for %(name)
+        description: Core files for %(name)
+        paths:
+            - /usr/lib/evolution-data-server/
+            - /usr/lib/evolution-ews/
+            - /usr/share/evolution-data-server/ews/
+
+    - "%(name)":
+        rundeps:
+            - "%(name)-core"
