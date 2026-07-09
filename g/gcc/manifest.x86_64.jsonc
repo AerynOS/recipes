@@ -27,7 +27,6 @@
 				"binary(gcc)",
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"libstdc++-devel",
-				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libgmp.so.10(x86_64))",
 				"soname(libisl.so.23(x86_64))",
@@ -112,7 +111,6 @@
 				"libatomic",
 				"libgcc-static",
 				"libgomp",
-				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libgmp.so.10(x86_64))",
@@ -1287,7 +1285,6 @@
 				"binary(gcc)",
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"libgcobol",
-				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libgmp.so.10(x86_64))",
 				"soname(libisl.so.23(x86_64))",
@@ -1354,7 +1351,6 @@
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"libgfortran",
 				"libquadmath-devel",
-				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libgmp.so.10(x86_64))",
 				"soname(libisl.so.23(x86_64))",
@@ -1581,7 +1577,6 @@
 				"pkgconfig(zlib)"
 			],
 			"depends": [
-				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))"
 			],
 			"files": [
@@ -1616,7 +1611,6 @@
 				"pkgconfig(zlib)"
 			],
 			"depends": [
-				"soname(ld-linux.so.2(386))",
 				"soname(libc.so.6(386))"
 			],
 			"files": [
@@ -1925,7 +1919,6 @@
 			],
 			"depends": [
 				"libquadmath",
-				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libm.so.6(x86_64))"
@@ -1963,7 +1956,6 @@
 			],
 			"depends": [
 				"libquadmath-32bit",
-				"soname(ld-linux.so.2(386))",
 				"soname(libc.so.6(386))",
 				"soname(libgcc_s.so.1(386))",
 				"soname(libm.so.6(386))"
@@ -2188,7 +2180,8 @@
 				"pkgconfig(zlib)"
 			],
 			"depends": [
-				"soname(libc.so.6(x86_64))"
+				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))"
 			],
 			"files": [
 				"/usr/lib/libitm.so",
@@ -2223,7 +2216,8 @@
 				"pkgconfig(zlib)"
 			],
 			"depends": [
-				"soname(libc.so.6(386))"
+				"soname(libc.so.6(386))",
+				"soname(libgcc_s.so.1(386))"
 			],
 			"files": [
 				"/usr/lib32/libitm.so",
@@ -2317,6 +2311,7 @@
 			],
 			"depends": [
 				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libm.so.6(x86_64))"
 			],
 			"files": [
@@ -2352,6 +2347,7 @@
 			],
 			"depends": [
 				"soname(libc.so.6(386))",
+				"soname(libgcc_s.so.1(386))",
 				"soname(libm.so.6(386))"
 			],
 			"files": [
@@ -2505,7 +2501,6 @@
 				"pkgconfig(zlib)"
 			],
 			"depends": [
-				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libm.so.6(x86_64))"
@@ -2555,7 +2550,6 @@
 			],
 			"depends": [
 				"libstdc++",
-				"soname(ld-linux.so.2(386))",
 				"soname(libc.so.6(386))",
 				"soname(libgcc_s.so.1(386))",
 				"soname(libm.so.6(386))"
@@ -3590,6 +3584,6 @@
 		}
 	},
 	"source-name": "gcc",
-	"source-release": "24",
-	"source-version": "16.1.0+git.25925f2a"
+	"source-release": "25",
+	"source-version": "16.1.0+git.0daeef2c"
 }
