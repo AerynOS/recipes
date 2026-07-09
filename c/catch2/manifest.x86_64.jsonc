@@ -3,6 +3,28 @@
 	"manifest-version": "0.2",
 	"packages": {
 		"catch2": {
+			"depends": [
+				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libm.so.6(x86_64))",
+				"soname(libstdc++.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/lib/libCatch2.so.3",
+				"/usr/lib/libCatch2.so.3.15.2",
+				"/usr/lib/libCatch2Main.so.3",
+				"/usr/lib/libCatch2Main.so.3.15.2"
+			],
+			"name": "catch2",
+			"provides": [
+				"soname(libCatch2.so.3(x86_64))",
+				"soname(libCatch2Main.so.3(x86_64))"
+			]
+		},
+		"catch2-devel": {
+			"depends": [
+				"catch2"
+			],
 			"files": [
 				"/usr/include/catch2/benchmark/catch_benchmark.hpp",
 				"/usr/include/catch2/benchmark/catch_benchmark_all.hpp",
@@ -60,7 +82,6 @@
 				"/usr/include/catch2/interfaces/catch_interfaces_all.hpp",
 				"/usr/include/catch2/interfaces/catch_interfaces_capture.hpp",
 				"/usr/include/catch2/interfaces/catch_interfaces_config.hpp",
-				"/usr/include/catch2/interfaces/catch_interfaces_enum_values_registry.hpp",
 				"/usr/include/catch2/interfaces/catch_interfaces_exception.hpp",
 				"/usr/include/catch2/interfaces/catch_interfaces_generatortracker.hpp",
 				"/usr/include/catch2/interfaces/catch_interfaces_registry_hub.hpp",
@@ -90,7 +111,7 @@
 				"/usr/include/catch2/internal/catch_decomposer.hpp",
 				"/usr/include/catch2/internal/catch_deprecation_macro.hpp",
 				"/usr/include/catch2/internal/catch_enforce.hpp",
-				"/usr/include/catch2/internal/catch_enum_values_registry.hpp",
+				"/usr/include/catch2/internal/catch_enum_info.hpp",
 				"/usr/include/catch2/internal/catch_errno_guard.hpp",
 				"/usr/include/catch2/internal/catch_exception_translator_registry.hpp",
 				"/usr/include/catch2/internal/catch_fatal_condition_handler.hpp",
@@ -188,12 +209,12 @@
 				"/usr/include/catch2/reporters/catch_reporter_teamcity.hpp",
 				"/usr/include/catch2/reporters/catch_reporter_xml.hpp",
 				"/usr/include/catch2/reporters/catch_reporters_all.hpp",
-				"/usr/lib/libCatch2.a",
-				"/usr/lib/libCatch2Main.a",
+				"/usr/lib/libCatch2.so",
+				"/usr/lib/libCatch2Main.so",
 				"/usr/lib/pkgconfig/catch2-with-main.pc",
 				"/usr/lib/pkgconfig/catch2.pc"
 			],
-			"name": "catch2",
+			"name": "catch2-devel",
 			"provides": [
 				"pkgconfig(catch2)",
 				"pkgconfig(catch2-with-main)"
@@ -201,6 +222,6 @@
 		}
 	},
 	"source-name": "catch2",
-	"source-release": "8",
-	"source-version": "3.14.0"
+	"source-release": "9",
+	"source-version": "3.15.2"
 }

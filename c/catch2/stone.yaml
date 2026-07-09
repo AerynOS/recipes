@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : catch2
-version     : "3.14.0"
-release     : 8
+version     : "3.15.2"
+release     : 9
 homepage    : https://github.com/catchorg/Catch2
 upstreams   :
-    - https://github.com/catchorg/Catch2/archive/refs/tags/v3.14.0.tar.gz : ba2a939efead3c833c499cf487e185762f419a71d30158cd1b43c6079c586490
+    - https://github.com/catchorg/Catch2/archive/refs/tags/v3.15.2.tar.gz : acfae120892c2b67a74142d36d060c0caa96f1c3aaa8aabd96e19961163d0420
 summary     : A modern, C++-native, test framework for unit-tests, TDD and BDD
 description : |
     Catch2 is mainly a unit testing framework for C++, but it also provides basic micro-benchmarking features, and simple BDD macros.
@@ -14,7 +14,7 @@ description : |
     Catch2's main advantage is that using it is both simple and natural. Test names do not have to be valid identifiers, assertions look like normal C++ boolean expressions, and sections provide a nice and local way to share set-up and tear-down code in tests.
 license     : BSL-1.0
 setup       : |
-    # TODO: Backport shared lib support for this
+    %patch %(pkgdir)/3101.patch
 
     # Tests disabled for (we weren't running them anyway): https://github.com/catchorg/Catch2/issues/2981
     # TODO: Run tests
@@ -24,6 +24,3 @@ build       : |
     %meson_build
 install     : |
     %meson_install
-# development only package
-paths:
-    - /usr/

@@ -1,0 +1,43 @@
+From 0fc45f3f7af4e0d9e538cb1bec0328059c1bf58f Mon Sep 17 00:00:00 2001
+From: Nathaniel Russell <46272571+nater1983@users.noreply.github.com>
+Date: Thu, 14 May 2026 18:42:48 -0500
+Subject: [PATCH] Update meson.build
+
+---
+ src/catch2/meson.build | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/src/catch2/meson.build b/src/catch2/meson.build
+index 94e0496af3..cabba263ea 100644
+--- a/src/catch2/meson.build
++++ b/src/catch2/meson.build
+@@ -361,11 +361,13 @@ if ((host_machine.system() == 'android') or
+   catch2_dependencies += log_dep
+ endif
+ 
+-catch2 = static_library(
++catch2 = shared_library(
+   'Catch2',
+   sources,
+   dependencies: catch2_dependencies,
+   include_directories: '..',
++  version: meson.project_version(),
++  soversion: '3',
+   install: get_option('install'),
+ )
+ 
+@@ -383,11 +385,13 @@ if get_option('install')
+   )
+ endif
+ 
+-catch2_with_main = static_library(
++catch2_with_main = shared_library(
+   'Catch2Main',
+   'internal/catch_main.cpp',
+   link_with: catch2,
+   include_directories: '..',
++  version: meson.project_version(),
++  soversion: '3',
+   install: get_option('install'),
+ )
+ 
