@@ -49,6 +49,7 @@
 			],
 			"depends": [
 				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libglib-2.0.so.0(x86_64))",
 				"soname(libgobject-2.0.so.0(x86_64))",
 				"soname(libgstallocators-1.0.so.0(x86_64))",
@@ -113,16 +114,15 @@
 				"pkgconfig(xfixes)"
 			],
 			"depends": [
-				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libpipewire-0.3.so.0(x86_64))"
 			],
 			"files": [
 				"/usr/bin/pw-jack",
 				"/usr/lib/libjack.so.0",
-				"/usr/lib/libjack.so.0.3.1607",
+				"/usr/lib/libjack.so.0.3.1608",
 				"/usr/lib/libjacknet.so.0",
-				"/usr/lib/libjacknet.so.0.3.1607",
+				"/usr/lib/libjacknet.so.0.3.1608",
 				"/usr/share/man/man1/pw-jack.1",
 				"/usr/share/man/man5/pipewire-jack.conf.5"
 			],
@@ -257,7 +257,6 @@
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"pipewire-libs",
 				"rtkit",
-				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libX11.so.6(x86_64))",
 				"soname(libXfixes.so.3(x86_64))",
 				"soname(libasound.so.2(x86_64))",
@@ -339,7 +338,7 @@
 				"/usr/lib/alsa-lib/libasound_module_ctl_pipewire.so",
 				"/usr/lib/alsa-lib/libasound_module_pcm_pipewire.so",
 				"/usr/lib/libjackserver.so.0",
-				"/usr/lib/libjackserver.so.0.3.1607",
+				"/usr/lib/libjackserver.so.0.3.1608",
 				"/usr/lib/pipewire-0.3/libpipewire-module-access.so",
 				"/usr/lib/pipewire-0.3/libpipewire-module-adapter.so",
 				"/usr/lib/pipewire-0.3/libpipewire-module-avb.so",
@@ -1161,11 +1160,12 @@
 			],
 			"depends": [
 				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libm.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/lib/libpipewire-0.3.so.0",
-				"/usr/lib/libpipewire-0.3.so.0.1607.0",
+				"/usr/lib/libpipewire-0.3.so.0.1608.0",
 				"/usr/lib/spa-0.2/libspa.so"
 			],
 			"name": "pipewire-libs",
@@ -1176,6 +1176,6 @@
 		}
 	},
 	"source-name": "pipewire",
-	"source-release": "35",
-	"source-version": "1.6.7"
+	"source-release": "36",
+	"source-version": "1.6.8"
 }
