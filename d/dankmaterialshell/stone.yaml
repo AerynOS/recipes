@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : dankmaterialshell
-version     : "1.4.6"
-release     : 10
+version     : "1.5.0"
+release     : 11
 homepage    : https://danklinux.com/
 upstreams   :
-    - https://github.com/AvengeMedia/DankMaterialShell/archive/refs/tags/v1.4.6.tar.gz : f54601e522c883fa9cce02bec070e4321e47389a1cf453e7ad0bb7379ad91b61
+    - https://github.com/AvengeMedia/DankMaterialShell/archive/refs/tags/v1.5.0.tar.gz : 14f2678d6a15223ba069d1b8c8a21a5564b735d190c231f62ed44fd8bf48677c
 summary     : Desktop shell for wayland compositor
 description : |
     DankMaterialShell (dms) is a Wayland desktop shell built with Quickshell and Go. It serves a purpose similar to GNOME Shell or KDE Plasma, providing a unified interface for launching applications, managing windows, managing hardware interfaces, notifications, and much more.
@@ -22,36 +22,23 @@ rundeps     :
     - binary(quickshell)
 networking  : true
 setup       : |
-    cd core/cmd/dms
-    go mod vendor
+    cd core
+    %go_mod
 build       : |
-    pushd core/cmd/dms
-    export CGO_CFLAGS="${CFLAGS}"
-    export CGO_CXXFLAGS="${CXXFLAGS}"
-    export CGO_LDFLAGS="${LDFLAGS}"
-    export GOFLAGS="-buildmode=pie -trimpath -modcacherw -mod=readonly"
+    pushd core
 
-    go build -o dms \
+    go build -o bin/dms \
         -tags distro_binary \
         -ldflags "-X main.Version=v%(version)" \
-        .
+        ./cmd/dms
     popd
-
-    DANKSHELL_OVERRIDE_ROOT_CHECK=0 core/cmd/dms/dms completion bash > completion.bash
-    DANKSHELL_OVERRIDE_ROOT_CHECK=0 core/cmd/dms/dms completion fish > completion.fish
-    DANKSHELL_OVERRIDE_ROOT_CHECK=0 core/cmd/dms/dms completion zsh > completion.zsh
 install     : |
-    %install_bin core/cmd/dms/dms
+    # TODO: Fix this in the makefile
+    %install_dir %(installroot)%(bindir)
 
-    %install_file assets/dms-open.desktop -t %(installroot)%(datadir)/applications
-    %install_file assets/danklogo.svg %(installroot)%(datadir)/icons/hicolor/scalable/apps/danklogo.svg
-    %install_file assets/systemd/dms.service %(installroot)%(libdir)/systemd/user/dms.service
+    %make_install \
+        PREFIX=%(installroot)%(prefix) \
+        SYSTEMD_USER_DIR=%(installroot)%(libdir)/systemd/user
 
-    %install_dir %(installroot)%(datadir)/quickshell/dms
-    cp -r quickshell/* %(installroot)%(datadir)/quickshell/dms/
-    rm -rf %(installroot)%(datadir)/quickshell/dms/.git* %(installroot)%(datadir)/quickshell/dms/.github
-
-    # Completions
-    %install_file completion.bash %(installroot)%(bashcompletionsdir)/dms
-    %install_file completion.zsh %(installroot)%(zshcompletionsdir)/_dms
-    %install_file completion.fish %(installroot)%(fishcompletionsdir)/dms.fish
+    # Fix the service
+    sed -i "s|%(installroot)||g" %(installroot)%(libdir)/systemd/user/dms.service
