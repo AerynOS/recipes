@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : syncthing
-version     : "2.1.1"
-release     : 13
+version     : "2.1.2"
+release     : 14
 homepage    : https://syncthing.net
 upstreams   :
-    - https://github.com/syncthing/syncthing/releases/download/v2.1.1/syncthing-source-v2.1.1.tar.gz : 418a99452f484abf30e403b769d0cf914a038142cd1a7e10be85b68f45d9f42a
+    - https://github.com/syncthing/syncthing/releases/download/v2.1.2/syncthing-source-v2.1.2.tar.gz : 584261eb7c705b9a2c4b624ba10bff8521de8c288bb7e2facffc7558291f678e
 summary     : Continuous file synchronization program
 description : |
     It synchronizes files between two or more computers in real time,
@@ -20,13 +20,9 @@ builddeps   :
 setup       : |
     %patch %(pkgdir)/fix-tests-pie.patch -p5
 
-    go mod vendor
+    %go_mod
 build       : |
     export CGO_ENABLED=1
-    export CGO_CFLAGS="${CFLAGS}"
-    export CGO_CXXFLAGS="${CXXFLAGS}"
-    export CGO_LDFLAGS="${LDFLAGS}"
-    export GOFLAGS="-buildmode=pie -ldflags=-linkmode=external -mod=readonly -modcacherw"
     go run build.go --no-upgrade
 install     : |
     %install_bin bin/syncthing
