@@ -1,0 +1,23 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : caligula
+version     : "0.5.0"
+release     : 1
+homepage    : https://github.com/ifd3f/caligula
+upstreams   :
+    - https://github.com/ifd3f/caligula/archive/refs/tags/v0.5.0.tar.gz : f4118f0f4a4c90432ba3b1637dd66b8d7f4abd797d63b527baaa6c2595f1552f
+summary     : A user-friendly, lightweight TUI for disk imaging
+description : |
+    An easy to use terminal interface disk imaging tool with built-in hash verification, destination selection, progress indication, and final validation.
+license     : 
+    - GPL-3.0-only
+networking  : true
+setup       : |
+    %cargo_fetch
+build       : |
+    %cargo_build
+install     : |
+    %cargo_install
+check       : |
+    %cargo_test
