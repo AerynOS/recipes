@@ -1,0 +1,147 @@
+From c0d88bd620b14254fef5e6e54d5fe810d400fc79 Mon Sep 17 00:00:00 2001
+From: sunshineinabox <aqemail@gmail.com>
+Date: Fri, 5 Jun 2026 23:15:56 -0700
+Subject: [PATCH 1/2] fix(DualSense): only emit changed input reports
+
+---
+ src/input/target/dualsense.rs | 34 ++++++++++++++++------------------
+ 1 file changed, 16 insertions(+), 18 deletions(-)
+
+diff --git a/src/input/target/dualsense.rs b/src/input/target/dualsense.rs
+index b9b24493..e071280b 100644
+--- a/src/input/target/dualsense.rs
++++ b/src/input/target/dualsense.rs
+@@ -124,6 +124,7 @@ pub struct DualSenseDevice {
+     context: u8,
+     hardware: DualSenseHardware,
+     queued_events: Vec<ScheduledNativeEvent>,
++    last_written: Option<Vec<u8>>,
+ }
+ 
+ impl DualSenseDevice {
+@@ -137,6 +138,7 @@ impl DualSenseDevice {
+             context: Default::default(),
+             hardware,
+             queued_events: Vec::new(),
++            last_written: None,
+         })
+     }
+ 
+@@ -193,26 +195,21 @@ impl DualSenseDevice {
+ 
+     /// Write the current device state to the device
+     fn write_state(&mut self) -> Result<(), Box<dyn Error>> {
+-        match self.state {
+-            PackedInputDataReport::Usb(state) => {
+-                let data = state.pack()?;
++        let data = match self.state {
++            PackedInputDataReport::Usb(state) => state.pack()?.to_vec(),
++            PackedInputDataReport::Bluetooth(state) => state.pack()?.to_vec(),
++        };
+ 
+-                // Write the state to the virtual HID
+-                if let Err(e) = self.device.write(&data) {
+-                    let err = format!("Failed to write input data report: {:?}", e);
+-                    return Err(err.into());
+-                }
+-            }
+-            PackedInputDataReport::Bluetooth(state) => {
+-                let data = state.pack()?;
++        if self.last_written.as_ref() == Some(&data) {
++            return Ok(());
++        }
+ 
+-                // Write the state to the virtual HID
+-                if let Err(e) = self.device.write(&data) {
+-                    let err = format!("Failed to write input data report: {:?}", e);
+-                    return Err(err.into());
+-                }
+-            }
+-        };
++        // Write the state to the virtual HID
++        if let Err(e) = self.device.write(&data) {
++            let err = format!("Failed to write input data report: {:?}", e);
++            return Err(err.into());
++        }
++        self.last_written = Some(data);
+ 
+         Ok(())
+     }
+@@ -1073,6 +1070,7 @@ impl TargetOutputDevice for DualSenseDevice {
+             // send UHID_INPUT events to the kernel.
+             uhid_virt::OutputEvent::Open => {
+                 log::debug!("Open event received");
++                self.last_written = None;
+                 Ok(vec![])
+             }
+             // This is sent when there are no more processes which read the HID data. It is
+
+From 852d878427784ce29ab32fcab7ce832c2dd655c1 Mon Sep 17 00:00:00 2001
+From: sunshineinabox <aqemail@gmail.com>
+Date: Tue, 9 Jun 2026 23:44:25 -0700
+Subject: [PATCH 2/2] fix(DualSense): address feedback add comments
+
+---
+ src/input/target/dualsense.rs | 16 +++++++++++++++-
+ 1 file changed, 15 insertions(+), 1 deletion(-)
+
+diff --git a/src/input/target/dualsense.rs b/src/input/target/dualsense.rs
+index e071280b..d6074137 100644
+--- a/src/input/target/dualsense.rs
++++ b/src/input/target/dualsense.rs
+@@ -124,7 +124,10 @@ pub struct DualSenseDevice {
+     context: u8,
+     hardware: DualSenseHardware,
+     queued_events: Vec<ScheduledNativeEvent>,
++    /// Last report written, used to skip re-emitting identical reports.
+     last_written: Option<Vec<u8>>,
++    /// Whether a consumer has the device open, writes are skipped while closed.
++    is_open: bool,
+ }
+ 
+ impl DualSenseDevice {
+@@ -139,6 +142,7 @@ impl DualSenseDevice {
+             hardware,
+             queued_events: Vec::new(),
+             last_written: None,
++            is_open: false,
+         })
+     }
+ 
+@@ -195,11 +199,18 @@ impl DualSenseDevice {
+ 
+     /// Write the current device state to the device
+     fn write_state(&mut self) -> Result<(), Box<dyn Error>> {
++        // No consumer so don't bother emitting. 
++        if !self.is_open {
++            return Ok(());
++        }
++
+         let data = match self.state {
+             PackedInputDataReport::Usb(state) => state.pack()?.to_vec(),
+             PackedInputDataReport::Bluetooth(state) => state.pack()?.to_vec(),
+         };
+ 
++        // Skip re-emitting an identical report: runs every poll, so an
++        // idle controller would otherwise send the same bytes every cycle.
+         if self.last_written.as_ref() == Some(&data) {
+             return Ok(());
+         }
+@@ -1070,13 +1081,16 @@ impl TargetOutputDevice for DualSenseDevice {
+             // send UHID_INPUT events to the kernel.
+             uhid_virt::OutputEvent::Open => {
+                 log::debug!("Open event received");
+-                self.last_written = None;
++                self.is_open = true;
+                 Ok(vec![])
+             }
+             // This is sent when there are no more processes which read the HID data. It is
+             // the counterpart of UHID_OPEN and you may as well ignore this event.
+             uhid_virt::OutputEvent::Close => {
+                 log::debug!("Close event received");
++                // Drop the cached report so the next consumer to open is synced.
++                self.is_open = false;
++                self.last_written = None;
+                 Ok(vec![])
+             }
+             // This is sent if the HID device driver wants to send raw data to the I/O

@@ -1,0 +1,290 @@
+From cc6e02b57528b9de11af7986d1df22d87f478bf7 Mon Sep 17 00:00:00 2001
+From: Matthew Schwartz <matthew.schwartz@linux.dev>
+Date: Tue, 23 Jun 2026 16:25:52 -0700
+Subject: [PATCH] feat(Hardware Support): Add MSI Claw 8 EX AI+ profile
+
+Also fix all the Claws to use board_name, like we do everywhere else.
+---
+ .../hwdb.d/60-inputplumber-autostart.hwdb     |   9 +-
+ .../devices/50-msi_claw7_a2vm.yaml            |   4 +-
+ .../devices/50-msi_claw8_a2vm.yaml            |   4 +-
+ .../devices/50-msi_claw8_ex_ai_cg3em.yaml     | 143 ++++++++++++++++++
+ .../inputplumber/devices/50-msi_claw_a1m.yaml |   4 +-
+ .../devices/50-msi_claw_a8_bz2e.yaml          |   4 +-
+ src/config/config_test.rs                     |   5 +
+ src/config/mod.rs                             |   9 ++
+ 8 files changed, 170 insertions(+), 12 deletions(-)
+ create mode 100644 rootfs/usr/share/inputplumber/devices/50-msi_claw8_ex_ai_cg3em.yaml
+
+diff --git a/rootfs/usr/lib/udev/hwdb.d/60-inputplumber-autostart.hwdb b/rootfs/usr/lib/udev/hwdb.d/60-inputplumber-autostart.hwdb
+index feb4f28c..d7be4607 100644
+--- a/rootfs/usr/lib/udev/hwdb.d/60-inputplumber-autostart.hwdb
++++ b/rootfs/usr/lib/udev/hwdb.d/60-inputplumber-autostart.hwdb
+@@ -77,10 +77,11 @@ dmi:*svnLENOVO:pn83Q3:*
+ dmi:*svnLENOVO:pn83N0:*
+ dmi:*svnLENOVO:pn83N1:*
+ # MSI Claw
+-dmi:*:svnMicro-StarInternationalCo.,Ltd.:pnClaw7AI+A2VM:*
+-dmi:*:svnMicro-StarInternationalCo.,Ltd.:pnClaw8AI+A2VM:*
+-dmi:*:svnMicro-StarInternationalCo.,Ltd.:pnClawA8BZ2EM:*
+-dmi:*:svnMicro-StarInternationalCo.,Ltd.:pnClawA1M:*
++dmi:*:rvnMicro-StarInternationalCo.,Ltd.:rnMS-1T41:*
++dmi:*:rvnMicro-StarInternationalCo.,Ltd.:rnMS-1T42:*
++dmi:*:rvnMicro-StarInternationalCo.,Ltd.:rnMS-1T52:*
++dmi:*:rvnMicro-StarInternationalCo.,Ltd.:rnMS-1T8K:*
++dmi:*:rvnMicro-StarInternationalCo.,Ltd.:rnMS-1T91:*
+ # OneXPlayer Old models
+ dmi:*svnONE-NETBOOK:pnONEXPLAYER:*
+ dmi:*svnONE-NETBOOKTECHNOLOGYCO.,LTD.:pnONEXPLAYER:*
+diff --git a/rootfs/usr/share/inputplumber/devices/50-msi_claw7_a2vm.yaml b/rootfs/usr/share/inputplumber/devices/50-msi_claw7_a2vm.yaml
+index 53d90eb6..fb2b334f 100644
+--- a/rootfs/usr/share/inputplumber/devices/50-msi_claw7_a2vm.yaml
++++ b/rootfs/usr/share/inputplumber/devices/50-msi_claw7_a2vm.yaml
+@@ -16,8 +16,8 @@ single_source: false
+ # /sys/class/dmi/id/product_name
+ matches:
+   - dmi_data:
+-      product_name: "Claw 7 AI+ A2VM"
+-      sys_vendor: "Micro-Star International Co., Ltd."
++      board_name: "MS-1T42"
++      board_vendor: "Micro-Star International Co., Ltd."
+ 
+ # One or more source devices to combine into a single virtual device. The events
+ # from these devices will be watched and translated according to the key map.
+diff --git a/rootfs/usr/share/inputplumber/devices/50-msi_claw8_a2vm.yaml b/rootfs/usr/share/inputplumber/devices/50-msi_claw8_a2vm.yaml
+index dac4a986..9fdcebd5 100644
+--- a/rootfs/usr/share/inputplumber/devices/50-msi_claw8_a2vm.yaml
++++ b/rootfs/usr/share/inputplumber/devices/50-msi_claw8_a2vm.yaml
+@@ -16,8 +16,8 @@ single_source: false
+ # /sys/class/dmi/id/product_name
+ matches:
+   - dmi_data:
+-      product_name: "Claw 8 AI+ A2VM*"
+-      sys_vendor: "Micro-Star International Co., Ltd."
++      board_name: "MS-1T52"
++      board_vendor: "Micro-Star International Co., Ltd."
+ 
+ # One or more source devices to combine into a single virtual device. The events
+ # from these devices will be watched and translated according to the key map.
+diff --git a/rootfs/usr/share/inputplumber/devices/50-msi_claw8_ex_ai_cg3em.yaml b/rootfs/usr/share/inputplumber/devices/50-msi_claw8_ex_ai_cg3em.yaml
+new file mode 100644
+index 00000000..e20addd1
+--- /dev/null
++++ b/rootfs/usr/share/inputplumber/devices/50-msi_claw8_ex_ai_cg3em.yaml
+@@ -0,0 +1,143 @@
++# yaml-language-server: $schema=https://raw.githubusercontent.com/ShadowBlip/InputPlumber/main/rootfs/usr/share/inputplumber/schema/composite_device_v1.json
++# Schema version number
++version: 1
++
++# The type of configuration schema
++kind: CompositeDevice
++
++# Name of the composite device mapping
++name: MSI Claw 8 EX AI+ CG3EM
++
++# Only allow a single source device per composite device of this type.
++single_source: false
++
++# Only use this profile if *any* of the given matches match. If this list is
++# empty, then the source devices will *always* be checked.
++# /sys/class/dmi/id/product_name
++matches:
++  - dmi_data:
++      board_name: "MS-1T91"
++      board_vendor: "Micro-Star International Co., Ltd."
++
++# One or more source devices to combine into a single virtual device. The events
++# from these devices will be watched and translated according to the key map.
++source_devices:
++  # Face Extra Buttons
++  - group: keyboard
++    udev:
++      attributes:
++        - name: name
++          value: "AT Translated Set 2 keyboard"
++        - name: phys
++          value: "isa0060/serio0/input0"
++    events:
++      exclude:
++        - "*"
++      include:
++        - Keyboard:KeyF15
++        - Keyboard:KeyF16
++        - Keyboard:KeyG
++        - Keyboard:KeyLeftMeta
++        - Keyboard:KeyTab
++        - Keyboard:KeyVolumeDown
++        - Keyboard:KeyVolumeUp
++
++  # Conflicts, block
++  - group: keyboard
++    blocked: true
++    udev:
++      attributes:
++        - name: name
++          value: "MSI WMI hotkeys"
++        - name: phys
++          value: "wmi/input0"
++    events:
++      exclude:
++        - "*"
++
++  # Xinput Gamepad
++  - group: gamepad
++    udev:
++      properties:
++        - name: ID_INPUT_JOYSTICK
++          value: "1"
++      attributes:
++        - name: id/vendor
++          value: "0db0"
++        - name: id/product
++          value: "1901"
++        - name: phys
++          value: "usb-0000:00:14.0-4/input0"
++
++  # Xinput Mkey Extra Buttons
++  - group: gamepad
++    udev:
++      properties:
++        - name: ID_INPUT_KEYBOARD
++          value: "1"
++      attributes:
++        - name: id/vendor
++          value: "0db0"
++        - name: id/product
++          value: "1901"
++        - name: phys
++          value: "usb-0000:00:14.0-4/input2"
++    events:
++      exclude:
++        - "*"
++      include:
++        - Keyboard:KeyLeftBrace
++        - Keyboard:KeyRightBrace
++
++  # Dinput Gamepad
++  - group: gamepad
++    udev:
++      properties:
++        - name: ID_INPUT_JOYSTICK
++          value: "1"
++      attributes:
++        - name: id/vendor
++          value: "0db0"
++        - name: id/product
++          value: "1902"
++        - name: phys
++          value: "usb-0000:00:14.0-4/input0"
++    capability_map_id: claw1-dinput
++
++  # Dinput Mkey Extra Buttons
++  - group: gamepad
++    udev:
++      properties:
++        - name: ID_INPUT_KEYBOARD
++          value: "1"
++      attributes:
++        - name: id/vendor
++          value: "0db0"
++        - name: id/product
++          value: "1902"
++        - name: phys
++          value: "usb-0000:00:14.0-4/input1"
++    events:
++      exclude:
++        - "*"
++      include:
++        - Keyboard:KeyLeftBrace
++        - Keyboard:KeyRightBrace
++
++  # IMU
++
++# Optional configuration for the composite device
++options:
++  # If true, InputPlumber will automatically try to manage the input device. If
++  # this is false, InputPlumber will not try to manage the device unless an
++  # external service enables management of the device. Defaults to 'false'
++  auto_manage: true
++
++# The target input device(s) to emulate by default
++target_devices:
++  - xbox-elite
++  - mouse
++  - keyboard
++
++# The ID of a device event mapping in the 'event_maps' folder
++capability_map_id: claw1
+diff --git a/rootfs/usr/share/inputplumber/devices/50-msi_claw_a1m.yaml b/rootfs/usr/share/inputplumber/devices/50-msi_claw_a1m.yaml
+index b38a78d2..ce7c9aeb 100644
+--- a/rootfs/usr/share/inputplumber/devices/50-msi_claw_a1m.yaml
++++ b/rootfs/usr/share/inputplumber/devices/50-msi_claw_a1m.yaml
+@@ -16,8 +16,8 @@ single_source: false
+ # /sys/class/dmi/id/product_name
+ matches:
+   - dmi_data:
+-      product_name: "Claw A1M"
+-      sys_vendor: "Micro-Star International Co., Ltd."
++      board_name: "MS-1T41"
++      board_vendor: "Micro-Star International Co., Ltd."
+ 
+ # One or more source devices to combine into a single virtual device. The events
+ # from these devices will be watched and translated according to the key map.
+diff --git a/rootfs/usr/share/inputplumber/devices/50-msi_claw_a8_bz2e.yaml b/rootfs/usr/share/inputplumber/devices/50-msi_claw_a8_bz2e.yaml
+index 17619488..21185965 100644
+--- a/rootfs/usr/share/inputplumber/devices/50-msi_claw_a8_bz2e.yaml
++++ b/rootfs/usr/share/inputplumber/devices/50-msi_claw_a8_bz2e.yaml
+@@ -16,8 +16,8 @@ single_source: false
+ # /sys/class/dmi/id/product_name
+ matches:
+   - dmi_data:
+-      product_name: "Claw A8 BZ2EM"
+-      sys_vendor: "Micro-Star International Co., Ltd."
++      board_name: "MS-1T8K"
++      board_vendor: "Micro-Star International Co., Ltd."
+ 
+ # One or more source devices to combine into a single virtual device. The events
+ # from these devices will be watched and translated according to the key map.
+diff --git a/src/config/config_test.rs b/src/config/config_test.rs
+index 4be9012c..80ca3937 100644
+--- a/src/config/config_test.rs
++++ b/src/config/config_test.rs
+@@ -71,6 +71,11 @@ async fn check_autostart_rules() -> Result<(), Box<dyn Error>> {
+                 let pattern_part = format!("pn{product}:");
+                 patterns.push(pattern_part);
+             }
++            if let Some(board_vendor) = dmi.board_vendor.as_ref() {
++                let board_vendor = board_vendor.replace(" ", ""); // Remove spaces
++                let pattern_part = format!("rvn{board_vendor}:");
++                patterns.push(pattern_part);
++            }
+             if let Some(board_name) = dmi.board_name.as_ref() {
+                 let board_name = board_name.replace(" ", ""); // Remove spaces
+                 let pattern_part = format!("rn{board_name}:");
+diff --git a/src/config/mod.rs b/src/config/mod.rs
+index 91af0b2d..f62a9eb5 100644
+--- a/src/config/mod.rs
++++ b/src/config/mod.rs
+@@ -212,6 +212,8 @@ pub struct DMIMatch {
+     #[serde(skip_serializing_if = "Option::is_none")]
+     pub board_name: Option<String>,
+     #[serde(skip_serializing_if = "Option::is_none")]
++    pub board_vendor: Option<String>,
++    #[serde(skip_serializing_if = "Option::is_none")]
+     pub product_name: Option<String>,
+     #[serde(skip_serializing_if = "Option::is_none")]
+     pub product_version: Option<String>,
+@@ -1082,6 +1084,13 @@ impl CompositeDeviceConfig {
+                     has_matches = true;
+                 }
+ 
++                if let Some(board_vendor) = dmi_config.board_vendor {
++                    if !glob_match(board_vendor.as_str(), data.board_vendor.as_str()) {
++                        continue;
++                    }
++                    has_matches = true;
++                }
++
+                 if let Some(product_name) = dmi_config.product_name {
+                     if !glob_match(product_name.as_str(), data.product_name.as_str()) {
+                         continue;
