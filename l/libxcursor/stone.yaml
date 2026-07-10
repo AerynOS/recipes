@@ -3,7 +3,7 @@
 
 name        : libxcursor
 version     : "1.2.3"
-release     : 4
+release     : 5
 homepage    : https://gitlab.freedesktop.org/xorg/lib/libxcursor
 upstreams   :
     - https://www.x.org/releases/individual/lib/libXcursor-1.2.3.tar.xz : fde9402dd4cfe79da71e2d96bb980afc5e6ff4f8a7d74c159e1966afb2b2c2c0
@@ -18,7 +18,8 @@ builddeps   :
     - pkgconfig(xproto)
 emul32      : true
 setup       : |
-    %configure
+    %configure \
+        --disable-static
 build       : |
     %make
 install     : |
