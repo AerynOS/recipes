@@ -11,6 +11,7 @@
 			],
 			"depends": [
 				"binary(runc)",
+				"interpreter(/lib64/ld-linux-x86-64.so.2(x86_64))",
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))"
 			],
@@ -37,6 +38,6 @@
 		}
 	},
 	"source-name": "containerd",
-	"source-release": "19",
-	"source-version": "2.3.2"
+	"source-release": "20",
+	"source-version": "2.3.3"
 }
