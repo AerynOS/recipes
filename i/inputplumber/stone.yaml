@@ -3,7 +3,7 @@
 
 name        : inputplumber
 version     : "0.77.7"
-release     : 61
+release     : 62
 homepage    : https://github.com/ShadowBlip/InputPlumber
 upstreams   :
     - https://github.com/ShadowBlip/InputPlumber/archive/refs/tags/v0.77.7.tar.gz : d4a6f3c5140110dd03d57b076c76bbc23485cb4e1c2156cd013dca274a4a6fd2
@@ -21,6 +21,12 @@ builddeps   :
     - pkgconfig(libudev)
     - clang-devel
 setup       : |
+    # https://github.com/ShadowBlip/InputPlumber/pulls
+    %patch %(pkgdir)/598.patch
+    %patch %(pkgdir)/601.patch
+    %patch %(pkgdir)/617.patch
+    %patch %(pkgdir)/618.patch  
+    %patch %(pkgdir)/620.patch
     %cargo_fetch
 build       : |
     %cargo_build

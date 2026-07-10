@@ -1,0 +1,567 @@
+From 59c658cc714ad2ec6093a23754c54d5742dfe648 Mon Sep 17 00:00:00 2001
+From: "Derek J. Clark" <derekjohn.clark@gmail.com>
+Date: Thu, 25 Jun 2026 20:23:50 -0700
+Subject: [PATCH] fix(Hardware Support): Add missing and clean up AYANEO
+ devices - Adds KONKR Fit and Suiplay x01 to configurations - While at it,
+ adds capability filter to AYANEO configurations to reduce   the reported
+ capabilities lists to the supported events.
+
+---
+ .../hwdb.d/60-inputplumber-autostart.hwdb     |  2 +
+ .../capability_maps/konkr_type1.yaml          | 62 +++++++++++++
+ .../inputplumber/devices/50-ayaneo_2.yaml     | 13 +++
+ .../inputplumber/devices/50-ayaneo_2021.yaml  | 12 +++
+ .../inputplumber/devices/50-ayaneo_2s.yaml    | 16 ++++
+ .../inputplumber/devices/50-ayaneo_3.yaml     | 20 ++++
+ .../inputplumber/devices/50-ayaneo_air.yaml   | 12 +++
+ .../devices/50-ayaneo_air_1s.yaml             | 11 +++
+ .../devices/50-ayaneo_air_plus.yaml           | 11 +++
+ .../devices/50-ayaneo_air_plus_mendo.yaml     | 11 +++
+ .../inputplumber/devices/50-ayaneo_flip.yaml  | 11 +++
+ .../devices/50-ayaneo_flip_1s.yaml            | 40 +++++++-
+ .../inputplumber/devices/50-ayaneo_kun.yaml   | 12 ++-
+ .../inputplumber/devices/50-ayaneo_next.yaml  | 14 +++
+ .../inputplumber/devices/50-ayaneo_slide.yaml | 11 +++
+ .../inputplumber/devices/50-konkr-fit.yaml    | 92 +++++++++++++++++++
+ 16 files changed, 344 insertions(+), 6 deletions(-)
+ create mode 100644 rootfs/usr/share/inputplumber/capability_maps/konkr_type1.yaml
+ create mode 100644 rootfs/usr/share/inputplumber/devices/50-konkr-fit.yaml
+
+diff --git a/rootfs/usr/lib/udev/hwdb.d/60-inputplumber-autostart.hwdb b/rootfs/usr/lib/udev/hwdb.d/60-inputplumber-autostart.hwdb
+index feb4f28c..c93d648c 100644
+--- a/rootfs/usr/lib/udev/hwdb.d/60-inputplumber-autostart.hwdb
++++ b/rootfs/usr/lib/udev/hwdb.d/60-inputplumber-autostart.hwdb
+@@ -66,6 +66,8 @@ dmi:*svnGPD:pnG1618-05:*
+ dmi:*svnGPD:pnG1619-04:*
+ # GPD Win Mini
+ dmi:*svnGPD:pnG1617-01:*
++# KONKR Fit
++dmi:*svnKONKR:pnKONKRFIT:*
+ # Lenovo Legion Go
+ dmi:*svnLENOVO:pn83E1:*
+ # Lenovo Legion Go S
+diff --git a/rootfs/usr/share/inputplumber/capability_maps/konkr_type1.yaml b/rootfs/usr/share/inputplumber/capability_maps/konkr_type1.yaml
+new file mode 100644
+index 00000000..22d38083
+--- /dev/null
++++ b/rootfs/usr/share/inputplumber/capability_maps/konkr_type1.yaml
+@@ -0,0 +1,62 @@
++# yaml-language-server: $schema=https://raw.githubusercontent.com/ShadowBlip/InputPlumber/main/rootfs/usr/share/inputplumber/schema/capability_map_v1.json
++# Schema version number
++version: 1
++
++# The type of configuration schema
++kind: CapabilityMap
++
++# Name for the device event map
++name: KONKR Type 1
++
++# Unique identifier of the capability mapping
++id: konkr1
++
++# List of mapped events that are activated by a specific set of activation keys.
++mapping:
++  - name: LC
++    source_events:
++      - keyboard: KeyF21
++    target_event:
++      gamepad:
++        button: LeftTop
++  - name: RC
++    source_events:
++      - keyboard: KeyF22
++    target_event:
++      gamepad:
++        button: RightTop
++  - name: Quick Access
++    source_events:
++      - keyboard: KeyF23
++    target_event:
++      gamepad:
++        button: QuickAccess
++  - name: Quick Access 2
++    source_events:
++      - keyboard: KeyLeftCtrl
++      - keyboard: KeyF23
++    target_event:
++      gamepad:
++        button: QuickAccess2
++  - name: Keyboard
++    source_events:
++      - keyboard: KeyLeftMeta
++      - keyboard: KeyD
++    target_event:
++      gamepad:
++        button: Keyboard
++  - name: LeftPaddle2
++    source_events:
++      - keyboard: KeyL
++    target_event:
++      gamepad:
++        button: LeftPaddle2
++  - name: RIghtPaddle2
++    source_events:
++      - keyboard: KeyR
++    target_event:
++      gamepad:
++        button: RightPaddle2
++
++# List of events to filter from the source devices
++filtered_events: []
+diff --git a/rootfs/usr/share/inputplumber/devices/50-ayaneo_2.yaml b/rootfs/usr/share/inputplumber/devices/50-ayaneo_2.yaml
+index 1ac3cbaf..2abea803 100644
+--- a/rootfs/usr/share/inputplumber/devices/50-ayaneo_2.yaml
++++ b/rootfs/usr/share/inputplumber/devices/50-ayaneo_2.yaml
+@@ -40,6 +40,19 @@ source_devices:
+       name: AT Translated Set 2 keyboard
+       phys_path: isa0060/serio0/input0
+       handler: event*
++    events:
++      exclude:
++        - "*"
++      include:
++        - Keyboard:KeyD
++        - Keyboard:KeyF15
++        - Keyboard:KeyF16
++        - Keyboard:KeyF17
++        - Keyboard:KeyF18
++        - Keyboard:KeyLeftMeta
++        - Keyboard:KeyRightCtrl
++        - Keyboard:KeyVolumeDown
++        - Keyboard:KeyVolumeUp
+   - group: imu
+     iio:
+       name: "{i2c-BMI0160:00,bmi260}"
+diff --git a/rootfs/usr/share/inputplumber/devices/50-ayaneo_2021.yaml b/rootfs/usr/share/inputplumber/devices/50-ayaneo_2021.yaml
+index cd88fe3b..8ffd4898 100644
+--- a/rootfs/usr/share/inputplumber/devices/50-ayaneo_2021.yaml
++++ b/rootfs/usr/share/inputplumber/devices/50-ayaneo_2021.yaml
+@@ -44,6 +44,18 @@ source_devices:
+       name: AT Translated Set 2 keyboard
+       phys_path: isa0060/serio0/input0
+       handler: event*
++    events:
++      exclude:
++        - "*"
++      include:
++        - keyboard:KeyDelete
++        - keyboard:KeyEsc
++        - keyboard:KeyLeftMeta
++        - keyboard:KeyO
++        - keyboard:KeyRightAlt
++        - keyboard:KeyRightCtrl
++        - Keyboard:KeyVolumeDown
++        - Keyboard:KeyVolumeUp
+   - group: imu
+     iio:
+       name: i2c-10EC5280:00
+diff --git a/rootfs/usr/share/inputplumber/devices/50-ayaneo_2s.yaml b/rootfs/usr/share/inputplumber/devices/50-ayaneo_2s.yaml
+index bae11f56..ad784e6a 100644
+--- a/rootfs/usr/share/inputplumber/devices/50-ayaneo_2s.yaml
++++ b/rootfs/usr/share/inputplumber/devices/50-ayaneo_2s.yaml
+@@ -24,6 +24,9 @@ matches:
+   - dmi_data:
+       product_name: AYANEO GEEK 1S
+       sys_vendor: AYANEO
++  - dmi_data:
++      product_name: SuiPlay0X1
++      sys_vendor: Mysten Labs, Inc.
+ 
+ # One or more source devices to combine into a single virtual device. The events
+ # from these devices will be watched and translated according to the key map.
+@@ -43,6 +46,19 @@ source_devices:
+       name: AT Translated Set 2 keyboard
+       phys_path: isa0060/serio0/input0
+       handler: event*
++    events:
++      exclude:
++        - "*"
++      include:
++        - Keyboard:KeyD
++        - Keyboard:KeyF15
++        - Keyboard:KeyF16
++        - Keyboard:KeyF17
++        - Keyboard:KeyF18
++        - Keyboard:KeyLeftMeta
++        - Keyboard:KeyRightCtrl
++        - Keyboard:KeyVolumeDown
++        - Keyboard:KeyVolumeUp
+   - group: imu
+     iio:
+       name: "{i2c-BMI0160:00,bmi260}"
+diff --git a/rootfs/usr/share/inputplumber/devices/50-ayaneo_3.yaml b/rootfs/usr/share/inputplumber/devices/50-ayaneo_3.yaml
+index ac5fbb8b..900ac137 100644
+--- a/rootfs/usr/share/inputplumber/devices/50-ayaneo_3.yaml
++++ b/rootfs/usr/share/inputplumber/devices/50-ayaneo_3.yaml
+@@ -44,12 +44,32 @@ source_devices:
+       name: AYANEO COMPOSITE DEVICE
+       phys_path: usb-0000:c7:00.0-1/input1
+       handler: event*
++    events:
++      exclude:
++        - "*"
++      include:
++        - keyboard:KeyD
++        - keyboard:KeyDelete
++        - keyboard:KeyG
++        - keyboard:KeyLeftAlt
++        - keyboard:KeyLeftCtrl
++        - keyboard:KeyLeftMeta
++        - keyboard:KeyO
++        - keyboard:KeyRightAlt
++        - keyboard:KeyRightCtrl
++        - keyboard:KeySysrq
+   # All devices
+   - group: gamepad
+     evdev:
+       name: AT Translated Set 2 keyboard
+       phys_path: isa0060/serio0/input0
+       handler: event*
++    events:
++      exclude:
++        - "*"
++      include:
++        - keyboard:KeyVolumeDown
++        - keyboard:KeyVolumeUp
+   - group: imu
+     iio:
+       name: bmi323-imu
+diff --git a/rootfs/usr/share/inputplumber/devices/50-ayaneo_air.yaml b/rootfs/usr/share/inputplumber/devices/50-ayaneo_air.yaml
+index fa8d2a77..d7d30165 100644
+--- a/rootfs/usr/share/inputplumber/devices/50-ayaneo_air.yaml
++++ b/rootfs/usr/share/inputplumber/devices/50-ayaneo_air.yaml
+@@ -35,6 +35,18 @@ source_devices:
+       name: AT Translated Set 2 keyboard
+       phys_path: isa0060/serio0/input0
+       handler: event*
++    events:
++      exclude:
++        - "*"
++      include:
++        - keyboard:KeyD
++        - keyboard:KeyF10
++        - keyboard:KeyF11
++        - keyboard:KeyF12
++        - keyboard:KeyLeftMeta
++        - keyboard:KeyRightCtrl
++        - Keyboard:KeyVolumeDown
++        - Keyboard:KeyVolumeUp
+   #- group: imu #TODO:reenable after we switch from polling
+   #  iio:
+   #    name: "{i2c-BMI0160:00,bmi260}"
+diff --git a/rootfs/usr/share/inputplumber/devices/50-ayaneo_air_1s.yaml b/rootfs/usr/share/inputplumber/devices/50-ayaneo_air_1s.yaml
+index 645d9d5e..1e3ab4dd 100644
+--- a/rootfs/usr/share/inputplumber/devices/50-ayaneo_air_1s.yaml
++++ b/rootfs/usr/share/inputplumber/devices/50-ayaneo_air_1s.yaml
+@@ -40,6 +40,17 @@ source_devices:
+       name: AT Translated Set 2 keyboard
+       phys_path: isa0060/serio0/input0
+       handler: event*
++    events:
++      exclude:
++        - "*"
++      include:
++        - keyboard:KeyD
++        - keyboard:KeyLeftAlt
++        - keyboard:KeyLeftCtrl
++        - keyboard:KeyLeftMeta
++        - keyboard:KeyO
++        - Keyboard:KeyVolumeDown
++        - Keyboard:KeyVolumeUp
+   - group: imu
+     iio:
+       name: "{i2c-BMI0160:00,bmi260}"
+diff --git a/rootfs/usr/share/inputplumber/devices/50-ayaneo_air_plus.yaml b/rootfs/usr/share/inputplumber/devices/50-ayaneo_air_plus.yaml
+index d37b82b4..8585bed6 100644
+--- a/rootfs/usr/share/inputplumber/devices/50-ayaneo_air_plus.yaml
++++ b/rootfs/usr/share/inputplumber/devices/50-ayaneo_air_plus.yaml
+@@ -47,6 +47,17 @@ source_devices:
+       name: AT Translated Set 2 keyboard
+       phys_path: isa0060/serio0/input0
+       handler: event*
++    events:
++      exclude:
++        - "*"
++      include:
++        - keyboard:KeyLeftAlt
++        - keyboard:KeyLeftCtrl
++        - keyboard:KeyLeftMeta
++        - keyboard:KeyO
++        - keyboard:KeyRightCtrl
++        - Keyboard:KeyVolumeDown
++        - Keyboard:KeyVolumeUp
+   - group: imu
+     iio:
+       name: bmi323-imu
+diff --git a/rootfs/usr/share/inputplumber/devices/50-ayaneo_air_plus_mendo.yaml b/rootfs/usr/share/inputplumber/devices/50-ayaneo_air_plus_mendo.yaml
+index a7805e2d..c01b9934 100644
+--- a/rootfs/usr/share/inputplumber/devices/50-ayaneo_air_plus_mendo.yaml
++++ b/rootfs/usr/share/inputplumber/devices/50-ayaneo_air_plus_mendo.yaml
+@@ -38,6 +38,17 @@ source_devices:
+       name: AT Translated Set 2 keyboard
+       phys_path: isa0060/serio0/input0
+       handler: event*
++    events:
++      exclude:
++        - "*"
++      include:
++        - keyboard:KeyD
++        - keyboard:KeyLeftAlt
++        - keyboard:KeyLeftCtrl
++        - keyboard:KeyLeftMeta
++        - keyboard:KeyO
++        - Keyboard:KeyVolumeDown
++        - Keyboard:KeyVolumeUp
+   - group: imu
+     iio:
+       name: bmi323-imu
+diff --git a/rootfs/usr/share/inputplumber/devices/50-ayaneo_flip.yaml b/rootfs/usr/share/inputplumber/devices/50-ayaneo_flip.yaml
+index d120281a..b3791d76 100644
+--- a/rootfs/usr/share/inputplumber/devices/50-ayaneo_flip.yaml
++++ b/rootfs/usr/share/inputplumber/devices/50-ayaneo_flip.yaml
+@@ -40,6 +40,17 @@ source_devices:
+       name: AT Translated Set 2 keyboard
+       phys_path: isa0060/serio0/input0
+       handler: event*
++    events:
++      exclude:
++        - "*"
++      include:
++        - keyboard:KeyD
++        - keyboard:KeyLeftAlt
++        - keyboard:KeyLeftCtrl
++        - keyboard:KeyLeftMeta
++        - keyboard:KeyO
++        - Keyboard:KeyVolumeDown
++        - Keyboard:KeyVolumeUp
+   - group: imu
+     iio:
+       name: "{i2c-BMI0160:00,bmi260}"
+diff --git a/rootfs/usr/share/inputplumber/devices/50-ayaneo_flip_1s.yaml b/rootfs/usr/share/inputplumber/devices/50-ayaneo_flip_1s.yaml
+index e26d7908..55f9fba1 100644
+--- a/rootfs/usr/share/inputplumber/devices/50-ayaneo_flip_1s.yaml
++++ b/rootfs/usr/share/inputplumber/devices/50-ayaneo_flip_1s.yaml
+@@ -32,18 +32,48 @@ source_devices:
+       name: AYANEO COMPOSITE DEVICE
+       phys_path: usb-0000:c7:00.0-4/input1
+       handler: event*
++    events:
++      exclude:
++        - "*"
++      include:
++        - keyboard:KeyD
++        - keyboard:KeyDelete
++        - keyboard:KeyG
++        - keyboard:KeyLeftAlt
++        - keyboard:KeyLeftCtrl
++        - keyboard:KeyLeftMeta
++        - keyboard:KeyO
++        - keyboard:KeyRightAlt
++        - keyboard:KeyRightCtrl
++        - keyboard:KeySysrq
+   - group: keyboard
+     evdev:
+       name: AT Translated Set 2 keyboard
+       phys_path: isa0060/serio0/input0
+       handler: event*
++    events:
++      exclude:
++        - "*"
++      include:
++        - keyboard:KeyD
++        - keyboard:KeyDelete
++        - keyboard:KeyG
++        - keyboard:KeyLeftAlt
++        - keyboard:KeyLeftCtrl
++        - keyboard:KeyLeftMeta
++        - keyboard:KeyO
++        - keyboard:KeyRightAlt
++        - keyboard:KeyRightCtrl
++        - keyboard:KeySysrq
++        - Keyboard:KeyVolumeDown
++        - Keyboard:KeyVolumeUp
+   - group: imu
+     iio:
+-       name: bmi323-imu
+-       mount_matrix:
+-         x: [0, 1, 0]
+-         y: [0, 0, 1]
+-         z: [1, 0, 0]
++      name: bmi323-imu
++      mount_matrix:
++        x: [0, 1, 0]
++        y: [0, 0, 1]
++        z: [1, 0, 0]
+   - group: touchscreen
+     udev:
+       properties:
+diff --git a/rootfs/usr/share/inputplumber/devices/50-ayaneo_kun.yaml b/rootfs/usr/share/inputplumber/devices/50-ayaneo_kun.yaml
+index 5639e7ef..6729b9c7 100644
+--- a/rootfs/usr/share/inputplumber/devices/50-ayaneo_kun.yaml
++++ b/rootfs/usr/share/inputplumber/devices/50-ayaneo_kun.yaml
+@@ -34,9 +34,19 @@ source_devices:
+       handler: event*
+   - group: keyboard
+     evdev:
+-      name: AT Translated Set 2 keyboard
+       phys_path: isa0060/serio0/input0
+       handler: event*
++    events:
++      exclude:
++        - "*"
++      include:
++        - keyboard:KeyD
++        - keyboard:KeyG
++        - keyboard:KeyLeftAlt
++        - keyboard:KeyLeftMeta
++        - keyboard:KeyRightCtrl
++        - Keyboard:KeyVolumeDown
++        - Keyboard:KeyVolumeUp
+   - group: imu
+     iio:
+       name: "{i2c-BMI0160:00,bmi260}"
+diff --git a/rootfs/usr/share/inputplumber/devices/50-ayaneo_next.yaml b/rootfs/usr/share/inputplumber/devices/50-ayaneo_next.yaml
+index 56d29bb1..9063ffbe 100644
+--- a/rootfs/usr/share/inputplumber/devices/50-ayaneo_next.yaml
++++ b/rootfs/usr/share/inputplumber/devices/50-ayaneo_next.yaml
+@@ -50,6 +50,20 @@ source_devices:
+       name: AT Translated Set 2 keyboard
+       phys_path: isa0060/serio0/input0
+       handler: event*
++    events:
++      exclude:
++        - "*"
++      include:
++        - keyboard:KeyApostrophe
++        - keyboard:KeyCopy
++        - keyboard:KeyD
++        - keyboard:KeyF12
++        - keyboard:KeyKpEnter
++        - keyboard:KeyLeft
++        - keyboard:KeyLeftMeta
++        - keyboard:KeyRightCtrl
++        - Keyboard:KeyVolumeDown
++        - Keyboard:KeyVolumeUp
+   - group: imu
+     iio:
+       name: i2c-BMI0160:00
+diff --git a/rootfs/usr/share/inputplumber/devices/50-ayaneo_slide.yaml b/rootfs/usr/share/inputplumber/devices/50-ayaneo_slide.yaml
+index 544d86c7..44b62a08 100644
+--- a/rootfs/usr/share/inputplumber/devices/50-ayaneo_slide.yaml
++++ b/rootfs/usr/share/inputplumber/devices/50-ayaneo_slide.yaml
+@@ -37,6 +37,17 @@ source_devices:
+       name: AT Translated Set 2 keyboard
+       phys_path: isa0060/serio0/input0
+       handler: event*
++    events:
++      exclude:
++        - "*"
++      include:
++        - keyboard:KeyLeftAlt
++        - keyboard:KeyLeftCtrl
++        - keyboard:KeyLeftMeta
++        - keyboard:KeyO
++        - keyboard:KeyRightCtrl
++        - Keyboard:KeyVolumeDown
++        - Keyboard:KeyVolumeUp
+   - group: imu
+     iio:
+       name: "{i2c-BMI0160:00,bmi260}"
+diff --git a/rootfs/usr/share/inputplumber/devices/50-konkr-fit.yaml b/rootfs/usr/share/inputplumber/devices/50-konkr-fit.yaml
+new file mode 100644
+index 00000000..14e950b5
+--- /dev/null
++++ b/rootfs/usr/share/inputplumber/devices/50-konkr-fit.yaml
+@@ -0,0 +1,92 @@
++# yaml-language-server: $schema=https://raw.githubusercontent.com/ShadowBlip/InputPlumber/main/rootfs/usr/share/inputplumber/schema/composite_device_v1.json
++# Schema version number
++version: 1
++
++# The type of configuration schema
++kind: CompositeDevice
++
++# Name of the composite device mapping
++name: KONKR Fit
++
++# Only allow a single source device per composite device of this type.
++single_source: false
++
++# Only use this profile if *any* of the given matches matches. If this list is
++# empty, then the source devices will *always* be checked.
++# /sys/class/dmi/id/product_name
++matches:
++  - dmi_data:
++      product_name: KONKR FIT
++      sys_vendor: KONKR
++
++# One or more source devices to combine into a single virtual device. The events
++# from these devices will be watched and translated according to the key map.
++source_devices:
++  - group: gamepad
++    evdev:
++      name: Microsoft X-Box 360 pad
++      phys_path: usb-0000:c7:00.0-2/input0
++      handler: event*
++  - group: gamepad
++    evdev:
++      name: AYANEO COMPOSITE DEVICE
++      phys_path: usb-0000:c7:00.0-1/input1
++      handler: event*
++    events:
++      exclude:
++        - "*"
++      include:
++        - keyboard:KeyD
++        - keyboard:KeyDelete
++        - keyboard:KeyG
++        - keyboard:KeyLeftAlt
++        - keyboard:KeyLeftCtrl
++        - keyboard:KeyLeftMeta
++        - keyboard:KeyO
++        - keyboard:KeyRightAlt
++        - keyboard:KeyRightCtrl
++        - keyboard:KeySysrq
++  - group: gamepad
++    evdev:
++      name: AT Translated Set 2 keyboard
++      phys_path: isa0060/serio0/input0
++      handler: event*
++    events:
++      exclude:
++        - "*"
++      include:
++        - keyboard:KeyVolumeDown
++        - keyboard:KeyVolumeUp
++  - group: imu
++    iio:
++      name: bmi323-imu
++      # mount_matrix:
++      #   x: [0, -1, 0]
++      #   y: [-1, 0, 0]
++      #   z: [0, 0, -1]
++
++  # RGB
++  - group: led
++    udev: # Legacy
++      sys_name: multicolor:chassis
++      subsystem: leds
++  - group: led
++    udev: # Updated
++      sys_name: ayaneo:rgb:joystick_rings
++      subsystem: leds
++
++# Optional configuration for the composite device
++options:
++  # If true, InputPlumber will automatically try to manage the input device. If
++  # this is false, InputPlumber will not try to manage the device unless an
++  # external service enables management of the device. Defaults to 'false'
++  auto_manage: true
++
++# The target input device(s) to emulate by default
++target_devices:
++  - xbox-elite
++  - mouse
++  - keyboard
++
++# The ID of a device event mapping in the 'event_maps' folder
++capability_map_id: konkr1
