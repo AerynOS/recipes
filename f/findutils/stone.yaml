@@ -2,16 +2,20 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : findutils
-version     : "4.10.0"
-release     : 4
+version     : "4.11.0"
+release     : 5
 homepage    : https://www.gnu.org/software/findutils/
 upstreams   :
-    - https://ftp.gnu.org/gnu/findutils/findutils-4.10.0.tar.xz : 1387e0b67ff247d2abde998f90dfbf70c1491391a59ddfecb8ae698789f0a4f5
+    - https://ftp.gnu.org/gnu/findutils/findutils-4.11.0.tar.xz : bfd19cb06cc71f3352d567e90284d8cdac02ac89774bbeadf0b533b0c11432fd
 summary     : GNU utilities to find files
 description : |
     The GNU Find Utilities are the basic directory searching utilities of the GNU operating system. These programs are typically used in conjunction with other programs to provide modular and powerful directory search and file locating capabilities to other commands.
 license     :
     - GPL-3.0-or-later
+builddeps   :
+    - binary(groff)
+    - binary(msgfmt)
+    - binary(python3)
 setup       : |
     %configure
 build       : |

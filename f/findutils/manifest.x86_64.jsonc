@@ -3,6 +3,11 @@
 	"manifest-version": "0.2",
 	"packages": {
 		"findutils": {
+			"build-depends": [
+				"binary(groff)",
+				"binary(msgfmt)",
+				"binary(python3)"
+			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))",
@@ -17,6 +22,7 @@
 				"/usr/lib/tmpfiles.d/findutils.conf",
 				"/usr/share/info/find-maint.info",
 				"/usr/share/info/find.info",
+				"/usr/share/locale/ar/LC_MESSAGES/findutils.mo",
 				"/usr/share/locale/be/LC_MESSAGES/findutils.mo",
 				"/usr/share/locale/bg/LC_MESSAGES/findutils.mo",
 				"/usr/share/locale/ca/LC_MESSAGES/findutils.mo",
@@ -73,6 +79,6 @@
 		}
 	},
 	"source-name": "findutils",
-	"source-release": "4",
-	"source-version": "4.10.0"
+	"source-release": "5",
+	"source-version": "4.11.0"
 }
