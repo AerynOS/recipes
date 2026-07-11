@@ -147,14 +147,13 @@
 				"pkgconfig(libtasn1)"
 			],
 			"depends": [
-				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libffi.so.8(x86_64))",
 				"soname(libtasn1.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/lib/libp11-kit.so.0",
-				"/usr/lib/libp11-kit.so.0.4.8",
+				"/usr/lib/libp11-kit.so.0.4.10",
 				"/usr/lib/p11-kit-proxy.so",
 				"/usr/lib/pkcs11/p11-kit-client.so",
 				"/usr/lib/pkcs11/p11-kit-trust.so"
@@ -168,6 +167,6 @@
 		}
 	},
 	"source-name": "p11-kit",
-	"source-release": "11",
-	"source-version": "0.26.2"
+	"source-release": "12",
+	"source-version": "0.26.4"
 }
