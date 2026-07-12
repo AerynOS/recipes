@@ -130,7 +130,6 @@
 			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
-				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libbrotlidec.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libcap.so.2(x86_64))",
@@ -178,9 +177,9 @@
 				"/usr/bin/tfshark",
 				"/usr/bin/tshark",
 				"/usr/lib/libwireshark.so.19",
-				"/usr/lib/libwireshark.so.19.0.5",
+				"/usr/lib/libwireshark.so.19.0.7",
 				"/usr/lib/libwiretap.so.16",
-				"/usr/lib/libwiretap.so.16.0.5",
+				"/usr/lib/libwiretap.so.16.0.7",
 				"/usr/lib/libwsutil.so.17",
 				"/usr/lib/libwsutil.so.17.0.0",
 				"/usr/lib/sysusers.d/wireshark.conf",
@@ -233,6 +232,7 @@
 				"/usr/share/doc/wireshark/rawshark.html",
 				"/usr/share/doc/wireshark/reordercap.html",
 				"/usr/share/doc/wireshark/sdjournal.html",
+				"/usr/share/doc/wireshark/sharkd.html",
 				"/usr/share/doc/wireshark/sshdig.html",
 				"/usr/share/doc/wireshark/sshdump.html",
 				"/usr/share/doc/wireshark/strato.html",
@@ -260,6 +260,7 @@
 				"/usr/share/man/man1/rawshark.1",
 				"/usr/share/man/man1/reordercap.1",
 				"/usr/share/man/man1/sdjournal.1",
+				"/usr/share/man/man1/sharkd.1",
 				"/usr/share/man/man1/sshdig.1",
 				"/usr/share/man/man1/sshdump.1",
 				"/usr/share/man/man1/strato.1",
@@ -668,6 +669,6 @@
 		}
 	},
 	"source-name": "wireshark",
-	"source-release": "7",
-	"source-version": "4.6.5"
+	"source-release": "8",
+	"source-version": "4.6.7"
 }

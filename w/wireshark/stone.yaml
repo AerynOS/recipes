@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : wireshark
-version     : "4.6.5"
-release     : 7
+version     : "4.6.7"
+release     : 8
 homepage    : https://www.wireshark.org/
 upstreams   :
-    - https://gitlab.com/wireshark/wireshark/-/archive/v4.6.5/wireshark-v4.6.5.tar.gz : b4d5c560a679c25d12e0087ba67cd1494853f8d8b912df99e22645c7bf3dbd9e
+    - https://gitlab.com/wireshark/wireshark/-/archive/v4.6.7/wireshark-v4.6.7.tar.gz : fcd09518b4b5a1fb799c084e8cede9d4ed85b78eccee879e463da15072508914
 summary     : Wireshark is the world's foremost network protocol analyzer.
 description : |
     Wireshark is the world's foremost network protocol analyzer. It lets you see what's happening on your network at a microscopic level.
@@ -26,6 +26,7 @@ builddeps   :
     - pkgconfig(Qt6Help)
     - pkgconfig(Qt6Multimedia)
     - pkgconfig(Qt6Svg)
+    - pkgconfig(glib-2.0)
     - pkgconfig(gnutls)
     - pkgconfig(krb5)
     - pkgconfig(libbrotlicommon)
@@ -47,7 +48,6 @@ builddeps   :
     - pkgconfig(sbc)
     - pkgconfig(snappy)
     - pkgconfig(speexdsp)
-    - pkgconfig(glib-2.0)
     - sysbinary(setcap)
     # TODO: libsmi
 rundeps   :
