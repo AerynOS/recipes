@@ -1,0 +1,487 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Vladimir Golovnev <glassez@yandex.ru>
+Date: Mon, 30 Mar 2026 08:21:13 +0300
+Subject: [PATCH] Don't use deprecated libtorrent features
+
+PR #24007.
+Closes #24001.
+---
+ .../bittorrent/bencoderesumedatastorage.cpp   | 21 +++++++++-
+ src/base/bittorrent/dbresumedatastorage.cpp   | 21 +++++++++-
+ src/base/bittorrent/peerinfo.cpp              | 11 +++++-
+ src/base/bittorrent/sessionimpl.cpp           | 37 ++++++++++++++----
+ src/base/bittorrent/torrentcreator.cpp        | 39 ++++++++++++++-----
+ src/base/bittorrent/torrentimpl.cpp           | 17 ++++----
+ src/base/bittorrent/torrentinfo.cpp           | 29 ++++++++++----
+ 7 files changed, 139 insertions(+), 36 deletions(-)
+
+diff --git a/src/base/bittorrent/bencoderesumedatastorage.cpp b/src/base/bittorrent/bencoderesumedatastorage.cpp
+index 1f4f181d5..2d3e7b59e 100644
+--- a/src/base/bittorrent/bencoderesumedatastorage.cpp
++++ b/src/base/bittorrent/bencoderesumedatastorage.cpp
+@@ -1,6 +1,6 @@
+ /*
+  * Bittorrent Client using Qt and libtorrent.
+- * Copyright (C) 2015-2022  Vladimir Golovnev <glassez@yandex.ru>
++ * Copyright (C) 2015-2026  Vladimir Golovnev <glassez@yandex.ru>
+  *
+  * This program is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU General Public License
+@@ -32,7 +32,11 @@
+ #include <libtorrent/entry.hpp>
+ #include <libtorrent/read_resume_data.hpp>
+ #include <libtorrent/torrent_info.hpp>
++#include <libtorrent/version.hpp>
+ #include <libtorrent/write_resume_data.hpp>
++#if LIBTORRENT_VERSION_NUM >= 20100
++#include <libtorrent/load_torrent.hpp>
++#endif
+ 
+ #include <QByteArray>
+ #include <QDebug>
+@@ -313,11 +317,26 @@ BitTorrent::LoadResumeDataResult BitTorrent::BencodeResumeDataStorage::loadTorre
+         if (torrentInfoRoot.type() != lt::bdecode_node::dict_t)
+             return nonstd::make_unexpected(tr("Cannot parse torrent info: invalid format"));
+ 
++#if LIBTORRENT_VERSION_NUM >= 20100
++        const lt::load_torrent_limits limits {
++            .max_buffer_size = static_cast<int>(pref->getTorrentFileSizeLimit()),
++            .max_decode_depth = pref->getBdecodeDepthLimit(),
++            .max_decode_tokens = pref->getBdecodeTokenLimit()};
++        const lt::add_torrent_params atp = lt::load_torrent_parsed(torrentInfoRoot, ec, limits);
++        if (ec)
++            return nonstd::make_unexpected(tr("Cannot parse torrent info: %1").arg(QString::fromStdString(ec.message())));
++
++        p.ti = atp.ti;
++        p.creation_date = atp.creation_date;
++        p.created_by = atp.created_by;
++        p.comment = atp.comment;
++#else
+         const auto torrentInfo = std::make_shared<lt::torrent_info>(torrentInfoRoot, ec);
+         if (ec)
+             return nonstd::make_unexpected(tr("Cannot parse torrent info: %1").arg(QString::fromStdString(ec.message())));
+ 
+         p.ti = torrentInfo;
++#endif
+ 
+ #ifdef QBT_USES_LIBTORRENT2
+         if (((p.info_hashes.has_v1() && (p.info_hashes.v1 != p.ti->info_hashes().v1))
+diff --git a/src/base/bittorrent/dbresumedatastorage.cpp b/src/base/bittorrent/dbresumedatastorage.cpp
+index 9aea6bb66..65c3cb815 100644
+--- a/src/base/bittorrent/dbresumedatastorage.cpp
++++ b/src/base/bittorrent/dbresumedatastorage.cpp
+@@ -1,6 +1,6 @@
+ /*
+  * Bittorrent Client using Qt and libtorrent.
+- * Copyright (C) 2021-2025  Vladimir Golovnev <glassez@yandex.ru>
++ * Copyright (C) 2021-2026  Vladimir Golovnev <glassez@yandex.ru>
+  *
+  * This program is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU General Public License
+@@ -37,7 +37,11 @@
+ #include <libtorrent/entry.hpp>
+ #include <libtorrent/read_resume_data.hpp>
+ #include <libtorrent/torrent_info.hpp>
++#include <libtorrent/version.hpp>
+ #include <libtorrent/write_resume_data.hpp>
++#if LIBTORRENT_VERSION_NUM >= 20100
++#include <libtorrent/load_torrent.hpp>
++#endif
+ 
+ #include <QByteArray>
+ #include <QDebug>
+@@ -686,9 +690,24 @@ LoadResumeDataResult DBResumeDataStorage::parseQueryResultRow(const QSqlQuery &q
+         if (ec)
+             return nonstd::make_unexpected(tr("Cannot parse torrent info: %1").arg(QString::fromStdString(ec.message())));
+ 
++#if LIBTORRENT_VERSION_NUM >= 20100
++        const lt::load_torrent_limits limits {
++            .max_buffer_size = static_cast<int>(pref->getTorrentFileSizeLimit()),
++            .max_decode_depth = bdecodeDepthLimit,
++            .max_decode_tokens = bdecodeTokenLimit};
++        const lt::add_torrent_params atp = lt::load_torrent_parsed(torrentInfoRoot, ec, limits);
++        if (ec)
++            return nonstd::make_unexpected(tr("Cannot parse torrent info: %1").arg(QString::fromStdString(ec.message())));
++
++        p.ti = atp.ti;
++        p.creation_date = atp.creation_date;
++        p.created_by = atp.created_by;
++        p.comment = atp.comment;
++#else
+         p.ti = std::make_shared<lt::torrent_info>(torrentInfoRoot, ec);
+         if (ec)
+             return nonstd::make_unexpected(tr("Cannot parse torrent info: %1").arg(QString::fromStdString(ec.message())));
++#endif
+     }
+ 
+     p.save_path = Profile::instance()->fromPortablePath(Path(fromLTString(p.save_path)))
+diff --git a/src/base/bittorrent/peerinfo.cpp b/src/base/bittorrent/peerinfo.cpp
+index 5d9abbec6..8a255cead 100644
+--- a/src/base/bittorrent/peerinfo.cpp
++++ b/src/base/bittorrent/peerinfo.cpp
+@@ -1,6 +1,6 @@
+ /*
+  * Bittorrent Client using Qt and libtorrent.
+- * Copyright (C) 2015-2023  Vladimir Golovnev <glassez@yandex.ru>
++ * Copyright (C) 2015-2026  Vladimir Golovnev <glassez@yandex.ru>
+  *
+  * This program is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU General Public License
+@@ -28,6 +28,8 @@
+ 
+ #include "peerinfo.h"
+ 
++#include <libtorrent/version.hpp>
++
+ #include <QBitArray>
+ 
+ #include "base/bittorrent/ltqbitarray.h"
+@@ -172,8 +174,13 @@ PeerAddress PeerInfo::address() const
+     if (useI2PSocket())
+         return {};
+ 
++#if LIBTORRENT_VERSION_NUM >= 20100
++    const lt::tcp::endpoint ip = m_nativeInfo.remote_endpoint();
++#else
++    const lt::tcp::endpoint &ip = m_nativeInfo.ip;
++#endif
+     // fast path for platforms which boost.asio internal struct maps to `sockaddr`
+-    return {QHostAddress(m_nativeInfo.ip.data()), m_nativeInfo.ip.port()};
++    return {QHostAddress(ip.data()), ip.port()};
+     // slow path for the others
+     //return {QHostAddress(QString::fromStdString(m_nativeInfo.ip.address().to_string()))
+     //    , m_nativeInfo.ip.port()};
+diff --git a/src/base/bittorrent/sessionimpl.cpp b/src/base/bittorrent/sessionimpl.cpp
+index 3cc9eab7f..92e71100d 100644
+--- a/src/base/bittorrent/sessionimpl.cpp
++++ b/src/base/bittorrent/sessionimpl.cpp
+@@ -1,6 +1,6 @@
+ /*
+  * Bittorrent Client using Qt and libtorrent.
+- * Copyright (C) 2015-2025  Vladimir Golovnev <glassez@yandex.ru>
++ * Copyright (C) 2015-2026  Vladimir Golovnev <glassez@yandex.ru>
+  * Copyright (C) 2006  Christophe Dumez <chris@qbittorrent.org>
+  *
+  * This program is free software; you can redistribute it and/or
+@@ -1539,7 +1539,7 @@ void SessionImpl::processNextResumeData(ResumeSessionContext *context)
+ 
+             if (nonstd::expected<LoadTorrentParams, QString> loadPreferredResumeDataResult = context->startupStorage->load(torrentID))
+             {
+-                std::shared_ptr<lt::torrent_info> ti = resumeData.ltAddTorrentParams.ti;
++                auto ti = resumeData.ltAddTorrentParams.ti;
+                 resumeData = std::move(*loadPreferredResumeDataResult);
+                 if (!resumeData.ltAddTorrentParams.ti)
+                     resumeData.ltAddTorrentParams.ti = std::move(ti);
+@@ -2861,7 +2861,12 @@ bool SessionImpl::addTorrent_impl(const TorrentDescriptor &source, const AddTorr
+         if (!loadTorrentParams.hasFinishedStatus)
+             needFindIncompleteFiles = true;
+ 
+-        const int internalFilesCount = torrentInfo.nativeInfo()->files().num_files(); // including .pad files
++#if LIBTORRENT_VERSION_NUM >= 20100
++        const lt::file_storage internalFiles = torrentInfo.nativeInfo()->layout();
++#else
++        const lt::file_storage internalFiles = torrentInfo.nativeInfo()->files();
++#endif
++        const int internalFilesCount = internalFiles.num_files(); // including .pad files
+         // Use qBittorrent default priority rather than libtorrent's (4)
+         p.file_priorities = std::vector(internalFilesCount, LT::toNative(DownloadPriority::Normal));
+ 
+@@ -6081,6 +6086,15 @@ void SessionImpl::handlePortmapAlert(const lt::portmap_alert *alert)
+ 
+ void SessionImpl::handlePeerBlockedAlert(const lt::peer_blocked_alert *alert)
+ {
++#if LIBTORRENT_VERSION_NUM >= 20100
++    using TCPEndpoint = lt::aux::noexcept_movable<lt::tcp::endpoint>;
++    const lt::tcp::endpoint ipEndpoint = (std::holds_alternative<TCPEndpoint>(alert->ep))
++            ? std::get<TCPEndpoint>(alert->ep)
++            : TCPEndpoint();
++#else
++    const lt::tcp::endpoint &ipEndpoint = alert->endpoint;
++#endif
++
+     QString reason;
+     switch (alert->reason)
+     {
+@@ -6088,13 +6102,13 @@ void SessionImpl::handlePeerBlockedAlert(const lt::peer_blocked_alert *alert)
+         reason = tr("IP filter", "this peer was blocked. Reason: IP filter.");
+         break;
+     case lt::peer_blocked_alert::port_filter:
+-        reason = tr("filtered port (%1)", "this peer was blocked. Reason: filtered port (8899).").arg(QString::number(alert->endpoint.port()));
++        reason = tr("filtered port (%1)", "this peer was blocked. Reason: filtered port (8899).").arg(QString::number(ipEndpoint.port()));
+         break;
+     case lt::peer_blocked_alert::i2p_mixed:
+         reason = tr("%1 mixed mode restrictions", "this peer was blocked. Reason: I2P mixed mode restrictions.").arg(u"I2P"_s); // don't translate I2P
+         break;
+     case lt::peer_blocked_alert::privileged_ports:
+-        reason = tr("privileged port (%1)", "this peer was blocked. Reason: privileged port (80).").arg(QString::number(alert->endpoint.port()));
++        reason = tr("privileged port (%1)", "this peer was blocked. Reason: privileged port (80).").arg(QString::number(ipEndpoint.port()));
+         break;
+     case lt::peer_blocked_alert::utp_disabled:
+         reason = tr("%1 is disabled", "this peer was blocked. Reason: uTP is disabled.").arg(C_UTP); // don't translate μTP
+@@ -6104,14 +6118,23 @@ void SessionImpl::handlePeerBlockedAlert(const lt::peer_blocked_alert *alert)
+         break;
+     }
+ 
+-    const QString ip {toString(alert->endpoint.address())};
++    const QString ip {toString(ipEndpoint.address())};
+     if (!ip.isEmpty())
+         Logger::instance()->addPeer(ip, true, reason);
+ }
+ 
+ void SessionImpl::handlePeerBanAlert(const lt::peer_ban_alert *alert)
+ {
+-    const QString ip {toString(alert->endpoint.address())};
++#if LIBTORRENT_VERSION_NUM >= 20100
++    using TCPEndpoint = lt::aux::noexcept_movable<lt::tcp::endpoint>;
++    const lt::tcp::endpoint ipEndpoint = (std::holds_alternative<TCPEndpoint>(alert->ep))
++            ? std::get<TCPEndpoint>(alert->ep)
++            : TCPEndpoint();
++#else
++    const lt::tcp::endpoint &ipEndpoint = alert->endpoint;
++#endif
++
++    const QString ip {toString(ipEndpoint.address())};
+     if (!ip.isEmpty())
+         Logger::instance()->addPeer(ip, false);
+ }
+diff --git a/src/base/bittorrent/torrentcreator.cpp b/src/base/bittorrent/torrentcreator.cpp
+index 4ff53ec30..7b20a8d3b 100644
+--- a/src/base/bittorrent/torrentcreator.cpp
++++ b/src/base/bittorrent/torrentcreator.cpp
+@@ -1,6 +1,6 @@
+ /*
+  * Bittorrent Client using Qt and libtorrent.
+- * Copyright (C) 2024  Vladimir Golovnev <glassez@yandex.ru>
++ * Copyright (C) 2024-2026  Vladimir Golovnev <glassez@yandex.ru>
+  * Copyright (C) 2024  Radu Carpa <radu.carpa@cern.ch>
+  * Copyright (C) 2010  Christophe Dumez <chris@qbittorrent.org>
+  *
+@@ -35,6 +35,7 @@
+ #include <libtorrent/create_torrent.hpp>
+ #include <libtorrent/file_storage.hpp>
+ #include <libtorrent/torrent_info.hpp>
++#include <libtorrent/version.hpp>
+ 
+ #include <QtSystemDetection>
+ #include <QDirIterator>
+@@ -116,10 +117,18 @@ void TorrentCreator::run()
+         const Utils::Compare::NaturalLessThan<Qt::CaseInsensitive> naturalLessThan {};
+ 
+         // Adding files to the torrent
+-        lt::file_storage fs;
++#if LIBTORRENT_VERSION_NUM >= 20100
++        std::vector<lt::create_file_entry> files;
++#else
++        lt::file_storage files;
++#endif
+         if (QFileInfo(m_params.sourcePath.data()).isFile())
+         {
+-            lt::add_files(fs, m_params.sourcePath.toString().toStdString(), fileFilter);
++#if LIBTORRENT_VERSION_NUM >= 20100
++            files = lt::list_files(m_params.sourcePath.toString().toStdString(), fileFilter);
++#else
++            lt::add_files(files, m_params.sourcePath.toString().toStdString(), fileFilter);
++#endif
+         }
+         else
+         {
+@@ -179,16 +188,22 @@ void TorrentCreator::run()
+                 fileNames += tmpNames;
+             }
+ 
++#if LIBTORRENT_VERSION_NUM >= 20100
++            files.reserve(static_cast<std::size_t>(fileNames.size()));
+             for (const QString &fileName : asConst(fileNames))
+-                fs.add_file(fileName.toStdString(), fileSizeMap[fileName]);
++                files.emplace_back(fileName.toStdString(), fileSizeMap[fileName]);
++#else
++            for (const QString &fileName : asConst(fileNames))
++                files.add_file(fileName.toStdString(), fileSizeMap[fileName]);
++#endif
+         }
+ 
+         checkInterruptionRequested();
+ 
+ #ifdef QBT_USES_LIBTORRENT2
+-        lt::create_torrent newTorrent {fs, m_params.pieceSize, toNativeTorrentFormatFlag(m_params.torrentFormat)};
++        lt::create_torrent newTorrent {files, m_params.pieceSize, toNativeTorrentFormatFlag(m_params.torrentFormat)};
+ #else
+-        lt::create_torrent newTorrent {fs, m_params.pieceSize, m_params.paddedFileSizeLimit
++        lt::create_torrent newTorrent {files, m_params.pieceSize, m_params.paddedFileSizeLimit
+             , (m_params.isAlignmentOptimized ? lt::create_torrent::optimize_alignment : lt::create_flags_t {})};
+ #endif
+ 
+@@ -282,13 +297,17 @@ int TorrentCreator::calculateTotalPieces(const Path &inputPath, const int pieceS
+     if (inputPath.isEmpty())
+         return 0;
+ 
+-    lt::file_storage fs;
+-    lt::add_files(fs, inputPath.toString().toStdString(), fileFilter);
++#if LIBTORRENT_VERSION_NUM >= 20100
++    const std::vector<lt::create_file_entry> files = lt::list_files(inputPath.toString().toStdString(), fileFilter);
++#else
++    lt::file_storage files;
++    lt::add_files(files, inputPath.toString().toStdString(), fileFilter);
++#endif
+ 
+ #ifdef QBT_USES_LIBTORRENT2
+-    return lt::create_torrent {fs, pieceSize, toNativeTorrentFormatFlag(torrentFormat)}.num_pieces();
++    return lt::create_torrent(files, pieceSize, toNativeTorrentFormatFlag(torrentFormat)).num_pieces();
+ #else
+-    return lt::create_torrent(fs, pieceSize, paddedFileSizeLimit
++    return lt::create_torrent(files, pieceSize, paddedFileSizeLimit
+         , (isAlignmentOptimized ? lt::create_torrent::optimize_alignment : lt::create_flags_t {})).num_pieces();
+ #endif
+ }
+diff --git a/src/base/bittorrent/torrentimpl.cpp b/src/base/bittorrent/torrentimpl.cpp
+index 9f2ba03ab..ceae119dd 100644
+--- a/src/base/bittorrent/torrentimpl.cpp
++++ b/src/base/bittorrent/torrentimpl.cpp
+@@ -1,6 +1,6 @@
+ /*
+  * Bittorrent Client using Qt and libtorrent.
+- * Copyright (C) 2015-2025  Vladimir Golovnev <glassez@yandex.ru>
++ * Copyright (C) 2015-2026  Vladimir Golovnev <glassez@yandex.ru>
+  * Copyright (C) 2006  Christophe Dumez <chris@qbittorrent.org>
+  *
+  * This program is free software; you can redistribute it and/or
+@@ -1085,7 +1085,7 @@ Path TorrentImpl::actualFilePath(const int index) const
+         return {};
+ 
+ #if LIBTORRENT_VERSION_NUM >= 20100
+-    const lt::file_storage &fs = nativeTorrentInfo()->files();
++    const lt::file_storage &fs = nativeTorrentInfo()->layout();
+     const lt::filenames files {fs, m_nativeStatus.renamed_files};
+ #else
+     const lt::file_storage &files = nativeTorrentInfo()->files();
+@@ -1112,7 +1112,7 @@ PathList TorrentImpl::actualFilePaths() const
+     paths.reserve(filesCount());
+ 
+ #if LIBTORRENT_VERSION_NUM >= 20100
+-    const lt::file_storage &fs = nativeTorrentInfo()->files();
++    const lt::file_storage &fs = nativeTorrentInfo()->layout();
+     const lt::filenames files {fs, m_nativeStatus.renamed_files};
+ #else
+     const lt::file_storage &files = nativeTorrentInfo()->files();
+@@ -1865,7 +1865,8 @@ void TorrentImpl::endReceivedMetadataHandling(const Path &savePath, const PathLi
+     m_torrentInfo = TorrentInfo(*metadata);
+     m_filePriorities.reserve(filesCount());
+     const auto nativeIndexes = m_torrentInfo.nativeIndexes();
+-    p.file_priorities = resized(p.file_priorities, metadata->files().num_files()
++
++    p.file_priorities = resized(p.file_priorities, nativeTorrentInfo()->num_files()
+             , LT::toNative(p.file_priorities.empty() ? DownloadPriority::Normal : DownloadPriority::Ignored));
+ 
+     m_completedFiles.fill(static_cast<bool>(p.flags & lt::torrent_flags::seed_mode), filesCount());
+@@ -1921,9 +1922,11 @@ void TorrentImpl::reload()
+     try
+     {
+         lt::add_torrent_params p = m_ltAddTorrentParams;
+-        p.flags |= lt::torrent_flags::update_subscribe
+-                | lt::torrent_flags::override_trackers
++        p.flags |= lt::torrent_flags::update_subscribe;
++#if LIBTORRENT_VERSION_NUM < 20100
++        p.flags |= lt::torrent_flags::override_trackers
+                 | lt::torrent_flags::override_web_seeds;
++#endif
+ 
+         if (m_isStopped)
+         {
+@@ -3002,7 +3005,7 @@ void TorrentImpl::prioritizeFiles(const QList<DownloadPriority> &priorities)
+         }
+     }
+ 
+-    const int internalFilesCount = m_torrentInfo.nativeInfo()->files().num_files(); // including .pad files
++    const int internalFilesCount = m_torrentInfo.nativeInfo()->num_files(); // including .pad files
+     auto nativePriorities = std::vector<lt::download_priority_t>(internalFilesCount, LT::toNative(DownloadPriority::Normal));
+     const auto nativeIndexes = m_torrentInfo.nativeIndexes();
+     for (qsizetype i = 0; i < priorities.size(); ++i)
+diff --git a/src/base/bittorrent/torrentinfo.cpp b/src/base/bittorrent/torrentinfo.cpp
+index 24534563c..cbd44b356 100644
+--- a/src/base/bittorrent/torrentinfo.cpp
++++ b/src/base/bittorrent/torrentinfo.cpp
+@@ -1,6 +1,6 @@
+ /*
+  * Bittorrent Client using Qt and libtorrent.
+- * Copyright (C) 2015-2024  Vladimir Golovnev <glassez@yandex.ru>
++ * Copyright (C) 2015-2026  Vladimir Golovnev <glassez@yandex.ru>
+  *
+  * This program is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU General Public License
+@@ -40,6 +40,18 @@
+ #include "infohash.h"
+ #include "trackerentry.h"
+ 
++namespace
++{
++    const lt::file_storage &getFileStorage(const lt::torrent_info &torrentInfo)
++    {
++#if LIBTORRENT_VERSION_NUM >= 20100
++        return torrentInfo.layout();
++#else
++        return torrentInfo.orig_files();
++#endif
++    }
++}
++
+ using namespace BitTorrent;
+ 
+ const int TORRENTINFO_TYPEID = qRegisterMetaType<TorrentInfo>();
+@@ -49,7 +61,7 @@ TorrentInfo::TorrentInfo(const lt::torrent_info &nativeInfo)
+ {
+     Q_ASSERT(m_nativeInfo->is_valid() && (m_nativeInfo->num_files() > 0));
+ 
+-    const lt::file_storage &fileStorage = m_nativeInfo->orig_files();
++    const lt::file_storage &fileStorage = getFileStorage(*m_nativeInfo);
+     m_nativeIndexes.reserve(fileStorage.num_files());
+     for (const lt::file_index_t nativeIndex : fileStorage.file_range())
+     {
+@@ -86,9 +98,10 @@ InfoHash TorrentInfo::infoHash() const
+ 
+ QString TorrentInfo::name() const
+ {
+-    if (!isValid()) return {};
++    if (!isValid())
++        return {};
+ 
+-    return QString::fromStdString(m_nativeInfo->orig_files().name());
++    return QString::fromStdString(getFileStorage(*m_nativeInfo).name());
+ }
+ 
+ bool TorrentInfo::isPrivate() const
+@@ -142,7 +155,7 @@ Path TorrentInfo::filePath(const int index) const
+     if ((index < 0) || (index >= m_nativeIndexes.size()))
+         return {};
+ 
+-    return Path(m_nativeInfo->orig_files().file_path(m_nativeIndexes[index]));
++    return Path(getFileStorage(*m_nativeInfo).file_path(m_nativeIndexes[index]));
+ }
+ 
+ PathList TorrentInfo::filePaths() const
+@@ -164,7 +177,7 @@ qlonglong TorrentInfo::fileSize(const int index) const
+     if ((index < 0) || (index >= m_nativeIndexes.size()))
+         return -1;
+ 
+-    return m_nativeInfo->orig_files().file_size(m_nativeIndexes[index]);
++    return getFileStorage(*m_nativeInfo).file_size(m_nativeIndexes[index]);
+ }
+ 
+ qlonglong TorrentInfo::fileOffset(const int index) const
+@@ -176,7 +189,7 @@ qlonglong TorrentInfo::fileOffset(const int index) const
+     if ((index < 0) || (index >= m_nativeIndexes.size()))
+         return -1;
+ 
+-    return m_nativeInfo->orig_files().file_offset(m_nativeIndexes[index]);
++    return getFileStorage(*m_nativeInfo).file_offset(m_nativeIndexes[index]);
+ }
+ 
+ QByteArray TorrentInfo::rawData() const
+@@ -250,7 +263,7 @@ TorrentInfo::PieceRange TorrentInfo::filePieces(const int fileIndex) const
+     if ((fileIndex < 0) || (fileIndex >= filesCount()))
+         return {};
+ 
+-    const lt::file_storage &files = m_nativeInfo->orig_files();
++    const lt::file_storage &files = getFileStorage(*m_nativeInfo);
+     const auto fileSize = files.file_size(m_nativeIndexes[fileIndex]);
+     const auto fileOffset = files.file_offset(m_nativeIndexes[fileIndex]);
+ 

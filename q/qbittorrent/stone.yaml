@@ -3,7 +3,7 @@
 
 name        : qbittorrent
 version     : "5.2.3"
-release     : 15
+release     : 16
 upstreams   :
     - https://github.com/qbittorrent/qBittorrent/archive/refs/tags/release-5.2.3.tar.gz : a5f540cdfb0053f0ce1a1c62ccd92d08214f16bcb2c512569ec54d81531e541f
 homepage    : https://www.qbittorrent.org/
@@ -21,6 +21,10 @@ builddeps   :
     - pkgconfig(zlib)
     - zlib-static
 setup       : |
+    %patch %(pkgdir)/0001-Support-build-against-latest-version-of-libtorrent.patch
+    %patch %(pkgdir)/0001-Don-t-use-deprecated-libtorrent-features.patch
+    %patch %(pkgdir)/0001-Don-t-use-deprecated-flag.patch
+
     %cmake -B nox \
         -DGUI=OFF \
         -DSYSTEMD=ON
