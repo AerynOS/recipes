@@ -2,23 +2,25 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : passt
-version     : "2026_01_20.386b5f5"
-release     : 3
-upstreams   :
-    - https://passt.top/passt/snapshot/passt-2026_01_20.386b5f5.tar.zst : 7172e7c2698e4ea8ca428a77f2fa2ac307596c21160df5f25a6cb62b8cfbe28d
+version     : "2026_06_11.a9c61ff"
+release     : 4
 homepage    : https://passt.top/passt/about/
-license     : GPL-2.0-or-later AND BSD-3-Clause
+upstreams   :
+    - https://passt.top/passt/snapshot/passt-2026_06_11.a9c61ff.tar.zst : 9df3815aaf17c4cbc9862115e8bc15664e2794b54a3a8d584bba6b9021748a02
 summary     : User-mode networking daemons for virtual machines and namespaces
 description : |
     passt implements a translation layer between a Layer-2 network interface and
     native Layer-4 sockets (TCP, UDP, ICMP/ICMPv6 echo) on a host. It doesn't
     require any capabilities or privileges, and it can be used as a simple
-    replacement for Slirp.
+    replacement for slirp.
 
     pasta (same binary as passt, different command) offers equivalent functionality,
     for network namespaces: traffic is forwarded using a tap interface inside the
     namespace, without the need to create further interfaces on the host, hence not
     requiring any capabilities or privileges.
+license     : 
+    - GPL-2.0-or-later
+    - BSD-3-Clause
 build       : |
     %make VERSION="%(version)"
 install     : |
