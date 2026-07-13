@@ -2,15 +2,15 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : aardvark-dns
-version     : "1.17.1"
-release     : 2
-upstreams   :
-    - https://github.com/containers/aardvark-dns/archive/refs/tags/v1.17.1.tar.gz : 25b39bfad079a03862825b2f9db8b71b82fc80aad5552a9c76ea912edc9b889e
+version     : "2.0.0"
+release     : 3
 homepage    : https://github.com/containers/aardvark-dns
-license     : Apache-2.0
+upstreams   :
+    - https://github.com/containers/aardvark-dns/archive/refs/tags/v2.0.0.tar.gz : d3f5d6b3be3c2d80e8257fb9467e34ff104f299474427979454034dca6dc88cc
 summary     : Authoritative DNS server for A/AAAA container records
 description : |
     Authoritative DNS server for A/AAAA container records
+license     : Apache-2.0
 networking  : true
 setup       : |
     %cargo_fetch
