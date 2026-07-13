@@ -2,12 +2,11 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : buildah
-version     : "1.43.1"
-release     : 5
-upstreams   :
-    - https://github.com/containers/buildah/archive/refs/tags/v1.43.1.tar.gz : 7980a8b4fb719a104d592b06de149cc18766de02f8c3dd94e727f8702a62f9cd
+version     : "1.44.0"
+release     : 6
 homepage    : https://buildah.io/
-license     : Apache-2.0 AND BSD-2-Clause AND BSD-3-Clause AND ISC AND MIT AND MPL-2.0
+upstreams   :
+    - https://github.com/containers/buildah/archive/refs/tags/v1.44.0.tar.gz : e3d045700711475e2f1b983b74d094b77a154402b0fbfef2aeea2d3cbd1388b0
 summary     : A command line tool used for creating OCI Images
 description : |
     The buildah package provides a command line tool which can be used to
@@ -17,6 +16,13 @@ description : |
     * mount/umount a working container's root file system for manipulation
     * save container's root file system layer to create a new image
     * delete a working container or an image
+license     : 
+    - Apache-2.0
+    - BSD-2-Clause
+    - BSD-3-Clause
+    - ISC
+    - MIT
+    - MPL-2.0
 builddeps   :
     - binary(go)
     - binary(go-md2man)
@@ -29,17 +35,15 @@ rundeps     :
     - binary(passt)
     - binary(runc)
     - binary(skopeo)
+tuning      :
+    # Vendored build; -mod=readonly would skip vendor/ and need the network.
+    - golang-modflags: false
 build       : |
-    export CGO_LDFLAGS="${LDFLAGS}"
-    export CGO_CFLAGS="${CFLAGS}"
-    export CGO_CXXFLAGS="${CXXFLAGS}"
-
     export BUILDTAGS="containers_image_ostree_stub libsqlite3 libsubid seccomp systemd"
 
     # The containers/image prefix has changed domain names so in order to ensure that we use the correct setting regardless of which one is used just use both
     %make PREFIX="%(prefix)" \
-        GOFLAGS="-buildmode=pie -trimpath" \
-        EXTRA_LDFLAGS="-X github.com/containers/image/v5/signature.systemDefaultPolicyPath=%(vendordir)/containers/policy.json \
-                       -X go.podman.io/image/v5/signature.systemDefaultPolicyPath=%(vendordir)/containers/policy.json"
+        EXTRA_LDFLAGS="-X github.com/containers/image/v5/signature.systemDefaultPolicyPath=%(datadir)/containers/policy.json \
+                       -X go.podman.io/image/v5/signature.systemDefaultPolicyPath=%(datadir)/containers/policy.json"
 install     : |
     %make_install PREFIX="%(prefix)" install.completions
