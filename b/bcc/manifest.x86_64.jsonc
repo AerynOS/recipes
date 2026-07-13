@@ -4,11 +4,19 @@
 	"packages": {
 		"bcc": {
 			"build-depends": [
+				"binary(bison)",
 				"binary(bpftool)",
+				"binary(flex)",
+				"binary(gzip)",
 				"binary(llvm-config-22)",
 				"binary(python3)",
 				"cmake(Clang)",
 				"pkgconfig(libbpf)",
+				"pkgconfig(libdebuginfod)",
+				"pkgconfig(libffi)",
+				"pkgconfig(liblzma)",
+				"pkgconfig(libxml-2.0)",
+				"pkgconfig(luajit)",
 				"python(setuptools)"
 			],
 			"depends": [
@@ -16,16 +24,18 @@
 				"soname(libbpf.so.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libclang-cpp.so.22.1(x86_64))",
+				"soname(libdebuginfod.so.1(x86_64))",
 				"soname(libelf.so.1(x86_64))",
 				"soname(libgcc_s.so.1(x86_64))",
+				"soname(liblzma.so.5(x86_64))",
 				"soname(libm.so.6(x86_64))",
 				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/lib/libbcc.so.0",
-				"/usr/lib/libbcc.so.0.36.1",
+				"/usr/lib/libbcc.so.0.37.0",
 				"/usr/lib/libbcc_bpf.so.0",
-				"/usr/lib/libbcc_bpf.so.0.36.1"
+				"/usr/lib/libbcc_bpf.so.0.37.0"
 			],
 			"name": "bcc",
 			"provides": [
@@ -35,11 +45,19 @@
 		},
 		"bcc-devel": {
 			"build-depends": [
+				"binary(bison)",
 				"binary(bpftool)",
+				"binary(flex)",
+				"binary(gzip)",
 				"binary(llvm-config-22)",
 				"binary(python3)",
 				"cmake(Clang)",
 				"pkgconfig(libbpf)",
+				"pkgconfig(libdebuginfod)",
+				"pkgconfig(libffi)",
+				"pkgconfig(liblzma)",
+				"pkgconfig(libxml-2.0)",
+				"pkgconfig(luajit)",
 				"python(setuptools)"
 			],
 			"depends": [
@@ -73,11 +91,19 @@
 		},
 		"bcc-docs": {
 			"build-depends": [
+				"binary(bison)",
 				"binary(bpftool)",
+				"binary(flex)",
+				"binary(gzip)",
 				"binary(llvm-config-22)",
 				"binary(python3)",
 				"cmake(Clang)",
 				"pkgconfig(libbpf)",
+				"pkgconfig(libdebuginfod)",
+				"pkgconfig(libffi)",
+				"pkgconfig(liblzma)",
+				"pkgconfig(libxml-2.0)",
+				"pkgconfig(luajit)",
 				"python(setuptools)"
 			],
 			"files": [
@@ -184,13 +210,52 @@
 			],
 			"name": "bcc-docs"
 		},
-		"bcc-tools": {
+		"bcc-lua": {
 			"build-depends": [
+				"binary(bison)",
 				"binary(bpftool)",
+				"binary(flex)",
+				"binary(gzip)",
 				"binary(llvm-config-22)",
 				"binary(python3)",
 				"cmake(Clang)",
 				"pkgconfig(libbpf)",
+				"pkgconfig(libdebuginfod)",
+				"pkgconfig(libffi)",
+				"pkgconfig(liblzma)",
+				"pkgconfig(libxml-2.0)",
+				"pkgconfig(luajit)",
+				"python(setuptools)"
+			],
+			"depends": [
+				"bcc",
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libluajit-5.1.so.2(x86_64))"
+			],
+			"files": [
+				"/usr/bin/bcc-lua"
+			],
+			"name": "bcc-lua",
+			"provides": [
+				"binary(bcc-lua)"
+			]
+		},
+		"bcc-tools": {
+			"build-depends": [
+				"binary(bison)",
+				"binary(bpftool)",
+				"binary(flex)",
+				"binary(gzip)",
+				"binary(llvm-config-22)",
+				"binary(python3)",
+				"cmake(Clang)",
+				"pkgconfig(libbpf)",
+				"pkgconfig(libdebuginfod)",
+				"pkgconfig(libffi)",
+				"pkgconfig(liblzma)",
+				"pkgconfig(libxml-2.0)",
+				"pkgconfig(luajit)",
 				"python(setuptools)"
 			],
 			"depends": [
@@ -931,11 +996,19 @@
 		},
 		"libbpf-tools": {
 			"build-depends": [
+				"binary(bison)",
 				"binary(bpftool)",
+				"binary(flex)",
+				"binary(gzip)",
 				"binary(llvm-config-22)",
 				"binary(python3)",
 				"cmake(Clang)",
 				"pkgconfig(libbpf)",
+				"pkgconfig(libdebuginfod)",
+				"pkgconfig(libffi)",
+				"pkgconfig(liblzma)",
+				"pkgconfig(libxml-2.0)",
+				"pkgconfig(luajit)",
 				"python(setuptools)"
 			],
 			"depends": [
@@ -1101,21 +1174,29 @@
 		},
 		"python-bcc": {
 			"build-depends": [
+				"binary(bison)",
 				"binary(bpftool)",
+				"binary(flex)",
+				"binary(gzip)",
 				"binary(llvm-config-22)",
 				"binary(python3)",
 				"cmake(Clang)",
 				"pkgconfig(libbpf)",
+				"pkgconfig(libdebuginfod)",
+				"pkgconfig(libffi)",
+				"pkgconfig(liblzma)",
+				"pkgconfig(libxml-2.0)",
+				"pkgconfig(luajit)",
 				"python(setuptools)"
 			],
 			"depends": [
 				"bcc"
 			],
 			"files": [
-				"/usr/lib/python3.14/site-packages/bcc-0.36.1-py3.14.egg-info/PKG-INFO",
-				"/usr/lib/python3.14/site-packages/bcc-0.36.1-py3.14.egg-info/SOURCES.txt",
-				"/usr/lib/python3.14/site-packages/bcc-0.36.1-py3.14.egg-info/dependency_links.txt",
-				"/usr/lib/python3.14/site-packages/bcc-0.36.1-py3.14.egg-info/top_level.txt",
+				"/usr/lib/python3.14/site-packages/bcc-0.37.0-py3.14.egg-info/PKG-INFO",
+				"/usr/lib/python3.14/site-packages/bcc-0.37.0-py3.14.egg-info/SOURCES.txt",
+				"/usr/lib/python3.14/site-packages/bcc-0.37.0-py3.14.egg-info/dependency_links.txt",
+				"/usr/lib/python3.14/site-packages/bcc-0.37.0-py3.14.egg-info/top_level.txt",
 				"/usr/lib/python3.14/site-packages/bcc/__init__.py",
 				"/usr/lib/python3.14/site-packages/bcc/__pycache__/__init__.cpython-314.pyc",
 				"/usr/lib/python3.14/site-packages/bcc/__pycache__/containers.cpython-314.pyc",
@@ -1148,6 +1229,6 @@
 		}
 	},
 	"source-name": "bcc",
-	"source-release": "8",
-	"source-version": "0.36.1"
+	"source-release": "9",
+	"source-version": "0.37.0"
 }
