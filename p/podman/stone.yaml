@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : podman
-version     : "5.8.0"
-release     : 2
+version     : "6.0.1"
+release     : 3
 homepage    : https://github.com/containers/podman
 upstreams   :
-    - https://github.com/containers/podman/archive/refs/tags/v5.8.0.tar.gz : 19723cda810e087ded8903fb0f33918b10d81f7fd1d8964880c41ec30d1daa70
+    - https://github.com/containers/podman/archive/refs/tags/v6.0.1.tar.gz : 4829d7c1423523a6a4d5537dea7968ae7f6c22ed7f1d5f416638fd81c83caa47
 summary     : A tool for managing OCI containers and pods
 description : |
     Podman (the POD MANager) is a tool for managing containers and images, volumes mounted into those containers, and pods made from groups of containers.
@@ -16,6 +16,7 @@ builddeps   :
     - binary(man)
     - pkgconfig(gpgme)
     - pkgconfig(libseccomp)
+    - pkgconfig(sqlite3)
     - pkgconfig(systemd)
 rundeps     :
     - binary(crun)
@@ -24,12 +25,10 @@ rundeps     :
     - containers-common
     - netavark
 tuning      :
-    # If this is enabled, it will cause the build to fail, because `go` will
-    # try to fetch dependencies from the network. Network access is disabled,
-    # which means that will fail.
+    # Vendored build; -mod=readonly would skip vendor/ and need the network.
     - golang-modflags: false
 build       : |
-    %make EXTRA_LDFLAGS='-compressdwarf=false -linkmode=external' PREFIX=%(prefix)
+    %make EXTRA_LDFLAGS='-compressdwarf=false' PREFIX=%(prefix)
 install     : |
     %make_install install.completions DESTDIR=%(installroot) PREFIX=%(prefix) LIBEXECDIR=%(libdir)
 
