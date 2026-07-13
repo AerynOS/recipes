@@ -2,17 +2,17 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : netavark
-version     : "1.17.2"
-release     : 5
-upstreams   :
-    - https://github.com/containers/netavark/archive/refs/tags/v1.17.2.tar.gz : 284faa7cc525b869cbac4053e0a4127ac743ca7da1457c49fffb35558ea9c78d
+version     : "2.0.0"
+release     : 6
 homepage    : https://github.com/containers/netavark
-license     : Apache-2.0
+upstreams   :
+    - https://github.com/containers/netavark/archive/refs/tags/v2.0.0.tar.gz : 031aeeacc930382e8635d40a885798eff1da164dfcf9024b698f822e5995d9c8
 summary     : OCI network stack
 description : |
     Netavark is a rust based network stack for containers. It is being
     designed to work with Podman but is also applicable for other OCI
     container management applications.
+license     : Apache-2.0
 networking  : true
 builddeps   :
     - binary(mandown)
