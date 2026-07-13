@@ -7,18 +7,17 @@
 				"pkgconfig(hwloc)"
 			],
 			"depends": [
-				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/lib/libtbb.so.12",
-				"/usr/lib/libtbb.so.12.18",
+				"/usr/lib/libtbb.so.12.19",
 				"/usr/lib/libtbbmalloc.so.2",
-				"/usr/lib/libtbbmalloc.so.2.18",
+				"/usr/lib/libtbbmalloc.so.2.19",
 				"/usr/lib/libtbbmalloc_proxy.so.2",
-				"/usr/lib/libtbbmalloc_proxy.so.2.18",
+				"/usr/lib/libtbbmalloc_proxy.so.2.19",
 				"/usr/share/doc/TBB/README.md"
 			],
 			"name": "onetbb",
@@ -40,7 +39,7 @@
 			],
 			"files": [
 				"/usr/lib/libtbbbind_2_5.so.3",
-				"/usr/lib/libtbbbind_2_5.so.3.18"
+				"/usr/lib/libtbbbind_2_5.so.3.19"
 			],
 			"name": "onetbb-bind",
 			"provides": [
@@ -56,6 +55,7 @@
 				"onetbb-bind"
 			],
 			"files": [
+				"/usr/include/oneapi/tbb.cppm",
 				"/usr/include/oneapi/tbb.h",
 				"/usr/include/oneapi/tbb/blocked_nd_range.h",
 				"/usr/include/oneapi/tbb/blocked_range.h",
@@ -128,6 +128,7 @@
 				"/usr/include/oneapi/tbb/mutex.h",
 				"/usr/include/oneapi/tbb/null_mutex.h",
 				"/usr/include/oneapi/tbb/null_rw_mutex.h",
+				"/usr/include/oneapi/tbb/numa_allocation.h",
 				"/usr/include/oneapi/tbb/parallel_for.h",
 				"/usr/include/oneapi/tbb/parallel_for_each.h",
 				"/usr/include/oneapi/tbb/parallel_invoke.h",
@@ -177,6 +178,7 @@
 				"/usr/include/tbb/mutex.h",
 				"/usr/include/tbb/null_mutex.h",
 				"/usr/include/tbb/null_rw_mutex.h",
+				"/usr/include/tbb/numa_allocation.h",
 				"/usr/include/tbb/parallel_for.h",
 				"/usr/include/tbb/parallel_for_each.h",
 				"/usr/include/tbb/parallel_invoke.h",
@@ -219,6 +221,6 @@
 		}
 	},
 	"source-name": "onetbb",
-	"source-release": "7",
-	"source-version": "2023.0.0"
+	"source-release": "8",
+	"source-version": "2023.1.0"
 }
