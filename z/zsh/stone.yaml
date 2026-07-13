@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : zsh
-version     : "5.9.1"
-release     : 8
+version     : "5.9.2"
+release     : 9
 homepage    : https://zsh.sourceforge.io
 upstreams   :
-    - https://sourceforge.net/projects/zsh/files/zsh/5.9.1/zsh-5.9.1.tar.xz : 5d20bec03f981dc4e9a09ec245e7415388ff641f79c5c5c416b5042e58d8280d
+    - https://sourceforge.net/projects/zsh/files/zsh/5.9.2/zsh-5.9.2.tar.xz : 36fa734374b44783582cec09bcd67822e2f992c779ec1624ab5596df078d2f81
 summary     : Extensible shell designed for interactive use
 description : |
     Zsh is a shell designed for interactive use, although it is also a powerful scripting language. Many of the useful features of bash, ksh, and tcsh were incorporated into zsh; many original features were added.
@@ -23,7 +23,6 @@ setup       : |
     %patch %(pkgdir)/patches/upstream/0002-51214-handle-read-d-and-a-delimiter-that-can-t-be-de.patch
     %patch %(pkgdir)/patches/upstream/0003-51483-Enable-assignment-and-expansion-of-parameters-.patch
     %patch %(pkgdir)/patches/upstream/0004-51484-Extend-named-reference-handling-for-special-pa.patch
-    %patch %(pkgdir)/patches/upstream/0005-51889-fix-module-loading-problem-with-full-RELRO.patch
 
     # Use the default Aeryn path as fallback
     %patch %(pkgdir)/patches/0001-downstream-Update-default-PATH.patch
