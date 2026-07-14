@@ -259,3 +259,16 @@ NB: Each entry *must* contain all sub-packages created by the package!
 
 ### Merged into libjpeg-turbo-devel
 - turbojpeg-devel
+
+### Replaced by malm
+- ferrite
+- ferrite-dbginfo
+
+### Replaced by gist
+- oxidize
+- oxidize-dbginfo
+
+### Replaced by pkgset-smia-base
+- pkgset-oxidize-mango
+- pkgset-oxidize-hypr
+- pkgset-oxidize-niri
