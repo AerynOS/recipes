@@ -3,7 +3,7 @@
 
 name        : llvm
 version     : "22.1.8"
-release     : 57
+release     : 58
 summary     : Low Level Virtual Machine
 license     :
     - Apache-2.0 WITH LLVM-exception
@@ -107,6 +107,8 @@ environment : |
         # Fix ffmpeg build
         %patch %(pkgdir)/patches/upstream/0001-SLP-Support-for-tree-throttling-in-SLP-graphs-with-g.patch
         %patch %(pkgdir)/patches/upstream/0002-X86-vectorizeExtractedCast-don-t-assume-vector-sourc.patch
+        # Fixes rust 1.97 miscompilation
+        %patch %(pkgdir)/patches/upstream/208683.patch
     }
 
     # 2025-03-25: Add LIBCXX_TYPEINFO_COMPARISON_IMPLEMENTATION=2 for https://bugs.kde.org/show_bug.cgi?id=479679
