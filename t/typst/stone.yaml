@@ -1,0 +1,36 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : typst
+version     : "0.15.0"
+release     : 1
+homepage    : https://typst.app/
+upstreams   :
+    - https://github.com/typst/typst/archive/refs/tags/v0.15.0.tar.gz : 5044bd12138491c6e880df0e09056a9ae4607d937c73962d5806402ae6ee96a6
+summary     : A markup-based typesetting system
+description : |
+    Typst is a new markup-based typesetting system that is designed to be as
+    powerful as LaTeX while being much easier to learn and use. Typst has:
+    Built-in markup for the most common formatting tasks, powerful scripting
+    for advanced needs, math typesetting, bibliography management, and more.
+license     : Apache-2.0
+networking  : true
+builddeps   :
+    - pkgconfig(openssl)
+environment : |
+    export TYPST_VERSION="%(version)"
+    export GEN_ARTIFACTS=artifacts
+    export OPENSSL_NO_VENDOR=true
+setup       : |
+    %cargo_fetch
+build       : |
+    %cargo_build
+install     : |
+    %cargo_install
+
+    %install_file crates/typst-cli/artifacts/typst*.1 -t %(installroot)%(mandir)/man1
+    %install_file crates/typst-cli/artifacts/typst.bash %(installroot)%(bashcompletionsdir)/typst
+    %install_file crates/typst-cli/artifacts/typst.fish %(installroot)%(fishcompletionsdir)/typst.fish
+    %install_file crates/typst-cli/artifacts/_typst %(installroot)%(zshcompletionsdir)/_typst
+check       : |
+    %cargo_test
