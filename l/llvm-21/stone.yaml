@@ -3,7 +3,7 @@
 
 name        : llvm-21
 version     : "21.1.8"
-release     : 2
+release     : 3
 summary     : Low Level Virtual Machine
 license     :
     - Apache-2.0 WITH LLVM-exception
@@ -88,6 +88,8 @@ environment : |
         # Can be dropped once we switch to libstdc++
         %patch %(pkgdir)/patches/upstream/149326.patch
         %patch %(pkgdir)/patches/upstream/155422.patch
+        # Fixes a build failure with kernel 7.1 headers
+        %patch %(pkgdir)/patches/upstream/0001-compiler-rt-sanitizer-Remove-linux-scc.h-194116.patch
     }
 
     # 2025-03-25: Add LIBCXX_TYPEINFO_COMPARISON_IMPLEMENTATION=2 for https://bugs.kde.org/show_bug.cgi?id=479679

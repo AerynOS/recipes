@@ -39,7 +39,6 @@
 				"lld-21",
 				"llvm-21",
 				"openmp-devel",
-				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libLLVM.so.21.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libclang-cpp.so.21.1(x86_64))",
@@ -100,7 +99,6 @@
 				"clang-tools-21",
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"llvm-21-devel",
-				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libm.so.6(x86_64))",
@@ -1050,7 +1048,6 @@
 				"python(sphinx)"
 			],
 			"depends": [
-				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libLLVM.so.21.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libm.so.6(x86_64))",
@@ -1375,7 +1372,6 @@
 			"depends": [
 				"clang-21",
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
-				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libLLVM.so.21.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libclang-cpp.so.21.1(x86_64))",
@@ -1528,7 +1524,6 @@
 				"python(sphinx)"
 			],
 			"depends": [
-				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libm.so.6(x86_64))",
@@ -1680,7 +1675,6 @@
 			],
 			"depends": [
 				"compiler-rt-21",
-				"soname(ld-linux.so.2(386))",
 				"soname(libc.so.6(386))",
 				"soname(libgcc_s.so.1(386))",
 				"soname(libm.so.6(386))",
@@ -1873,7 +1867,6 @@
 				"python(sphinx)"
 			],
 			"depends": [
-				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libLLVM.so.21.1(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libstdc++.so.6(x86_64))",
@@ -2259,7 +2252,6 @@
 				"llvm-21",
 				"pkgconfig(libedit)",
 				"pkgconfig(libzstd)",
-				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libm.so.6(x86_64))",
@@ -4572,7 +4564,6 @@
 				"python(sphinx)"
 			],
 			"depends": [
-				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libedit.so.0(x86_64))",
 				"soname(libffi.so.8(x86_64))",
@@ -4605,6 +4596,6 @@
 		}
 	},
 	"source-name": "llvm-21",
-	"source-release": "2",
+	"source-release": "3",
 	"source-version": "21.1.8"
 }
