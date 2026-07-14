@@ -1,0 +1,26 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : gnist
+version     : "0.3.5"
+release     : 1
+homepage    : https://github.com/christian-bendiksen/gnist
+upstreams   :
+    - https://github.com/christian-bendiksen/gnist/archive/refs/tags/v0.3.5.tar.gz : f27fa94fd71c15316ac5f498d556f9d788ccaccc1de3b0a463b1417606f42de6
+summary     : Gnist is a tool for atomically changing themes in window managers.
+description : |
+    Gnist is a tool for atomically changing themes in window managers.
+license     : MIT
+networking  : true
+builddeps   :
+    - pkgconfig(gio-2.0)
+    - pkgconfig(glib-2.0)
+setup       : |
+    %cargo_fetch
+build       : |
+    %cargo_build --workspace
+install     : |
+    %cargo_install
+    %install_file %(cargo_target_dir)/libgnist_gio.so %(installroot)%(libdir)/gio/modules/libgnist_gio.so
+check       : |
+    %cargo_test
