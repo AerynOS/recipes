@@ -1,0 +1,19 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : malm
+version     : "0.3.2"
+release     : 1
+homepage    : https://github.com/christian-bendiksen/malm
+upstreams   :
+    - https://github.com/christian-bendiksen/malm/archive/refs/tags/v0.3.2.tar.gz : 4e6ebc56afdd68deb2d72e8392fc585f6783930cf580224f210e68d3ab560c13
+summary     :  Declarative configuration manager
+description :  Declarative configuration manager
+license     : MIT
+networking  : true
+setup       : |
+    %cargo_fetch
+build       : |
+    %cargo_build
+install     : |
+    %cargo_install
