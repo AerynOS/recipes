@@ -259,3 +259,7 @@ NB: Each entry *must* contain all sub-packages created by the package!
 
 ### Merged into libjpeg-turbo-devel
 - turbojpeg-devel
+
+### Replaced by malm
+- ferrite
+- ferrite-dbginfo
