@@ -3,7 +3,7 @@
 
 name        : skopeo
 version     : "1.23.0"
-release     : 8
+release     : 9
 upstreams   :
     - https://github.com/containers/skopeo/archive/refs/tags/v1.23.0.tar.gz : de96bfc2bb523c852af675ffdadd934484812ce190aa8620e1d5fd6c51442e25
 homepage    : https://github.com/containers/skopeo
@@ -27,17 +27,12 @@ setup       : |
     sed -i 's|.PHONY: bin/skopeo||' Makefile
     sed -i 's|-gcflags "$(GOGCFLAGS)"||' Makefile
 build       : |
-    export CGO_LDFLAGS="${LDFLAGS}"
-    export CGO_CFLAGS="${CFLAGS}"
-    export CGO_CXXFLAGS="${CXXFLAGS}"
-
     export BUILDTAGS="containers_image_ostree_stub libsqlite3 libsubid"
 
     # The containers/image prefix has changed domain names so in order to ensure that we use the correct setting regardless of which one is used just use both
     %make bin/skopeo \
-        GO_DYN_FLAGS="-buildmode=pie -trimpath" \
-        EXTRA_LDFLAGS="-X github.com/containers/image/v5/signature.systemDefaultPolicyPath=%(vendordir)/containers/policy.json \
-                       -X go.podman.io/image/v5/signature.systemDefaultPolicyPath=%(vendordir)/containers/policy.json"
+        EXTRA_LDFLAGS="-X github.com/containers/image/v5/signature.systemDefaultPolicyPath=%(datadir)/containers/policy.json \
+                       -X go.podman.io/image/v5/signature.systemDefaultPolicyPath=%(datadir)/containers/policy.json"
     %make docs
 install     : |
     %make_install PREFIX="%(prefix)"
