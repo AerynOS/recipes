@@ -7,6 +7,11 @@
 
 This repository contains all of the recipes required to build AerynOS from source.
 
+## We do not accept contributions authored using genAI/LLM chatbots/agents
+
+Our stance is that we are here to help train people's minds and skills. As an analogy, it would defeat the purpose if you brought an industrial robot with you to the gym so it could lift weights for you.
+
+For more details, consult our [Contribution guidelines](https://github.com/AerynOS/recipes?tab=contributing-ov-file#llm-contributions).
 
 ## Keeping the repository small while we develop our infra and tooling
 
