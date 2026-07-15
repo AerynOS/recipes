@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : btrfs-progs
-version     : "7.0"
-release     : 18
+version     : "7.1"
+release     : 19
 homepage    : https://github.com/kdave/btrfs-progs
 upstreams   :
-    - https://mirrors.edge.kernel.org/pub/linux/kernel/people/kdave/btrfs-progs/btrfs-progs-v7.0.tar.xz : c286d6876cbcd72327a0b417e4cfd280353ec23e37b549fdbcd7800a832d9a99
+    - https://mirrors.edge.kernel.org/pub/linux/kernel/people/kdave/btrfs-progs/btrfs-progs-v7.1.tar.xz : d1f55cc2971398c9142eaa79d203e63d586a3b4b867f956664a1d68322cd4e34
 summary     : Filesystem utilities for btrfs filesystems
 description : |
     Filesystem utilities for btrfs filesystems
@@ -25,6 +25,7 @@ builddeps   :
     - python(sphinx)
     - python(sphinx-rtd-theme)
 setup      : |
+    # TODO: Python bindings?
     %configure \
         --disable-static \
         --disable-python \
@@ -41,7 +42,7 @@ install     : |
 check       : |
     ./btrfs filesystem show
 tuning      :
-    - lto
+    - lto: full
     - optimize: speed
 packages    :
     # Due to moss not supporting this correctly yet
