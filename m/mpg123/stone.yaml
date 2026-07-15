@@ -1,0 +1,42 @@
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : mpg123
+version     : "1.33.6"
+release     : 1
+upstreams   :
+    - https://downloads.sourceforge.net/sourceforge/mpg123/mpg123-1.33.6.tar.bz2 : 929a7c18ba662b8927aed4de229ad9ae8ab2b4806dd0f30b90113eb1b4e2195a
+homepage    : https://mpg123.de/
+license     : LGPL-2.1-only
+summary     : Console based real time MPEG Audio Player for Layer 1, 2 and 3
+description : |
+    Console based real time MPEG Audio Player for Layer 1, 2 and 3
+builddeps   :
+    # - binary(nasm)
+    - pkgconfig(alsa)
+    - pkgconfig(jack)
+    - pkgconfig(libpulse-simple)
+    # For simplicity we don't enable any of the below output plugins
+    # - pkgconfig(openal)
+    # - pkgconfig(sdl2)
+    # - pkgconfig(sndio)
+setup       : |
+    %configure
+build       : |
+    %make
+install     : |
+    %make_install
+packages    :
+    # TODO: Maybe pattern out some of the plugins
+
+    - "libmpg123":
+        paths:
+            - /usr/lib/lib*.so.*
+
+    - "libmpg123-devel":
+        rundeps:
+            - libmpg123
+        paths:
+            - /usr/include/
+            - /usr/lib/lib*.so
+            - /usr/lib/pkgconfig/

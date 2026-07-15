@@ -1,0 +1,106 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"libmpg123": {
+			"build-depends": [
+				"pkgconfig(alsa)",
+				"pkgconfig(jack)",
+				"pkgconfig(libpulse-simple)"
+			],
+			"depends": [
+				"soname(libc.so.6(x86_64))",
+				"soname(libm.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/lib/libmpg123.so.0",
+				"/usr/lib/libmpg123.so.0.49.4",
+				"/usr/lib/libout123.so.0",
+				"/usr/lib/libout123.so.0.5.2",
+				"/usr/lib/libsyn123.so.0",
+				"/usr/lib/libsyn123.so.0.2.3"
+			],
+			"name": "libmpg123",
+			"provides": [
+				"soname(libmpg123.so.0(x86_64))",
+				"soname(libout123.so.0(x86_64))",
+				"soname(libsyn123.so.0(x86_64))"
+			]
+		},
+		"libmpg123-devel": {
+			"build-depends": [
+				"pkgconfig(alsa)",
+				"pkgconfig(jack)",
+				"pkgconfig(libpulse-simple)"
+			],
+			"depends": [
+				"libmpg123"
+			],
+			"files": [
+				"/usr/include/fmt123.h",
+				"/usr/include/mpg123.h",
+				"/usr/include/out123.h",
+				"/usr/include/syn123.h",
+				"/usr/lib/libmpg123.so",
+				"/usr/lib/libout123.so",
+				"/usr/lib/libsyn123.so",
+				"/usr/lib/pkgconfig/libmpg123.pc",
+				"/usr/lib/pkgconfig/libout123.pc",
+				"/usr/lib/pkgconfig/libsyn123.pc"
+			],
+			"name": "libmpg123-devel",
+			"provides": [
+				"pkgconfig(libmpg123)",
+				"pkgconfig(libout123)",
+				"pkgconfig(libsyn123)"
+			]
+		},
+		"mpg123": {
+			"build-depends": [
+				"pkgconfig(alsa)",
+				"pkgconfig(jack)",
+				"pkgconfig(libpulse-simple)"
+			],
+			"depends": [
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(libasound.so.2(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libjack.so.0(x86_64))",
+				"soname(libm.so.6(x86_64))",
+				"soname(libmpg123.so.0(x86_64))",
+				"soname(libout123.so.0(x86_64))",
+				"soname(libpulse-simple.so.0(x86_64))",
+				"soname(libpulse.so.0(x86_64))",
+				"soname(libsyn123.so.0(x86_64))"
+			],
+			"files": [
+				"/usr/bin/mpg123",
+				"/usr/bin/mpg123-id3dump",
+				"/usr/bin/mpg123-strip",
+				"/usr/bin/out123",
+				"/usr/lib/mpg123/output_alsa.so",
+				"/usr/lib/mpg123/output_dummy.so",
+				"/usr/lib/mpg123/output_jack.so",
+				"/usr/lib/mpg123/output_oss.so",
+				"/usr/lib/mpg123/output_pulse.so",
+				"/usr/share/man/man1/mpg123.1",
+				"/usr/share/man/man1/out123.1"
+			],
+			"name": "mpg123",
+			"provides": [
+				"binary(mpg123)",
+				"binary(mpg123-id3dump)",
+				"binary(mpg123-strip)",
+				"binary(out123)",
+				"soname(mpg123/output_alsa.so(x86_64))",
+				"soname(mpg123/output_dummy.so(x86_64))",
+				"soname(mpg123/output_jack.so(x86_64))",
+				"soname(mpg123/output_oss.so(x86_64))",
+				"soname(mpg123/output_pulse.so(x86_64))"
+			]
+		}
+	},
+	"source-name": "mpg123",
+	"source-release": "1",
+	"source-version": "1.33.6"
+}
