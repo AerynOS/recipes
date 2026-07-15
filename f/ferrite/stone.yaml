@@ -2,20 +2,23 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : ferrite
-version     : "0.2.0"
-release     : 3
+version     : "0.0.0"
+release     : 4
 homepage    : https://github.com/christian-bendiksen/ferrite
 upstreams   :
-    - https://github.com/christian-bendiksen/ferrite/archive/refs/tags/v0.2.0.tar.gz : e50b31e697dd5ff14ef06b1abe0ea690ec933dabf8f28b7208709e69fad358dc
+    # - https://github.com/christian-bendiksen/ferrite/archive/refs/tags/v0.2.0.tar.gz : e50b31e697dd5ff14ef06b1abe0ea690ec933dabf8f28b7208709e69fad358dc
 summary     :  Linking tool for the oxidize ecosystem
 description :  Linking tool for the oxidize ecosystem
 license     : MIT
-networking  : true
-setup       : |
-    %cargo_fetch
-build       : |
-    %cargo_build
-install     : |
-    %cargo_install
-check       : |
-    %cargo_test
+networking  : false
+# setup     : |
+#     %cargo_fetch
+# build     : |
+#     %cargo_build
+rundeps     :
+    - binary(malm)
+install   : |
+    %install_dir %(installroot)%(docdir)/%(name)/
+    echo "DEPRECATED" > %(installroot)%(docdir)/%(name)/README
+# check     : |
+#     %cargo_test
