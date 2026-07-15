@@ -3,7 +3,7 @@
 
 name        : ffmpeg
 version     : "8.1.2"
-release     : 35
+release     : 36
 homepage    : https://ffmpeg.org/releases
 upstreams   :
     - https://ffmpeg.org/releases/ffmpeg-8.1.2.tar.xz:
@@ -75,6 +75,7 @@ builddeps   :
     - pkgconfig(speex)
     - pkgconfig(tesseract)
     - pkgconfig(theoradec)
+    - pkgconfig(vapoursynth)
     - pkgconfig(vdpau)
     - pkgconfig(vorbis)
     - pkgconfig(vpl)
@@ -85,6 +86,7 @@ builddeps   :
     - pkgconfig(x265)
     - pkgconfig(xcb)
     - pkgconfig(xv)
+    - pkgconfig(zimg)
     - gsm-devel
     - ladspa-devel
 # TODO
@@ -100,9 +102,7 @@ builddeps   :
 # - libvidstab
 # - libvmaf
 # - libxvid
-# - libzimg
 # - libzmq
-# - vapoursynth
 # - frei0r
 # - lcevc_dec
 # - libsvtjpegxs
@@ -188,6 +188,7 @@ setup       : |
             --enable-libx265 \
             --enable-libxcb \
             --enable-libxml2 \
+            --enable-libzimg \
             --enable-lv2 \
             --enable-nvdec \
             --enable-nvenc \
@@ -195,6 +196,7 @@ setup       : |
             --enable-opengl \
             --enable-openssl \
             --enable-vaapi \
+            --enable-vapoursynth \
             --enable-version3 \
             --enable-vulkan
         popd
@@ -259,6 +261,7 @@ setup       : |
         --enable-libx265 \
         --enable-libxcb \
         --enable-libxml2 \
+        --enable-libzimg \
         --enable-lv2 \
         --enable-nvdec \
         --enable-nvenc \
@@ -266,6 +269,7 @@ setup       : |
         --enable-opengl \
         --enable-openssl \
         --enable-vaapi \
+        --enable-vapoursynth \
         --enable-version3 \
         --enable-vulkan
 build       : |
