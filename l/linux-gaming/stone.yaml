@@ -3,7 +3,7 @@
 
 name        : linux-gaming
 version     : "7.1.3"
-release     : 19
+release     : 20
 homepage    : https://kernel.org/
 upstreams   :
         - https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/snapshot/linux-7.1.3.tar.gz : ecec8b8f3905f4be0f5c550440924224c0e67423cd1003515b5f1dbf75d2b985
@@ -66,7 +66,7 @@ builddeps   :
 environment : |
     # Maximize ccache efficiency as well as make the build fully reproducible, except for the initrd which needs a timestamp to be signed
     export KBUILD_BUILD_USER=root
-    export KBUILD_BUILD_TIMESTAMP=$(date --utc --date=@$SOURCE_DATE_EPOCH +%%F)
+    export KBUILD_BUILD_TIMESTAMP=$(date --utc --date=@${SOURCE_DATE_EPOCH} +%%F)
 
     _common_make_args="CC=%(cc) LD=%(ld) OBJCOPY=%(objcopy) ARCH=x86_64 LLVM=1 LLVM_IAS=1 WERROR=0"
     _common_make_build_args="${_common_make_args} VERBOSE=0 V=0"
@@ -86,16 +86,16 @@ setup       : |
     fi
 
     extraVersion="-%(release).${_kernelType}"
-    sed -e "s/EXTRAVERSION =.*/EXTRAVERSION = $extraVersion/" -i Makefile
+    sed -e "s/EXTRAVERSION =.*/EXTRAVERSION = ${extraVersion}/" -i Makefile
 
     # Make sure the kernel version is consistent with the package version, even if we are using a different source
     # We might do this if we're bisecting and don't want to mess with creating many different module dirs.
     major="$( cut -d '.' -f 1 <<< "%(version)" )"
     patch="$( cut -d '.' -f 2 <<< "%(version)" )"
     sub="$( cut -d '.' -f 3 <<< "%(version)" )"
-    sed -e "s/^VERSION =.*/VERSION = $major/" -i Makefile
-    sed -e "s/^PATCHLEVEL =.*/PATCHLEVEL = $patch/" -i Makefile
-    sed -e "s/^SUBLEVEL =.*/SUBLEVEL = $sub/" -i Makefile
+    sed -e "s/^VERSION =.*/VERSION = ${major}/" -i Makefile
+    sed -e "s/^PATCHLEVEL =.*/PATCHLEVEL = ${patch}/" -i Makefile
+    sed -e "s/^SUBLEVEL =.*/SUBLEVEL = ${sub}/" -i Makefile
 
     %install_file %(pkgdir)/config-x86_64 .config
     %make ${_common_make_args} oldconfig || exit 1
@@ -108,8 +108,8 @@ build       : |
 install     : |
     umask 022
     kernelVersion="%(version)-%(release).${_kernelType}"
-    modulesDir="%(libdir)/modules/$kernelVersion"
-    kernelDir="%(libdir)/kernel/$kernelVersion"
+    modulesDir="%(libdir)/modules/${kernelVersion}"
+    kernelDir="%(libdir)/kernel/${kernelVersion}"
     headersDir="/usr/src/linux-headers-${kernelVersion}"
     %install_dir %(installroot)/${kernelDir} %(installroot)/${headersDir} %(installroot)/${modulesDir}
 
@@ -126,14 +126,14 @@ install     : |
     %install_file System.map %(installroot)/${kernelDir}/System.map
 
     # Modules please
-    %make ${_common_make_args} INSTALL_MOD_PATH=%(installroot)/usr modules_install KERNELRELEASE="$kernelVersion" mod-fw= DEPMOD=/usr/bin/true
+    %make ${_common_make_args} INSTALL_MOD_PATH=%(installroot)/usr modules_install KERNELRELEASE="${kernelVersion}" mod-fw= DEPMOD=/usr/bin/true
 
     # Manually construct the debug info from the kernel modules
     %install_dir %(installroot)%(libdir)/debug/.build-id
     pushd %(installroot)
     module_list=()
     while IFS=  read -r -d $'\0'; do
-        module_list+=("$REPLY")
+        module_list+=("${REPLY}")
     done < <(find .%(libdir)/modules -type f -name "*.ko" -print0)
     for module in "${module_list[@]}"; do
         build_id=$(eu-readelf -n ${module} | awk '/Bui/ {print $3}')
@@ -158,28 +158,28 @@ install     : |
     cp -ra /usr/lib/firmware/* usr/lib/firmware
     file_list=()
     while IFS=  read -r -d $'\0'; do
-        file_list+=("$REPLY")
+        file_list+=("${REPLY}")
     done < <(find usr/lib/firmware -type f -print0)
     for file in "${file_list[@]}"; do
         if [ -z ${file##*.zst} ]; then
-            unzstd --rm "$file"
+            unzstd --rm "${file}"
         fi
     done
 
     # Update symlinks
     link_list=()
     while IFS=  read -r -d $'\0'; do
-        link_list+=("$REPLY")
+        link_list+=("${REPLY}")
     done < <(find usr/lib/firmware -type l -print0)
     for file in "${link_list[@]}"; do
-        link=$(readlink "$file")
+        link=$(readlink "${file}")
         if [ -z ${link##*.zst} ]; then
             new_link="${link%.zst}"
-            ln -sfv "$new_link" "$file"
+            ln -sfv "${new_link}" "${file}"
         fi
         if [ -z ${file##*.zst} ]; then
             new_filename="${file%.zst}"
-            mv -v "$file" "$new_filename"
+            mv -v "${file}" "${new_filename}"
         fi
     done
 
@@ -197,7 +197,7 @@ install     : |
         --include %(pkgdir)/initrd/50-protectsystem-off.conf %(libdir)/systemd/system.conf.d/50-protectsystem-off.conf \
         --include %(pkgdir)/initrd/timeouts.conf %(libdir)/systemd/system.conf.d/timeouts.conf \
         --kmoddir %(installroot)%(libdir)/modules/${kernelVersion} \
-        --kver $kernelVersion \
+        --kver ${kernelVersion} \
         --no-hostonly \
         --nolvmconf \
         --nomdadmconf \
@@ -209,47 +209,47 @@ install     : |
         %(installroot)/${kernelDir}/50-default.initrd
 
     # Temporary: Help with VMs
-    ln -s $kernelVersion/50-default.initrd %(installroot)%(libdir)/kernel/current.${_kernelType}.initrd
-    ln -s $kernelVersion/vmlinuz %(installroot)%(libdir)/kernel/current.${_kernelType}.kernel
+    ln -s ${kernelVersion}/50-default.initrd %(installroot)%(libdir)/kernel/current.${_kernelType}.initrd
+    ln -s ${kernelVersion}/vmlinuz %(installroot)%(libdir)/kernel/current.${_kernelType}.kernel
     %install_file %(pkgdir)/boot.json %(installroot)/${kernelDir}/boot.json
     sed -e "s|@VERSION@|${kernelVersion}|g" -i %(installroot)/${kernelDir}/boot.json
 
     # Install kernel headers (for modules)
-    dstDir="%(installroot)$headersDir"
-    %install_dir $dstDir
+    dstDir="%(installroot)${headersDir}"
+    %install_dir ${dstDir}
 
     # Copy core build files
-    find . -type f \( -name 'Makefile*' -o -name 'Kconfig*' -o -name 'Kbuild*' -o -name '*.sh' -o -name '*.pl' -o -name '*.lds' \) -exec cp --parents {} $dstDir \;
+    find . -type f \( -name 'Makefile*' -o -name 'Kconfig*' -o -name 'Kbuild*' -o -name '*.sh' -o -name '*.pl' -o -name '*.lds' \) -exec cp --parents {} ${dstDir} \;
 
     # Copy headers and essential directories
     for i in include scripts Documentation ; do
-        cp -R $i $dstDir/
+        cp -R ${i} ${dstDir}/
     done
 
     # Copy architecture specific headers
-    (find arch -name include -type d -print | xargs -n1 -i: find : -type f) | cpio -pd --preserve-modification-time $dstDir
+    (find arch -name include -type d -print | xargs -n1 -i: find : -type f) | cpio -pd --preserve-modification-time ${dstDir}
 
     # Media driver headers
     for dir in "drivers/media/dvb-frontends" "drivers/media/tuners"; do
-        find $dir -name "*.h" -exec cp --parents {} $dstDir \;
+        find ${dir} -name "*.h" -exec cp --parents {} ${dstDir} \;
     done
-    find drivers/media/platform -name "*.h" -exec cp --parents {} $dstDir \;
+    find drivers/media/platform -name "*.h" -exec cp --parents {} ${dstDir} \;
 
     # Clean unnecessary files
-    find $dstDir/scripts -name "*.o" -delete
+    find ${dstDir}/scripts -name "*.o" -delete
 
     # Copy build requirements
     for i in Module.symvers System.map .config ; do
-        %install_file $i $dstDir/
+        %install_file ${i} ${dstDir}/
     done
-    %install_exe tools/objtool/objtool $dstDir/tools/objtool/objtool
-    chmod 00755 $dstDir/scripts/basic/fixdep
+    %install_exe tools/objtool/objtool ${dstDir}/tools/objtool/objtool
+    chmod 00755 ${dstDir}/scripts/basic/fixdep
 
     # Set up module symlinks
-    rm -vf %(installroot)%(libdir)/modules/$kernelVersion/build || :
-    rm -vf %(installroot)%(libdir)/modules/$kernelVersion/source || :
-    ln -svf build %(installroot)%(libdir)/modules/$kernelVersion/source
-    ln -svf $headersDir %(installroot)%(libdir)/modules/$kernelVersion/build
+    rm -vf %(installroot)%(libdir)/modules/${kernelVersion}/build || :
+    rm -vf %(installroot)%(libdir)/modules/${kernelVersion}/source || :
+    ln -svf build %(installroot)%(libdir)/modules/${kernelVersion}/source
+    ln -svf ${headersDir} %(installroot)%(libdir)/modules/${kernelVersion}/build
 
     # Compress modules with zstd
     find "%(installroot)%(libdir)/modules" -name '*.ko' -print -exec zstd {} \; -exec rm -v {} \;
