@@ -3,9 +3,16 @@
 
 name        : x265
 version     : "4.2"
-release     : 3
+release     : 4
 upstreams   :
-    - https://github.com/Multicorewareinc/x265/releases/download/4.2/x265_4.2.tar.gz : 40b1ea0453e0309f0eba934e0ddf533f8f6295966679e8894e8f1c1c8d5e1210
+    - https://github.com/Multicorewareinc/x265/releases/download/4.2/x265_4.2.tar.gz:
+        hash: 40b1ea0453e0309f0eba934e0ddf533f8f6295966679e8894e8f1c1c8d5e1210
+        unpackdir: current
+
+    # Latest from Release_4.1 branch
+    - git|https://bitbucket.org/multicoreware/x265_git.git:
+        ref: 32e25ffcf810c5fe284901859b369270824c4596
+        clonedir: compat
 homepage    : https://www.x265.org/
 license     : GPL-2.0-or-later
 summary     : x265 is an open source HEVC encoder
@@ -14,8 +21,6 @@ description : |
 builddeps   :
     - binary(nasm)
 setup       : |
-    %patch %(pkgdir)/ftbfs-libstdc-15.patch
-
     function x265_common() {
         %cmake \
             -S source \
@@ -31,6 +36,31 @@ setup       : |
             "$@"
     }
 
+    if [ -d ../compat ]; then
+        pushd ../compat
+        %patch %(pkgdir)/0001-Fix-CMake-build-error-with-latest-CMake-4.0-release.patch
+        %patch %(pkgdir)/0002-Fix-for-CMake-Build-Errors-in-MacOS.patch
+        %patch %(pkgdir)/0003-Bump-CMake-Version-for-dynamicHDR10.patch
+        %patch %(pkgdir)/ftbfs-libstdc-15.patch
+
+        # HDR 10-bit and 12-bit support
+        x265_hdr \
+            -B build-10
+        x265_hdr \
+            -B build-12 \
+            -DMAIN12=TRUE
+
+        x265_common \
+            -DENABLE_SHARED=TRUE \
+            -DEXTRA_LIB='x265_main10.a;x265_main12.a' \
+            -DEXTRA_LINK_FLAGS='-L .' \
+            -DLINKED_10BIT=TRUE \
+            -DLINKED_12BIT=TRUE
+        popd
+    fi
+
+    %patch %(pkgdir)/ftbfs-libstdc-15.patch
+
     # HDR 10-bit and 12-bit support
     x265_hdr \
         -B build-10
@@ -45,6 +75,25 @@ setup       : |
         -DLINKED_10BIT=TRUE \
         -DLINKED_12BIT=TRUE
 build       : |
+    if [ -d ../compat ]; then
+        pushd ../compat
+            # 10 and 12-bit
+            for i in 10 12; do
+                %ccache_zero
+                BUILDDIR=build-${i}
+                env CCACHE_BASEDIR="${PWD}/build-${i}" %cmake_build
+                %ccache_stats
+                ln -srv build-${i}/libx265.a %(builddir)/libx265_main${i}.a
+            done
+
+            # Final build
+            %ccache_zero
+            BUILDDIR=%(builddir)
+            env CCACHE_BASEDIR="${PWD}/%(builddir)" %cmake_build
+            %ccache_stats
+        popd
+    fi
+
     # 10 and 12-bit
     for i in 10 12; do
         %ccache_zero
@@ -60,6 +109,17 @@ build       : |
     env CCACHE_BASEDIR="${PWD}/%(builddir)" %cmake_build
     %ccache_stats
 install     : |
+    if [ -d ../compat ]; then
+        pushd ../compat
+            mkdir tmp
+            DESTDIR="${PWD}/tmp" cmake --install "%(builddir)" --verbose
+
+            # Only copy the sonames
+            %install_dir %(installroot)/%(libdir)
+            find ${PWD}/tmp/%(libdir) -name "libx265.so.*" -print -exec mv {} %(installroot)/%(libdir) \;
+        popd
+    fi
+
     %cmake_install
 
     rm -rfv %(installroot)%(libdir)/*.a

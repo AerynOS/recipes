@@ -51,16 +51,18 @@
 			],
 			"files": [
 				"/usr/lib/libhdr10plus.so",
+				"/usr/lib/libx265.so.215",
 				"/usr/lib/libx265.so.216"
 			],
 			"name": "x265-libs",
 			"provides": [
 				"soname(libhdr10plus.so(x86_64))",
+				"soname(libx265.so.215(x86_64))",
 				"soname(libx265.so.216(x86_64))"
 			]
 		}
 	},
 	"source-name": "x265",
-	"source-release": "3",
+	"source-release": "4",
 	"source-version": "4.2"
 }
