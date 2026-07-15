@@ -2,18 +2,18 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : zed
-version     : "1.5.5"
-release     : 47
+version     : "1.11.3"
+release     : 48
+homepage    : https://zed.dev/
+upstreams   :
+    - https://github.com/zed-industries/zed/archive/refs/tags/v1.11.3.tar.gz : c62f43fb5ea5ca38bb8a82960b2577bc03d48d1a3fba6937a51132521c3a7e6b
 summary     : High performance, graphical code editor
+description : |
+    Code at the speed of thought – Zed is a high-performance, multiplayer code editor from the creators of Atom and Tree-sitter.
 license     :
     - AGPL-3.0
     - Apache-2.0
     - GPL-3.0
-homepage    : https://zed.dev/
-upstreams   :
-    - https://github.com/zed-industries/zed/archive/refs/tags/v1.5.5.tar.gz : 1c0f431c98370b83a9bf504cbb22659100dd4986ca28122654d5ad0854cc05ec
-description : |
-    Code at the speed of thought – Zed is a high-performance, multiplayer code editor from the creators of Atom and Tree-sitter.
 builddeps   :
     - binary(cargo)
     - binary(cmake)
@@ -28,8 +28,9 @@ builddeps   :
     - pkgconfig(libcurl)
     - pkgconfig(libdrm)
     - pkgconfig(libelf)
-    - pkgconfig(libgit2)
     - pkgconfig(libssl)
+    - pkgconfig(libzstd)
+    - pkgconfig(protobuf)
     - pkgconfig(sqlite3)
     - pkgconfig(vulkan)
     - pkgconfig(wayland-client)
@@ -45,7 +46,9 @@ tuning      :
 environment : |
     export RUSTFLAGS="$RUSTFLAGS -Clink-arg=-fuse-ld=mold"
     export ZED_UPDATE_EXPLANATION="Package updates are provided via moss"
-    export LIBGIT2_NO_VENDOR=1
+    export LIBSQLITE3_SYS_USE_PKG_CONFIG=1
+    export OPENSSL_NO_VENDOR=true
+    export ZSTD_SYS_USE_PKG_CONFIG=1
 setup       : |
     %cargo_fetch
 build       : |
