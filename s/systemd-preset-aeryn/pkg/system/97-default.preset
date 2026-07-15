@@ -148,7 +148,7 @@ enable waydroid-container.service
 # Enable nfs-client.target
 enable nfs-client.target
 
-# For out of the box configuration
+# Various misc package services
 enable com.system76.Scheduler.service
 enable lactd.service
 enable lxcfs.service
@@ -157,6 +157,7 @@ enable netavark-nftables-reload.service
 enable scx_loader.service
 enable tinysparql-xdg-portal-3.service
 enable keyd.service
+enable cardwired.service
 
 # ZFS support
 enable zfs-import-cache.service
