@@ -3,10 +3,10 @@
 
 name        : cardwire
 version     : "0.10.3"
-release     : 1
+release     : 2
 summary     : A GPU Manager for linux that uses eBPF LSM hooks to block GPUs
 license     : GPL-3.0-only
-homepage    : github.com/OpenGamingCollective/cardwire
+homepage    : https://github.com/OpenGamingCollective/cardwire
 upstreams   :
     - https://github.com/OpenGamingCollective/cardwire/archive/refs/tags/v0.10.3.tar.gz :  0b7f79b5727b84db0de8e147ba38518092448ed7933407051d5eb39ebc510278
 description : |
@@ -19,9 +19,9 @@ rundeps     :
     - binary(upower)
     - hwdata
     - systemd
+networking  : true
 environment : |
     export RUSTUP_TOOLCHAIN=stable
-networking  : true
 setup       : |
     %cargo_fetch
 build       : |
@@ -32,6 +32,3 @@ install     : |
     %install_file assets/cardwired.service "%(installroot)%(libdir)/systemd/system/cardwired.service"
     %install_file assets/com.github.opengamingcollective.cardwire.conf "%(installroot)%(datadir)/dbus-1/system.d/com.github.opengamingcollective.cardwire.conf"
     %install_file LICENSE "%(installroot)%(datadir)/licenses/%(name)/LICENSE"
-
-    # Enable system-wide upon install
-    %install_file %(pkgdir)/*.preset -t %(installroot)/%(libdir)/systemd/system-preset/
