@@ -263,3 +263,7 @@ NB: Each entry *must* contain all sub-packages created by the package!
 ### Replaced by malm
 - ferrite
 - ferrite-dbginfo
+
+### Replaced by gnist
+- oxidize
+- oxidize-dbginfo
