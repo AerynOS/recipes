@@ -2,13 +2,13 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : dav1d
-version     : "1.5.3"
-release     : 5
+version     : "1.5.4"
+release     : 6
 homepage    : https://code.videolan.org/videolan/dav1d
 upstreams   :
-    - https://code.videolan.org/videolan/dav1d/-/archive/1.5.3/dav1d-1.5.3.tar.bz2 : e099f53253f6c247580c554d53a13f1040638f2066edc3c740e4c2f15174ce22
-    - https://code.videolan.org/videolan/dav1d-test-data/-/archive/1.5.3/dav1d-test-data-1.5.3.tar.gz :
-        hash: 71a44413995d1827a394befa82af601254b1be9e09deb70be7d53d8006409b18
+    - https://code.videolan.org/videolan/dav1d/-/archive/1.5.4/dav1d-1.5.4.tar.bz2 : 2abfb0c89212e6e4733a54e0ae509ec00a5b845a6360946f918806e14aedb011
+    - https://code.videolan.org/videolan/dav1d-test-data/-/archive/1.5.4/dav1d-test-data-1.5.4.tar.gz :
+        hash: b19926f25347a32633ffb40f6189eb750b50f1b8b02b2eb63954845a744de343
         rename: dav1d-test-data.tar.gz
         unpack: false
 summary     : AV1 decoder targeted to be small and fast
@@ -31,9 +31,6 @@ build       : |
 install     : |
     %meson_install
 check       : |
-    # The dependency ordering for this is slightly broken, and this needs to be built before tests can run
-    meson compile tests/checkasm -C %(builddir)
-
     %meson_test
 packages    :
     - "lib%(name)":
