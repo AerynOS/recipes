@@ -3,7 +3,7 @@
 
 name        : libsndfile
 version     : "1.2.2"
-release     : 3
+release     : 4
 homepage    : https://github.com/libsndfile/libsndfile
 upstreams   :
     - https://github.com/libsndfile/libsndfile/releases/download/1.2.2/libsndfile-1.2.2.tar.xz : 3799ca9924d3125038880367bf1468e53a1b7e3686a934f098b7e1d286cdb80e
@@ -16,12 +16,12 @@ builddeps   :
     - binary(python3)
     - pkgconfig(alsa)
     - pkgconfig(flac)
+    - pkgconfig(lame)
+    - pkgconfig(libmpg123)
     - pkgconfig(ogg)
     - pkgconfig(opus)
     - pkgconfig(sqlite3)
     - pkgconfig(vorbis)
-    - lame-devel
-    # libmpg123
 setup       : |
     %patch %(pkgdir)/CVE-2024-50612.patch
 
