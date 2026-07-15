@@ -2,29 +2,30 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : lame
-version     : "3.100"
-release     : 6
+version     : "4.0"
+release     : 7
 homepage    : https://lame.sourceforge.io/
 upstreams   :
-    - https://sourceforge.net/projects/lame/files/lame/3.100/lame-3.100.tar.gz/download :
-        hash: ddfe36cab873794038ae2c1210557ad34857a4b6bdc515785d1da9e175b1da1e
+    - https://sourceforge.net/projects/lame/files/lame/4.0/lame-4.0.tar.gz :
+        hash: 3df5124d5ad3a98312ffd7ba6a9b36230e4f8a3e66d3ce0f425e336c32d216eb
         rename: lame.tar.gz
 summary     : LAME is a high quality MPEG Audio Layer III (MP3) encoder
 description : |
     LAME is a high quality MPEG Audio Layer III (MP3) encoder licensed under the LGPL.
-license     :
-    - LGPL-2.0-or-later
+license     : LGPL-2.0-or-later
 builddeps   :
-    # TODO: Remove me once boulder fix https://github.com/AerynOS/os-tools/pull/678 is packaged
-    - binary(bsdtar-static)
+    - binary(dot)
     - binary(nasm)
+    - pkgconfig(libmpg123)
     - pkgconfig(ncursesw)
 setup       : |
-    # version script assignment of 'global' to symbol 'lame_init_old' failed: symbol not defined
-    export LDFLAGS="${LDFLAGS} -Wl,--undefined-version"
+    # glibc 2.43 build failure, remove in future version
+    export CFLAGS+=" -Wno-error=incompatible-pointer-types"
 
     # Fix rpath without reconfiguring
     sed -i -e 's/^\(\s*hardcode_libdir_flag_spec\s*=\).*/\1/' configure
+
+    %patch %(pkgdir)/ftbfs.patch
 
     %configure \
         --disable-rpath \
@@ -36,6 +37,10 @@ build       : |
 install     : |
     %make_install
 packages    :
+    - "%(name)-libs":
+        paths:
+            - /usr/lib/libmp3lame.so.*
+
     - "%(name)-docs":
         paths:
             - /usr/share/doc

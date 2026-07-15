@@ -4,32 +4,33 @@
 	"packages": {
 		"lame": {
 			"build-depends": [
-				"binary(bsdtar-static)",
+				"binary(dot)",
 				"binary(nasm)",
+				"pkgconfig(libmpg123)",
 				"pkgconfig(ncursesw)"
 			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libm.so.6(x86_64))",
+				"soname(libmp3lame.so.0(x86_64))",
+				"soname(libmpg123.so.0(x86_64))",
 				"soname(libncursesw.so.6(x86_64))"
 			],
 			"files": [
 				"/usr/bin/lame",
-				"/usr/lib/libmp3lame.so.0",
-				"/usr/lib/libmp3lame.so.0.0.0",
 				"/usr/share/man/man1/lame.1"
 			],
 			"name": "lame",
 			"provides": [
-				"binary(lame)",
-				"soname(libmp3lame.so.0(x86_64))"
+				"binary(lame)"
 			]
 		},
 		"lame-devel": {
 			"build-depends": [
-				"binary(bsdtar-static)",
+				"binary(dot)",
 				"binary(nasm)",
+				"pkgconfig(libmpg123)",
 				"pkgconfig(ncursesw)"
 			],
 			"depends": [
@@ -37,14 +38,19 @@
 			],
 			"files": [
 				"/usr/include/lame/lame.h",
-				"/usr/lib/libmp3lame.so"
+				"/usr/lib/libmp3lame.so",
+				"/usr/lib/pkgconfig/lame.pc"
 			],
-			"name": "lame-devel"
+			"name": "lame-devel",
+			"provides": [
+				"pkgconfig(lame)"
+			]
 		},
 		"lame-docs": {
 			"build-depends": [
-				"binary(bsdtar-static)",
+				"binary(dot)",
 				"binary(nasm)",
+				"pkgconfig(libmpg123)",
 				"pkgconfig(ncursesw)"
 			],
 			"files": [
@@ -64,9 +70,30 @@
 				"/usr/share/doc/lame/html/vbr.html"
 			],
 			"name": "lame-docs"
+		},
+		"lame-libs": {
+			"build-depends": [
+				"binary(dot)",
+				"binary(nasm)",
+				"pkgconfig(libmpg123)",
+				"pkgconfig(ncursesw)"
+			],
+			"depends": [
+				"soname(libc.so.6(x86_64))",
+				"soname(libm.so.6(x86_64))",
+				"soname(libmpg123.so.0(x86_64))"
+			],
+			"files": [
+				"/usr/lib/libmp3lame.so.0",
+				"/usr/lib/libmp3lame.so.0.0.0"
+			],
+			"name": "lame-libs",
+			"provides": [
+				"soname(libmp3lame.so.0(x86_64))"
+			]
 		}
 	},
 	"source-name": "lame",
-	"source-release": "6",
-	"source-version": "3.100"
+	"source-release": "7",
+	"source-version": "4.0"
 }
