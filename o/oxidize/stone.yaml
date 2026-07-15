@@ -2,25 +2,27 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : oxidize
-version     : "0.3.4"
-release     : 6
+version     : "0.0.0"
+release     : 7
 homepage    : https://github.com/christian-bendiksen/oxidize
 upstreams   :
-    - https://github.com/christian-bendiksen/oxidize/archive/refs/tags/v0.3.4.tar.gz : cca2979b4e651aedf0d5644ddaca79a2b458624e6eb80c42e05f2d585306f32b
+    # - https://github.com/christian-bendiksen/oxidize/archive/refs/tags/v0.3.4.tar.gz : cca2979b4e651aedf0d5644ddaca79a2b458624e6eb80c42e05f2d585306f32b
 summary     : Oxidize is a tool for atomically changing themes in window managers.
 description : |
     Oxidize is a tool for atomically changing themes in window managers.
 license     : MIT
-networking  : true
-builddeps   :
-    - pkgconfig(gio-2.0)
-    - pkgconfig(glib-2.0)
-setup       : |
-    %cargo_fetch
-build       : |
-    %cargo_build --workspace
+networking  : false
+# builddeps :
+#     - pkgconfig(gio-2.0)
+#     - pkgconfig(glib-2.0)
+rundeps     :
+    - binary(gnist)
+# setup     : |
+#     %cargo_fetch
+# build     : |
+#     %cargo_build --workspace
 install     : |
-    %cargo_install
-    %install_file %(cargo_target_dir)/liboxidize_gio.so %(installroot)%(libdir)/gio/modules/liboxidize_gio.so
-check       : |
-    %cargo_test
+    %install_dir %(installroot)%(docdir)/%(name)/
+    echo "DEPRECATED" > %(installroot)%(docdir)/%(name)/README
+# check     : |
+#     %cargo_test
