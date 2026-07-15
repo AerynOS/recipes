@@ -18,8 +18,9 @@
 				"pkgconfig(libcurl)",
 				"pkgconfig(libdrm)",
 				"pkgconfig(libelf)",
-				"pkgconfig(libgit2)",
 				"pkgconfig(libssl)",
+				"pkgconfig(libzstd)",
+				"pkgconfig(protobuf)",
 				"pkgconfig(sqlite3)",
 				"pkgconfig(vulkan)",
 				"pkgconfig(wayland-client)",
@@ -39,14 +40,15 @@
 				"soname(libfreetype.so.6(x86_64))",
 				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libgio-2.0.so.0(x86_64))",
-				"soname(libgit2.so.1.9(x86_64))",
 				"soname(libglib-2.0.so.0(x86_64))",
 				"soname(libgobject-2.0.so.0(x86_64))",
 				"soname(libm.so.6(x86_64))",
+				"soname(libsqlite3.so.0(x86_64))",
 				"soname(libstdc++.so.6(x86_64))",
 				"soname(libxcb.so.1(x86_64))",
 				"soname(libxkbcommon-x11.so.0(x86_64))",
-				"soname(libxkbcommon.so.0(x86_64))"
+				"soname(libxkbcommon.so.0(x86_64))",
+				"soname(libzstd.so.1(x86_64))"
 			],
 			"files": [
 				"/usr/bin/zed",
@@ -62,6 +64,6 @@
 		}
 	},
 	"source-name": "zed",
-	"source-release": "47",
-	"source-version": "1.5.5"
+	"source-release": "48",
+	"source-version": "1.11.3"
 }
