@@ -3,16 +3,16 @@
 
 name        : x265
 version     : "4.2"
-release     : 4
+release     : 5
 upstreams   :
     - https://github.com/Multicorewareinc/x265/releases/download/4.2/x265_4.2.tar.gz:
         hash: 40b1ea0453e0309f0eba934e0ddf533f8f6295966679e8894e8f1c1c8d5e1210
         unpackdir: current
 
     # Latest from Release_4.1 branch
-    - git|https://bitbucket.org/multicoreware/x265_git.git:
-        ref: 32e25ffcf810c5fe284901859b369270824c4596
-        clonedir: compat
+    # - git|https://bitbucket.org/multicoreware/x265_git.git:
+    #     ref: 32e25ffcf810c5fe284901859b369270824c4596
+    #     clonedir: compat
 homepage    : https://www.x265.org/
 license     : GPL-2.0-or-later
 summary     : x265 is an open source HEVC encoder
@@ -38,9 +38,6 @@ setup       : |
 
     if [ -d ../compat ]; then
         pushd ../compat
-        %patch %(pkgdir)/0001-Fix-CMake-build-error-with-latest-CMake-4.0-release.patch
-        %patch %(pkgdir)/0002-Fix-for-CMake-Build-Errors-in-MacOS.patch
-        %patch %(pkgdir)/0003-Bump-CMake-Version-for-dynamicHDR10.patch
         %patch %(pkgdir)/ftbfs-libstdc-15.patch
 
         # HDR 10-bit and 12-bit support
