@@ -2,15 +2,15 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : ruby
-version     : "4.0.5"
-release     : 17
-summary     : An object-oriented language for quick and easy programming
-license     : Ruby
+version     : "4.0.6"
+release     : 18
 homepage    : https://www.ruby-lang.org/en/
+upstreams   :
+    - https://cache.ruby-lang.org/pub/ruby/4.0/ruby-4.0.6.tar.gz : 837d299e8f7ddf2be31a229a7a7e019d354979825117989acb3b32b1a9be262a
+summary     : An object-oriented language for quick and easy programming
 description : |
     An object-oriented language for quick and easy programming
-upstreams   :
-    - https://cache.ruby-lang.org/pub/ruby/4.0/ruby-4.0.5.tar.gz: 7d6149079a63f8ae1d326c9fa65c6019ba2dc3155eae7b39159817911c88958e
+license     : Ruby
 builddeps   :
     - binary(rustc) # for yjit compiler
     - pkgconfig(gmp)
