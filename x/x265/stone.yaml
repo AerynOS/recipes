@@ -2,22 +2,18 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : x265
-version     : "4.1+git.32e25ff"
-release     : 2
+version     : "4.2"
+release     : 3
 upstreams   :
-    # Latest from Release_4.1 branch
-    - git|https://bitbucket.org/multicoreware/x265_git.git : 32e25ffcf810c5fe284901859b369270824c4596
-homepage    : https://bitbucket.org/multicoreware/x265_git
+    - https://github.com/Multicorewareinc/x265/releases/download/4.2/x265_4.2.tar.gz : 40b1ea0453e0309f0eba934e0ddf533f8f6295966679e8894e8f1c1c8d5e1210
+homepage    : https://www.x265.org/
 license     : GPL-2.0-or-later
-summary    : x265 is an open source HEVC encoder
-description: |
+summary     : x265 is an open source HEVC encoder
+description : |
     The primary objective of x265 is to become the best H.265/HEVC encoder available anywhere, offering the highest compression efficiency and the highest performance on a wide variety of hardware platforms.
 builddeps   :
     - binary(nasm)
 setup       : |
-    %patch %(pkgdir)/0001-Fix-CMake-build-error-with-latest-CMake-4.0-release.patch
-    %patch %(pkgdir)/0002-Fix-for-CMake-Build-Errors-in-MacOS.patch
-    %patch %(pkgdir)/0003-Bump-CMake-Version-for-dynamicHDR10.patch
     %patch %(pkgdir)/ftbfs-libstdc-15.patch
 
     function x265_common() {
