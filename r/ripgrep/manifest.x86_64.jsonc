@@ -4,7 +4,6 @@
 	"packages": {
 		"ripgrep": {
 			"build-depends": [
-				"pkgconfig(bash-completion)",
 				"pkgconfig(libpcre2-8)"
 			],
 			"depends": [
@@ -17,7 +16,9 @@
 			"files": [
 				"/usr/bin/rg",
 				"/usr/share/bash-completion/completions/rg",
-				"/usr/share/man/man1/rg.1"
+				"/usr/share/fish/vendor_completions.d/rg.fish",
+				"/usr/share/man/man1/rg.1",
+				"/usr/share/zsh/site-functions/_rg"
 			],
 			"name": "ripgrep",
 			"provides": [
@@ -26,6 +27,6 @@
 		}
 	},
 	"source-name": "ripgrep",
-	"source-release": "4",
-	"source-version": "15.1.0"
+	"source-release": "5",
+	"source-version": "15.2.0"
 }

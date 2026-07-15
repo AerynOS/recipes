@@ -2,17 +2,16 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : ripgrep
-version     : "15.1.0"
-release     : 4
+version     : "15.2.0"
+release     : 5
 homepage    : https://github.com/BurntSushi/ripgrep
 upstreams   :
-    - https://github.com/BurntSushi/ripgrep/archive/refs/tags/15.1.0.tar.gz : 046fa01a216793b8bd2750f9d68d4ad43986eb9c0d6122600f993906012972e8
+    - https://github.com/BurntSushi/ripgrep/archive/refs/tags/15.2.0.tar.gz : 7605249d3eb0d5f170e3414498e3344e26b1e7a147aec518b57090b80036a562
 summary     : Recursive text search utility
 description : |
     ripgrep recursively searches directories for a regex pattern while respecting your gitignore
 license     : MIT
 builddeps   :
-    - pkgconfig(bash-completion)
     - pkgconfig(libpcre2-8)
 networking  : true
 setup       : |
@@ -22,12 +21,12 @@ build       : |
 install     : |
     %cargo_install rg
 
-    completionsdir=`pkg-config --variable=completionsdir bash-completion`
-    %install_dir %(installroot)${completionsdir}
-    ./target/*/release/rg --generate complete-bash > %(installroot)${completionsdir}/rg
+    # completions
+    %(cargo_target_dir)/rg --generate complete-bash | %install_file /dev/stdin %(installroot)%(bashcompletionsdir)/rg
+    %(cargo_target_dir)/rg --generate complete-fish | %install_file /dev/stdin %(installroot)%(fishcompletionsdir)/rg.fish
+    %(cargo_target_dir)/rg --generate complete-zsh | %install_file /dev/stdin %(installroot)%(zshcompletionsdir)/_rg
 
     # man pages
-    %install_dir %(installroot)%(mandir)/man1
-    ./target/*/release/rg --generate man > %(installroot)%(mandir)/man1/rg.1
+    %(cargo_target_dir)/rg --generate man | %install_file /dev/stdin %(installroot)%(mandir)/man1/rg.1
 check       : |
     %cargo_test --features 'pcre2'
