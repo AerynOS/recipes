@@ -3,7 +3,7 @@
 
 name        : ffmpeg
 version     : "8.1.2"
-release     : 34
+release     : 35
 homepage    : https://ffmpeg.org/releases
 upstreams   :
     - https://ffmpeg.org/releases/ffmpeg-8.1.2.tar.xz:
@@ -39,6 +39,7 @@ builddeps   :
     - pkgconfig(freetype2)
     - pkgconfig(fribidi)
     - pkgconfig(jack)
+    - pkgconfig(lame)
     - pkgconfig(lc3)
     - pkgconfig(lcms2)
     - pkgconfig(libass)
@@ -86,7 +87,6 @@ builddeps   :
     - pkgconfig(xv)
     - gsm-devel
     - ladspa-devel
-    - lame-devel
 # TODO
 # - Figure out build issue with glslang
 # Codecs:
