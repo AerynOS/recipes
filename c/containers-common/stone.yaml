@@ -1,9 +1,9 @@
-# SPDX-FileCopyrightText: 2025 AerynOS Developers
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
 
 name        : containers-common
 version     : "1"
-release     : 1
+release     : 2
 homepage    : https://github.com/containers/container-libs
 # No upstreams!
 summary     : Common config files for various container tools
@@ -13,5 +13,6 @@ license     : MPL-2.0
 rundeps     :
     - netavark
 install     : |
-    %install_file %(pkgdir)/policy.json %(installroot)%(vendordir)/containers/policy.json
-    %install_file %(pkgdir)/registries.yaml %(installroot)%(vendordir)/containers/registries.d/default.yaml
+    %install_file %(pkgdir)/policy.json %(installroot)%(datadir)/containers/policy.json
+    %install_file %(pkgdir)/registries.conf %(installroot)%(datadir)/containers/registries.conf
+    %install_file %(pkgdir)/registries.yaml %(installroot)%(datadir)/containers/registries.d/default.yaml
