@@ -7,7 +7,6 @@
 				"binary(bison)",
 				"binary(flex)",
 				"binary(intltool-update)",
-				"pkgconfig(fuse)",
 				"pkgconfig(gnutls)",
 				"pkgconfig(gpg-error)",
 				"pkgconfig(libgcrypt)",
@@ -16,15 +15,136 @@
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))",
-				"soname(libfuse.so.2(x86_64))",
-				"soname(libgcrypt.so.20(x86_64))",
-				"soname(libgnutls.so.30(x86_64))",
-				"soname(libuuid.so.1(x86_64))"
+				"soname(libntfs-3g.so.90(x86_64))"
 			],
 			"files": [
 				"/usr/bin/lowntfs-3g",
 				"/usr/bin/ntfs-3g",
 				"/usr/bin/ntfs-3g.probe",
+				"/usr/lib/ntfs-3g",
+				"/usr/sbin/mount.lowntfs-3g",
+				"/usr/sbin/mount.ntfs",
+				"/usr/sbin/mount.ntfs-3g",
+				"/usr/sbin/mount.ntfs-fuse",
+				"/usr/share/doc/ntfs-3g/README",
+				"/usr/share/man/man8/mount.lowntfs-3g.8",
+				"/usr/share/man/man8/mount.ntfs-3g.8",
+				"/usr/share/man/man8/ntfs-3g.8",
+				"/usr/share/man/man8/ntfs-3g.probe.8"
+			],
+			"name": "ntfs-3g",
+			"provides": [
+				"binary(lowntfs-3g)",
+				"binary(ntfs-3g)",
+				"binary(ntfs-3g.probe)",
+				"sysbinary(mount.lowntfs-3g)",
+				"sysbinary(mount.ntfs)",
+				"sysbinary(mount.ntfs-3g)",
+				"sysbinary(mount.ntfs-fuse)"
+			]
+		},
+		"ntfs-3g-devel": {
+			"build-depends": [
+				"binary(bison)",
+				"binary(flex)",
+				"binary(intltool-update)",
+				"pkgconfig(gnutls)",
+				"pkgconfig(gpg-error)",
+				"pkgconfig(libgcrypt)",
+				"pkgconfig(uuid)"
+			],
+			"depends": [
+				"ntfs-3g"
+			],
+			"files": [
+				"/usr/include/ntfs-3g/acls.h",
+				"/usr/include/ntfs-3g/attrib.h",
+				"/usr/include/ntfs-3g/attrlist.h",
+				"/usr/include/ntfs-3g/bitmap.h",
+				"/usr/include/ntfs-3g/bootsect.h",
+				"/usr/include/ntfs-3g/cache.h",
+				"/usr/include/ntfs-3g/collate.h",
+				"/usr/include/ntfs-3g/compat.h",
+				"/usr/include/ntfs-3g/compress.h",
+				"/usr/include/ntfs-3g/debug.h",
+				"/usr/include/ntfs-3g/device.h",
+				"/usr/include/ntfs-3g/device_io.h",
+				"/usr/include/ntfs-3g/dir.h",
+				"/usr/include/ntfs-3g/ea.h",
+				"/usr/include/ntfs-3g/efs.h",
+				"/usr/include/ntfs-3g/endians.h",
+				"/usr/include/ntfs-3g/index.h",
+				"/usr/include/ntfs-3g/inode.h",
+				"/usr/include/ntfs-3g/ioctl.h",
+				"/usr/include/ntfs-3g/layout.h",
+				"/usr/include/ntfs-3g/lcnalloc.h",
+				"/usr/include/ntfs-3g/logfile.h",
+				"/usr/include/ntfs-3g/logging.h",
+				"/usr/include/ntfs-3g/mft.h",
+				"/usr/include/ntfs-3g/misc.h",
+				"/usr/include/ntfs-3g/mst.h",
+				"/usr/include/ntfs-3g/ntfstime.h",
+				"/usr/include/ntfs-3g/object_id.h",
+				"/usr/include/ntfs-3g/param.h",
+				"/usr/include/ntfs-3g/plugin.h",
+				"/usr/include/ntfs-3g/realpath.h",
+				"/usr/include/ntfs-3g/reparse.h",
+				"/usr/include/ntfs-3g/runlist.h",
+				"/usr/include/ntfs-3g/security.h",
+				"/usr/include/ntfs-3g/support.h",
+				"/usr/include/ntfs-3g/types.h",
+				"/usr/include/ntfs-3g/unistr.h",
+				"/usr/include/ntfs-3g/volume.h",
+				"/usr/include/ntfs-3g/xattrs.h",
+				"/usr/lib/libntfs-3g.so",
+				"/usr/lib/pkgconfig/libntfs-3g.pc"
+			],
+			"name": "ntfs-3g-devel",
+			"provides": [
+				"pkgconfig(libntfs-3g)"
+			]
+		},
+		"ntfs-3g-libs": {
+			"build-depends": [
+				"binary(bison)",
+				"binary(flex)",
+				"binary(intltool-update)",
+				"pkgconfig(gnutls)",
+				"pkgconfig(gpg-error)",
+				"pkgconfig(libgcrypt)",
+				"pkgconfig(uuid)"
+			],
+			"depends": [
+				"soname(libc.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/lib/libntfs-3g.so.90",
+				"/usr/lib/libntfs-3g.so.90.0.0"
+			],
+			"name": "ntfs-3g-libs",
+			"provides": [
+				"soname(libntfs-3g.so.90(x86_64))"
+			]
+		},
+		"ntfsprogs": {
+			"build-depends": [
+				"binary(bison)",
+				"binary(flex)",
+				"binary(intltool-update)",
+				"pkgconfig(gnutls)",
+				"pkgconfig(gpg-error)",
+				"pkgconfig(libgcrypt)",
+				"pkgconfig(uuid)"
+			],
+			"depends": [
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libgcrypt.so.20(x86_64))",
+				"soname(libgnutls.so.30(x86_64))",
+				"soname(libntfs-3g.so.90(x86_64))",
+				"soname(libuuid.so.1(x86_64))"
+			],
+			"files": [
 				"/usr/bin/ntfscat",
 				"/usr/bin/ntfscluster",
 				"/usr/bin/ntfscmp",
@@ -37,25 +157,15 @@
 				"/usr/bin/ntfstruncate",
 				"/usr/bin/ntfsusermap",
 				"/usr/bin/ntfswipe",
-				"/usr/lib/ntfs-3g",
 				"/usr/sbin/mkfs.ntfs",
 				"/usr/sbin/mkntfs",
-				"/usr/sbin/mount.lowntfs-3g",
-				"/usr/sbin/mount.ntfs",
-				"/usr/sbin/mount.ntfs-3g",
-				"/usr/sbin/mount.ntfs-fuse",
 				"/usr/sbin/ntfsclone",
 				"/usr/sbin/ntfscp",
 				"/usr/sbin/ntfslabel",
 				"/usr/sbin/ntfsresize",
 				"/usr/sbin/ntfsundelete",
-				"/usr/share/doc/ntfs-3g/README",
 				"/usr/share/man/man8/mkfs.ntfs.8",
 				"/usr/share/man/man8/mkntfs.8",
-				"/usr/share/man/man8/mount.lowntfs-3g.8",
-				"/usr/share/man/man8/mount.ntfs-3g.8",
-				"/usr/share/man/man8/ntfs-3g.8",
-				"/usr/share/man/man8/ntfs-3g.probe.8",
 				"/usr/share/man/man8/ntfscat.8",
 				"/usr/share/man/man8/ntfsclone.8",
 				"/usr/share/man/man8/ntfscluster.8",
@@ -76,11 +186,8 @@
 				"/usr/share/man/man8/ntfsusermap.8",
 				"/usr/share/man/man8/ntfswipe.8"
 			],
-			"name": "ntfs-3g",
+			"name": "ntfsprogs",
 			"provides": [
-				"binary(lowntfs-3g)",
-				"binary(ntfs-3g)",
-				"binary(ntfs-3g.probe)",
 				"binary(ntfscat)",
 				"binary(ntfscluster)",
 				"binary(ntfscmp)",
@@ -95,10 +202,6 @@
 				"binary(ntfswipe)",
 				"sysbinary(mkfs.ntfs)",
 				"sysbinary(mkntfs)",
-				"sysbinary(mount.lowntfs-3g)",
-				"sysbinary(mount.ntfs)",
-				"sysbinary(mount.ntfs-3g)",
-				"sysbinary(mount.ntfs-fuse)",
 				"sysbinary(ntfsclone)",
 				"sysbinary(ntfscp)",
 				"sysbinary(ntfslabel)",
@@ -108,6 +211,6 @@
 		}
 	},
 	"source-name": "ntfs-3g",
-	"source-release": "3",
-	"source-version": "2026.2.25"
+	"source-release": "4",
+	"source-version": "2026.7.7"
 }
