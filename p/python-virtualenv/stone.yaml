@@ -3,7 +3,7 @@
 
 name        : python-virtualenv
 version     : "21.6.1"
-release     : 7
+release     : 8
 homepage    : https://virtualenv.pypa.io/
 upstreams:
   - https://pypi.debian.net/virtualenv/virtualenv-21.6.1.tar.gz: 15f978b7cd329f24855ff4a0c4b4899cc7678589f49adbdcbbb4d3232e641128
@@ -20,11 +20,12 @@ rundeps     :
     - python-setuptools-wheel
 setup       : |
     %patch %(pkgdir)/system-wheel.patch
+
+    rm src/virtualenv/seed/wheels/embed/pip-*
+    rm src/virtualenv/seed/wheels/embed/setuptools-*
 build       : |
     %pyproject_build
 install     : |
     %pyproject_install
-    # Provided by system packages
-    rm -fv %(installroot)%(libdir)/python3.*/site-packages/virtualenv/seed/wheels/embed/*.whl
 #check      : |
     # TODO

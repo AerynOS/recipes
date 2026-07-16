@@ -9,13 +9,13 @@ Content-Transfer-Encoding: 8bit
 Co-Authored-By: Miro Hrončok <miro@hroncok.cz>
 ---
  src/virtualenv/run/__init__.py                |  5 +++--
- src/virtualenv/seed/embed/base_embed.py       | 16 +++++++++++++-
+ src/virtualenv/seed/embed/base_embed.py       | 17 +++++++++++++-
  src/virtualenv/seed/embed/pip_invoke.py       |  1 +
  .../seed/embed/via_app_data/via_app_data.py   |  1 +
  src/virtualenv/seed/wheels/acquire.py         |  3 ++-
  src/virtualenv/seed/wheels/embed/__init__.py  |  3 +++
  src/virtualenv/util/path/_system_wheels.py    | 22 +++++++++++++++++++
- 7 files changed, 47 insertions(+), 4 deletions(-)
+ 7 files changed, 48 insertions(+), 4 deletions(-)
  create mode 100644 src/virtualenv/util/path/_system_wheels.py
 
 diff --git a/src/virtualenv/run/__init__.py b/src/virtualenv/run/__init__.py
@@ -35,7 +35,7 @@ index 79ebc426..81e6e4f6 100644
  
  def load_app_data(
 diff --git a/src/virtualenv/seed/embed/base_embed.py b/src/virtualenv/seed/embed/base_embed.py
-index 07f15d32..f860b0fb 100644
+index 07f15d32..6b2af78d 100644
 --- a/src/virtualenv/seed/embed/base_embed.py
 +++ b/src/virtualenv/seed/embed/base_embed.py
 @@ -9,6 +9,7 @@ from typing import TYPE_CHECKING
@@ -71,7 +71,15 @@ index 07f15d32..f860b0fb 100644
  
      @classmethod
      def distributions(cls) -> dict[str, str]:
-@@ -163,6 +173,10 @@ class BaseEmbed(Seeder, ABC):
+@@ -79,6 +89,7 @@ class BaseEmbed(Seeder, ABC):
+             the remedies
+ 
+         """
++        return None  # Moss-provided wheels support any Python version
+         if interpreter.version_info[:2] >= OLDEST_SUPPORTED:
+             return None
+         target = f"{interpreter.version_info.major}.{interpreter.version_info.minor}"
+@@ -163,6 +174,10 @@ class BaseEmbed(Seeder, ABC):
              result += f" {distribution}{ver},"
          return result[:-1] + ")"
  
