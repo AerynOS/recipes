@@ -1,0 +1,24 @@
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : python-ast-serialize
+version     : "0.6.0"
+release     : 1
+homepage    : https://github.com/mypyc/ast_serialize
+upstreams   :
+    - https://pypi.debian.net/ast-serialize/ast_serialize-0.6.0.tar.gz : aadd3ffcf4858c9726bf3515f7b199c7eadbe504f96028e4a87172c0da65a8fe
+summary     : Fast Python parser that generates a serialized AST
+description : |
+    Fast Python parser that generates a serialized AST
+license     : MIT
+networking  : true
+builddeps   :
+    - python(maturin)
+rundeps     :
+    - python-libs
+setup       : |
+    %cargo_fetch
+build       : |
+    %pyproject_build
+install     : |
+    %pyproject_install
