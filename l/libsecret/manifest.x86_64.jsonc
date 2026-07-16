@@ -6,6 +6,7 @@
 			"build-depends": [
 				"binary(vapigen)",
 				"binary(xsltproc)",
+				"docbook",
 				"docbook-xsl",
 				"pkgconfig(bash-completion)",
 				"pkgconfig(glib-2.0)",
@@ -22,7 +23,8 @@
 				"soname(libgobject-2.0.so.0(x86_64))",
 				"soname(libtss2-esys.so.0(x86_64))",
 				"soname(libtss2-mu.so.0(x86_64))",
-				"soname(libtss2-rc.so.0(x86_64))"
+				"soname(libtss2-rc.so.0(x86_64))",
+				"soname(libtss2-tctildr.so.0(x86_64))"
 			],
 			"files": [
 				"/usr/bin/secret-tool",
@@ -30,9 +32,7 @@
 				"/usr/lib/libsecret-1.so.0",
 				"/usr/lib/libsecret-1.so.0.0.0",
 				"/usr/share/bash-completion/completions/secret-tool",
-				"/usr/share/man/man1/secret-tool.1",
-				"/usr/share/vala/vapi/libsecret-1.deps",
-				"/usr/share/vala/vapi/libsecret-1.vapi"
+				"/usr/share/man/man1/secret-tool.1"
 			],
 			"name": "libsecret",
 			"provides": [
@@ -44,6 +44,7 @@
 			"build-depends": [
 				"binary(vapigen)",
 				"binary(xsltproc)",
+				"docbook",
 				"docbook-xsl",
 				"pkgconfig(bash-completion)",
 				"pkgconfig(glib-2.0)",
@@ -82,7 +83,9 @@
 				"/usr/lib/libsecret-1.so",
 				"/usr/lib/pkgconfig/libsecret-1.pc",
 				"/usr/lib/pkgconfig/libsecret-unstable.pc",
-				"/usr/share/gir-1.0/Secret-1.gir"
+				"/usr/share/gir-1.0/Secret-1.gir",
+				"/usr/share/vala/vapi/libsecret-1.deps",
+				"/usr/share/vala/vapi/libsecret-1.vapi"
 			],
 			"name": "libsecret-devel",
 			"provides": [
@@ -92,6 +95,6 @@
 		}
 	},
 	"source-name": "libsecret",
-	"source-release": "8",
+	"source-release": "9",
 	"source-version": "0.21.7"
 }
