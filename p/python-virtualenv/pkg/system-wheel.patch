@@ -13,9 +13,9 @@ Co-Authored-By: Miro Hrončok <miro@hroncok.cz>
  src/virtualenv/seed/embed/pip_invoke.py       |  1 +
  .../seed/embed/via_app_data/via_app_data.py   |  1 +
  src/virtualenv/seed/wheels/acquire.py         |  3 ++-
- src/virtualenv/seed/wheels/embed/__init__.py  |  4 ++++
+ src/virtualenv/seed/wheels/embed/__init__.py  |  3 +++
  src/virtualenv/util/path/_system_wheels.py    | 22 +++++++++++++++++++
- 7 files changed, 48 insertions(+), 4 deletions(-)
+ 7 files changed, 47 insertions(+), 4 deletions(-)
  create mode 100644 src/virtualenv/util/path/_system_wheels.py
 
 diff --git a/src/virtualenv/run/__init__.py b/src/virtualenv/run/__init__.py
@@ -35,18 +35,18 @@ index 79ebc426..81e6e4f6 100644
  
  def load_app_data(
 diff --git a/src/virtualenv/seed/embed/base_embed.py b/src/virtualenv/seed/embed/base_embed.py
-index 9980dab1..d8ae524a 100644
+index 07f15d32..f860b0fb 100644
 --- a/src/virtualenv/seed/embed/base_embed.py
 +++ b/src/virtualenv/seed/embed/base_embed.py
-@@ -8,6 +8,7 @@ from typing import TYPE_CHECKING
- 
+@@ -9,6 +9,7 @@ from typing import TYPE_CHECKING
  from virtualenv.seed.seeder import Seeder
  from virtualenv.seed.wheels import Version
+ from virtualenv.seed.wheels.embed import MIN, OLDEST_SUPPORTED
 +from virtualenv.util.path._system_wheels import get_system_wheels_paths
  
  if TYPE_CHECKING:
      from argparse import ArgumentParser
-@@ -18,7 +19,7 @@ if TYPE_CHECKING:
+@@ -19,7 +20,7 @@ if TYPE_CHECKING:
      from virtualenv.config.cli.parser import VirtualEnvOptions
  
  LOGGER = logging.getLogger(__name__)
@@ -55,7 +55,7 @@ index 9980dab1..d8ae524a 100644
  
  
  class BaseEmbed(Seeder, ABC):
-@@ -53,6 +54,15 @@ class BaseEmbed(Seeder, ABC):
+@@ -50,6 +51,15 @@ class BaseEmbed(Seeder, ABC):
  
          if not self.distribution_to_versions():
              self.enabled = False
@@ -71,7 +71,7 @@ index 9980dab1..d8ae524a 100644
  
      @classmethod
      def distributions(cls) -> dict[str, str]:
-@@ -144,6 +154,10 @@ class BaseEmbed(Seeder, ABC):
+@@ -163,6 +173,10 @@ class BaseEmbed(Seeder, ABC):
              result += f" {distribution}{ver},"
          return result[:-1] + ")"
  
@@ -95,10 +95,10 @@ index fb442291..d5166973 100644
          with self.get_pip_install_cmd(creator.exe, for_py_version) as cmd:
              env = pip_wheel_env_run(self.extra_search_dir, self.app_data, self.env)
 diff --git a/src/virtualenv/seed/embed/via_app_data/via_app_data.py b/src/virtualenv/seed/embed/via_app_data/via_app_data.py
-index 092ef74b..12fec7b3 100644
+index c60f35e4..ac36433c 100644
 --- a/src/virtualenv/seed/embed/via_app_data/via_app_data.py
 +++ b/src/virtualenv/seed/embed/via_app_data/via_app_data.py
-@@ -55,6 +55,7 @@ class FromAppData(BaseEmbed):
+@@ -56,6 +56,7 @@ class FromAppData(BaseEmbed):
      def run(self, creator: Creator) -> None:
          if not self.enabled:
              return
@@ -107,10 +107,10 @@ index 092ef74b..12fec7b3 100644
              pip_version = name_to_whl["pip"].version_tuple if "pip" in name_to_whl else None
              installer_class = self.installer_class(pip_version)
 diff --git a/src/virtualenv/seed/wheels/acquire.py b/src/virtualenv/seed/wheels/acquire.py
-index b6a6533a..ae1229e4 100644
+index 63f5376d..7a1a244d 100644
 --- a/src/virtualenv/seed/wheels/acquire.py
 +++ b/src/virtualenv/seed/wheels/acquire.py
-@@ -39,11 +39,12 @@ def get_wheel(  # noqa: PLR0913
+@@ -68,11 +68,12 @@ def get_wheel(  # noqa: PLR0913
  
      if download and wheel is None and version != Version.embed:
          # 2. download from the internet
@@ -125,21 +125,26 @@ index b6a6533a..ae1229e4 100644
              to_folder=app_data.house,
              env=env,
 diff --git a/src/virtualenv/seed/wheels/embed/__init__.py b/src/virtualenv/seed/wheels/embed/__init__.py
-index f9947a11..eab69d25 100644
+index e2887bd5..94f4a96d 100644
 --- a/src/virtualenv/seed/wheels/embed/__init__.py
 +++ b/src/virtualenv/seed/wheels/embed/__init__.py
-@@ -43,7 +43,11 @@ BUNDLE_SUPPORT = {
- MAX = "3.8"
+@@ -64,6 +64,8 @@ BUNDLE_SHA256 = {
  
+ _VERIFIED_WHEELS: set[str] = set()
  
 +# Redefined here because bundled wheels are removed in moss build
 +BUNDLE_SUPPORT = None
-+
- def get_embed_wheel(distribution: str, for_py_version: str) -> Wheel | None:
+ 
+ def get_embed_wheel(distribution: str, for_py_version: str | None) -> Wheel | None:
+     """Return the bundled wheel that ships with virtualenv for a given distribution and Python version.
+@@ -78,6 +80,7 @@ def get_embed_wheel(distribution: str, for_py_version: str | None) -> Wheel | No
+     :raises RuntimeError: if the bundled wheel on disk fails SHA-256 verification.
+ 
+     """
 +    return None  # BUNDLE_SUPPORT == None anyway
-     mapping = BUNDLE_SUPPORT.get(for_py_version, {}) or BUNDLE_SUPPORT[MAX]
-     wheel_file = mapping.get(distribution)
-     if wheel_file is None:
+     if for_py_version is None or _release_tuple(for_py_version) > _release_tuple(MAX):
+         # no specific target, or a Python newer than anything bundled: reuse the newest bundle
+         mapping = BUNDLE_SUPPORT[MAX]
 diff --git a/src/virtualenv/util/path/_system_wheels.py b/src/virtualenv/util/path/_system_wheels.py
 new file mode 100644
 index 00000000..f3fd9b18
