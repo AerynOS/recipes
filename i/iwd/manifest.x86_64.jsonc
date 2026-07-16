@@ -6,14 +6,14 @@
 			"build-depends": [
 				"binary(rst2man)",
 				"pkgconfig(dbus-1)",
-				"pkgconfig(libedit)",
 				"pkgconfig(readline)",
 				"pkgconfig(systemd)"
 			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))",
-				"soname(libedit.so.0(x86_64))"
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libreadline.so.8(x86_64))"
 			],
 			"files": [
 				"/usr/bin/hwsim",
@@ -49,6 +49,6 @@
 		}
 	},
 	"source-name": "iwd",
-	"source-release": "9",
+	"source-release": "10",
 	"source-version": "3.12"
 }
