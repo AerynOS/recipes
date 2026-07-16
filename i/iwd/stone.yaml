@@ -3,7 +3,7 @@
 
 name        : iwd
 version     : "3.12"
-release     : 9
+release     : 10
 homepage    : https://iwd.wiki.kernel.org/
 upstreams   :
     - https://mirrors.edge.kernel.org/pub/linux/network/wireless/iwd-3.12.tar.xz : d89a5e45c7180170e19be828f9e944a768c593758094fc57a358d0e7c4cb1a49
@@ -15,13 +15,12 @@ license     :
 builddeps   :
     - binary(rst2man)
     - pkgconfig(dbus-1)
-    - pkgconfig(libedit)
     - pkgconfig(readline)
     - pkgconfig(systemd)
 setup       : |
+    # Use `readline` instead of `libedit` as `iwctl` can't get your inputs with the latter.
     %configure \
         --enable-hwsim \
-        --enable-libedit \
         --enable-ofono \
         --enable-tools \
         --enable-wired
