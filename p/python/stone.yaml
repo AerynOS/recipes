@@ -3,7 +3,7 @@
 
 name        : python
 version     : "3.14.6"
-release     : 23
+release     : 24
 summary     : Python language interpreter
 license     : Python-2.0
 homepage    : https://www.python.org
@@ -61,6 +61,7 @@ setup       : |
         --with-system-expat \
         --with-system-libmpdec \
         --with-tail-call-interp \
+        --with-wheel-pkg-dir=%(datadir)/python-wheels \
         --without-ensurepip
 build       : |
     %make
@@ -124,6 +125,7 @@ packages    :
         description: |
             Library files for %(name), typically pulled in as a dependency of another package.
         rundeps:
+            - python-pip-wheel
             - tzdata
         paths:
             - /usr/lib/python3*
