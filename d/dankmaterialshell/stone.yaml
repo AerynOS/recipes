@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : dankmaterialshell
-version     : "1.5.0"
-release     : 11
+version     : "1.5.1"
+release     : 12
 homepage    : https://danklinux.com/
 upstreams   :
-    - https://github.com/AvengeMedia/DankMaterialShell/archive/refs/tags/v1.5.0.tar.gz : 14f2678d6a15223ba069d1b8c8a21a5564b735d190c231f62ed44fd8bf48677c
+    - https://github.com/AvengeMedia/DankMaterialShell/archive/refs/tags/v1.5.1.tar.gz : cdd35cb5cb120e74772bdd66ae6dc646c3cc59dbe5f6ffc6b263892f33ad5fdf
 summary     : Desktop shell for wayland compositor
 description : |
     DankMaterialShell (dms) is a Wayland desktop shell built with Quickshell and Go. It serves a purpose similar to GNOME Shell or KDE Plasma, providing a unified interface for launching applications, managing windows, managing hardware interfaces, notifications, and much more.
@@ -37,8 +37,8 @@ install     : |
     %install_dir %(installroot)%(bindir)
 
     %make_install \
-        PREFIX=%(installroot)%(prefix) \
+        PREFIX=%(prefix) \
         SYSTEMD_USER_DIR=%(installroot)%(libdir)/systemd/user
 
     # Fix the service
-    sed -i "s|%(installroot)||g" %(installroot)%(libdir)/systemd/user/dms.service
+    # sed -i "s|%(installroot)||g" %(installroot)%(libdir)/systemd/user/dms.service
