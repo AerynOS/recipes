@@ -3,7 +3,7 @@
 
 name        : kinfocenter
 version     : "6.7.3"
-release     : 30
+release     : 31
 upstreams   :
     - https://download.kde.org/stable/plasma/6.7.3/kinfocenter-6.7.3.tar.xz : 436eb7e95e061ebddb84d0e51b5abf477a5a3b2698462ea247ea6ba633a88655
 homepage    : https://kde.org/plasma-desktop/
@@ -43,8 +43,9 @@ builddeps   :
     - pkgconfig(udev)
     - sysbinary(dmidecode)
     - sysbinary(ip)
-    # TODO: xdpyinfo(?), fwupdmgr, aha
+    # TODO: xdpyinfo(?), fwupdmgr
 rundeps     :
+    - binary(aha)
     - binary(clinfo)
     - binary(di-edid-decode)
     - binary(eglinfo)
