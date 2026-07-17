@@ -13,15 +13,12 @@
 			"depends": [
 				"soname(libc.so.6(x86_64))",
 				"soname(libcrypto.so.3(x86_64))",
-				"soname(libcurl.so.4(x86_64))",
 				"soname(libjson-c.so.5(x86_64))",
 				"soname(libuuid.so.1(x86_64))"
 			],
 			"files": [
 				"/usr/lib/libtss2-esys.so.0",
 				"/usr/lib/libtss2-esys.so.0.0.1",
-				"/usr/lib/libtss2-fapi.so.1",
-				"/usr/lib/libtss2-fapi.so.1.0.0",
 				"/usr/lib/libtss2-mu.so.0",
 				"/usr/lib/libtss2-mu.so.0.0.1",
 				"/usr/lib/libtss2-policy.so.0",
@@ -82,7 +79,6 @@
 			"name": "tpm2-tss",
 			"provides": [
 				"soname(libtss2-esys.so.0(x86_64))",
-				"soname(libtss2-fapi.so.1(x86_64))",
 				"soname(libtss2-mu.so.0(x86_64))",
 				"soname(libtss2-policy.so.0(x86_64))",
 				"soname(libtss2-rc.so.0(x86_64))",
@@ -112,7 +108,8 @@
 				"pkgconfig(libcrypto)",
 				"pkgconfig(libcurl)",
 				"pkgconfig(uuid)",
-				"tpm2-tss"
+				"tpm2-tss",
+				"tpm2-tss-fapi"
 			],
 			"files": [
 				"/usr/include/tss2/tss2_common.h",
@@ -193,9 +190,37 @@
 				"pkgconfig(tss2-tcti-swtpm)",
 				"pkgconfig(tss2-tctildr)"
 			]
+		},
+		"tpm2-tss-fapi": {
+			"build-depends": [
+				"pkgconfig(json-c)",
+				"pkgconfig(libcrypto)",
+				"pkgconfig(libcurl)",
+				"pkgconfig(uuid)",
+				"shadow"
+			],
+			"depends": [
+				"soname(libc.so.6(x86_64))",
+				"soname(libcrypto.so.3(x86_64))",
+				"soname(libcurl.so.4(x86_64))",
+				"soname(libjson-c.so.5(x86_64))",
+				"soname(libtss2-esys.so.0(x86_64))",
+				"soname(libtss2-mu.so.0(x86_64))",
+				"soname(libtss2-sys.so.1(x86_64))",
+				"soname(libtss2-tctildr.so.0(x86_64))",
+				"soname(libuuid.so.1(x86_64))"
+			],
+			"files": [
+				"/usr/lib/libtss2-fapi.so.1",
+				"/usr/lib/libtss2-fapi.so.1.0.0"
+			],
+			"name": "tpm2-tss-fapi",
+			"provides": [
+				"soname(libtss2-fapi.so.1(x86_64))"
+			]
 		}
 	},
 	"source-name": "tpm2-tss",
-	"source-release": "5",
+	"source-release": "6",
 	"source-version": "4.2.0"
 }
