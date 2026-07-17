@@ -13,6 +13,7 @@
 			"files": [
 				"/usr/bin/elephant",
 				"/usr/lib/elephant/1password.so",
+				"/usr/lib/elephant/aptpackages.so",
 				"/usr/lib/elephant/archlinuxpkgs.so",
 				"/usr/lib/elephant/bitwarden.so",
 				"/usr/lib/elephant/bluetooth.so",
@@ -24,6 +25,8 @@
 				"/usr/lib/elephant/menus.so",
 				"/usr/lib/elephant/niriactions.so",
 				"/usr/lib/elephant/nirisessions.so",
+				"/usr/lib/elephant/playerctl.so",
+				"/usr/lib/elephant/protonpass.so",
 				"/usr/lib/elephant/providerlist.so",
 				"/usr/lib/elephant/runner.so",
 				"/usr/lib/elephant/snippets.so",
@@ -40,6 +43,7 @@
 			"provides": [
 				"binary(elephant)",
 				"soname(elephant/1password.so(x86_64))",
+				"soname(elephant/aptpackages.so(x86_64))",
 				"soname(elephant/archlinuxpkgs.so(x86_64))",
 				"soname(elephant/bitwarden.so(x86_64))",
 				"soname(elephant/bluetooth.so(x86_64))",
@@ -51,6 +55,8 @@
 				"soname(elephant/menus.so(x86_64))",
 				"soname(elephant/niriactions.so(x86_64))",
 				"soname(elephant/nirisessions.so(x86_64))",
+				"soname(elephant/playerctl.so(x86_64))",
+				"soname(elephant/protonpass.so(x86_64))",
 				"soname(elephant/providerlist.so(x86_64))",
 				"soname(elephant/runner.so(x86_64))",
 				"soname(elephant/snippets.so(x86_64))",
@@ -80,6 +86,6 @@
 		}
 	},
 	"source-name": "elephant",
-	"source-release": "3",
-	"source-version": "2.20.3"
+	"source-release": "4",
+	"source-version": "2.22.0"
 }
