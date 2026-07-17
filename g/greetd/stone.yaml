@@ -23,6 +23,7 @@ build       : |
 install     : |
     %cargo_install
     %install_file %(pkgdir)/greetd.pam %(installroot)%(vendordir)/pam.d/greetd
+    %install_file greetd.service %(installroot)%(libdir)/systemd/system/greetd.service
 
     pushd man
     %install_dir %(installroot)%(mandir)/man1
