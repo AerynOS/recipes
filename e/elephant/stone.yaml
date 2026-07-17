@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : elephant
-version     : "2.20.3"
-release     : 3
+version     : "2.22.0"
+release     : 4
 homepage    : https://github.com/abenz1267/elephant
 upstreams   :
-    - https://github.com/abenz1267/elephant/archive/refs/tags/v2.20.3.tar.gz : abf48f9fd3601e56dd211028f59b9ced9d6979aeb46c1d8b7d8bbd073f8e5a20
+    - https://github.com/abenz1267/elephant/archive/refs/tags/v2.22.0.tar.gz : c6caa61727e4b5c3981099943b4b616c338a6e1b4e33b5e1d32078b8e4dbe120
 summary     : Elephant - cuz it's phat - is a powerful data provider service and backend for building custom application launchers and desktop utilities.
 description : |
     Elephant acts as a unified backend service that aggregates data from various sources (desktop applications, files, clipboard history, etc.) and provides a consistent interface for frontend applications like custom launchers, productivity tools, or desktop widgets.
@@ -16,9 +16,9 @@ builddeps   :
     - binary(go)
 networking  : true
 setup       : |
-    go mod download
+    %go_mod
 build       : |
-    go build -o elephant ./cmd/elephant/elephant.go
+    go build -v -o elephant ./cmd/elephant
 
     for dir in internal/providers/*; do
         if [ -d $dir ]; then
@@ -32,8 +32,7 @@ build       : |
 install     : |
     %install_bin elephant
     %install_file assets/elephant.service %(installroot)%(libdir)/systemd/system/elephant.service
-    %install_dir %(installroot)%(datadir)/licenses/%(name)
-    %install_file LICENSE %(installroot)%(datadir)/licenses/%(name)/LICENSE
+    %install_file LICENSE -t %(installroot)%(datadir)/licenses/%(name)/
 
     # Not entirely sure if this is correct or if it installs every provider with the base package. Intended behavior is for each provider to only be installed with the specific package for it.
     %install_dir %(installroot)%(libdir)/%(name)
