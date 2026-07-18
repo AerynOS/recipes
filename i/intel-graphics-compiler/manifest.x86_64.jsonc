@@ -24,7 +24,6 @@
 			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
-				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libSPIRV-Tools.so(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libgcc_s.so.1(x86_64))",
@@ -37,11 +36,11 @@
 				"/usr/bin/iga64",
 				"/usr/lib/igc2/NOTICES.txt",
 				"/usr/lib/libiga64.so.2",
-				"/usr/lib/libiga64.so.2.36.0+0",
+				"/usr/lib/libiga64.so.2.38.0+0",
 				"/usr/lib/libigc.so.2",
-				"/usr/lib/libigc.so.2.36.0+0",
+				"/usr/lib/libigc.so.2.38.0+0",
 				"/usr/lib/libigdfcl.so.2",
-				"/usr/lib/libigdfcl.so.2.36.0+0",
+				"/usr/lib/libigdfcl.so.2.38.0+0",
 				"/usr/lib/libopencl-clang.so.17"
 			],
 			"name": "intel-graphics-compiler",
@@ -127,9 +126,11 @@
 				"/usr/include/igc/cif/readme.txt",
 				"/usr/include/igc/common/StateSaveAreaHeader.h",
 				"/usr/include/igc/igc.opencl.h",
+				"/usr/include/igc/ocl_igc_interface/.clang-format",
 				"/usr/include/igc/ocl_igc_interface/code_type.h",
 				"/usr/include/igc/ocl_igc_interface/extensions/CMakeLists.txt",
 				"/usr/include/igc/ocl_igc_interface/extensions/SPIRVExtensions.td",
+				"/usr/include/igc/ocl_igc_interface/extensions/SPIRVExtensionsSupport.h",
 				"/usr/include/igc/ocl_igc_interface/extensions/SPIRVExtensions_Common.td",
 				"/usr/include/igc/ocl_igc_interface/fcl_ocl_device_ctx.h",
 				"/usr/include/igc/ocl_igc_interface/fcl_ocl_translation_ctx.h",
@@ -196,6 +197,6 @@
 		}
 	},
 	"source-name": "intel-graphics-compiler",
-	"source-release": "6",
-	"source-version": "2.36.3"
+	"source-release": "7",
+	"source-version": "2.38.2"
 }
