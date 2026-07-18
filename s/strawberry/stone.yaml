@@ -4,10 +4,10 @@
 # SPDX-License-Identifier: MPL-2.0
 #
 name        : strawberry
-version     : "1.2.23"
-release     : 7
+version     : "1.2.24"
+release     : 8
 upstreams   :
-    - https://github.com/strawberrymusicplayer/strawberry/releases/download/1.2.23/strawberry-1.2.23.tar.xz : 4fe6aef7b340b557929b7d8e680e3bd1d6e70bc828249542de8f6aeef2d393fd
+    - https://github.com/strawberrymusicplayer/strawberry/releases/download/1.2.24/strawberry-1.2.24.tar.xz : cc73508cec2783bc755525da89c6e4fe4f579df1b9d62226930c3ba609cfaff3
 homepage    : https://www.strawberrymusicplayer.org
 license     : GPL-3.0-or-later
 summary     : Strawberry is a audio player and music collection organizer.
@@ -22,8 +22,8 @@ builddeps   :
     - pkgconfig(alsa)
     - pkgconfig(fftw3)
     - pkgconfig(gdk-pixbuf-2.0)
-    - pkgconfig(glib-2.0)
     - pkgconfig(gio-2.0)
+    - pkgconfig(glib-2.0)
     - pkgconfig(gstreamer-1.0)
     - pkgconfig(gstreamer-app-1.0)
     - pkgconfig(gstreamer-audio-1.0)
