@@ -2,28 +2,19 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : variety
-version     : "0.8.13"
-release     : 2
+version     : "0.9.0"
+release     : 3
 homepage    : http://peterlevi.com/variety
 upstreams   :
-    - https://github.com/varietywalls/variety/archive/refs/tags/0.8.13.tar.gz : 3d41acc60922e6b03d8bdddaa05c8b1bb1b6b0316e7bb068663c502c487d45d9
+    - https://github.com/varietywalls/variety/archive/refs/tags/0.9.0.tar.gz : cfd3927d01d0415116a03886d0f54c3a8d5133360c1aef14a693cf76e97927de
 summary     : Variety changes the wallpaper on a regular interval using user-specified or automatically downloaded images
 description : |
     Variety sits conveniently as an indicator in the panel and can be easily paused and resumed. The mouse wheel can be used to scroll wallpapers back and forth until you find the perfect one for your current mood. Apart from displaying images from local folders, several different online sources can be used to fetch wallpapers according to user-specified criteria. Variety can also automatically apply various fancy filters to the displayed images - charcoal painting, oil painting, heavy blurring, etc. - so that your desktop is always fresh and unique. Applying a heavy blurring filter for example is a great way to get abstract-looking and unobtrusive, yet colorful wallpapers, similar in spirit to the default one in Ubuntu.
 license     : GPL-3.0-or-later
 builddeps   :
-    - binary(xgettext)
-    - python(beautifulsoup4)
-    - python(configobj)
-    - python(dbus-python)
-    - python(httplib2)
-    - python(pillow)
-    - python(pycairo)
-    - python(pygobject)
-    - python(python-distutils-extra)
-    - python(requests)
+    - binary(msgfmt)
     - python(setuptools)
-    - python-gexiv2
+    - python(setuptools-gettext)
 rundeps     :
     - binary(magick)
     - binary(python3)
@@ -31,6 +22,8 @@ rundeps     :
     - python(configobj)
     - python(dbus-python)
     - python(httplib2)
+    - python(lxml)
+    - python(packaging)
     - python(pillow)
     - python(pycairo)
     - python(pygobject)
@@ -38,10 +31,17 @@ rundeps     :
     - libayatana-appindicator
     - libnotify
     - python-gexiv2
-setup       : |
-    %patch %(pkgdir)/771.patch
 build       : |
-    %python_setup
+    %pyproject_build
 install     : |
-    # Pyproject_build doesn't seem to create variety_lib/variety_build_settings.py
-    %python_install
+    %pyproject_install
+    # setuptools no longer installs the desktop entry or theme icons
+    %install_file variety.desktop -t %(installroot)%(datadir)/applications
+    %install_file variety/data/icons/scalable/apps/variety.svg -t %(installroot)%(datadir)/icons/hicolor/scalable/apps
+    %install_file variety/data/icons/22x22/apps/variety-indicator.png -t %(installroot)%(datadir)/icons/hicolor/22x22/apps
+    %install_file variety/data/icons/22x22/apps/variety-indicator-dark.png -t %(installroot)%(datadir)/icons/hicolor/22x22/apps
+
+    # setuptools-gettext installs locales to /usr/share/locale; Variety loads variety/locale
+    rm -rf %(installroot)%(datadir)/locale
+    python_version=$(python3 -c 'import sys; print(".".join(map(str, sys.version_info[:2])))')
+    cp -a --no-preserve=ownership variety/locale %(installroot)%(libdir)/python${python_version}/site-packages/variety/
