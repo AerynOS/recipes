@@ -2,19 +2,17 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : atuin
-version     : "18.16.1"
-release     : 4
+version     : "18.17.1"
+release     : 5
 homepage    : https://github.com/atuinsh/atuin
 upstreams   :
-    - https://github.com/atuinsh/atuin/archive/refs/tags/v18.16.1.tar.gz : 752802d4e8eef4896e9bc779b82f85e3d433c5934df5169e9b0f2537acf7f6e9
+    - https://github.com/atuinsh/atuin/archive/refs/tags/v18.17.1.tar.gz : 851c3f4870e4bd181b98d2dae60b9fd76ef30f05f16a85efa21ac7e7cf294862
 license     : MIT
 summary     : ✨ Magical shell history
 description : |
     Atuin replaces your existing shell history with a SQLite database, and records additional context
     for your commands. Additionally, it provides optional and fully encrypted synchronisation of your
     history between machines, via an Atuin server
-builddeps   :
-    - binary(cargo)
 networking  : true
 setup       : |
     %cargo_fetch
@@ -22,21 +20,11 @@ build       : |
     %cargo_build
 install     : |
     %cargo_install
-
-    # create the completions
-    echo 'eval "$(atuin init zsh)"' >> completions_zsh
-    echo 'eval "$(atuin init bash)"' >> completions_bash
-    echo 'eval "$(atuin init fish)"' >> completions_fish
-    # todo nushell xonsh
-
-    # install the completions
-    %install_file completions_zsh %(installroot)%(datadir)/zsh/site-funtions/_atuin
-    %install_file completions_bash %(installroot)%(datadir)/bash-completion/completions/atuin
-    %install_file completions_fish %(installroot)%(datadir)/fish/completions/atuin.fish
-    # todo nushell xonsh
-    # rm completions_*
-
+    _atuin=%(cargo_target_dir)/atuin
+    ${_atuin} gen-completions --shell bash | %install_file /dev/stdin %(installroot)%(bashcompletionsdir)/atuin
+    ${_atuin} gen-completions --shell zsh  | %install_file /dev/stdin %(installroot)%(zshcompletionsdir)/_atuin
+    ${_atuin} gen-completions --shell fish | %install_file /dev/stdin %(installroot)%(fishcompletionsdir)/atuin.fish
 check       : |
-    # test fails - requires a pre-configured enbironment
+    # test fails - requires a pre-configured environment
     # since we don't patch anything we can rely on the upstream having already tested this release
     # %cargo_test
