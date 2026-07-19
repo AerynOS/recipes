@@ -1,0 +1,37 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"python-setuptools-gettext": {
+			"build-depends": [
+				"python(setuptools)"
+			],
+			"depends": [
+				"python(setuptools)",
+				"python-libs"
+			],
+			"files": [
+				"/usr/lib/python3.14/site-packages/setuptools_gettext-0.1.18.dist-info/METADATA",
+				"/usr/lib/python3.14/site-packages/setuptools_gettext-0.1.18.dist-info/RECORD",
+				"/usr/lib/python3.14/site-packages/setuptools_gettext-0.1.18.dist-info/WHEEL",
+				"/usr/lib/python3.14/site-packages/setuptools_gettext-0.1.18.dist-info/entry_points.txt",
+				"/usr/lib/python3.14/site-packages/setuptools_gettext-0.1.18.dist-info/licenses/COPYING",
+				"/usr/lib/python3.14/site-packages/setuptools_gettext-0.1.18.dist-info/top_level.txt",
+				"/usr/lib/python3.14/site-packages/setuptools_gettext-0.1.18.dist-info/zip-safe",
+				"/usr/lib/python3.14/site-packages/setuptools_gettext/__init__.py",
+				"/usr/lib/python3.14/site-packages/setuptools_gettext/__pycache__/__init__.cpython-314.opt-1.pyc",
+				"/usr/lib/python3.14/site-packages/setuptools_gettext/__pycache__/__init__.cpython-314.pyc",
+				"/usr/lib/python3.14/site-packages/setuptools_gettext/__pycache__/catalog.cpython-314.opt-1.pyc",
+				"/usr/lib/python3.14/site-packages/setuptools_gettext/__pycache__/catalog.cpython-314.pyc",
+				"/usr/lib/python3.14/site-packages/setuptools_gettext/catalog.py"
+			],
+			"name": "python-setuptools-gettext",
+			"provides": [
+				"python(setuptools-gettext)"
+			]
+		}
+	},
+	"source-name": "python-setuptools-gettext",
+	"source-release": "1",
+	"source-version": "0.1.18"
+}
