@@ -1,0 +1,30 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"shfmt": {
+			"build-depends": [
+				"binary(git)",
+				"binary(go)",
+				"binary(man)",
+				"binary(scdoc)",
+				"pkgconfig(dbus-1)"
+			],
+			"depends": [
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(libc.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/bin/shfmt",
+				"/usr/share/man/man1/shfmt.1"
+			],
+			"name": "shfmt",
+			"provides": [
+				"binary(shfmt)"
+			]
+		}
+	},
+	"source-name": "shfmt",
+	"source-release": "1",
+	"source-version": "3.13.1"
+}
