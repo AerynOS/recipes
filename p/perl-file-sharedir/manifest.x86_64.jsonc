@@ -1,0 +1,27 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"perl-file-sharedir": {
+			"build-depends": [
+				"perl-class-inspector",
+				"perl-file-sharedir-install"
+			],
+			"depends": [
+				"binary(perl)",
+				"perl-class-inspector"
+			],
+			"files": [
+				"/usr/share/man/man3/File::ShareDir.3",
+				"/usr/share/perl5/vendor_perl/File/ShareDir.pm",
+				"/usr/share/perl5/vendor_perl/auto/share/dist/File-ShareDir/sample.txt",
+				"/usr/share/perl5/vendor_perl/auto/share/dist/File-ShareDir/subdir/sample.txt",
+				"/usr/share/perl5/vendor_perl/auto/share/module/File-ShareDir/test_file.txt"
+			],
+			"name": "perl-file-sharedir"
+		}
+	},
+	"source-name": "perl-file-sharedir",
+	"source-release": "1",
+	"source-version": "1.118"
+}
