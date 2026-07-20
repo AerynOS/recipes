@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : kitty
-version     : "0.47.4"
-release     : 16
-homepage    : https://github.com/kovidgoyal/kitty
+version     : "0.48.0"
+release     : 17
+homepage    : https://sw.kovidgoyal.net/kitty/
 upstreams   :
-    - https://github.com/kovidgoyal/kitty/releases/download/v0.47.4/kitty-0.47.4.tar.xz : 7dede3743ab614409903a839ba1f264f772f4271ddf251e7d60b333cb4e51278
+    - https://github.com/kovidgoyal/kitty/releases/download/v0.48.0/kitty-0.48.0.tar.xz : ef62a622fd40c3f51f7719a9bc18764b9c5e4e2babcadb7fb95d6c1d8ba68f82
 summary     : Cross-platform, fast, feature-rich, GPU based terminal
 description : |
     kitty the fast, feature-rich, GPU based terminal emulator
@@ -36,17 +36,14 @@ builddeps   :
     - python(sphinx-copybutton)
     - python(sphinx-inline-tabs)
     - font-symbols-nerd
+setup       : |
+    %go_mod
 build       : |
-    export CGO_CFLAGS="${CFLAGS}"
-    export CGO_CXXFLAGS="${CXXFLAGS}"
-    export CGO_LDFLAGS="${LDFLAGS}"
-    export GOFLAGS="-buildmode=pie -trimpath -ldflags=-linkmode=external -mod=readonly -modcacherw"
-
     python3 setup.py linux-package \
         --skip-building-kitten \
         --update-check-interval=0 \
         --verbose
-    
+
     go build -o _build/bin/kitten ./tools/cmd
 install     : |
     %install_exe _build/bin/kitten -t %(installroot)%(bindir)
@@ -57,8 +54,7 @@ install     : |
     _build/bin/kitten __complete__ setup fish | %install_file /dev/stdin %(installroot)%(fishcompletionsdir)/kitty.fish
     _build/bin/kitten __complete__ setup zsh  | %install_file /dev/stdin %(installroot)%(zshcompletionsdir)/_kitty
 
-    %install_dir %(installroot)%(datadir)/licenses/%(name)
-    %install_file LICENSE %(installroot)%(datadir)/licenses/%(name)/LICENSE
+    %install_file LICENSE -t %(installroot)%(datadir)/licenses/%(name)/
 packages     :
     - "%(name)":
         rundeps:
