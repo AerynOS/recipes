@@ -22,6 +22,8 @@ build       : |
     %make
 install     : |
     %make_install
+check       : |
+    %make test
 packages    :
     - "%(name)":
         paths:
