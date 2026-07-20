@@ -26,21 +26,22 @@
 				"soname(libdrm.so.2(x86_64))",
 				"soname(libgbm.so.1(x86_64))",
 				"soname(libgcc_s.so.1(x86_64))",
-				"soname(libhyprutils.so.12(x86_64))",
+				"soname(libhyprutils.so.13(x86_64))",
 				"soname(libinput.so.10(x86_64))",
 				"soname(libm.so.6(x86_64))",
+				"soname(libpixman-1.so.0(x86_64))",
 				"soname(libseat.so.1(x86_64))",
 				"soname(libstdc++.so.6(x86_64))",
 				"soname(libudev.so.1(x86_64))",
 				"soname(libwayland-client.so.0(x86_64))"
 			],
 			"files": [
-				"/usr/lib/libaquamarine.so.0.12.1",
-				"/usr/lib/libaquamarine.so.11"
+				"/usr/lib/libaquamarine.so.0.13.0",
+				"/usr/lib/libaquamarine.so.12"
 			],
 			"name": "aquamarine",
 			"provides": [
-				"soname(libaquamarine.so.11(x86_64))"
+				"soname(libaquamarine.so.12(x86_64))"
 			]
 		},
 		"aquamarine-devel": {
@@ -69,6 +70,7 @@
 				"/usr/include/aquamarine/allocator/Swapchain.hpp",
 				"/usr/include/aquamarine/backend/Backend.hpp",
 				"/usr/include/aquamarine/backend/DRM.hpp",
+				"/usr/include/aquamarine/backend/FrameScheduler.hpp",
 				"/usr/include/aquamarine/backend/Headless.hpp",
 				"/usr/include/aquamarine/backend/Misc.hpp",
 				"/usr/include/aquamarine/backend/Null.hpp",
@@ -90,6 +92,6 @@
 		}
 	},
 	"source-name": "aquamarine",
-	"source-release": "5",
-	"source-version": "0.12.1"
+	"source-release": "6",
+	"source-version": "0.13.0"
 }
