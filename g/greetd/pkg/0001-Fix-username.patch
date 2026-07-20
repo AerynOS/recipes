@@ -1,0 +1,19 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Reilly Brogan <reilly@reillybrogan.com>
+Date: Mon, 20 Jul 2026 14:20:17 -0500
+Subject: [PATCH] Fix username
+
+---
+ config.toml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/config.toml b/config.toml
+index c323af2..a90685a 100644
+--- a/config.toml
++++ b/config.toml
+@@ -13,4 +13,4 @@ command = "agreety --cmd /bin/sh"
+ # The user to run the command as. The privileges this user must have depends
+ # on the greeter. A graphical greeter may for example require the user to be
+ # in the `video` group.
+-user = "greeter"
++user = "greetd"

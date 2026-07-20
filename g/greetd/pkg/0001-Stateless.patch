@@ -1,0 +1,58 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Reilly Brogan <reilly@reillybrogan.com>
+Date: Mon, 20 Jul 2026 14:02:15 -0500
+Subject: [PATCH] Stateless
+
+---
+ greetd/src/config/mod.rs | 11 ++++++++---
+ greetd/src/server.rs     |  4 ++--
+ 2 files changed, 10 insertions(+), 5 deletions(-)
+
+diff --git a/greetd/src/config/mod.rs b/greetd/src/config/mod.rs
+index 2d1d645..5717472 100644
+--- a/greetd/src/config/mod.rs
++++ b/greetd/src/config/mod.rs
+@@ -1,4 +1,4 @@
+-use std::{default::Default, env, fs::read_to_string, str::FromStr};
++use std::{default::Default, env, fs::read_to_string, path::Path, str::FromStr};
+ 
+ use enquote::unquote;
+ use getopts::Options;
+@@ -237,8 +237,13 @@ pub fn read_config() -> Result<Config, Error> {
+ 
+     let config_str = match matches.opt_str("config") {
+         Some(v) => read_to_string(v),
+-        None => read_to_string("/etc/greetd/greetd.conf")
+-            .or_else(|_| read_to_string("/etc/greetd/config.toml")),
++        None => if Path::new("/etc/greetd/greetd.conf").exists() {
++                read_to_string("/etc/greetd/greetd.conf")
++                    .or_else(|_| read_to_string("/etc/greetd/config.toml"))
++            } else {
++                read_to_string("/usr/share/defaults/greetd/greetd.conf")
++                    .or_else(|_| read_to_string("/usr/share/defaults/greetd/config.toml"))
++            },
+     }?;
+     let mut file = parse_config(&config_str)?;
+ 
+diff --git a/greetd/src/server.rs b/greetd/src/server.rs
+index b215c4a..496ec06 100644
+--- a/greetd/src/server.rs
++++ b/greetd/src/server.rs
+@@ -200,7 +200,7 @@ impl Drop for Listener {
+ pub async fn main(config: Config) -> Result<(), Error> {
+     let service = if Path::new(&format!("/etc/pam.d/{}", config.file.general.service)).exists() {
+         &config.file.general.service
+-    } else if Path::new(&format!("/usr/lib/pam.d/{}", config.file.general.service)).exists() {
++    } else if Path::new(&format!("/usr/share/defaults/pam.d/{}", config.file.general.service)).exists() {
+         &config.file.general.service
+     } else {
+         return Err(format!("PAM '{}' service missing", config.file.general.service).into());
+@@ -214,7 +214,7 @@ pub async fn main(config: Config) -> Result<(), Error> {
+     {
+         &config.file.default_session.service
+     } else if Path::new(&format!(
+-        "/usr/lib/pam.d/{}",
++        "/usr/share/defaults/pam.d/{}",
+         config.file.default_session.service
+     ))
+     .exists()

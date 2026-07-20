@@ -3,7 +3,7 @@
 
 name        : greetd
 version     : "0.10.3"
-release     : 6
+release     : 7
 homepage    : https://git.sr.ht/~kennylevinsen/greetd
 upstreams   :
     - https://git.sr.ht/~kennylevinsen/greetd/archive/0.10.3.tar.gz : ee5cb70e0add4ca9c9fe57e47581ab0002d44c07743fb5492469f3b570db640b
@@ -16,7 +16,9 @@ builddeps   :
     - pkgconfig(pam)
     - binary(scdoc)
 setup       : |
-    %patch %(pkgdir)/0001-Use-vendor-OS-PAM-configuration-only.patch
+    %patch %(pkgdir)/0001-Stateless.patch
+    %patch %(pkgdir)/0001-Fix-username.patch
+
     %cargo_fetch
 build       : |
     %cargo_build --all-features
@@ -24,12 +26,25 @@ install     : |
     %cargo_install
     %install_file %(pkgdir)/greetd.pam %(installroot)%(vendordir)/pam.d/greetd
 
+    %install_bin %(cargo_target_dir)/agreety
+
+    %install_file greetd.service -t %(installroot)%(libdir)/systemd/system
+    %install_file config.toml -t %(installroot)%(vendordir)/greetd
+
+    %sysusers 'u     greetd -     "greetd daemon" /var/lib/greetd'
+    %tmpfiles 'd  /var/lib/greetd -    greetd greetd -   -'
+    %tmpfiles 'Z  /var/lib/greetd -    greetd greetd -   -'
+    %tmpfiles "# Ensure that xdg-desktop-portal doesn't start"
+    %tmpfiles 'd  /var/lib/greetd/.config/systemd/user/ -    greetd greetd -   -'
+    %tmpfiles 'L+  /var/lib/greetd/.config/systemd/user/xdg-desktop-portal.service - greetd greetd - /dev/null'
+
     pushd man
     %install_dir %(installroot)%(mandir)/man1
     %install_dir %(installroot)%(mandir)/man5
     %install_dir %(installroot)%(mandir)/man7
 
     scdoc < greetd-1.scd > %(installroot)%(mandir)/man1/greetd.1
+    scdoc < agreety-1.scd > %(installroot)%(mandir)/man1/agreety.1
     scdoc < greetd-5.scd > %(installroot)%(mandir)/man5/greetd.5
     scdoc < greetd-ipc-7.scd > %(installroot)%(mandir)/man7/greetd-ipc.7
 check       : |
