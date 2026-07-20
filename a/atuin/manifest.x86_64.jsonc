@@ -3,9 +3,6 @@
 	"manifest-version": "0.2",
 	"packages": {
 		"atuin": {
-			"build-depends": [
-				"binary(cargo)"
-			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"soname(ld-linux-x86-64.so.2(x86_64))",
@@ -16,8 +13,8 @@
 			"files": [
 				"/usr/bin/atuin",
 				"/usr/share/bash-completion/completions/atuin",
-				"/usr/share/fish/completions/atuin.fish",
-				"/usr/share/zsh/site-funtions/_atuin"
+				"/usr/share/fish/vendor_completions.d/atuin.fish",
+				"/usr/share/zsh/site-functions/_atuin"
 			],
 			"name": "atuin",
 			"provides": [
@@ -26,6 +23,6 @@
 		}
 	},
 	"source-name": "atuin",
-	"source-release": "4",
-	"source-version": "18.16.1"
+	"source-release": "5",
+	"source-version": "18.17.1"
 }
