@@ -1,0 +1,21 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"perl-class-inspector": {
+			"depends": [
+				"binary(perl)"
+			],
+			"files": [
+				"/usr/share/man/man3/Class::Inspector.3",
+				"/usr/share/man/man3/Class::Inspector::Functions.3",
+				"/usr/share/perl5/vendor_perl/Class/Inspector.pm",
+				"/usr/share/perl5/vendor_perl/Class/Inspector/Functions.pm"
+			],
+			"name": "perl-class-inspector"
+		}
+	},
+	"source-name": "perl-class-inspector",
+	"source-release": "1",
+	"source-version": "1.36"
+}
