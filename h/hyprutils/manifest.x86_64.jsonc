@@ -14,12 +14,12 @@
 				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
-				"/usr/lib/libhyprutils.so.0.13.1",
-				"/usr/lib/libhyprutils.so.12"
+				"/usr/lib/libhyprutils.so.0.14.0",
+				"/usr/lib/libhyprutils.so.13"
 			],
 			"name": "hyprutils",
 			"provides": [
-				"soname(libhyprutils.so.12(x86_64))"
+				"soname(libhyprutils.so.13(x86_64))"
 			]
 		},
 		"hyprutils-devel": {
@@ -34,6 +34,7 @@
 				"/usr/include/hyprutils/animation/AnimationConfig.hpp",
 				"/usr/include/hyprutils/animation/AnimationManager.hpp",
 				"/usr/include/hyprutils/animation/BezierCurve.hpp",
+				"/usr/include/hyprutils/animation/Spring.hpp",
 				"/usr/include/hyprutils/cli/ArgumentParser.hpp",
 				"/usr/include/hyprutils/cli/Logger.hpp",
 				"/usr/include/hyprutils/i18n/I18nEngine.hpp",
@@ -49,6 +50,7 @@
 				"/usr/include/hyprutils/memory/SharedPtr.hpp",
 				"/usr/include/hyprutils/memory/UniquePtr.hpp",
 				"/usr/include/hyprutils/memory/WeakPtr.hpp",
+				"/usr/include/hyprutils/misc/HyprAssert.hpp",
 				"/usr/include/hyprutils/os/File.hpp",
 				"/usr/include/hyprutils/os/FileDescriptor.hpp",
 				"/usr/include/hyprutils/os/Process.hpp",
@@ -71,6 +73,6 @@
 		}
 	},
 	"source-name": "hyprutils",
-	"source-release": "3",
-	"source-version": "0.13.1"
+	"source-release": "4",
+	"source-version": "0.14.0"
 }
