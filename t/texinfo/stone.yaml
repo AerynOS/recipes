@@ -2,15 +2,15 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : texinfo
-version     : "7.1.1"
-release     : 10
-summary     : GNU software documentation system
-license     : GPL-3.0-or-later
+version     : "7.3"
+release     : 11
 homepage    : https://www.gnu.org/software/texinfo
+upstreams   :
+    - https://ftp.gnu.org/gnu/texinfo/texinfo-7.3.tar.xz : 51f74eb0f51cfa9873b85264dfdd5d46e8957ec95b88f0fb762f63d9e164c72e
+summary     : GNU software documentation system
 description : |
     Texinfo is a documentation system that uses a single source to produce many forms of output.
-upstreams   :
-    - https://ftp.gnu.org/gnu/texinfo/texinfo-7.1.1.tar.xz: 31ae37e46283529432b61bee1ce01ed0090d599e606fc6a29dca1f77c76a6c82
+license     : GPL-3.0-or-later
 builddeps   :
     - binary(msgfmt)
     - pkgconfig(ncursesw)
