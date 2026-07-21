@@ -18,7 +18,6 @@
 				"intel-graphics-compiler",
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"level-zero",
-				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libigdgmm.so.12(x86_64))",
@@ -30,7 +29,7 @@
 				"/usr/bin/ocloc",
 				"/usr/lib/intel-opencl/libigdrcl.so",
 				"/usr/lib/libze_intel_gpu.so.1",
-				"/usr/lib/libze_intel_gpu.so.1.15.38646",
+				"/usr/lib/libze_intel_gpu.so.1.15.39122",
 				"/usr/share/OpenCL/vendors/intel.icd"
 			],
 			"name": "intel-compute-runtime",
@@ -54,7 +53,6 @@
 			],
 			"depends": [
 				"intel-compute-runtime",
-				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libstdc++.so.6(x86_64))"
@@ -86,6 +84,6 @@
 		}
 	},
 	"source-name": "intel-compute-runtime",
-	"source-release": "6",
-	"source-version": "26.22.38646.4"
+	"source-release": "7",
+	"source-version": "26.27.39122.12"
 }
