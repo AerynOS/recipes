@@ -3,7 +3,7 @@
 
 name        : qt6-webengine
 version     : "6.11.1"
-release     : 30
+release     : 31
 homepage    : https://www.qt.io
 upstreams   :
     - https://download.qt.io/official_releases/qt/6.11/6.11.1/submodules/qtwebengine-everywhere-src-6.11.1.tar.xz: 679c66ccc6c158fc215e9c58ef160331ecd29974232e345c05161889f8667083
@@ -13,7 +13,7 @@ upstreams   :
 # Don't edit anything between the BEGIN_UPSTREAMS and END_UPSTREAMS tags
 ##@@BEGIN_UPSTREAMS
     - git|https://invent.kde.org/qt/qt/qtwebengine-chromium.git:
-        ref: 99290379f4e2d629c96219b3d6afbd9bc6bcfb65
+        ref: 272971f169d6c9d875d47d00fe02407e35c64b1f
 ##@@END_UPSTREAMS
 summary     : Qt6 Webengine Module
 description : |
@@ -95,10 +95,11 @@ setup       : |
     # Fixes for building with newer chromium
     %patch %(pkgdir)/ftbfs-newer-chromium-01.patch
     %patch %(pkgdir)/ftbfs-newer-chromium-02.patch
-    %patch %(pkgdir)/ftbfs-webrtc.patch -d src/3rdparty/chromium/third_party/webrtc
+    %patch %(pkgdir)/ftbfs-newer-chromium-03.patch
 
     # Backports
     %patch %(pkgdir)/QTBUG-145344.patch
+    %patch %(pkgdir)/QTBUG-142687.patch
 
     # TODO: fix webengine_rust_build=ON which might be due to missing PTY support in boulder
     %cmake_qt6 \
