@@ -3,7 +3,7 @@
 
 name        : variety
 version     : "0.9.0"
-release     : 3
+release     : 4
 homepage    : http://peterlevi.com/variety
 upstreams   :
     - https://github.com/varietywalls/variety/archive/refs/tags/0.9.0.tar.gz : cfd3927d01d0415116a03886d0f54c3a8d5133360c1aef14a693cf76e97927de
@@ -41,7 +41,6 @@ install     : |
     %install_file variety/data/icons/22x22/apps/variety-indicator.png -t %(installroot)%(datadir)/icons/hicolor/22x22/apps
     %install_file variety/data/icons/22x22/apps/variety-indicator-dark.png -t %(installroot)%(datadir)/icons/hicolor/22x22/apps
 
-    # setuptools-gettext installs locales to /usr/share/locale; Variety loads variety/locale
-    rm -rf %(installroot)%(datadir)/locale
+    # GTK UI needs /usr/share/locale; Python's _() needs variety/locale
     python_version=$(python3 -c 'import sys; print(".".join(map(str, sys.version_info[:2])))')
     cp -a --no-preserve=ownership variety/locale %(installroot)%(libdir)/python${python_version}/site-packages/variety/
