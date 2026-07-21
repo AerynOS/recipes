@@ -2,17 +2,18 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : dankcalendar
-version     : "0.2.3"
-release     : 2
+version     : "0.2.4"
+release     : 3
 homepage    : https://danklinux.com/
 upstreams   :
-    - https://github.com/AvengeMedia/dankcalendar/releases/download/v0.2.3/dankcalendar-0.2.3.tar.gz : 84ead45744a5ad49293003be617910b2c63cd23a38d5aebb0b227636df3af7c8
+    - https://github.com/AvengeMedia/dankcalendar/releases/download/v0.2.4/dankcalendar-0.2.4.tar.gz : 650cee17a3176fa7fedf20211c8ab18313f1b83e63c1e8582da8fdd105f634d9
 summary     : Calendar from the Dank Linux Suite
 description : |
     DankCalendar is a standalone calendar app that brings your Local, Google, Microsoft, CalDAV, and iCloud calendars together in one place. It runs as a lightweight daemon with a tray icon, keeps your accounts in sync, and reminds you about events — all with the look and feel of DankMaterialShell.
 license     : MIT
 builddeps   :
     - binary(go)
+    - binary(tar)
 rundeps     :
     - binary(quickshell)
 networking  : true
@@ -21,6 +22,11 @@ setup       : |
     %go_mod
 build       : |
     cd core
+
+    # Temporary fix to broken symlink
+    # https://github.com/AvengeMedia/dankcalendar/issues/62
+    rm -rf ../quickshell/DankCommon
+    ln -srv ../dank-qml-common/DankCommon ../quickshell/DankCommon
 
     %make sync-shell
 
