@@ -1,0 +1,27 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"genfstab": {
+			"build-depends": [
+				"binary(asciidoctor)",
+				"binary(m4)",
+				"binary(man)",
+				"pkgconfig(dbus-1)"
+			],
+			"files": [
+				"/usr/bin/genfstab",
+				"/usr/share/bash-completion/completions/genfstab",
+				"/usr/share/man/man8/genfstab.8",
+				"/usr/share/zsh/site-functions/_genfstab"
+			],
+			"name": "genfstab",
+			"provides": [
+				"binary(genfstab)"
+			]
+		}
+	},
+	"source-name": "genfstab",
+	"source-release": "1",
+	"source-version": "30"
+}

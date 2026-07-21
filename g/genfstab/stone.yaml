@@ -1,0 +1,34 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : genfstab
+version     : "30"
+release     : 1
+homepage    : https://gitlab.archlinux.org/archlinux/arch-install-scripts/
+upstreams   :
+    - https://gitlab.archlinux.org/archlinux/arch-install-scripts/-/archive/v30/arch-install-scripts-v30.tar.gz : ee7ecb8ea9dd688e218eb65a885c561af44284fa82f1554463610085c9f72695
+summary     : genfstab archlinux bash script
+description : |
+    genfstab(8) is a Bash script that is used to automatically detect all
+    mounts under a given mountpoint, its output can then be redirected into
+    a file, usually /etc/fstab. 
+license     : 
+    - GPL-2.0-or-later
+builddeps   :
+    - binary(asciidoctor)
+    - binary(m4)
+    - binary(man)
+    # dbus-1 is required in order to retrieve the manpage
+    - pkgconfig(dbus-1)
+build       : |
+    # build the script
+    m4 -P genfstab.in > genfstab
+    # Convert the asciidoc to the manpage format
+    asciidoctor -b manpage doc/genfstab.8.asciidoc -o genfstab.8
+install     : |
+    %install_bin genfstab
+    %install_file genfstab.8 -t %(installroot)%(mandir)/man8
+    %install_file completion/bash/genfstab %(installroot)%(bashcompletionsdir)/genfstab
+    %install_file completion/zsh/_genfstab %(installroot)%(zshcompletionsdir)/_genfstab
+check       : |
+    man -M %(installroot)%(mandir) genfstab > /dev/null
