@@ -2,14 +2,14 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : openjdk-25
-version     : "25.0.3"
-release     : 3
+version     : "25.0.4"
+release     : 4
 upstreams   :
-    - https://github.com/openjdk/jdk25u/archive/refs/tags/jdk-25.0.3-ga.tar.gz:
-        hash: 24080b39d5bb28c34d1fa738e8704db411c6fc7dac0962cc33305536b0391b9e
+    - https://github.com/openjdk/jdk25u/archive/refs/tags/jdk-25.0.4-ga.tar.gz:
+        hash: 85934f45ebfde0024a76e3dce86218236c3712687689bf00f24c559ac1ed0e6a
         unpackdir: "jdk"
     # BOOTSTRAPPIN
-    # - https://github.com/adoptium/temurin25-binaries/releases/download/jdk-25.0.3%2B10/OpenJDK25U-jdk_x64_linux_hotspot_25.0.3_10.tar.gz:
+    # - https://github.com/adoptium/temurin25-binaries/releases/download/jdk-25.0.4%2B10/OpenJDK25U-jdk_x64_linux_hotspot_25.0.4_10.tar.gz:
     #     hash: 987387933b64b9833846dee373b640440d3e1fd48a04804ec01a6dbf718e8ab8
     #     unpackdir: "jdk/bootstrap-jdk"
     # Detection seems broken, we can't use system gtest (TODO fix this)
@@ -155,3 +155,4 @@ install     : |
     popd
 tuning      :
     - lto: false # Enabled by argument instead
+    - thread-exceptions: false # Breaks build
