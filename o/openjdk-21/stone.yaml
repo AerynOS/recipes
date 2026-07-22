@@ -2,14 +2,14 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : openjdk-21
-version     : "21.0.11"
-release     : 5
+version     : "21.0.12"
+release     : 6
 upstreams   :
-    - https://github.com/openjdk/jdk21u/archive/refs/tags/jdk-21.0.11-ga.tar.gz:
-        hash: 76b8310966649ea8a6340f92d4f19f6f84e3083b682a514c8f1999c93373385f
+    - https://github.com/openjdk/jdk21u/archive/refs/tags/jdk-21.0.12-ga.tar.gz:
+        hash: 1efd38fa2729d32cdf0ed4c9197c31ee31890ad1b7bff82984992e0c2c67c72b
         unpackdir: "jdk"
     # BOOTSTRAPPIN
-    # - https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.11%2B10/OpenJDK21U-jdk_x64_linux_hotspot_21.0.11_10.tar.gz:
+    # - https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.12%2B10/OpenJDK21U-jdk_x64_linux_hotspot_21.0.12_10.tar.gz:
     #     hash: 810d3773df7e0d6c4394e4e244b264c8b30e0b05a0acf542d065fd78a6b65c2f
     #     unpackdir: "jdk/bootstrap-jdk"
     # Detection seems broken, we can't use system gtest (TODO fix this)
@@ -154,3 +154,4 @@ install     : |
     popd
 tuning      :
     - lto: false # Enabled by argument instead
+    - thread-exceptions: false # Breaks build
