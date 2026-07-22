@@ -2,14 +2,14 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : openjdk-17
-version     : "17.0.19"
-release     : 5
+version     : "17.0.20"
+release     : 6
 upstreams   :
-    - https://github.com/openjdk/jdk17u/archive/refs/tags/jdk-17.0.19-ga.tar.gz:
-        hash: b165f0dd120f4455904b76cf87dd9352fd23f88c2e9a33c2532fabacc3cca962
+    - https://github.com/openjdk/jdk17u/archive/refs/tags/jdk-17.0.20-ga.tar.gz:
+        hash: ba3ac4b9d7f2c050f46ddcec39b4258660a3f09836f5a71617fd3f7311d06c0b
         unpackdir: "jdk"
     # BOOTSTRAPPIN
-    # - https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.19%2B8/OpenJDK17U-jdk_x64_linux_hotspot_17.0.19_10.tar.gz:
+    # - https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.20%2B8/OpenJDK17U-jdk_x64_linux_hotspot_17.0.20_10.tar.gz:
     #     hash: 992f96e7995075ac7636bb1a8de52b0c61d71ed3137fafc979ab96b4ab78dd75
     #     unpackdir: "jdk/bootstrap-jdk"
     # Detection seems broken, we can't use system gtest (TODO fix this)
@@ -159,3 +159,4 @@ install     : |
     popd
 tuning      :
     - lto: false # Enabled by argument instead
+    - thread-exceptions: false # Breaks build
