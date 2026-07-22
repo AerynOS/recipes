@@ -1,0 +1,23 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : nss-mdns
+version     : "0.15.1"
+release     : 1
+homepage    : https://github.com/avahi/nss-mdns
+upstreams   :
+    - https://github.com/avahi/nss-mdns/releases/download/v0.15.1/nss-mdns-0.15.1.tar.gz : ddf71453d7a7cdc5921fe53ef387b24fd0c3c49f4dcf94a2a437498596761a21
+summary     : nss-mdns is a plugin for the GNU Name Service Switch (NSS) functionality of the GNU C Library (glibc) providing host name resolution via Multicast DNS
+description : |
+    nss-mdns is a plugin for the GNU Name Service Switch (NSS) functionality of the GNU C Library (glibc)
+    providing host name resolution via Multicast DNS (aka Zeroconf, aka Apple Rendezvous, aka Apple Bonjour),
+    effectively allowing name resolution by common Unix/Linux programs in the ad-hoc mDNS domain .local
+license     : LGPL-2.1-or-later
+rundeps     :
+    - sysbinary(avahi-daemon)
+setup       : |
+    %configure
+build       : |
+    %make
+install     : |
+    %make_install
