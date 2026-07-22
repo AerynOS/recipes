@@ -127,6 +127,42 @@ function fixup-recipe-commit() {
     git log -1 -- .
 }
 
+git-shortlog-updates () {
+    local _arg="${1}"
+    local _oneline="--format=oneline"
+    if [[ -n ${_arg} ]]; then
+        _oneline="--format=oneline ${_arg}..HEAD"
+    fi
+    git log ${_oneline} \
+        |grep -E ': [Uu]pdate' \
+        |cut -f1 -d' ' --complement \
+        |sed -E -e 's|: [Uu]pdate to v?| |g'
+}
+
+git-shortlog-add () {
+    local _arg="${1}"
+    local _oneline="--format=oneline"
+    if [[ -n ${_arg} ]]; then
+        _oneline="--format=oneline ${_arg}..HEAD"
+    fi
+    git log ${_oneline} \
+        |grep -E ': [Aa]dd' \
+        |cut -f1 -d' ' --complement \
+        |sed -E -e 's|: [Aa]dd at v?| |g'
+}
+
+git-shortlog-fix () {
+    local _arg="${1}"
+    local _oneline="--format=oneline"
+    if [[ -n ${_arg} ]]; then
+        _oneline="--format=oneline ${_arg}..HEAD"
+    fi
+    git log ${_oneline} \
+        |grep -E ': [Ff]ix' \
+        |cut -f1 -d' ' --complement
+}
+
+
 # Bash completions
 _chpkg()
 {
