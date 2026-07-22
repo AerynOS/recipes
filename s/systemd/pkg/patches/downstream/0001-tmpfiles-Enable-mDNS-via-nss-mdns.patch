@@ -1,0 +1,25 @@
+From 05b088e06483a114d23b6c27982f3df305edffcf Mon Sep 17 00:00:00 2001
+From: Harsh Relapse <274514232+HarshRelapse@users.noreply.github.com>
+Date: Wed, 22 Jul 2026 15:31:16 +0200
+Subject: [PATCH] Enable mDNS via nss-mdns
+
+---
+ factory/templates/nsswitch.conf | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/factory/templates/nsswitch.conf b/factory/templates/nsswitch.conf
+index 45a6820c5e..76da0bc96f 100644
+--- a/factory/templates/nsswitch.conf
++++ b/factory/templates/nsswitch.conf
+@@ -5,7 +5,7 @@ group:          files [SUCCESS=merge] systemd
+ shadow:         files systemd
+ gshadow:        files systemd
+ 
+-hosts:          mymachines resolve [!UNAVAIL=return] files myhostname dns
++hosts:          mymachines mdns4_minimal resolve [!UNAVAIL=return] files myhostname dns
+ networks:       files
+ 
+ protocols:      db files
+-- 
+2.55.0
+

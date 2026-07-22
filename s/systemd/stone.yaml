@@ -3,7 +3,7 @@
 
 name        : systemd
 version     : "260.3"
-release     : 88
+release     : 89
 summary     : A System and Service Manager
 license     :
     - GPL-2.0-or-later
@@ -72,6 +72,7 @@ rundeps     :
     - binary(dash)
     - binary(ntp-daemon)
     - binary(setfont)
+    - nss-mdns
     - system-accounts
     - terminus-font
     - tzdata
@@ -87,6 +88,7 @@ setup       : |
     # due to KMSCon currently stealing focus from display managers
     %patch %(pkgdir)/patches/downstream/0001-downstream-Allow-default-font-to-be-set.patch
     %patch %(pkgdir)/patches/downstream/0001-Don-t-build-32bit-EFI-stub.patch
+    %patch %(pkgdir)/patches/downstream/0001-tmpfiles-Enable-mDNS-via-nss-mdns.patch
 
     # Upstream patches
     # None for now
