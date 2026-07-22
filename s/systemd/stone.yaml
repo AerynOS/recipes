@@ -3,7 +3,7 @@
 
 name        : systemd
 version     : "260.3"
-release     : 88
+release     : 89
 summary     : A System and Service Manager
 license     :
     - GPL-2.0-or-later
@@ -298,6 +298,7 @@ install     : |
     %install_file %(pkgdir)/systemd_binfmt.yaml %(installroot)/usr/share/moss/triggers/sys.d/systemd_binfmt.yaml
     %install_file %(pkgdir)/systemd_presets.yaml %(installroot)/usr/share/moss/triggers/sys.d/systemd_presets.yaml
     %install_file %(pkgdir)/systemd_machine_id.yaml %(installroot)/usr/share/moss/triggers/sys.d/systemd_machine_id.yaml
+    %install_file %(pkgdir)/systemd_udevd.yaml %(installroot)/usr/share/moss/triggers/sys.d/systemd_udevd.yaml
 
     # And transaction triggers
     %install_file %(pkgdir)/systemd_hwdb.yaml %(installroot)/usr/share/moss/triggers/tx.d/systemd_hwdb.yaml
@@ -751,6 +752,7 @@ packages    :
             - /usr/share/man/man8/systemd-udev*
             - /usr/share/man/man8/udevadm.8*
             - /usr/share/moss/triggers/tx.d/systemd_hwdb.yaml
+            - /usr/share/moss/triggers/sys.d/systemd_udevd.yaml
             - /usr/share/zsh/site-functions/_systemd-hwdb
             - /usr/share/zsh/site-functions/_udevadm
 

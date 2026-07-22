@@ -1,0 +1,14 @@
+name: systemd_udevd
+description: |
+    Run udev-reload
+after: systemd_presets
+
+handlers:
+    systemd_udevd:
+        run: /usr/share/moss/helpers/systemd-hook.sh
+        args: ["udev-reload"]
+
+paths:
+    "/usr/lib/udev/rules.d/*":
+        handlers:
+            - systemd_udevd
