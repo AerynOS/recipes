@@ -3,7 +3,7 @@
 
 name        : kf6-kimageformats
 version     : "6.28.0"
-release     : 22
+release     : 23
 upstreams   :
     - https://download.kde.org/stable/frameworks/6.28/kimageformats-6.28.0.tar.xz : 91808c6de080ab5b506721c1f78ad5772bcb1f70bba7262c275ccd98de8b6b38
 homepage    : https://community.kde.org/Frameworks
@@ -28,6 +28,7 @@ builddeps   :
 rundeps    :
     - qt6-imageformats
 setup       : |
+    %patch %(pkgdir)/upstream-01.patch
     %cmake_kf6 \
         -DKIMAGEFORMATS_HEIF=ON
 build       : |
