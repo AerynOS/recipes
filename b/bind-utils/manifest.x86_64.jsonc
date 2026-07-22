@@ -19,7 +19,6 @@
 			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
-				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libcrypto.so.3(x86_64))",
 				"soname(libidn2.so.0(x86_64))",
@@ -43,15 +42,15 @@
 				"/usr/bin/host",
 				"/usr/bin/nslookup",
 				"/usr/bin/nsupdate",
-				"/usr/lib/libdns-9.20.24.so",
+				"/usr/lib/libdns-9.20.26.so",
 				"/usr/lib/libdns.so",
-				"/usr/lib/libisc-9.20.24.so",
+				"/usr/lib/libisc-9.20.26.so",
 				"/usr/lib/libisc.so",
-				"/usr/lib/libisccc-9.20.24.so",
+				"/usr/lib/libisccc-9.20.26.so",
 				"/usr/lib/libisccc.so",
-				"/usr/lib/libisccfg-9.20.24.so",
+				"/usr/lib/libisccfg-9.20.26.so",
 				"/usr/lib/libisccfg.so",
-				"/usr/lib/libns-9.20.24.so",
+				"/usr/lib/libns-9.20.26.so",
 				"/usr/lib/libns.so",
 				"/usr/share/man/man1/delv.1",
 				"/usr/share/man/man1/dig.1",
@@ -66,15 +65,15 @@
 				"binary(host)",
 				"binary(nslookup)",
 				"binary(nsupdate)",
-				"soname(libdns-9.20.24.so(x86_64))",
-				"soname(libisc-9.20.24.so(x86_64))",
-				"soname(libisccc-9.20.24.so(x86_64))",
-				"soname(libisccfg-9.20.24.so(x86_64))",
-				"soname(libns-9.20.24.so(x86_64))"
+				"soname(libdns-9.20.26.so(x86_64))",
+				"soname(libisc-9.20.26.so(x86_64))",
+				"soname(libisccc-9.20.26.so(x86_64))",
+				"soname(libisccfg-9.20.26.so(x86_64))",
+				"soname(libns-9.20.26.so(x86_64))"
 			]
 		}
 	},
 	"source-name": "bind-utils",
-	"source-release": "22",
-	"source-version": "9.20.24"
+	"source-release": "23",
+	"source-version": "9.20.26"
 }
