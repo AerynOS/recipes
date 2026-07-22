@@ -1,0 +1,32 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"nss-mdns": {
+			"depends": [
+				"soname(libc.so.6(x86_64))",
+				"sysbinary(avahi-daemon)"
+			],
+			"files": [
+				"/usr/lib/libnss_mdns.so.2",
+				"/usr/lib/libnss_mdns4.so.2",
+				"/usr/lib/libnss_mdns4_minimal.so.2",
+				"/usr/lib/libnss_mdns6.so.2",
+				"/usr/lib/libnss_mdns6_minimal.so.2",
+				"/usr/lib/libnss_mdns_minimal.so.2"
+			],
+			"name": "nss-mdns",
+			"provides": [
+				"soname(libnss_mdns.so.2(x86_64))",
+				"soname(libnss_mdns4.so.2(x86_64))",
+				"soname(libnss_mdns4_minimal.so.2(x86_64))",
+				"soname(libnss_mdns6.so.2(x86_64))",
+				"soname(libnss_mdns6_minimal.so.2(x86_64))",
+				"soname(libnss_mdns_minimal.so.2(x86_64))"
+			]
+		}
+	},
+	"source-name": "nss-mdns",
+	"source-release": "1",
+	"source-version": "0.15.1"
+}
