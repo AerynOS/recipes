@@ -1,0 +1,49 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : man-pages
+version     : "6.18"
+release     : 1
+homepage    : https://www.kernel.org/pub/linux/docs/man-pages
+upstreams   :
+    - https://www.kernel.org/pub/linux/docs/man-pages/man-pages-6.18.tar.xz : c934fadc8b59748c68227a34f6581d2ddf8282b73cdcd52546c8cd88b74b24d1
+summary     : Linux kernel and C library interfaces man-pages
+description : |
+    The Linux man-pages project documents the Linux kernel and C library interfaces that are employed by user-space programs.
+
+    With respect to the C library, the primary focus is the GNU C library (glibc), although, where known, documentation of variations in other C libraries available for Linux is also included.
+license     : 
+    - BSD-2-Clause
+    - BSD-3-Clause
+    - BSD-4-Clause-UC
+    - GPL-1.0-or-later
+    - GPL-2.0-or-later
+    - GPL-3.0-or-later
+    - LGPL-3.0-linking-exception
+    - LGPL-3.0-or-later
+    - Linux-man-pages-1-para
+    - Linux-man-pages-copyleft
+    - Linux-man-pages-copyleft-2-para
+    - Linux-man-pages-copyleft-var
+    - MIT
+    - GPL-2.0-only
+rundeps     :
+    - binary(man)
+install     : |
+    %make_install prefix=%(prefix) -R
+    
+    # these pages conflict with other packages
+    CONFLICTS=(
+        man2/move_pages.2
+        man3/crypt.3
+        man3/crypt_r.3
+    )
+    for p in ${CONFLICTS[@]}
+    do
+        rm -v %(installroot)%(datadir)/man/${p}
+    done
+packages    :
+    # ensure that all man-pages are part of the same package                                                                                   
+    - "%(name)":                                                                            
+        paths:                                                                                   
+            - /usr/share/man
