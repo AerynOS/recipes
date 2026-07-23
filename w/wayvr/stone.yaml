@@ -2,17 +2,20 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : wayvr
-version     : "26.2.1"
-release     : 1
+version     : "26.7.1"
+release     : 2
 homepage    : https://wayvr.org/
 upstreams   :
-    - https://github.com/wayvr-org/wayvr/archive/refs/tags/v26.2.1.tar.gz : c81824f9a2855d01ac4c97165338cb24133febd17211b17aa302b8e8c7596c70
+    - https://github.com/wayvr-org/wayvr/archive/refs/tags/v26.7.1.tar.gz : f0bd28664ae06f76c29c985726885caf94164e5e503dd3dfb14d74cb046339d6
 summary     : A lightweight OpenXR/OpenVR overlay for Wayland and X11 desktops
 description : |
     Your way to enjoy VR on Linux. Run apps inside VR & access your Wayland/X11 screens from Monado/WiVRn/SteamVR.
 license     : GPL-3.0-or-later
 builddeps   :
+    - binary(cmake)
+    - binary(ninja)
     - pkgconfig(alsa)
+    - pkgconfig(dav1d)
     - pkgconfig(dbus-1)
     - pkgconfig(libpipewire-0.3)
     - pkgconfig(libspa-0.2)
@@ -20,6 +23,7 @@ builddeps   :
     - pkgconfig(openxr)
     - pkgconfig(shaderc)
     - pkgconfig(udev)
+    - pkgconfig(vulkan)
     - pkgconfig(wayland-client)
     - pkgconfig(x11)
     - pkgconfig(xext)
@@ -27,11 +31,9 @@ builddeps   :
     - pkgconfig(xkbcommon-x11)
     - pkgconfig(xrandr)
 networking  : true
+environment : |
+    export CMAKE_GENERATOR=Ninja
 setup       : |
-    # Fix build breaking (ftbfs) (fix from galister): https://aur.archlinux.org/packages/wayvr
-    %patch %(pkgdir)/ftbfs-pipewire-1.6-01.patch
-    %patch %(pkgdir)/ftbfs-pipewire-1.6-02.patch
-
     %cargo_fetch
 build       : |
     # Enable all features except native OpenVR support. OpenXR is the
@@ -41,10 +43,12 @@ build       : |
       --package wayvr \
       --package wayvrctl \
       --no-default-features \
-      --features=openxr,osc,pipewire,wayland,x11
+      --features=openxr,osc,pipewire,wayland,whisper,x11
 install     : |
     %cargo_install wayvr
     %cargo_install wayvrctl
     %install_file wayvr/wayvr.desktop %(installroot)%(datadir)/applications/wayvr.desktop
     %install_file wayvr/wayvr.png %(installroot)%(datadir)/icons/hicolor/128x128/apps/wayvr.png
     %install_file wayvr/wayvr.svg %(installroot)%(datadir)/icons/hicolor/scalable/apps/wayvr.svg
+check       : |
+    %cargo_test
