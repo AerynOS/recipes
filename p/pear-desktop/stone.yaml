@@ -1,0 +1,49 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : pear-desktop
+version     : "3.12.0"
+release     : 1
+homepage    : https://github.com/pear-devs/pear-desktop
+upstreams   :
+    - https://github.com/pear-devs/pear-desktop/archive/refs/tags/v3.12.0.tar.gz : 2f6a4948ba3c8c00ed43a6c014cd18430f2f1509ea4115dd6a8d538c45eb3107
+summary     : A desktop application for YouTube Music with enhanced features
+description : |
+    Pear Desktop is a cross-platform desktop application for YouTube Music, offering enhanced features through a plugin system. It provides a better user experience with additional functionality not available in the web version.
+license     : MIT
+networking  : true
+debug       : false
+strip       : false
+builddeps   :
+    - binary(git)
+    - binary(jq)
+    - binary(pnpm)
+    - pkgconfig(alsa)
+    - pkgconfig(gbm)
+    - pkgconfig(gtk+-3.0)
+    - pkgconfig(xscrnsaver)
+setup       : |
+    pnpm install --frozen-lockfile
+build       : |
+    pnpm run build
+    pnpm exec electron-builder --linux --x64 --dir --publish never
+install     : |
+    _pear_root=%(libdir)/%(name)
+    _pear_install=%(installroot)/$_pear_root
+
+    %install_dir $_pear_install
+    cp -a pack/linux-unpacked/* $_pear_install
+
+    %install_exe %(pkgdir)/pear-desktop.sh %(installroot)%(bindir)/pear-desktop
+
+    %install_file %(pkgdir)/com.github.th-ch.youtube-music.desktop -t %(installroot)%(datadir)/applications/
+    %install_file %(pkgdir)/com.pear-desktop.pear-desktop.metainfo.xml -t %(installroot)%(datadir)/metainfo/
+
+    for i in 16 24 32 48 64 128 256 512 1024; do
+        %install_dir %(installroot)%(datadir)/icons/hicolor/${i}x${i}/apps
+        %install_file pack/linux-unpacked/resources/app.asar.unpacked/assets/generated/icons/png/${i}x${i}.png \
+            %(installroot)%(datadir)/icons/hicolor/${i}x${i}/apps/com.github.th-ch.youtube-music.png
+    done
+
+    # chrome-sandbox needs to be setuid
+    chmod -c u+s %(installroot)${_pear_root}/chrome-sandbox
