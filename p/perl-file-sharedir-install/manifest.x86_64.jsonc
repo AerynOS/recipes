@@ -1,0 +1,19 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"perl-file-sharedir-install": {
+			"depends": [
+				"binary(perl)"
+			],
+			"files": [
+				"/usr/share/man/man3/File::ShareDir::Install.3",
+				"/usr/share/perl5/vendor_perl/File/ShareDir/Install.pm"
+			],
+			"name": "perl-file-sharedir-install"
+		}
+	},
+	"source-name": "perl-file-sharedir-install",
+	"source-release": "1",
+	"source-version": "0.14"
+}
