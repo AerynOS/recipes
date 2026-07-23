@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : networkmanager
-version     : "1.56.1"
-release     : 15
+version     : "1.58.0"
+release     : 16
 homepage    : https://wiki.gnome.org/Projects/NetworkManager
 upstreams   :
-    - https://gitlab.freedesktop.org/NetworkManager/NetworkManager/-/releases/1.56.1/downloads/NetworkManager-1.56.1.tar.xz : b0ee9a89dfba39d2a1a69d60868be99096d3b6b66a1a22bf8a9d5a38b8aed50e
+    - https://gitlab.freedesktop.org/NetworkManager/NetworkManager/-/releases/1.58.0/downloads/NetworkManager-1.58.0.tar.xz : 0c6f2703a2c9b017cd68fbfe1d2e8a1a5d7ff05137c751ec421cba36e94546ba
 summary     : NetworkManager — network management daemon
 description : |
     NetworkManager attempts to keep an active network connection available at all times.  The point of NetworkManager is to make networking configuration and setup as painless and automatic as possible.  NetworkManager is intended to replace default route, replace other routes, set IP addresses, and in general configure networking as NM sees fit (with the possibility of manual override as necessary).  In effect, the goal of NetworkManager is to make networking Just Work with a minimum of user hassle, but still allow customization and a high level of manual network control.  If you have special needs, we'd like to hear about them, but understand that NetworkManager is not intended for every use-case.
@@ -15,9 +15,10 @@ license     :
     - GPL-2.0-or-later
     - LGPL-2.1-or-later
 builddeps   :
+    - binary(bpftool)
     - binary(eu-readelf)
-    - binary(gtkdoc-scan)
     - binary(gnu-sort) # See patch
+    - binary(gtkdoc-scan)
     - binary(msgfmt)
     - binary(perl)
     - binary(vapigen)
@@ -29,9 +30,10 @@ builddeps   :
     - pkgconfig(gnutls)
     - pkgconfig(gobject-introspection-1.0)
     - pkgconfig(jansson)
-    - pkgconfig(libnewt)
+    - pkgconfig(libbpf)
     - pkgconfig(libcurl)
     - pkgconfig(libndp)
+    - pkgconfig(libnewt)
     - pkgconfig(libnvme)
     - pkgconfig(libpsl)
     - pkgconfig(libsystemd)
@@ -41,6 +43,7 @@ builddeps   :
     - pkgconfig(nss)
     - pkgconfig(polkit-gobject-1)
     - pkgconfig(readline)
+    - pkgconfig(slang)
     - pkgconfig(systemd)
     - pkgconfig(uuid)
     - python(pygobject) # Docs
@@ -61,6 +64,7 @@ setup       : |
     %meson \
         -Db_lto=true \
         -Dbluez5_dun=true \
+        -Dbpf-compiler=clang \
         -Dconfig_dhcp_default=internal \
         -Dconfig_dns_rc_manager_default=auto \
         -Dconfig_logging_backend_default=journal \
@@ -73,7 +77,6 @@ setup       : |
         -Diwd=true \
         -Dld_gc=false \
         -Dlibaudit=no \
-        -Dmodify_system=true \
         -Dnft=%(sbindir)/nft \
         -Dnmtui=true \
         -Dpppd_plugin_dir="$(pkgconf --variable=plugindir pppd)" \
