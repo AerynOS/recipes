@@ -1,0 +1,66 @@
+From c8954242127ab0d1ea958145d030559872b64d23 Mon Sep 17 00:00:00 2001
+From: Beniamino Galvani <bgalvani@redhat.com>
+Date: Wed, 15 Jul 2026 18:03:26 +0200
+Subject: [PATCH] connectivity: also accept link-scope default routes for IPv4
+
+Point-to-point interfaces (such as PPP) can have a default route
+with link scope instead of global scope, because there is no
+gateway address. This is valid and the route provides global
+reachability.
+
+Previously, check_platform_config() only accepted routes with
+RT_SCOPE_UNIVERSE, which caused connectivity checks to be skipped
+for PPP interfaces, marking them as LIMITED with a +20000 metric
+penalty.
+
+Also accept default routes with RT_SCOPE_LINK so that connectivity
+checks proceed normally on point-to-point interfaces.
+
+https://gitlab.freedesktop.org/NetworkManager/NetworkManager/-/work_items/1867
+(cherry picked from commit 6352c3fa9eae3ccf62e88a61f59b91d1e822db37)
+---
+ src/core/nm-connectivity.c | 18 +++++++++++++-----
+ 1 file changed, 13 insertions(+), 5 deletions(-)
+
+diff --git a/src/core/nm-connectivity.c b/src/core/nm-connectivity.c
+index c7915fd962..2746eb534d 100644
+--- a/src/core/nm-connectivity.c
++++ b/src/core/nm-connectivity.c
+@@ -1097,21 +1097,29 @@ check_platform_config(NMConnectivity *self,
+ 
+     if (NM_IS_IPv4(addr_family)) {
+         const NMPlatformIP4Route *route;
+-        gboolean                  found_global = FALSE;
++        gboolean                  found_suitable = FALSE;
+         NMDedupMultiIter          iter;
+         const NMPObject          *plobj;
+ 
+-        /* For IPv4 also require a route with global scope. */
++        /* For IPv4, also require either a route with global scope or a
++         * default route with link scope. A default route with link scope
++         * is valid for point-to-point interfaces (such as PPP) that don't
++         * have a gateway address. */
+         nmp_cache_iter_for_each (&iter, routes, &plobj) {
+             route = NMP_OBJECT_CAST_IP4_ROUTE(plobj);
+             if (nm_platform_route_scope_inv(route->scope_inv) == RT_SCOPE_UNIVERSE) {
+-                found_global = TRUE;
++                found_suitable = TRUE;
++                break;
++            }
++            if (NM_PLATFORM_IP_ROUTE_IS_DEFAULT(route)
++                && nm_platform_route_scope_inv(route->scope_inv) == RT_SCOPE_LINK) {
++                found_suitable = TRUE;
+                 break;
+             }
+         }
+ 
+-        if (!found_global) {
+-            NM_SET_OUT(reason, "no global route configured");
++        if (!found_suitable) {
++            NM_SET_OUT(reason, "no suitable route configured");
+             return NM_CONNECTIVITY_LIMITED;
+         }
+     } else {
+-- 
+GitLab
+
