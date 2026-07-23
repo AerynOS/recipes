@@ -1,0 +1,43 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name: freetube
+version: "0.25.1-beta"
+release: 1
+homepage: "https://github.com/FreeTubeApp/FreeTube"
+upstreams:
+  - https://github.com/FreeTubeApp/FreeTube/archive/refs/tags/v0.25.1-beta.tar.gz: e9e3032264b917e03c76ad38c4ebe9885985e7629dff46712ec40932283d0fb3
+summary: |
+  A private YouTube client for the Desktop
+description: |
+  FreeTube is a YouTube client for Windows (10 and later), Mac (macOS 12 and later), and Linux built around using YouTube more privately.
+license:
+  - AGPL-3.0-or-later
+builddeps:
+  - binary(ar)
+  - binary(pnpm)
+  - binary(tar)
+networking: true
+setup: |
+  # delete package names from config file,
+  # they say to do this by hand see
+  # https://docs.freetubeapp.io/development/building-from-source#note-for-linux-users
+  cp -v %(pkgdir)/build.mjs _scripts/build.mjs
+  pnpm install
+build: |
+  pnpm run build
+install: |
+  _freetube_root=%(libdir)/freetube
+  _freetube_install=%(installroot)/$_freetube_root
+
+  %install_dir $_freetube_install
+  cp -R build/linux-unpacked/* $_freetube_install
+
+  %install_dir %(installroot)%(bindir)
+  ln -srv $_freetube_root/freetube %(installroot)%(bindir)/freetube
+
+  # Desktop file
+  %install_file %(pkgdir)/freetube.desktop %(installroot)/%(datadir)/applications/freetube.desktop
+
+  # Icon
+  %install_file _icons/icon.svg %(installroot)%(datadir)/icons/hicolor/scalable/apps/freetube.svg
