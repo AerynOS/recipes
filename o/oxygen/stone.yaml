@@ -1,0 +1,41 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : oxygen
+version     : "6.7.3"
+release     : 1
+homepage    : https://kde.org/plasma-desktop/
+upstreams   :
+    - https://download.kde.org/stable/plasma/6.7.3/oxygen-6.7.3.tar.xz: d4537dc7d5afa2a754278abef32ceead82da41a8c8ca19e6cbd6f678f49aea9c
+summary     : Qt Oxygen Theme
+description : |
+    The Oxygen Style for Qt/KDE Applications
+license     : LGPL-3.0-or-later
+tuning      :
+    - lto: full
+    - optimize: speed
+builddeps   :
+    # Temporary, boulder doesn't handle build ordering resolution correctly when builddeps are added by macros, so add ECM manually
+    # NOTE: this comment was taken from the kde breeze package
+    - cmake(ECM)
+    - cmake(KDecoration3)
+    - cmake(KF6Completion)
+    - cmake(KF6CoreAddons)
+    - cmake(KF6FrameworkIntegration)
+    - cmake(KF6GuiAddons)
+    - cmake(KF6I18n)
+    - cmake(KF6IconThemes)
+    - cmake(KF6KCMUtils)
+    - cmake(KF6Service)
+    - cmake(KF6WindowSystem)
+    - cmake(Plasma)
+    - cmake(Qt6GuiPrivate)
+    - cmake(Qt6Svg)
+setup       : |
+    %cmake_kf6 \
+        -DBUILD_QT5=OFF \
+        -DBUILD_QT6=ON
+build       : |
+    %cmake_build
+install     : |
+    %cmake_install
