@@ -6,7 +6,6 @@
 			"build-depends": [
 				"binary(doxygen)",
 				"binary(glslangValidator)",
-				"pkgconfig(SPIRV-Tools)",
 				"pkgconfig(bluez)",
 				"pkgconfig(dbus-1)",
 				"pkgconfig(egl)",
@@ -16,32 +15,27 @@
 				"pkgconfig(gstreamer-app-1.0)",
 				"pkgconfig(gstreamer-video-1.0)",
 				"pkgconfig(hidapi-libusb)",
-				"pkgconfig(libavcodec)",
 				"pkgconfig(libbsd)",
-				"pkgconfig(libcap)",
 				"pkgconfig(libcjson)",
 				"pkgconfig(libdrm)",
-				"pkgconfig(libglvnd)",
 				"pkgconfig(libjpeg)",
 				"pkgconfig(libusb-1.0)",
-				"pkgconfig(libv4l2)",
 				"pkgconfig(opencv4)",
 				"pkgconfig(python3)",
 				"pkgconfig(sdl2)",
-				"pkgconfig(shaderc)",
 				"pkgconfig(udev)",
 				"pkgconfig(vulkan)",
 				"pkgconfig(wayland-client)",
-				"pkgconfig(wayland-egl)",
 				"pkgconfig(wayland-protocols)",
 				"pkgconfig(wayland-scanner)",
 				"pkgconfig(x11)",
+				"pkgconfig(x11-xcb)",
+				"pkgconfig(xcb)",
 				"pkgconfig(xrandr)",
 				"pkgconfig(zlib)"
 			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
-				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libGLX.so.0(x86_64))",
 				"soname(libSDL2-2.0.so.0(x86_64))",
 				"soname(libX11-xcb.so.1(x86_64))",
@@ -92,6 +86,8 @@
 				"/usr/lib/systemd/user/monado.service",
 				"/usr/lib/systemd/user/monado.socket",
 				"/usr/share/openxr/1/openxr_monado.json",
+				"/usr/share/st-openvr/bin/linux64/vrclient.so",
+				"/usr/share/st-openvr/bin/version.txt",
 				"/usr/share/steamvr-monado/bin/linux64/driver_monado.so",
 				"/usr/share/steamvr-monado/driver.vrdrivermanifest",
 				"/usr/share/steamvr-monado/resources/driver.vrresources",
@@ -174,11 +170,12 @@
 				"binary(monado-service)",
 				"soname(libmonado.so.25(x86_64))",
 				"soname(libopenxr_monado.so(x86_64))",
+				"soname(st-openvr/bin/linux64/vrclient.so(x86_64))",
 				"soname(steamvr-monado/bin/linux64/driver_monado.so(x86_64))"
 			]
 		}
 	},
 	"source-name": "monado",
-	"source-release": "1",
-	"source-version": "25.1.0+git.d1690a6f"
+	"source-release": "2",
+	"source-version": "25.1.0+git.983a8a51"
 }
