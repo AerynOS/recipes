@@ -1,0 +1,45 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : noctalia
+version     : "5.0.0+git.67a99b5"
+release     : 1
+homepage    : https://noctalia.dev/
+upstreams   :
+    - git|https://github.com/noctalia-dev/noctalia-shell.git: 67a99b5997cde7f64ad53d4f8f92c05ba7c22c67
+summary     : A lightweight Wayland shell
+description : |
+    A lightweight Wayland shell and bar built directly on Wayland + OpenGL ES, with no Qt or GTK dependency.
+license     : MIT
+builddeps   :
+    - pkgconfig(cairo)
+    - pkgconfig(epoxy)
+    - pkgconfig(fontconfig)
+    - pkgconfig(freetype2)
+    - pkgconfig(glib-2.0)
+    - pkgconfig(jemalloc)
+    - pkgconfig(libcurl)
+    - pkgconfig(libcurl)
+    - pkgconfig(libglvnd)
+    - pkgconfig(libpipewire-0.3)
+    - pkgconfig(libpipewire-0.3)
+    - pkgconfig(libqalculate)
+    - pkgconfig(librsvg-2.0)
+    - pkgconfig(libwebp)
+    - pkgconfig(libxml-2.0)
+    - pkgconfig(pam)
+    - pkgconfig(pango)
+    - pkgconfig(polkit-agent-1)
+    - pkgconfig(sdbus-c++)
+    - pkgconfig(wayland-client)
+    - pkgconfig(wayland-protocols)
+    - pkgconfig(xkbcommon)
+setup       : |
+    %meson
+build       : |
+    %meson_build
+install     : |
+    %meson_install
+
+    %install_file LICENSE -t %(installroot)%(datadir)/licenses/noctalia/
+    %install_file README.md -t %(installroot)%(datadir)/doc/noctalia/
