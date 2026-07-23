@@ -1,0 +1,45 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : tidal-hifi
+version     : "8.0.0"
+release     : 1
+homepage    : https://github.com/Mastermindzh/tidal-hifi
+upstreams   :
+    - https://github.com/Mastermindzh/tidal-hifi/archive/refs/tags/8.0.0.tar.gz : c4372905477db3d87fd2be6dfbc5e8bfbc634d25e4554c8637b311c645a53416
+summary     : Tidal in Electron with HiFi support via Widevine
+description : |
+    The web version of Tidal running in Electron with HiFi support thanks to Widevine.
+    A desktop client for Tidal streaming music service with high-fidelity audio support.
+license     : MIT
+builddeps   :
+    - binary(make)
+    - binary(npm)
+    - pkgconfig(alsa)
+    - pkgconfig(gbm)
+    - pkgconfig(gtk+-3.0)
+    - pkgconfig(xscrnsaver)
+debug       : false
+strip       : false
+networking  : true
+setup       : |
+    npm install
+build       : |
+    npm run build-unpacked
+install     : |
+    _tidal_root=%(libdir)/%(name)
+    _tidal_install=%(installroot)/$_tidal_root
+
+    %install_dir $_tidal_install
+    cp -a dist/linux-unpacked/. $_tidal_install/
+    chmod +x $_tidal_install/tidal-hifi
+
+    # Drop musl-only optional native module; glibc variant is bundled separately.
+    rm -rf $_tidal_install/resources/app.asar.unpacked/node_modules/@parcel/watcher-linux-x64-musl
+
+    %install_dir %(installroot)%(bindir)
+    %install_exe %(pkgdir)/tidal-hifi.sh %(installroot)%(bindir)/tidal-hifi
+
+    %install_file assets/icon.png %(installroot)%(datadir)/icons/hicolor/512x512/apps/tidal-hifi.png
+    %install_file %(pkgdir)/tidal-hifi.desktop -t %(installroot)%(datadir)/applications/
+    %install_file %(pkgdir)/com.mastermindzh.tidal-hifi.metainfo.xml -t %(installroot)%(datadir)/metainfo/
