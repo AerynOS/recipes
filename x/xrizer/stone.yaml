@@ -3,7 +3,7 @@
 
 name        : xrizer
 version     : "0.5"
-release     : 1
+release     : 2
 homepage    : https://github.com/Supreeeme/xrizer
 upstreams   :
     - https://github.com/Supreeeme/xrizer/archive/refs/tags/v0.5.tar.gz : 8f1fdcc5b8608fd9669a393946815e4797abe1a70ab5d9dec47319c02bb767d3
@@ -18,14 +18,16 @@ builddeps   :
     - pkgconfig(wayland-client)
     - pkgconfig(x11)
 networking  : true
+environment : |
+    export CMAKE_GENERATOR=Ninja
 setup       : |
     %cargo_fetch
 build       : |
-    export CMAKE_GENERATOR=Ninja
-
     %cargo_build
 install     : |
     %install_exe %(cargo_target_dir)/libxrizer.so %(installroot)%(libdir)/xrizer/bin/linux64/vrclient.so
 
-    echo '{ "runtime": [ "/usr/lib/xrizer" ], "version": 1 }' > openvrpaths.vrpath
+    echo '{ "jsonid": "vrpathreg", "runtime": [ "/usr/lib/xrizer" ], "version": 1 }' > openvrpaths.vrpath
     %install_file openvrpaths.vrpath %(installroot)/usr/share/openvr/openvrpaths.vrpath
+check       : |
+    %cargo_test
