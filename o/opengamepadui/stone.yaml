@@ -2,11 +2,15 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : opengamepadui
-version     : "0.45.0"
-release     : 28
+version     : "0.45.1"
+release     : 29
 homepage    : https://github.com/ShadowBlip/OpenGamepadUI
 upstreams   :
-    - https://github.com/ShadowBlip/OpenGamepadUI/archive/refs/tags/v0.45.0.tar.gz : 16f583a453afe021dd590ef7cc2b6fcc58c914024a6da7d67dfa1087987dcfde
+    - https://github.com/ShadowBlip/OpenGamepadUI/archive/refs/tags/v0.45.1.tar.gz : c0223d2becf0d226da41362be389e44bd0cafd38c65b2ca26157903ec8417816
+    - https://github.com/godotengine/godot/releases/download/4.6.1-stable/Godot_v4.6.1-stable_linux.x86_64.zip :
+        hash: cecd0cb6b55e931318a9d7237dc4197d69ea914966787a454808523626e2789f
+        rename: godot.zip
+        unpack: false 
 summary     : Open source gamepad-native game launcher and overlay
 description : |
     Open Gamepad UI is a free and open source game launcher and overlay written using the Godot Game Engine 4 designed with a gamepad native experience in mind.
@@ -16,7 +20,6 @@ license     : GPL-3.0-or-later
 networking  : true
 builddeps   :
     - binary(cargo)
-    - binary(godot)
     - binary(unzip)
     - binary(wget)
     - pkgconfig(fontconfig)
@@ -28,7 +31,12 @@ rundeps     :
     - binary(vulkaninfo)
 environment : |
     export PATH="/usr/bin:/usr/sbin"
+    export GODOT="%(bindir)/godot"
+    export GODOT_VERSION="4.6.1"
+    export GODOT_RELEASE="stable"
 setup       : |
+    bsdtar-static --no-same-owner -xf %(sourcedir)/godot.zip --strip-components=0
+    mv Godot_v${GODOT_VERSION}-${GODOT_RELEASE}_linux.x86_64 %(bindir)/godot
     # Workaround to have decent default settings. We need to create a new platform on OGUI
     %patch %(pkgdir)/use-chimeraos-defaults.patch
     # Enables OGUI to start properly
