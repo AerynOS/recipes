@@ -1,13 +1,11 @@
 diff -Npur OpenGamepadUI-main.orig/rootfs/usr/bin/opengamepadui OpenGamepadUI-main/rootfs/usr/bin/opengamepadui
 --- OpenGamepadUI-main.orig/rootfs/usr/bin/opengamepadui	2024-12-30 14:35:31.000000000 +0700
 +++ OpenGamepadUI-main/rootfs/usr/bin/opengamepadui	2025-01-02 11:42:48.393449376 +0700
-@@ -1,8 +1,5 @@
+@@ -1,6 +1,5 @@
  #!/bin/bash
 -SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
 -PREFIX=$(dirname -- "${SCRIPT_DIR}")
--
--OGUI_BIN=${OGUI_BIN:-"${PREFIX}/share/opengamepadui/opengamepad-ui.x86_64"}
-+OGUI_BIN=${OGUI_BIN:-"/usr/share/opengamepadui/opengamepad-ui.x86_64"}
- GAMESCOPE_CMD=${GAMESCOPE_CMD:-gamescope -e -w 1920 -h 1080 -f --xwayland-count 2}
++PREFIX=/usr
+ ARCH=$(uname -m)
  
- # Launch normally if gamescope is not running
+ OGUI_BIN=${OGUI_BIN:-"${PREFIX}/share/opengamepadui/opengamepad-ui.${ARCH}"}
