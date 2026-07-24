@@ -1,0 +1,12 @@
+diff --git a/video/filter/vf_vapoursynth.c b/video/filter/vf_vapoursynth.c
+index 79b52dbc4b..c26a3b5850 100644
+--- a/video/filter/vf_vapoursynth.c
++++ b/video/filter/vf_vapoursynth.c
+@@ -51,6 +51,7 @@ static const char *const vsscript_lib_names[] = {
+ #else
+     "libvsscript.so",
+     "libvapoursynth-script.so",
++    "libvapoursynth-script.so.0",
+ #endif
+ };
+ 
