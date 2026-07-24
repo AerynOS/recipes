@@ -2,16 +2,14 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : fresh
-version     : "0.4.3"
-release     : 7
+version     : "0.4.5"
+release     : 8
 homepage    : https://getfresh.dev/
 upstreams   :
-    - https://github.com/sinelaw/fresh/archive/refs/tags/v0.4.3.tar.gz : 1f417ab81c2af9f44aff53a4e7ca31053b4a93b572fb82bf49b0c30c804c6dcf
+    - https://github.com/sinelaw/fresh/archive/refs/tags/v0.4.5.tar.gz : 6dbfebeda46b10b6c2b3b83923b80640c2d5f332072f97a2d2d50b5c10f0d796
 summary     : A terminal text editor built in rust
 description : |
   A lightweight, fast terminal-based text editor with LSP support and TypeScript plugins built with Rust.
-builddeps   :
-    - binary(cargo)
 checkdeps   :
     - binary(python3)
 license     : GPL-2.0-only
@@ -22,15 +20,6 @@ build       : |
     %cargo_build
 install     : |
     %cargo_install
-
-    # Plugins
-    %install_dir %(installroot)%(datadir)/fresh-editor/plugins
-    cp -r crates/fresh-editor/plugins/* %(installroot)%(datadir)/fresh-editor/plugins/
-
-     # Keymaps
-    %install_dir %(installroot)%(datadir)/fresh-editor/keymaps
-    cp -r crates/fresh-editor/keymaps/* %(installroot)%(datadir)/fresh-editor/keymaps/
-    
     %install_file crates/fresh-editor/flatpak/io.github.sinelaw.fresh.desktop %(installroot)%(datadir)/applications/io.github.sinelaw.fresh.desktop
     %install_file crates/fresh-editor/flatpak/io.github.sinelaw.fresh.metainfo.xml %(installroot)%(datadir)/metainfo/io.github.sinelaw.fresh.metainfo.xml
     %install_file crates/fresh-editor/flatpak/io.github.sinelaw.fresh.svg %(installroot)%(datadir)/icons/hicolor/scalable/apps/io.github.sinelaw.fresh.svg
