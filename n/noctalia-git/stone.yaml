@@ -1,0 +1,117 @@
+# 1. 基础元数据
+name: noctalia-git
+version: 5.0.0-beta.4
+release: 2
+summary: A sleek, customizable desktop shell crafted for Wayland
+description: |
+  Noctalia is a sleek, customizable desktop shell crafted for Wayland,
+  offering deep customization and a modern aesthetic.
+license: MIT
+homepage: https://github.com/noctalia-dev/noctalia
+
+
+upstreams:
+  - https://github.com/noctalia-dev/noctalia/releases/download/v5.0.0-beta.4/noctalia-v5.0.0-beta.4.tar.gz : 53319101d752f24086804fb8d4997dc9c760106c6bdf68c71b4bea81c577f576
+  - https://raw.githubusercontent.com/nothings/stb/master/stb_image_resize2.h :
+      hash: 173e654634f6ccaad98f603e686ea212eec1fe8ea6d2a5e5e8056efa10ae3880
+      unpack: false
+  - https://raw.githubusercontent.com/nothings/stb/master/stb_image_write.h :
+      hash: cbd5f0ad7a9cf4468affb36354a1d2338034f2c12473cf1a8e32053cb6914a05
+      unpack: false
+  - https://raw.githubusercontent.com/nothings/stb/master/stb_image.h :
+      hash: 594c2fe35d49488b4382dbfaec8f98366defca819d916ac95becf3e75f4200b3
+      unpack: false
+# 3. 依赖关系 (Dependencies)
+builddeps:
+  - meson
+  - ninja
+  - pkgconf
+  - gcc
+  - wayland-protocols-devel
+  - nlohmann-json
+  - pkgconfig(cairo)
+  - pkgconfig(fontconfig)
+  - pkgconfig(freetype2)
+  - pkgconfig(glib-2.0)
+  - pkgconfig(libpipewire-0.3)
+  - pkgconfig(librsvg-2.0)
+  - pkgconfig(libsecret-1)
+  - pkgconfig(libsodium)
+  - pkgconfig(libwebp)
+  - pkgconfig(wireplumber-0.5)
+  - pkgconfig(xkbcommon)
+  - pkgconfig(libxml-2.0)
+  - pkgconfig(pango)
+  - pkgconfig(wayland-client)
+  - pkgconfig(wayland-server)
+  - pkgconfig(libxml-2.0)
+  - pkgconfig(pango)
+  - pkgconfig(wayland-client)
+  - pkgconfig(wayland-server)
+  - pkgconfig(sdbus-c++)
+  - pkgconfig(polkit-agent-1)
+  - pkgconfig(sdbus-c++)
+  - pkgconfig(pam)
+  - pkgconfig(md4c)
+  - pkgconfig(tomlplusplus)
+  - pkgconfig(libqalculate)
+  - pkgconfig(epoxy)
+  - pkgconfig(jemalloc)
+
+rundeps:
+  - curl
+  - jemalloc
+  - libglvnd
+  - libqalculate
+  - md4c
+  - polkit
+  - sdbus-cpp
+  - tomlplusplus
+  - cairo
+  - fontconfig
+  - freetype
+  - glib2
+  - pipewire
+  - librsvg
+  - libsecret
+  - libsodium
+  - libwebp
+  - wireplumber
+  - libxkbcommon
+  - libxml2
+  - pango
+  - wayland
+  - polkit
+  - linux-pam
+  - libepoxy
+  - jemalloc
+
+# 4. 构建步骤 (Build Steps)
+setup: |
+  # 传递额外的 CXXFLAGS 以忽略特定警告 ,come from https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=noctalia-git
+  export CXXFLAGS="$CXXFLAGS -Wno-unused-result"
+  mkdir -p stb_compat/stb
+
+  # 将下载的 stb 头文件复制到临时目录
+  cp "%(sourcedir)/stb_image_resize2.h" stb_compat/stb/
+  cp "%(sourcedir)/stb_image_write.h"   stb_compat/stb/
+  cp "%(sourcedir)/stb_image.h"         stb_compat/stb/
+
+  # 将临时目录加入编译器的头文件搜索路径
+  export CXXFLAGS="$CXXFLAGS -I$(pwd)/stb_compat"
+  export CFLAGS="$CFLAGS -I$(pwd)/stb_compat"
+
+  %meson \
+    -Db_ndebug=true \
+    -Dnative_optimizations=true \
+    -Dtests=disabled
+
+build: |
+  %meson_build
+
+install: |
+  %meson_install
+
+  # 手动安装 License 和 README
+  install -Dm644 LICENSE "%(installroot)/usr/share/licenses/%(name)/LICENSE"
+  install -Dm644 README.md "%(installroot)/usr/share/doc/%(name)/README.md"
