@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : vapoursynth
-version     : "77"
-release     : 1
+version     : "78"
+release     : 2
 homepage    : https://www.vapoursynth.com
 upstreams   :
-    - https://github.com/vapoursynth/vapoursynth/archive/refs/tags/R77.tar.gz : f71653355983fc245ef811a64d2b8f5b0ba131c0bb330b3346d435e1926187e2
+    - https://github.com/vapoursynth/vapoursynth/archive/refs/tags/R78.tar.gz : cbd5aa49d43a9e5061c5ea4b03a682322065f3d9b8870c36bfb8afa0f635e066
 summary     : A video processing framework with the future in mind
 description : |
     A video processing framework with simplicity in mind
@@ -35,6 +35,9 @@ install     : |
     ln -srv %(installroot)${PYTHONPATH}/%(name)/libvsscript.so              %(installroot)%(libdir)/libvapoursynth-script.so.0
     ln -srv %(installroot)%(libdir)/libvapoursynth.so.4                     %(installroot)%(libdir)/libvapoursynth.so
     ln -srv %(installroot)%(libdir)/libvapoursynth-script.so.0              %(installroot)%(libdir)/libvapoursynth-script.so
+    for f in libvapoursynthfilters{,_avx2,_zn4}.so; do
+        ln -srv %(installroot)${PYTHONPATH}/%(name)/${f}                    %(installroot)%(libdir)/${f}
+    done
 
     # Headers
     %install_dir %(installroot)%(includedir)
