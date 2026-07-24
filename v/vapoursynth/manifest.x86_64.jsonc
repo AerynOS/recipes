@@ -23,11 +23,11 @@
 				"soname(libzimg.so.2(x86_64))"
 			],
 			"files": [
-				"/usr/lib/python3.14/site-packages/vapoursynth-77.dist-info/METADATA",
-				"/usr/lib/python3.14/site-packages/vapoursynth-77.dist-info/RECORD",
-				"/usr/lib/python3.14/site-packages/vapoursynth-77.dist-info/WHEEL",
-				"/usr/lib/python3.14/site-packages/vapoursynth-77.dist-info/entry_points.txt",
-				"/usr/lib/python3.14/site-packages/vapoursynth-77.dist-info/licenses/COPYING.LESSER",
+				"/usr/lib/python3.14/site-packages/vapoursynth-78.dist-info/METADATA",
+				"/usr/lib/python3.14/site-packages/vapoursynth-78.dist-info/RECORD",
+				"/usr/lib/python3.14/site-packages/vapoursynth-78.dist-info/WHEEL",
+				"/usr/lib/python3.14/site-packages/vapoursynth-78.dist-info/entry_points.txt",
+				"/usr/lib/python3.14/site-packages/vapoursynth-78.dist-info/licenses/COPYING.LESSER",
 				"/usr/lib/python3.14/site-packages/vapoursynth/__init__.py",
 				"/usr/lib/python3.14/site-packages/vapoursynth/__main__.py",
 				"/usr/lib/python3.14/site-packages/vapoursynth/__pycache__/__init__.cpython-314.opt-1.pyc",
@@ -45,6 +45,9 @@
 				"/usr/lib/python3.14/site-packages/vapoursynth/_utils.py",
 				"/usr/lib/python3.14/site-packages/vapoursynth/include",
 				"/usr/lib/python3.14/site-packages/vapoursynth/libvapoursynth.so.4",
+				"/usr/lib/python3.14/site-packages/vapoursynth/libvapoursynthfilters.so",
+				"/usr/lib/python3.14/site-packages/vapoursynth/libvapoursynthfilters_avx2.so",
+				"/usr/lib/python3.14/site-packages/vapoursynth/libvapoursynthfilters_zn4.so",
 				"/usr/lib/python3.14/site-packages/vapoursynth/libvsscript.so",
 				"/usr/lib/python3.14/site-packages/vapoursynth/pkgconfig/vapoursynth.pc",
 				"/usr/lib/python3.14/site-packages/vapoursynth/vapoursynth.abi3.so",
@@ -55,6 +58,9 @@
 			"provides": [
 				"python(vapoursynth)",
 				"soname(python3.14/site-packages/vapoursynth/libvapoursynth.so.4(x86_64))",
+				"soname(python3.14/site-packages/vapoursynth/libvapoursynthfilters.so(x86_64))",
+				"soname(python3.14/site-packages/vapoursynth/libvapoursynthfilters_avx2.so(x86_64))",
+				"soname(python3.14/site-packages/vapoursynth/libvapoursynthfilters_zn4.so(x86_64))",
 				"soname(python3.14/site-packages/vapoursynth/libvsscript.so(x86_64))",
 				"soname(python3.14/site-packages/vapoursynth/vapoursynth.abi3.so(x86_64))"
 			]
@@ -107,6 +113,9 @@
 				"/usr/include/vapoursynth/VapourSynth4.h",
 				"/usr/lib/libvapoursynth-script.so",
 				"/usr/lib/libvapoursynth.so",
+				"/usr/lib/libvapoursynthfilters.so",
+				"/usr/lib/libvapoursynthfilters_avx2.so",
+				"/usr/lib/libvapoursynthfilters_zn4.so",
 				"/usr/lib/pkgconfig/vapoursynth.pc"
 			],
 			"name": "vapoursynth-devel",
@@ -138,6 +147,6 @@
 		}
 	},
 	"source-name": "vapoursynth",
-	"source-release": "1",
-	"source-version": "77"
+	"source-release": "2",
+	"source-version": "78"
 }
