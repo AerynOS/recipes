@@ -1,0 +1,54 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : noctalia
+version     : "5.0.0-beta.6"
+release     : 1
+homepage    : https://github.com/noctalia-dev/noctalia
+upstreams   :
+    - https://github.com/noctalia-dev/noctalia/archive/refs/tags/v5.0.0-beta.6.tar.gz : f20391942b635e8750dff6e37748d86562d51d6f9be62befc5495787ffe93dc8
+summary     : A sleek and minimal desktop shell thoughtfully crafted for Wayland
+description : |
+    Noctalia is a native Wayland desktop shell providing the shell layer around
+    your compositor: bars, widgets, dock, launcher, control center, notifications,
+    wallpaper, lock screen, clipboard history, OSDs and tray integration. Built
+    directly on Wayland and OpenGL ES with no Qt or GTK dependency.
+license     : MIT
+builddeps   :
+    - pkgconfig(epoxy)
+    - pkgconfig(fontconfig)
+    - pkgconfig(freetype2)
+    - pkgconfig(jemalloc)
+    - pkgconfig(libjxl)
+    - pkgconfig(libpipewire-0.3)
+    - pkgconfig(libqalculate)
+    - pkgconfig(librsvg-2.0)
+    - pkgconfig(libsecret-1)
+    - pkgconfig(libsodium)
+    - pkgconfig(libwebp)
+    - pkgconfig(md4c)
+    - pkgconfig(nlohmann_json)
+    - pkgconfig(pam)
+    - pkgconfig(pangocairo)
+    - pkgconfig(polkit-agent-1)
+    - pkgconfig(sdbus-c++)
+    - pkgconfig(tomlplusplus)
+    - pkgconfig(wayland-client)
+    - pkgconfig(wayland-protocols)
+    - pkgconfig(wireplumber-0.5)
+    - pkgconfig(xkbregistry)
+    - stb
+rundeps:
+    - power-profiles-daemon
+    - upower
+setup       : |
+    export CFLAGS+=" -I%(includedir)/stb"
+    export CXXFLAGS+=" -I%(includedir)/stb"
+
+    %meson \
+        -Djemalloc=enabled \
+        -Dtests=disabled
+build       : |
+    %meson_build
+install     : |
+    %meson_install
