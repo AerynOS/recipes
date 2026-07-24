@@ -1239,6 +1239,7 @@
 				"/usr/lib/vscode/resources/app/node_modules.asar.unpacked/@vscode/deviceid/build/Release/windows.node",
 				"/usr/lib/vscode/resources/app/node_modules.asar.unpacked/@vscode/diff/dist/diff_wasm_bg-c6YkaZRL.wasm",
 				"/usr/lib/vscode/resources/app/node_modules.asar.unpacked/@vscode/native-watchdog/build/Release/watchdog.node",
+				"/usr/lib/vscode/resources/app/node_modules.asar.unpacked/@vscode/os-proxy-resolver-linux-x64-gnu/os_proxy_resolver.node",
 				"/usr/lib/vscode/resources/app/node_modules.asar.unpacked/@vscode/policy-watcher/build/Release/vscode-policy-watcher.node",
 				"/usr/lib/vscode/resources/app/node_modules.asar.unpacked/@vscode/ripgrep-universal/bin/linux-x64/rg",
 				"/usr/lib/vscode/resources/app/node_modules.asar.unpacked/@vscode/spdlog/build/Release/spdlog.node",
@@ -1259,6 +1260,12 @@
 				"/usr/lib/vscode/resources/app/node_modules.asar.unpacked/node-pty/lib/shared/conout.js",
 				"/usr/lib/vscode/resources/app/node_modules.asar.unpacked/node-pty/lib/worker/conoutSocketWorker.js",
 				"/usr/lib/vscode/resources/app/node_modules.asar.unpacked/node-pty/package.json",
+				"/usr/lib/vscode/resources/app/node_modules.asar.unpacked/onnxruntime-node/bin/napi-v6/linux/x64/libonnxruntime.so.1",
+				"/usr/lib/vscode/resources/app/node_modules.asar.unpacked/onnxruntime-node/bin/napi-v6/linux/x64/onnxruntime_binding.node",
+				"/usr/lib/vscode/resources/app/node_modules.asar.unpacked/onnxruntime-web/dist/ort-wasm-simd-threaded.asyncify.wasm",
+				"/usr/lib/vscode/resources/app/node_modules.asar.unpacked/onnxruntime-web/dist/ort-wasm-simd-threaded.jsep.wasm",
+				"/usr/lib/vscode/resources/app/node_modules.asar.unpacked/onnxruntime-web/dist/ort-wasm-simd-threaded.jspi.wasm",
+				"/usr/lib/vscode/resources/app/node_modules.asar.unpacked/onnxruntime-web/dist/ort-wasm-simd-threaded.wasm",
 				"/usr/lib/vscode/resources/app/node_modules.asar.unpacked/vscode-oniguruma/release/onig.wasm",
 				"/usr/lib/vscode/resources/app/node_modules.asar.unpacked/vsda/build/Release/vsda.node",
 				"/usr/lib/vscode/resources/app/node_modules.asar.unpacked/vsda/rust/web/vsda_bg.wasm",
@@ -1681,6 +1688,7 @@
 				"/usr/lib/vscode/resources/app/out/vs/platform/agentHost/node/diffWorkerMain.js",
 				"/usr/lib/vscode/resources/app/out/vs/platform/browserView/electron-browser/preload-browserView.js",
 				"/usr/lib/vscode/resources/app/out/vs/platform/files/node/watcher/watcherMain.js",
+				"/usr/lib/vscode/resources/app/out/vs/platform/localTranscription/node/localTranscriptionMain.js",
 				"/usr/lib/vscode/resources/app/out/vs/platform/profiling/electron-browser/profileAnalysisWorkerMain.js",
 				"/usr/lib/vscode/resources/app/out/vs/platform/terminal/node/ptyHostMain.js",
 				"/usr/lib/vscode/resources/app/out/vs/sessions/contrib/chat/browser/media/letterpress-sessions-dark.svg",
@@ -1809,11 +1817,12 @@
 				"soname(vscode/libffmpeg.so(x86_64))",
 				"soname(vscode/libvk_swiftshader.so(x86_64))",
 				"soname(vscode/libvulkan.so.1(x86_64))",
-				"soname(vscode/resources/app/extensions/microsoft-authentication/dist/libmsalruntime.so(x86_64))"
+				"soname(vscode/resources/app/extensions/microsoft-authentication/dist/libmsalruntime.so(x86_64))",
+				"soname(vscode/resources/app/node_modules.asar.unpacked/onnxruntime-node/bin/napi-v6/linux/x64/libonnxruntime.so.1(x86_64))"
 			]
 		}
 	},
 	"source-name": "vscode-bin",
-	"source-release": "31",
-	"source-version": "1.129.1"
+	"source-release": "32",
+	"source-version": "1.130.0"
 }
