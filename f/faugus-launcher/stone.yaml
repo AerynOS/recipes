@@ -2,16 +2,15 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : faugus-launcher
-version     : "2.0.1"
-release     : 10
+version     : "2.0.2"
+release     : 11
 homepage    : https://github.com/Faugus/faugus-launcher
 upstreams   :
-    - https://github.com/Faugus/faugus-launcher/archive/refs/tags/2.0.1.tar.gz : 882f3f3c800c40ea25c463f69b511d18d536c4787557a72ccf428484238109b2
+    - https://github.com/Faugus/faugus-launcher/archive/refs/tags/2.0.2.tar.gz : f7cbe011c7eaac0dedce60efb75d0ae3fa51e54aaf3396e3ee1d3c930941d8af
 summary     : A simple and lightweight app for running Windows games using UMU-Launcher
 description : |
     A simple and lightweight app for running Windows games using UMU-Launcher
-license     :
-    - MIT
+license     : MIT
 builddeps   :
     - binary(gtk4-update-icon-cache)
 rundeps     :
@@ -23,6 +22,7 @@ rundeps     :
     - python(pygobject)
     - python(requests)
     - python(vdf)
+    - gtk-4
     - libadwaita
     - libmanette
 setup       : |
