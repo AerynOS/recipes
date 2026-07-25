@@ -1,0 +1,12 @@
+--- a/Makefile	2024-07-30 03:38:37.000000000 +0200
++++ b/Makefile	2026-07-25 23:33:11.649817391 +0200
+@@ -1,6 +1,6 @@
+-GODOT ?= /usr/bin/godot
+-GODOT_VERSION ?= $(shell godot --version | grep -o '[0-9].*[0-9]')
+-GODOT_RELEASE ?= $(shell godot --version | rev | cut -d '.' -f2 | rev)
++GODOT ?= godot
++GODOT_VERSION ?= $(shell $(GODOT) --version | grep -o '[0-9].*[0-9]\.' | sed 's/.$$//')
++GODOT_RELEASE ?= $(shell $(GODOT) --version | grep -oP '^[0-9].*?[a-z]\.' | grep -oP '[a-z]+')
+ GODOT_REVISION := $(GODOT_VERSION).$(GODOT_RELEASE)
+ EXPORT_TEMPLATE := $(HOME)/.local/share/godot/export_templates/$(GODOT_REVISION)/linux_debug.x86_64
+ EXPORT_TEMPLATE_URL ?= https://github.com/godotengine/godot/releases/download/$(GODOT_VERSION)-$(GODOT_RELEASE)/Godot_v$(GODOT_VERSION)-$(GODOT_RELEASE)_export_templates.tpz
