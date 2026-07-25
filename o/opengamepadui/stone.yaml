@@ -30,14 +30,17 @@ rundeps     :
     - binary(inputplumber)
     - binary(vulkaninfo)
 environment : |
-    export PATH="/usr/bin:/usr/sbin"
-    export GODOT="/tmp/godot"
-    export GODOT_VERSION="4.6.3"
-    export GODOT_RELEASE="stable"
+    export GODOT="godot.bin"
+    export PATH=".:${PATH}"
 setup       : |
-    # Specific godot version used to compile binaries. Not needed to be installed on target.
+    # Vendored godot binary. Only used for generating assets during the install phase.
+    # Won't be included in %(installroot) and thus won't get installed to user systems.
     bsdtar-static --no-same-owner -xf %(sourcedir)/godot.zip --strip-components=0
-    mv Godot_v${GODOT_VERSION}-${GODOT_RELEASE}_linux.x86_64 ${GODOT}
+    # We don't care which version it is, as long as it's linux.x86_64
+    ln ./Godot*linux.x86_64 ${GODOT}
+    _MSG="Vendored godot binary ${GODOT} not executable. Exiting."
+    [[ -f "${GODOT}" && -x "${GODOT}" ]] || { echo "${_MSG}" && exit 1 ;}
+
     # Workaround to have decent default settings. We need to create a new platform on OGUI
     %patch %(pkgdir)/use-chimeraos-defaults.patch
     # Enables OGUI to start properly
@@ -54,4 +57,4 @@ setup       : |
 build       : |
     %make
 install     : |
-    %make_install PREFIX=%(installroot)/usr
+    %make_install PREFIX=%(installroot)/%(prefix)
