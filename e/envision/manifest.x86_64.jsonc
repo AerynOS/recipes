@@ -4,11 +4,9 @@
 	"packages": {
 		"envision": {
 			"build-depends": [
-				"binary(appstreamcli)",
 				"binary(cargo)",
 				"binary(desktop-file-validate)",
 				"binary(glib-compile-resources)",
-				"binary(glib-compile-schemas)",
 				"binary(msgfmt)",
 				"pkgconfig(gio-2.0)",
 				"pkgconfig(glib-2.0)",
@@ -19,7 +17,6 @@
 			],
 			"depends": [
 				"binary(monado-service)",
-				"binary(wayvr)",
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libadwaita-1.so.0(x86_64))",
@@ -56,6 +53,6 @@
 		}
 	},
 	"source-name": "envision",
-	"source-release": "1",
-	"source-version": "3.2.0+git.0149a827"
+	"source-release": "2",
+	"source-version": "3.2.0+git.aa84e48e"
 }

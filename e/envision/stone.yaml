@@ -2,21 +2,19 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : envision
-version     : "3.2.0+git.0149a827"
-release     : 1
+version     : "3.2.0+git.aa84e48e"
+release     : 2
 homepage    : https://gitlab.com/gabmus/envision
 upstreams   :
-    - git|https://gitlab.com/gabmus/envision.git : 0149a82705e97b2f9cdccbc6076b4f213c9dc890
+    - git|https://gitlab.com/gabmus/envision.git : aa84e48e8de86dd12d62604340a29748b599d298
 summary     : Orchestrator for the free XR stack
 description : |
     Envision is a graphical app that acts as an orchestrator to get a full Monado setup up and running with a few clicks
 license     : AGPL-3.0-or-later
 builddeps   :
-    - binary(appstreamcli)
     - binary(cargo)
     - binary(desktop-file-validate)
     - binary(glib-compile-resources)
-    - binary(glib-compile-schemas)
     - binary(msgfmt)
     - pkgconfig(gio-2.0)
     - pkgconfig(glib-2.0)
@@ -24,9 +22,9 @@ builddeps   :
     - pkgconfig(libadwaita-1)
     - pkgconfig(openxr)
     - pkgconfig(vte-2.91-gtk4)
+    # - appstream-util
 rundeps     :
     - binary(monado-service)
-    - binary(wayvr)
     - xrizer
 networking  : true
 setup       : |

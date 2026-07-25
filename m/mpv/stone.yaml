@@ -3,7 +3,7 @@
 
 name        : mpv
 version     : "0.41.0"
-release     : 17
+release     : 18
 homepage    : https://mpv.io/
 upstreams   :
     - https://github.com/mpv-player/mpv/archive/refs/tags/v0.41.0.tar.gz : ee21092a5ee427353392360929dc64645c54479aefdb5babc5cfbb5fad626209
@@ -79,6 +79,11 @@ setup       : |
     %patch %(pkgdir)/17731.patch
     %patch %(pkgdir)/17806.patch
     %patch %(pkgdir)/18049.patch
+
+    # mpv currently only looks for unversioned libs of vapoursynth
+    # we ship vapoursynth in the base package as versioned
+    # so patch mpv to accept the .0 version as well
+    %patch %(pkgdir)/libvapoursynth-versioned.patch
 
     %meson \
         -Dlibmpv=true \

@@ -4,7 +4,10 @@
 	"packages": {
 		"wayvr": {
 			"build-depends": [
+				"binary(cmake)",
+				"binary(ninja)",
 				"pkgconfig(alsa)",
+				"pkgconfig(dav1d)",
 				"pkgconfig(dbus-1)",
 				"pkgconfig(libpipewire-0.3)",
 				"pkgconfig(libspa-0.2)",
@@ -12,6 +15,7 @@
 				"pkgconfig(openxr)",
 				"pkgconfig(shaderc)",
 				"pkgconfig(udev)",
+				"pkgconfig(vulkan)",
 				"pkgconfig(wayland-client)",
 				"pkgconfig(x11)",
 				"pkgconfig(xext)",
@@ -27,13 +31,14 @@
 				"soname(libXrandr.so.2(x86_64))",
 				"soname(libasound.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))",
-				"soname(libcrypto.so.3(x86_64))",
+				"soname(libdav1d.so.7(x86_64))",
 				"soname(libdbus-1.so.3(x86_64))",
 				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libm.so.6(x86_64))",
 				"soname(libopenxr_loader.so.1(x86_64))",
 				"soname(libpipewire-0.3.so.0(x86_64))",
-				"soname(libssl.so.3(x86_64))",
+				"soname(libstdc++.so.6(x86_64))",
+				"soname(libvulkan.so.1(x86_64))",
 				"soname(libxcb.so.1(x86_64))",
 				"soname(libxkbcommon-x11.so.0(x86_64))",
 				"soname(libxkbcommon.so.0(x86_64))"
@@ -53,6 +58,6 @@
 		}
 	},
 	"source-name": "wayvr",
-	"source-release": "1",
-	"source-version": "26.2.1"
+	"source-release": "2",
+	"source-version": "26.7.1"
 }
