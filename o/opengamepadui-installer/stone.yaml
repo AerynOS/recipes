@@ -28,21 +28,25 @@ rundeps     :
     - binary(pv)
     - binary(vulkaninfo)
 environment : |
-    export PATH="/usr/bin:/usr/sbin"
-    export GODOT="%(bindir)/godot"
-    export GODOT_VERSION="4.4.1"
-    export GODOT_RELEASE="stable"
+    export GODOT="godot.bin"
+    export PATH=".:${PATH}"
 setup       : |
+    # Vendored godot binary. Only used for generating assets during the install phase.
+    # Won't be included in %(installroot) and thus won't get installed to user systems.
     bsdtar-static --no-same-owner -xf %(sourcedir)/godot.zip --strip-components=0
-    mv Godot_v${GODOT_VERSION}-${GODOT_RELEASE}_linux.x86_64 %(bindir)/godot
+    # We don't care which version it is, as long as it's linux.x86_64
+    ln ./Godot*linux.x86_64 ${GODOT}
+    _MSG="Vendored godot binary ${GODOT} not executable. Exiting."
+    [[ -f "${GODOT}" && -x "${GODOT}" ]] || { echo "${_MSG}" && exit 1 ;}
+
     %install_file %(pkgdir)/logo.svg assets/images/logo.svg
     %install_file %(pkgdir)/logo.svg icon.svg
 build: |
     %make build
 install     : |
-    mkdir -p %(installroot)/usr/share/opengamepadui-installer
-    install -Dm755 manjaro-installer.x86_64 %(installroot)/usr/share/opengamepadui-installer/opengamepadui-installer.x86_64
-    %install_file libpty.linux.template_debug.x86_64.so %(installroot)/usr/share/opengamepadui-installer/libpty.linux.template_debug.x86_64.so
-    %install_file liblinuxthread.linux.template_debug.x86_64.so %(installroot)/usr/share/opengamepadui-installer/liblinuxthread.linux.template_debug.x86_64.so
+    mkdir -p %(installroot)%(datadir)/opengamepadui-installer
+    install -Dm755 manjaro-installer.x86_64 %(installroot)%(datadir)/opengamepadui-installer/opengamepadui-installer.x86_64
+    %install_file libpty.linux.template_debug.x86_64.so %(installroot)%(datadir)/opengamepadui-installer/libpty.linux.template_debug.x86_64.so
+    %install_file liblinuxthread.linux.template_debug.x86_64.so %(installroot)%(datadir)/opengamepadui-installer/liblinuxthread.linux.template_debug.x86_64.so
     %install_file -t %(installroot)/%(datadir)/applications %(pkgdir)/*.desktop
     %install_bin %(pkgdir)/opengamepadui-installer
