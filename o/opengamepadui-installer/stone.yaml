@@ -31,6 +31,7 @@ environment : |
     export GODOT="godot.bin"
     export PATH=".:${PATH}"
 setup       : |
+    %patch %(pkgdir)/makefile.patch
     # Vendored godot binary. Only used for generating assets during the install phase.
     # Won't be included in %(installroot) and thus won't get installed to user systems.
     bsdtar-static --no-same-owner -xf %(sourcedir)/godot.zip --strip-components=0
