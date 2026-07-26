@@ -1,0 +1,37 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"xrandr": {
+			"build-depends": [
+				"binary(sed)",
+				"pkgconfig(x11)",
+				"pkgconfig(xproto)",
+				"pkgconfig(xrandr)",
+				"pkgconfig(xrender)"
+			],
+			"depends": [
+				"glibc",
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"libx11",
+				"libxrandr",
+				"soname(libX11.so.6(x86_64))",
+				"soname(libXrandr.so.2(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libm.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/bin/xrandr",
+				"/usr/share/license/xrandr/COPYING",
+				"/usr/share/man/man1/xrandr.1"
+			],
+			"name": "xrandr",
+			"provides": [
+				"binary(xrandr)"
+			]
+		}
+	},
+	"source-name": "xrandr",
+	"source-release": "1",
+	"source-version": "1.5.4"
+}

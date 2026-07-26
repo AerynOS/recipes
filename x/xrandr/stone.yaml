@@ -1,0 +1,33 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : xrandr
+version     : "1.5.4"
+release     : 1
+homepage    : https://xorg.freedesktop.org/
+upstreams   :
+    - https://xorg.freedesktop.org/archive/individual/app/xrandr-1.5.4.tar.xz : 2cafccb2aaf2491a4068676117a0d4f90ab307724b96fffc54cd1da953779400
+summary     : Primitive command line interface to RandR extension
+description : |
+    Primitive command line interface to RandR extension
+license     : 
+    - HPND-sell-variant
+builddeps   :
+    - binary(sed)
+    - pkgconfig(x11)
+    - pkgconfig(xproto)
+    - pkgconfig(xrandr)
+    - pkgconfig(xrender)
+rundeps     :
+    - libxrandr
+    - libx11
+    - glibc
+setup       : |
+    %meson
+build       : |
+    %meson_build
+install     : |
+    %meson_install
+    %install_dir %(installroot)%(datadir)/license/xrandr
+    %install_file COPYING %(installroot)%(datadir)/license/xrandr
+    rm -f "%(installroot)/usr/bin/xkeystone"
