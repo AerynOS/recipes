@@ -2,24 +2,23 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : carapace
-version     : "1.6.3"
-release     : 1
+version     : "1.7.3"
+release     : 2
 homepage    : https://github.com/carapace-sh/carapace
 upstreams   :
-  - https://github.com/carapace-sh/carapace-bin/archive/refs/tags/v1.6.3.tar.gz : 226907d1df5a0ceabbf4ec511019cb46e4649f42642a1d1d9618a9768efb56ed
+  - https://github.com/carapace-sh/carapace-bin/archive/refs/tags/v1.7.3.tar.gz : 6e5b778538653bc3ee8b65fbc74028a6edf022ca85179bedea71882699662e89
 summary     : A multi-shell completion library
 description : |
-  Carapace-bin provides argument completion for multiple CLI commands, works across multiple POSIX and non-POSIX shells
-license     :
-  - Apache-2.0
+    Carapace-bin provides argument completion for multiple CLI commands, works across multiple POSIX and non-POSIX shells
+license     : Apache-2.0
 networking  : true
-builddeps   :
-  - binary(go)
+setup       : |
+    %go_mod
 build       : |
-  go generate ./cmd/...
-  go build -v -ldflags="-X main.version=v%(version)" ./cmd/carapace
+    go generate ./cmd/...
+    export GOFLAGS+=" -ldflags=-X=main.version=v%(version)"
+    go build -v ./cmd/carapace
 install     : |
-  %install_bin carapace
+    %install_bin carapace
 
-  %install_dir %(installroot)%(datadir)/licenses/%(name)
-  %install_file LICENSE %(installroot)%(datadir)/licenses/%(name)/LICENSE
+    %install_file LICENSE -t %(installroot)%(datadir)/licenses/%(name)/
