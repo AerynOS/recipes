@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : wine
-version     : "11.13"
-release     : 33
+version     : "11.14"
+release     : 34
 homepage    : https://www.winehq.org
 upstreams   :
-    - https://dl.winehq.org/wine/source/11.x/wine-11.13.tar.xz : 9548390c5042126b6ecf0af2cba477b75aa3e99be9797ea70d5026374c5074f1
+    - https://dl.winehq.org/wine/source/11.x/wine-11.14.tar.xz : 06b3bd872ae0d4d454b9a0c00772727701720de184d36c68597088038113edc4
 summary     : Wine is a program which allows running Microsoft Windows programs on Unix.
 description : |
     Wine is a program which allows running Microsoft Windows programs
@@ -30,6 +30,7 @@ builddeps   :
     - pkgconfig(dri)
     - pkgconfig(egl)
     - pkgconfig(fontconfig)
+    - pkgconfig(freetype2)
     - pkgconfig(gbm)
     - pkgconfig(gnutls)
     - pkgconfig(gstreamer-1.0)
@@ -50,16 +51,15 @@ builddeps   :
     - pkgconfig(sane-backends)
     - pkgconfig(sdl2-compat)
     - pkgconfig(vulkan)
-    - pkgconfig(wayland-eglstream)
     - pkgconfig(wayland-client)
-    - pkgconfig(xcursor)
+    - pkgconfig(wayland-eglstream)
     - pkgconfig(xcomposite)
+    - pkgconfig(xcursor)
     - pkgconfig(xi)
+    - pkgconfig(xinerama)
     - pkgconfig(xkbcommon)
     - pkgconfig(xrandr)
     - pkgconfig(xxf86vm)
-    - pkgconfig(xinerama)
-    - pkgconfig(freetype2)
     - gettext-devel
     # libnetapi libcapi20
 setup       : |
