@@ -3,7 +3,7 @@
 
 name        : greetd
 version     : "0.10.3"
-release     : 7
+release     : 8
 homepage    : https://git.sr.ht/~kennylevinsen/greetd
 upstreams   :
     - https://git.sr.ht/~kennylevinsen/greetd/archive/0.10.3.tar.gz : ee5cb70e0add4ca9c9fe57e47581ab0002d44c07743fb5492469f3b570db640b
@@ -13,8 +13,8 @@ description : |
 license     : GPL-3.0
 networking  : true
 builddeps   :
-    - pkgconfig(pam)
     - binary(scdoc)
+    - pkgconfig(pam)
 setup       : |
     %patch %(pkgdir)/0001-Stateless.patch
     %patch %(pkgdir)/0001-Fix-username.patch
