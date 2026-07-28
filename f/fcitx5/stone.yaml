@@ -46,6 +46,8 @@ builddeps   :
 setup       : |
     rmdir third_party/yoga
     mv /mason/build/x86_64/yoga third_party/yoga
+    # This is used because we save xdg/autostart to %(datadir)
+    # instead of /etc
     %cmake -DCMAKE_INSTALL_SYSCONFDIR=%(datadir)
 build       : |
     %cmake_build
