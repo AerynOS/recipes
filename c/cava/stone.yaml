@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : cava
-version     : "0.10.7"
-release     : 5
+version     : "1.0.0"
+release     : 6
 homepage    : https://github.com/LukashonakV/cava
 upstreams   :
-    - https://github.com/LukashonakV/cava/archive/refs/tags/0.10.7.tar.gz : 50cc6413e9c96c503657f814744a2baf429a24ff9fed31a8343e0ed285269eff
+    - https://github.com/LukashonakV/cava/archive/refs/tags/1.0.0.tar.gz : 437df0a29e52e555357a06238f4c5cbe6d51b5dd4225700cb7adbb19d8bb9474
 summary     : Cross-platform Audio Visualizer
 description : |
     Cross-platform Audio Visualizer
@@ -15,8 +15,8 @@ builddeps   :
     - pkgconfig(alsa)
     - pkgconfig(fftw3)
     - pkgconfig(gl)
-    - pkgconfig(jack)
     - pkgconfig(iniparser)
+    - pkgconfig(jack)
     - pkgconfig(libpipewire-0.3)
     - pkgconfig(libpulse)
     - pkgconfig(ncursesw)
