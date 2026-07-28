@@ -142,6 +142,9 @@ enable docker.socket
 # Run fstrim weekly on filesystems listed in fstab
 enable fstrim.timer
 
+# Periodic xfs online scrub; honors the on-disk autofsck= property
+enable xfs_scrub_all.timer
+
 # Enable Waydroid
 enable waydroid-container.service
 
