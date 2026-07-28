@@ -1,0 +1,24 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : liblqr
+version     : "0.4.3"
+release     : 1
+homepage    : https://github.com/carlobaldassi/liblqr
+upstreams   :
+    - https://github.com/carlobaldassi/liblqr/archive/refs/tags/v0.4.3.tar.gz : 64b0c4ac76d39cca79501b3f53544af3fc5f72b536ac0f28d2928319bfab6def
+summary     : LiquidRescale library for content-aware image resizing
+description : |
+    The LiquidRescale (lqr) library provides a C/C++ API for performing non-uniform resizing of images by the seam-carving technique.
+license     :
+    - GPL-3.0-or-later
+    - LGPL-3.0-or-later
+builddeps   :
+    - pkgconfig(glib-2.0)
+setup       : |
+    %configure \
+        --disable-static
+build       : |
+    %make
+install     : |
+    %make_install
