@@ -17,18 +17,18 @@ jobs:
     name: Detect file conflicts in packages
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
       - name: Run detection script
         uses: AerynOS/check-for-file-conflicts@main
         id: conflicts
-      - uses: mshick/add-pr-comment@v2
+      - uses: mshick/add-pr-comment@v3
         if: failure() && github.event_name == 'pull_request'
         with:
           message: |
               ```
               ${{ steps.conflicts.outputs.packages }}
               ```
-      - uses: mshick/add-pr-comment@v2
+      - uses: mshick/add-pr-comment@v3
         if: success() && github.event_name == 'pull_request'
         with:
           update-only: true
