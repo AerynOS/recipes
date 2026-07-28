@@ -1,0 +1,29 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : raqm
+version     : "0.11.0"
+release     : 1
+homepage    : https://github.com/HOST-Oman/libraqm
+upstreams   :
+    - https://github.com/HOST-Oman/libraqm/releases/download/v0.11.0/raqm-0.11.0.tar.xz : 3d0add115f7d4a9410d3377462ed3c05e86342193ef984183e4380e3787b2d4c
+summary     : A library for complex text layout
+description : |
+    Raqm is a small library that encapsulates the logic for complex text layout and provides a convenient API.
+
+    It currently provides bidirectional text support (using FriBiDi), shaping (using HarfBuzz), and proper script itemization. As a result, Raqm can support most writing systems covered by Unicode.
+license     : MIT
+builddeps   :
+    - pkgconfig(freetype2)
+    - pkgconfig(fribidi)
+    - pkgconfig(harfbuzz)
+setup       : |
+    %meson \
+        -Ddocs=false \
+        -Dtests=true
+build       : |
+    %meson_build
+install     : |
+    %meson_install
+check       : |
+    %meson_test
