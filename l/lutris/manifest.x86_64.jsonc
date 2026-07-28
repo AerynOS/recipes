@@ -4,11 +4,8 @@
 	"packages": {
 		"lutris": {
 			"build-depends": [
-				"appstream",
-				"binary(desktop-file-validate)",
-				"gettext",
-				"pkgconfig(protobuf)",
-				"python-poetry-core"
+				"binary(gettext)",
+				"pkgconfig(protobuf)"
 			],
 			"depends": [
 				"cabextract",
@@ -31,6 +28,7 @@
 				"python-evdev",
 				"python-lxml",
 				"python-pillow",
+				"python-protobuf",
 				"python-pygobject",
 				"python-pyyaml",
 				"python-requests",
@@ -720,5 +718,5 @@
 	},
 	"source-name": "lutris",
 	"source-release": "1",
-	"source-version": "0.5.22-git.9f1043b17"
+	"source-version": "0.5.22-git.9f1043b"
 }

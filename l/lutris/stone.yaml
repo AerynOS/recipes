@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : lutris
-version     : "0.5.22-git.9f1043b17"
+version     : "0.5.22-git.9f1043b"
 release     : 1
 homepage    : https://github.com/lutris/lutris
 upstreams   :
@@ -14,11 +14,8 @@ description : |
 license     : 
     - GPL-3.0
 builddeps   :
-    - appstream
-    - binary(desktop-file-validate)
     - pkgconfig(protobuf)
-    - python-poetry-core
-    - gettext
+    - binary(gettext)
 rundeps     :
     - cabextract
     - curl
@@ -47,11 +44,10 @@ rundeps     :
     - webkit2gtk41
     - vulkan-loader-32bit
     - libglvnd-32bit
-#optional
-#   - python-protobuf
+    - python-protobuf
+# need but no package
 #   - python-moddb
-#   - lingnutls-32bit
-#   - xorg-xrandr
+#   - libgnutls-32bit
 setup       : |
     # Regenerate protos to fix BattleNet plugin
     # See https://gitlab.archlinux.org/archlinux/packaging/packages/lutris/-/issues/4
