@@ -1,0 +1,70 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : lutris
+version     : "0.5.22"
+release     : 1
+homepage    : https://github.com/lutris/lutris
+upstreams   :
+    - https://github.com/lutris/lutris/archive/refs/tags/v0.5.22.tar.gz : 1001b215d68c7e450b74bcf11510adb3ac60074ed46d5a160eb851bafcc14c3c
+    - git|https://github.com/bartok765/galaxy_blizzard_plugin.git : 83cfb024ebc00cbc71702f101671bea596cfc96f # master
+summary     : Lutris desktop client
+description : |
+    Open Gaming Platform
+license     : 
+    - GPL-3.0
+builddeps   :
+    - appstream
+    - binary(desktop-file-validate)
+    - pkgconfig(protobuf)
+    - python-poetry-core
+    - gettext
+rundeps     :
+    - cabextract
+    - curl
+    - gdk-pixbuf
+    - glib2
+    - gnome-desktop
+    - gobject-introspection-runtime
+    - gtk-3
+    - hicolor-icon-theme
+    - mesa-demos
+    - p7zip
+    - pango
+    - psmisc
+    - python
+    - python-cairo
+    - python-certifi
+    - python-dbus
+    - python-distro
+    - python-evdev
+    - python-pygobject
+    - python-lxml
+#    - python-moddb
+    - python-pillow
+    - python-requests
+    - python-urllib3
+    - python-pyyaml
+    - unzip
+    - webkit2gtk41
+    - vulkan-loader-32bit
+    - libglvnd-32bit
+#   - lingnutls-32bit
+#   - xorg-xrandr
+setup       : |
+    # Regenerate protos to fix BattleNet plugin
+    # See https://gitlab.archlinux.org/archlinux/packaging/packages/lutris/-/issues/4
+    # And https://github.com/lutris/lutris/issues/5659
+    protoc --proto_path=../galaxy_blizzard_plugin.git/src --python_out=. product_db.proto
+    cp -vf product_db_pb2.py lutris/util/battlenet/product_db_pb2.py
+    %meson
+build       : |
+    %meson_build
+install     : |
+    %meson_install
+    # fake xrandr starting process need
+    # This is a dummy xrandr script created solely for Lutris startup dependency check.
+    # Lutris requires the 'xrandr' command to exist (returns exit code 0) during launch.
+    echo -e '#!/bin/bash\nexit 0' | tee %(installroot)/usr/bin/xrandr > /dev/null
+    chmod 755 %(installroot)/usr/bin/xrandr
+
