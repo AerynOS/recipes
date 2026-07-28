@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : lutris
-version     : "0.5.22"
+version     : "0.5.22-git.9f1043b17"
 release     : 1
 homepage    : https://github.com/lutris/lutris
 upstreams   :
-    - https://github.com/lutris/lutris/archive/refs/tags/v0.5.22.tar.gz : 1001b215d68c7e450b74bcf11510adb3ac60074ed46d5a160eb851bafcc14c3c
+    - git|https://github.com/lutris/lutris.git : 9f1043b1770ac9b326540ef9bc04f6daf4dc3311 # master
     - git|https://github.com/bartok765/galaxy_blizzard_plugin.git : 83cfb024ebc00cbc71702f101671bea596cfc96f # master
 summary     : Lutris desktop client
 description : |
@@ -28,7 +28,6 @@ rundeps     :
     - gobject-introspection-runtime
     - gtk-3
     - hicolor-icon-theme
-    - mesa-demos
     - p7zip
     - pango
     - psmisc
@@ -48,6 +47,8 @@ rundeps     :
     - webkit2gtk41
     - vulkan-loader-32bit
     - libglvnd-32bit
+#optional
+#   - python-protobuf
 #   - python-moddb
 #   - lingnutls-32bit
 #   - xorg-xrandr
@@ -62,10 +63,5 @@ build       : |
     %meson_build
 install     : |
     %meson_install
-    # fake xrandr, starting process need
-    # This is a dummy xrandr script created solely for Lutris startup dependency check.
-    # Lutris requires the 'xrandr' command to exist (returns exit code 0) during launch.
-    # If you no longer need Lutris or have installed the real xrandr, feel free to delete this file.
-    echo -e '#!/bin/bash\nexit 0' | tee %(installroot)/usr/bin/xrandr > /dev/null
-    chmod 755 %(installroot)/usr/bin/xrandr
+
 
