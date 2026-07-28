@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : dankmaterialshell
-version     : "1.5.2"
-release     : 13
+version     : "1.5.3"
+release     : 14
 homepage    : https://danklinux.com/
 upstreams   :
-    - https://github.com/AvengeMedia/DankMaterialShell/archive/refs/tags/v1.5.2.tar.gz : 2fa4fccb9e3fd259fb5e2c8d6e5fe329096f893ca6b8ac9766c699061e0b347c
+    - https://github.com/AvengeMedia/DankMaterialShell/archive/refs/tags/v1.5.3.tar.gz : 2d665870f7019700fb38d59d043202e298e1aad1d3f1cb96360a75acbd3be9ca
 summary     : Desktop shell for wayland compositor
 description : |
     DankMaterialShell (dms) is a Wayland desktop shell built with Quickshell and Go. It serves a purpose similar to GNOME Shell or KDE Plasma, providing a unified interface for launching applications, managing windows, managing hardware interfaces, notifications, and much more.
@@ -18,8 +18,8 @@ license     :
 builddeps   :
     - binary(go)
 rundeps     :
-    - accountsservice # User integration
     - binary(quickshell)
+    - accountsservice # User integration
 networking  : true
 setup       : |
     cd core
