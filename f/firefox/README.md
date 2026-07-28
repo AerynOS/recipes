@@ -15,6 +15,8 @@
 
 With PGO, the build takes around 70-75 minutes on an R9 5950X 16c/32t system w/NVMe 4x4 drive.
 
+PGO needs host networking and binds on port 8000. Make sure nothing else is using it before building.
+
 ## Firefox langpacks
 
     chpkg firefox-langpacks
