@@ -1,3 +1,8 @@
+<!--
+# SPDX-FileCopyrightText: 2024 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+-->
+
 ## Maintainer notes for systemd
 
 It is preferable to update systemd before doing kernel builds, if a minor systemd
