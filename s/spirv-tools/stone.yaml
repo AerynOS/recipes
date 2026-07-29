@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : spirv-tools
-version     : "2026.2"
-release     : 16
+version     : "2026.3"
+release     : 17
 homepage    : https://github.com/KhronosGroup/SPIRV-Tools
 upstreams   :
-    - git|https://github.com/KhronosGroup/SPIRV-Tools.git: 0539c81f69a3daeb706fd3477dca61435b475156 # vulkan-sdk-1.4.350.0
+    - git|https://github.com/KhronosGroup/SPIRV-Tools.git: 9a49b0883b9b635689a85b5647dbfcb223268151 # vulkan-sdk-1.4.357.0
 summary     : The SPIR-V Tools project provides an API and commands for processing SPIR-V modules.
 description : |
     The project includes an assembler, binary module parser, disassembler, validator, and optimizer for SPIR-V. Except for the optimizer, all are based on a common static library. The library contains all of the implementation details, and is used in the standalone tools whilst also enabling integration into other code bases directly. The optimizer implementation resides in its own library, which depends on the core library.
