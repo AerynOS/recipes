@@ -67,7 +67,6 @@
 				"cmake(SPIRV-Tools)"
 			],
 			"depends": [
-				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libSPIRV-Tools-opt.so(x86_64))",
 				"soname(libSPIRV-Tools.so(x86_64))",
 				"soname(libc.so.6(x86_64))",
@@ -76,11 +75,11 @@
 			],
 			"files": [
 				"/usr/lib/libSPIRV.so.16",
-				"/usr/lib/libSPIRV.so.16.3.0",
+				"/usr/lib/libSPIRV.so.16.4.0",
 				"/usr/lib/libglslang-default-resource-limits.so.16",
-				"/usr/lib/libglslang-default-resource-limits.so.16.3.0",
+				"/usr/lib/libglslang-default-resource-limits.so.16.4.0",
 				"/usr/lib/libglslang.so.16",
-				"/usr/lib/libglslang.so.16.3.0"
+				"/usr/lib/libglslang.so.16.4.0"
 			],
 			"name": "glslang-libs",
 			"provides": [
@@ -91,6 +90,6 @@
 		}
 	},
 	"source-name": "glslang",
-	"source-release": "14",
-	"source-version": "16.3.0"
+	"source-release": "15",
+	"source-version": "16.4.0"
 }
