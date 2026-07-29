@@ -1,0 +1,57 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"liblqr": {
+			"build-depends": [
+				"pkgconfig(glib-2.0)"
+			],
+			"depends": [
+				"soname(libc.so.6(x86_64))",
+				"soname(libglib-2.0.so.0(x86_64))",
+				"soname(libm.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/lib/liblqr-1.so.0",
+				"/usr/lib/liblqr-1.so.0.3.2"
+			],
+			"name": "liblqr",
+			"provides": [
+				"soname(liblqr-1.so.0(x86_64))"
+			]
+		},
+		"liblqr-devel": {
+			"build-depends": [
+				"pkgconfig(glib-2.0)"
+			],
+			"depends": [
+				"liblqr",
+				"pkgconfig(glib-2.0)"
+			],
+			"files": [
+				"/usr/include/lqr-1/lqr.h",
+				"/usr/include/lqr-1/lqr/lqr_base.h",
+				"/usr/include/lqr-1/lqr/lqr_carver_bias_pub.h",
+				"/usr/include/lqr-1/lqr/lqr_carver_list_pub.h",
+				"/usr/include/lqr-1/lqr/lqr_carver_pub.h",
+				"/usr/include/lqr-1/lqr/lqr_carver_rigmask_pub.h",
+				"/usr/include/lqr-1/lqr/lqr_cursor_pub.h",
+				"/usr/include/lqr-1/lqr/lqr_energy_pub.h",
+				"/usr/include/lqr-1/lqr/lqr_gradient_pub.h",
+				"/usr/include/lqr-1/lqr/lqr_progress_pub.h",
+				"/usr/include/lqr-1/lqr/lqr_rwindow_pub.h",
+				"/usr/include/lqr-1/lqr/lqr_vmap_list_pub.h",
+				"/usr/include/lqr-1/lqr/lqr_vmap_pub.h",
+				"/usr/lib/liblqr-1.so",
+				"/usr/lib/pkgconfig/lqr-1.pc"
+			],
+			"name": "liblqr-devel",
+			"provides": [
+				"pkgconfig(lqr-1)"
+			]
+		}
+	},
+	"source-name": "liblqr",
+	"source-release": "1",
+	"source-version": "0.4.3"
+}

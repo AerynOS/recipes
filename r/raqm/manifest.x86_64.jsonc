@@ -1,0 +1,53 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"raqm": {
+			"build-depends": [
+				"pkgconfig(freetype2)",
+				"pkgconfig(fribidi)",
+				"pkgconfig(harfbuzz)"
+			],
+			"depends": [
+				"soname(libc.so.6(x86_64))",
+				"soname(libfreetype.so.6(x86_64))",
+				"soname(libfribidi.so.0(x86_64))",
+				"soname(libharfbuzz.so.0(x86_64))"
+			],
+			"files": [
+				"/usr/lib/libraqm.so.0",
+				"/usr/lib/libraqm.so.0.11.0"
+			],
+			"name": "raqm",
+			"provides": [
+				"soname(libraqm.so.0(x86_64))"
+			]
+		},
+		"raqm-devel": {
+			"build-depends": [
+				"pkgconfig(freetype2)",
+				"pkgconfig(fribidi)",
+				"pkgconfig(harfbuzz)"
+			],
+			"depends": [
+				"pkgconfig(freetype2)",
+				"pkgconfig(fribidi)",
+				"pkgconfig(harfbuzz)",
+				"raqm"
+			],
+			"files": [
+				"/usr/include/raqm-version.h",
+				"/usr/include/raqm.h",
+				"/usr/lib/libraqm.so",
+				"/usr/lib/pkgconfig/raqm.pc"
+			],
+			"name": "raqm-devel",
+			"provides": [
+				"pkgconfig(raqm)"
+			]
+		}
+	},
+	"source-name": "raqm",
+	"source-release": "1",
+	"source-version": "0.11.0"
+}

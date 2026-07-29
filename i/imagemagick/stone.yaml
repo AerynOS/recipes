@@ -2,10 +2,10 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : imagemagick
-version     : "7.1.2-28"
-release     : 19
+version     : "7.1.2-29"
+release     : 20
 upstreams   :
-    - https://github.com/ImageMagick/ImageMagick/archive/refs/tags/7.1.2-28.tar.gz : b4a5ec023644fd345f1e22b1ab92af3fb6762dceb56de805dde53b0ce515c481
+    - https://github.com/ImageMagick/ImageMagick/archive/refs/tags/7.1.2-29.tar.gz : b05924ad73c6932ba62c9b32f338f0619b90b767162c8b767f3566556187a284
 homepage    : https://imagemagick.org/
 license     : Apache-2.0
 summary     : ImageMagick® suite to create, edit, compose, or convert bitmap images
@@ -36,7 +36,9 @@ builddeps   :
     - pkgconfig(libxml-2.0)
     - pkgconfig(libzip)
     - pkgconfig(libzstd)
+    - pkgconfig(lqr-1)
     - pkgconfig(pangocairo)
+    - pkgconfig(raqm)
     - pkgconfig(sm)
     - pkgconfig(xt)
     - pkgconfig(zlib)
@@ -44,9 +46,7 @@ builddeps   :
     - libtool-ltldl-devel
     - perl-devel
     # TODO:
-    # - lqr-1
     # - libwmf
-    # - raqm
 setup       : |
     %patch %(pkgdir)/Stateless.patch
     %configure \
