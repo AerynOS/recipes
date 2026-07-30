@@ -1,0 +1,48 @@
+From 228c55d1d94614f14ec374213b98897f43df1cb8 Mon Sep 17 00:00:00 2001
+From: Alexander Egorov <begeebe@gmail.com>
+Date: Tue, 19 May 2026 18:51:24 +0300
+Subject: [PATCH 79/91] [FROM-ML] platform/x86: oxpec: add support for
+ OneXPlayer Super X
+
+OneXPlayer Super X identifies itself via DMI as:
+
+  board vendor: ONE-NETBOOK
+  board name:   ONEXPLAYER SUPER X
+  product name: ONEXPLAYER SUPER X
+
+Current mainline oxpec does not contain a matching DMI entry for this
+system, so the in-tree driver is not auto-loaded.
+
+The tested Super X fan, PWM, turbo-toggle, and battery charge-control EC
+layout matches the existing ONEXPLAYER G1 A handling.
+
+Add a DMI match for OneXPlayer Super X and reuse the oxp_g1_a board data.
+
+Reviewed-by: Derek J Clark <derekjohn.clark@gmail.com>
+Reviewed-by: Antheas Kapenekakis <lkml@antheas.dev>
+Signed-off-by: Alexander Egorov <begeebe@gmail.com>
+---
+ drivers/platform/x86/oxpec.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/drivers/platform/x86/oxpec.c b/drivers/platform/x86/oxpec.c
+index 6d4a53a2ed60..99c0dfcf393b 100644
+--- a/drivers/platform/x86/oxpec.c
++++ b/drivers/platform/x86/oxpec.c
+@@ -205,6 +205,13 @@ static const struct dmi_system_id dmi_table[] = {
+ 		},
+ 		.driver_data = (void *)oxp_g1_a,
+ 	},
++	{
++		.matches = {
++			DMI_MATCH(DMI_BOARD_VENDOR, "ONE-NETBOOK"),
++			DMI_EXACT_MATCH(DMI_BOARD_NAME, "ONEXPLAYER SUPER X"),
++		},
++		.driver_data = (void *)oxp_g1_a,
++	},
+ 	{
+ 		.matches = {
+ 			DMI_MATCH(DMI_BOARD_VENDOR, "ONE-NETBOOK"),
+-- 
+2.55.0
+
