@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : intel-media-driver
-version     : "26.1.5" # Update-checker will return additional tags, but these are testing releases. Only use versions that are in the "releases"
-release     : 6
+version     : "26.2.4" # Update-checker will return additional tags, but these are testing releases. Only use versions that are in the "releases"
+release     : 7
 homepage    : https://github.com/intel/media-driver
 upstreams   :
-    - https://github.com/intel/media-driver/archive/refs/tags/intel-media-26.1.5.tar.gz : c56899fecc003d047ce6afbdf471851512e0ceac66c2ef22ac36f1e6ce46170c
+    - https://github.com/intel/media-driver/archive/refs/tags/intel-media-26.2.4.tar.gz : a23185fca05c8fa8bdec09ea9ee8a20361163c87035ec978de4e2bb048a55534
 summary     : VA-API driver for Intel Gen graphics
 description : |
     VA-API driver for Intel Gen graphics
@@ -18,12 +18,11 @@ builddeps   :
     - pkgconfig(libva)
     - pkgconfig(x11)
 setup       : |
-    %patch %(pkgdir)/ftbfs-cmake-4.patch
-
     # error: variable length arrays in C++ are a Clang extension (MEDIA_BUILD_FATAL_WARNINGS=OFF)
     %cmake \
         -DMEDIA_RUN_TEST_SUITE:BOOL=False \
-        -DMEDIA_BUILD_FATAL_WARNINGS=OFF
+        -DMEDIA_BUILD_FATAL_WARNINGS=OFF \
+        -DCMAKE_POLICY_VERSION_MINIMUM=3.5
 build       : |
     %cmake_build
 install     : |
