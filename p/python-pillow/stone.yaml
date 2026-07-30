@@ -3,7 +3,7 @@
 
 name        : python-pillow
 version     : "12.3.0"
-release     : 4
+release     : 5
 homepage    : https://python-pillow.github.io/
 upstreams   :
     - https://github.com/python-pillow/Pillow/archive/refs/tags/12.3.0.tar.gz : d7ce60fdf8b3d3b4370ea213834d7c852b1ca16396d4e75e5046be815b11b2fb
@@ -23,11 +23,11 @@ builddeps   :
     - pkgconfig(libtiff-4)
     - pkgconfig(libwebp)
     - pkgconfig(python3)
+    - pkgconfig(raqm)
     - pkgconfig(zlib)
     - python(pybind11)
     - python(setuptools)
     # libimagequant
-    # raqm
 rundeps     :
     - binary(gs)
 build       : |
