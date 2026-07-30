@@ -1,12 +1,22 @@
+From 6635a9ae2c26cd2696c44def1f5409e42736c0cb Mon Sep 17 00:00:00 2001
+From: probablychant <126305902+theonlychant@users.noreply.github.com>
+Date: Mon, 6 Apr 2026 01:39:53 -0500
+Subject: [PATCH] making a pull to fix the issue::[Bug]: EHW Exception: unknown
+ ext. buffer Id #377
+
+---
+ _studio/mfx_lib/shared/include/mfx_utils_extbuf.h | 1 +
+ 1 file changed, 1 insertion(+)
+
 diff --git a/_studio/mfx_lib/shared/include/mfx_utils_extbuf.h b/_studio/mfx_lib/shared/include/mfx_utils_extbuf.h
-index 5c8260bf..1f9a4cf2 100644
+index 5c8260bf86..1f9a4cf281 100644
 --- a/_studio/mfx_lib/shared/include/mfx_utils_extbuf.h
 +++ b/_studio/mfx_lib/shared/include/mfx_utils_extbuf.h
 @@ -31,6 +31,7 @@
  #include "mfxenctools-int.h"
  #endif
-
+ 
 +#include "mfxav1.h"
-
+ 
  #ifdef MFX_ENABLE_ENCODE_STATS
  #include "mfxencodestats.h"
