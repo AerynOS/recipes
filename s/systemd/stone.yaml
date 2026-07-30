@@ -3,7 +3,7 @@
 
 name        : systemd
 version     : "260.4"
-release     : 90
+release     : 91
 summary     : A System and Service Manager
 license     :
     - GPL-2.0-or-later
@@ -267,7 +267,8 @@ install     : |
     %install_file %(pkgdir)/configs/oomd/10-oomd-user-service-defaults.conf %(installroot)%(libdir)/systemd/system/user@.service.d/10-oomd-defaults.conf
 
     # Resolved configuration
-    %install_file %(pkgdir)/configs/resolved/00-disable-mdns.conf %(installroot)%(libdir)/systemd/resolved.conf.d/00-disable-mdns.conf
+    # Temporarily disabled until we figure out how we want to handle mDNS (https://github.com/AerynOS/recipes/issues/1952)
+    # %install_file %(pkgdir)/configs/resolved/00-disable-mdns.conf %(installroot)%(libdir)/systemd/resolved.conf.d/00-disable-mdns.conf
 
     # Allow kmscon to take over
     # - disable until further notice due to KMSCon stealing focus from display managers
