@@ -3,7 +3,7 @@
 
 name        : gettext
 version     : "1.0"
-release     : 11
+release     : 12
 summary     : GNU locale utilities
 license     : GPL-3.0-or-later
 homepage    : https://www.gnu.org/software/gettext/gettext.html
@@ -47,6 +47,9 @@ packages    :
             - "%(name)-libs"
 
     - "%(name)-devel":
+        rundeps:
+            # /usr/bin/autopoint: 535: tar: not found
+            - binary(tar)
         paths:
             - /usr/bin/autopoint
             - /usr/bin/gettextize
