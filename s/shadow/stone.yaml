@@ -3,7 +3,7 @@
 
 name        : shadow
 version     : "4.20.0"
-release     : 9
+release     : 10
 summary     : PAM-using login and passwd utilities
 license     : BSD-3-Clause
 homepage    : https://github.com/shadow-maint/shadow
@@ -45,6 +45,10 @@ install     : |
     %install_dir %(installroot)%(vendordir)
     mv %(installroot)/etc/login.defs %(installroot)%(vendordir)
 
+    # Part of sudo/util-linux
+    rm -rfv %(installroot)%(mandir)/man1/su.1* \
+            %(installroot)%(mandir)/man8/sulogin.8*
+
     # Stateless PAM
     %install_dir %(installroot)/%(vendordir)
     mv %(installroot)/etc/pam.d %(installroot)/%(vendordir)/
@@ -58,11 +62,11 @@ install     : |
     done
 
     # Remove files that conflict with util-linux
-    # Expect logoutd, vipw, vigr, newgrp, sg to conflict also at a later point
+    # Expect vipw, vigr, newgrp, sg to conflict also at a later point
     for file in login nologin chfn chsh; do
-        find %(installroot)/usr -wholename "*bin/${file}*" -type f -exec rm {} \; # binaries
-        find %(installroot)/%(vendordir) -name "${file}" -type f -exec rm {} \; # pam files
-        #find %(installroot)/usr/share/man -name "*${file}*" -type f -exec rm {} \; # man pages
+        find %(installroot)/usr -wholename "*bin/${file}*" -type f -print -exec rm {} \; # binaries
+        find %(installroot)%(vendordir) -name "${file}" -type f -print -exec rm {} \; # pam files
+        find %(installroot)%(mandir) -regextype posix-extended -regex ".*/${file}.[0-9]" -type f -print -exec rm {} \; # man pages
     done
 
     # Ensure /etc/sub{g,u}id files exist
