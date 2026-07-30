@@ -1,0 +1,33 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : gitte
+version     : "0.9.1"
+release     : 1
+homepage    : https://codeberg.org/ckruse/Gitte
+upstreams   :
+    - https://codeberg.org/ckruse/Gitte/archive/0.9.1.tar.gz : 5ae0fedc6925fd83f51387da4b170d954379eba0e85291dcfe54319dfc12111c
+summary     : A GTK4/libadwaita Git client for the GNOME desktop, written in Rust with Relm4.
+description : |
+    A GTK4/libadwaita Git client for the GNOME desktop, written in Rust. It is heavily inspired by Git Tower and Magit. The name Gitte is a play on words. It is the diminutive form of the German female first name Brigitte and is pronounced "Git-ty" in English (with a hard G like in GIF).
+license     : AGPL-3.0-or-later
+builddeps   :
+    - binary(glib-compile-resources)
+    - binary(gtk-update-icon-cache)
+    - binary(msgfmt)
+    - binary(rustc)
+    - binary(update-desktop-database)
+    - pkgconfig(cairo-gobject)
+    - pkgconfig(gdk-pixbuf-2.0)
+    - pkgconfig(gtk4)
+    - pkgconfig(libadwaita-1)
+    - pkgconfig(pango)
+rundeps     :
+    - gvfs
+networking  : true
+setup       : |
+    %meson
+build       : |
+    %meson_build
+install     : |
+    %meson_install
