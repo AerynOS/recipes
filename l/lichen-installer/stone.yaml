@@ -19,19 +19,20 @@ networking  : true
 rundeps     :
     - binary(btrfs)
     - binary(moss)
-    - iso-codes
     - sysbinary(mkfs.bcachefs)
     - sysbinary(mkfs.ext4)
     - sysbinary(mkfs.f2fs)
     - sysbinary(mkfs.vfat)
     - sysbinary(mkfs.xfs)
+    - iso-codes
 setup       : |
     %cargo_fetch
 build       : |
     %cargo_build
 install     : |
     %cargo_install lichen_cli
+    mv %(installroot)%(bindir)/lichen_cli lichen-cli
     %cargo_install lichen_backend
     %install_file %(pkgdir)/lichen-installer.desktop -t %(installroot)/%(datadir)/applications/
     %install_file %(pkgdir)/org.freedesktop.policykit.pkexec.lichen-installer.policy -t %(installroot)/%(datadir)/polkit-1/actions/
-    %install_exe %(pkgdir)/lichen-cli.sh %(installroot)%(bindir)/lichen
+    %install_exe %(pkgdir)/lichen-cli.sh %(installroot)%(bindir)/lichen-new-cli

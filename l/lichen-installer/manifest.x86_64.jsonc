@@ -23,17 +23,15 @@
 				"sysbinary(mkfs.xfs)"
 			],
 			"files": [
-				"/usr/bin/lichen",
+				"/usr/bin/lichen-new-cli",
 				"/usr/bin/lichen_backend",
-				"/usr/bin/lichen_cli",
 				"/usr/share/applications/lichen-installer.desktop",
 				"/usr/share/polkit-1/actions/org.freedesktop.policykit.pkexec.lichen-installer.policy"
 			],
 			"name": "lichen-installer",
 			"provides": [
-				"binary(lichen)",
-				"binary(lichen_backend)",
-				"binary(lichen_cli)"
+				"binary(lichen-new-cli)",
+				"binary(lichen_backend)"
 			]
 		}
 	},

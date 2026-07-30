@@ -1,15 +1,17 @@
 #!/usr/bin/env bash
 
+_FRONTEND=lichen-cli
+_BACKEND=lichen_backend
 SOCKET=/run/lichen.sock
 
 # The privileged backend owns all installer logic; the frontend runs unprivileged.
-pkexec lichen_backend > /dev/null 2>&1 &
+pkexec ${_BACKEND} > /dev/null 2>&1 &
 sleep 0.5s
 
 PARSED=$(getopt -o i:s:hV --long install-model,system-model,help,version -n "$0" -- "$@")
 
 if [ $? -ne 0 ]; then
-  lichen_cli -h
+  ${_FRONTEND} -h
   exit 0
 fi
 
@@ -31,11 +33,11 @@ while true; do
       shift 2
       ;;
     -h|--help)
-      lichen_cli -h
+      ${_FRONTEND} -h
       exit 0
       ;;
     -V|--version)
-      lichen_cli -V
+      ${_FRONTEND} -V
       exit 0
       ;;
     --)
@@ -58,10 +60,9 @@ LICHEN_ARGS=()
 
 echo "${LICHEN_ARGS[@]}"
 
-lichen_cli "${LICHEN_ARGS[@]}"
+${_FRONTEND} "${LICHEN_ARGS[@]}"
 
 if [[ $? -ne 0 ]]; then
   echo
   read -p "Press any key to exit..."
 fi
-
