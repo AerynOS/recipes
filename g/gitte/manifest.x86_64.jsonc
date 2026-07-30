@@ -1,0 +1,64 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"gitte": {
+			"build-depends": [
+				"binary(glib-compile-resources)",
+				"binary(gtk-update-icon-cache)",
+				"binary(msgfmt)",
+				"binary(rustc)",
+				"binary(update-desktop-database)",
+				"pkgconfig(cairo-gobject)",
+				"pkgconfig(gdk-pixbuf-2.0)",
+				"pkgconfig(gtk4)",
+				"pkgconfig(libadwaita-1)",
+				"pkgconfig(pango)"
+			],
+			"depends": [
+				"gvfs",
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(ld-linux-x86-64.so.2(x86_64))",
+				"soname(libadwaita-1.so.0(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libcairo.so.2(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libgio-2.0.so.0(x86_64))",
+				"soname(libglib-2.0.so.0(x86_64))",
+				"soname(libgobject-2.0.so.0(x86_64))",
+				"soname(libgraphene-1.0.so.0(x86_64))",
+				"soname(libgtk-4.so.1(x86_64))",
+				"soname(libm.so.6(x86_64))",
+				"soname(libpango-1.0.so.0(x86_64))",
+				"soname(libpangocairo-1.0.so.0(x86_64))",
+				"soname(libz.so.1(x86_64))"
+			],
+			"files": [
+				"/usr/bin/gitte",
+				"/usr/lib/gitte/gitte/gitte-askpass",
+				"/usr/share/applications/de.wwwtech.gitte.desktop",
+				"/usr/share/dbus-1/services/de.wwwtech.gitte.service",
+				"/usr/share/gitte/gitte.gresource",
+				"/usr/share/glib-2.0/schemas/de.wwwtech.gitte.gschema.xml",
+				"/usr/share/icons/hicolor/scalable/apps/de.wwwtech.gitte.svg",
+				"/usr/share/icons/hicolor/symbolic/apps/de.wwwtech.gitte-symbolic.svg",
+				"/usr/share/locale/de/LC_MESSAGES/gitte.mo",
+				"/usr/share/locale/eu/LC_MESSAGES/gitte.mo",
+				"/usr/share/locale/fi/LC_MESSAGES/gitte.mo",
+				"/usr/share/locale/kw/LC_MESSAGES/gitte.mo",
+				"/usr/share/locale/sl/LC_MESSAGES/gitte.mo",
+				"/usr/share/locale/sr/LC_MESSAGES/gitte.mo",
+				"/usr/share/locale/uk/LC_MESSAGES/gitte.mo",
+				"/usr/share/locale/zh_CN/LC_MESSAGES/gitte.mo",
+				"/usr/share/metainfo/de.wwwtech.gitte.metainfo.xml"
+			],
+			"name": "gitte",
+			"provides": [
+				"binary(gitte)"
+			]
+		}
+	},
+	"source-name": "gitte",
+	"source-release": "1",
+	"source-version": "0.9.1"
+}
