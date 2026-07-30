@@ -9,7 +9,7 @@ license     : MPL-2.0
 homepage    : https://github.com/AerynOS/lichen-installer
 upstreams   :
     - git|https://github.com/AerynOS/lichen-installer.git :
-         ref : c8df396cf43f5a3b0e08c325bc399b38d0b9e6c0
+         ref : 265797ebcc4444825b7677bfa5925bc7066783ae
 description : |
     Experimental OS installer
 builddeps   :
@@ -31,7 +31,7 @@ build       : |
     %cargo_build
 install     : |
     %cargo_install lichen_cli
-    mv %(installroot)%(bindir)/lichen_cli lichen-cli
+    mv %(installroot)%(bindir)/lichen_cli %(installroot)%(bindir)/lichen-cli
     %cargo_install lichen_backend
     %install_file %(pkgdir)/lichen-installer.desktop -t %(installroot)/%(datadir)/applications/
     %install_file %(pkgdir)/org.freedesktop.policykit.pkexec.lichen-installer.policy -t %(installroot)/%(datadir)/polkit-1/actions/

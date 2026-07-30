@@ -23,6 +23,7 @@
 				"sysbinary(mkfs.xfs)"
 			],
 			"files": [
+				"/usr/bin/lichen-cli",
 				"/usr/bin/lichen-new-cli",
 				"/usr/bin/lichen_backend",
 				"/usr/share/applications/lichen-installer.desktop",
@@ -30,6 +31,7 @@
 			],
 			"name": "lichen-installer",
 			"provides": [
+				"binary(lichen-cli)",
 				"binary(lichen-new-cli)",
 				"binary(lichen_backend)"
 			]
