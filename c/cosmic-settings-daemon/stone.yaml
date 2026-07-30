@@ -2,13 +2,13 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : cosmic-settings-daemon
-version     : "1.4.0"
-release     : 48
+version     : "1.5.0"
+release     : 49
 summary     : Cosmic Settings Daemon
 license     : GPL-3.0
 homepage    : https://github.com/pop-os/cosmic-settings-daemon
 upstreams   :
-    - https://github.com/pop-os/cosmic-settings-daemon/archive/refs/tags/epoch-1.4.0.tar.gz : 83057e054570d26e8106b2069f9bbef9c20cb0f6ead18e259a66465f13c3b2df
+    - https://github.com/pop-os/cosmic-settings-daemon/archive/refs/tags/epoch-1.5.0.tar.gz : 5b404784098e5b92f989e7b7c4e0c645b2f60c3b385c283ad052d75b5d75952c
 description : |
     Cosmic Settings Daemon
 builddeps   :
@@ -21,8 +21,8 @@ builddeps   :
     - pkgconfig(libudev)
     - pkgconfig(xkbcommon)
 rundeps     :
+    - cosmic-sound-theme
     - geoclue
-    - pop-os-sound-theme
     - power-profiles-daemon
 networking  : true
 environment :
