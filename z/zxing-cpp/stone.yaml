@@ -3,7 +3,7 @@
 
 name        : zxing-cpp
 version     : "3.1.1"
-release     : 6
+release     : 7
 upstreams   :
     - https://github.com/zxing-cpp/zxing-cpp/releases/download/v3.1.1/zxing-cpp-3.1.1.tar.gz : c3c02c29c0b519de7bd4e25b376e606e87f0761befd1282815642a2246613d14
 homepage    : https://github.com/zxing-cpp/zxing-cpp
@@ -19,9 +19,7 @@ builddeps   :
     - pkgconfig(python3)
     - python(nanobind)
     - python(scikit-build-core)
-# TODO STB so this can be de-vendored
-# This is the only package that uses STB currently, so open up networking so it can just download it
-networking  : true
+    - stb
 setup       : |
     # we don't need cmake as a python dependency
     sed -r -i '/cmake/d' wrappers/python/pyproject.toml
@@ -29,6 +27,7 @@ setup       : |
 
     # ZXING_PYTHON_MODULE=ON builds the Python shared library but not the metadata, so we still need to build the wheel with pyproject
     %cmake \
+        -DSTB_IMAGE_INCLUDE_DIR=%(includedir)/stb \
         -DZXING_EXAMPLES=OFF \
         -DZXING_PYTHON_INSTALL_LIBDIR=%(libdir) \
         -DZXING_PYTHON_MODULE=ON \

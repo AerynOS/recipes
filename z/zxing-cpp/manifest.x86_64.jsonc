@@ -10,7 +10,8 @@
 				"cmake(zint)",
 				"pkgconfig(python3)",
 				"python(nanobind)",
-				"python(scikit-build-core)"
+				"python(scikit-build-core)",
+				"stb"
 			],
 			"depends": [
 				"soname(libZXing.so.4(x86_64))",
@@ -43,7 +44,8 @@
 				"cmake(zint)",
 				"pkgconfig(python3)",
 				"python(nanobind)",
-				"python(scikit-build-core)"
+				"python(scikit-build-core)",
+				"stb"
 			],
 			"depends": [
 				"soname(libc.so.6(x86_64))",
@@ -69,7 +71,8 @@
 				"cmake(zint)",
 				"pkgconfig(python3)",
 				"python(nanobind)",
-				"python(scikit-build-core)"
+				"python(scikit-build-core)",
+				"stb"
 			],
 			"depends": [
 				"zxing-cpp"
@@ -108,6 +111,6 @@
 		}
 	},
 	"source-name": "zxing-cpp",
-	"source-release": "6",
+	"source-release": "7",
 	"source-version": "3.1.1"
 }
