@@ -3,7 +3,7 @@
 
 name        : man-pages
 version     : "6.18"
-release     : 1
+release     : 2
 homepage    : https://www.kernel.org/pub/linux/docs/man-pages
 upstreams   :
     - https://www.kernel.org/pub/linux/docs/man-pages/man-pages-6.18.tar.xz : c934fadc8b59748c68227a34f6581d2ddf8282b73cdcd52546c8cd88b74b24d1
@@ -37,6 +37,8 @@ install     : |
         man2/move_pages.2
         man3/crypt.3
         man3/crypt_r.3
+        man3/getspnam.3
+        man5/passwd.5
     )
     for p in ${CONFLICTS[@]}
     do
