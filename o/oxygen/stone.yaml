@@ -3,7 +3,7 @@
 
 name        : oxygen
 version     : "6.7.3"
-release     : 1
+release     : 2
 homepage    : https://kde.org/plasma-desktop/
 upstreams   :
     - https://download.kde.org/stable/plasma/6.7.3/oxygen-6.7.3.tar.xz: d4537dc7d5afa2a754278abef32ceead82da41a8c8ca19e6cbd6f678f49aea9c
@@ -43,7 +43,7 @@ packages    :
     - "%(name)":
         rundeps:
             - "%(name)-cursor-themes"
-            - oxygen-icon-theme
+            - kf6-oxygen-icon-theme
             - oxygen-sounds
 
     - "%(name)-cursor-themes":
