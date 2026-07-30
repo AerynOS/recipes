@@ -2,15 +2,15 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : shadow
-version     : "4.19.4"
-release     : 8
+version     : "4.20.0"
+release     : 9
 summary     : PAM-using login and passwd utilities
 license     : BSD-3-Clause
 homepage    : https://github.com/shadow-maint/shadow
 description : |
     PAM-using login and passwd utilities
 upstreams   :
-    - https://github.com/shadow-maint/shadow/releases/download/4.19.4/shadow-4.19.4.tar.xz: ce57a313e315a0a7cb04a8f50cc20753e994e487bbe9b78a2a824ca75cb486c0
+    - https://github.com/shadow-maint/shadow/releases/download/4.20.0/shadow-4.20.0.tar.xz: 239781632846db3b01901028147fb4b57e6f2d5330ca63ce104b21d9b3e6031f
 builddeps   :
     - binary(msgfmt)
     - binary(xsltproc)
@@ -20,15 +20,10 @@ builddeps   :
     - pkgconfig(libeconf)
     - pkgconfig(libsystemd)
     - pkgconfig(pam)
-    - docbook
-    - docbook-xsl
-environment : |
-    %export_docbook_catalogs
 setup       : |
     %patch %(pkgdir)/0001-aeryn-login.defs-changes.patch
-
-    # TODO: Fix stateless skel patch
-    # TODO: Fix man pages (requires messing with configure.ac to remove the docbook check)
+    %patch %(pkgdir)/stateless/0001-Stateless-useradd-support.patch
+    %patch %(pkgdir)/ftbfs-upstream-01.patch
 
     %configure \
         --enable-man \
@@ -41,6 +36,10 @@ build       : |
     %make
 install     : |
     %make_install
+
+    # Manually install man pages
+    %install_dir %(installroot)/%(mandir)
+    cp -r --preserve=timestamps man/man* %(installroot)/%(mandir)/
 
     # Stateless
     %install_dir %(installroot)%(vendordir)

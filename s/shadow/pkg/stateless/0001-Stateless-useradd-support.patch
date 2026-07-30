@@ -1,75 +1,27 @@
-From 5c0df8569359f0506cbf3e3ae6c149f8889fd5b6 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Reilly Brogan <reilly@reillybrogan.com>
 Date: Tue, 27 Sep 2022 10:21:00 -0500
-Subject: [PATCH 1/1] Stateless useradd support
+Subject: [PATCH] Stateless useradd support
 
 The skel directory is set in the following order (higher numbers mean greater priority):
 1. /usr/share/defaults/etc/skel
 2. /etc/skel if it exists
 3. If /etc/default/useradd exists then the SKEL key if it's defined
 4. The -k or --skel flag if set
-
 ---
- src/useradd.c | 15 +++++++++++++--
- 1 file changed, 13 insertions(+), 2 deletions(-)
+ src/useradd.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/src/useradd.c b/src/useradd.c
-index 6eaeb53..a1af0e5 100644
+index 5404b46c..3bfb293d 100644
 --- a/src/useradd.c
 +++ b/src/useradd.c
-@@ -61,6 +61,9 @@
- #ifndef SKEL_DIR
+@@ -83,7 +83,7 @@
  #define SKEL_DIR "/etc/skel"
  #endif
-+#ifndef STATELESS_SKEL_DIR
-+#define STATELESS_SKEL_DIR "/usr/share/defaults/etc/skel"
-+#endif
+ #ifndef USRSKELDIR
+-#define USRSKELDIR "/usr/etc/skel"
++#define USRSKELDIR "/usr/share/defaults/skel"
+ #endif
  #ifndef USER_DEFAULTS_FILE
  #define USER_DEFAULTS_FILE "/etc/default/useradd"
- #define NEW_USER_FILE "/etc/default/nuaddXXXXXX"
-@@ -83,10 +86,13 @@ static gid_t def_group = 1000;
- static const char *def_gname = "other";
- static const char *def_home = "/home";
- static const char *def_shell = "/bin/bash";
--static const char *def_template = SKEL_DIR;
-+static const char *def_template = STATELESS_SKEL_DIR;
- static const char *def_create_mail_spool = "yes";
- static const char *def_log_init = "yes";
- 
-+/* Did the user provide a defaults file with skel set? */
-+static bool user_overrode_default_skel = false;
-+
- static long def_inactive = -1;
- static const char *def_expire = "";
- 
-@@ -441,7 +447,7 @@ static void get_defaults (void)
- 		 */
- 		else if (MATCH (buf, DSKEL)) {
- 			if ('\0' == *cp) {
--				cp = SKEL_DIR;	/* XXX warning: const */
-+				cp = STATELESS_SKEL_DIR;	/* XXX warning: const */
- 			}
- 
- 			if (prefix[0]) {
-@@ -454,6 +460,7 @@ static void get_defaults (void)
- 				wlen = snprintf(_def_template, len, "%s/%s", prefix, cp);
- 				assert (wlen == (int) len -1);
- 				def_template = _def_template;
-+				user_overrode_default_skel = true;
- 			}
- 			else {
- 				def_template = xstrdup (cp);
-@@ -2494,6 +2501,10 @@ int main (int argc, char **argv)
- 
- 	get_defaults ();
- 
-+	/* If the default hasn't been overriden to something else and the SKEL_DIR has been created then use that instead */
-+	if (!user_overrode_default_skel && access(SKEL_DIR, F_OK) == 0)
-+		def_template = SKEL_DIR;
-+
- 	process_flags (argc, argv);
- 
- #ifdef ENABLE_SUBIDS
--- 
-2.35.4
-
