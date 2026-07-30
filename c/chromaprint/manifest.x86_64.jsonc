@@ -5,6 +5,10 @@
 		"chromaprint": {
 			"build-depends": [
 				"pkgconfig(fftw3)",
+				"pkgconfig(libavcodec)",
+				"pkgconfig(libavdevice)",
+				"pkgconfig(libavformat)",
+				"pkgconfig(libavutil)",
 				"pkgconfig(libswresample)"
 			],
 			"depends": [
@@ -16,7 +20,7 @@
 			],
 			"files": [
 				"/usr/lib/libchromaprint.so.1",
-				"/usr/lib/libchromaprint.so.1.6.0"
+				"/usr/lib/libchromaprint.so.1.6.1"
 			],
 			"name": "chromaprint",
 			"provides": [
@@ -26,6 +30,10 @@
 		"chromaprint-devel": {
 			"build-depends": [
 				"pkgconfig(fftw3)",
+				"pkgconfig(libavcodec)",
+				"pkgconfig(libavdevice)",
+				"pkgconfig(libavformat)",
+				"pkgconfig(libavutil)",
 				"pkgconfig(libswresample)"
 			],
 			"depends": [
@@ -48,6 +56,6 @@
 		}
 	},
 	"source-name": "chromaprint",
-	"source-release": "1",
-	"source-version": "1.6.0"
+	"source-release": "2",
+	"source-version": "1.6.1"
 }
