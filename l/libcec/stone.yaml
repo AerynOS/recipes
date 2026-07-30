@@ -2,10 +2,10 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : libcec
-version     : "7.1.1"
-release     : 2
+version     : "8.1.1"
+release     : 3
 upstreams   :
-    - https://github.com/Pulse-Eight/libcec/archive/libcec-7.1.1.tar.gz : 7f7da95a4c1e7160d42ca37a3ac80cf6f389b317e14816949e0fa5e2edf4cc64
+    - https://github.com/Pulse-Eight/libcec/archive/libcec-8.1.1.tar.gz : 0247a2e577cefceaa1932d9a2aec2b423e0ce9c77f90c2b8a99197fdd1a0b81d
 license     : GPL-2.0-or-later
 homepage    : http://libcec.pulse-eight.com/
 summary     : Pulse-Eight's libcec for the Pulse-Eight USB-CEC adapter
@@ -14,7 +14,6 @@ description : |
 builddeps   :
     - binary(swig)
     - pkgconfig(libudev)
-    - pkgconfig(p8-platform)
     - pkgconfig(python3)
     - pkgconfig(udev)
     - pkgconfig(x11)
