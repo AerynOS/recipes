@@ -3,7 +3,7 @@
 
 name        : systemd
 version     : "261.2"
-release     : 92
+release     : 93
 summary     : A System and Service Manager
 license     :
     - GPL-2.0-or-later
@@ -239,6 +239,10 @@ install     : |
 
         exit 0
     fi
+
+    # This breaks boulder roots
+    # TODO FIX THAT
+    rm -fv %(installroot)%(libdir)/tmpfiles.d/root.conf
 
     # Don't clobber pam!
     rm -rf %(installroot)%(datadir)/factory/etc/pam.d
