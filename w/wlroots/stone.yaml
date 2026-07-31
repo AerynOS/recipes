@@ -3,7 +3,7 @@
 
 name        : wlroots
 version     : "0.20.2"
-release     : 12
+release     : 13
 homepage    : https://gitlab.freedesktop.org/wlroots/wlroots/
 upstreams   :
     - https://gitlab.freedesktop.org/wlroots/wlroots/-/releases/0.20.2/downloads/wlroots-0.20.2.tar.gz:
@@ -11,9 +11,9 @@ upstreams   :
         unpackdir: current
 
     # Don't delete this section, just comment it out if it's not needed. The build recipe accounts for it possibly not existing
-    - https://gitlab.freedesktop.org/wlroots/wlroots/-/releases/0.19.3/downloads/wlroots-0.19.3.tar.gz:
-        hash: 5d02693175e5afd9af5f10e3e4976d6e9249dc39a90eb17d23fa5f54b125ccc5
-        unpackdir: compat
+    # - https://gitlab.freedesktop.org/wlroots/wlroots/-/releases/0.19.3/downloads/wlroots-0.19.3.tar.gz:
+    #     hash: 5d02693175e5afd9af5f10e3e4976d6e9249dc39a90eb17d23fa5f54b125ccc5
+    #     unpackdir: compat
 summary     : A modular Wayland compositor library
 description : |
     Pluggable, composable, unopinionated modules for building a Wayland compositor.
