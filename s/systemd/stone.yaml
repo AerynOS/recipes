@@ -2,8 +2,8 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : systemd
-version     : "260.4"
-release     : 91
+version     : "261.2"
+release     : 92
 summary     : A System and Service Manager
 license     :
     - GPL-2.0-or-later
@@ -13,7 +13,7 @@ homepage    : http://www.freedesktop.org/wiki/Software/systemd
 description : |
     A System and Service Manager
 upstreams   :
-    - https://github.com/systemd/systemd/archive/refs/tags/v260.4.tar.gz : f980aaeaa32115a3a10b1d8a2782115574d26a58dcb38bb9ba75239ee2283e6a
+    - https://github.com/systemd/systemd/archive/refs/tags/v261.2.tar.gz : ed1059ff964f5df35b6056434cc17cc83f86dc913f10489948a0b19b6081c5ec
 builddeps   :
     - binary(bpftool)
     - binary(gcc)
@@ -27,7 +27,7 @@ builddeps   :
     - pkgconfig(dbus-1)
     - pkgconfig(fdisk)
     - pkgconfig(glib-2.0)
-    - pkgconfig(gpg-error)
+    # - pkgconfig(gpg-error)
     - pkgconfig(libacl)
     - pkgconfig(libarchive)
     - pkgconfig(libattr)
@@ -90,9 +90,6 @@ setup       : |
 
     # Upstream patches
     # None for now
-
-    # ERROR: File fuzz-unit-file/dm-back-slash.swap does not exist.
-    # mv "test/fuzz/fuzz-unit-file/dm-back\x2dslash.swap" "test/fuzz/fuzz-unit-file/dm-back-slash.swap"
 
     _IS_64BIT_BOOL="true"
     _IS_64BIT_FEAT="enabled"
@@ -361,8 +358,10 @@ packages    :
             - soname(libbpf.so.1(x86_64))
             - soname(libblkid.so.1(x86_64))
             - soname(libcrypt.so.2(x86_64))
+            - soname(libcrypto.so.3(x86_64))
             - soname(libdw.so.1(x86_64))
             - soname(libelf.so.1(x86_64))
+            - soname(libfdisk.so.1(x86_64))
             - soname(libidn2.so.0(x86_64))
             - soname(libkmod.so.2(x86_64))
             - soname(libmount.so.1(x86_64))
@@ -436,6 +435,7 @@ packages    :
         description: Simple UEFI boot manager
         rundeps:
             - "%(name)"
+            - soname(libcrypto.so.3(x86_64))
         paths:
             - /usr/bin/bootctl
             - /usr/lib/systemd/boot/efi/
@@ -518,6 +518,8 @@ packages    :
              * systemd-journal-gatewayd
         rundeps:
             - "%(name)"
+            - soname(libgnutls.so.30(x86_64))
+            - soname(libmicrohttpd.so.12(x86_64))
         paths:
             - /usr/lib/systemd/systemd-journal-gatewayd
             - /usr/lib/systemd/systemd-journal-remote
@@ -558,11 +560,12 @@ packages    :
         description: Systemd container/nspawn tools
         rundeps:
             - "%(name)"
+            - soname(libcrypto.so.3(x86_64))
         paths:
             - /usr/bin/importctl
             - /usr/bin/machinectl
             - /usr/bin/portablectl
-            # - /usr/bin/storagectl
+            - /usr/bin/storagectl
             - /usr/bin/systemd-dissect
             - /usr/bin/systemd-mstack
             - /usr/bin/systemd-nspawn
@@ -581,12 +584,16 @@ packages    :
             - /usr/lib/systemd/system/remote-fs.target.wants/var-lib-machines.mount
             - /usr/lib/systemd/system/sockets.target.wants/systemd-importd.socket
             - /usr/lib/systemd/system/sockets.target.wants/systemd-machined.socket
+            - /usr/lib/systemd/system/sockets.target.wants/systemd-storage-block.socket
+            - /usr/lib/systemd/system/sockets.target.wants/systemd-storage-fs.socket
             - /usr/lib/systemd/system/systemd-importd.*
             - /usr/lib/systemd/system/systemd-machined.*
             - /usr/lib/systemd/system/systemd-mountfsd.*
             - /usr/lib/systemd/system/systemd-nspawn@.*
             - /usr/lib/systemd/system/systemd-nsresourced.*
             - /usr/lib/systemd/system/systemd-portabled.*
+            - /usr/lib/systemd/system/systemd-storage-block*
+            - /usr/lib/systemd/system/systemd-storage-fs*
             - /usr/lib/systemd/system/systemd-vnspawn@.*
             - /usr/lib/systemd/system/var-lib-machines.mount
             - /usr/lib/systemd/systemd-export
@@ -598,6 +605,8 @@ packages    :
             - /usr/lib/systemd/systemd-nsresourcework
             - /usr/lib/systemd/systemd-portabled
             - /usr/lib/systemd/systemd-pull
+            - /usr/lib/systemd/systemd-storage-block
+            - /usr/lib/systemd/systemd-storage-fs
             - /usr/lib/systemd/user/dbus-org.freedesktop.import1.service
             - /usr/lib/systemd/user/dbus-org.freedesktop.machine1.service
             - /usr/lib/systemd/user/dbus-org.freedesktop.portable1.service
@@ -606,18 +615,22 @@ packages    :
             - /usr/lib/systemd/user/portable/
             - /usr/lib/systemd/user/sockets.target.wants/systemd-importd.socket
             - /usr/lib/systemd/user/sockets.target.wants/systemd-machined.socket
+            - /usr/lib/systemd/user/sockets.target.wants/systemd-storage-fs.socket
             - /usr/lib/systemd/user/systemd-importd*
             - /usr/lib/systemd/user/systemd-machined*
             - /usr/lib/systemd/user/systemd-nspawn@*
             - /usr/lib/systemd/user/systemd-portabled*
+            - /usr/lib/systemd/user/systemd-storage-fs*
             - /usr/lib/systemd/user/systemd-vmspawn@*
             - /usr/lib/tmpfiles.d/portables.conf
             - /usr/lib/tmpfiles.d/systemd-nspawn.conf
             - /usr/sbin/mount.ddi
             - /usr/sbin/mount.mstack
+            - /usr/sbin/mount.storage
             - /usr/share/bash-completion/completions/importctl
             - /usr/share/bash-completion/completions/machinectl
             - /usr/share/bash-completion/completions/portablectl
+            - /usr/share/bash-completion/completions/storagectl
             - /usr/share/bash-completion/completions/systemd-nspawn
             - /usr/share/bash-completion/completions/systemd-vmspawn
             - /usr/share/dbus-1/services/org.freedesktop.import1.service
@@ -633,7 +646,9 @@ packages    :
             - /usr/share/man/man1/machinectl.1*
             - /usr/share/man/man1/mount.ddi.1*
             - /usr/share/man/man1/mount.mstack.1*
+            - /usr/share/man/man1/mount.storage.1*
             - /usr/share/man/man1/portablectl.1*
+            - /usr/share/man/man1/storagectl.1*
             - /usr/share/man/man1/systemd-dissect.1*
             - /usr/share/man/man1/systemd-mstack.1*
             - /usr/share/man/man1/systemd-nspawn.1*
@@ -647,14 +662,31 @@ packages    :
             - /usr/share/man/man8/systemd-mountfsd*.8*
             - /usr/share/man/man8/systemd-nsresourced*.8*
             - /usr/share/man/man8/systemd-portabled*.8*
+            - /usr/share/man/man8/systemd-storage-block*.8*
+            - /usr/share/man/man8/systemd-storage-fs*.8*
             - /usr/share/polkit-1/actions/io.systemd.mount-file-system.policy
             - /usr/share/polkit-1/actions/io.systemd.namespace-resource.policy
+            - /usr/share/polkit-1/actions/io.systemd.storage.policy
             - /usr/share/polkit-1/actions/org.freedesktop.import1.policy
             - /usr/share/polkit-1/actions/org.freedesktop.machine1.policy
             - /usr/share/polkit-1/actions/org.freedesktop.portable1.policy
             - /usr/share/zsh/site-functions/_machinectl
             - /usr/share/zsh/site-functions/_sd_machines
+            - /usr/share/zsh/site-functions/_storagectl
             - /usr/share/zsh/site-functions/_systemd-nspawn
+
+    - "%(name)-imds":
+        summary: Provides IMDS utilities and units
+        description: Provides IMDS utilities and units
+        rundeps:
+            - "%(name)"
+        paths:
+            - /usr/lib/systemd/system-generators/systemd-imds-generator
+            - /usr/lib/systemd/system/systemd-imds*
+            - /usr/lib/systemd/systemd-imds*
+            - /usr/share/man/man1/systemd-imds*
+            - /usr/share/man/man8/systemd-imds*
+            - /usr/share/polkit-1/actions/io.systemd.imds.policy
 
     - "%(name)-oomd":
         summary: Userspace out-of-memory (OOM) killer
@@ -683,6 +715,8 @@ packages    :
         description: Systemd DNS resolver
         rundeps:
             - "%(name)"
+            - soname(libcrypto.so.3(x86_64))
+            - soname(libssl.so.3(x86_64))
         paths:
             - /usr/bin/resolvectl
             - /usr/lib/systemd/resolv.conf
@@ -703,6 +737,7 @@ packages    :
             - /usr/share/man/man5/systemd.dns*.5*
             - /usr/share/man/man5/systemd.negative.5*
             - /usr/share/man/man5/systemd.positive.5*
+            - /usr/share/man/man5/systemd.rr.5*
             - /usr/share/man/man8/systemd-resolved*.8*
             - /usr/share/polkit-1/actions/org.freedesktop.resolve1.policy
             - /usr/share/zsh/site-functions/_resolvectl
