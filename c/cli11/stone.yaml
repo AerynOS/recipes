@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : cli11
-version     : "2.6.2"
-release     : 2
+version     : "2.7.1"
+release     : 3
 homepage    : https://github.com/CLIUtils/CLI11
 upstreams   :
-    - https://github.com/CLIUtils/CLI11/archive/refs/tags/v2.6.2.tar.gz : c6ea6b2e5608b3ea8617999bd5f47420c71b2ebdb8dc4767c1034d1da5785711
+    - https://github.com/CLIUtils/CLI11/archive/refs/tags/v2.7.1.tar.gz : c02abe5c5fed9b9c9192bff3c74d2c0d19755253f9ca9e3c44484c1cf5ce6568
 summary     : C++11 Command Line Interface Parser
 description : |
     CLI11 is a command line parser for C++11 and beyond that provides a rich feature set with a simple and intuitive interface.
@@ -27,6 +27,7 @@ packages    :
     - "%(name)":
         paths:
             - /usr/include/
+            - /usr/share/cmake/
             - /usr/share/pkgconfig/
 
     - "%(name)-devel":
