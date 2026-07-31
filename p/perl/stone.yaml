@@ -1,18 +1,18 @@
-# SPDX-FileCopyrightText: 2024 AerynOS Developers
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
 
 name        : perl
-version     : "5.42.0"
-release     : 14
+version     : "5.44.0"
+release     : 15
+homepage    : https://www.perl.org/
+upstreams   :
+    - https://www.cpan.org/src/5.0/perl-5.44.0.tar.gz : 3b855066b92491cb40e86affb1ca57d1a388aa43e51b91c7806a32c2f65f96c3
 summary     : Perl interpreter and modules
+description : |
+    Perl interpreter and modules
 license     :
     - Artistic-1.0
     - GPL-2.0-or-later
-homepage    : https://www.perl.org/
-description : |
-    Perl interpreter and modules
-upstreams   :
-    - https://www.cpan.org/src/5.0/perl-5.42.0.tar.xz: 73cf6cc1ea2b2b1c110a18c14bbbc73a362073003893ffcedc26d22ebdbdd0c3
 builddeps   :
     - pkgconfig(bzip2)
     - pkgconfig(libcrypt)
@@ -20,6 +20,10 @@ builddeps   :
     - binutils-devel
     - gdbm-devel
 environment : |
+    # clang-21+ miscompiles perl without this (panic: magic_killbackrefs)
+    # https://github.com/llvm/llvm-project/issues/152241
+    export CFLAGS="${CFLAGS} -fno-strict-aliasing"
+
     _majversion=$(echo %(version) | sed 's:\.[0-9]$::')
     _archlib="%(libdir)/perl5"
     _privlib="%(datadir)/perl5"
@@ -48,7 +52,7 @@ setup       : |
         -Darchlib=${_archlib} \
         -Dcc="$CC" \
         -Dccflags="$CFLAGS" \
-        -Dccdlflags="$LD_FLAGS" \
+        -Dccdlflags="$LDFLAGS" \
         -Dcf_by="AerynOS" \
         -DDEBUGGING=-g \
         -Dldflags="$LDFLAGS" \

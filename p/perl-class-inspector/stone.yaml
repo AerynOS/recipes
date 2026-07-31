@@ -1,0 +1,28 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : perl-class-inspector
+version     : "1.36"
+release     : 1
+homepage    : https://metacpan.org/pod/Class::Inspector
+upstreams   :
+    - https://cpan.metacpan.org/authors/id/P/PL/PLICEASE/Class-Inspector-1.36.tar.gz : cc295d23a472687c24489d58226ead23b9fdc2588e522f0b5f0747741700694e
+summary     : Get information about a class and its structure
+description : |
+    Class::Inspector allows you to get information about a loaded class, such
+    as related classes or methods.
+license     : Artistic-1.0-Perl
+rundeps     :
+    - binary(perl)
+setup       : |
+    %perl_setup
+build       : |
+    %make
+install     : |
+    %make_install
+check       : |
+    %make test
+packages    :
+    - "%(name)":
+        paths:
+            - /usr/share/man/man3

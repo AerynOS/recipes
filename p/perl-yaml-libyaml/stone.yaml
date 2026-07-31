@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : perl-yaml-libyaml
-version     : "0.907.0"
-release     : 3
+version     : "0.910.0"
+release     : 4
 homepage    : https://metacpan.org/dist/YAML-LibYAML
 upstreams   :
-    - https://cpan.metacpan.org/authors/id/T/TI/TINITA/YAML-LibYAML-v0.907.0.tar.gz : 6ba087224911389e76fa198b149cec83f065b0ac75ddc52618f3490942cd9506
+    - https://cpan.metacpan.org/authors/id/T/TI/TINITA/YAML-LibYAML-v0.910.0.tar.gz : 04310e9840b918383a5b9ae9ca4b3bde1b2771ec786c758bd2fffd79d409332b
 summary     : Perl YAML Serialization using XS and libyaml
 description : |
     Perl YAML Serialization using XS and libyaml
@@ -29,6 +29,10 @@ build       : |
     %make
 install     : |
     %make_install
+check       : |
+    # needs unpackaged Test::Warnings
+    rm -f t/oop/15-various.t
+    %make test
 packages    :
     - "%(name)":
         paths:
