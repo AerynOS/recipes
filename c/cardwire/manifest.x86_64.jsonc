@@ -21,19 +21,27 @@
 			],
 			"files": [
 				"/usr/bin/cardwire",
+				"/usr/bin/cardwire-gui",
 				"/usr/bin/cardwired",
 				"/usr/lib/systemd/system/cardwired.service",
+				"/usr/share/applications/cardwire-gui.desktop",
 				"/usr/share/dbus-1/system.d/com.github.opengamingcollective.cardwire.conf",
+				"/usr/share/icons/hicolor/scalable/apps/com.github.opengamingcollective.cardwire.tray-hybrid.svg",
+				"/usr/share/icons/hicolor/scalable/apps/com.github.opengamingcollective.cardwire.tray-integrated.svg",
+				"/usr/share/icons/hicolor/scalable/apps/com.github.opengamingcollective.cardwire.tray-manual.svg",
+				"/usr/share/icons/hicolor/scalable/apps/com.github.opengamingcollective.cardwire.tray-smart.svg",
+				"/usr/share/icons/hicolor/scalable/apps/com.github.opengamingcollective.cardwire.tray.svg",
 				"/usr/share/licenses/cardwire/LICENSE"
 			],
 			"name": "cardwire",
 			"provides": [
 				"binary(cardwire)",
+				"binary(cardwire-gui)",
 				"binary(cardwired)"
 			]
 		}
 	},
 	"source-name": "cardwire",
-	"source-release": "2",
-	"source-version": "0.10.3"
+	"source-release": "3",
+	"source-version": "0.11.1"
 }
