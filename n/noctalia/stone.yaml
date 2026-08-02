@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : noctalia
-version     : "5.0.0-beta.6"
-release     : 1
+version     : "5.0.0-beta.7"
+release     : 2
 homepage    : https://github.com/noctalia-dev/noctalia
 upstreams   :
-    - https://github.com/noctalia-dev/noctalia/archive/refs/tags/v5.0.0-beta.6.tar.gz : f20391942b635e8750dff6e37748d86562d51d6f9be62befc5495787ffe93dc8
+    - https://github.com/noctalia-dev/noctalia/archive/refs/tags/v5.0.0-beta.7.tar.gz : fb553e9a1ff8451fe9ceb34c6dbbdf14771e3576cc2e94fcee194d15ee46ccc2
 summary     : A sleek and minimal desktop shell thoughtfully crafted for Wayland
 description : |
     Noctalia is a native Wayland desktop shell providing the shell layer around
@@ -19,6 +19,7 @@ builddeps   :
     - pkgconfig(fontconfig)
     - pkgconfig(freetype2)
     - pkgconfig(jemalloc)
+    - pkgconfig(libical)
     - pkgconfig(libjxl)
     - pkgconfig(libpipewire-0.3)
     - pkgconfig(libqalculate)
@@ -32,6 +33,7 @@ builddeps   :
     - pkgconfig(pangocairo)
     - pkgconfig(polkit-agent-1)
     - pkgconfig(sdbus-c++)
+    - pkgconfig(sndfile)
     - pkgconfig(tomlplusplus)
     - pkgconfig(wayland-client)
     - pkgconfig(wayland-protocols)
