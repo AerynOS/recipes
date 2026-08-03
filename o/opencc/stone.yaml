@@ -1,0 +1,61 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : opencc
+version     : "1.4.1"
+release     : 1
+homepage    : https://github.com/BYVoid/OpenCC
+upstreams   :
+    - https://github.com/BYVoid/OpenCC/archive/refs/tags/ver.1.4.1.tar.gz : d4b94877c508a4774853f3b07330b3d25df00105c39dfba6ab9889d77946cc8a
+summary     : Library for conversion between Traditional and Simplified Chinese
+description : |
+    Open Chinese Convert (OpenCC, 開放中文轉換) is an open source project for high-quality conversion between Traditional Chinese, Simplified Chinese, Japanese Kanji (Shinjitai), character variants, and regional wording across Mainland China, Taiwan, and Hong Kong.
+license     : Apache-2.0
+builddeps   :
+    - binary(patchelf)
+    - cmake(Marisa)
+    - cmake(RapidJSON)
+    - cmake(pybind11)
+    - pkgconfig(python3)
+    - pkgconfig(tclap)
+    - python(setuptools)
+    - cppjieba
+    - darts-devel
+checkdeps   :
+    - cmake(GTest)
+rundeps     :
+    - binary(python)
+setup       : |
+    # Build translated from Arch Repo
+    rm -r deps
+    %patch %(pkgdir)/system-libs-and-prevent-python-rebuild.patch
+
+    %cmake \
+        -DBUILD_PYTHON:BOOL=ON \
+        -DBUILD_OPENCC_JIEBA_PLUGIN:BOOL=ON \
+        -DUSE_SYSTEM_MARISA:BOOL=ON \
+        -DUSE_SYSTEM_PYBIND11:BOOL=ON \
+        -DUSE_SYSTEM_RAPIDJSON:BOOL=ON \
+        -DUSE_SYSTEM_TCLAP:BOOL=ON \
+        -DENABLE_GTEST:BOOL=ON \
+        -DUSE_SYSTEM_GTEST:BOOL=ON
+build       : |
+    %cmake_build
+
+    # take already built lib and place at %(workdir)
+    cp %(builddir)/opencc_clib*.so .
+    VERSION=%(version) %pyproject_build
+install     : |
+    %cmake_install
+    %pyproject_install
+
+    # make python bindings resolve configs from system opencc
+    export PYTHONSITE=$(python -c 'import site; print(site.getsitepackages()[0])')
+    mkdir -p %(installroot)${PYTHONSITE}/opencc/clib/share
+    ln -srv %(installroot)%(datadir)/opencc %(installroot)${PYTHONSITE}/opencc/clib/share/
+
+    # Remove insecure RPath (points to %(builddir))
+    patchelf --remove-rpath %(installroot)${PYTHONSITE}/opencc/clib/*.so
+check       : |
+    # Tests uses upstream's bundled cppjieba dictionary output, so we skip fail
+    %cmake_test -E '^JiebaPluginIntegrationTest$'

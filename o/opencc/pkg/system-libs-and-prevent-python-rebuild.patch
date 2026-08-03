@@ -1,0 +1,71 @@
+diff --git a/plugins/jieba/CMakeLists.txt b/plugins/jieba/CMakeLists.txt
+index aa5371be..0fed2641 100644
+--- a/plugins/jieba/CMakeLists.txt
++++ b/plugins/jieba/CMakeLists.txt
+@@ -218,14 +218,14 @@ if (OPENCC_CAN_RUN_CPPJIEBA_DICT)
+     COMMAND ${OPENCC_DICT_COMMAND}
+             --from cppjieba_utf8
+             --to ocd2
+-            --input "${CMAKE_CURRENT_SOURCE_DIR}/deps/cppjieba/dict/jieba.dict.utf8"
+-            --input "${CMAKE_CURRENT_SOURCE_DIR}/deps/cppjieba/dict/user.dict.utf8"
++            --input "/usr/share/cppjieba/dict/jieba.dict.utf8"
++            --input "/usr/share/cppjieba/dict/user.dict.utf8"
+             --output "${JIEBA_MERGED_DICT}"
+     DEPENDS
+       ${JIEBA_MERGED_DICT_WIN32_DEPENDS}
+       ${OPENCC_DICT_TARGET_DEPENDS}
+-      "${CMAKE_CURRENT_SOURCE_DIR}/deps/cppjieba/dict/jieba.dict.utf8"
+-      "${CMAKE_CURRENT_SOURCE_DIR}/deps/cppjieba/dict/user.dict.utf8"
++      "/usr/share/cppjieba/dict/jieba.dict.utf8"
++      "/usr/share/cppjieba/dict/user.dict.utf8"
+     VERBATIM
+   )
+ 
+@@ -296,11 +296,11 @@ if (BUILD_OPENCC_JIEBA_PLUGIN AND OPENCC_ENABLE_INSTALL)
+ 
+   install(
+     FILES
+-      ${CMAKE_CURRENT_SOURCE_DIR}/deps/cppjieba/dict/hmm_model.utf8
+-      ${CMAKE_CURRENT_SOURCE_DIR}/deps/cppjieba/dict/idf.utf8
+-      ${CMAKE_CURRENT_SOURCE_DIR}/deps/cppjieba/dict/stop_words.utf8
+-      ${CMAKE_CURRENT_SOURCE_DIR}/deps/cppjieba/dict/jieba.dict.utf8
+-      ${CMAKE_CURRENT_SOURCE_DIR}/deps/cppjieba/dict/user.dict.utf8
++      /usr/share/cppjieba/dict/hmm_model.utf8
++      /usr/share/cppjieba/dict/idf.utf8
++      /usr/share/cppjieba/dict/stop_words.utf8
++      /usr/share/cppjieba/dict/jieba.dict.utf8
++      /usr/share/cppjieba/dict/user.dict.utf8
+     DESTINATION
+       ${DIR_SHARE_OPENCC}/jieba_dict
+   )
+diff --git a/setup.py b/setup.py
+index d5b35581..c6e8e780 100644
+--- a/setup.py
++++ b/setup.py
+@@ -1,3 +1,4 @@
++import glob
+ import os
+ import re
+ import shutil
+@@ -152,7 +153,8 @@ class BuildExtCommand(setuptools.command.build_ext.build_ext, object):
+         else:
+             output_path = os.path.abspath(os.path.join(self.build_lib, 'opencc', 'clib'))
+         if isinstance(ext, OpenCCExtension):
+-            build_libopencc(output_path)
++            os.makedirs(output_path, exist_ok=True)
++            shutil.copy2(glob.glob(os.path.join(_this_dir, "opencc_clib.*.so"))[0], output_path)
+         else:
+             super(BuildExtCommand, self).build_extension(ext)
+ 
+@@ -220,11 +222,6 @@ setuptools.setup(
+         'bdist_wheel': BDistWheelCommand,
+     },
+     setup_requires=setup_requires,
+-    entry_points={
+-        'console_scripts': [
+-            'opencc=opencc.cli:main',
+-        ],
+-    },
+ 
+     classifiers=[
+         'Development Status :: 5 - Production/Stable',
