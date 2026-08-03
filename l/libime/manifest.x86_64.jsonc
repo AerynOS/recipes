@@ -1,0 +1,132 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"libime": {
+			"build-depends": [
+				"cmake(Boost)",
+				"cmake(ECM)",
+				"cmake(Fcitx5Utils)"
+			],
+			"depends": [
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(libFcitx5Utils.so.2(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libm.so.6(x86_64))",
+				"soname(libstdc++.so.6(x86_64))",
+				"soname(libzstd.so.1(x86_64))"
+			],
+			"files": [
+				"/usr/bin/libime_history",
+				"/usr/bin/libime_migrate_fcitx4_pinyin",
+				"/usr/bin/libime_migrate_fcitx4_table",
+				"/usr/bin/libime_pinyindict",
+				"/usr/bin/libime_prediction",
+				"/usr/bin/libime_slm_build_binary",
+				"/usr/bin/libime_tabledict",
+				"/usr/lib/libIMECore.so.0",
+				"/usr/lib/libIMECore.so.1.1.15",
+				"/usr/lib/libIMEPinyin.so.0",
+				"/usr/lib/libIMEPinyin.so.1.1.15",
+				"/usr/lib/libIMETable.so.0",
+				"/usr/lib/libIMETable.so.1.1.15",
+				"/usr/lib/libime/zh_CN.lm",
+				"/usr/lib/libime/zh_CN.lm.predict",
+				"/usr/share/libime/cj.main.dict",
+				"/usr/share/libime/db.main.dict",
+				"/usr/share/libime/erbi.main.dict",
+				"/usr/share/libime/extb.dict",
+				"/usr/share/libime/qxm.main.dict",
+				"/usr/share/libime/sc.dict",
+				"/usr/share/libime/wanfeng.main.dict",
+				"/usr/share/libime/wbpy.main.dict",
+				"/usr/share/libime/wbx.main.dict",
+				"/usr/share/libime/zrm.main.dict"
+			],
+			"name": "libime",
+			"provides": [
+				"binary(libime_history)",
+				"binary(libime_migrate_fcitx4_pinyin)",
+				"binary(libime_migrate_fcitx4_table)",
+				"binary(libime_pinyindict)",
+				"binary(libime_prediction)",
+				"binary(libime_slm_build_binary)",
+				"binary(libime_tabledict)",
+				"soname(libIMECore.so.0(x86_64))",
+				"soname(libIMEPinyin.so.0(x86_64))",
+				"soname(libIMETable.so.0(x86_64))"
+			]
+		},
+		"libime-devel": {
+			"build-depends": [
+				"cmake(Boost)",
+				"cmake(ECM)",
+				"cmake(Fcitx5Utils)"
+			],
+			"depends": [
+				"libime"
+			],
+			"files": [
+				"/usr/include/LibIME/libime/core/datrie.h",
+				"/usr/include/LibIME/libime/core/decoder.h",
+				"/usr/include/LibIME/libime/core/dictionary.h",
+				"/usr/include/LibIME/libime/core/historybigram.h",
+				"/usr/include/LibIME/libime/core/inputbuffer.h",
+				"/usr/include/LibIME/libime/core/languagemodel.h",
+				"/usr/include/LibIME/libime/core/lattice.h",
+				"/usr/include/LibIME/libime/core/libimecore_export.h",
+				"/usr/include/LibIME/libime/core/lrucache.h",
+				"/usr/include/LibIME/libime/core/prediction.h",
+				"/usr/include/LibIME/libime/core/segmentgraph.h",
+				"/usr/include/LibIME/libime/core/triedictionary.h",
+				"/usr/include/LibIME/libime/core/userlanguagemodel.h",
+				"/usr/include/LibIME/libime/core/utils.h",
+				"/usr/include/LibIME/libime/pinyin/libimepinyin_export.h",
+				"/usr/include/LibIME/libime/pinyin/pinyincontext.h",
+				"/usr/include/LibIME/libime/pinyin/pinyincorrectionprofile.h",
+				"/usr/include/LibIME/libime/pinyin/pinyindata.h",
+				"/usr/include/LibIME/libime/pinyin/pinyindecoder.h",
+				"/usr/include/LibIME/libime/pinyin/pinyindictionary.h",
+				"/usr/include/LibIME/libime/pinyin/pinyinencoder.h",
+				"/usr/include/LibIME/libime/pinyin/pinyinime.h",
+				"/usr/include/LibIME/libime/pinyin/pinyinmatchstate.h",
+				"/usr/include/LibIME/libime/pinyin/pinyinmatchstate_p.h",
+				"/usr/include/LibIME/libime/pinyin/pinyinprediction.h",
+				"/usr/include/LibIME/libime/pinyin/shuangpindata.h",
+				"/usr/include/LibIME/libime/pinyin/shuangpinprofile.h",
+				"/usr/include/LibIME/libime/table/autophrasedict.h",
+				"/usr/include/LibIME/libime/table/libimetable_export.h",
+				"/usr/include/LibIME/libime/table/tablebaseddictionary.h",
+				"/usr/include/LibIME/libime/table/tablecontext.h",
+				"/usr/include/LibIME/libime/table/tabledecoder.h",
+				"/usr/include/LibIME/libime/table/tableoptions.h",
+				"/usr/include/LibIME/libime/table/tablerule.h",
+				"/usr/lib/cmake/LibIMECore/LibIMECoreConfig.cmake",
+				"/usr/lib/cmake/LibIMECore/LibIMECoreConfigVersion.cmake",
+				"/usr/lib/cmake/LibIMECore/LibIMECoreTargets-release.cmake",
+				"/usr/lib/cmake/LibIMECore/LibIMECoreTargets.cmake",
+				"/usr/lib/cmake/LibIMEPinyin/LibIMEPinyinConfig.cmake",
+				"/usr/lib/cmake/LibIMEPinyin/LibIMEPinyinConfigVersion.cmake",
+				"/usr/lib/cmake/LibIMEPinyin/LibIMEPinyinTargets-release.cmake",
+				"/usr/lib/cmake/LibIMEPinyin/LibIMEPinyinTargets.cmake",
+				"/usr/lib/cmake/LibIMETable/LibIMETableConfig.cmake",
+				"/usr/lib/cmake/LibIMETable/LibIMETableConfigVersion.cmake",
+				"/usr/lib/cmake/LibIMETable/LibIMETableTargets-release.cmake",
+				"/usr/lib/cmake/LibIMETable/LibIMETableTargets.cmake",
+				"/usr/lib/libIMECore.so",
+				"/usr/lib/libIMEPinyin.so",
+				"/usr/lib/libIMETable.so"
+			],
+			"name": "libime-devel",
+			"provides": [
+				"cmake(LibIMECore)",
+				"cmake(LibIMEPinyin)",
+				"cmake(LibIMETable)"
+			]
+		}
+	},
+	"source-name": "libime",
+	"source-release": "1",
+	"source-version": "1.1.15"
+}
