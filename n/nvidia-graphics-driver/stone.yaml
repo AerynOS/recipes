@@ -3,7 +3,7 @@
 
 name        : nvidia-graphics-driver
 version     : "610.57.04"
-release     : 47
+release     : 48
 homepage    : https://www.nvidia.com/
 upstreams   :
     - https://us.download.nvidia.com/XFree86/Linux-x86_64/610.57.04/NVIDIA-Linux-x86_64-610.57.04.run:
@@ -73,7 +73,7 @@ install     : |
     pushd initrd
     find . | cpio -o -H newc | zstd -19 -T0 -c > ../firmware.initrd
     popd
-    %install_file firmware.initrd %(installroot)%(libdir)/kernel/initrd.d/55-nvidia-firmware.initrd
+    %install_file firmware.initrd %(installroot)%(libdir)/kernel/initrd.d/55-nvidia-firmware-%(version)-%(release).initrd
 
     # Fix gbm
     rm -v %(installroot)%(libdir)/gbm/nvidia-drm_gbm.so
@@ -199,4 +199,4 @@ packages    :
         description: Firmware for Nvidia GPUs
         paths:
             - /usr/lib/firmware/nvidia/
-            - /usr/lib/kernel/initrd.d/55-nvidia-firmware.initrd
+            - /usr/lib/kernel/initrd.d/55-nvidia-firmware*.initrd
