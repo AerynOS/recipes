@@ -11,7 +11,6 @@
 				"pkgconfig(tbb)"
 			],
 			"depends": [
-				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libm.so.6(x86_64))",
 				"soname(libomp.so(x86_64))",
@@ -27,7 +26,7 @@
 				"/usr/lib/libccolamd.so.3",
 				"/usr/lib/libccolamd.so.3.3.5",
 				"/usr/lib/libcholmod.so.5",
-				"/usr/lib/libcholmod.so.5.3.4",
+				"/usr/lib/libcholmod.so.5.3.5",
 				"/usr/lib/libcolamd.so.3",
 				"/usr/lib/libcolamd.so.3.3.5",
 				"/usr/lib/libklu.so.2",
@@ -35,9 +34,9 @@
 				"/usr/lib/libklu_cholmod.so.2",
 				"/usr/lib/libklu_cholmod.so.2.3.6",
 				"/usr/lib/libsuitesparseconfig.so.7",
-				"/usr/lib/libsuitesparseconfig.so.7.12.2",
+				"/usr/lib/libsuitesparseconfig.so.7.12.3",
 				"/usr/lib/libumfpack.so.6",
-				"/usr/lib/libumfpack.so.6.3.7"
+				"/usr/lib/libumfpack.so.6.3.8"
 			],
 			"name": "suitesparse",
 			"provides": [
@@ -173,6 +172,6 @@
 		}
 	},
 	"source-name": "suitesparse",
-	"source-release": "1",
-	"source-version": "7.12.2"
+	"source-release": "2",
+	"source-version": "7.12.3"
 }
