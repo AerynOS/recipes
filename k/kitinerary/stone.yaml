@@ -3,7 +3,7 @@
 
 name        : kitinerary
 version     : "26.04.3"
-release     : 29
+release     : 30
 upstreams   :
     - https://download.kde.org/stable/release-service/26.04.3/src/kitinerary-26.04.3.tar.xz : 2a072650508a95a99647d0ad7d23e658d092270412573f5f819372149cb49f8c
 homepage    : https://invent.kde.org/pim/kitinerary
@@ -30,6 +30,8 @@ builddeps   :
     - pkgconfig(zxing)
 setup       : |
     %patch %(pkgdir)/kf6kmime.patch
+    %patch %(pkgdir)/kcodecs.patch
+
     %cmake_kf6
 build       : |
     %cmake_build
