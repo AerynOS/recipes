@@ -1,0 +1,32 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"cage": {
+			"build-depends": [
+				"binary(scdoc)",
+				"pkgconfig(wayland-server)",
+				"pkgconfig(wlroots-0.20)",
+				"pkgconfig(xkbcommon)"
+			],
+			"depends": [
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libwayland-server.so.0(x86_64))",
+				"soname(libwlroots-0.20.so(x86_64))",
+				"soname(libxkbcommon.so.0(x86_64))"
+			],
+			"files": [
+				"/usr/bin/cage",
+				"/usr/share/man/man1/cage.1"
+			],
+			"name": "cage",
+			"provides": [
+				"binary(cage)"
+			]
+		}
+	},
+	"source-name": "cage",
+	"source-release": "1",
+	"source-version": "0.3.1"
+}

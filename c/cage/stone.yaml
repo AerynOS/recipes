@@ -1,0 +1,24 @@
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : cage
+version     : "0.3.1"
+release     : 1
+upstreams   :
+    - https://github.com/cage-kiosk/cage/releases/download/v0.3.1/cage-0.3.1.tar.gz : edafc173b6f56a3e1564933e272a54aaa9fe158d330e6a415d57b44ab880fe2b
+homepage    : https://www.hjdskes.nl/projects/cage/
+license     : MIT
+summary     : A kiosk compositor for Wayland
+description : |
+    A kiosk compositor for Wayland
+builddeps   :
+    - binary(scdoc)
+    - pkgconfig(wayland-server)
+    - pkgconfig(wlroots-0.20)
+    - pkgconfig(xkbcommon)
+setup       : |
+    %meson
+build       : |
+    %meson_build
+install     : |
+    %meson_install
