@@ -3,7 +3,7 @@
 
 name        : bcachefs-module
 version     : "1.38.8"
-release     : 32
+release     : 33
 homepage    : https://bcachefs.org
 upstreams   :
     - https://evilpiepirate.org/bcachefs-tools/bcachefs-tools-vendored-1.38.8.tar.zst : d2befc5191530da099c97198a52753fb94de019282d03d6ff48fe3afebc82c7d
@@ -92,7 +92,7 @@ install     : |
     pushd initrd
     find . | cpio -o -H newc | zstd -19 -T0 -c > ../bcachefs-tools.initrd
     popd
-    %install_file bcachefs-tools.initrd %(installroot)%(libdir)/kernel/initrd.d/65-%(name)-shared.initrd
+    %install_file bcachefs-tools.initrd %(installroot)%(libdir)/kernel/initrd.d/65-%(name)-shared-%(version)-%(release).initrd
 
     for _kernel in ${kernels[@]}; do
         pushd ${_kernel}
@@ -128,14 +128,14 @@ install     : |
         touch initrd/.dracut-depmod-invalidate
         pushd initrd
         %install_dir %(installroot)%(libdir)/kernel/${_kernel}
-        find . | cpio -o -H newc | zstd -19 -T0 -c > %(installroot)%(libdir)/kernel/${_kernel}/70-%(name).initrd
+        find . | cpio -o -H newc | zstd -19 -T0 -c > %(installroot)%(libdir)/kernel/${_kernel}/70-%(name)-%(version)-%(release).initrd
         popd
 
         # Compress modules with zstd
         find "%(installroot)%(libdir)/modules/${_kernel}/" -name '*.ko' -print -exec zstd {} \; -exec rm -v {} \;
 
         # This is a stupid hack because blsforme doesn't seem to support version-independent initrds yet
-        cp -a %(installroot)%(libdir)/kernel/initrd.d/65-bcachefs-module-shared.initrd %(installroot)%(libdir)/kernel/${_kernel}/65-bcachefs-module-shared.initrd
+        cp -a %(installroot)%(libdir)/kernel/initrd.d/65-bcachefs-module-shared*.initrd %(installroot)%(libdir)/kernel/${_kernel}/
 
         popd
     done
