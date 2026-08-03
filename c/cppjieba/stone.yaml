@@ -1,0 +1,28 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : cppjieba
+version     : "5.6.7"
+release     : 1
+homepage    : https://github.com/yanyiwu/cppjieba
+upstreams   :
+    - https://github.com/yanyiwu/cppjieba/archive/refs/tags/v5.6.7.tar.gz : 08322f7c2a06a88e52eb0fdbc286ec86a85abae5b2a33b1e1430dba50b71960e
+summary     : C++ implementation of Jieba Chinese text segmentation
+description : |
+    C++ implementation of Jieba Chinese text segmentation
+license     : MIT
+builddeps   :
+    - cmake(limonp)
+checkdeps   :
+    - cmake(GTest)
+setup       : |
+    %patch %(pkgdir)/system-GTest.patch
+
+    %cmake \
+        -DCMAKE_CXX_STANDARD=17
+build       : |
+    %cmake_build
+install     : |
+    %cmake_install
+check       : |
+    %cmake_test
