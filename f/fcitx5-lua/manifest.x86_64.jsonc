@@ -1,0 +1,63 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"fcitx5-lua": {
+			"build-depends": [
+				"cmake(ECM)",
+				"cmake(Fcitx5Core)",
+				"gettext-devel",
+				"pkgconfig(lua)"
+			],
+			"depends": [
+				"soname(libFcitx5Config.so.6(x86_64))",
+				"soname(libFcitx5Core.so.7(x86_64))",
+				"soname(libFcitx5Utils.so.2(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libstdc++.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/lib/fcitx5/libluaaddonloader.so",
+				"/usr/share/fcitx5/addon/imeapi.conf",
+				"/usr/share/fcitx5/addon/luaaddonloader.conf",
+				"/usr/share/fcitx5/lua/imeapi/imeapi.lua",
+				"/usr/share/locale/da/LC_MESSAGES/fcitx5-lua.mo",
+				"/usr/share/locale/fr/LC_MESSAGES/fcitx5-lua.mo",
+				"/usr/share/locale/ja/LC_MESSAGES/fcitx5-lua.mo",
+				"/usr/share/locale/ko/LC_MESSAGES/fcitx5-lua.mo",
+				"/usr/share/locale/ru/LC_MESSAGES/fcitx5-lua.mo",
+				"/usr/share/locale/zh_CN/LC_MESSAGES/fcitx5-lua.mo",
+				"/usr/share/locale/zh_TW/LC_MESSAGES/fcitx5-lua.mo",
+				"/usr/share/metainfo/org.fcitx.Fcitx5.Addon.Lua.metainfo.xml"
+			],
+			"name": "fcitx5-lua",
+			"provides": [
+				"soname(fcitx5/libluaaddonloader.so(x86_64))"
+			]
+		},
+		"fcitx5-lua-devel": {
+			"build-depends": [
+				"cmake(ECM)",
+				"cmake(Fcitx5Core)",
+				"gettext-devel",
+				"pkgconfig(lua)"
+			],
+			"depends": [
+				"fcitx5-lua"
+			],
+			"files": [
+				"/usr/include/Fcitx5/Module/fcitx-module/luaaddonloader/luaaddon_public.h",
+				"/usr/lib/cmake/Fcitx5ModuleLuaAddonLoader/Fcitx5ModuleLuaAddonLoaderConfig.cmake",
+				"/usr/lib/cmake/Fcitx5ModuleLuaAddonLoader/Fcitx5ModuleLuaAddonLoaderConfigVersion.cmake"
+			],
+			"name": "fcitx5-lua-devel",
+			"provides": [
+				"cmake(Fcitx5ModuleLuaAddonLoader)"
+			]
+		}
+	},
+	"source-name": "fcitx5-lua",
+	"source-release": "1",
+	"source-version": "5.0.17"
+}
