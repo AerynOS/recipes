@@ -4,20 +4,18 @@
 	"packages": {
 		"tevent": {
 			"build-depends": [
-				"binary(ld.bfd)",
 				"binary(python)",
 				"binary(which)",
 				"pkgconfig(cmocka)",
 				"pkgconfig(talloc)"
 			],
 			"depends": [
-				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libtalloc.so.2(x86_64))"
 			],
 			"files": [
 				"/usr/lib/libtevent.so.0",
-				"/usr/lib/libtevent.so.0.17.1"
+				"/usr/lib/libtevent.so.0.17.2"
 			],
 			"name": "tevent",
 			"provides": [
@@ -26,7 +24,6 @@
 		},
 		"tevent-devel": {
 			"build-depends": [
-				"binary(ld.bfd)",
 				"binary(python)",
 				"binary(which)",
 				"pkgconfig(cmocka)",
@@ -48,6 +45,6 @@
 		}
 	},
 	"source-name": "tevent",
-	"source-release": "4",
-	"source-version": "0.17.1"
+	"source-release": "5",
+	"source-version": "0.17.2"
 }
