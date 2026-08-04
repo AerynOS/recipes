@@ -3,7 +3,7 @@
 
 name        : waybar
 version     : "0.15.0"
-release     : 11
+release     : 12
 homepage    : https://github.com/Alexays/Waybar
 upstreams   :
     - https://github.com/Alexays/Waybar/archive/refs/tags/0.15.0.tar.gz : 21c2bbef88c40473c355003582f9331d2f9b8a01efdcce0935edfc5f6b023a3e
@@ -51,6 +51,8 @@ builddeps   :
     # - libgps
 setup       : |
     %patch %(pkgdir)/0001-make-stateless.patch
+
+    %patch %(pkgdir)/ftbfs-cava-1.0.patch
 
     %meson
 build       : |
