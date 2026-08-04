@@ -34,15 +34,15 @@
 				"soname(libc.so.6(x86_64))",
 				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libm.so.6(x86_64))",
-				"soname(libopencv_calib3d.so.413(x86_64))",
-				"soname(libopencv_core.so.413(x86_64))",
-				"soname(libopencv_dnn.so.413(x86_64))",
-				"soname(libopencv_features2d.so.413(x86_64))",
-				"soname(libopencv_highgui.so.413(x86_64))",
-				"soname(libopencv_imgcodecs.so.413(x86_64))",
-				"soname(libopencv_imgproc.so.413(x86_64))",
-				"soname(libopencv_objdetect.so.413(x86_64))",
-				"soname(libopencv_videoio.so.413(x86_64))",
+				"soname(libopencv_calib3d.so.414(x86_64))",
+				"soname(libopencv_core.so.414(x86_64))",
+				"soname(libopencv_dnn.so.414(x86_64))",
+				"soname(libopencv_features2d.so.414(x86_64))",
+				"soname(libopencv_highgui.so.414(x86_64))",
+				"soname(libopencv_imgcodecs.so.414(x86_64))",
+				"soname(libopencv_imgproc.so.414(x86_64))",
+				"soname(libopencv_objdetect.so.414(x86_64))",
+				"soname(libopencv_videoio.so.414(x86_64))",
 				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
@@ -114,19 +114,19 @@
 				"soname(libc.so.6(x86_64))",
 				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libm.so.6(x86_64))",
-				"soname(libopencv_calib3d.so.413(x86_64))",
-				"soname(libopencv_core.so.413(x86_64))",
-				"soname(libopencv_imgproc.so.413(x86_64))",
-				"soname(libopencv_video.so.413(x86_64))",
+				"soname(libopencv_calib3d.so.414(x86_64))",
+				"soname(libopencv_core.so.414(x86_64))",
+				"soname(libopencv_imgproc.so.414(x86_64))",
+				"soname(libopencv_video.so.414(x86_64))",
 				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
-				"/usr/lib/libopencv_bgsegm.so.4.13.0",
-				"/usr/lib/libopencv_bgsegm.so.413"
+				"/usr/lib/libopencv_bgsegm.so.4.14.0",
+				"/usr/lib/libopencv_bgsegm.so.414"
 			],
 			"name": "opencv-bgsegm",
 			"provides": [
-				"soname(libopencv_bgsegm.so.413(x86_64))"
+				"soname(libopencv_bgsegm.so.414(x86_64))"
 			]
 		},
 		"opencv-calib3d": {
@@ -161,19 +161,19 @@
 				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libm.so.6(x86_64))",
 				"soname(libopenblas.so.0(x86_64))",
-				"soname(libopencv_core.so.413(x86_64))",
-				"soname(libopencv_features2d.so.413(x86_64))",
-				"soname(libopencv_flann.so.413(x86_64))",
-				"soname(libopencv_imgproc.so.413(x86_64))",
+				"soname(libopencv_core.so.414(x86_64))",
+				"soname(libopencv_features2d.so.414(x86_64))",
+				"soname(libopencv_flann.so.414(x86_64))",
+				"soname(libopencv_imgproc.so.414(x86_64))",
 				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
-				"/usr/lib/libopencv_calib3d.so.4.13.0",
-				"/usr/lib/libopencv_calib3d.so.413"
+				"/usr/lib/libopencv_calib3d.so.4.14.0",
+				"/usr/lib/libopencv_calib3d.so.414"
 			],
 			"name": "opencv-calib3d",
 			"provides": [
-				"soname(libopencv_calib3d.so.413(x86_64))"
+				"soname(libopencv_calib3d.so.414(x86_64))"
 			]
 		},
 		"opencv-core": {
@@ -213,10 +213,12 @@
 				"soname(libz.so.1(x86_64))"
 			],
 			"files": [
-				"/usr/lib/libopencv_core.so.4.13.0",
-				"/usr/lib/libopencv_core.so.413",
+				"/usr/lib/libopencv_core.so.4.14.0",
+				"/usr/lib/libopencv_core.so.414",
 				"/usr/share/licenses/opencv4/SoftFloat-COPYING.txt",
 				"/usr/share/licenses/opencv4/dlpack-LICENSE",
+				"/usr/share/licenses/opencv4/features2d-LICENSE.AKAZE",
+				"/usr/share/licenses/opencv4/features2d-LICENSE.KAZE",
 				"/usr/share/licenses/opencv4/ittnotify-BSD-3-Clause.txt",
 				"/usr/share/licenses/opencv4/ittnotify-GPL-2.0-only.txt",
 				"/usr/share/licenses/opencv4/mscr-chi_table_LICENSE.txt",
@@ -224,7 +226,7 @@
 			],
 			"name": "opencv-core",
 			"provides": [
-				"soname(libopencv_core.so.413(x86_64))"
+				"soname(libopencv_core.so.414(x86_64))"
 			]
 		},
 		"opencv-devel": {
@@ -603,18 +605,18 @@
 				"soname(libc.so.6(x86_64))",
 				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libm.so.6(x86_64))",
-				"soname(libopencv_core.so.413(x86_64))",
-				"soname(libopencv_imgproc.so.413(x86_64))",
+				"soname(libopencv_core.so.414(x86_64))",
+				"soname(libopencv_imgproc.so.414(x86_64))",
 				"soname(libprotobuf.so.35.1.0(x86_64))",
 				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
-				"/usr/lib/libopencv_dnn.so.4.13.0",
-				"/usr/lib/libopencv_dnn.so.413"
+				"/usr/lib/libopencv_dnn.so.4.14.0",
+				"/usr/lib/libopencv_dnn.so.414"
 			],
 			"name": "opencv-dnn",
 			"provides": [
-				"soname(libopencv_dnn.so.413(x86_64))"
+				"soname(libopencv_dnn.so.414(x86_64))"
 			]
 		},
 		"opencv-features2d": {
@@ -648,18 +650,18 @@
 				"soname(libc.so.6(x86_64))",
 				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libm.so.6(x86_64))",
-				"soname(libopencv_core.so.413(x86_64))",
-				"soname(libopencv_flann.so.413(x86_64))",
-				"soname(libopencv_imgproc.so.413(x86_64))",
+				"soname(libopencv_core.so.414(x86_64))",
+				"soname(libopencv_flann.so.414(x86_64))",
+				"soname(libopencv_imgproc.so.414(x86_64))",
 				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
-				"/usr/lib/libopencv_features2d.so.4.13.0",
-				"/usr/lib/libopencv_features2d.so.413"
+				"/usr/lib/libopencv_features2d.so.4.14.0",
+				"/usr/lib/libopencv_features2d.so.414"
 			],
 			"name": "opencv-features2d",
 			"provides": [
-				"soname(libopencv_features2d.so.413(x86_64))"
+				"soname(libopencv_features2d.so.414(x86_64))"
 			]
 		},
 		"opencv-flann": {
@@ -693,16 +695,16 @@
 				"soname(libc.so.6(x86_64))",
 				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libm.so.6(x86_64))",
-				"soname(libopencv_core.so.413(x86_64))",
+				"soname(libopencv_core.so.414(x86_64))",
 				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
-				"/usr/lib/libopencv_flann.so.4.13.0",
-				"/usr/lib/libopencv_flann.so.413"
+				"/usr/lib/libopencv_flann.so.4.14.0",
+				"/usr/lib/libopencv_flann.so.414"
 			],
 			"name": "opencv-flann",
 			"provides": [
-				"soname(libopencv_flann.so.413(x86_64))"
+				"soname(libopencv_flann.so.414(x86_64))"
 			]
 		},
 		"opencv-highgui": {
@@ -739,17 +741,17 @@
 				"soname(libQt6Widgets.so.6(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libgcc_s.so.1(x86_64))",
-				"soname(libopencv_core.so.413(x86_64))",
-				"soname(libopencv_imgproc.so.413(x86_64))",
+				"soname(libopencv_core.so.414(x86_64))",
+				"soname(libopencv_imgproc.so.414(x86_64))",
 				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
-				"/usr/lib/libopencv_highgui.so.4.13.0",
-				"/usr/lib/libopencv_highgui.so.413"
+				"/usr/lib/libopencv_highgui.so.4.14.0",
+				"/usr/lib/libopencv_highgui.so.414"
 			],
 			"name": "opencv-highgui",
 			"provides": [
-				"soname(libopencv_highgui.so.413(x86_64))"
+				"soname(libopencv_highgui.so.414(x86_64))"
 			]
 		},
 		"opencv-imgcodecs": {
@@ -788,8 +790,8 @@
 				"soname(libjxl.so.0.12(x86_64))",
 				"soname(libjxl_threads.so.0.12(x86_64))",
 				"soname(libm.so.6(x86_64))",
-				"soname(libopencv_core.so.413(x86_64))",
-				"soname(libopencv_imgproc.so.413(x86_64))",
+				"soname(libopencv_core.so.414(x86_64))",
+				"soname(libopencv_imgproc.so.414(x86_64))",
 				"soname(libopenjp2.so.7(x86_64))",
 				"soname(libpng16.so.16(x86_64))",
 				"soname(libstdc++.so.6(x86_64))",
@@ -800,12 +802,12 @@
 				"soname(libz.so.1(x86_64))"
 			],
 			"files": [
-				"/usr/lib/libopencv_imgcodecs.so.4.13.0",
-				"/usr/lib/libopencv_imgcodecs.so.413"
+				"/usr/lib/libopencv_imgcodecs.so.4.14.0",
+				"/usr/lib/libopencv_imgcodecs.so.414"
 			],
 			"name": "opencv-imgcodecs",
 			"provides": [
-				"soname(libopencv_imgcodecs.so.413(x86_64))"
+				"soname(libopencv_imgcodecs.so.414(x86_64))"
 			]
 		},
 		"opencv-imgproc": {
@@ -839,16 +841,16 @@
 				"soname(libc.so.6(x86_64))",
 				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libm.so.6(x86_64))",
-				"soname(libopencv_core.so.413(x86_64))",
+				"soname(libopencv_core.so.414(x86_64))",
 				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
-				"/usr/lib/libopencv_imgproc.so.4.13.0",
-				"/usr/lib/libopencv_imgproc.so.413"
+				"/usr/lib/libopencv_imgproc.so.4.14.0",
+				"/usr/lib/libopencv_imgproc.so.414"
 			],
 			"name": "opencv-imgproc",
 			"provides": [
-				"soname(libopencv_imgproc.so.413(x86_64))"
+				"soname(libopencv_imgproc.so.414(x86_64))"
 			]
 		},
 		"opencv-ml": {
@@ -882,16 +884,16 @@
 				"soname(libc.so.6(x86_64))",
 				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libm.so.6(x86_64))",
-				"soname(libopencv_core.so.413(x86_64))",
+				"soname(libopencv_core.so.414(x86_64))",
 				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
-				"/usr/lib/libopencv_ml.so.4.13.0",
-				"/usr/lib/libopencv_ml.so.413"
+				"/usr/lib/libopencv_ml.so.4.14.0",
+				"/usr/lib/libopencv_ml.so.414"
 			],
 			"name": "opencv-ml",
 			"provides": [
-				"soname(libopencv_ml.so.413(x86_64))"
+				"soname(libopencv_ml.so.414(x86_64))"
 			]
 		},
 		"opencv-objdetect": {
@@ -925,19 +927,19 @@
 				"soname(libc.so.6(x86_64))",
 				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libm.so.6(x86_64))",
-				"soname(libopencv_calib3d.so.413(x86_64))",
-				"soname(libopencv_core.so.413(x86_64))",
-				"soname(libopencv_dnn.so.413(x86_64))",
-				"soname(libopencv_imgproc.so.413(x86_64))",
+				"soname(libopencv_calib3d.so.414(x86_64))",
+				"soname(libopencv_core.so.414(x86_64))",
+				"soname(libopencv_dnn.so.414(x86_64))",
+				"soname(libopencv_imgproc.so.414(x86_64))",
 				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
-				"/usr/lib/libopencv_objdetect.so.4.13.0",
-				"/usr/lib/libopencv_objdetect.so.413"
+				"/usr/lib/libopencv_objdetect.so.4.14.0",
+				"/usr/lib/libopencv_objdetect.so.414"
 			],
 			"name": "opencv-objdetect",
 			"provides": [
-				"soname(libopencv_objdetect.so.413(x86_64))"
+				"soname(libopencv_objdetect.so.414(x86_64))"
 			]
 		},
 		"opencv-photo": {
@@ -971,17 +973,17 @@
 				"soname(libc.so.6(x86_64))",
 				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libm.so.6(x86_64))",
-				"soname(libopencv_core.so.413(x86_64))",
-				"soname(libopencv_imgproc.so.413(x86_64))",
+				"soname(libopencv_core.so.414(x86_64))",
+				"soname(libopencv_imgproc.so.414(x86_64))",
 				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
-				"/usr/lib/libopencv_photo.so.4.13.0",
-				"/usr/lib/libopencv_photo.so.413"
+				"/usr/lib/libopencv_photo.so.4.14.0",
+				"/usr/lib/libopencv_photo.so.414"
 			],
 			"name": "opencv-photo",
 			"provides": [
-				"soname(libopencv_photo.so.413(x86_64))"
+				"soname(libopencv_photo.so.414(x86_64))"
 			]
 		},
 		"opencv-plot": {
@@ -1014,17 +1016,17 @@
 			"depends": [
 				"soname(libc.so.6(x86_64))",
 				"soname(libgcc_s.so.1(x86_64))",
-				"soname(libopencv_core.so.413(x86_64))",
-				"soname(libopencv_imgproc.so.413(x86_64))",
+				"soname(libopencv_core.so.414(x86_64))",
+				"soname(libopencv_imgproc.so.414(x86_64))",
 				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
-				"/usr/lib/libopencv_plot.so.4.13.0",
-				"/usr/lib/libopencv_plot.so.413"
+				"/usr/lib/libopencv_plot.so.4.14.0",
+				"/usr/lib/libopencv_plot.so.414"
 			],
 			"name": "opencv-plot",
 			"provides": [
-				"soname(libopencv_plot.so.413(x86_64))"
+				"soname(libopencv_plot.so.414(x86_64))"
 			]
 		},
 		"opencv-stitching": {
@@ -1058,20 +1060,20 @@
 				"soname(libc.so.6(x86_64))",
 				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libm.so.6(x86_64))",
-				"soname(libopencv_calib3d.so.413(x86_64))",
-				"soname(libopencv_core.so.413(x86_64))",
-				"soname(libopencv_features2d.so.413(x86_64))",
-				"soname(libopencv_flann.so.413(x86_64))",
-				"soname(libopencv_imgproc.so.413(x86_64))",
+				"soname(libopencv_calib3d.so.414(x86_64))",
+				"soname(libopencv_core.so.414(x86_64))",
+				"soname(libopencv_features2d.so.414(x86_64))",
+				"soname(libopencv_flann.so.414(x86_64))",
+				"soname(libopencv_imgproc.so.414(x86_64))",
 				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
-				"/usr/lib/libopencv_stitching.so.4.13.0",
-				"/usr/lib/libopencv_stitching.so.413"
+				"/usr/lib/libopencv_stitching.so.4.14.0",
+				"/usr/lib/libopencv_stitching.so.414"
 			],
 			"name": "opencv-stitching",
 			"provides": [
-				"soname(libopencv_stitching.so.413(x86_64))"
+				"soname(libopencv_stitching.so.414(x86_64))"
 			]
 		},
 		"opencv-tracking": {
@@ -1105,18 +1107,18 @@
 				"soname(libc.so.6(x86_64))",
 				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libm.so.6(x86_64))",
-				"soname(libopencv_core.so.413(x86_64))",
-				"soname(libopencv_imgproc.so.413(x86_64))",
-				"soname(libopencv_video.so.413(x86_64))",
+				"soname(libopencv_core.so.414(x86_64))",
+				"soname(libopencv_imgproc.so.414(x86_64))",
+				"soname(libopencv_video.so.414(x86_64))",
 				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
-				"/usr/lib/libopencv_tracking.so.4.13.0",
-				"/usr/lib/libopencv_tracking.so.413"
+				"/usr/lib/libopencv_tracking.so.4.14.0",
+				"/usr/lib/libopencv_tracking.so.414"
 			],
 			"name": "opencv-tracking",
 			"provides": [
-				"soname(libopencv_tracking.so.413(x86_64))"
+				"soname(libopencv_tracking.so.414(x86_64))"
 			]
 		},
 		"opencv-video": {
@@ -1151,19 +1153,19 @@
 				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libm.so.6(x86_64))",
 				"soname(libomp.so(x86_64))",
-				"soname(libopencv_calib3d.so.413(x86_64))",
-				"soname(libopencv_core.so.413(x86_64))",
-				"soname(libopencv_dnn.so.413(x86_64))",
-				"soname(libopencv_imgproc.so.413(x86_64))",
+				"soname(libopencv_calib3d.so.414(x86_64))",
+				"soname(libopencv_core.so.414(x86_64))",
+				"soname(libopencv_dnn.so.414(x86_64))",
+				"soname(libopencv_imgproc.so.414(x86_64))",
 				"soname(libstdc++.so.6(x86_64))"
 			],
 			"files": [
-				"/usr/lib/libopencv_video.so.4.13.0",
-				"/usr/lib/libopencv_video.so.413"
+				"/usr/lib/libopencv_video.so.4.14.0",
+				"/usr/lib/libopencv_video.so.414"
 			],
 			"name": "opencv-video",
 			"provides": [
-				"soname(libopencv_video.so.413(x86_64))"
+				"soname(libopencv_video.so.414(x86_64))"
 			]
 		},
 		"opencv-videoio": {
@@ -1210,23 +1212,23 @@
 				"soname(libgstriff-1.0.so.0(x86_64))",
 				"soname(libgstvideo-1.0.so.0(x86_64))",
 				"soname(libm.so.6(x86_64))",
-				"soname(libopencv_core.so.413(x86_64))",
-				"soname(libopencv_imgcodecs.so.413(x86_64))",
-				"soname(libopencv_imgproc.so.413(x86_64))",
+				"soname(libopencv_core.so.414(x86_64))",
+				"soname(libopencv_imgcodecs.so.414(x86_64))",
+				"soname(libopencv_imgproc.so.414(x86_64))",
 				"soname(libstdc++.so.6(x86_64))",
 				"soname(libswscale.so.10(x86_64))"
 			],
 			"files": [
-				"/usr/lib/libopencv_videoio.so.4.13.0",
-				"/usr/lib/libopencv_videoio.so.413"
+				"/usr/lib/libopencv_videoio.so.4.14.0",
+				"/usr/lib/libopencv_videoio.so.414"
 			],
 			"name": "opencv-videoio",
 			"provides": [
-				"soname(libopencv_videoio.so.413(x86_64))"
+				"soname(libopencv_videoio.so.414(x86_64))"
 			]
 		}
 	},
 	"source-name": "opencv",
-	"source-release": "20",
-	"source-version": "4.13.0"
+	"source-release": "21",
+	"source-version": "4.14.0"
 }
