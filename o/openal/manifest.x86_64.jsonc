@@ -24,7 +24,6 @@
 			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
-				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libm.so.6(x86_64))",
@@ -73,7 +72,6 @@
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
 				"openal",
-				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libm.so.6(x86_64))",
@@ -122,19 +120,18 @@
 			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
-				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libSDL3.so.0(x86_64))",
-				"soname(libavcodec.so.62(x86_64))",
-				"soname(libavformat.so.62(x86_64))",
-				"soname(libavutil.so.60(x86_64))",
+				"soname(libavcodec.so.63(x86_64))",
+				"soname(libavformat.so.63(x86_64))",
+				"soname(libavutil.so.61(x86_64))",
 				"soname(libc.so.6(x86_64))",
 				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libm.so.6(x86_64))",
 				"soname(libopenal.so.1(x86_64))",
 				"soname(libsndfile.so.1(x86_64))",
 				"soname(libstdc++.so.6(x86_64))",
-				"soname(libswresample.so.6(x86_64))",
-				"soname(libswscale.so.9(x86_64))"
+				"soname(libswresample.so.7(x86_64))",
+				"soname(libswscale.so.10(x86_64))"
 			],
 			"files": [
 				"/usr/bin/aldebug",
@@ -209,6 +206,6 @@
 		}
 	},
 	"source-name": "openal",
-	"source-release": "7",
+	"source-release": "8",
 	"source-version": "1.25.2"
 }
