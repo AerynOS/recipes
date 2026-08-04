@@ -2,18 +2,18 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : ffmpeg
-version     : "8.1.2"
-release     : 36
+version     : "9.0"
+release     : 37
 homepage    : https://ffmpeg.org/releases
 upstreams   :
-    - https://ffmpeg.org/releases/ffmpeg-8.1.2.tar.xz:
-        hash: 464beb5e7bf0c311e68b45ae2f04e9cc2af88851abb4082231742a74d97b524c
+    - https://ffmpeg.org/releases/ffmpeg-9.0.tar.xz:
+        hash: 7f607a00dd0d28a729d5a4811205812eef01cf6ef6155025febb6f36a9062d52
         unpackdir: current
 
     # Don't delete this section, just comment it out if it's not needed. The build recipe accounts for it possibly not existing
-    # - https://ffmpeg.org/releases/ffmpeg-7.1.3.tar.xz:
-    #     hash: f0bf043299db9e3caacb435a712fc541fbb07df613c4b893e8b77e67baf3adbe
-    #     unpackdir: compat
+    - https://ffmpeg.org/releases/ffmpeg-8.1.2.tar.xz:
+        hash: 464beb5e7bf0c311e68b45ae2f04e9cc2af88851abb4082231742a74d97b524c
+        unpackdir: compat
 summary     : FFmpeg is a complete, cross-platform solution to record, convert and stream audio and video.
 description : |
     FFmpeg is a complete, cross-platform solution to record, convert and stream audio and video.
@@ -29,6 +29,7 @@ builddeps   :
     - binary(pod2man)
     - cmake(VulkanHeaders)
     - pkgconfig(OpenCL)
+    - pkgconfig(SPIRV-Headers)
     - pkgconfig(SvtAv1Enc)
     - pkgconfig(alsa)
     - pkgconfig(aom)
@@ -89,8 +90,7 @@ builddeps   :
     - pkgconfig(zimg)
     - gsm-devel
     - ladspa-devel
-# TODO
-# - Figure out build issue with glslang
+# TODO:
 # Codecs:
 # - libbluray
 # - libiec61883
@@ -119,6 +119,7 @@ builddeps   :
 # - libzvbi
 # filters
 # - opencolorio
+# - ONNXRuntime
 # outdev/indev
 # - caca
 # - libiec61883
@@ -131,10 +132,11 @@ setup       : |
         %patch %(pkgdir)/0001-Don-t-print-in-columns.patch
         %patch %(pkgdir)/chromium.patch
 
+        # TODO: when this is 9.0+ use --toolchain=llvm
         ./configure \
             --prefix=%(prefix) \
-            --incdir=%(includedir)/ffmpeg-7.1 \
-            --libdir=%(libdir)/ffmpeg-7.1 \
+            --incdir=%(includedir)/ffmpeg-8.1 \
+            --libdir=%(libdir)/ffmpeg-8.1 \
             --cc=${CC} \
             --cxx=${CXX} \
             --ld=${CC} \
@@ -145,8 +147,8 @@ setup       : |
             --enable-shared \
             --enable-gpl \
             --enable-cuda-llvm \
-            --enable-lcms2 \
             --enable-ladspa \
+            --enable-lcms2 \
             --enable-libaom \
             --enable-libass \
             --enable-libbs2b \
@@ -165,6 +167,7 @@ setup       : |
             --enable-liblc3 \
             --enable-libmp3lame \
             --enable-libmysofa \
+            --enable-libopenh264 \
             --enable-libopus \
             --enable-libplacebo \
             --enable-libpulse \
@@ -207,10 +210,7 @@ setup       : |
 
     ./configure \
         --prefix=%(prefix) \
-        --cc=${CC} \
-        --cxx=${CXX} \
-        --ld=${CC} \
-        --nm=%(nm) \
+        --toolchain=llvm \
         --disable-static \
         --disable-stripping \
         --enable-lto \
@@ -244,7 +244,6 @@ setup       : |
         --enable-libqrencode \
         --enable-librav1e \
         --enable-librsvg \
-        --enable-libshaderc \
         --enable-libsnappy \
         --enable-libsoxr \
         --enable-libspeex \
@@ -294,26 +293,26 @@ install     : |
         # Version libs
         pushd %(installroot)
         f=""
-        for f in usr/lib/ffmpeg-7.1/*; do
+        for f in usr/lib/ffmpeg-8.1/*; do
             if [[ $f == *.so ]]; then
                 ln -srf -- usr/lib/"$(readlink "$f")" "$f"
-                mv "$f" "${f%%.so}-7.1.so"
+                mv "$f" "${f%%.so}-8.1.so"
             elif [[ ! -d $f ]]; then
                 mv "$f" usr/lib
             fi
         done
 
         # Rename pkgconfigs so they don't conflict
-        mv %(installroot)%(libdir)/ffmpeg-7.1/pkgconfig %(installroot)%(libdir)/pkgconfig
+        mv %(installroot)%(libdir)/ffmpeg-8.1/pkgconfig %(installroot)%(libdir)/pkgconfig
         cd %(installroot)%(libdir)/pkgconfig
         for i in *.pc; do
-            mv $i ${i%.pc}-7.1.pc
+            mv $i ${i%.pc}-8.1.pc
         done
 
         # Fixup pkgconfig dependencies
         for b in avcodec avdevice avfilter avformat avutil postproc swresample swscale; do
-            sed -i "s|lib$b|lib$b-7.1|g" *.pc
-            sed -i "s|-l$b|-l$b-7.1|g" *.pc
+            sed -i "s|lib$b|lib$b-8.1|g" *.pc
+            sed -i "s|-l$b|-l$b-8.1|g" *.pc
         done
         popd
 
