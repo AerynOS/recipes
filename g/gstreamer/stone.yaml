@@ -160,6 +160,7 @@ setup       : |
     # %cargo_fetch
     # popd
 
+    # gitlab.freedesktop.org/gstreamer/gstreamer#5251
     %patch %(pkgdir)/0001-ftbfs-ffmpeg-9.0.patch
 
     # TODO: When boulder/moss supports capabilities use that for ptp-helper instead of setuid
