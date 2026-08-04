@@ -3,7 +3,7 @@
 
 name        : opencv
 version     : "4.13.0"
-release     : 19
+release     : 20
 upstreams   :
     - https://github.com/opencv/opencv/archive/refs/tags/4.13.0.tar.gz:
         hash: 1d40ca017ea51c533cf9fd5cbde5b5fe7ae248291ddf2af99d4c17cf8e13017d
@@ -67,6 +67,12 @@ setup       : |
     # I think this is a openblas issue, none of this should be required
     export FC=flang
     export LDFLAGS+=" -lopenblas"
+
+    # Fix build for FFmpeg9
+    # https://github.com/opencv/opencv/pull/29533
+    # https://github.com/opencv/opencv/pull/29662
+    %patch %(pkgdir)/29533.patch
+    %patch %(pkgdir)/29662.patch
 
     # Add x86-64v2 CPU flags to baseline (See `cmake/OpenCVCompilerOptimizations.cmake`)
     %cmake \
