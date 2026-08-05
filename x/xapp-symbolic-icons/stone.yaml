@@ -1,0 +1,32 @@
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : xapp-symbolic-icons
+version     : "1.1.0"
+release     : 1
+upstreams   :
+    - https://github.com/xapp-project/xapp-symbolic-icons/archive/refs/tags/1.1.0.tar.gz : fa96ac6a1a85c0cb16dccab5c03ae1e651a3482cde4a93f792956977bc19108d
+homepage    : https://github.com/xapp-project/xapp-symbolic-icons
+license     :
+    - BSD-3-Clause
+    - CC-BY-4.0
+    - CC-BY-SA-4.0
+    - CC0-1.0
+    - GPL-2.0-or-later
+    - LGPL-2.0-or-later
+    - MIT
+summary     : A set of symbolic icons for Gtk applications and projects
+description : |
+    A set of symbolic icons for Gtk applications and projects
+setup       : |
+    %meson
+build       : |
+    %meson_build
+install     : |
+    %meson_install
+packages    :
+    - "%(name)-devel":
+        rundeps:
+            - binary(python3)
+        paths:
+            - /usr/bin/
