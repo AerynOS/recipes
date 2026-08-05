@@ -3,7 +3,7 @@
 
 name        : iwd
 version     : "3.12"
-release     : 10
+release     : 11
 homepage    : https://iwd.wiki.kernel.org/
 upstreams   :
     - https://mirrors.edge.kernel.org/pub/linux/network/wireless/iwd-3.12.tar.xz : d89a5e45c7180170e19be828f9e944a768c593758094fc57a358d0e7c4cb1a49
@@ -18,6 +18,11 @@ builddeps   :
     - pkgconfig(readline)
     - pkgconfig(systemd)
 setup       : |
+    %patch %(pkgdir)/security-01.patch
+    %patch %(pkgdir)/security-02.patch
+    %patch %(pkgdir)/security-03.patch
+    %patch %(pkgdir)/security-04.patch
+
     # Use `readline` instead of `libedit` as `iwctl` can't get your inputs with the latter.
     %configure \
         --enable-hwsim \
