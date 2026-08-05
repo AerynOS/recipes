@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : gstreamer
-version     : "1.28.5"
-release     : 57
+version     : "1.28.6"
+release     : 58
 homepage    : https://gstreamer.freedesktop.org/
 upstreams   :
-    - https://gitlab.freedesktop.org/gstreamer/gstreamer/-/archive/1.28.5/gstreamer-1.28.5.tar.gz : cb0738a33b9d9801caf54b6fdcf717192bad90019fcabebaefd5b2d633fb25d0
+    - https://gitlab.freedesktop.org/gstreamer/gstreamer/-/archive/1.28.6/gstreamer-1.28.6.tar.gz : c46ea808af5f073ee68cd0e66734c1c103a2bd001e7a3e35c79908613f11d17b
 summary     : GStreamer multimedia framework
 description : |
     GStreamer can bridge to other multimedia frameworks in order to reuse existing components (e.g. codecs) and use platform input/output mechanisms.
@@ -159,9 +159,6 @@ setup       : |
     # pushd subprojects/gst-devtools/dots-viewer
     # %cargo_fetch
     # popd
-
-    # gitlab.freedesktop.org/gstreamer/gstreamer#5251
-    %patch %(pkgdir)/0001-ftbfs-ffmpeg-9.0.patch
 
     # TODO: When boulder/moss supports capabilities use that for ptp-helper instead of setuid
     # NOTE: When updating this package (major version) if you want to find out what subpackage a given file should go in
