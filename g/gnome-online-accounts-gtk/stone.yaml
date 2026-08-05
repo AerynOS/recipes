@@ -1,0 +1,32 @@
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : gnome-online-accounts-gtk
+version     : "3.50.10"
+release     : 1
+upstreams   :
+    - https://github.com/xapp-project/gnome-online-accounts-gtk/archive/refs/tags/3.50.10.tar.gz : 1335240713781c7f88d3d0a179cd275d309fd010cbd9d9048518560a75d774ac
+homepage    : https://github.com/xapp-project/gnome-online-accounts-gtk
+license     : GPL-3.0-or-later
+summary     : A GTK Frontend for GNOME Online Accounts
+description : |
+    A GTK Frontend for GNOME Online Accounts
+builddeps   :
+    - binary(msgfmt)
+    - pkgconfig(glib-2.0)
+    - pkgconfig(gio-2.0)
+    - pkgconfig(goa-1.0)
+    - pkgconfig(goa-backend-1.0)
+    - pkgconfig(gtk4)
+    - pkgconfig(libadwaita-1)
+setup       : |
+    %meson
+build       : |
+    %meson_build
+install     : |
+    %meson_install
+packages    :
+    - "%(name)":
+        rundeps:
+            - gvfs-goa
+            - xapp-symbolic-icons
