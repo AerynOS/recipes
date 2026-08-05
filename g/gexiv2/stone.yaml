@@ -2,18 +2,17 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : gexiv2
-version     : "0.16.1"
-release     : 13
+version     : "0.16.2"
+release     : 14
 homepage    : https://wiki.gnome.org/Projects/gexiv2
 upstreams   :
-    - https://download.gnome.org/sources/gexiv2/0.16/gexiv2-0.16.1.tar.xz:
-        hash: 18e9a05c637a77e800b001d87f70e4d02a7ba41b7745400a314a1072a1ddc943
+    - https://download.gnome.org/sources/gexiv2/0.16/gexiv2-0.16.2.tar.xz:
+        hash: aad9e240fdffbe85e390f46ee0a567e251baea5c29c3d8690260388683dc8d0a
         unpackdir: current
 
-    # Variety needs the old version (for now)
-    - https://download.gnome.org/sources/gexiv2/0.14/gexiv2-0.14.6.tar.xz:
-        hash: 606c28aaae7b1f3ef5c8eabe5e7dffd7c5a1c866d25b7671fb847fe287a72b8b
-        unpackdir: compat
+    # - https://download.gnome.org/sources/gexiv2/0.14/gexiv2-0.14.6.tar.xz:
+    #     hash: 606c28aaae7b1f3ef5c8eabe5e7dffd7c5a1c866d25b7671fb847fe287a72b8b
+    #     unpackdir: compat
 summary     : gexiv2 is a GObject wrapper around the Exiv2 photo metadata library
 description : |
     gexiv2 is a GObject wrapper around the Exiv2 photo metadata library. It allows for GNOME applications to easily inspect and update EXIF, IPTC, and XMP metadata in photo and video files of various formats.
