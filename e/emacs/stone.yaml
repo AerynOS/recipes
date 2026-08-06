@@ -19,6 +19,9 @@ builddeps   :
     - binary(ld)
     - binary(makeinfo)
     - binary(tar)
+    - giflib-devel
+    - gpm-devel
+    - libgccjit-devel
     - pkgconfig(alsa)
     - pkgconfig(cairo)
     - pkgconfig(dbus-1)
@@ -38,7 +41,6 @@ builddeps   :
     - pkgconfig(libpng)
     - pkgconfig(librsvg-2.0)
     - pkgconfig(libtiff-4)
-    - pkgconfig(tree-sitter)
     - pkgconfig(libwebp)
     - pkgconfig(libxml-2.0)
     - pkgconfig(ncurses)
@@ -46,12 +48,10 @@ builddeps   :
     - pkgconfig(smartcols)
     - pkgconfig(sqlite3)
     - pkgconfig(systemd)
+    - pkgconfig(tree-sitter)
     - pkgconfig(xfixes)
     - pkgconfig(xpm)
     - pkgconfig(zlib)
-    - giflib-devel
-    - gpm-devel
-    - libgccjit-devel
     # libselinux
 toolchain   : gnu # Required for libgccjit
 setup       : |
