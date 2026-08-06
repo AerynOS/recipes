@@ -1,23 +1,27 @@
 # SPDX-FileCopyrightText: 2025 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
 
-name: Request build support
+name: 🚨 Request build support
 description: File a report where you recieved failures to build a package and are unsure how to proceed.
-title: "[Package Build Failure]: "
+title: "[Package Build Failure]: <package name> desired version"
 labels: ["package: build failure"]
+assignees: ["pkg-staff"]
+
 body:
   - type: markdown
     attributes:
       value: |
-        Thanks for taking the time to fill out this package build support failure! Your interest in AerynOS is appreciated and we hope to be able to support you in successfully building packages within AerynOS.
+        Thanks for taking the time to fill out this package build support failure! Your interest in aerynOS is appreciated and we hope to be able to support you in successfully building packages within aerynOS.
+
   - type: checkboxes
     id: search
     attributes:
       label: Existing reports?
-      description: Before opening a new issue, please search [the open issues](https://github.com/AerynOS/recipes/issues?q=is%3Aopen+is%3Aissue) to ensure there is not already an open package build failure report for the problem.
+      description: Before opening a new issue, please search the [open issues](https://github.com/AerynOS/recipes/issues?q=is%3Aissue%20state%3Aopen%20label%3A%22package%3A%20build%20failure%22) to ensure there is not already an open package build failure report for the problem.
       options:
         - label: I have searched open package build failure reports for this issue
           required: true
+
   - type: input
     id: name
     attributes:
@@ -25,7 +29,8 @@ body:
       description: Name of the package.
     validations:
       required: true
- - type: input
+
+  - type: input
     id: source
     attributes:
       label: Link to source archive file
@@ -33,14 +38,25 @@ body:
       placeholder: https://www.example.com/releases/v1.2.3.tar.gz
     validations:
       required: true
+
+  - type: textarea
+    id: recipe
+    attributes:
+      label: Recipe being used that is causing build failure
+      description: Please copy and paste the stone.yaml recipe you are trying to build this package with. This will be automatically formatted into code, so no need for backticks.
+      render: shell
+    validations:
+      required: true
+
   - type: textarea
     id: logs
     attributes:
       label: Build failure logs
-      description: Please copy and paste the output of the errors/build failure from your CLI when you try and build this package in SerpentOS. This will be automatically formatted into code, so no need for backticks.
+      description: Please copy and paste the output of the errors/build failure from your CLI when you try and build this package in aerynOS. This will be automatically formatted into code, so no need for backticks.
       render: shell
     validations:
       required: true
+
   - type: textarea
     id: other
     attributes:

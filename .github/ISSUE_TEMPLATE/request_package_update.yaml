@@ -1,45 +1,93 @@
 # SPDX-FileCopyrightText: 2025 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
 
-name: Request a package update
-description: Request that a package already in the repo is updated
-title: "[Package Update]: "
-labels: ["package update"]
+name: 🔁 Package Update Request
+description: Request an update to an existing package
+title: "[Update Request]: <package name> current → desired version"
+labels: ["package: update"]
+assignees: ["pkg-staff"]
+
 body:
   - type: markdown
     attributes:
       value: |
-        Thanks for taking the time to fill out this package update request! Your interest in AerynOS is appreciated and we commit to reviewing your request. Please note that whilst the project is actively being worked on, there could be a delay in package updates.
-  - type: checkboxes
-    id: search
-    attributes:
-      label: Existing package update request?
-      description: Before opening a new issue, please search [the open issues](https://github.com/AerynOS/recipes/issues?q=is%3Aopen+is%3Aissue) to ensure there is not already an open package update request for this package.
-      options:
-        - label: I have searched open package request reports for an equivalent package update request
-          required: true
+        ## Package Update Request
+
+        Please note: If you are a packager and have already prepared an update, submit a **Pull Request** instead of opening an issue.
+
   - type: input
-    id: name
+    id: package_name
     attributes:
-      label: Name
-      description: Name of the software as it is found in the repo.
+      label: Package Name
+      description: The exact name of the package in the aerynOS repository.
+      placeholder: e.g. firefox, wf-recorder, zulip-desktop
     validations:
       required: true
+
   - type: input
-    id: version
+    id: current_version
     attributes:
-      label: Version
-      description: What is the latest version of the package you are requesting.
-  - type: input
-    id: url
-    attributes:
-      label: Link to the release notes or announcement.
+      label: Current Version
+      description: What version is currently in aerynOS?
+      placeholder: e.g. 1.2.3
     validations:
       required: true
+
+  - type: input
+    id: desired_version
+    attributes:
+      label: Desired Version
+      description: What version do you want to update to?
+      placeholder: e.g. 1.4.0
+    validations:
+      required: true
+
+  - type: input
+    id: upstream_release_url
+    attributes:
+      label: Upstream Release Link
+      description: Link to the upstream release announcement, changelog, or release page.
+      placeholder: e.g. https://github.com/org/repo/releases/tag/v1.4.0
+    validations:
+      required: true
+
   - type: textarea
-    id: reason
+    id: change_summary
     attributes:
-      label: Reason for update
-      description: Please provide a brief explanation of the updates from the currently packaged version of this package that would be helpful for SerpentOS users
+      label: Summary of Changes
+      description: Briefly summarise the key changes in this release. Link to changelog if available.
+      placeholder: e.g. "Bug fixes, improved performance, added support for X..."
     validations:
-       required: true
+      required: true
+
+  - type: checkboxes
+    id: policy_acknowledgement
+    attributes:
+      label: Policy Confirmation
+      description: Confirm that you've reviewed the Package Addition Policy.
+      options:
+        - label: I have read the [Package Addition Policy](blob/main/PACKAGING_POLICY.md) and believe this package meets the criteria for package update.
+          required: true
+        - label: I have searched for existing [requests](https://github.com/AerynOS/recipes/issues?q=is%3Aissue+is%3Aopen+label%3A%22package%3A+update%22) and confirmed this hasn't been requested before.
+          required: true
+
+  - type: checkboxes
+    id: security_relevant
+    attributes:
+      label: Security Implications
+      options:
+        - label: This update includes security fixes (please provide CVE references if known)
+        - label: This is a security-critical package (e.g., browser, crypto library, network service)
+
+  - type: textarea
+    id: additional_info
+    attributes:
+      label: Additional Information (Optional)
+      description: Any build changes, dependency updates, or other notes relevant to the update.
+
+  - type: markdown
+    attributes:
+      value: |
+        ---
+
+        Updates are prioritised based on security impact, user demand, and packager availability. You may be asked to prepare a recipe yourself if capacity is limited. Please note that there may be a delay in package updates whilst the project is currently in the alpha development stage.
