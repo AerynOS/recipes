@@ -14,9 +14,9 @@ license     :
     - BSD-3-Clause
 builddeps   :
     # Needed for /usr/share/info file generation
+    - binary(gzip)
     - binary(info)
     - binary(msgmerge)
-    - binary(gzip)
     - pkgconfig(blkid)
     - pkgconfig(fuse3)
     - pkgconfig(libacl)
