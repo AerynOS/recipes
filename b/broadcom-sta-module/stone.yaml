@@ -3,7 +3,7 @@
 
 name        : broadcom-sta-module
 version     : "6.30.223.271"
-release     : 1
+release     : 2
 homepage    : https://github.com/umlaeute/v4l2loopback
 upstreams   :
     - https://docs.broadcom.com/docs-and-downloads/docs/linux_sta/hybrid-v35_64-nodebug-pcoem-6_30_223_271.tar.gz:
@@ -70,7 +70,7 @@ build       : |
         pushd ${_kernel}/amd64
         %ccache_zero
         export CCACHE_BASEDIR="${PWD}"
-        %make LLVM=1 KDIR="%(libdir)/modules/${_kernel}" KERNELRELEASE=${_kernel}
+        %make LLVM=1 KBASE="%(libdir)/modules/${_kernel}" KERNELRELEASE=${_kernel}
         %ccache_stats
         popd
     done
