@@ -13,10 +13,10 @@ description : |
     Message Digest functions from BSD systems
 networking  : true
 builddeps   :
+    - binary(python3)
     - cmake(hdf5)
     - pkgconfig(alsa)
     - pkgconfig(jemalloc)
-    - binary(python3)
 environment : |
     # Use packaged jemalloc
     export JEMALLOC_OVERRIDE=%(libdir)/libjemalloc.a
