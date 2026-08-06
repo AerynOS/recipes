@@ -2,29 +2,36 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : libcupsfilters
-version     : "2.1.1"
-release     : 9
+version     : "2.2.0"
+release     : 10
 homepage    : https://github.com/OpenPrinting/libcupsfilters
 upstreams   :
-    - https://github.com/OpenPrinting/libcupsfilters/releases/download/2.1.1/libcupsfilters-2.1.1.tar.xz : 6c303e36cfde05a6c88fb940c62b6a18e7cdbfb91f077733ebc98f104925ce36
+    - https://github.com/OpenPrinting/libcupsfilters/releases/download/2.2.0/libcupsfilters-2.2.0.tar.xz : 6aefab1a8f8edb31720408d8f43e3bd89bfbb52704546840cae8b9d31bd137eb
 summary     : CUPS filters library
 description : |
     libcupsfilters is a library for CUPS filters.
 license     : Apache-2.0
 builddeps   :
     - binary(gs)
+    - binary(msgfmt)
+    - binary(pdftoppm)
     - pkgconfig(cups)
+    - pkgconfig(dbus-1)
     - pkgconfig(fontconfig)
     - pkgconfig(lcms2)
     - pkgconfig(libexif)
     - pkgconfig(libjpeg)
+    - pkgconfig(libjxl)
     - pkgconfig(libpng)
-    - pkgconfig(libqpdf)
     - pkgconfig(libtiff-4)
+    - pkgconfig(pdfio)
     - pkgconfig(poppler-cpp)
+    - dejavu-fonts-ttf
 rundeps     :
     - binary(gs) # Called in filter functions
+    - binary(pdftoppm)
     - colord # Integration with color profiles
+    - dejavu-fonts-ttf
 setup       : |
     %configure \
         --disable-mutool \

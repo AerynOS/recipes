@@ -5,34 +5,40 @@
 		"libcupsfilters": {
 			"build-depends": [
 				"binary(gs)",
+				"binary(msgfmt)",
+				"binary(pdftoppm)",
+				"dejavu-fonts-ttf",
 				"pkgconfig(cups)",
+				"pkgconfig(dbus-1)",
 				"pkgconfig(fontconfig)",
 				"pkgconfig(lcms2)",
 				"pkgconfig(libexif)",
 				"pkgconfig(libjpeg)",
+				"pkgconfig(libjxl)",
 				"pkgconfig(libpng)",
-				"pkgconfig(libqpdf)",
 				"pkgconfig(libtiff-4)",
+				"pkgconfig(pdfio)",
 				"pkgconfig(poppler-cpp)"
 			],
 			"depends": [
 				"binary(gs)",
+				"binary(pdftoppm)",
 				"colord",
+				"dejavu-fonts-ttf",
 				"soname(libc.so.6(x86_64))",
 				"soname(libcups.so.2(x86_64))",
 				"soname(libdbus-1.so.3(x86_64))",
 				"soname(libexif.so.12(x86_64))",
 				"soname(libfontconfig.so.1(x86_64))",
-				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libjpeg.so.8(x86_64))",
+				"soname(libjxl.so.0.12(x86_64))",
 				"soname(liblcms2.so.2(x86_64))",
 				"soname(liblcms2_fast_float.so.2(x86_64))",
 				"soname(liblcms2_threaded.so.2(x86_64))",
 				"soname(libm.so.6(x86_64))",
+				"soname(libpdfio.so.1(x86_64))",
 				"soname(libpng16.so.16(x86_64))",
 				"soname(libpoppler-cpp.so.3(x86_64))",
-				"soname(libqpdf.so.30(x86_64))",
-				"soname(libstdc++.so.6(x86_64))",
 				"soname(libtiff.so.6(x86_64))"
 			],
 			"files": [
@@ -81,14 +87,19 @@
 		"libcupsfilters-devel": {
 			"build-depends": [
 				"binary(gs)",
+				"binary(msgfmt)",
+				"binary(pdftoppm)",
+				"dejavu-fonts-ttf",
 				"pkgconfig(cups)",
+				"pkgconfig(dbus-1)",
 				"pkgconfig(fontconfig)",
 				"pkgconfig(lcms2)",
 				"pkgconfig(libexif)",
 				"pkgconfig(libjpeg)",
+				"pkgconfig(libjxl)",
 				"pkgconfig(libpng)",
-				"pkgconfig(libqpdf)",
 				"pkgconfig(libtiff-4)",
+				"pkgconfig(pdfio)",
 				"pkgconfig(poppler-cpp)"
 			],
 			"depends": [
@@ -117,6 +128,6 @@
 		}
 	},
 	"source-name": "libcupsfilters",
-	"source-release": "9",
-	"source-version": "2.1.1"
+	"source-release": "10",
+	"source-version": "2.2.0"
 }
