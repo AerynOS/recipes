@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : libostree
-version     : "2026.2"
-release     : 17
+version     : "2026.3"
+release     : 18
 homepage    : https://ostreedev.github.io/ostree/
 upstreams   :
-    - https://github.com/ostreedev/ostree/releases/download/v2026.2/libostree-2026.2.tar.xz : a281f2db631f3721ecd4b9e2779a1eaf56e2d03f2cc47629a9f0117f12016a83
+    - https://github.com/ostreedev/ostree/releases/download/v2026.3/libostree-2026.3.tar.xz : e560e47631d1f703e9ed3425e8909ccd87fa2992422c07348ca88ec98943c8fb
 summary     : Operating system and container binary deployment and upgrades
 description : |
     The core OSTree model is like git in that it checksums individual files and has a content-addressed-object store. It's unlike git in that it "checks out" the files via hardlinks, and they thus need to be immutable to prevent corruption. Therefore, another way to think of OSTree is that it's just a more polished version of Linux VServer hardlinks.
