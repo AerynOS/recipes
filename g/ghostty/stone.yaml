@@ -14,13 +14,14 @@ license     : MIT
 networking  : true
 builddeps   :
     - binary(gettext)
-    - binary(tic)
     - binary(pandoc)
+    - binary(tic)
     - binary(zig-0.15)
+    - glslang-devel
     - pkgconfig(blueprint-compiler)
     - pkgconfig(freetype2)
-    - pkgconfig(gtk4)
     - pkgconfig(gtk4-layer-shell-0)
+    - pkgconfig(gtk4)
     - pkgconfig(harfbuzz)
     - pkgconfig(libadwaita-1)
     - pkgconfig(libhwy)
@@ -28,7 +29,6 @@ builddeps   :
     - pkgconfig(libxml-2.0)
     - pkgconfig(oniguruma)
     - pkgconfig(zlib)
-    - glslang-devel
 environment : |
     export ZIG_GLOBAL_CACHE_DIR=%(builddir)/zig-cache
     export DESTDIR=%(installroot)
