@@ -1,0 +1,74 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"pdfio": {
+			"build-depends": [
+				"pkgconfig(zlib)"
+			],
+			"depends": [
+				"soname(libc.so.6(x86_64))",
+				"soname(libm.so.6(x86_64))",
+				"soname(libz.so.1(x86_64))"
+			],
+			"files": [
+				"/usr/lib/libpdfio.so.1",
+				"/usr/share/doc/pdfio/LICENSE",
+				"/usr/share/doc/pdfio/NOTICE",
+				"/usr/share/doc/pdfio/pdfio-512.png",
+				"/usr/share/doc/pdfio/pdfio.html"
+			],
+			"name": "pdfio",
+			"provides": [
+				"soname(libpdfio.so.1(x86_64))"
+			]
+		},
+		"pdfio-devel": {
+			"build-depends": [
+				"pkgconfig(zlib)"
+			],
+			"depends": [
+				"pdfio",
+				"pkgconfig(zlib)"
+			],
+			"files": [
+				"/usr/include/pdfio-content.h",
+				"/usr/include/pdfio.h",
+				"/usr/lib/libpdfio.so",
+				"/usr/lib/pkgconfig/pdfio.pc",
+				"/usr/share/man/man3/pdfio.3"
+			],
+			"name": "pdfio-devel",
+			"provides": [
+				"pkgconfig(pdfio)"
+			]
+		},
+		"pdfio-examples": {
+			"build-depends": [
+				"pkgconfig(zlib)"
+			],
+			"files": [
+				"/usr/share/doc/pdfio/examples/Makefile",
+				"/usr/share/doc/pdfio/examples/Roboto-Bold.ttf",
+				"/usr/share/doc/pdfio/examples/Roboto-Italic.ttf",
+				"/usr/share/doc/pdfio/examples/Roboto-LICENSE.txt",
+				"/usr/share/doc/pdfio/examples/Roboto-Regular.ttf",
+				"/usr/share/doc/pdfio/examples/RobotoMono-Regular.ttf",
+				"/usr/share/doc/pdfio/examples/code128-LICENSE.txt",
+				"/usr/share/doc/pdfio/examples/code128.c",
+				"/usr/share/doc/pdfio/examples/code128.ttf",
+				"/usr/share/doc/pdfio/examples/image2pdf.c",
+				"/usr/share/doc/pdfio/examples/md2pdf.c",
+				"/usr/share/doc/pdfio/examples/md2pdf.md",
+				"/usr/share/doc/pdfio/examples/mmd.c",
+				"/usr/share/doc/pdfio/examples/mmd.h",
+				"/usr/share/doc/pdfio/examples/pdf2text.c",
+				"/usr/share/doc/pdfio/examples/pdfioinfo.c"
+			],
+			"name": "pdfio-examples"
+		}
+	},
+	"source-name": "pdfio",
+	"source-release": "1",
+	"source-version": "1.2.0"
+}
