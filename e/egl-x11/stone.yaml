@@ -14,12 +14,12 @@ license     : Apache-2.0
 emul32      : true
 builddeps   :
     - pkgconfig32(egl) # include <EGL/egl.h>
+    - pkgconfig(eglexternalplatform)
     - pkgconfig32(gbm)
     - pkgconfig32(libdrm)
     - pkgconfig32(x11)
     - pkgconfig32(x11-xcb)
     - pkgconfig32(xcb)
-    - pkgconfig(eglexternalplatform)
 setup       : |
     %meson
 build       : |
