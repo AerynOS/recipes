@@ -1,0 +1,80 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"broadcom-sta-module-gaming": {
+			"build-depends": [
+				"binary(eu-readelf)",
+				"binary(git)",
+				"binary(zstd)",
+				"linux-gaming-devel",
+				"linux-lts-devel",
+				"linux-stable-devel"
+			],
+			"depends": [
+				"broadcom-sta-module-shared",
+				"linux-gaming",
+				"sysbinary(depmod)"
+			],
+			"files": [
+				"/usr/lib/modules/7.1.6-24.gaming/extra/wireless/wl.ko.zst"
+			],
+			"name": "broadcom-sta-module-gaming"
+		},
+		"broadcom-sta-module-lts": {
+			"build-depends": [
+				"binary(eu-readelf)",
+				"binary(git)",
+				"binary(zstd)",
+				"linux-gaming-devel",
+				"linux-lts-devel",
+				"linux-stable-devel"
+			],
+			"depends": [
+				"broadcom-sta-module-shared",
+				"linux-lts",
+				"sysbinary(depmod)"
+			],
+			"files": [
+				"/usr/lib/modules/6.18.42-23.lts/extra/wireless/wl.ko.zst"
+			],
+			"name": "broadcom-sta-module-lts"
+		},
+		"broadcom-sta-module-shared": {
+			"build-depends": [
+				"binary(eu-readelf)",
+				"binary(git)",
+				"binary(zstd)",
+				"linux-gaming-devel",
+				"linux-lts-devel",
+				"linux-stable-devel"
+			],
+			"files": [
+				"/usr/lib/modprobe.d/broadcom-wl.conf"
+			],
+			"name": "broadcom-sta-module-shared"
+		},
+		"broadcom-sta-module-stable": {
+			"build-depends": [
+				"binary(eu-readelf)",
+				"binary(git)",
+				"binary(zstd)",
+				"linux-gaming-devel",
+				"linux-lts-devel",
+				"linux-stable-devel"
+			],
+			"depends": [
+				"broadcom-sta-module-shared",
+				"linux-stable",
+				"sysbinary(depmod)"
+			],
+			"files": [
+				"/usr/lib/modules/7.1.6-47.stable/extra/wireless/wl.ko.zst"
+			],
+			"name": "broadcom-sta-module-stable"
+		}
+	},
+	"source-name": "broadcom-sta-module",
+	"source-release": "1",
+	"source-version": "6.30.223.271"
+}
