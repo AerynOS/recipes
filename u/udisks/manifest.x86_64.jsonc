@@ -91,12 +91,12 @@
 			],
 			"depends": [
 				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
-				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libacl.so.1(x86_64))",
 				"soname(libbd_utils.so.3(x86_64))",
 				"soname(libblkid.so.1(x86_64))",
 				"soname(libblockdev.so.3(x86_64))",
 				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libgio-2.0.so.0(x86_64))",
 				"soname(libglib-2.0.so.0(x86_64))",
 				"soname(libgmodule-2.0.so.0(x86_64))",
@@ -219,12 +219,12 @@
 				"pkgconfig(polkit-gobject-1)"
 			],
 			"depends": [
-				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libacl.so.1(x86_64))",
 				"soname(libbd_utils.so.3(x86_64))",
 				"soname(libblkid.so.1(x86_64))",
 				"soname(libblockdev.so.3(x86_64))",
 				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libgio-2.0.so.0(x86_64))",
 				"soname(libglib-2.0.so.0(x86_64))",
 				"soname(libgmodule-2.0.so.0(x86_64))",
@@ -440,12 +440,12 @@
 				"pkgconfig(polkit-gobject-1)"
 			],
 			"depends": [
-				"soname(ld-linux-x86-64.so.2(x86_64))",
 				"soname(libacl.so.1(x86_64))",
 				"soname(libbd_utils.so.3(x86_64))",
 				"soname(libblkid.so.1(x86_64))",
 				"soname(libblockdev.so.3(x86_64))",
 				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
 				"soname(libgio-2.0.so.0(x86_64))",
 				"soname(libglib-2.0.so.0(x86_64))",
 				"soname(libgmodule-2.0.so.0(x86_64))",
@@ -468,6 +468,6 @@
 		}
 	},
 	"source-name": "udisks",
-	"source-release": "9",
-	"source-version": "2.11.1"
+	"source-release": "10",
+	"source-version": "2.11.2"
 }
