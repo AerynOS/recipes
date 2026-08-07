@@ -3,7 +3,7 @@
 
 name        : sddm
 version     : "0.21.0"
-release     : 13
+release     : 15
 homepage    : https://github.com/sddm/sddm
 upstreams   :
     - https://github.com/sddm/sddm/archive/refs/tags/v0.21.0.tar.gz : f895de2683627e969e4849dbfbbb2b500787481ca5ba0de6d6dfdae5f1549abf
@@ -32,14 +32,16 @@ setup       : |
     %patch %(pkgdir)/qt6-themes.patch
     %patch %(pkgdir)/1969.patch
     %patch %(pkgdir)/ftbfs-cmake-4.patch
+    %patch %(pkgdir)/2166.patch
 
-    %cmake -DCMAKE_INSTALL_PREFIX=/usr \
-           -DCMAKE_INSTALL_LIBEXECDIR=%(libdir)/sddm \
-           -DDBUS_CONFIG_DIR=%(datadir)/dbus-1/system.d \
-           -DDBUS_CONFIG_FILENAME=sddm_org.freedesktop.DisplayManager.conf \
-           -DBUILD_MAN_PAGES=OFF \
-           -DBUILD_WITH_QT6=ON \
-           -DUID_MAX=60513
+    %cmake \
+        -DCMAKE_INSTALL_PREFIX=/usr \
+        -DCMAKE_INSTALL_LIBEXECDIR=%(libdir)/sddm \
+        -DDBUS_CONFIG_DIR=%(datadir)/dbus-1/system.d \
+        -DDBUS_CONFIG_FILENAME=sddm_org.freedesktop.DisplayManager.conf \
+        -DBUILD_MAN_PAGES=OFF \
+        -DBUILD_WITH_QT6=ON \
+        -DUID_MAX=60513
 build       : |
     %cmake_build
 install     : |
