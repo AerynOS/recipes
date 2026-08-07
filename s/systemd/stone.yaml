@@ -3,7 +3,7 @@
 
 name        : systemd
 version     : "261.2"
-release     : 93
+release     : 94
 summary     : A System and Service Manager
 license     :
     - GPL-2.0-or-later
@@ -270,14 +270,6 @@ install     : |
     # Resolved configuration
     # Temporarily disabled until we figure out how we want to handle mDNS (https://github.com/AerynOS/recipes/issues/1952)
     # %install_file %(pkgdir)/configs/resolved/00-disable-mdns.conf %(installroot)%(libdir)/systemd/resolved.conf.d/00-disable-mdns.conf
-
-    # Allow kmscon to take over
-    # - disable until further notice due to KMSCon stealing focus from display managers
-    # rm -v %(installroot)%(libdir)/systemd/system/autovt@.service
-
-    # ... but conservatively enable getty on tty1 for rescue.target and troubleshooting
-    # This also enables users to start e.g. sway from tty1 (sway et al. don't work with kmscon)
-    # ln -srv %(installroot)%(libdir)/systemd/system/getty@.service %(installroot)%(libdir)/systemd/system/getty@tty1.service
 
     # Workaround for systemd not supporting `--global` preset-all on first-boot. Taken from https://github.com/systemd/particleos/blob/main/mkosi.extra/usr/lib/systemd/system/preset-global.service
     # Systemd issue: https://github.com/systemd/systemd/issues/30206

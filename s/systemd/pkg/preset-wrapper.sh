@@ -3,8 +3,8 @@ set -e
 
 STATE_DIR="/var/lib/moss/triggers/presets"
 
-# Bump this if we need devices to re-run all triggeers
-EPOCH=0
+# Bump this if we to re-preset all services.
+EPOCH=1
 
 SYSTEMCTL="/usr/bin/systemctl"
 
