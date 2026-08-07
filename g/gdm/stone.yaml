@@ -3,7 +3,7 @@
 
 name        : gdm
 version     : "50.2"
-release     : 32
+release     : 33
 homepage    : https://gitlab.gnome.org/GNOME/gdm
 upstreams   :
     - https://download.gnome.org/sources/gdm/50/gdm-50.2.tar.xz : 8a4679e47cddfe8b0a1bd9d3836042deb68fb3e1b0e7e62dfd0631dc5b6fc541
@@ -38,6 +38,8 @@ rundeps     :
     - gnome-settings-daemon
     - systemd-userdbd
 setup       : |
+    %patch %(pkgdir)/upstream-kmscon.patch
+
     %meson \
         -Ddbus-sys=%(datadir)/dbus-1/system.d \
         -Ddefault-pam-config=lfs \
