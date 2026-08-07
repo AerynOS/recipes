@@ -1,0 +1,25 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Reilly Brogan <reilly@reillybrogan.com>
+Date: Thu, 6 Aug 2026 20:26:49 -0500
+Subject: [PATCH] conflict with ksmcon
+
+Signed-off-by: Reilly Brogan <reilly@reillybrogan.com>
+---
+ greetd.service | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/greetd.service b/greetd.service
+index 4fad1b0..03b20f2 100755
+--- a/greetd.service
++++ b/greetd.service
+@@ -1,8 +1,8 @@
+ [Unit]
+ Description=Greeter daemon
+ After=systemd-user-sessions.service plymouth-quit-wait.service
+-After=getty@tty1.service
+-Conflicts=getty@tty1.service
++After=getty@tty1.service kmsconvt@tty1.service
++Conflicts=getty@tty1.service kmsconvt@tty1.service
+ 
+ [Service]
+ Type=simple
