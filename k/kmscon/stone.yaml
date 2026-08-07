@@ -3,7 +3,7 @@
 
 name        : kmscon
 version     : "10.0.1"
-release     : 11
+release     : 12
 upstreams   :
     - https://github.com/kmscon/kmscon/archive/refs/tags/v10.0.1.tar.gz : 62a8db81eebacaf959fd3b062c931c8789594f3bb9368d3c1e9a50280d81198b
 homepage    : https://www.freedesktop.org/wiki/Software/kmscon
@@ -36,11 +36,6 @@ build       : |
     %meson_build
 install     : |
     %meson_install
-
-    # Make it the default
-    # - we need to undo this until the issue with kmscon hogging the display
-    #   despite a display manager being active is fixed. Upstream is aware.
-    #ln -sv kmsconvt@.service %(installroot)%(libdir)/systemd/system/autovt@.service
 check       : |
     %meson_test
 packages    :
