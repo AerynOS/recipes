@@ -1,0 +1,5 @@
+# Settings in this file are intended to override systemd preset configuration
+
+# Use kmscon instead of getty
+disable getty@.service
+enable kmsconvt@.service
