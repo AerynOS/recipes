@@ -3,9 +3,6 @@ set -e
 
 STATE_DIR="/var/lib/moss/triggers/presets"
 
-# Bump this if we to re-preset all services.
-EPOCH=1
-
 SYSTEMCTL="/usr/bin/systemctl"
 
 TARGET="$1"
@@ -17,7 +14,7 @@ if [ ! -d "${STATE_DIR}" ]; then
 fi
 
 if [ "${TARGET}" = "system" ]; then
-    STATE_FILE="${STATE_DIR}/${EPOCH}-system-${UNIT}"
+    STATE_FILE="${STATE_DIR}/system-${UNIT}"
 
     if [ ! -f "${STATE_FILE}" ]; then
         ${SYSTEMCTL} preset "${UNIT}" --root=/ --force
@@ -25,7 +22,7 @@ if [ "${TARGET}" = "system" ]; then
         touch "${STATE_FILE}"
     fi
 elif [ "${TARGET}" = "user" ]; then
-    STATE_FILE="${STATE_DIR}/${EPOCH}-user-${UNIT}"
+    STATE_FILE="${STATE_DIR}/user-${UNIT}"
 
     if [ ! -f "${STATE_FILE}" ]; then
         ${SYSTEMCTL} preset "${UNIT}" --root=/ --force --global
