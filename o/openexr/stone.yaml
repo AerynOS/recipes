@@ -2,12 +2,11 @@
 # SPDX-License-Identifier: MPL-2.0
 
 name        : openexr
-version     : "3.4.13"
-release     : 20
-upstreams   :
-    - https://github.com/AcademySoftwareFoundation/openexr/releases/download/v3.4.13/openexr-3.4.13.tar.gz : fe99c9cf06e41803db75ae4f5c9bb9955b7033ff47f05b02bc60bc5dba391996
+version     : "3.4.14"
+release     : 21
 homepage    : https://www.openexr.com/
-license     : BSD-3-Clause
+upstreams   :
+    - https://github.com/AcademySoftwareFoundation/openexr/releases/download/v3.4.14/openexr-3.4.14.tar.gz : 174d0d711d963c46eaa7cd2669d6cb1ea52579f43aa2726892f0b9554339ba6b
 summary     : A high dynamic-range image file format library
 description : |
     OpenEXR provides the specification and reference implementation of the EXR file format, the professional-grade image storage format of the motion picture industry.
@@ -15,6 +14,7 @@ description : |
     The purpose of EXR format is to accurately and efficiently represent high-dynamic-range scene-linear image data and associated metadata, with strong support for multi-part, multi-channel use cases.
 
     OpenEXR is widely used in host application software where accuracy is critical, such as photorealistic rendering, texture access, image compositing, deep compositing, and DI.
+license     : BSD-3-Clause
 builddeps   :
     - binary(python3)
     - cmake(Imath)
