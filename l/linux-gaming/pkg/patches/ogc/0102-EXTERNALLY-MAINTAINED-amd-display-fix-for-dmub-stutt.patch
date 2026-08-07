@@ -1,0 +1,60 @@
+From 7e12129ef08c800c691b9d2f135d8c72552e9d0b Mon Sep 17 00:00:00 2001
+From: Sung Joon Kim <sungkim@amd.com>
+Date: Fri, 7 Oct 2022 13:48:56 -0400
+Subject: [PATCH 102/103] [EXTERNALLY-MAINTAINED] amd/display: fix for dmub
+ stuttering
+
+(cherry picked from commit 505617021bba482d204bcde6e1a444ac743c77fb)
+[Fwd-ported to v6.11]
+Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+[Fwd-ported to v6.14]
+Signed-off-by: Robert Beckett <bob.beckett@collabora.com>
+---
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index e83806f4db5f..4953ee180c7f 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -5229,6 +5229,7 @@ static void amdgpu_dm_backlight_set_level(struct amdgpu_display_manager *dm,
+ 	struct amdgpu_dm_backlight_caps *caps;
+ 	struct dc_link *link;
+ 	u32 brightness;
++	u32 prev_brightness;
+ 	bool rc, reallow_idle = false;
+ 	struct drm_connector *connector;
+ 
+@@ -5249,7 +5250,10 @@ static void amdgpu_dm_backlight_set_level(struct amdgpu_display_manager *dm,
+ 	amdgpu_dm_update_backlight_caps(dm, bl_idx);
+ 	caps = &dm->backlight_caps[bl_idx];
+ 
++	prev_brightness = dm->brightness[bl_idx];
+ 	dm->brightness[bl_idx] = user_brightness;
++	dm->actual_brightness[bl_idx] = user_brightness;
++
+ 	/* update scratch register */
+ 	if (bl_idx == 0)
+ 		amdgpu_atombios_scratch_regs_set_backlight_level(dm->adev, dm->brightness[bl_idx]);
+@@ -5296,8 +5300,8 @@ static void amdgpu_dm_backlight_set_level(struct amdgpu_display_manager *dm,
+ 
+ 	mutex_unlock(&dm->dc_lock);
+ 
+-	if (rc)
+-		dm->actual_brightness[bl_idx] = user_brightness;
++	if (!rc)
++		dm->actual_brightness[bl_idx] = prev_brightness;
+ }
+ 
+ static int amdgpu_dm_backlight_update_status(struct backlight_device *bd)
+@@ -5413,6 +5417,7 @@ amdgpu_dm_register_backlight_device(struct amdgpu_dm_connector *aconnector)
+ 		backlight_device_register(bl_name, aconnector->base.kdev, dm,
+ 					  &amdgpu_dm_backlight_ops, &props);
+ 	dm->brightness[aconnector->bl_idx] = props.brightness;
++	dm->actual_brightness[aconnector->bl_idx] = props.brightness;
+ 
+ 	if (IS_ERR(dm->backlight_dev[aconnector->bl_idx])) {
+ 		drm_err(drm, "DM: Backlight registration failed!\n");
+-- 
+2.55.0
+

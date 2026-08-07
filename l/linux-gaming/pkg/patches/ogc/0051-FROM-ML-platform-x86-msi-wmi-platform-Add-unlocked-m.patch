@@ -1,8 +1,8 @@
 From 4c146b0187ca92ec60bc9a090d1d53385f35b633 Mon Sep 17 00:00:00 2001
 From: Antheas Kapenekakis <lkml@antheas.dev>
 Date: Sun, 11 May 2025 22:44:19 +0200
-Subject: [PATCH 51/91] [FROM-ML] platform/x86: msi-wmi-platform: Add unlocked
- msi_wmi_platform_query
+Subject: [PATCH 051/103] [FROM-ML] platform/x86: msi-wmi-platform: Add
+ unlocked msi_wmi_platform_query
 
 This driver requires to be able to handle transactions that perform
 multiple WMI actions at a time. Therefore, it needs to be able to
