@@ -1,7 +1,7 @@
-From 6132a9134b4dea9056ef34b43bf1aaefc7eec588 Mon Sep 17 00:00:00 2001
+From 51a083df88f2a45cae6ea1ec388b6f04307924c9 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Tomasz=20Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>
 Date: Thu, 22 Jan 2026 22:02:43 +0100
-Subject: [PATCH 24/28] drm/amd/display: freesync_on_desktop support for HDMI
+Subject: [PATCH 22/27] drm/amd/display: freesync_on_desktop support for HDMI
  VRR
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -31,10 +31,10 @@ Signed-off-by: Tomasz Pakuła <tomasz.pakula.oficjalny@gmail.com>
  1 file changed, 8 insertions(+)
 
 diff --git a/drivers/gpu/drm/amd/display/modules/info_packet/info_packet.c b/drivers/gpu/drm/amd/display/modules/info_packet/info_packet.c
-index 7106b409ae54..7e0adb90af39 100644
+index 2f0b6f26fc9a..7a341b7343c0 100644
 --- a/drivers/gpu/drm/amd/display/modules/info_packet/info_packet.c
 +++ b/drivers/gpu/drm/amd/display/modules/info_packet/info_packet.c
-@@ -633,6 +633,14 @@ static void build_vtem_infopacket_data(const struct dc_stream_state *stream,
+@@ -665,6 +665,14 @@ static void build_vtem_infopacket_data(const struct dc_stream_state *stream,
  
  	vrr_active = vrr->state == VRR_STATE_ACTIVE_VARIABLE ||
  		     vrr->state == VRR_STATE_ACTIVE_FIXED;
@@ -50,5 +50,5 @@ index 7106b409ae54..7e0adb90af39 100644
  	infopacket->sb[VTEM_MD0] = VTEM_M_CONST << VTEM_M_CONST_BIT;
  	infopacket->sb[VTEM_MD0] |= VTEM_FVA_FACTOR << VTEM_FVA_BIT;
 -- 
-2.54.0
+2.55.0
 

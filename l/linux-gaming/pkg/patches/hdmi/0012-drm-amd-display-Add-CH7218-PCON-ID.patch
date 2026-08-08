@@ -1,7 +1,7 @@
-From fb9fadaea340d156b3009d06903a8d8aa6e88b50 Mon Sep 17 00:00:00 2001
+From 6462e61763a1b2946aa7c77d161b8e907ffb98d0 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Tomasz=20Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>
 Date: Wed, 14 Jan 2026 20:28:05 +0100
-Subject: [PATCH 12/28] drm/amd/display: Add CH7218 PCON ID
+Subject: [PATCH 12/27] drm/amd/display: Add CH7218 PCON ID
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -26,10 +26,10 @@ Reviewed-by: Harry Wentland <harry.wentland@amd.com>
  2 files changed, 2 insertions(+)
 
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-index 1027d7a1328f..cf827865b188 100644
+index b6719c71d6be..4603c83d1c14 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-@@ -1483,6 +1483,7 @@ static bool dm_helpers_is_vrr_pcon_allowlist(const uint32_t branch_dev_id)
+@@ -1558,6 +1558,7 @@ static bool dm_helpers_is_vrr_pcon_allowlist(const uint32_t branch_dev_id)
  	case DP_BRANCH_DEVICE_ID_90CC24:
  	case DP_BRANCH_DEVICE_ID_001CF8:
  	case DP_BRANCH_DEVICE_ID_001FF2:
@@ -50,5 +50,5 @@ index 53210e3aa0e0..c5776ae6d4cb 100644
  #define DP_BRANCH_HW_REV_20 0x20
  
 -- 
-2.54.0
+2.55.0
 

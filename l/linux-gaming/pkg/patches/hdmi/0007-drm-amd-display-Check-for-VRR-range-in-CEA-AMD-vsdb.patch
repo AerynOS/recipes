@@ -1,7 +1,7 @@
-From ffd4ccd29a672315b3a1b80790b68260373172af Mon Sep 17 00:00:00 2001
+From 06a9a706cdda19f927799e3e80032b98b0f89d82 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Tomasz=20Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>
 Date: Mon, 9 Feb 2026 20:23:41 +0100
-Subject: [PATCH 07/28] drm/amd/display: Check for VRR range in CEA AMD vsdb
+Subject: [PATCH 07/27] drm/amd/display: Check for VRR range in CEA AMD vsdb
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -29,10 +29,10 @@ Reviewed-by: Harry Wentland <harry.wentland@amd.com>
  1 file changed, 6 insertions(+)
 
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 07038ceb2899..18307453345d 100644
+index f22d5cbb031a..78e51ac42544 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -13431,6 +13431,12 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
+@@ -13820,6 +13820,12 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
  		/* Some eDP panels only have the refresh rate range info in DisplayID */
  		if (is_aconn_range_invalid(amdgpu_dm_connector))
  			parse_edid_displayid_vrr(amdgpu_dm_connector, edid);
@@ -46,5 +46,5 @@ index 07038ceb2899..18307453345d 100644
  		if (dpcd_caps.allow_invalid_MSA_timing_param)
  			freesync_capable = is_freesync_capable(amdgpu_dm_connector);
 -- 
-2.54.0
+2.55.0
 

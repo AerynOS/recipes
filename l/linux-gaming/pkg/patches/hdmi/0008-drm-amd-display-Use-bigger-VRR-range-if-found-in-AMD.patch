@@ -1,7 +1,7 @@
-From 7dd6c77d8e9cad0a2976cd3ab3ea4a3fb5efe0f7 Mon Sep 17 00:00:00 2001
+From d0e673ac8981f45677b615d4b732bac2a80b6c99 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Tomasz=20Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>
 Date: Mon, 9 Feb 2026 20:23:42 +0100
-Subject: [PATCH 08/28] drm/amd/display: Use bigger VRR range if found in AMD
+Subject: [PATCH 08/27] drm/amd/display: Use bigger VRR range if found in AMD
  vsdb
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -22,10 +22,10 @@ Signed-off-by: Tomasz Pakuła <tomasz.pakula.oficjalny@gmail.com>
  1 file changed, 35 insertions(+)
 
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 18307453345d..daa7fc097b65 100644
+index 78e51ac42544..18b0cbf7c298 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -13359,6 +13359,37 @@ static void copy_range_to_amdgpu_connector(struct amdgpu_dm_connector *aconn,
+@@ -13748,6 +13748,37 @@ static void copy_range_to_amdgpu_connector(struct amdgpu_dm_connector *aconn,
  	aconn->max_vfreq = conn->display_info.monitor_range.max_vfreq;
  }
  
@@ -53,7 +53,7 @@ index 18307453345d..daa7fc097b65 100644
 +	if ((aconn->min_vfreq * 2) < aconn->max_vfreq)
 +		return;
 +
-+	if (aconn->min_vfreq == 0)
++	if (vsdb->min_refresh_rate_hz == 0)
 +		return;
 +
 +	if (vsdb->min_refresh_rate_hz < aconn->min_vfreq)
@@ -63,7 +63,7 @@ index 18307453345d..daa7fc097b65 100644
  /**
   * amdgpu_dm_update_freesync_caps - Update Freesync capabilities
   *
-@@ -13438,6 +13469,10 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
+@@ -13827,6 +13858,10 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
  		if (is_aconn_range_invalid(amdgpu_dm_connector))
  			aconn_range_from_vsdb(amdgpu_dm_connector, &vsdb_info);
  
@@ -75,5 +75,5 @@ index 18307453345d..daa7fc097b65 100644
  			freesync_capable = is_freesync_capable(amdgpu_dm_connector);
  
 -- 
-2.54.0
+2.55.0
 

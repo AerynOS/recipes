@@ -1,7 +1,7 @@
-From 73c558a95236723645cd9f58af2e9e00a3280c80 Mon Sep 17 00:00:00 2001
+From b83d9e20f5836f770d652d6036eca2260f0ce75f Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Tomasz=20Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>
 Date: Sun, 18 Jan 2026 14:10:22 +0100
-Subject: [PATCH 10/28] drm/amd/display: Refactor PCON VRR compatibility check
+Subject: [PATCH 10/27] drm/amd/display: Refactor PCON VRR compatibility check
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -23,10 +23,10 @@ Signed-off-by: Tomasz Pakuła <tomasz.pakula.oficjalny@gmail.com>
  3 files changed, 22 insertions(+), 31 deletions(-)
 
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 23c8fcff3477..68c1fde18792 100644
+index 09e1188d12a5..f1abf5a220e4 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -13418,8 +13418,8 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
+@@ -13807,8 +13807,8 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
  	struct dpcd_caps dpcd_caps = {0};
  	const struct edid *edid;
  	bool freesync_capable = false;
@@ -36,7 +36,7 @@ index 23c8fcff3477..68c1fde18792 100644
  
  	if (!connector->state) {
  		drm_err(adev_to_drm(adev), "%s - Connector has no state", __func__);
-@@ -13456,6 +13456,7 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
+@@ -13845,6 +13845,7 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
  	if (amdgpu_dm_connector->dc_link) {
  		dpcd_caps = amdgpu_dm_connector->dc_link->dpcd_caps;
  		is_pcon = dpcd_caps.dongle_type == DISPLAY_DONGLE_DP_HDMI_CONVERTER;
@@ -44,7 +44,7 @@ index 23c8fcff3477..68c1fde18792 100644
  	}
  
  	/* Copy current range and do not touch display_info afterwards */
-@@ -13495,13 +13496,10 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
+@@ -13884,13 +13885,10 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
  		freesync_capable = is_freesync_capable(amdgpu_dm_connector);
  	}
  
@@ -61,10 +61,10 @@ index 23c8fcff3477..68c1fde18792 100644
  
  		aconn_range_from_vsdb(amdgpu_dm_connector, &vsdb_info);
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-index a3cb05490dc9..28a86fd13a00 100644
+index c6f94eb71ffa..040642f96a3d 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-@@ -1475,42 +1475,35 @@ void dm_helpers_dp_mst_update_branch_bandwidth(
+@@ -1550,42 +1550,35 @@ void dm_helpers_dp_mst_update_branch_bandwidth(
  	// TODO
  }
  
@@ -123,7 +123,7 @@ index a3cb05490dc9..28a86fd13a00 100644
  }
  
  bool dm_helpers_is_fullscreen(struct dc_context *ctx, struct dc_stream_state *stream)
-@@ -1614,7 +1607,7 @@ void dm_helpers_read_mccs_caps(struct dc_context *ctx, struct dc_link *link,
+@@ -1689,7 +1682,7 @@ void dm_helpers_read_mccs_caps(struct dc_context *ctx, struct dc_link *link,
  		if (dc_is_dp_signal(link->connector_signal)) {
  			if ((dpcd_caps->dpcd_rev.raw >= DPCD_REV_14) &&
  				(dpcd_caps->dongle_type == DISPLAY_DONGLE_DP_HDMI_CONVERTER) &&
@@ -133,10 +133,10 @@ index a3cb05490dc9..28a86fd13a00 100644
  				mccs_op = true;
  
 diff --git a/drivers/gpu/drm/amd/display/dc/dm_helpers.h b/drivers/gpu/drm/amd/display/dc/dm_helpers.h
-index 107aec6a1265..c8a3cd2c0321 100644
+index 63704d21a0b5..a59634bb68aa 100644
 --- a/drivers/gpu/drm/amd/display/dc/dm_helpers.h
 +++ b/drivers/gpu/drm/amd/display/dc/dm_helpers.h
-@@ -230,10 +230,10 @@ int dm_helpers_dmub_set_config_sync(struct dc_context *ctx,
+@@ -231,10 +231,10 @@ int dm_helpers_dmub_set_config_sync(struct dc_context *ctx,
  		const struct dc_link *link,
  		struct set_config_cmd_payload *payload,
  		enum set_config_status *operation_result);
@@ -149,5 +149,5 @@ index 107aec6a1265..c8a3cd2c0321 100644
  bool dm_helpers_is_hdr_on(struct dc_context *ctx, struct dc_stream_state *stream);
  
 -- 
-2.54.0
+2.55.0
 

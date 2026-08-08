@@ -1,7 +1,7 @@
-From f8f5fe907d73fc6e12f062f6236e908a2ca4ec05 Mon Sep 17 00:00:00 2001
+From d4869468e2e87a2043ee574657d592d2ef1398b8 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Tomasz=20Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>
 Date: Sat, 17 Jan 2026 16:49:11 +0100
-Subject: [PATCH 22/28] drm/amd/display: Enable HDMI VRR
+Subject: [PATCH 20/27] drm/amd/display: Enable HDMI VRR
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -23,10 +23,10 @@ Signed-off-by: Tomasz Pakuła <tomasz.pakula.oficjalny@gmail.com>
  4 files changed, 18 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 1da6d2427ac1..09438073b933 100644
+index edd91f189b39..80dd8e360f97 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -9709,7 +9709,10 @@ static void update_freesync_state_on_stream(
+@@ -9973,7 +9973,10 @@ static void update_freesync_state_on_stream(
  
  	aconn = (struct amdgpu_dm_connector *)new_stream->dm_stream_context;
  
@@ -38,7 +38,7 @@ index 1da6d2427ac1..09438073b933 100644
  		      aconn->vsdb_info.replay_mode)) {
  		pack_sdp_v1_3 = aconn->pack_sdp_v1_3;
  
-@@ -13527,8 +13530,14 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
+@@ -13916,8 +13919,14 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
  		}
  
  	/* HDMI */
@@ -55,7 +55,7 @@ index 1da6d2427ac1..09438073b933 100644
  		freesync_capable = is_freesync_capable(amdgpu_dm_connector);
  	}
  
-@@ -13540,7 +13549,6 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
+@@ -13929,7 +13938,6 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
  		else if (vsdb_info.freesync_supported) {
  			amdgpu_dm_connector->vsdb_info = vsdb_info;
  			aconn_range_from_vsdb(amdgpu_dm_connector, &vsdb_info);
@@ -86,10 +86,10 @@ index f3b41087678b..5d5f56bb7afb 100644
  		build_vrr_infopacket_v3(stream->signal, vrr, app_tf, infopacket, stream->freesync_on_desktop);
  		break;
 diff --git a/drivers/gpu/drm/amd/display/modules/inc/mod_info_packet.h b/drivers/gpu/drm/amd/display/modules/inc/mod_info_packet.h
-index 027113ec147d..03d37b6f1cd0 100644
+index 24a7f87a27b7..0c697e6c40df 100644
 --- a/drivers/gpu/drm/amd/display/modules/inc/mod_info_packet.h
 +++ b/drivers/gpu/drm/amd/display/modules/inc/mod_info_packet.h
-@@ -59,6 +59,7 @@ enum adaptive_sync_type {
+@@ -60,6 +60,7 @@ enum adaptive_sync_type {
  	ADAPTIVE_SYNC_TYPE_PCON_ALLOWED     = 2,
  	ADAPTIVE_SYNC_TYPE_PCON_NOT_ALLOWED = 3,
  	ADAPTIVE_SYNC_TYPE_EDP              = 4,
@@ -98,10 +98,10 @@ index 027113ec147d..03d37b6f1cd0 100644
  
  enum adaptive_sync_sdp_version {
 diff --git a/drivers/gpu/drm/amd/display/modules/info_packet/info_packet.c b/drivers/gpu/drm/amd/display/modules/info_packet/info_packet.c
-index 96c84f70ed44..7106b409ae54 100644
+index 7336995fc7de..2f0b6f26fc9a 100644
 --- a/drivers/gpu/drm/amd/display/modules/info_packet/info_packet.c
 +++ b/drivers/gpu/drm/amd/display/modules/info_packet/info_packet.c
-@@ -699,6 +699,7 @@ void mod_build_adaptive_sync_infopacket(const struct dc_stream_state *stream,
+@@ -731,6 +731,7 @@ void mod_build_adaptive_sync_infopacket(const struct dc_stream_state *stream,
  		break;
  	case ADAPTIVE_SYNC_TYPE_NONE:
  	case ADAPTIVE_SYNC_TYPE_PCON_NOT_ALLOWED:
@@ -110,5 +110,5 @@ index 96c84f70ed44..7106b409ae54 100644
  		break;
  	}
 -- 
-2.54.0
+2.55.0
 

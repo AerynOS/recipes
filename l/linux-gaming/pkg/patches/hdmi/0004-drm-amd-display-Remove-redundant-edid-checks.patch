@@ -1,7 +1,7 @@
-From 044c57f887a0b1577c9c82995d665b01ccae8142 Mon Sep 17 00:00:00 2001
+From 7f9cdc1a487987de7d331a60d452e55070692bde Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Tomasz=20Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>
 Date: Mon, 9 Feb 2026 20:10:23 +0100
-Subject: [PATCH 04/28] drm/amd/display: Remove redundant edid checks
+Subject: [PATCH 04/27] drm/amd/display: Remove redundant edid checks
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -21,10 +21,10 @@ Signed-off-by: Tomasz Pakuła <tomasz.pakula.oficjalny@gmail.com>
  1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 5cdbfcfcf92c..c801a34292fd 100644
+index 0480199ac7a7..6a6a5ff8d66a 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -13427,8 +13427,8 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
+@@ -13816,8 +13816,8 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
  	if (is_aconn_range_invalid(amdgpu_dm_connector))
  		parse_edid_displayid_vrr(amdgpu_dm_connector, edid);
  
@@ -35,7 +35,7 @@ index 5cdbfcfcf92c..c801a34292fd 100644
  
  		if (dpcd_caps.allow_invalid_MSA_timing_param)
  			freesync_capable = is_freesync_capable(amdgpu_dm_connector);
-@@ -13441,7 +13441,7 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
+@@ -13830,7 +13830,7 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
  			amdgpu_dm_connector->as_type = ADAPTIVE_SYNC_TYPE_EDP;
  		}
  
@@ -44,7 +44,7 @@ index 5cdbfcfcf92c..c801a34292fd 100644
  		parse_amd_vsdb_cea(amdgpu_dm_connector, edid, &vsdb_info);
  		amdgpu_dm_connector->vsdb_info = vsdb_info;
  		sink->edid_caps.freesync_vcp_code = vsdb_info.freesync_mccs_vcp_code;
-@@ -13455,7 +13455,7 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
+@@ -13844,7 +13844,7 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
  	if (amdgpu_dm_connector->dc_link)
  		as_type = dm_get_adaptive_sync_support_type(amdgpu_dm_connector->dc_link);
  
@@ -54,5 +54,5 @@ index 5cdbfcfcf92c..c801a34292fd 100644
  		amdgpu_dm_connector->vsdb_info = vsdb_info;
  		sink->edid_caps.freesync_vcp_code = vsdb_info.freesync_mccs_vcp_code;
 -- 
-2.54.0
+2.55.0
 

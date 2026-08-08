@@ -1,7 +1,7 @@
-From c60b45f3b9ed485c70ac4bbf43c3bcdb1effbe73 Mon Sep 17 00:00:00 2001
+From 7559723278440ef404c942c2e6896f23df72011a Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Tomasz=20Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>
 Date: Sat, 17 Jan 2026 15:21:43 +0100
-Subject: [PATCH 18/28] drm/amd/display: Save HDMI gaming info to edid caps
+Subject: [PATCH 18/27] drm/amd/display: Save HDMI gaming info to edid caps
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -22,10 +22,10 @@ Reviewed-by: Harry Wentland <harry.wentland@amd.com>
  2 files changed, 12 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-index cf827865b188..31ce21ed5309 100644
+index 4603c83d1c14..11c0f803f387 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-@@ -176,7 +176,12 @@ enum dc_edid_status dm_helpers_parse_edid_caps(
+@@ -183,7 +183,12 @@ enum dc_edid_status dm_helpers_parse_edid_caps(
  				  edid_caps->display_name,
  				  AUDIO_INFO_DISPLAY_NAME_SIZE_IN_CHARS);
  
@@ -37,13 +37,13 @@ index cf827865b188..31ce21ed5309 100644
 +		edid_caps->hdmi_vrr = connector->display_info.hdmi.vrr_cap.supported;
 +	}
  
- 	if (edid_caps->edid_hdmi)
- 		populate_hdmi_info_from_connector(&connector->display_info.hdmi, edid_caps);
+ 	if (edid_caps->edid_hdmi) {
+ 		populate_hdmi_info_from_connector(link->dc->config.enable_frl, &connector->display_info.hdmi, edid_caps);
 diff --git a/drivers/gpu/drm/amd/display/dc/dc_types.h b/drivers/gpu/drm/amd/display/dc/dc_types.h
-index c08d5c005df6..1ee34d0b50a6 100644
+index 4ed1efa17270..8f0939833c75 100644
 --- a/drivers/gpu/drm/amd/display/dc/dc_types.h
 +++ b/drivers/gpu/drm/amd/display/dc/dc_types.h
-@@ -212,9 +212,14 @@ struct dc_edid_caps {
+@@ -221,9 +221,14 @@ struct dc_edid_caps {
  
  	uint32_t max_tmds_clk_mhz;
  
@@ -60,5 +60,5 @@ index c08d5c005df6..1ee34d0b50a6 100644
  	bool hdr_supported;
  	bool rr_capable;
 -- 
-2.54.0
+2.55.0
 

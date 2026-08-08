@@ -1,17 +1,17 @@
-From b89000f46a95f5381827cfd99c936092d6a946ca Mon Sep 17 00:00:00 2001
+From 2c71cc787d74ac495cdeffd7883087e5a6167c1c Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Tomasz=20Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>
 Date: Wed, 1 Apr 2026 09:50:34 +0200
-Subject: [PATCH 03/28] Modify display range if freesync capable
+Subject: [PATCH 03/27] Modify display range if freesync capable
 
 ---
  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 5 +++++
  1 file changed, 5 insertions(+)
 
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index c1abdb9bb4b9..5cdbfcfcf92c 100644
+index 210c035e13eb..0480199ac7a7 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -13485,6 +13485,11 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
+@@ -13874,6 +13874,11 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
  	if (dm_con_state)
  		dm_con_state->freesync_capable = freesync_capable;
  
@@ -24,5 +24,5 @@ index c1abdb9bb4b9..5cdbfcfcf92c 100644
  	    amdgpu_dm_connector->dc_link->replay_settings.config.replay_supported) {
  		amdgpu_dm_connector->dc_link->replay_settings.config.replay_supported = false;
 -- 
-2.54.0
+2.55.0
 

@@ -1,12 +1,6 @@
 # Upstream patches
 upstream/0000-iwlwifi-fix.patch
 upstream/0000-drm-amdgpu-fix-race-condition-in-amdgpu_vm_wait_idle-during-process-kill.patch
-# https://invent.kde.org/plasma/kwin/-/merge_requests/9178
-# https://mail.kde.org/pipermail/distributions/2026-June/001711.html
-upstream/udmabuf/0001-udmabuf-Do-not-create-malformed-scatterlists.patch
-
-# Enable x86_64-v2 build optimisations
-more-ISA-levels-and-uarches-for-kernel-6.16+.patch
 
 # OGC patch-set
 # https://github.com/OpenGamingCollective/linux/tree/ogc-7.1.y
@@ -43,13 +37,13 @@ ogc/0030-FROM-ML-drm-ttm-Split-cgroup-charge-and-resource-all.patch
 ogc/0031-FROM-ML-drm-ttm-Be-more-aggressive-when-allocating-b.patch
 ogc/0032-FROM-ML-drm-ttm-Use-common-ancestor-of-evictor-and-e.patch
 ogc/0033-FROM-ML-drm-nouveau-Userspace-can-now-make-use-of-me.patch
-ogc/0034-FROM-ML-platform-x86-lenovo-wmi-other-Add-missing-CP.patch
-ogc/0035-FROM-ML-platform-x86-lenovo-wmi-other-Add-GPU-tunabl.patch
-ogc/0036-FROM-ML-platform-x86-lenovo-wmi-other-Rename-LWMI_OM.patch
-ogc/0037-FROM-ML-platform-x86-lenovo-wmi-other-Add-WMI-batter.patch
-ogc/0038-FROM-ML-platform-x86-lenovo-wmi-other-Add-force_load.patch
-ogc/0039-FROM-ML-platform-x86-lenovo-wmi-helpers-Add-helper-f.patch
-ogc/0040-FROM-ML-platform-x86-lenovo-wmi-capdata-Add-debugfs-.patch
+#ogc/0034-FROM-ML-platform-x86-lenovo-wmi-other-Add-missing-CP.patch
+#ogc/0035-FROM-ML-platform-x86-lenovo-wmi-other-Add-GPU-tunabl.patch
+#ogc/0036-FROM-ML-platform-x86-lenovo-wmi-other-Rename-LWMI_OM.patch
+#ogc/0037-FROM-ML-platform-x86-lenovo-wmi-other-Add-WMI-batter.patch
+#ogc/0038-FROM-ML-platform-x86-lenovo-wmi-other-Add-force_load.patch
+#ogc/0039-FROM-ML-platform-x86-lenovo-wmi-helpers-Add-helper-f.patch
+#ogc/0040-FROM-ML-platform-x86-lenovo-wmi-capdata-Add-debugfs-.patch
 ogc/0041-FROM-ML-mmc-rtsx_pci_sdmmc-drop-MMC_CAP_AGGRESSIVE_P.patch
 ogc/0042-FROM-ML-misc-rtsx_pcr-prevent-pm_schedule_suspend-fo.patch
 ogc/0043-FROM-ML-mmc-rtsx_pci_sdmmc-increase-delay-after-powe.patch
@@ -78,11 +72,11 @@ ogc/0065-FROM-ML-HID-hid-msi-Add-M-key-mapping-attributes.patch
 ogc/0066-FROM-ML-HID-hid-msi-Add-RGB-control-interface.patch
 ogc/0067-FROM-ML-HID-hid-msi-Add-Rumble-Intensity-Attributes.patch
 ogc/0068-NOT-FOR-UPSTREAM-HID-hid-msi-Report-RGB-LED-under-th.patch
-ogc/0069-FROM-ML-HID-hid-oxp-Add-OneXPlayer-configuration-dri.patch
-ogc/0070-FROM-ML-HID-hid-oxp-Add-Second-Generation-RGB-Contro.patch
-ogc/0071-FROM-ML-HID-hid-oxp-Add-Second-Generation-Gamepad-Mo.patch
-ogc/0072-FROM-ML-HID-hid-oxp-Add-Button-Mapping-Interface.patch
-ogc/0073-FROM-ML-HID-hid-oxp-Add-Vibration-Intensity-Attribut.patch
+#ogc/0069-FROM-ML-HID-hid-oxp-Add-OneXPlayer-configuration-dri.patch
+#ogc/0070-FROM-ML-HID-hid-oxp-Add-Second-Generation-RGB-Contro.patch
+#ogc/0071-FROM-ML-HID-hid-oxp-Add-Second-Generation-Gamepad-Mo.patch
+#ogc/0072-FROM-ML-HID-hid-oxp-Add-Button-Mapping-Interface.patch
+#ogc/0073-FROM-ML-HID-hid-oxp-Add-Vibration-Intensity-Attribut.patch
 ogc/0074-NOT-FOR-UPSTREAM-HID-hid-oxp-Report-RGB-LED-under-th.patch
 ogc/0079-FROM-ML-platform-x86-oxpec-add-support-for-OneXPlaye.patch
 ogc/0080-FROM-ML-platform-x86-oxpec-Distinguish-OneXPlayer-Su.patch
@@ -106,7 +100,7 @@ ogc/0098-FROM-ML-platform-x86-msi-wmi-platform-Add-Gen-4-devi.patch
 ogc/0099-EXTERNALLY-MAINTAINED-drm-amd-display-Don-t-consider.patch
 ogc/0100-EXTERNALLY-MAINTAINED-Bluetooth-btrtl-add-suspend-ha.patch
 ogc/0101-EXTERNALLY-MAINTAINED-drm-amd-bump-backlight-brightn.patch
-ogc/0102-EXTERNALLY-MAINTAINED-amd-display-fix-for-dmub-stutt.patch
+#ogc/0102-EXTERNALLY-MAINTAINED-amd-display-fix-for-dmub-stutt.patch
 ogc/0103-EXTERNALLY-MAINTAINED-drm-amd-display-Don-t-consider.patch
 
 # Valve patches
@@ -155,8 +149,8 @@ surface/0019-platform-surface-surfacepro3_button-don-t-load-on-am.patch
 surface/0020-USB-quirks-Add-USB_QUIRK_DELAY_INIT-for-Surface-Go-3.patch
 surface/0021-hid-multitouch-Turn-off-Type-Cover-keyboard-backligh.patch
 surface/0022-hid-multitouch-Add-support-for-surface-pro-type-cove.patch
-surface/0023-PCI-Add-quirk-to-prevent-calling-shutdown-method.patch
-surface/0024-PCI-Add-Surface-Laptop-Studio-2-devices-to-shutdown-.patch
+#surface/0023-PCI-Add-quirk-to-prevent-calling-shutdown-method.patch
+#surface/0024-PCI-Add-Surface-Laptop-Studio-2-devices-to-shutdown-.patch
 surface/0025-platform-surface-gpe-Add-support-for-Surface-Pro-9.patch
 surface/0026-ACPI-delay-enumeration-of-devices-with-a-_DEP-pointi.patch
 surface/0027-iommu-intel-ipu-use-IOMMU-passthrough-mode-for-Intel.patch
@@ -178,7 +172,7 @@ surface/0040-hid-multitouch-Prevent-mode-set-on-Surface-Laptop-St.patch
 # whether to use radeon or amdgpu from the kernel cmd-line
 0001-Add-kernel-arg-to-enable-amdgpu-overdrive.patch
 
-# HDMI VRR support https://github.com/Lawstorant/linux/tree/hdmi-7.1
+# HDMI VRR support https://github.com/Lawstorant/linux/tree/hdmi-7.2
 hdmi/0001-drm-amd-display-Refactor-amdgpu_dm_update_freesync_c.patch
 hdmi/0002-Do-not-modify-display_info-in-freesync_caps.patch
 hdmi/0003-Modify-display-range-if-freesync-capable.patch
@@ -197,23 +191,12 @@ hdmi/0015-drm-amd-display-Enable-HDMI-VRR-over-PCON.patch
 hdmi/0016-drm-amd-display-Support-HDMI-VRRmax-0.patch
 hdmi/0017-drm-amd-display-Build-HDMI-vsif-in-correct-slot.patch
 hdmi/0018-drm-amd-display-Save-HDMI-gaming-info-to-edid-caps.patch
-hdmi/0019-drm-amd-display-Restore-ALLM-support-in-HDMI-vsif.patch
-hdmi/0020-drm-amd-display-Trigger-ALLM-if-it-s-available.patch
-hdmi/0021-drm-amd-display-Reintroduce-VTEM-info-frame.patch
-hdmi/0022-drm-amd-display-Enable-HDMI-VRR.patch
-hdmi/0023-Merge-HDMI-and-PCON-paths.patch
-hdmi/0024-drm-amd-display-freesync_on_desktop-support-for-HDMI.patch
-hdmi/0025-Force-freesync_on_desktop-for-HDMI.patch
-hdmi/0026-drm-Add-ALLM-properties-to-connector.patch
-hdmi/0027-drm-amd-display-Use-ALLM-properties-in-amdgpu.patch
-hdmi/0028-fixu.patch
-
-# [PATCH v11] Add AMD ISP4 driver
-# https://patchew.org/linux/20260506093250.93460-1-Bin.Du@amd.com/
-isp4/0001-media-platform-amd-Introduce-amd-isp4-capture-driver.patch
-isp4/0002-media-platform-amd-low-level-support-for-isp4-firmware.patch
-isp4/0003-media-platform-amd-Add-isp4-fw-and-hw-interface.patch
-isp4/0004-media-platform-amd-isp4-subdev-and-firmware-loading-handling-added.patch
-isp4/0005-media-platform-amd-isp4-video-node-and-buffers-handling-added.patch
-isp4/0006-media-platform-amd-isp4-debug-fs-logging-and-more-descriptive-errors.patch
-isp4/0007-Documentation-add-documentation-of-AMD-isp-4-driver.patch
+hdmi/0019-drm-amd-display-Reintroduce-VTEM-info-frame.patch
+hdmi/0020-drm-amd-display-Enable-HDMI-VRR.patch
+hdmi/0021-Merge-HDMI-and-PCON-paths.patch
+hdmi/0022-drm-amd-display-freesync_on_desktop-support-for-HDMI.patch
+hdmi/0023-Force-freesync_on_desktop-for-HDMI.patch
+hdmi/0024-Fix-enum-redeclaration.patch
+hdmi/0025-Restore-is_hdmi_vic_mode-from-ALLM-stuff.patch
+hdmi/0026-Switch-to-signal-type-helper-functions-from-DC.patch
+hdmi/0027-Enable-HDMI-FRL-by-default.patch
