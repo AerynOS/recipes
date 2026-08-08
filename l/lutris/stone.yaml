@@ -1,0 +1,56 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : lutris
+version     : "0.5.22+git.9f1043b"
+release     : 1
+homepage    : https://github.com/lutris/lutris
+upstreams   :
+    - git|https://github.com/lutris/lutris.git : 9f1043b1770ac9b326540ef9bc04f6daf4dc3311 # master
+summary     : Lutris desktop client
+description : |
+    Open Gaming Platform
+license     : GPL-3.0-only
+builddeps   :
+    - binary(gettext)
+rundeps     :
+    - binary(cabextract)
+    - binary(curl)
+    - gdk-pixbuf
+    - glib2
+    - libgnome-desktop-gtk3
+    - gobject-introspection-runtime
+    - gtk-3
+    - hicolor-icon-theme
+    - p7zip
+    - pango
+    - psmisc
+    - binary(python3)
+    - python(pycairo)
+    - python(dbus-python)
+    - python(pygobject)
+    - python(certifi)
+    - python(pyyaml)
+    - python(distro)
+    - python(evdev)
+    - python(lxml)
+    - python(pillow)
+    - python(requests)
+    - python(urllib3)
+    - binary(unzip)
+    - webkit2gtk41
+# optional
+#   - libgnutls-32bit
+    - vulkan-loader-32bit
+    - libglvnd-32bit
+# need but no package for now
+#   - python-moddb
+
+setup       : |
+    %meson
+build       : |
+    %meson_build
+install     : |
+    %meson_install
+
+
