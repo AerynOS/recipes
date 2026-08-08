@@ -5,11 +5,11 @@
 
 | Field | Value |
 |-------|-------|
-| **Version** | 1.0 |
+| **Version** | 1.1 |
 | **Status** | Active |
 | **Owner** | aerynOS Staff |
 | **Created** | 05 Aug 2026 |
-| **Last Modified** | 05 Aug 2026 |
+| **Last Modified** | 08 Aug 2026 |
 
 This document defines the criteria for software to be an acceptable addition to the aerynOS recipes repository. All package requests will be evaluated against these criteria.
 
@@ -117,6 +117,8 @@ When a package is approved for addition to the repository, any new dependencies 
 
 For packagers, one pull request should be created for the approved package. Each new dependency introduced should be added in a separate commit within that pull request. This keeps the history clear and makes reviewing PRs easier.
 
+For clarity, packages submitted for PR that have not been approved via a [package addition request](https://github.com/aerynOS/recipes/issues/new?template=request_new_package.yaml) can be rejected or deferred until such request is made and approved.
+
 **Example Structure:**
 
 ```
@@ -156,3 +158,10 @@ Exceptions must be publicly justified when approved.
 2. If the software fails any policy criteria, the issue will be rejected with a reference to the specific section above.
 3. Approved requests will be labelled package: approved and become available for packagers to implement.
 4. Changes to this policy will be communicated through Zulip, GitHub Discussions, and blog posts.
+
+## Revision history
+
+| Version | Changelog |
+|-------|-------|
+| 1.0 | Initial policy document |
+| 1.1 | Add clarity submitting PR's without a Package Addition Request could lead to rejection of said PR |
