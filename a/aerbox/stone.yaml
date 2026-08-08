@@ -1,0 +1,33 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : aerbox
+version     : "0.0.1-096ad99694a2434d978c762e3251a4e325a0fc54"
+release     : 1
+homepage    : https://codeberg.org/lumi/aerbox
+upstreams   :
+    - https://codeberg.org/lumi/aerbox/archive/096ad99694a2434d978c762e3251a4e325a0fc54.tar.gz : 300dcdac47274640eb3923cadf2a353ffb9c8aa0116f424d2c70443a4053e754
+summary     : Aerbox is a distrobox/toolbx-like development container tool using AerynOS tooling
+description : |
+    Aerbox is a distrobox/toolbx-like development container tool using AerynOS tooling. It manages rootless AerynOS containers and provides integration with the host system.
+license     :
+    - MPL-2.0
+builddeps   :
+    - pkgconfig(pam)
+    - clang-devel
+rundeps     :
+    - binary(moss)
+    - binary(podman)
+networking  : true
+setup       : |
+    %cargo_fetch
+build       : |
+    cargo build --all %(options_cargo_release)
+install     : |
+    %cargo_install aerbox aerbox-login
+    %install_dir %(installroot)%(vendordir)/aerbox
+    cp -r templates %(installroot)%(vendordir)/aerbox/templates
+    %install_dir %(installroot)%(datadir)/aerbox/host/bin
+    mv %(installroot)%(bindir)/aerbox-login %(installroot)%(datadir)/aerbox/host/bin/aerbox-login
+check       : |
+    %cargo_test
