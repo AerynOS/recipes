@@ -1,0 +1,57 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"cppjieba": {
+			"build-depends": [
+				"cmake(GTest)",
+				"cmake(limonp)"
+			],
+			"files": [
+				"/usr/share/cppjieba/dict/README.md",
+				"/usr/share/cppjieba/dict/hmm_model.utf8",
+				"/usr/share/cppjieba/dict/idf.utf8",
+				"/usr/share/cppjieba/dict/jieba.dict.utf8",
+				"/usr/share/cppjieba/dict/pos_dict/char_state_tab.utf8",
+				"/usr/share/cppjieba/dict/pos_dict/prob_emit.utf8",
+				"/usr/share/cppjieba/dict/pos_dict/prob_start.utf8",
+				"/usr/share/cppjieba/dict/pos_dict/prob_trans.utf8",
+				"/usr/share/cppjieba/dict/stop_words.utf8",
+				"/usr/share/cppjieba/dict/user.dict.utf8"
+			],
+			"name": "cppjieba"
+		},
+		"cppjieba-devel": {
+			"build-depends": [
+				"cmake(GTest)",
+				"cmake(limonp)"
+			],
+			"depends": [
+				"cppjieba"
+			],
+			"files": [
+				"/usr/include/cppjieba/DictTrie.hpp",
+				"/usr/include/cppjieba/FullSegment.hpp",
+				"/usr/include/cppjieba/HMMModel.hpp",
+				"/usr/include/cppjieba/HMMSegment.hpp",
+				"/usr/include/cppjieba/Jieba.hpp",
+				"/usr/include/cppjieba/KeywordExtractor.hpp",
+				"/usr/include/cppjieba/MPSegment.hpp",
+				"/usr/include/cppjieba/MixSegment.hpp",
+				"/usr/include/cppjieba/PosTagger.hpp",
+				"/usr/include/cppjieba/PreFilter.hpp",
+				"/usr/include/cppjieba/QuerySegment.hpp",
+				"/usr/include/cppjieba/SegmentBase.hpp",
+				"/usr/include/cppjieba/SegmentTagged.hpp",
+				"/usr/include/cppjieba/TextRankExtractor.hpp",
+				"/usr/include/cppjieba/Trie.hpp",
+				"/usr/include/cppjieba/Unicode.hpp",
+				"/usr/include/cppjieba/UnicodeFile.hpp"
+			],
+			"name": "cppjieba-devel"
+		}
+	},
+	"source-name": "cppjieba",
+	"source-release": "1",
+	"source-version": "5.6.7"
+}

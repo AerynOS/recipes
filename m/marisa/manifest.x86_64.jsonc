@@ -1,0 +1,162 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"marisa": {
+			"build-depends": [
+				"binary(swig)",
+				"perl-devel",
+				"pkgconfig(python3)",
+				"pkgconfig(ruby)",
+				"python(setuptools)"
+			],
+			"depends": [
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libstdc++.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/bin/marisa-benchmark",
+				"/usr/bin/marisa-build",
+				"/usr/bin/marisa-common-prefix-search",
+				"/usr/bin/marisa-dump",
+				"/usr/bin/marisa-lookup",
+				"/usr/bin/marisa-predictive-search",
+				"/usr/bin/marisa-reverse-lookup",
+				"/usr/lib/libmarisa.so.0",
+				"/usr/lib/libmarisa.so.0.3.1"
+			],
+			"name": "marisa",
+			"provides": [
+				"binary(marisa-benchmark)",
+				"binary(marisa-build)",
+				"binary(marisa-common-prefix-search)",
+				"binary(marisa-dump)",
+				"binary(marisa-lookup)",
+				"binary(marisa-predictive-search)",
+				"binary(marisa-reverse-lookup)",
+				"soname(libmarisa.so.0(x86_64))"
+			]
+		},
+		"marisa-devel": {
+			"build-depends": [
+				"binary(swig)",
+				"perl-devel",
+				"pkgconfig(python3)",
+				"pkgconfig(ruby)",
+				"python(setuptools)"
+			],
+			"depends": [
+				"marisa"
+			],
+			"files": [
+				"/usr/include/marisa.h",
+				"/usr/include/marisa/agent.h",
+				"/usr/include/marisa/base.h",
+				"/usr/include/marisa/iostream.h",
+				"/usr/include/marisa/key.h",
+				"/usr/include/marisa/keyset.h",
+				"/usr/include/marisa/query.h",
+				"/usr/include/marisa/stdio.h",
+				"/usr/include/marisa/trie.h",
+				"/usr/lib/cmake/Marisa/MarisaConfig.cmake",
+				"/usr/lib/cmake/Marisa/MarisaConfigVersion.cmake",
+				"/usr/lib/cmake/Marisa/MarisaTargets-release.cmake",
+				"/usr/lib/cmake/Marisa/MarisaTargets.cmake",
+				"/usr/lib/libmarisa.so",
+				"/usr/lib/pkgconfig/marisa.pc"
+			],
+			"name": "marisa-devel",
+			"provides": [
+				"cmake(Marisa)",
+				"pkgconfig(marisa)"
+			]
+		},
+		"perl-marisa": {
+			"build-depends": [
+				"binary(swig)",
+				"perl-devel",
+				"pkgconfig(python3)",
+				"pkgconfig(ruby)",
+				"python(setuptools)"
+			],
+			"depends": [
+				"binary(perl)",
+				"marisa",
+				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))"
+			],
+			"files": [
+				"/usr/lib/perl5/vendor_perl/auto/marisa/marisa.so",
+				"/usr/lib/perl5/vendor_perl/benchmark.pl",
+				"/usr/lib/perl5/vendor_perl/marisa.pm",
+				"/usr/lib/perl5/vendor_perl/sample.pl"
+			],
+			"name": "perl-marisa",
+			"provides": [
+				"soname(perl5/vendor_perl/auto/marisa/marisa.so(x86_64))"
+			]
+		},
+		"python-marisa": {
+			"build-depends": [
+				"binary(swig)",
+				"perl-devel",
+				"pkgconfig(python3)",
+				"pkgconfig(ruby)",
+				"python(setuptools)"
+			],
+			"depends": [
+				"binary(python3)",
+				"marisa",
+				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libmarisa.so.0(x86_64))",
+				"soname(libstdc++.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/lib/python3.14/site-packages/__pycache__/marisa.cpython-314.opt-1.pyc",
+				"/usr/lib/python3.14/site-packages/__pycache__/marisa.cpython-314.pyc",
+				"/usr/lib/python3.14/site-packages/_marisa.cpython-314-x86_64-linux-gnu.so",
+				"/usr/lib/python3.14/site-packages/marisa-0.0.0.dist-info/METADATA",
+				"/usr/lib/python3.14/site-packages/marisa-0.0.0.dist-info/RECORD",
+				"/usr/lib/python3.14/site-packages/marisa-0.0.0.dist-info/WHEEL",
+				"/usr/lib/python3.14/site-packages/marisa-0.0.0.dist-info/top_level.txt",
+				"/usr/lib/python3.14/site-packages/marisa.py"
+			],
+			"name": "python-marisa",
+			"provides": [
+				"python(marisa)",
+				"soname(python3.14/site-packages/_marisa.cpython-314-x86_64-linux-gnu.so(x86_64))"
+			]
+		},
+		"ruby-marisa": {
+			"build-depends": [
+				"binary(swig)",
+				"perl-devel",
+				"pkgconfig(python3)",
+				"pkgconfig(ruby)",
+				"python(setuptools)"
+			],
+			"depends": [
+				"binary(ruby)",
+				"marisa",
+				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libmarisa.so.0(x86_64))",
+				"soname(libruby.so.4.0(x86_64))",
+				"soname(libstdc++.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/lib/ruby/vendor_ruby/4.0/x86_64-linux/marisa.so"
+			],
+			"name": "ruby-marisa",
+			"provides": [
+				"soname(ruby/vendor_ruby/4.0/x86_64-linux/marisa.so(x86_64))"
+			]
+		}
+	},
+	"source-name": "marisa",
+	"source-release": "1",
+	"source-version": "0.3.1"
+}

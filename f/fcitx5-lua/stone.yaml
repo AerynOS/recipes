@@ -1,0 +1,26 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : fcitx5-lua
+version     : "5.0.17"
+release     : 1
+homepage    : https://github.com/fcitx/fcitx5-lua
+upstreams   :
+    - https://github.com/fcitx/fcitx5-lua/archive/refs/tags/5.0.17.tar.gz : f1a5f7b8b135091a93ebaa3d6bc8de25f2b9ee64f2647793970edd979f0fbd3d
+summary     : Lua support for fcitx.
+description : |
+    Lua support for fcitx.
+license     : LGPL-2.1-or-later
+builddeps   :
+    - cmake(ECM)
+    - cmake(Fcitx5Core)
+    - pkgconfig(lua)
+    - gettext-devel
+setup       : |
+    %cmake
+build       : |
+    %cmake_build
+install     : |
+    %cmake_install
+check       : |
+    %cmake_test

@@ -1,0 +1,32 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : limonp
+version     : "1.0.2"
+release     : 1
+homepage    : https://github.com/yanyiwu/limonp
+upstreams   :
+    - https://github.com/yanyiwu/limonp/archive/refs/tags/v1.0.2.tar.gz : 0d98bd9c87bd82bcfc234107908969e7416145d8b5e996e43c5d2513c419b2c0
+summary     : C++ headers(hpp) library with Python style.
+description : |
+    C++ headers(hpp) library with Python style.
+license     : MIT
+checkdeps   :
+    - cmake(GTest)
+setup       : |
+    %patch %(pkgdir)/system-GTest.patch
+
+    %cmake \
+        -DCMAKE_CXX_STANDARD=17 \
+        -DENABLE_UNIT_TESTS=ON
+build       : |
+    %cmake_build
+install     : |
+    %cmake_install
+check       : |
+    %cmake_test
+packages    :
+    # Headers only package
+    - "%(name)" :
+        paths :
+            - /*

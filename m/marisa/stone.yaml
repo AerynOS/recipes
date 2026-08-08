@@ -1,0 +1,101 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : marisa
+version     : "0.3.1"
+release     : 1
+homepage    : https://github.com/s-yata/marisa-trie
+upstreams   :
+    - https://github.com/s-yata/marisa-trie/archive/refs/tags/v0.3.1.tar.gz : 986ed5e2967435e3a3932a8c95980993ae5a196111e377721f0849cad4e807f3
+summary     : MARISA Matching Algorithm with Recursively Implemented StorAge
+description : |
+    Matching Algorithm with Recursively Implemented StorAge (MARISA) is a static and space-efficient trie data structure. And libmarisa is a C++ library to provide an implementation of MARISA. Also, the package of libmarisa contains a set of command line tools for building and operating a MARISA-based dictionary.
+license     :
+    - BSD-2-Clause
+    - LGPL-2.1-or-later
+builddeps   :
+    - binary(swig)
+    - pkgconfig(python3)
+    - pkgconfig(ruby)
+    - python(setuptools)
+    - perl-devel
+setup       : |
+    # From Arch, fix binding build
+    # https://github.com/s-yata/marisa-trie/pull/123
+    %patch %(pkgdir)/123.patch
+
+    %cmake \
+        -DBUILD_SHARED_LIBS=ON \
+        -DBUILD_TESTING=ON
+build       : |
+    %cmake_build
+
+    %make -C bindings -j1
+
+    pushd bindings/perl
+    %perl_setup \
+        INC=-I%(workdir)/include \
+        LIBS=-L%(workdir)/%(builddir)
+    %make
+    popd
+
+    pushd bindings/ruby
+    ruby extconf.rb \
+        --with-opt-include=%(workdir)/include \
+        --with-opt-lib=%(workdir)/%(builddir) \
+        --vendor
+    %make
+    popd
+
+    pushd bindings/python3
+    %pyproject_build \
+        -C--build-option=build_ext \
+        -C--build-option=--include-dirs=%(workdir)/include \
+        -C--build-option=--library-dirs=%(workdir)/%(builddir)
+    popd
+install     : |
+    %cmake_install
+
+    pushd bindings/perl
+    %make_install
+    popd
+
+    pushd bindings/ruby
+    %make_install
+    popd
+
+    pushd bindings/python3
+    %pyproject_install
+    popd
+check       : |
+    %cmake_test
+packages    :
+    - "perl-%(name)":
+        summary: Perl bindings for %(name)
+        description: |
+            Perl bindings for %(name)
+        rundeps:
+            - "%(name)"
+            - binary(perl)
+        paths:
+            - /usr/lib/perl5
+
+    - "python-%(name)":
+        summary: Python bindings for %(name)
+        description: |
+            Python bindings for %(name)
+        rundeps:
+            - "%(name)"
+            - binary(python3)
+        paths:
+            - /usr/lib/python3*
+
+    - "ruby-%(name)":
+        summary: Ruby bindings for %(name)
+        description: |
+            Ruby bindings for %(name)
+        rundeps:
+            - "%(name)"
+            - binary(ruby)
+        paths:
+            - /usr/lib/ruby

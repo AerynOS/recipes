@@ -1,0 +1,25 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : darts
+version     : "0.32h"
+release     : 1
+homepage    : https://github.com/s-yata/darts-clone
+upstreams   :
+    - https://github.com/s-yata/darts-clone/archive/refs/tags/v0.32h.tar.gz : 5d4fa1e103f6d543208b75fc06c2001533fa8c20a3470e43860aba56ee7888a3
+summary     : C++ Template Library for implementation of Double-Array by s-yata (clone)
+description : |
+    C++ Template Library for implementation of Double-Array by s-yata (clone)
+license     : BSD-2-Clause
+setup       : |
+    # Add validate()/copy_array() helpers and silence 64-to-32 narrowing warnings
+    # for building OpenCC, https://github.com/s-yata/darts-clone/pull/6
+    %patch %(pkgdir)/6.patch
+
+    %reconfigure
+build       : |
+    %make
+install     : |
+    %make_install
+check       : |
+    %make check

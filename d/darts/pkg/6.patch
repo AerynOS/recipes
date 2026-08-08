@@ -1,0 +1,303 @@
+From 62ffae6ea3b5153384701394a6a2ba0d9cd4c026 Mon Sep 17 00:00:00 2001
+From: Frank Lin <github@linshuang.info>
+Date: Mon, 13 Jul 2026 15:59:26 -0700
+Subject: [PATCH 1/4] Add copy_array() to load a double-array from an owned
+ buffer copy
+
+set_array() aliases external memory and open() reads from a file, but
+there is no way to load a serialized array from an in-memory buffer and
+have the dictionary own the storage. copy_array() fills that gap by
+deep-copying the bytes into an internally-allocated buffer, so callers
+may free the source afterwards (e.g. mmap'd or network buffers).
+---
+ include/darts.h | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
+
+diff --git a/include/darts.h b/include/darts.h
+index 093763e..bc174dd 100644
+--- a/include/darts.h
++++ b/include/darts.h
+@@ -2,6 +2,7 @@
+ #define DARTS_H_
+ 
+ #include <cstdio>
++#include <cstring>
+ #include <exception>
+ #include <new>
+ 
+@@ -173,6 +174,18 @@ class DoubleArrayImpl {
+     array_ = static_cast<const unit_type *>(ptr);
+     size_ = size;
+   }
++  // copy_array() copies the given array of units into an internally-allocated
++  // buffer that the dictionary owns. Unlike set_array(), which merely aliases
++  // external memory, the dictionary keeps a private copy so the source buffer
++  // may be freed afterwards. `num_bytes' is the size of the source in bytes.
++  void copy_array(const void* ptr, std::size_t num_bytes) {
++    clear();
++    const std::size_t extra_padding = num_bytes % unit_size() == 0 ? 0 : 1;
++    size_ = num_bytes / unit_size() + extra_padding;
++    buf_ = new unit_type[size_];
++    std::memcpy(buf_, ptr, num_bytes);
++    array_ = buf_;
++  }
+   // array() returns a pointer to the array of units.
+   const void *array() const {
+     return array_;
+
+From 6325d7821393730b9b820b07d36b5509a0ac93fa Mon Sep 17 00:00:00 2001
+From: Frank Lin <github@linshuang.info>
+Date: Mon, 13 Jul 2026 15:59:59 -0700
+Subject: [PATCH 2/4] Add validate() to reject malformed serialized
+ double-arrays
+
+Loading a serialized dictionary from untrusted input can cause
+out-of-bounds reads if the array is malformed. validate() performs a
+bounds/consistency check on the loaded array (non-empty, well-formed
+root unit, in-bounds offsets, and optionally in-bounds leaf values)
+before it is searched.
+
+Ported from google/sentencepiece@d685ef31.
+---
+ include/darts.h | 31 +++++++++++++++++++++++++++++++
+ 1 file changed, 31 insertions(+)
+
+diff --git a/include/darts.h b/include/darts.h
+index bc174dd..b2e79ce 100644
+--- a/include/darts.h
++++ b/include/darts.h
+@@ -328,6 +328,14 @@ class DoubleArrayImpl {
+   inline value_type traverse(const key_type *key, std::size_t &node_pos,
+       std::size_t &key_pos, std::size_t length = 0) const;
+ 
++  // validate() performs a sanity check on the loaded array so that a malformed
++  // or untrusted serialized dictionary can be rejected before it is searched,
++  // rather than causing out-of-bounds reads. It verifies that the array is
++  // non-empty, that the root unit is well-formed, and that every unit's offset
++  // (and, when `max_value_limit' is nonnegative, every leaf value) stays within
++  // bounds. Returns true if the array passes all checks.
++  bool validate(value_type max_value_limit = -1) const;
++
+  private:
+   typedef Details::uchar_type uchar_type;
+   typedef Details::id_type id_type;
+@@ -466,6 +474,29 @@ int DoubleArrayImpl<A, B, T, C>::save(const char *file_name,
+   return 0;
+ }
+ 
++template <typename A, typename B, typename T, typename C>
++bool DoubleArrayImpl<A, B, T, C>::validate(value_type max_value_limit) const {
++  if (size_ == 0 || array_ == NULL) {
++    return false;
++  }
++  if (array_[0].label() != '\0' || array_[0].has_leaf() ||
++      array_[0].offset() == 0 || ((0 ^ array_[0].offset()) | 0xFF) >= size_) {
++    return false;
++  }
++  for (std::size_t i = 1; i < size_; ++i) {
++    if (array_[i].label() <= 0xFF) {
++      if (((i ^ array_[i].offset()) | 0xFF) >= size_) {
++        return false;
++      }
++    } else if (max_value_limit >= 0) {
++      if (array_[i].value() >= max_value_limit) {
++        return false;
++      }
++    }
++  }
++  return true;
++}
++
+ template <typename A, typename B, typename T, typename C>
+ template <typename U>
+ inline U DoubleArrayImpl<A, B, T, C>::exactMatchSearch(const key_type *key,
+
+From 04b3c63e4f660c13197ca6c8208d7ebc281de3cf Mon Sep 17 00:00:00 2001
+From: Frank Lin <github@linshuang.info>
+Date: Mon, 13 Jul 2026 16:01:03 -0700
+Subject: [PATCH 3/4] Silence 64-to-32 narrowing warnings in the builder
+
+id_type is a 32-bit unsigned int, but std::vector::size() and
+num_blocks() return 64-bit std::size_t. Assigning them to id_type (or
+OR-ing them with an id_type) triggers -Wshorten-64-to-32/-Wconversion
+on clang and comparable warnings on MSVC. Add explicit static_cast<>s
+(and narrow one loop induction variable) to make the intent clear; no
+behavior change since the values always fit in 32 bits.
+---
+ include/darts.h | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
+
+diff --git a/include/darts.h b/include/darts.h
+index b2e79ce..fdefd82 100644
+--- a/include/darts.h
++++ b/include/darts.h
+@@ -954,7 +954,7 @@ inline void BitVector::build() {
+ 
+   num_ones_ = 0;
+   for (std::size_t i = 0; i < units_.size(); ++i) {
+-    ranks_[i] = num_ones_;
++    ranks_[i] = static_cast<id_type>(num_ones_);
+     num_ones_ += pop_count(units_[i]);
+   }
+ }
+@@ -1876,7 +1876,7 @@ id_type DoubleArrayBuilder::arrange_from_keyset(const Keyset<T> &keyset,
+ 
+ inline id_type DoubleArrayBuilder::find_valid_offset(id_type id) const {
+   if (extras_head_ >= units_.size()) {
+-    return units_.size() | (id & LOWER_MASK);
++    return static_cast<id_type>(units_.size()) | (id & LOWER_MASK);
+   }
+ 
+   id_type unfixed_id = extras_head_;
+@@ -1888,7 +1888,7 @@ inline id_type DoubleArrayBuilder::find_valid_offset(id_type id) const {
+     unfixed_id = extras(unfixed_id).next();
+   } while (unfixed_id != extras_head_);
+ 
+-  return units_.size() | (id & LOWER_MASK);
++  return static_cast<id_type>(units_.size()) | (id & LOWER_MASK);
+ }
+ 
+ inline bool DoubleArrayBuilder::is_valid_offset(id_type id,
+@@ -1919,7 +1919,7 @@ inline void DoubleArrayBuilder::reserve_id(id_type id) {
+   if (id == extras_head_) {
+     extras_head_ = extras(id).next();
+     if (extras_head_ == id) {
+-      extras_head_ = units_.size();
++      extras_head_ = static_cast<id_type>(units_.size());
+     }
+   }
+   extras(extras(id).prev()).set_next(extras(id).next());
+@@ -1928,8 +1928,8 @@ inline void DoubleArrayBuilder::reserve_id(id_type id) {
+ }
+ 
+ inline void DoubleArrayBuilder::expand_units() {
+-  id_type src_num_units = units_.size();
+-  id_type src_num_blocks = num_blocks();
++  id_type src_num_units = static_cast<id_type>(units_.size());
++  id_type src_num_blocks = static_cast<id_type>(num_blocks());
+ 
+   id_type dest_num_units = src_num_units + BLOCK_SIZE;
+   id_type dest_num_blocks = src_num_blocks + 1;
+@@ -1941,7 +1941,7 @@ inline void DoubleArrayBuilder::expand_units() {
+   units_.resize(dest_num_units);
+ 
+   if (dest_num_blocks > NUM_EXTRA_BLOCKS) {
+-    for (std::size_t id = src_num_units; id < dest_num_units; ++id) {
++    for (id_type id = src_num_units; id < dest_num_units; ++id) {
+       extras(id).set_is_used(false);
+       extras(id).set_is_fixed(false);
+     }
+@@ -1965,9 +1965,9 @@ inline void DoubleArrayBuilder::expand_units() {
+ inline void DoubleArrayBuilder::fix_all_blocks() {
+   id_type begin = 0;
+   if (num_blocks() > NUM_EXTRA_BLOCKS) {
+-    begin = num_blocks() - NUM_EXTRA_BLOCKS;
++    begin = static_cast<id_type>(num_blocks()) - NUM_EXTRA_BLOCKS;
+   }
+-  id_type end = num_blocks();
++  id_type end = static_cast<id_type>(num_blocks());
+ 
+   for (id_type block_id = begin; block_id != end; ++block_id) {
+     fix_block(block_id);
+
+From 480e60484fce7be2bcff56fc0f3a4f3371f6f092 Mon Sep 17 00:00:00 2001
+From: Frank Lin <github@linshuang.info>
+Date: Mon, 13 Jul 2026 16:05:27 -0700
+Subject: [PATCH 4/4] Add tests for copy_array() and validate()
+
+Add test-compat to the autotools test suite, covering the two new
+helpers: validate() accepts a well-formed array and enforces the
+max_value_limit bound, and copy_array() takes ownership of a private
+copy (searches identically, does not alias the source) and rounds a
+raw byte count up to whole units.
+
+Adapted from the compatibility test added to the darts-clone
+bazel-central-registry module (bazelbuild/bazel-central-registry#9546).
+---
+ test/Makefile.am    |  5 ++++-
+ test/test-compat.cc | 55 +++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 59 insertions(+), 1 deletion(-)
+ create mode 100644 test/test-compat.cc
+
+diff --git a/test/Makefile.am b/test/Makefile.am
+index 8195e52..13c4a7b 100644
+--- a/test/Makefile.am
++++ b/test/Makefile.am
+@@ -2,12 +2,15 @@ AM_CXXFLAGS = -Wall -Weffc++ -I${top_srcdir}/include
+ 
+ TESTS = \
+ 	test-darts \
++	test-compat \
+ 	test-tools.sh
+ 
+-noinst_PROGRAMS = test-darts
++noinst_PROGRAMS = test-darts test-compat
+ 
+ test_darts_SOURCES = test-darts.cc
+ 
++test_compat_SOURCES = test-compat.cc
++
+ dist_noinst_DATA = test-tools.sh
+ 
+ EXTRA_DIST = \
+diff --git a/test/test-compat.cc b/test/test-compat.cc
+new file mode 100644
+index 0000000..d905e91
+--- /dev/null
++++ b/test/test-compat.cc
+@@ -0,0 +1,55 @@
++#include <darts.h>
++
++#include <cassert>
++#include <cstddef>
++#include <iostream>
++
++// Exercises the helpers adapted from google/sentencepiece commit d685ef31:
++// DoubleArray::validate() and DoubleArray::copy_array().
++int main() {
++  Darts::DoubleArray array;
++  const char *keys[] = {
++    "a",
++    "ab",
++    "b",
++  };
++  const int values[] = {
++    0,
++    1,
++    2,
++  };
++
++  assert(array.build(3, keys, NULL, values) == 0);
++
++  // validate() accepts a well-formed array. With max_value_limit = 3 every
++  // leaf value (0, 1, 2) is in bounds, but with a limit of 2 the value 2 is
++  // out of bounds and validation must fail.
++  assert(array.validate(3));
++  assert(!array.validate(2));
++  std::cout << "validate(): ok" << std::endl;
++
++  Darts::DoubleArray::result_pair_type result;
++  array.exactMatchSearch("ab", result);
++  assert(result.value == 1 && result.length == 2);
++
++  // copy_array() takes ownership of a private copy of the serialized units, so
++  // the copy searches identically and does not alias the source array.
++  Darts::DoubleArray copied;
++  copied.copy_array(array.array(), array.total_size());
++  assert(copied.validate(3));
++  assert(copied.array() != array.array());
++
++  copied.exactMatchSearch("ab", result);
++  assert(result.value == 1 && result.length == 2);
++  std::cout << "copy_array() with array(): ok" << std::endl;
++
++  // copy_array() rounds the byte count up to a whole number of units, so five
++  // bytes are padded out to two units.
++  const char raw_bytes[] = {0, 0, 0, 0, 0};
++  Darts::DoubleArray padded_copy;
++  padded_copy.copy_array(raw_bytes, sizeof(raw_bytes));
++  assert(padded_copy.size() == 2);
++  std::cout << "copy_array() padding: ok" << std::endl;
++
++  return 0;
++}

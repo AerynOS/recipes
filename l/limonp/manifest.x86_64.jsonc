@@ -1,0 +1,32 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"limonp": {
+			"build-depends": [
+				"cmake(GTest)"
+			],
+			"files": [
+				"/usr/include/limonp/ArgvContext.hpp",
+				"/usr/include/limonp/Closure.hpp",
+				"/usr/include/limonp/Colors.hpp",
+				"/usr/include/limonp/Condition.hpp",
+				"/usr/include/limonp/Config.hpp",
+				"/usr/include/limonp/ForcePublic.hpp",
+				"/usr/include/limonp/LocalVector.hpp",
+				"/usr/include/limonp/Logging.hpp",
+				"/usr/include/limonp/NonCopyable.hpp",
+				"/usr/include/limonp/StdExtension.hpp",
+				"/usr/include/limonp/StringUtil.hpp",
+				"/usr/lib/cmake/limonp/limonp-config.cmake"
+			],
+			"name": "limonp",
+			"provides": [
+				"cmake(limonp)"
+			]
+		}
+	},
+	"source-name": "limonp",
+	"source-release": "1",
+	"source-version": "1.0.2"
+}
