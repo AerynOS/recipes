@@ -1,0 +1,45 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : fwupd
+version     : "2.1.6"
+release     : 1
+homepage    : https://fwupd.org/
+upstreams   :
+    - https://github.com/fwupd/fwupd/releases/download/2.1.6/fwupd-2.1.6.tar.xz : 517a0d9d4b00f3dbd72c36f55085bd5dbdc20e7a2d6cfc341c4be60a903bcd8d
+summary     : A system daemon to allow session software to update firmware
+description : |
+    fwupd is a simple daemon to allow session software to update device firmware on your local machine. It's designed for desktops, but also usable on phones and headless servers. You can either use a GUI software manager like GNOME Software to view and apply updates, the command-line tool or the system D-Bus interface directly. Updating firmware on Linux is now automatic, safe and reliable.
+license     : 
+    - GPL-CC-1.0
+    - LGPL-2.1-or-later
+builddeps   :
+    - binary(msgfmt)
+    - pkgconfig(efivar)
+    - pkgconfig(gmodule-2.0)
+    - pkgconfig(libcurl)
+    - pkgconfig(libdrm)
+    - pkgconfig(liblzma)
+    - pkgconfig(libmnl)
+    - pkgconfig(libusb-1.0)
+    - pkgconfig(pangocairo)
+    - pkgconfig(polkit-gobject-1)
+    - pkgconfig(py3cairo)
+    - pkgconfig(pygobject-3.0)
+    - pkgconfig(sqlite3)
+    - pkgconfig(xmlb)
+    - pkgconfig(zlib)
+    - python(jinja2)
+    - font-noto
+    - fwupd-efi
+    - hwdata
+rundeps     :
+    - fwupd-efi
+setup       : |
+    %meson \
+        -Dsupported_build=enabled \
+        --sysconfdir=/usr/share
+build       : |
+    %meson_build
+install     : |
+    %meson_install
