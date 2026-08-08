@@ -1,67 +1,105 @@
 <!--
-# SPDX-FileCopyrightText: 2022 AerynOS Developers
+# SPDX-FileCopyrightText: 2020 AerynOS Developers
 # SPDX-License-Identifier: MPL-2.0
 -->
 
 # Recipes
 
-This repository contains all of the recipes required to build AerynOS from source.
+This repository contains all the recipes required to build AerynOS from source.
 
-## We do not accept contributions authored using genAI/LLM chatbots/agents
+## Quick Links
 
-Our stance is that we are here to help train people's minds and skills. As an analogy, it would defeat the purpose if you brought an industrial robot with you to the gym so it could lift weights for you.
+| Resource | Description |
+|----------|-------------|
+| [Documentation](https://aerynos.dev/) | Learn about AerynOS concepts and packaging |
+| [Packaging Policy](https://github.com/aerynOS/recipes/blob/main/PACKAGING_POLICY.md) | aerynOS Package Addition Policy |
+| [Packaging Guide](https://aerynos.dev/packaging/) | Detailed packaging documentation |
+| [Zulip Chat](https://aeryn.zulipchat.com/) | Community discussion (requires join) |
+| [Contributing Guidelines](https://github.com/aerynOS/.github/blob/main/CONTRIBUTING.md) | Full contribution process and policies |
+| [GenAI Policy](https://github.com/aerynOS/.github/blob/main/CONTRIBUTING.md#llm-contributions) | We do not accept contributions authored using genAI/LLM chatbots or agents |
 
-For more details, consult our [Contribution guidelines](https://github.com/AerynOS/recipes?tab=contributing-ov-file#llm-contributions).
+## What Are Recipes?
 
-## Keeping the repository small while we develop our infra and tooling
+Recipes define how packages are built and packaged for AerynOS. Each recipe describes the build process, dependencies, and metadata needed to create installable packages using our tooling stack (primarily Boulder/moss).
 
-We are currently working on technology that will allow us to scale the repo out without having to worry as much about ABI mismatched packages.
+## Contributing to Recipes
 
-Until that technology is ready, we are having to be quite strict in terms of which packages we accept for the repository, in order to avoid exploding the amount of manual rebuilds we need to do.
+### Step 1: Understand the Scope
 
-Please understand and accept that this is a conscious choice driven by necessity.
+AerynOS is currently in Alpha quality and serves as a tech preview focused on proving our tooling approach. Until our infrastructure matures, we must be selective about packages to avoid exploding manual rebuild requirements.
 
+**Where we are currently at:**
 
-### Current packaging focus
-
-AerynOS should be considered an in-development, Alpha quality, tech preview Linux distribution, which primarily exists to prove out our tooling approach at the moment. This will obviously change as and when the tooling and infrastructure capabilities mature.
-
-The focus for now is squarely on maintaining our currently supported Desktop stacks + development tooling.
-
-The aim right now is to ship the following:
-
- - The desktop environment (COSMIC, GNOME and KDE are considered stable)
- - Any "lightweight" compositors with associated stack (such Sway and Niri)
- - Flatpak w/ preconfigured flathub
- - GNOME Software / KDE Discover (pending moss integration, which is being worked on)
- - Firefox
- - Thunderbird
+ - We already have 7 DE / WM environments in our repository
+ - We ship Flatpak w/ preconfigured flatpub
+ - We include the apps our staff need to dogfood aerynOS day to day
  - The development tools for packaging and developing the distribution.
+ 
+**What packages are we likely to accept:**
+ - Do not require complex rebuild dependency chains
+ - You are willing to maintain over the long term
+ - Have appropriate Open Source Licences with permission to redistribute
 
-Other areas of focus:
-
+**Other areas of focus:**
  - Stateless enabling (+ hermetic usr)
  - Kernel enabling
  - Metrics-based performance improvements of packages
  - Package updates and bug fixes
 
+Until our infrastructure matures, if packages are not available in our repository, you may be asked to use Flatpaks and AppImages instead.
 
-## Packaging onboarding for people using an AerynOS host system
+### Step 2: Review Requirements
 
-See https://aerynos.dev/packaging/
+Before submitting, ensure you understand:
 
+- **Git Commit Messages**: Follow our summary format (`name: Add at v<version>`, `name: Update to v<version>`, `name: Fix <...>`, `[NFC] name: <description of no functional change commit>`)
+- **Repository Size**: We're actively working on technology to scale the repo without ABI mismatch concerns. Until then, strict package acceptance applies.
+- **GenAI Policy**: We do not accept contributions authored using generative AI/LLM chatbots or agents. Our goal is human skill development, not atrophy through automation. [Read more in our contributing guidelines](https://github.com/aerynOS/.github/blob/main/CONTRIBUTING.md#llm-contributions).
 
-### Git summary requirements
+### Step 3: Submit a Pull Request
 
-To keep git summaries readable, AerynOS requires the following git summary format
+#### Creating Your First PR
 
-- `name: Add at v<version>`
-- `name: Update to v<version>`
-- `name: Fix <...>`
-- `[NFC] name: <description of no functional change commit>`
+GitHub doesn't natively support selecting from multiple PR templates, so we've set up a semi-manual workflow:
 
+1. **Click "New Pull Request"** to begin the PR creation process
 
-### Using `jq` to parse `manifest.*.jsonc` files
+2. **Use the Preview Box**: In the PR description area, click the **Preview** tab to access our template selector
+
+3. **Choose the Right Template**:
+   - Select the template that best matches your contribution type
+   - Common templates include: New Recipe, Recipe Update, Bug Fix, Documentation
+
+4. **Fill Out the Template Completely**: Provide all requesting information, which will vary depending on the template
+
+5. **Submit Your PR**: Once complete, submit and wait for maintainer review.
+
+#### Tips for Faster Review
+
+- Test builds on an AerynOS host system before submitting
+- Follow existing recipe patterns and coding style
+- Include clear commit messages following our git summary format
+- Link related GitHub issues if applicable
+- Be responsive to reviewer feedback
+
+Reviews may take some time depending on maintainer availability. Once your PR passes review, a maintainer will merge it. 🎉
+
+## Packaging on AerynOS
+
+### Just Commands
+
+Common `just` commands for local testing:
+
+- `just bump` - bump the release number in the nano recipe
+- `just build` - Build the recipe locally
+- `just mv-local` - Move the newly built `.stone` build artifacts to the local repository
+- `just ls-local` - List the build artifacts present in the local repository
+- `just clean` - Clean `*.stone` artefacts from the current directory
+- `just clean-local` - Clean `*.stone` artefacts from the local repository
+
+Refer to the `justfile` in the repository root for the full command list.
+
+### Using `jq` to Parse `manifest.*.jsonc` Files
 
 We provide `.jsonc` (JSON with comments) manifest files, however, the popular `jq` tool doesn't currently support `.jsonc` files.
 
@@ -69,8 +107,7 @@ That said, you can use the C preprocessor to strip any comments before passing t
 
 `cpp -P -E manifest.x86_64.jsonc | jq .packages`
 
-
-### Specifying `just` default variables in the `.env` file
+### Specifying `just` Default Variables in the `.env` File
 
 Create a `.env` file in the root of the `recipes/` directory, next to the supplied `justfile`.
 
@@ -81,8 +118,7 @@ _Example `.env` file:_
     # uncomment and change it below:
     # LOCAL_REPO="${HOME}/.cache/local_repo/x86_64"
 
-
-### Overriding default boulder arguments
+### Overriding Default `boulder` Arguments
 
 If you are not building on AerynOS using the os-supplied boulder package, or if you want to specify custom arguments
 to the boulder invocation when using the `just` targets, you might benefit from adding some or all of the following options
@@ -99,16 +135,23 @@ _Example:_
 
     BOULDER_ARGS="--data-dir=${HOME}/.local/share/boulder" just build
 
+## Getting Help
+
+### Where to Get Help and Ask Questions
+
+1. **[Documentation](https://aerynos.dev/)** - Start here for concepts and guides
+2. **[Zulip](https://aeryn.zulipchat.com/)** - Our community chat server:
+   - **General** - Open to everyone, good starting point
+   - **Onboarding (packaging etc.)** - A good place for interacting on packaging
+   - **Questions** - For general questions you may have
+3. **GitHub Issues** - For bugs and feature requests; search first to avoid duplicates
+
+### Role-Based Access
+
+Note that while Zulip channels are publicly viewable, participation in certain channels requires the `Trusted Contributor` role. This is granted after demonstrating genuine interest in contributing to the project.
 
 ## License
 
-Unless otherwise specified, all packaging recipes are available under
-the terms of the [MPL-2.0](https://spdx.org/licenses/MPL-2.0.html) license.
+Unless otherwise specified, all packaging recipes are available under the terms of the [**MPL-2.0**](https://spdx.org/licenses/MPL-2.0.html) licence.
 
-Individual software releases are available under the terms specified
-upstream, collected in each `stone.yaml` recipe. Any patches against
-a software package is under the relevant license for each upstream.
-
-Copyright © 2020-2025 Serpent OS Developers.
-
-Copyright © 2025- AerynOS Developers.
+Individual software releases are available under the terms specified upstream, collected in each `stone.yaml` recipe. Any patches against a software package is under the relevant license for each upstream.
