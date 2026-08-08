@@ -1,0 +1,20 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : python-pycups
+version     : "2.0.4"
+release     : 1
+homepage    : https://github.com/OpenPrinting/pycups
+upstreams   :
+    - https://github.com/OpenPrinting/pycups/releases/download/v2.0.4/pycups-2.0.4.tar.gz : 843e385c1dbf694996ca84ef02a7f30c28376035588f5fbeacd6bae005cf7c8d
+summary     : Python bindings for libcups
+description : |
+    These Python bindings are intended to wrap the CUPS API.
+license     : GPL-2.0-or-later
+builddeps   :
+    - pkgconfig(cups)
+    - pkgconfig(python3)
+build       : |
+    %python_setup
+install     : |
+    %python_install

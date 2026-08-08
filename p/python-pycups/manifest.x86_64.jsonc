@@ -1,0 +1,31 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"python-pycups": {
+			"build-depends": [
+				"pkgconfig(cups)",
+				"pkgconfig(python3)"
+			],
+			"depends": [
+				"soname(libc.so.6(x86_64))",
+				"soname(libcups.so.2(x86_64))"
+			],
+			"files": [
+				"/usr/lib/python3.14/site-packages/cups.cpython-314-x86_64-linux-gnu.so",
+				"/usr/lib/python3.14/site-packages/pycups-2.0.4-py3.14.egg-info/PKG-INFO",
+				"/usr/lib/python3.14/site-packages/pycups-2.0.4-py3.14.egg-info/SOURCES.txt",
+				"/usr/lib/python3.14/site-packages/pycups-2.0.4-py3.14.egg-info/dependency_links.txt",
+				"/usr/lib/python3.14/site-packages/pycups-2.0.4-py3.14.egg-info/top_level.txt"
+			],
+			"name": "python-pycups",
+			"provides": [
+				"python(pycups)",
+				"soname(python3.14/site-packages/cups.cpython-314-x86_64-linux-gnu.so(x86_64))"
+			]
+		}
+	},
+	"source-name": "python-pycups",
+	"source-release": "1",
+	"source-version": "2.0.4"
+}
