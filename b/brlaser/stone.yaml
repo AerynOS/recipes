@@ -1,0 +1,28 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : brlaser
+version     : "6.2.8"
+release     : 1
+homepage    : https://github.com/Owl-Maintain/brlaser
+upstreams   :
+    - https://github.com/Owl-Maintain/brlaser/archive/refs/tags/v6.2.8.tar.gz : 16dae855aa7fff0eef0c05398fab37678243d7d610fa5f9af0d3a2cc9bf08cb0
+summary     : open-source CUPS driver for monochrome Brother laser printers
+description : |
+    brlaser is an open-source CUPS driver designed specifically for Brother monochrome laser printers and multi-function devices.
+
+    While most Brother printers can use standard printer languages like PCL or PostScript, some models do not.
+
+    If you have a monochrome Brother laser printer (or multi-function device) and the other open-source drivers are not working,
+    brlaser might be able to help. Additionally, there have been reports of some non-Brother printers working with this driver.
+license     : GPL-2.0-or-later
+builddeps   :
+    - pkgconfig(cups)
+setup       : |
+    %cmake
+build       : |
+    %cmake_build
+install     : |
+    %cmake_install
+check       : |
+    %cmake_test
