@@ -1,0 +1,34 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : keepsecret
+version     : "1.1.0"
+release     : 1
+homepage    : https://apps.kde.org/keepsecret/
+upstreams   :
+    - https://download.kde.org/stable/keepsecret/keepsecret-1.1.0.tar.xz : d27a9925cd6b47de16fd29a7e18984e7a1524084eb614be110abdf279a0b57d1
+summary     : Password manager
+description : |
+    KeepSecret is a Password manager GUI intended to be a client for a Secret Service compatible provider.
+    It can be used with KWallet, but also other systems such as oo7, Gnome-keyring or KeepassXC.
+    When the service is running (or is dbus activated) this app will automatically find and use it,
+    showing all the secret colletions and the secrets contained within.
+license     : GPL-2.0-or-later
+builddeps   :
+    - cmake(KF6Config)
+    - cmake(KF6CoreAddons)
+    - cmake(KF6Crash)
+    - cmake(KF6DBusAddons)
+    - cmake(KF6I18n)
+    - cmake(KF6ItemModels)
+    - cmake(KF6Kirigami)
+    - cmake(KF6KirigamiAddons)
+    - cmake(Qt6Qml)
+    - cmake(Qt6Svg)
+    - pkgconfig(libsecret-1)
+setup       : |
+    %cmake_kf6
+build       : |
+    %cmake_build
+install     : |
+    %cmake_install
